@@ -648,7 +648,7 @@
     @apply font-sans text-base leading-6 font-normal tracking-[-0.128px];
   }
 
-  .label-medium-primary {
+  .label-regular-primary {
     @apply font-sans text-sm leading-5 font-normal tracking-[-0.112px];
   }
 
@@ -668,15 +668,15 @@
     @apply font-sans text-base leading-6 font-semibold tracking-[-0.032px];
   }
 
-  .paragraph-medium-primary {
+  .paragraph-regular-primary {
     @apply font-sans text-sm leading-5 font-normal tracking-[-0.028px];
   }
 
-  .paragraph-medium-primary-link {
+  .paragraph-regular-primary-link {
     @apply font-sans text-sm leading-5 font-normal tracking-[-0.028px] underline;
   }
 
-  .paragraph-medium-emphasised-600 {
+  .paragraph-regular-emphasised-600 {
     @apply font-sans text-sm leading-5 font-semibold tracking-[-0.028px];
   }
 

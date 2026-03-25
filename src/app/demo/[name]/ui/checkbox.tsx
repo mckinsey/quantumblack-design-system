@@ -36,7 +36,7 @@ export function CheckboxDemo() {
     <FieldSet>
       <Field orientation="horizontal" className="gap-2">
         <Checkbox id="terms-demo" />
-        <FieldLabel htmlFor="terms-demo" className="paragraph-medium-primary">
+        <FieldLabel htmlFor="terms-demo" className="paragraph-regular-primary">
           Accept terms and conditions
         </FieldLabel>
       </Field>
@@ -60,11 +60,11 @@ export function CheckboxGroupItem() {
           <Checkbox id="item-unchecked" />
           <FieldLabel
             htmlFor="item-unchecked"
-            className="paragraph-medium-primary">
+            className="paragraph-regular-primary">
             Checkbox label
           </FieldLabel>
           <span
-            className="text-fg-secondary paragraph-medium-primary"
+            className="text-fg-secondary paragraph-regular-primary"
             aria-hidden>
             01
           </span>
@@ -74,11 +74,11 @@ export function CheckboxGroupItem() {
           <Checkbox id="item-checked" checked />
           <FieldLabel
             htmlFor="item-checked"
-            className="paragraph-medium-primary">
+            className="paragraph-regular-primary">
             Checkbox label
           </FieldLabel>
           <span
-            className="text-fg-primary paragraph-medium-primary"
+            className="text-fg-primary paragraph-regular-primary"
             aria-hidden>
             01
           </span>
@@ -88,11 +88,11 @@ export function CheckboxGroupItem() {
           <Checkbox id="item-indeterminate" checked="indeterminate" />
           <FieldLabel
             htmlFor="item-indeterminate"
-            className="paragraph-medium-primary">
+            className="paragraph-regular-primary">
             Checkbox label
           </FieldLabel>
           <span
-            className="text-fg-secondary paragraph-medium-primary"
+            className="text-fg-secondary paragraph-regular-primary"
             aria-hidden>
             01
           </span>
@@ -132,11 +132,11 @@ export function CheckboxItemSizes() {
           <Checkbox id="item-size-default" size="default" />
           <FieldLabel
             htmlFor="item-size-default"
-            className="paragraph-medium-primary">
+            className="paragraph-regular-primary">
             Checkbox label
           </FieldLabel>
           <span
-            className="text-fg-secondary paragraph-medium-primary"
+            className="text-fg-secondary paragraph-regular-primary"
             aria-hidden>
             01
           </span>
@@ -219,12 +219,12 @@ export function CheckboxItemGroup() {
         <span className="min-w-0 flex-1">
           <FieldLabel
             htmlFor="checkbox-item-group-header"
-            className="paragraph-medium-primary">
+            className="paragraph-regular-primary">
             Checkbox label
           </FieldLabel>
         </span>
         <span
-          className="text-fg-secondary paragraph-medium-primary shrink-0"
+          className="text-fg-secondary paragraph-regular-primary shrink-0"
           aria-hidden>
           {countLabel}
         </span>
@@ -247,12 +247,12 @@ export function CheckboxItemGroup() {
               />
               <FieldLabel
                 htmlFor={item.id}
-                className="paragraph-medium-primary">
+                className="paragraph-regular-primary">
                 {item.label}
               </FieldLabel>
               <span
                 className={cn(
-                  'paragraph-medium-primary',
+                  'paragraph-regular-primary',
                   isChecked ? 'text-fg-primary' : 'text-fg-secondary',
                 )}
                 aria-hidden>
@@ -273,19 +273,19 @@ export function CheckboxItemGroup() {
 
 const HEADER_LABEL_CLASS_BY_SIZE_ITEM_GROUP: Record<ItemGroupSize, string> = {
   sm: 'paragraph-small-primary',
-  default: 'paragraph-medium-primary',
+  default: 'paragraph-regular-primary',
   lg: 'paragraph-large-primary',
 };
 
 const ITEM_LABEL_CLASS_BY_SIZE_ITEM_GROUP: Record<ItemGroupSize, string> = {
   sm: 'paragraph-small-primary',
-  default: 'paragraph-medium-primary',
+  default: 'paragraph-regular-primary',
   lg: 'paragraph-large-primary',
 };
 
 const SUFFIX_CLASS_BY_SIZE: Record<ItemGroupSize, string> = {
   sm: 'paragraph-small-primary',
-  default: 'paragraph-medium-primary',
+  default: 'paragraph-regular-primary',
   lg: 'paragraph-large-primary',
 };
 
@@ -524,7 +524,7 @@ export function CheckboxSizes() {
           <Checkbox id="size-default" size="default" />
           <FieldLabel
             htmlFor="size-default"
-            className="paragraph-medium-primary">
+            className="paragraph-regular-primary">
             Default size
           </FieldLabel>
         </Field>

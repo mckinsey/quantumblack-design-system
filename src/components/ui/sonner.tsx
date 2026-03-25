@@ -129,7 +129,7 @@ const Toast = memo(function Toast({ id, message, type, options }: ToastProps) {
         <div className="flex shrink-0 items-center">{displayIcon}</div>
 
         <div className="flex flex-1 items-center">
-          <p className="paragraph-medium-primary text-fg-secondary">
+          <p className="paragraph-regular-primary text-fg-secondary">
             {message}
           </p>
           {action}

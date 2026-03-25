@@ -48,8 +48,8 @@ const tagSizeVariants = cva('inline-flex items-center w-fit px-1 gap-1', {
   variants: {
     size: {
       xs: 'h-5 label-small-primary hover:tracking-[0.024px]',
-      sm: 'h-6 label-medium-primary hover:tracking-[-0.028px]',
-      default: 'h-7 label-medium-primary hover:tracking-[-0.028px]',
+      sm: 'h-6 label-regular-primary hover:tracking-[-0.028px]',
+      default: 'h-7 label-regular-primary hover:tracking-[-0.028px]',
       lg: 'h-8 label-large-primary hover:tracking-[-0.032px]',
     },
     pill: {

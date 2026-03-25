@@ -111,7 +111,7 @@ const StepMarker = React.memo(
         {showLabel && (
           <span
             className={cn(
-              'label-medium-primary whitespace-nowrap',
+              'label-regular-primary whitespace-nowrap',
               isVertical
                 ? 'ml-1.5'
                 : 'absolute top-full left-1/2 mt-2 -translate-x-1/2',

@@ -105,8 +105,8 @@ function SelectTrigger({
         'data-[popup-open]:bg-stateslayer-overlay-active-inverse data-[popup-open]:border-stroke-status-focus',
         'data-[popup-open]:shadow-elevation-0',
 
-        size === 'sm' && 'paragraph-medium-primary gap-1 px-2 py-1',
-        size === 'default' && 'paragraph-medium-primary gap-2 p-2',
+        size === 'sm' && 'paragraph-regular-primary gap-1 px-2 py-1',
+        size === 'default' && 'paragraph-regular-primary gap-2 p-2',
         size === 'lg' && 'paragraph-large-primary gap-2 p-3',
 
         'data-invalid:border-destructive',
@@ -208,7 +208,7 @@ function SelectItem({
         'relative flex w-full cursor-default items-center outline-none select-none',
 
         (size === 'sm' || size === 'default') &&
-          'paragraph-medium-primary gap-2 py-2 pr-2 pl-1',
+          'paragraph-regular-primary gap-2 py-2 pr-2 pl-1',
         size === 'lg' && 'paragraph-large-primary gap-1 p-2',
 
         'text-fg-secondary',

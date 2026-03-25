@@ -39,7 +39,7 @@ const timePickerItemVariants = cva(
   {
     variants: {
       size: {
-        default: 'label-medium-primary size-7',
+        default: 'label-regular-primary size-7',
         lg: 'label-large-primary size-8',
       },
     },

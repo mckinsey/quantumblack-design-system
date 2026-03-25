@@ -40,13 +40,13 @@ const fieldConfig = {
     gap: 'gap-2',
   },
   default: {
-    label: 'label-medium-primary text-fg-secondary',
-    description: 'paragraph-medium-primary text-fg-tertiary',
+    label: 'label-regular-primary text-fg-secondary',
+    description: 'paragraph-regular-primary text-fg-tertiary',
     gap: 'gap-2',
   },
   lg: {
     label: 'label-large-primary text-fg-secondary',
-    description: 'paragraph-medium-primary text-fg-tertiary',
+    description: 'paragraph-regular-primary text-fg-tertiary',
     gap: 'gap-2',
   },
 } as const;
@@ -479,12 +479,12 @@ export function ComboboxSelectMulti() {
                     onRemove={() => setValue([])}>
                     {value.length}
                   </Tag>
-                  <span className="paragraph-medium-primary text-fg-primary truncate">
+                  <span className="paragraph-regular-primary text-fg-primary truncate">
                     items selected
                   </span>
                 </>
               ) : (
-                <span className="paragraph-medium-primary text-fg-tertiary">
+                <span className="paragraph-regular-primary text-fg-tertiary">
                   Multi-select label
                 </span>
               )}
@@ -543,12 +543,12 @@ export function ComboboxSelectMultiInline() {
                     onRemove={() => setValue([])}>
                     {value.length}
                   </Tag>
-                  <span className="paragraph-medium-primary text-fg-primary truncate">
+                  <span className="paragraph-regular-primary text-fg-primary truncate">
                     items selected
                   </span>
                 </>
               ) : (
-                <span className="paragraph-medium-primary text-fg-tertiary">
+                <span className="paragraph-regular-primary text-fg-tertiary">
                   Multi-select label
                 </span>
               )}

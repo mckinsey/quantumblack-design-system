@@ -140,7 +140,7 @@ export function ComponentPageLayout({
             <APIReference apis={apiData} />
           ) : (
             <div className="text-fg-secondary p-6 text-center">
-              <p className="paragraph-medium-primary">
+              <p className="paragraph-regular-primary">
                 API documentation is being generated.
               </p>
               <p className="paragraph-small-primary mt-1">

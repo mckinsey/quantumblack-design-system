@@ -85,7 +85,7 @@ export function Navbar() {
                 key={item.path}
                 to={item.path}
                 className={cn(
-                  'paragraph-medium-primary hover:text-fg-primary transition-colors',
+                  'paragraph-regular-primary hover:text-fg-primary transition-colors',
                   pathname === item.path
                     ? 'text-fg-primary'
                     : 'text-fg-secondary',
@@ -181,7 +181,7 @@ export function Navbar() {
                         to={`/registry/${component.name}`}
                         className="hover:bg-stateslayer-overlay-hover flex items-center gap-2 px-2 py-2 transition-colors"
                         onClick={handleSearchSelect}>
-                        <span className="paragraph-medium-primary text-fg-primary">
+                        <span className="paragraph-regular-primary text-fg-primary">
                           {component.title}
                         </span>
                         {component.description && (
@@ -214,7 +214,7 @@ export function Navbar() {
                   to="/"
                   className="hover:bg-stateslayer-overlay-hover flex items-center gap-2 px-2 py-2 transition-colors"
                   onClick={handleSearchSelect}>
-                  <span className="paragraph-medium-primary text-fg-primary">
+                  <span className="paragraph-regular-primary text-fg-primary">
                     Introduction
                   </span>
                 </Link>
@@ -222,7 +222,7 @@ export function Navbar() {
                   to="/components"
                   className="hover:bg-stateslayer-overlay-hover flex items-center gap-2 px-2 py-2 transition-colors"
                   onClick={handleSearchSelect}>
-                  <span className="paragraph-medium-primary text-fg-primary">
+                  <span className="paragraph-regular-primary text-fg-primary">
                     Components
                   </span>
                 </Link>
@@ -230,7 +230,7 @@ export function Navbar() {
                   to="/installation"
                   className="hover:bg-stateslayer-overlay-hover flex items-center gap-2 px-2 py-2 transition-colors"
                   onClick={handleSearchSelect}>
-                  <span className="paragraph-medium-primary text-fg-primary">
+                  <span className="paragraph-regular-primary text-fg-primary">
                     Installation
                   </span>
                 </Link>

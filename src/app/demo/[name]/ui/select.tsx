@@ -33,13 +33,13 @@ const fieldConfig = {
     gap: 'gap-2',
   },
   default: {
-    label: 'label-medium-primary text-fg-secondary',
-    description: 'paragraph-medium-primary text-fg-tertiary',
+    label: 'label-regular-primary text-fg-secondary',
+    description: 'paragraph-regular-primary text-fg-tertiary',
     gap: 'gap-2',
   },
   lg: {
     label: 'label-large-primary text-fg-secondary',
-    description: 'paragraph-medium-primary text-fg-tertiary',
+    description: 'paragraph-regular-primary text-fg-tertiary',
     gap: 'gap-2',
   },
 } as const;
@@ -353,7 +353,7 @@ export function SelectMultipleDemo() {
               <SelectItemText>
                 <FieldLabel
                   htmlFor={`select-lang-${item.value}`}
-                  className="paragraph-medium-primary pointer-events-none">
+                  className="paragraph-regular-primary pointer-events-none">
                   {item.label}
                 </FieldLabel>
               </SelectItemText>
