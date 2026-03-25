@@ -1,0 +1,766 @@
+import type { ReactElement, ReactNode } from 'react';
+
+// New format imports - all components migrated to new format
+import {
+  AlertDemo,
+  AlertLongLayout,
+  AlertLongWithButtons,
+  AlertVariants,
+  AlertWithButtons,
+  AlertWithoutIcon,
+  alert,
+  examples as alertExamples,
+} from '@/app/demo/[name]/ui/alert';
+import {
+  AvatarCheckboxList,
+  AvatarDemo,
+  AvatarDisabled,
+  AvatarFallbacks,
+  AvatarGroupStacked,
+  AvatarPickerMultiple,
+  AvatarPickerSingle,
+  AvatarRadioList,
+  AvatarSizes,
+  AvatarWithCount,
+  AvatarWithStatus,
+  AvatarWithTooltip,
+  avatar,
+  examples as avatarExamples,
+} from '@/app/demo/[name]/ui/avatar';
+import {
+  BadgeDemo,
+  BadgeDotLabel,
+  BadgeIconLabel,
+  BadgeLabelOnly,
+  BadgeNumericSection,
+  BadgeStatusSection,
+  badge,
+  examples as badgeExamples,
+} from '@/app/demo/[name]/ui/badge';
+import {
+  ButtonDemo,
+  ButtonDisabled,
+  ButtonGroups,
+  ButtonIconOnly,
+  ButtonIconRounded,
+  ButtonLoading,
+  ButtonSizes,
+  ButtonVariants,
+  ButtonWithIcons,
+  button,
+  examples as buttonExamples,
+} from '@/app/demo/[name]/ui/button';
+import {
+  CalendarDemo,
+  CalendarDisabledDays,
+  CalendarPreSelected,
+  CalendarRange,
+  CalendarSizes,
+  calendar,
+  examples as calendarExamples,
+} from '@/app/demo/[name]/ui/calendar';
+import {
+  CardDemo,
+  CardSimple,
+  CardWithAction,
+  CardWithFooter,
+  card,
+  examples as cardExamples,
+} from '@/app/demo/[name]/ui/card';
+import {
+  CheckboxDemo,
+  CheckboxGroupItem,
+  CheckboxItemGroup,
+  CheckboxItemGroupSection,
+  CheckboxItemSizes,
+  CheckboxSizes,
+  checkbox,
+  examples as checkboxExamples,
+} from '@/app/demo/[name]/ui/checkbox';
+import {
+  ComboboxCustomCheckbox,
+  ComboboxCustomToggle,
+  ComboboxDemo,
+  ComboboxInline,
+  ComboboxMultiSelect,
+  ComboboxMultiSelectInline,
+  ComboboxSizes,
+  combobox,
+  examples as comboboxExamples,
+} from '@/app/demo/[name]/ui/combobox';
+import {
+  DatePickerDemo,
+  DatePickerDisabled,
+  DatePickerInlineSizes,
+  DatePickerRange,
+  DatePickerRangeInline,
+  DatePickerSizes,
+  DatePickerValidation,
+  datePicker,
+  examples as datePickerExamples,
+} from '@/app/demo/[name]/ui/date-picker';
+import {
+  DialogConfirmation,
+  DialogCustomContent,
+  DialogDemo,
+  dialog,
+  examples as dialogExamples,
+} from '@/app/demo/[name]/ui/dialog';
+import {
+  EmptyCompact,
+  EmptyDemo,
+  EmptyError,
+  EmptyWithAction,
+  EmptyWithIcon,
+  EmptyWithMultipleActions,
+  empty,
+  examples as emptyExamples,
+} from '@/app/demo/[name]/ui/empty';
+import {
+  FormInline,
+  FormInputGroup,
+  FormLogin,
+  FormProfile,
+  FormSettings,
+  form,
+  examples as formExamples,
+} from '@/app/demo/[name]/ui/form';
+import {
+  IconShellAll,
+  IconShellDemo,
+  IconShellSizes,
+  IconShellVariants,
+  iconShell,
+  examples as iconShellExamples,
+} from '@/app/demo/[name]/ui/icon-shell';
+import {
+  InputDemo,
+  InputSizes,
+  InputStates,
+  InputTypes,
+  InputVariants,
+  input,
+  examples as inputExamples,
+} from '@/app/demo/[name]/ui/input';
+import {
+  InputGroupBothSides,
+  InputGroupDemo,
+  InputGroupLeadingIcon,
+  InputGroupSizes,
+  InputGroupStatusStates,
+  InputGroupStepperSizes,
+  InputGroupStepperStates,
+  InputGroupTrailing,
+  inputGroup,
+  examples as inputGroupExamples,
+} from '@/app/demo/[name]/ui/input-group';
+import {
+  LabelDemo,
+  LabelDisabled,
+  LabelSizes,
+  label,
+  examples as labelExamples,
+} from '@/app/demo/[name]/ui/label';
+import {
+  PopoverAlignment,
+  PopoverDemo,
+  PopoverSimple,
+  popover,
+  examples as popoverExamples,
+} from '@/app/demo/[name]/ui/popover';
+import {
+  RadioGroupDemo,
+  RadioGroupDensity,
+  RadioGroupDisabled,
+  RadioGroupPartialDisabled,
+  RadioGroupStates,
+  radioGroup,
+  examples as radioGroupExamples,
+} from '@/app/demo/[name]/ui/radio-group';
+import {
+  SelectDemo,
+  SelectMultipleDemo,
+  SelectSizes,
+  SelectWithDisabled,
+  SelectWithGroups,
+  select,
+  examples as selectExamples,
+} from '@/app/demo/[name]/ui/select';
+import {
+  SliderDemo,
+  SliderLabeled,
+  SliderRange,
+  SliderRanges,
+  SliderSteps,
+  SliderStepsLabeled,
+  SliderVolume,
+  slider,
+  examples as sliderExamples,
+} from '@/app/demo/[name]/ui/slider';
+import {
+  SonnerCustom,
+  SonnerDemo,
+  SonnerError,
+  SonnerInfo,
+  SonnerPersistent,
+  SonnerSuccess,
+  SonnerVariants,
+  SonnerWarning,
+  SonnerWithAction,
+  sonner,
+  examples as sonnerExamples,
+} from '@/app/demo/[name]/ui/sonner';
+import {
+  SwitchChecked,
+  SwitchDemo,
+  SwitchDisabled,
+  SwitchSizes,
+  SwitchStates,
+  switchComponent,
+  examples as switchExamples,
+} from '@/app/demo/[name]/ui/switch';
+import {
+  DataTableDemo,
+  TableRich,
+  TableSizes,
+  dataTable,
+  dataTableExamples,
+  table,
+  examples as tableExamples,
+} from '@/app/demo/[name]/ui/table';
+import {
+  TabsBaseline,
+  TabsCentered,
+  TabsCompact,
+  TabsDemo,
+  TabsDisabled,
+  TabsSizes,
+  tabs,
+  examples as tabsExamples,
+} from '@/app/demo/[name]/ui/tabs';
+import {
+  TagDemo,
+  TagDisabled,
+  TagPill,
+  TagSizes,
+  TagVariants,
+  TagWithAvatar,
+  tag,
+  examples as tagExamples,
+} from '@/app/demo/[name]/ui/tag';
+import {
+  TagToggleDemo,
+  TagToggleDisabled,
+  TagTogglePill,
+  TagToggleSizes,
+  TagToggleVariants,
+  tagToggle,
+  examples as tagToggleExamples,
+} from '@/app/demo/[name]/ui/tag-toggle';
+import {
+  TextareaDemo,
+  TextareaError,
+  TextareaRows,
+  TextareaSizes,
+  TextareaStates,
+  TextareaWithCounter,
+  textarea,
+  examples as textareaExamples,
+} from '@/app/demo/[name]/ui/textarea';
+import {
+  TimeInputDemo,
+  TimeInputDisabled,
+  TimeInputInline,
+  TimeInputSteps,
+  TimeInputValidation,
+  timeInput,
+  examples as timeInputExamples,
+} from '@/app/demo/[name]/ui/time-input';
+import {
+  TimePickerDemo,
+  TimePickerInline,
+  TimePickerOverlaySizes,
+  timePicker,
+  examples as timePickerExamples,
+} from '@/app/demo/[name]/ui/time-picker';
+import {
+  ToggleDemo,
+  ToggleIconSizes,
+  ToggleIcons,
+  ToggleIconsRound,
+  TogglePressed,
+  ToggleSizes,
+  ToggleVariants,
+  toggle,
+  examples as toggleExamples,
+} from '@/app/demo/[name]/ui/toggle';
+import {
+  TooltipAlignment,
+  TooltipDemo,
+  TooltipLongContent,
+  TooltipPositions,
+  tooltip,
+  examples as tooltipExamples,
+} from '@/app/demo/[name]/ui/tooltip';
+import type { ExampleMeta } from '@/lib/registry';
+
+// Legacy Demo interface (old format)
+interface Demo {
+  name: string;
+  components?: {
+    [name: string]: ReactNode | ReactElement;
+  };
+}
+
+// New Demo interface with examples support
+interface NewDemo extends Demo {
+  examples?: ExampleMeta[];
+  exampleComponents?: Record<string, () => ReactNode>;
+}
+
+// Example component maps for new format demos
+export const exampleComponentMaps: Record<
+  string,
+  Record<string, () => ReactNode>
+> = {
+  alert: {
+    AlertDemo,
+    AlertWithButtons,
+    AlertLongLayout,
+    AlertLongWithButtons,
+    AlertVariants,
+    AlertWithoutIcon,
+  },
+  avatar: {
+    AvatarDemo,
+    AvatarSizes,
+    AvatarFallbacks,
+    AvatarDisabled,
+    AvatarWithTooltip,
+    AvatarWithCount,
+    AvatarWithStatus,
+    AvatarGroupStacked,
+    AvatarCheckboxList,
+    AvatarRadioList,
+    AvatarPickerSingle,
+    AvatarPickerMultiple,
+  },
+  badge: {
+    BadgeDemo,
+    BadgeLabelOnly,
+    BadgeNumericSection,
+    BadgeStatusSection,
+    BadgeIconLabel,
+    BadgeDotLabel,
+  },
+  button: {
+    ButtonDemo,
+    ButtonVariants,
+    ButtonSizes,
+    ButtonDisabled,
+    ButtonWithIcons,
+    ButtonLoading,
+    ButtonIconOnly,
+    ButtonIconRounded,
+    ButtonGroups,
+  },
+  calendar: {
+    CalendarDemo,
+    CalendarRange,
+    CalendarSizes,
+    CalendarPreSelected,
+    CalendarDisabledDays,
+  },
+  card: {
+    CardDemo,
+    CardSimple,
+    CardWithAction,
+    CardWithFooter,
+  },
+  checkbox: {
+    CheckboxDemo,
+    CheckboxSizes,
+    CheckboxGroupItem,
+    CheckboxItemSizes,
+    CheckboxItemGroup,
+    CheckboxItemGroupSection,
+  },
+  'data-table': {
+    DataTableDemo,
+  },
+  'date-picker': {
+    DatePickerDemo,
+    DatePickerRange,
+    DatePickerSizes,
+    DatePickerInlineSizes,
+    DatePickerRangeInline,
+    DatePickerValidation,
+    DatePickerDisabled,
+  },
+  dialog: {
+    DialogDemo,
+    DialogConfirmation,
+    DialogCustomContent,
+  },
+  empty: {
+    EmptyDemo,
+    EmptyWithIcon,
+    EmptyWithAction,
+    EmptyWithMultipleActions,
+    EmptyError,
+    EmptyCompact,
+  },
+  form: {
+    FormProfile,
+    FormSettings,
+    FormLogin,
+    FormInputGroup,
+    FormInline,
+  },
+  'icon-shell': {
+    IconShellDemo,
+    IconShellSizes,
+    IconShellVariants,
+    IconShellAll,
+  },
+  input: {
+    InputDemo,
+    InputVariants,
+    InputSizes,
+    InputStates,
+    InputTypes,
+  },
+  'input-group': {
+    InputGroupDemo,
+    InputGroupLeadingIcon,
+    InputGroupTrailing,
+    InputGroupBothSides,
+    InputGroupSizes,
+    InputGroupStatusStates,
+    InputGroupStepperSizes,
+    InputGroupStepperStates,
+  },
+  combobox: {
+    ComboboxDemo,
+    ComboboxSizes,
+    ComboboxInline,
+    ComboboxCustomCheckbox,
+    ComboboxCustomToggle,
+    ComboboxMultiSelect,
+    ComboboxMultiSelectInline,
+  },
+  label: {
+    LabelDemo,
+    LabelSizes,
+    LabelDisabled,
+  },
+  popover: {
+    PopoverDemo,
+    PopoverSimple,
+    PopoverAlignment,
+  },
+  'radio-group': {
+    RadioGroupDemo,
+    RadioGroupDensity,
+    RadioGroupStates,
+    RadioGroupDisabled,
+    RadioGroupPartialDisabled,
+  },
+  select: {
+    SelectDemo,
+    SelectSizes,
+    SelectWithDisabled,
+    SelectWithGroups,
+    SelectMultipleDemo,
+  },
+  slider: {
+    SliderDemo,
+    SliderRanges,
+    SliderSteps,
+    SliderStepsLabeled,
+    SliderLabeled,
+    SliderRange,
+    SliderVolume,
+  },
+  sonner: {
+    SonnerDemo,
+    SonnerSuccess,
+    SonnerError,
+    SonnerWarning,
+    SonnerInfo,
+    SonnerVariants,
+    SonnerWithAction,
+    SonnerCustom,
+    SonnerPersistent,
+  },
+  switch: {
+    SwitchDemo,
+    SwitchSizes,
+    SwitchChecked,
+    SwitchDisabled,
+    SwitchStates,
+  },
+  table: {
+    TableSizes,
+    TableRich,
+    DataTableDemo,
+  },
+  tabs: {
+    TabsDemo,
+    TabsSizes,
+    TabsBaseline,
+    TabsCentered,
+    TabsCompact,
+    TabsDisabled,
+  },
+  tag: {
+    TagDemo,
+    TagVariants,
+    TagPill,
+    TagSizes,
+    TagWithAvatar,
+    TagDisabled,
+  },
+  'tag-toggle': {
+    TagToggleDemo,
+    TagToggleVariants,
+    TagTogglePill,
+    TagToggleSizes,
+    TagToggleDisabled,
+  },
+  textarea: {
+    TextareaDemo,
+    TextareaSizes,
+    TextareaStates,
+    TextareaRows,
+    TextareaWithCounter,
+    TextareaError,
+  },
+  'time-input': {
+    TimeInputDemo,
+    TimeInputInline,
+    TimeInputSteps,
+    TimeInputDisabled,
+    TimeInputValidation,
+  },
+  'time-picker': {
+    TimePickerDemo,
+    TimePickerInline,
+    TimePickerOverlaySizes,
+  },
+  toggle: {
+    ToggleDemo,
+    ToggleVariants,
+    ToggleSizes,
+    TogglePressed,
+    ToggleIcons,
+    ToggleIconsRound,
+    ToggleIconSizes,
+  },
+  tooltip: {
+    TooltipDemo,
+    TooltipPositions,
+    TooltipAlignment,
+    TooltipLongContent,
+  },
+};
+
+// Example metadata for new format demos
+export const examplesMeta: Record<string, ExampleMeta[]> = {
+  alert: alertExamples,
+  avatar: avatarExamples,
+  badge: badgeExamples,
+  button: buttonExamples,
+  calendar: calendarExamples,
+  card: cardExamples,
+  checkbox: checkboxExamples,
+  'data-table': dataTableExamples,
+  'date-picker': datePickerExamples,
+  dialog: dialogExamples,
+  empty: emptyExamples,
+  form: formExamples,
+  'icon-shell': iconShellExamples,
+  input: inputExamples,
+  'input-group': inputGroupExamples,
+  combobox: comboboxExamples,
+  label: labelExamples,
+  popover: popoverExamples,
+  'radio-group': radioGroupExamples,
+  select: selectExamples,
+  slider: sliderExamples,
+  sonner: sonnerExamples,
+  switch: switchExamples,
+  table: tableExamples,
+  tabs: tabsExamples,
+  tag: tagExamples,
+  'tag-toggle': tagToggleExamples,
+  textarea: textareaExamples,
+  'time-input': timeInputExamples,
+  'time-picker': timePickerExamples,
+  toggle: toggleExamples,
+  tooltip: tooltipExamples,
+};
+
+// All demos - all now use new format
+export const demos: { [name: string]: Demo | NewDemo } = {
+  alert: {
+    ...alert,
+    examples: alertExamples,
+    exampleComponents: exampleComponentMaps.alert,
+  },
+  avatar: {
+    ...avatar,
+    examples: avatarExamples,
+    exampleComponents: exampleComponentMaps.avatar,
+  },
+  badge: {
+    ...badge,
+    examples: badgeExamples,
+    exampleComponents: exampleComponentMaps.badge,
+  },
+  button: {
+    ...button,
+    examples: buttonExamples,
+    exampleComponents: exampleComponentMaps.button,
+  },
+  calendar: {
+    ...calendar,
+    examples: calendarExamples,
+    exampleComponents: exampleComponentMaps.calendar,
+  },
+  card: {
+    ...card,
+    examples: cardExamples,
+    exampleComponents: exampleComponentMaps.card,
+  },
+  checkbox: {
+    ...checkbox,
+    examples: checkboxExamples,
+    exampleComponents: exampleComponentMaps.checkbox,
+  },
+  'data-table': {
+    ...dataTable,
+    examples: dataTableExamples,
+    exampleComponents: exampleComponentMaps['data-table'],
+  },
+  'date-picker': {
+    ...datePicker,
+    examples: datePickerExamples,
+    exampleComponents: exampleComponentMaps['date-picker'],
+  },
+  dialog: {
+    ...dialog,
+    examples: dialogExamples,
+    exampleComponents: exampleComponentMaps.dialog,
+  },
+  empty: {
+    ...empty,
+    examples: emptyExamples,
+    exampleComponents: exampleComponentMaps.empty,
+  },
+  form: {
+    ...form,
+    examples: formExamples,
+    exampleComponents: exampleComponentMaps.form,
+  },
+  'icon-shell': {
+    ...iconShell,
+    examples: iconShellExamples,
+    exampleComponents: exampleComponentMaps['icon-shell'],
+  },
+  input: {
+    ...input,
+    examples: inputExamples,
+    exampleComponents: exampleComponentMaps.input,
+  },
+  'input-group': {
+    ...inputGroup,
+    examples: inputGroupExamples,
+    exampleComponents: exampleComponentMaps['input-group'],
+  },
+  combobox: {
+    ...combobox,
+    examples: comboboxExamples,
+    exampleComponents: exampleComponentMaps.combobox,
+  },
+  label: {
+    ...label,
+    examples: labelExamples,
+    exampleComponents: exampleComponentMaps.label,
+  },
+  popover: {
+    ...popover,
+    examples: popoverExamples,
+    exampleComponents: exampleComponentMaps.popover,
+  },
+  'radio-group': {
+    ...radioGroup,
+    examples: radioGroupExamples,
+    exampleComponents: exampleComponentMaps['radio-group'],
+  },
+  select: {
+    ...select,
+    examples: selectExamples,
+    exampleComponents: exampleComponentMaps.select,
+  },
+  slider: {
+    ...slider,
+    examples: sliderExamples,
+    exampleComponents: exampleComponentMaps.slider,
+  },
+  sonner: {
+    ...sonner,
+    examples: sonnerExamples,
+    exampleComponents: exampleComponentMaps.sonner,
+  },
+  switch: {
+    ...switchComponent,
+    examples: switchExamples,
+    exampleComponents: exampleComponentMaps.switch,
+  },
+  table: {
+    ...table,
+    examples: tableExamples,
+    exampleComponents: exampleComponentMaps.table,
+  },
+  tabs: {
+    ...tabs,
+    examples: tabsExamples,
+    exampleComponents: exampleComponentMaps.tabs,
+  },
+  tag: {
+    ...tag,
+    examples: tagExamples,
+    exampleComponents: exampleComponentMaps.tag,
+  },
+  'tag-toggle': {
+    ...tagToggle,
+    examples: tagToggleExamples,
+    exampleComponents: exampleComponentMaps['tag-toggle'],
+  },
+  textarea: {
+    ...textarea,
+    examples: textareaExamples,
+    exampleComponents: exampleComponentMaps.textarea,
+  },
+  'time-input': {
+    ...timeInput,
+    examples: timeInputExamples,
+    exampleComponents: exampleComponentMaps['time-input'],
+  },
+  'time-picker': {
+    ...timePicker,
+    examples: timePickerExamples,
+    exampleComponents: exampleComponentMaps['time-picker'],
+  },
+  toggle: {
+    ...toggle,
+    examples: toggleExamples,
+    exampleComponents: exampleComponentMaps.toggle,
+  },
+  tooltip: {
+    ...tooltip,
+    examples: tooltipExamples,
+    exampleComponents: exampleComponentMaps.tooltip,
+  },
+};

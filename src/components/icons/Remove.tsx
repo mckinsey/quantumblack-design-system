@@ -1,0 +1,20 @@
+import * as React from 'react';
+
+import { cn } from '../../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function Remove({ className, ...props }: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M200-450v-60h560v60H200Z" />
+    </svg>
+  );
+}
