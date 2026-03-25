@@ -1,0 +1,45 @@
+# ide
+.idea
+.vscode
+.claude
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# testing
+/coverage
+
+# build output
+/dist/
+
+# production
+/build
+/public/r/
+/public/api/*.json
+/public/examples/*.json
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+# cache
+.eslintcache
+.vite/

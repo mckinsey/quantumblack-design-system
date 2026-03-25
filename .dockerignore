@@ -1,0 +1,12 @@
+node_modules
+dist
+.git
+.github
+*.md
+.env
+.env.*
+!.env.example
+.eslintcache
+coverage
+*.log
+.DS_Store
