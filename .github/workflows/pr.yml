@@ -5,8 +5,62 @@ on:
     branches: [main]
   pull_request:
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  setup:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      QBDS_REGISTRY_URL: ${{ vars.QBDS_REGISTRY_URL }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Cache node_modules
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('.nvmrc') }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Unit tests
+        run: npm run test:unit
+
+  build:
+    runs-on: ubuntu-latest
+    env:
+      QBDS_REGISTRY_URL: ${{ vars.QBDS_REGISTRY_URL }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Cache node_modules
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('.nvmrc') }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Build
+        run: npm run build
+
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -20,69 +74,11 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: node-modules-${{ hashFiles('package-lock.json') }}
+          key: node-modules-${{ runner.os }}-${{ hashFiles('.nvmrc') }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
-
-  test:
-    needs: setup
-    runs-on: ubuntu-latest
-    env:
-      QBDS_REGISTRY_URL: ${{ vars.QBDS_REGISTRY_URL }}
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-
-      - name: Restore node_modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: node-modules-${{ hashFiles('package-lock.json') }}
-
-      - name: Unit tests
-        run: npm run test:unit
-
-  build:
-    needs: setup
-    runs-on: ubuntu-latest
-    env:
-      QBDS_REGISTRY_URL: ${{ vars.QBDS_REGISTRY_URL }}
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-
-      - name: Restore node_modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: node-modules-${{ hashFiles('package-lock.json') }}
-
-      - name: Build
-        run: npm run build
-
-  lint:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-
-      - name: Restore node_modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: node-modules-${{ hashFiles('package-lock.json') }}
+        run: npm ci --prefer-offline --no-audit
 
       - name: Lint
         run: npm run lint
