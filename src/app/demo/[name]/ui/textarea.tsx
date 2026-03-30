@@ -11,7 +11,15 @@ import {
 } from '@/components/ui/textarea';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 
+/** Matches QB-DS TextArea-Input frame: min 240px, typical 320px width. */
+const demoFieldWidth = 'w-full min-w-[240px] max-w-[320px]';
+
 const fieldConfig = {
+  sm: {
+    label: 'label-small-primary text-fg-secondary',
+    description: 'paragraph-small-primary text-fg-tertiary',
+    gap: 'gap-2',
+  },
   default: {
     label: 'label-regular-primary text-fg-secondary',
     description: 'paragraph-regular-primary text-fg-tertiary',
@@ -27,9 +35,9 @@ const fieldConfig = {
 /** Default textarea with label and helper text */
 export function TextareaDemo() {
   return (
-    <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
+    <FieldSet className={`${demoFieldWidth} ${fieldConfig.default.gap}`}>
       <FieldTitle className={fieldConfig.default.label}>Label</FieldTitle>
-      <Textarea placeholder="Hint text" />
+      <Textarea size="default" placeholder="Hint text" />
 
       <FieldDescription className={fieldConfig.default.description}>
         Helper text
@@ -38,10 +46,19 @@ export function TextareaDemo() {
   );
 }
 
-/** Default and large textarea sizes */
+/** Small, default, and large textarea sizes */
 export function TextareaSizes() {
   return (
-    <div className="w-full max-w-sm space-y-4">
+    <div className={`${demoFieldWidth} space-y-4`}>
+      <FieldSet className={fieldConfig.sm.gap}>
+        <FieldTitle className={fieldConfig.sm.label}>Small</FieldTitle>
+        <Textarea size="sm" placeholder="Hint text" />
+
+        <FieldDescription className={fieldConfig.sm.description}>
+          Helper text
+        </FieldDescription>
+      </FieldSet>
+
       <FieldSet className={fieldConfig.default.gap}>
         <FieldTitle className={fieldConfig.default.label}>Default</FieldTitle>
         <Textarea size="default" placeholder="Hint text" />
@@ -66,10 +83,13 @@ export function TextareaSizes() {
 /** Filled, disabled, and error states */
 export function TextareaStates() {
   return (
-    <div className="w-full max-w-sm space-y-4">
+    <div className={`${demoFieldWidth} space-y-4`}>
       <FieldSet className={fieldConfig.default.gap}>
         <FieldTitle className={fieldConfig.default.label}>Filled</FieldTitle>
-        <Textarea defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
+        <Textarea
+          size="default"
+          defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        />
 
         <FieldDescription className={fieldConfig.default.description}>
           Helper text
@@ -78,7 +98,7 @@ export function TextareaStates() {
 
       <FieldSet className={fieldConfig.default.gap}>
         <FieldTitle className={fieldConfig.default.label}>Disabled</FieldTitle>
-        <Textarea placeholder="Hint text" disabled />
+        <Textarea size="default" placeholder="Hint text" disabled />
 
         <FieldDescription className={fieldConfig.default.description}>
           Helper text
@@ -88,6 +108,7 @@ export function TextareaStates() {
       <FieldSet className={fieldConfig.default.gap}>
         <FieldTitle className={fieldConfig.default.label}>Error</FieldTitle>
         <Textarea
+          size="default"
           aria-invalid
           defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         />
@@ -100,13 +121,13 @@ export function TextareaStates() {
 /** Textarea with character counter */
 export function TextareaWithCounter() {
   return (
-    <TextareaRoot maxCharacters={150}>
-      <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
+    <TextareaRoot maxCharacters={150} size="default">
+      <FieldSet className={`${demoFieldWidth} ${fieldConfig.default.gap}`}>
         <div className="flex items-center justify-between">
           <FieldTitle className={fieldConfig.default.label}>Bio</FieldTitle>
           <TextareaCounter />
         </div>
-        <Textarea placeholder="Tell us about yourself..." />
+        <Textarea size="default" placeholder="Tell us about yourself..." />
 
         <FieldDescription className={fieldConfig.default.description}>
           Write a brief description about yourself.
@@ -119,9 +140,9 @@ export function TextareaWithCounter() {
 /** Textarea with custom row count */
 export function TextareaRows() {
   return (
-    <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
+    <FieldSet className={`${demoFieldWidth} ${fieldConfig.default.gap}`}>
       <FieldTitle className={fieldConfig.default.label}>Notes</FieldTitle>
-      <Textarea rows={8} placeholder="Hint text" />
+      <Textarea size="default" rows={8} placeholder="Hint text" />
 
       <FieldDescription className={fieldConfig.default.description}>
         Helper text
@@ -133,15 +154,18 @@ export function TextareaRows() {
 /** Textarea in error state with counter exceeded */
 export function TextareaError() {
   return (
-    <TextareaRoot maxCharacters={20}>
-      <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
+    <TextareaRoot maxCharacters={20} size="default">
+      <FieldSet className={`${demoFieldWidth} ${fieldConfig.default.gap}`}>
         <div className="flex items-center justify-between">
           <FieldTitle className={fieldConfig.default.label}>
             Feedback
           </FieldTitle>
           <TextareaCounter />
         </div>
-        <Textarea defaultValue="This text is way too long for the limit of 20 characters." />
+        <Textarea
+          size="default"
+          defaultValue="This text is way too long for the limit of 20 characters."
+        />
         <FieldError>
           Character limit exceeded. Please shorten your text.
         </FieldError>
@@ -159,7 +183,7 @@ export const examples: DemoExample[] = [
   {
     name: 'TextareaSizes',
     title: 'Sizes',
-    description: 'Default and large textarea sizes.',
+    description: 'Small, default, and large textarea sizes.',
   },
   {
     name: 'TextareaStates',
