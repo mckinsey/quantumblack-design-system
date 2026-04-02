@@ -107,6 +107,17 @@ import {
   examples as dialogExamples,
 } from '@/app/demo/[name]/ui/dialog';
 import {
+  DropdownMenuDemo,
+  DropdownMenuDestructive,
+  DropdownMenuWithCheckboxes,
+  DropdownMenuWithIcons,
+  DropdownMenuWithRadioGroup,
+  DropdownMenuWithShortcuts,
+  DropdownMenuWithSubmenu,
+  dropdownMenu,
+  examples as dropdownMenuExamples,
+} from '@/app/demo/[name]/ui/dropdown-menu';
+import {
   EmptyCompact,
   EmptyDemo,
   EmptyError,
@@ -402,6 +413,15 @@ export const exampleComponentMaps: Record<
     DialogConfirmation,
     DialogCustomContent,
   },
+  'dropdown-menu': {
+    DropdownMenuDemo,
+    DropdownMenuWithShortcuts,
+    DropdownMenuWithIcons,
+    DropdownMenuWithSubmenu,
+    DropdownMenuWithCheckboxes,
+    DropdownMenuWithRadioGroup,
+    DropdownMenuDestructive,
+  },
   empty: {
     EmptyDemo,
     EmptyWithIcon,
@@ -577,6 +597,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   'data-table': dataTableExamples,
   'date-picker': datePickerExamples,
   dialog: dialogExamples,
+  'dropdown-menu': dropdownMenuExamples,
   empty: emptyExamples,
   form: formExamples,
   'icon-shell': iconShellExamples,
@@ -652,6 +673,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...dialog,
     examples: dialogExamples,
     exampleComponents: exampleComponentMaps.dialog,
+  },
+  'dropdown-menu': {
+    ...dropdownMenu,
+    examples: dropdownMenuExamples,
+    exampleComponents: exampleComponentMaps['dropdown-menu'],
   },
   empty: {
     ...empty,
