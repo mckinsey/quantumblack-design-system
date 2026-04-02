@@ -1,13 +1,10 @@
-import {
-  CreditCardIcon,
-  LogOutIcon,
-  SettingsIcon,
-  UserIcon,
-} from 'lucide-react';
 import * as React from 'react';
 
+import { AttachMoney } from '@/components/icons/AttachMoney';
+import { Close } from '@/components/icons/Close';
 import { Delete } from '@/components/icons/Delete';
 import { Edit } from '@/components/icons/Edit';
+import { Key } from '@/components/icons/Key';
 import { Mail } from '@/components/icons/Mail';
 import { Person } from '@/components/icons/Person';
 import { Send } from '@/components/icons/Send';
@@ -115,24 +112,24 @@ export function DropdownMenuWithIcons() {
 
       <DropdownMenuContent align="start">
         <DropdownMenuItem>
-          <UserIcon />
+          <Person className="size-4" />
           Profile
         </DropdownMenuItem>
 
         <DropdownMenuItem>
-          <CreditCardIcon />
+          <AttachMoney className="size-4" />
           Billing
         </DropdownMenuItem>
 
         <DropdownMenuItem>
-          <SettingsIcon />
+          <Key className="size-4" />
           Settings
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
 
         <DropdownMenuItem variant="destructive">
-          <LogOutIcon />
+          <Close className="size-4" />
           Log out
         </DropdownMenuItem>
       </DropdownMenuContent>
