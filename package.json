@@ -114,6 +114,8 @@
   "overrides": {
     "react-is": "^19.0.0-rc-69d4b800-20241021",
     "@types/react": "19.2.2",
-    "@types/react-dom": "19.2.2"
+    "@types/react-dom": "19.2.2",
+    "lodash": ">=4.18.0",
+    "lodash-es": ">=4.18.0"
   }
 }
