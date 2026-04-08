@@ -8,7 +8,6 @@ import { Key } from '@/components/icons/Key';
 import { Mail } from '@/components/icons/Mail';
 import { Person } from '@/components/icons/Person';
 import { Send } from '@/components/icons/Send';
-import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -26,6 +25,41 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Toggle } from '@/components/ui/toggle';
+
+// When the menu trigger merges props, Radix may set `data-state="open"` instead of
+// the toggle’s `on` — mirror the pressed styles for both.
+const DROPDOWN_TOGGLE_TRIGGER_OPEN =
+  'data-[state=open]:bg-fill-active data-[state=open]:text-fg-primary-inverse data-[state=open]:border-stroke-active-inverse data-[state=open]:border-2';
+
+/** Pass on `DropdownMenuContent` / `DropdownMenuSubContent` via `className`. */
+const DROPDOWN_MENU_PANEL_CLASS = 'w-[256px] max-w-[256px] min-w-[256px]';
+
+function DropdownMenuWithToggleTrigger({
+  triggerLabel,
+  children,
+}: Readonly<{
+  triggerLabel: React.ReactNode;
+  children: React.ReactNode;
+}>) {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenuTrigger asChild>
+        <Toggle
+          variant="outline"
+          pressed={open}
+          onPressedChange={setOpen}
+          className={DROPDOWN_TOGGLE_TRIGGER_OPEN}>
+          {triggerLabel}
+        </Toggle>
+      </DropdownMenuTrigger>
+
+      {children}
+    </DropdownMenu>
+  );
+}
 
 // ============================================================================
 // Example Components
@@ -36,12 +70,8 @@ import {
  */
 export function DropdownMenuDemo() {
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline">Open</Button>
-      </DropdownMenuTrigger>
-
-      <DropdownMenuContent className="w-40" align="start">
+    <DropdownMenuWithToggleTrigger triggerLabel="Open">
+      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
         <DropdownMenuGroup>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuItem>Profile</DropdownMenuItem>
@@ -55,7 +85,7 @@ export function DropdownMenuDemo() {
         <DropdownMenuItem>Support</DropdownMenuItem>
         <DropdownMenuItem disabled>API</DropdownMenuItem>
       </DropdownMenuContent>
-    </DropdownMenu>
+    </DropdownMenuWithToggleTrigger>
   );
 }
 
@@ -64,12 +94,8 @@ export function DropdownMenuDemo() {
  */
 export function DropdownMenuWithShortcuts() {
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline">Open</Button>
-      </DropdownMenuTrigger>
-
-      <DropdownMenuContent className="w-44" align="start">
+    <DropdownMenuWithToggleTrigger triggerLabel="Open">
+      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
         <DropdownMenuGroup>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
 
@@ -96,7 +122,7 @@ export function DropdownMenuWithShortcuts() {
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
-    </DropdownMenu>
+    </DropdownMenuWithToggleTrigger>
   );
 }
 
@@ -105,12 +131,8 @@ export function DropdownMenuWithShortcuts() {
  */
 export function DropdownMenuWithIcons() {
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline">Open</Button>
-      </DropdownMenuTrigger>
-
-      <DropdownMenuContent align="start">
+    <DropdownMenuWithToggleTrigger triggerLabel="Open">
+      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
         <DropdownMenuItem>
           <Person className="size-4" />
           Profile
@@ -133,7 +155,7 @@ export function DropdownMenuWithIcons() {
           Log out
         </DropdownMenuItem>
       </DropdownMenuContent>
-    </DropdownMenu>
+    </DropdownMenuWithToggleTrigger>
   );
 }
 
@@ -142,12 +164,8 @@ export function DropdownMenuWithIcons() {
  */
 export function DropdownMenuWithSubmenu() {
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline">Open</Button>
-      </DropdownMenuTrigger>
-
-      <DropdownMenuContent align="start">
+    <DropdownMenuWithToggleTrigger triggerLabel="Open">
+      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <Person className="size-4" />
@@ -161,7 +179,7 @@ export function DropdownMenuWithSubmenu() {
             </DropdownMenuSubTrigger>
 
             <DropdownMenuPortal>
-              <DropdownMenuSubContent>
+              <DropdownMenuSubContent className={DROPDOWN_MENU_PANEL_CLASS}>
                 <DropdownMenuItem>
                   <Mail className="size-4" />
                   Email
@@ -182,7 +200,7 @@ export function DropdownMenuWithSubmenu() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
-    </DropdownMenu>
+    </DropdownMenuWithToggleTrigger>
   );
 }
 
@@ -195,12 +213,8 @@ export function DropdownMenuWithCheckboxes() {
   const [showPanel, setShowPanel] = React.useState(false);
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline">Open</Button>
-      </DropdownMenuTrigger>
-
-      <DropdownMenuContent className="w-40" align="start">
+    <DropdownMenuWithToggleTrigger triggerLabel="Open">
+      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
         <DropdownMenuGroup>
           <DropdownMenuLabel>Appearance</DropdownMenuLabel>
 
@@ -224,7 +238,7 @@ export function DropdownMenuWithCheckboxes() {
           </DropdownMenuCheckboxItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
-    </DropdownMenu>
+    </DropdownMenuWithToggleTrigger>
   );
 }
 
@@ -235,12 +249,8 @@ export function DropdownMenuWithRadioGroup() {
   const [position, setPosition] = React.useState('bottom');
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline">Open</Button>
-      </DropdownMenuTrigger>
-
-      <DropdownMenuContent className="w-32" align="start">
+    <DropdownMenuWithToggleTrigger triggerLabel="Open">
+      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
         <DropdownMenuGroup>
           <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
 
@@ -251,7 +261,7 @@ export function DropdownMenuWithRadioGroup() {
           </DropdownMenuRadioGroup>
         </DropdownMenuGroup>
       </DropdownMenuContent>
-    </DropdownMenu>
+    </DropdownMenuWithToggleTrigger>
   );
 }
 
@@ -260,12 +270,8 @@ export function DropdownMenuWithRadioGroup() {
  */
 export function DropdownMenuDestructive() {
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline">Actions</Button>
-      </DropdownMenuTrigger>
-
-      <DropdownMenuContent align="start">
+    <DropdownMenuWithToggleTrigger triggerLabel="Actions">
+      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <Edit className="size-4" />
@@ -287,7 +293,7 @@ export function DropdownMenuDestructive() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
-    </DropdownMenu>
+    </DropdownMenuWithToggleTrigger>
   );
 }
 
