@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from 'clsx';
 import { extendTailwindMerge } from 'tailwind-merge';
 
 // All Text Style classes from globals.css registered as a single conflict group.
-// This ensures cn('label-medium-primary', 'label-small-primary') → 'label-small-primary'
+// This ensures cn('label-regular-primary', 'label-small-primary') → 'label-small-primary'
 const twMerge = extendTailwindMerge<'typography'>({
   extend: {
     classGroups: {
@@ -21,15 +21,15 @@ const twMerge = extendTailwindMerge<'typography'>({
         'headings-h4-semibold',
         // Labels
         'label-large-primary',
-        'label-medium-primary',
+        'label-regular-primary',
         'label-small-primary',
         // Paragraph
         'paragraph-large-primary',
         'paragraph-large-primary-link',
         'paragraph-large-emphasised',
-        'paragraph-medium-primary',
-        'paragraph-medium-primary-link',
-        'paragraph-medium-emphasised-600',
+        'paragraph-regular-primary',
+        'paragraph-regular-primary-link',
+        'paragraph-regular-emphasised-600',
         'paragraph-small-primary',
         'paragraph-small-primary-link',
         'paragraph-small-emphasised',

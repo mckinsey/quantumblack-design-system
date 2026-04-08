@@ -27,7 +27,7 @@ export default function InstallationPage() {
               <h2 className="headings-h3-semibold text-fg-primary mb-2">
                 Prerequisites
               </h2>
-              <p className="paragraph-medium-primary text-fg-secondary">
+              <p className="paragraph-regular-primary text-fg-secondary">
                 Make sure you have the following set up before installing
                 components
               </p>
@@ -38,10 +38,10 @@ export default function InstallationPage() {
                 1
               </span>
               <div>
-                <p className="paragraph-medium-primary text-fg-primary font-semibold">
+                <p className="paragraph-regular-primary text-fg-primary font-semibold">
                   A React project with Tailwind CSS
                 </p>
-                <p className="paragraph-medium-primary text-fg-secondary">
+                <p className="paragraph-regular-primary text-fg-secondary">
                   Next.js, Vite, or any React framework with Tailwind CSS
                   configured.
                 </p>
@@ -53,10 +53,10 @@ export default function InstallationPage() {
                 2
               </span>
               <div>
-                <p className="paragraph-medium-primary text-fg-primary font-semibold">
+                <p className="paragraph-regular-primary text-fg-primary font-semibold">
                   shadcn/ui initialized
                 </p>
-                <p className="paragraph-medium-primary text-fg-secondary">
+                <p className="paragraph-regular-primary text-fg-secondary">
                   Run{' '}
                   <code className="paragraph-code-text bg-fill-subtle px-1.5 py-0.5">
                     npx shadcn@latest init
@@ -73,7 +73,7 @@ export default function InstallationPage() {
               <h2 className="headings-h3-semibold text-fg-primary mb-2">
                 Step 1: Configure components.json
               </h2>
-              <p className="paragraph-medium-primary text-fg-secondary">
+              <p className="paragraph-regular-primary text-fg-secondary">
                 Add the QB Design System registry to your{' '}
                 <code className="paragraph-code-text bg-fill-subtle px-1.5 py-0.5">
                   components.json
@@ -92,7 +92,7 @@ export default function InstallationPage() {
               filename="components.json"
             />
 
-            <p className="paragraph-medium-primary text-fg-secondary italic">
+            <p className="paragraph-regular-primary text-fg-secondary italic">
               <strong>Note:</strong> Ensure the registry name is always{' '}
               <code className="paragraph-code-text bg-fill-subtle px-1.5 py-0.5">
                 @qbds
@@ -107,7 +107,7 @@ export default function InstallationPage() {
               <h2 className="headings-h3-semibold text-fg-primary mb-2">
                 Step 2: Install a component
               </h2>
-              <p className="paragraph-medium-primary text-fg-secondary">
+              <p className="paragraph-regular-primary text-fg-secondary">
                 Use the shadcn CLI to add components
               </p>
             </div>
@@ -118,7 +118,7 @@ export default function InstallationPage() {
               filename="Terminal"
             />
 
-            <p className="paragraph-medium-primary text-fg-secondary italic">
+            <p className="paragraph-regular-primary text-fg-secondary italic">
               <strong>Note:</strong> The theme from the design system will be
               present inside{' '}
               <code className="paragraph-code-text bg-fill-subtle px-1.5 py-0.5">
@@ -145,7 +145,7 @@ import '../styles/globals.css'`}
               <h2 className="headings-h3-semibold text-fg-primary mb-2">
                 Step 3: Import and use
               </h2>
-              <p className="paragraph-medium-primary text-fg-secondary">
+              <p className="paragraph-regular-primary text-fg-secondary">
                 Start using the component in your code
               </p>
             </div>
@@ -170,7 +170,7 @@ export function MyComponent() {
             <h2 className="headings-h3-semibold text-fg-primary mb-2">
               Manual Installation
             </h2>
-            <p className="paragraph-medium-primary text-fg-secondary">
+            <p className="paragraph-regular-primary text-fg-secondary">
               Alternatively, you can copy component code directly. Each
               component page includes the full source code. You can copy and
               paste the code directly into your project at{' '}

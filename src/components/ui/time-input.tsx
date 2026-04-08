@@ -88,8 +88,8 @@ const timeInputRootVariants = cva(
         ],
       },
       size: {
-        sm: 'h-7 pl-2 pr-1 py-1 paragraph-medium-primary',
-        default: 'h-9 pl-2 pr-1 py-2 paragraph-medium-primary',
+        sm: 'h-7 pl-2 pr-1 py-1 paragraph-regular-primary',
+        default: 'h-9 pl-2 pr-1 py-2 paragraph-regular-primary',
         lg: 'h-10 pl-2 pr-1 py-2 paragraph-large-primary',
       },
     },

@@ -84,7 +84,7 @@ function CalendarDayButton({
   const isFocused = modifiers.focused;
 
   const typographyClass =
-    calendarSize === 'lg' ? 'label-large-primary' : 'label-medium-primary';
+    calendarSize === 'lg' ? 'label-large-primary' : 'label-regular-primary';
 
   // Organize className styles into logical groups
   const baseStyles = cn(
@@ -419,10 +419,10 @@ function Calendar({
             const inputTypography =
               size === 'lg'
                 ? 'paragraph-large-primary'
-                : 'paragraph-medium-primary';
+                : 'paragraph-regular-primary';
 
             const separatorTypography =
-              size === 'lg' ? 'label-large-primary' : 'label-medium-primary';
+              size === 'lg' ? 'label-large-primary' : 'label-regular-primary';
 
             // Otherwise render custom inputs
             return (

@@ -49,7 +49,7 @@ export function InstallationGuide({ component }: InstallationGuideProps) {
         </p>
 
         <div className="space-y-2">
-          <h4 className="paragraph-medium-emphasised-600 text-fg-primary">
+          <h4 className="paragraph-regular-emphasised-600 text-fg-primary">
             1. Copy the component files
           </h4>
           <p className="paragraph-small-primary text-fg-secondary">
@@ -59,7 +59,7 @@ export function InstallationGuide({ component }: InstallationGuideProps) {
         </div>
 
         <div className="space-y-2">
-          <h4 className="paragraph-medium-emphasised-600 text-fg-primary">
+          <h4 className="paragraph-regular-emphasised-600 text-fg-primary">
             2. Update your imports
           </h4>
           <CodeBlock

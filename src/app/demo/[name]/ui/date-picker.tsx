@@ -213,7 +213,7 @@ export function DatePickerDemo() {
 
   return (
     <Field className="w-[196px] gap-2">
-      <FieldLabel htmlFor="date-input" className="label-medium-primary">
+      <FieldLabel htmlFor="date-input" className="label-regular-primary">
         Select Date
       </FieldLabel>
 
@@ -278,7 +278,7 @@ export function DatePickerRange() {
 
   return (
     <Field className="w-[240px] gap-2">
-      <FieldLabel htmlFor="date-range-start" className="label-medium-primary">
+      <FieldLabel htmlFor="date-range-start" className="label-regular-primary">
         Date Range
       </FieldLabel>
 
@@ -347,7 +347,7 @@ export function DatePickerDisabled() {
     <Field className="w-[196px] gap-2">
       <FieldLabel
         htmlFor="date-input-disabled"
-        className="label-medium-primary">
+        className="label-regular-primary">
         Select Date
       </FieldLabel>
 
@@ -481,7 +481,7 @@ export function DatePickerSizes() {
       <DatePickerSized
         size="default"
         label="Default"
-        labelClass="label-medium-primary"
+        labelClass="label-regular-primary"
         containerClass="w-[196px]"
       />
       <DatePickerSized
@@ -512,7 +512,7 @@ export function DatePickerInlineSizes() {
         variant="inline"
         size="default"
         label="Default"
-        labelClass="label-medium-primary mb-[-4px]"
+        labelClass="label-regular-primary mb-[-4px]"
         containerClass="w-[196px]"
       />
       <DatePickerSized
@@ -557,7 +557,7 @@ function DatePickerValidationItem({
 
   return (
     <Field className="w-[196px] gap-2">
-      <FieldLabel htmlFor={`date-${id}`} className="label-medium-primary">
+      <FieldLabel htmlFor={`date-${id}`} className="label-regular-primary">
         {label}
       </FieldLabel>
 
@@ -661,7 +661,7 @@ export function DatePickerRangeInline() {
     <Field className="w-[240px] gap-2">
       <FieldLabel
         htmlFor="date-range-inline-start"
-        className="label-medium-primary mb-[-4px]">
+        className="label-regular-primary mb-[-4px]">
         Date Range
       </FieldLabel>
 

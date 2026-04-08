@@ -1,0 +1,357 @@
+import * as React from 'react';
+
+import { AttachMoney } from '@/components/icons/AttachMoney';
+import { Close } from '@/components/icons/Close';
+import { Delete } from '@/components/icons/Delete';
+import { Edit } from '@/components/icons/Edit';
+import { Key } from '@/components/icons/Key';
+import { Mail } from '@/components/icons/Mail';
+import { Person } from '@/components/icons/Person';
+import { Send } from '@/components/icons/Send';
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Toggle } from '@/components/ui/toggle';
+
+// When the menu trigger merges props, Radix may set `data-state="open"` instead of
+// the toggle’s `on` — mirror the pressed styles for both.
+const DROPDOWN_TOGGLE_TRIGGER_OPEN =
+  'data-[state=open]:bg-fill-active data-[state=open]:text-fg-primary-inverse data-[state=open]:border-stroke-active-inverse data-[state=open]:border-2';
+
+/** Pass on `DropdownMenuContent` / `DropdownMenuSubContent` via `className`. */
+const DROPDOWN_MENU_PANEL_CLASS = 'w-[256px] max-w-[256px] min-w-[256px]';
+
+function DropdownMenuWithToggleTrigger({
+  triggerLabel,
+  children,
+}: Readonly<{
+  triggerLabel: React.ReactNode;
+  children: React.ReactNode;
+}>) {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenuTrigger asChild>
+        <Toggle
+          variant="outline"
+          pressed={open}
+          onPressedChange={setOpen}
+          className={DROPDOWN_TOGGLE_TRIGGER_OPEN}>
+          {triggerLabel}
+        </Toggle>
+      </DropdownMenuTrigger>
+
+      {children}
+    </DropdownMenu>
+  );
+}
+
+// ============================================================================
+// Example Components
+// ============================================================================
+
+/**
+ * Basic dropdown menu with labels and separators
+ */
+export function DropdownMenuDemo() {
+  return (
+    <DropdownMenuWithToggleTrigger triggerLabel="Open">
+      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem>Billing</DropdownMenuItem>
+          <DropdownMenuItem>Settings</DropdownMenuItem>
+        </DropdownMenuGroup>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuItem>GitHub</DropdownMenuItem>
+        <DropdownMenuItem>Support</DropdownMenuItem>
+        <DropdownMenuItem disabled>API</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenuWithToggleTrigger>
+  );
+}
+
+/**
+ * Dropdown with keyboard shortcut hints
+ */
+export function DropdownMenuWithShortcuts() {
+  return (
+    <DropdownMenuWithToggleTrigger triggerLabel="Open">
+      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+
+          <DropdownMenuItem>
+            Profile
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem>
+            Billing
+            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem>
+            Settings
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuItem>
+          Log out
+          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenuWithToggleTrigger>
+  );
+}
+
+/**
+ * Dropdown with icons alongside labels
+ */
+export function DropdownMenuWithIcons() {
+  return (
+    <DropdownMenuWithToggleTrigger triggerLabel="Open">
+      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
+        <DropdownMenuItem>
+          <Person className="size-4" />
+          Profile
+        </DropdownMenuItem>
+
+        <DropdownMenuItem>
+          <AttachMoney className="size-4" />
+          Billing
+        </DropdownMenuItem>
+
+        <DropdownMenuItem>
+          <Key className="size-4" />
+          Settings
+        </DropdownMenuItem>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuItem variant="destructive">
+          <Close className="size-4" />
+          Log out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenuWithToggleTrigger>
+  );
+}
+
+/**
+ * Nested submenus for secondary actions
+ */
+export function DropdownMenuWithSubmenu() {
+  return (
+    <DropdownMenuWithToggleTrigger triggerLabel="Open">
+      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <Person className="size-4" />
+            Team
+          </DropdownMenuItem>
+
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <Send className="size-4" />
+              Invite users
+            </DropdownMenuSubTrigger>
+
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent className={DROPDOWN_MENU_PANEL_CLASS}>
+                <DropdownMenuItem>
+                  <Mail className="size-4" />
+                  Email
+                </DropdownMenuItem>
+
+                <DropdownMenuItem>Message</DropdownMenuItem>
+
+                <DropdownMenuSeparator />
+
+                <DropdownMenuItem>More&hellip;</DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+
+          <DropdownMenuItem>
+            New Team
+            <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenuWithToggleTrigger>
+  );
+}
+
+/**
+ * Checkbox items for toggling options
+ */
+export function DropdownMenuWithCheckboxes() {
+  const [showStatusBar, setShowStatusBar] = React.useState(true);
+  const [showActivityBar, setShowActivityBar] = React.useState(false);
+  const [showPanel, setShowPanel] = React.useState(false);
+
+  return (
+    <DropdownMenuWithToggleTrigger triggerLabel="Open">
+      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+
+          <DropdownMenuCheckboxItem
+            checked={showStatusBar}
+            onCheckedChange={setShowStatusBar}>
+            Status Bar
+          </DropdownMenuCheckboxItem>
+
+          <DropdownMenuCheckboxItem
+            checked={showActivityBar}
+            onCheckedChange={setShowActivityBar}
+            disabled>
+            Activity Bar
+          </DropdownMenuCheckboxItem>
+
+          <DropdownMenuCheckboxItem
+            checked={showPanel}
+            onCheckedChange={setShowPanel}>
+            Panel
+          </DropdownMenuCheckboxItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenuWithToggleTrigger>
+  );
+}
+
+/**
+ * Radio group for exclusive choices
+ */
+export function DropdownMenuWithRadioGroup() {
+  const [position, setPosition] = React.useState('bottom');
+
+  return (
+    <DropdownMenuWithToggleTrigger triggerLabel="Open">
+      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
+
+          <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+            <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
+          </DropdownMenuRadioGroup>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenuWithToggleTrigger>
+  );
+}
+
+/**
+ * Destructive variant for irreversible actions
+ */
+export function DropdownMenuDestructive() {
+  return (
+    <DropdownMenuWithToggleTrigger triggerLabel="Actions">
+      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <Edit className="size-4" />
+            Edit
+          </DropdownMenuItem>
+
+          <DropdownMenuItem>
+            <Send className="size-4" />
+            Share
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+
+        <DropdownMenuSeparator />
+
+        <DropdownMenuGroup>
+          <DropdownMenuItem variant="destructive">
+            <Delete className="size-4" />
+            Delete
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenuWithToggleTrigger>
+  );
+}
+
+// ============================================================================
+// Example Metadata
+// ============================================================================
+
+export const examples = [
+  {
+    name: 'DropdownMenuDemo',
+    title: 'Default',
+    description: 'Basic dropdown menu with labels and separators.',
+  },
+  {
+    name: 'DropdownMenuWithShortcuts',
+    title: 'Shortcuts',
+    description: 'Dropdown menu items with keyboard shortcut hints.',
+  },
+  {
+    name: 'DropdownMenuWithIcons',
+    title: 'With Icons',
+    description: 'Dropdown items combined with icons for quick scanning.',
+  },
+  {
+    name: 'DropdownMenuWithSubmenu',
+    title: 'Submenu',
+    description: 'Nested submenus for secondary actions.',
+  },
+  {
+    name: 'DropdownMenuWithCheckboxes',
+    title: 'Checkboxes',
+    description: 'Checkbox items for toggling multiple options.',
+  },
+  {
+    name: 'DropdownMenuWithRadioGroup',
+    title: 'Radio Group',
+    description: 'Radio group for exclusive choices.',
+  },
+  {
+    name: 'DropdownMenuDestructive',
+    title: 'Destructive',
+    description: 'Destructive variant for irreversible actions.',
+  },
+];
+
+// ============================================================================
+// Legacy Format (for backwards compatibility)
+// ============================================================================
+
+export const dropdownMenu = {
+  name: 'dropdown-menu',
+  components: {
+    Default: <DropdownMenuDemo />,
+    Shortcuts: <DropdownMenuWithShortcuts />,
+    'With Icons': <DropdownMenuWithIcons />,
+    Submenu: <DropdownMenuWithSubmenu />,
+    Checkboxes: <DropdownMenuWithCheckboxes />,
+    'Radio Group': <DropdownMenuWithRadioGroup />,
+    Destructive: <DropdownMenuDestructive />,
+  },
+};

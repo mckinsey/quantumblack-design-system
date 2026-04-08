@@ -16,7 +16,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 export function RadioGroupDemo() {
   return (
     <FieldSet className="w-full max-w-xs">
-      <FieldLegend variant="label" className="label-medium-primary mb-1">
+      <FieldLegend variant="label" className="label-regular-primary mb-1">
         Options
       </FieldLegend>
       <RadioGroup defaultValue="option-one" className="pt-3 pb-3">
@@ -49,7 +49,7 @@ export function RadioGroupDemo() {
 export function RadioGroupStates() {
   return (
     <FieldSet className="w-full max-w-xs">
-      <FieldLegend variant="label" className="label-medium-primary mb-1">
+      <FieldLegend variant="label" className="label-regular-primary mb-1">
         States
       </FieldLegend>
       <RadioGroup defaultValue="state-one" className="pt-3 pb-3">
@@ -82,7 +82,7 @@ export function RadioGroupStates() {
 export function RadioGroupDisabled() {
   return (
     <FieldSet className="w-full max-w-xs">
-      <FieldLegend variant="label" className="label-medium-primary mb-1">
+      <FieldLegend variant="label" className="label-regular-primary mb-1">
         Disabled Group
       </FieldLegend>
       <RadioGroup defaultValue="disabled-one" disabled className="pt-3 pb-3">
@@ -115,7 +115,7 @@ export function RadioGroupDisabled() {
 export function RadioGroupPartialDisabled() {
   return (
     <FieldSet className="w-full max-w-xs">
-      <FieldLegend variant="label" className="label-medium-primary mb-1">
+      <FieldLegend variant="label" className="label-regular-primary mb-1">
         Partial Disabled
       </FieldLegend>
       <RadioGroup defaultValue="partial-one" className="pt-3 pb-3">
@@ -151,8 +151,8 @@ const sizeVariants = [
     label: 'Regular',
     prefix: 'r',
     radioSize: undefined as 'lg' | undefined,
-    labelClass: 'text-fg-secondary label-medium-primary',
-    legendClass: 'label-medium-primary',
+    labelClass: 'text-fg-secondary label-regular-primary',
+    legendClass: 'label-regular-primary',
     default: { groupGap: 'gap-3', legendGap: 'mb-1' },
     comfortable: { groupGap: 'gap-4', legendGap: 'mb-1' },
   },
@@ -161,7 +161,7 @@ const sizeVariants = [
     prefix: 's',
     radioSize: undefined as 'lg' | undefined,
     labelClass: 'text-fg-secondary label-small-primary',
-    legendClass: 'label-medium-primary',
+    legendClass: 'label-regular-primary',
     default: { groupGap: 'gap-2', legendGap: 'mb-1' },
     comfortable: { groupGap: 'gap-3', legendGap: 'mb-1' },
   },

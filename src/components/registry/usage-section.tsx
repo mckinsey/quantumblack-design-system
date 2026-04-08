@@ -29,7 +29,7 @@ export function UsageSection({
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <h4 className="paragraph-medium-emphasised-600 text-fg-primary">
+        <h4 className="paragraph-regular-emphasised-600 text-fg-primary">
           Import
         </h4>
         <CodeBlock
@@ -40,7 +40,7 @@ export function UsageSection({
       </div>
 
       <div className="space-y-2">
-        <h4 className="paragraph-medium-emphasised-600 text-fg-primary">
+        <h4 className="paragraph-regular-emphasised-600 text-fg-primary">
           Basic Usage
         </h4>
         <CodeBlock

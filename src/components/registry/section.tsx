@@ -55,7 +55,7 @@ export function ComponentHeader({ title, description }: ComponentHeaderProps) {
     <div className="space-y-1">
       <h1 className="headings-h2-semibold text-fg-primary">{title}</h1>
       {description && (
-        <p className="paragraph-medium-primary text-fg-secondary">
+        <p className="paragraph-regular-primary text-fg-secondary">
           {description}
         </p>
       )}

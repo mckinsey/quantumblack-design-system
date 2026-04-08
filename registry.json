@@ -222,6 +222,29 @@
       ]
     },
     {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "A contextual menu triggered by a button. Supports items, checkboxes, radio groups, submenus, shortcuts, and destructive actions.",
+      "dependencies": ["@radix-ui/react-dropdown-menu"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/dropdown-menu.tsx",
+          "type": "registry:file",
+          "target": "components/ui/dropdown-menu.tsx"
+        },
+        {
+          "path": "src/app/demo/[name]/ui/dropdown-menu.tsx",
+          "type": "registry:example",
+          "target": ""
+        }
+      ]
+    },
+    {
       "name": "empty",
       "type": "registry:ui",
       "title": "Empty",

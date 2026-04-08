@@ -255,7 +255,7 @@ function AvatarListItem({
               'text-fg-primary truncate',
               size === 'lg'
                 ? 'paragraph-large-primary'
-                : 'paragraph-medium-primary',
+                : 'paragraph-regular-primary',
             )}>
             {user.name}
           </span>
@@ -263,7 +263,7 @@ function AvatarListItem({
             className={cn(
               'text-fg-secondary truncate',
               size === 'lg'
-                ? 'paragraph-medium-primary'
+                ? 'paragraph-regular-primary'
                 : 'paragraph-small-primary',
             )}>
             {user.role}

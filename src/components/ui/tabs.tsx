@@ -89,7 +89,7 @@ const defaultStyles = {
     },
     // Typography per size
     font: {
-      sm: 'paragraph-medium-primary',
+      sm: 'paragraph-regular-primary',
       default: 'label-large-primary',
       lg: 'headings-h4-regular',
     },

@@ -44,7 +44,7 @@ export default function IntroductionPage() {
               <h2 className="headings-h3-semibold text-fg-primary mb-2">
                 Open Code
               </h2>
-              <p className="paragraph-medium-primary text-fg-secondary">
+              <p className="paragraph-regular-primary text-fg-secondary">
                 The QB Design System hands you the actual component code. You
                 have full control to customize and extend the components to your
                 needs. This means full transparency — you see exactly how each
@@ -57,7 +57,7 @@ export default function IntroductionPage() {
               <h2 className="headings-h3-semibold text-fg-primary mb-2">
                 Composition
               </h2>
-              <p className="paragraph-medium-primary text-fg-secondary">
+              <p className="paragraph-regular-primary text-fg-secondary">
                 Every component shares a common, composable interface. If a
                 component does not exist, we bring it in, make it composable,
                 and adjust its style to match and work with the rest of the
@@ -70,7 +70,7 @@ export default function IntroductionPage() {
               <h2 className="headings-h3-semibold text-fg-primary mb-2">
                 Design Tokens
               </h2>
-              <p className="paragraph-medium-primary text-fg-secondary">
+              <p className="paragraph-regular-primary text-fg-secondary">
                 Built with QB design system tokens for consistent theming across
                 all components. The tokens provide a unified design language
                 that ensures your UI looks cohesive and professional out of the
@@ -82,7 +82,7 @@ export default function IntroductionPage() {
               <h2 className="headings-h3-semibold text-fg-primary mb-2">
                 AI-Ready
               </h2>
-              <p className="paragraph-medium-primary text-fg-secondary">
+              <p className="paragraph-regular-primary text-fg-secondary">
                 The design of the QB Design System makes it easy for AI tools to
                 work with your code. Its open code and consistent API allow AI
                 models to read, understand, and even generate new components

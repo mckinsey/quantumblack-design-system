@@ -46,7 +46,7 @@ const badgeVariants = cva(
       size: {
         sm: 'h-5 label-small-primary min-w-5',
         default: 'h-6 label-small-primary min-w-6',
-        lg: 'h-7 label-medium-primary min-w-7',
+        lg: 'h-7 label-regular-primary min-w-7',
       },
       outline: {
         true: 'bg-fill-active-inverse text-fg-primary outline outline-solid outline-1',
@@ -151,8 +151,8 @@ const numericBadgeVariants = cva(
       },
       size: {
         sm: 'h-4 min-w-4 px-0.5 paragraph-small-emphasised outline-1',
-        default: 'h-5 min-w-5 px-1 paragraph-medium-emphasised-600 outline-1',
-        lg: 'h-6 min-w-6 px-1 paragraph-medium-emphasised-600 outline-2',
+        default: 'h-5 min-w-5 px-1 paragraph-regular-emphasised-600 outline-1',
+        lg: 'h-6 min-w-6 px-1 paragraph-regular-emphasised-600 outline-2',
       },
       outline: {
         false: 'outline-stroke-active-inverse',

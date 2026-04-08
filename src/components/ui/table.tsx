@@ -73,7 +73,7 @@ function TableHead({
         'text-fg-secondary hover:border-stroke-tertiary-hover',
         'transition-colors duration-200',
         'data-[state=selected]:text-fg-primary data-[state=selected]:border-stroke-active',
-        'label-medium-primary',
+        'label-regular-primary',
         'pt-3 pb-4',
         {
           'px-3': size === 'small',
@@ -99,7 +99,7 @@ function TableCell({ className, size = 'default', ...props }: TableCellProps) {
         "[tr[data-state='selected']>td]:border-stroke-active [tr[data-state='selected']>td]:text-fg-primary",
         'hover:border-stroke-tertiary-hover group-hover:border-stroke-tertiary-hover',
         'transition-colors delay-75 duration-200',
-        'label-medium-primary',
+        'label-regular-primary',
         'pt-2 pb-2',
         'h-[60px]',
         {

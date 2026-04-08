@@ -22,7 +22,8 @@ const textareaVariants = cva(
         ],
       },
       size: {
-        default: 'paragraph-medium-primary p-3 focus-visible:ring-[1px]',
+        sm: 'paragraph-small-primary p-3 focus-visible:ring-[1px]',
+        default: 'paragraph-regular-primary p-3 focus-visible:ring-[1px]',
         lg: 'paragraph-large-primary p-3 focus-visible:ring-[2px]',
       },
     },
@@ -52,7 +53,7 @@ const TextareaContext = React.createContext<TextareaContextValue>({
 
 interface TextareaRootProps extends React.ComponentProps<'div'> {
   maxCharacters?: number;
-  size?: 'default' | 'lg';
+  size?: 'sm' | 'default' | 'lg';
 }
 
 function TextareaRoot({
@@ -101,7 +102,11 @@ function TextareaRoot({
   }, []);
 
   const fontSize =
-    size === 'lg' ? 'paragraph-large-primary' : 'paragraph-medium-primary';
+    size === 'lg'
+      ? 'paragraph-large-primary'
+      : size === 'sm'
+        ? 'paragraph-small-primary'
+        : 'paragraph-regular-primary';
 
   return (
     <TextareaContext.Provider
