@@ -116,7 +116,7 @@ const tagVariants = cva(tagBaseStyles('aria-disabled'), {
 });
 
 /**
- * Tag props. Variant mapping to Figma (QB-DS v2.0.0 BETA):
+ * Tag props. Variant mapping to design spec:
  * - primary → Type=primary (muted fill) — default
  * - secondary → Type=high-emphasis (filled)
  * - accent → Type=accent

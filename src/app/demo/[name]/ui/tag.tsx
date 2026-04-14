@@ -155,7 +155,7 @@ const avatarEl = (
   </Avatar>
 );
 
-/** Tags with avatar — 8 variant combos: 4 non-pill + 4 pill (Figma: 3 sizes sm/reg/lg only) */
+/** Tags with avatar — 8 variant combos: 4 non-pill + 4 pill (3 sizes sm/reg/lg only) */
 export function TagWithAvatar() {
   return (
     <div className="flex flex-col gap-6">

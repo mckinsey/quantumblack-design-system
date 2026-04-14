@@ -204,7 +204,7 @@ const inputGroupButtonVariants = cva(
       size: {
         xs: "h-6 gap-1 px-2 rounded-[calc(var(--radius)-5px)] [&>svg:not([class*='size-'])]:size-3.5 has-[>svg]:px-2",
         sm: 'h-8 px-2.5 gap-1.5 rounded-md has-[>svg]:px-2.5',
-        // Icon button sizes per Figma design:
+        // Icon button sizes per design spec:
         // icon-xxs: 16px
         // icon-xs: 20px (sm & default input groups)
         // icon-sm: 24px (large input groups)

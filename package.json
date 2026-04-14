@@ -1,6 +1,15 @@
 {
   "name": "quantumblack-design-system",
   "version": "0.0.1-beta.1",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mckinsey/quantumblack-design-system"
+  },
+  "homepage": "https://github.com/mckinsey/quantumblack-design-system",
+  "bugs": {
+    "url": "https://github.com/mckinsey/quantumblack-design-system/issues"
+  },
   "scripts": {
     "dev": "npm run registry:build && vite --port 4123",
     "build": "npm run registry:build && vite build",

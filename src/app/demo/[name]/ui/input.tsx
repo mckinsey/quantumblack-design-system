@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 
 const FIELD_WIDTH = 'w-[240px]';
 
-// Per-size field layout config: typography + gap (matches Figma spec — spacing/8 = 8px for all sizes)
+// Per-size field layout config: typography + gap (spacing/8 = 8px for all sizes)
 const inputFieldConfig = {
   sm: {
     label: 'label-small-primary text-fg-secondary',
