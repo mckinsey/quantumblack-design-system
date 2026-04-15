@@ -59,7 +59,7 @@ const useTabsLayoutContext = () => {
   return context;
 };
 
-// Default styles based on Figma design
+// Default styles based on design spec
 const defaultStyles = {
   tabs: 'w-full',
   tabList: {
@@ -110,7 +110,7 @@ const defaultStyles = {
       text: 'data-[state=active]:text-fg-primary',
       cursor: 'data-[state=active]:cursor-default',
     },
-    // State: Focused (bottom-only border per Figma — NOT a ring/outline)
+    // State: Focused (bottom-only border per design spec — NOT a ring/outline)
     focused: {
       color:
         'focus-visible:data-[state=inactive]:border-b-stroke-status-focus focus-visible:data-[state=active]:border-b-stroke-status-focus',

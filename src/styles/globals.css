@@ -37,9 +37,7 @@
   --font-line-height-64: 64px;
   --font-sans: 'Inter', sans-serif;
 
-  /** Text Size Mappings - shadcn convention mapped to primitives
-  * @TODO: Check if we need to add font family and font-family-paragraph etc.
-  */
+  /** Text Size Mappings - shadcn convention mapped to primitives */
   --text-xs: var(--font-font-size-12);
   --text-xs-line-height: var(--font-line-height-12);
   --text-sm: var(--font-font-size-14);

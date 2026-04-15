@@ -45,7 +45,7 @@ export function CheckboxDemo() {
 }
 
 /**
- * CheckboxGroup/Item – single item with label + suffix in 3 variants (Figma node 36287-497).
+ * CheckboxGroup/Item – single item with label + suffix in 3 variants.
  * Shows unchecked, checked, and indeterminate states.
  */
 export function CheckboxGroupItem() {
@@ -103,7 +103,7 @@ export function CheckboxGroupItem() {
 }
 
 /**
- * CheckboxGroup/Item – 3 sizes (Figma node 36287-497).
+ * CheckboxGroup/Item – 3 sizes.
  * Same item pattern (label + suffix) at small, default, and large.
  */
 export function CheckboxItemSizes() {
@@ -161,7 +161,7 @@ export function CheckboxItemSizes() {
 }
 
 /**
- * Checkbox Item Group – header with underline + list of items (Figma node 34046-126637).
+ * Checkbox Item Group – header with underline + list of items.
  * Main header has checkbox (select-all), label, count (e.g. 2/5), and underline below.
  */
 export function CheckboxItemGroup() {
@@ -292,8 +292,8 @@ const SUFFIX_CLASS_BY_SIZE: Record<ItemGroupSize, string> = {
 /**
  * Spacing for CheckboxItemGroup by density and size.
  *
- * Figma spec uses asymmetric header padding for reg size, and the item gap
- * differs for sm vs reg/lg. See Figma node 34046-126578.
+ * Design spec uses asymmetric header padding for reg size, and the item gap
+ * differs for sm vs reg/lg.
  */
 function getCheckboxItemGroupSpacing(density: Density, size: ItemGroupSize) {
   if (density === 'compact') {
@@ -320,7 +320,7 @@ function getCheckboxItemGroupSpacing(density: Density, size: ItemGroupSize) {
 }
 
 /**
- * Checkbox Item Group Section – 2 densities × 3 sizes in 2 rows (Figma 34046-126578).
+ * Checkbox Item Group Section – 2 densities × 3 sizes in 2 rows.
  * Row 1: compact density with sm, default, lg. Row 2: relaxed with sm, default, lg.
  *
  * CHECKBOX_ITEM_GROUP_SPACING and HEADER/ITEM_LABEL_CLASS_BY_SIZE_ITEM_GROUP are
@@ -570,13 +570,13 @@ export const examples = [
     name: 'CheckboxItemGroup',
     title: 'Checkbox Item Group',
     description:
-      'Group with header (select-all, label, count), underline below header, and list of items (Figma 34046-126637).',
+      'Group with header (select-all, label, count), underline below header, and list of items.',
   },
   {
     name: 'CheckboxItemGroupSection',
     title: 'Checkbox Item Group Section',
     description:
-      '2 densities × 3 sizes (6 variants) in 2 rows. Row 1: compact; row 2: relaxed (Figma 34046-126578).',
+      '2 densities × 3 sizes (6 variants) in 2 rows. Row 1: compact; row 2: relaxed.',
   },
 ];
 

@@ -158,7 +158,7 @@ export function ButtonIconRounded() {
   );
 }
 
-/** Button groups / CTAs – examples from Figma (node 34797-9638). Plain divs, 12px gap (gap-3). */
+/** Button groups / CTAs */
 export function ButtonGroups() {
   return (
     <div className="grid grid-cols-2 gap-x-8 gap-y-4">

@@ -6,7 +6,7 @@ Vite + React Router + shadcn/ui component registry for the QB Design System.
 
 - Vite, React 19, React Router v7, TypeScript, Tailwind CSS v4
 - TanStack Query for data fetching on component detail pages
-- Components built on Radix UI, styled to QB DS Figma spec
+- Components built on Radix UI, styled to the QBDS design spec
 - Registry generated via `npx shadcn build` → `public/r/`
 
 ## Key commands

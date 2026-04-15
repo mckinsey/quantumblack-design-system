@@ -61,7 +61,7 @@ export const inputSizeDefinitions = {
   lg: `${inputSizeStyles.lg} p-3`,
 } as const;
 
-// Per-size focus ring/border width — lg uses 2px per Figma, sm/default use 1px
+// Per-size focus ring/border width
 export const inputFocusRingWidth = {
   sm: 'focus-visible:ring-[1px]',
   default: 'focus-visible:ring-[1px]',
@@ -81,7 +81,7 @@ const inputVariants = cva(
     variants: {
       variant: {
         default: [
-          // Base styles - matching QB-DS v2.0.0 Figma design (Input-Shell + State-Layer)
+          // Base styles - matching design spec (Input-Shell + State-Layer)
           inputVariantStyles.default.base,
           'px-2 py-1',
           // Text and placeholder colors from design system

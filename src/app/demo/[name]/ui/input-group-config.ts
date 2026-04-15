@@ -1,4 +1,4 @@
-// Per-size field layout config: typography + gap + icon size (matches Figma spec)
+// Per-size field layout config: typography + gap + icon size (matches design spec)
 export const inputGroupFieldConfig = {
   sm: {
     label: 'label-small-primary text-fg-secondary',
