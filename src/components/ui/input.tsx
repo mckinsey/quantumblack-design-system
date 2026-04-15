@@ -61,7 +61,7 @@ export const inputSizeDefinitions = {
   lg: `${inputSizeStyles.lg} p-3`,
 } as const;
 
-// Per-size focus ring/border width — lg uses 2px per design spec, sm/default use 1px
+// Per-size focus ring/border width
 export const inputFocusRingWidth = {
   sm: 'focus-visible:ring-[1px]',
   default: 'focus-visible:ring-[1px]',
