@@ -22,18 +22,16 @@ function isSafeRegistryPathSegment(segment: string): boolean {
 }
 
 /**
- * Resolve a registry-relative path under `projectRoot` using only validated
- * single-segment joins (avoids path.join(root, fullUserString) for SAST).
+ * Sanitize registry `file.path` (CWE-22): reject absolute paths, `..`, and
+ * segments outside our allowlist before any `path.join` / `readFile`.
+ * Matches the “sanitize input, then join” pattern from Wiz remediation docs.
  */
-function resolveRegistrySourcePath(
-  projectRoot: string,
-  relativePath: string,
-): string | null {
-  if (path.isAbsolute(relativePath)) {
+function sanitizeRegistryPathInput(userPath: string): string[] | null {
+  if (path.isAbsolute(userPath)) {
     return null;
   }
 
-  const posixStyle = relativePath.split(path.sep).join('/');
+  const posixStyle = userPath.split(path.sep).join('/');
   const normalized = path.posix.normalize(posixStyle);
   const segments = normalized.split('/').filter(s => s.length > 0);
 
@@ -45,9 +43,26 @@ function resolveRegistrySourcePath(
     return null;
   }
 
+  return segments;
+}
+
+/**
+ * Resolve a sanitized registry-relative path under `projectRoot` using only
+ * per-segment joins (never `path.join(root, fullUserString)`).
+ */
+function resolveRegistrySourcePath(
+  projectRoot: string,
+  userPath: string,
+): string | null {
+  const sanitizedSegments = sanitizeRegistryPathInput(userPath);
+
+  if (!sanitizedSegments) {
+    return null;
+  }
+
   let resolved = projectRoot;
 
-  for (const segment of segments) {
+  for (const segment of sanitizedSegments) {
     resolved = path.join(resolved, segment);
   }
 
