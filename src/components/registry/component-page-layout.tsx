@@ -132,8 +132,8 @@ export function ComponentPageLayout({
         <Suspense
           fallback={
             <div className="space-y-4">
-              <Skeleton className="bg-fill-onsurface-ui-3 h-8 w-48" />
-              <Skeleton className="bg-fill-onsurface-ui-3 h-[200px] w-full" />
+              <Skeleton className="bg-fill-onsurface-bg-ui-3 h-8 w-48" />
+              <Skeleton className="bg-fill-onsurface-bg-ui-3 h-[200px] w-full" />
             </div>
           }>
           {apiData && apiData.length > 0 ? (
@@ -145,7 +145,7 @@ export function ComponentPageLayout({
               </p>
               <p className="paragraph-small-primary mt-1">
                 Run{' '}
-                <code className="paragraph-code-text bg-fill-subtle px-1.5 py-0.5">
+                <code className="paragraph-code-text bg-fill-onsurface-subtle px-1.5 py-0.5">
                   npm run generate:api-docs
                 </code>{' '}
                 to generate API documentation.

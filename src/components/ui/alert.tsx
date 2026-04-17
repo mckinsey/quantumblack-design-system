@@ -7,7 +7,7 @@ import { Button } from './button';
 import { IconShell } from './icon-shell';
 
 const alertVariants = cva(
-  'group/alert relative w-full bg-fill-onsurface-ui-3 shadow-elevation-2 flex items-center rounded-lg',
+  'group/alert relative w-full bg-fill-onsurface-bg-ui-3 shadow-elevation-2 flex items-center rounded-lg',
   {
     variants: {
       layout: {

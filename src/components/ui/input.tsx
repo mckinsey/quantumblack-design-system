@@ -25,7 +25,7 @@ const searchCancelButtonStyles = [
 // Shared input variant styles - exported for use in InputGroup
 export const inputVariantStyles = {
   default: {
-    base: 'border border-transparent bg-fill-onsurface-ui-3',
+    base: 'border border-transparent bg-fill-onsurface-bg-ui-3',
     text: 'text-fg-primary placeholder:text-fg-tertiary',
     hover: 'hover:bg-stateslayer-overlay-hover',
     focus:
@@ -87,7 +87,7 @@ const inputVariants = cva(
           // Text and placeholder colors from design system
           inputVariantStyles.default.text,
           // Selection styling
-          'selection:bg-fill-active selection:text-fg-primary-inverse',
+          'selection:bg-fill-content-active selection:text-fg-primary-inverse',
           // File input styling
           'file:inline-flex file:border-0 file:bg-transparent file:font-medium file:text-fg-primary',
           // Focus state - using border and subtle background change
@@ -108,7 +108,7 @@ const inputVariants = cva(
           // Text colors - primary for text, tertiary for placeholder
           inputVariantStyles.inline.text,
           // Selection styling
-          'selection:bg-fill-active selection:text-fg-primary-inverse',
+          'selection:bg-fill-content-active selection:text-fg-primary-inverse',
           // Hover state - change border color (still 1px)
           inputVariantStyles.inline.hover,
           // Focus state - 2px focus color with margin adjustment to prevent shift

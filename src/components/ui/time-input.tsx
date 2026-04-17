@@ -396,7 +396,7 @@ const TimeSegmentInput = React.forwardRef<
           'w-[2ch] bg-transparent text-center text-inherit outline-none',
           'placeholder:text-fg-tertiary focus:placeholder:text-fg-primary',
           'disabled:text-fg-disabled disabled:placeholder:text-fg-disabled',
-          'selection:bg-fill-active selection:text-fg-primary-inverse',
+          'selection:bg-fill-content-active selection:text-fg-primary-inverse',
           className,
         )}
         onKeyDown={handleKeyDown}
@@ -481,7 +481,7 @@ function TimeInputTrigger({
       className={cn(
         'inline-flex shrink-0 items-center justify-center',
         'cursor-pointer rounded-none border-0 bg-transparent p-0 outline-none',
-        'text-fill-active',
+        'text-fill-content-active',
         'disabled:text-fg-disabled disabled:cursor-not-allowed',
         triggerSizeMap[size],
         className,

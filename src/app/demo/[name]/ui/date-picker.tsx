@@ -27,15 +27,15 @@ import {
 import { cn } from '@/lib/utils';
 
 const dateSegmentFocusClassName = cn(
-  '[&::-webkit-datetime-edit-day-field:focus]:bg-fill-active',
+  '[&::-webkit-datetime-edit-day-field:focus]:bg-fill-content-active',
   '[&::-webkit-datetime-edit-day-field:focus]:text-fg-primary-inverse',
   '[&::-webkit-datetime-edit-day-field:focus]:rounded-none',
   '[&::-webkit-datetime-edit-day-field:focus]:outline-none',
-  '[&::-webkit-datetime-edit-month-field:focus]:bg-fill-active',
+  '[&::-webkit-datetime-edit-month-field:focus]:bg-fill-content-active',
   '[&::-webkit-datetime-edit-month-field:focus]:text-fg-primary-inverse',
   '[&::-webkit-datetime-edit-month-field:focus]:rounded-none',
   '[&::-webkit-datetime-edit-month-field:focus]:outline-none',
-  '[&::-webkit-datetime-edit-year-field:focus]:bg-fill-active',
+  '[&::-webkit-datetime-edit-year-field:focus]:bg-fill-content-active',
   '[&::-webkit-datetime-edit-year-field:focus]:text-fg-primary-inverse',
   '[&::-webkit-datetime-edit-year-field:focus]:rounded-none',
   '[&::-webkit-datetime-edit-year-field:focus]:outline-none',

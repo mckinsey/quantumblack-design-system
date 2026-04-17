@@ -360,7 +360,7 @@ export function AvatarRadioList() {
               trailing={
                 selected[size] === user.id ? (
                   <Check
-                    className={`text-fill-active shrink-0 ${checkIconSize[size]}`}
+                    className={`text-fill-content-active shrink-0 ${checkIconSize[size]}`}
                   />
                 ) : undefined
               }

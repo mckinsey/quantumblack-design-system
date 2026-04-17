@@ -139,7 +139,7 @@ function CalendarDayButton({
   );
 
   const rangeMiddleStyles = cn(
-    'data-[range-middle=true]:bg-fill-muted',
+    'data-[range-middle=true]:bg-fill-onsurface-muted',
     'data-[range-middle=true]:text-fg-primary',
     'data-[range-middle=true]:rounded-none',
   );
@@ -184,7 +184,7 @@ function CalendarDayButton({
       {isToday && (
         <span
           className={cn(
-            'bg-fill-active absolute left-1/2 size-1 -translate-x-1/2 rounded-full',
+            'bg-fill-content-active absolute left-1/2 size-1 -translate-x-1/2 rounded-full',
             calendarSize === 'lg' ? 'bottom-2' : 'bottom-1',
             (isSelected || isRangeStart || isRangeEnd) && 'hidden',
           )}
@@ -216,7 +216,7 @@ function Calendar({
       mode={props.mode ?? 'single'}
       showOutsideDays={showOutsideDays}
       className={cn(
-        'bg-fill-active-inverse group/calendar p-4',
+        'bg-fill-content-active-inverse group/calendar p-4',
         size === 'lg'
           ? '[--cell-size:--spacing(12)]'
           : '[--cell-size:--spacing(10)]',

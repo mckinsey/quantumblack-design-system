@@ -32,7 +32,7 @@ const activeGradient = {
 const disabledOverlayGradient =
   'disabled:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled),var(--color-stateslayer-overlay-disabled))]';
 
-const commonDisabled = 'disabled:bg-fill-muted';
+const commonDisabled = 'disabled:bg-fill-onsurface-muted';
 
 const buttonVariants = cva(
   [
@@ -57,7 +57,7 @@ const buttonVariants = cva(
       },
       variant: {
         default: [
-          'bg-fill-primary text-fg-primary-inverse',
+          'bg-fill-content-primary text-fg-primary-inverse',
           hoverGradient.inverse,
           activeGradient.inverse,
           'focus-visible:bg-stateslayer-overlay-active',
@@ -74,7 +74,7 @@ const buttonVariants = cva(
           disabledOverlayGradient,
         ],
         secondary: [
-          'bg-fill-muted text-fg-primary',
+          'bg-fill-onsurface-muted text-fg-primary',
           hoverGradient.normal,
           activeGradient.normal,
           'focus-visible:ring-1',
@@ -83,7 +83,7 @@ const buttonVariants = cva(
           disabledOverlayGradient,
         ],
         outline: [
-          'border border-stroke-secondary bg-fill-muted-inverse text-fg-primary',
+          'border border-stroke-secondary bg-fill-onsurface-muted-inverse text-fg-primary',
           'focus-visible:border-stroke-active',
           'focus-visible:ring-1',
           hoverGradient.normal,

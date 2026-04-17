@@ -49,13 +49,13 @@ function tagToggleClasses({
     'disabled:text-fg-disabled',
 
     variant === 'default' && [
-      'bg-fill-muted text-fg-primary',
+      'bg-fill-onsurface-muted text-fg-primary',
       hoverOverlay,
       pressedOverlay,
       disabledOverlay,
-      'focus-visible:bg-fill-muted',
-      'data-[state=on]:bg-fill-active data-[state=on]:text-fg-primary-inverse',
-      'data-[state=on]:focus-visible:bg-fill-active',
+      'focus-visible:bg-fill-onsurface-muted',
+      'data-[state=on]:bg-fill-content-active data-[state=on]:text-fg-primary-inverse',
+      'data-[state=on]:focus-visible:bg-fill-content-active',
     ],
 
     variant === 'outline' && [

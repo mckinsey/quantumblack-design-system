@@ -77,7 +77,7 @@ export function ExamplePreview({
       )}>
       {/* Header with title and description */}
       {(title || description) && (
-        <div className="bg-fill-muted px-4 py-3">
+        <div className="bg-fill-onsurface-muted px-4 py-3">
           {title && (
             <h3 className="headings-h4-semibold text-fg-primary">{title}</h3>
           )}
@@ -103,7 +103,7 @@ export function ExamplePreview({
         {/* Code header — full-width toggle button */}
         <button
           onClick={() => setIsExpanded(v => !v)}
-          className="bg-fill-muted flex w-full cursor-pointer items-center justify-between px-3 py-2">
+          className="bg-fill-onsurface-muted flex w-full cursor-pointer items-center justify-between px-3 py-2">
           <span className="paragraph-small-emphasised text-fg-secondary">
             Code
           </span>

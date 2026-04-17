@@ -30,7 +30,7 @@ import { Toggle } from '@/components/ui/toggle';
 // When the menu trigger merges props, Radix may set `data-state="open"` instead of
 // the toggle’s `on` — mirror the pressed styles for both.
 const DROPDOWN_TOGGLE_TRIGGER_OPEN =
-  'data-[state=open]:bg-fill-active data-[state=open]:text-fg-primary-inverse data-[state=open]:border-stroke-active-inverse data-[state=open]:border-2';
+  'data-[state=open]:bg-fill-content-active data-[state=open]:text-fg-primary-inverse data-[state=open]:border-stroke-active-inverse data-[state=open]:border-2';
 
 /** Pass on `DropdownMenuContent` / `DropdownMenuSubContent` via `className`. */
 const DROPDOWN_MENU_PANEL_CLASS = 'w-[256px] max-w-[256px] min-w-[256px]';

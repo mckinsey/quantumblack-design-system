@@ -34,7 +34,7 @@ export default function InstallationPage() {
             </div>
 
             <div className="flex items-start gap-3">
-              <span className="bg-fill-subtle text-fg-primary paragraph-small-emphasised flex h-6 w-6 shrink-0 items-center justify-center">
+              <span className="bg-fill-onsurface-subtle text-fg-primary paragraph-small-emphasised flex h-6 w-6 shrink-0 items-center justify-center">
                 1
               </span>
               <div>
@@ -49,7 +49,7 @@ export default function InstallationPage() {
             </div>
 
             <div className="flex items-start gap-3">
-              <span className="bg-fill-subtle text-fg-primary paragraph-small-emphasised flex h-6 w-6 shrink-0 items-center justify-center">
+              <span className="bg-fill-onsurface-subtle text-fg-primary paragraph-small-emphasised flex h-6 w-6 shrink-0 items-center justify-center">
                 2
               </span>
               <div>
@@ -58,7 +58,7 @@ export default function InstallationPage() {
                 </p>
                 <p className="paragraph-regular-primary text-fg-secondary">
                   Run{' '}
-                  <code className="paragraph-code-text bg-fill-subtle px-1.5 py-0.5">
+                  <code className="paragraph-code-text bg-fill-onsurface-subtle px-1.5 py-0.5">
                     npx shadcn@latest init
                   </code>{' '}
                   to set up your project.
@@ -75,7 +75,7 @@ export default function InstallationPage() {
               </h2>
               <p className="paragraph-regular-primary text-fg-secondary">
                 Add the QB Design System registry to your{' '}
-                <code className="paragraph-code-text bg-fill-subtle px-1.5 py-0.5">
+                <code className="paragraph-code-text bg-fill-onsurface-subtle px-1.5 py-0.5">
                   components.json
                 </code>
                 :
@@ -94,7 +94,7 @@ export default function InstallationPage() {
 
             <p className="paragraph-regular-primary text-fg-secondary italic">
               <strong>Note:</strong> Ensure the registry name is always{' '}
-              <code className="paragraph-code-text bg-fill-subtle px-1.5 py-0.5">
+              <code className="paragraph-code-text bg-fill-onsurface-subtle px-1.5 py-0.5">
                 @qbds
               </code>{' '}
               as internally the components are referred to using this prefix.
@@ -121,11 +121,11 @@ export default function InstallationPage() {
             <p className="paragraph-regular-primary text-fg-secondary italic">
               <strong>Note:</strong> The theme from the design system will be
               present inside{' '}
-              <code className="paragraph-code-text bg-fill-subtle px-1.5 py-0.5">
+              <code className="paragraph-code-text bg-fill-onsurface-subtle px-1.5 py-0.5">
                 styles/globals.css
               </code>
               . Ensure you are importing this style in your main{' '}
-              <code className="paragraph-code-text bg-fill-subtle px-1.5 py-0.5">
+              <code className="paragraph-code-text bg-fill-onsurface-subtle px-1.5 py-0.5">
                 layout.tsx
               </code>{' '}
               file, so that the styling is added properly:
@@ -174,7 +174,7 @@ export function MyComponent() {
               Alternatively, you can copy component code directly. Each
               component page includes the full source code. You can copy and
               paste the code directly into your project at{' '}
-              <code className="paragraph-code-text bg-fill-subtle px-1.5 py-0.5">
+              <code className="paragraph-code-text bg-fill-onsurface-subtle px-1.5 py-0.5">
                 components/ui/
               </code>
               . Make sure to also copy any required dependencies listed on the

@@ -63,7 +63,7 @@ export function CodeBlock({
         className,
       )}>
       {/* Sticky Header with filename and copy button */}
-      <div className="border-stroke-tertiary bg-fill-onsurface-ui-3 sticky top-0 z-10 flex items-center justify-between border-b px-4 py-2">
+      <div className="border-stroke-tertiary bg-fill-onsurface-bg-ui-3 sticky top-0 z-10 flex items-center justify-between border-b px-4 py-2">
         {filename && (
           <span className="paragraph-code-text text-fg-secondary">
             {filename}
