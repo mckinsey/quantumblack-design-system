@@ -9,6 +9,21 @@ export interface ComponentSource {
   language: string;
 }
 
+function isSafeRegistryRelativeFilePath(relativePath: string): boolean {
+  if (path.isAbsolute(relativePath)) {
+    return false;
+  }
+
+  const normalized = path.normalize(relativePath);
+  const hasParentSegment = normalized.split(path.sep).some(s => s === '..');
+
+  if (hasParentSegment) {
+    return false;
+  }
+
+  return normalized.startsWith(`src${path.sep}`);
+}
+
 /**
  * Read component source files from the filesystem
  */
@@ -25,11 +40,17 @@ export async function getComponentSource(
 
   for (const file of component.files) {
     try {
-      const filePath = path.resolve(root, file.path);
+      if (!isSafeRegistryRelativeFilePath(file.path)) {
+        console.error('Skipped unsafe or non-src registry path: %s', file.path);
+        continue;
+      }
+
+      const normalized = path.normalize(file.path);
+      const filePath = path.join(root, normalized);
       const relativeToRoot = path.relative(root, filePath);
 
       if (relativeToRoot.startsWith('..') || path.isAbsolute(relativeToRoot)) {
-        console.error(`Skipped path outside project: ${file.path}`);
+        console.error('Skipped path outside project: %s', file.path);
         continue;
       }
 
@@ -48,7 +69,7 @@ export async function getComponentSource(
         language,
       });
     } catch (error) {
-      console.error(`Failed to read ${file.path}:`, error);
+      console.error('Failed to read registry file: %s', file.path, error);
       // Continue with other files even if one fails
     }
   }
