@@ -104,7 +104,7 @@ const StepMarker = React.memo(
         <div
           className={cn(
             'h-1 w-1 rounded-full transition-colors',
-            isActive ? 'bg-fill-active' : 'bg-slider-track',
+            isActive ? 'bg-fill-content-active' : 'bg-fill-content-track',
           )}
         />
 
@@ -181,11 +181,11 @@ function Slider({
 
   const thumbClasses = cn(
     'relative flex items-center justify-center w-4 h-4 rounded-full transition-all duration-200',
-    'bg-fill-active shadow-none',
+    'bg-fill-content-active shadow-none',
     'hover:outline hover:outline-2 hover:outline-stroke-primary',
     'focus:outline focus:outline-2 focus:outline-stroke-primary focus:shadow-elevation-1',
     'active:shadow-elevation-1',
-    'data-[disabled]:pointer-events-none data-[disabled]:bg-fill-onsurface-ui-2 data-[disabled]:shadow-elevation-0',
+    'data-[disabled]:pointer-events-none data-[disabled]:bg-fill-onsurface-bg-ui-2 data-[disabled]:shadow-elevation-0',
     'cursor-pointer',
   );
 
@@ -210,13 +210,13 @@ function Slider({
       <SliderPrimitive.Track
         data-slot="slider-track"
         className={cn(
-          'bg-slider-track relative grow',
+          'bg-fill-content-track relative grow',
           'data-[orientation=horizontal]:h-[1px] data-[orientation=horizontal]:w-full',
           'data-[orientation=vertical]:h-full data-[orientation=vertical]:w-[1px]',
         )}>
         <SliderPrimitive.Range
           data-slot="slider-range"
-          className="bg-fill-active absolute data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full"
+          className="bg-fill-content-active absolute data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full"
         />
 
         {markers.map((marker, i) => (
@@ -246,7 +246,7 @@ function Slider({
                 setIsInteracting(false);
                 setIsHovering(false);
               }}>
-              <div className="bg-fill-active-inverse h-1 w-1 rounded-full" />
+              <div className="bg-fill-content-active-inverse h-1 w-1 rounded-full" />
             </SliderPrimitive.Thumb>
           </TooltipTrigger>
 

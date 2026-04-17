@@ -69,7 +69,7 @@ function SelectIcon({ className, ...props }: SelectPrimitive.Icon.Props) {
     <SelectPrimitive.Icon
       data-slot="select-icon"
       className={cn(
-        'text-fill-active shrink-0 opacity-60',
+        'text-fill-content-active shrink-0 opacity-60',
         '[[data-disabled]>&]:opacity-30',
         size === 'lg' ? 'size-6' : 'size-4',
         className,
@@ -92,7 +92,7 @@ function SelectTrigger({
       data-slot="select-trigger"
       className={cn(
         'relative flex w-fit items-center justify-between whitespace-nowrap',
-        'bg-fill-onsurface-ui-3 transition-all outline-none',
+        'bg-fill-onsurface-bg-ui-3 transition-all outline-none',
         'border border-transparent',
         'cursor-pointer data-disabled:cursor-not-allowed data-disabled:opacity-50',
 

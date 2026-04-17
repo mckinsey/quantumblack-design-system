@@ -24,11 +24,11 @@ const disabledOverlayInverse =
   'aria-disabled:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled-inverse),var(--color-stateslayer-overlay-disabled-inverse))]';
 
 const dismissIconColor = {
-  primary: 'text-fill-active',
-  secondary: 'text-fill-active-inverse',
+  primary: 'text-fill-content-active',
+  secondary: 'text-fill-content-active-inverse',
   accent: 'text-mist-50',
-  outline: 'text-fill-active',
-  'accent-outline': 'text-fill-active',
+  outline: 'text-fill-content-active',
+  'accent-outline': 'text-fill-content-active',
 } as const;
 
 /** Base interaction classes shared with TagToggle (parameterised by disabled prefix) */
@@ -69,14 +69,14 @@ const tagVariants = cva(tagBaseStyles('aria-disabled'), {
   variants: {
     variant: {
       primary: [
-        'bg-fill-muted text-fg-primary',
+        'bg-fill-onsurface-muted text-fg-primary',
         hoverOverlay.normal,
         pressedOverlay.normal,
-        'aria-disabled:bg-fill-muted aria-disabled:text-fg-disabled',
+        'aria-disabled:bg-fill-onsurface-muted aria-disabled:text-fg-disabled',
         disabledOverlay,
       ],
       secondary: [
-        'bg-fill-active text-fg-primary-inverse',
+        'bg-fill-content-active text-fg-primary-inverse',
         hoverOverlay.inverse,
         pressedOverlay.inverse,
         'aria-disabled:text-fg-disabled-inverse',
@@ -92,19 +92,19 @@ const tagVariants = cva(tagBaseStyles('aria-disabled'), {
         disabledOverlay,
       ],
       outline: [
-        'border border-stroke-secondary bg-fill-muted text-fg-primary',
+        'border border-stroke-secondary bg-fill-onsurface-muted text-fg-primary',
         hoverOverlay.normal,
         pressedOverlay.normal,
-        'aria-disabled:bg-fill-muted aria-disabled:text-fg-disabled',
+        'aria-disabled:bg-fill-onsurface-muted aria-disabled:text-fg-disabled',
         'aria-disabled:border-stroke-tertiary',
         disabledOverlay,
       ],
 
       'accent-outline': [
-        'border border-brand-accents-qb-accent bg-fill-muted text-fg-primary',
+        'border border-brand-accents-qb-accent bg-fill-onsurface-muted text-fg-primary',
         hoverOverlay.normal,
         pressedOverlay.inverse,
-        'aria-disabled:bg-fill-muted aria-disabled:text-fg-disabled',
+        'aria-disabled:bg-fill-onsurface-muted aria-disabled:text-fg-disabled',
         'aria-disabled:active:[background-image:none]!',
         disabledOverlay,
       ],

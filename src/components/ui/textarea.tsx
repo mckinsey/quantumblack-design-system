@@ -7,7 +7,7 @@ import { cn } from '../../lib/utils';
 import { inputVariantStyles } from './input';
 
 const textareaVariants = cva(
-  'flex w-full rounded-none outline-none transition-[border-color,box-shadow,background-color] font-normal min-h-16 selection:bg-fill-active selection:text-fg-primary-inverse',
+  'flex w-full rounded-none outline-none transition-[border-color,box-shadow,background-color] font-normal min-h-16 selection:bg-fill-content-active selection:text-fg-primary-inverse',
   {
     variants: {
       variant: {

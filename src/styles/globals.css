@@ -165,28 +165,28 @@
   --color-stroke-tertiary-hover-inverse: var(--border-tertiary-hover-inverse);
   --color-stroke-active-inverse: var(--border-active-inverse);
 
-  /*** Fill Tokens */
+  /*** Fill Tokens — Figma: Fill / Content, Fill / onSurface */
 
-  --color-fill-primary: var(--fill-primary);
-  --color-fill-secondary: var(--fill-secondary);
-  --color-fill-tertiary: var(--fill-tertiary);
-  --color-fill-subtle: var(--fill-subtle);
-  --color-fill-muted: var(--fill-muted);
-  --color-fill-active: var(--fill-active);
-  --color-fill-disabled: var(--fill-disabled);
-  --color-fill-primary-inverse: var(--fill-primary-inverse);
-  --color-fill-secondary-inverse: var(--fill-secondary-inverse);
-  --color-fill-tertiary-inverse: var(--fill-tertiary-inverse);
-  --color-fill-subtle-inverse: var(--fill-subtle-inverse);
-  --color-fill-disabled-inverse: var(--fill-disabled-inverse);
-  --color-fill-active-inverse: var(--fill-active-inverse);
-  --color-fill-muted-inverse: var(--fill-muted-inverse);
-  --color-fill-selected-range: var(--fill-selected-range);
-  --color-fill-onsurface-ui-1: var(--fill-onsurface-ui-1);
-  --color-fill-onsurface-ui-2: var(--fill-onsurface-ui-2);
-  --color-fill-onsurface-ui-3: var(--fill-onsurface-ui-3);
+  --color-fill-content-primary: var(--fill-content-primary);
+  --color-fill-content-secondary: var(--fill-content-secondary);
+  --color-fill-content-tertiary: var(--fill-content-tertiary);
+  --color-fill-content-active: var(--fill-content-active);
+  --color-fill-content-disabled: var(--fill-content-disabled);
+  --color-fill-content-primary-inverse: var(--fill-content-primary-inverse);
+  --color-fill-content-secondary-inverse: var(--fill-content-secondary-inverse);
+  --color-fill-content-tertiary-inverse: var(--fill-content-tertiary-inverse);
+  --color-fill-content-disabled-inverse: var(--fill-content-disabled-inverse);
+  --color-fill-content-active-inverse: var(--fill-content-active-inverse);
+  --color-fill-content-selected-range: var(--fill-content-selected-range);
+  --color-fill-content-track: var(--fill-content-track);
 
-  --color-slider-track: var(--slider-track);
+  --color-fill-onsurface-muted: var(--fill-onsurface-muted);
+  --color-fill-onsurface-subtle: var(--fill-onsurface-subtle);
+  --color-fill-onsurface-muted-inverse: var(--fill-onsurface-muted-inverse);
+  --color-fill-onsurface-subtle-inverse: var(--fill-onsurface-subtle-inverse);
+  --color-fill-onsurface-bg-ui-1: var(--fill-onsurface-bg-ui-1);
+  --color-fill-onsurface-bg-ui-2: var(--fill-onsurface-bg-ui-2);
+  --color-fill-onsurface-bg-ui-3: var(--fill-onsurface-bg-ui-3);
 
   /*** Surface Tokens */
 
@@ -326,26 +326,26 @@
 
   /** Light mode fill tokens */
 
-  --fill-primary: var(--slate-900-opacity-88);
-  --fill-secondary: var(--slate-900-opacity-60);
-  --fill-tertiary: var(--slate-900-opacity-16);
-  --fill-subtle: var(--slate-900-opacity-6);
-  --fill-muted: var(--slate-900-opacity-8);
-  --fill-active: var(--slate-950);
-  --fill-disabled: var(--slate-900-opacity-38);
-  --fill-primary-inverse: var(--mist-50-opacity-88);
-  --fill-secondary-inverse: var(--mist-50-opacity-60);
-  --fill-tertiary-inverse: var(--mist-50-opacity-16);
-  --fill-subtle-inverse: var(--mist-50-opacity-6);
-  --fill-muted-inverse: var(--mist-50-opacity-8);
-  --fill-disabled-inverse: var(--mist-50-opacity-38);
-  --fill-active-inverse: var(--mist-50);
-  --fill-selected-range: var(--slate-900-opacity-8);
-  --fill-onsurface-ui-1: var(--mist-100);
-  --fill-onsurface-ui-2: var(--mist-300);
-  --fill-onsurface-ui-3: var(--mist-200);
+  --fill-content-primary: var(--slate-900-opacity-88);
+  --fill-content-secondary: var(--slate-900-opacity-60);
+  --fill-content-tertiary: var(--slate-900-opacity-16);
+  --fill-content-active: var(--slate-950);
+  --fill-content-disabled: var(--slate-900-opacity-38);
+  --fill-content-primary-inverse: var(--mist-50-opacity-88);
+  --fill-content-secondary-inverse: var(--mist-50-opacity-60);
+  --fill-content-tertiary-inverse: var(--mist-50-opacity-16);
+  --fill-content-disabled-inverse: var(--mist-50-opacity-38);
+  --fill-content-active-inverse: var(--mist-50);
+  --fill-content-selected-range: var(--slate-900-opacity-8);
+  --fill-content-track: var(--mist-900);
 
-  --slider-track: var(--mist-900);
+  --fill-onsurface-subtle: var(--slate-900-opacity-6);
+  --fill-onsurface-muted: var(--slate-900-opacity-8);
+  --fill-onsurface-subtle-inverse: var(--mist-50-opacity-6);
+  --fill-onsurface-muted-inverse: var(--mist-50-opacity-8);
+  --fill-onsurface-bg-ui-1: var(--mist-100);
+  --fill-onsurface-bg-ui-2: var(--mist-300);
+  --fill-onsurface-bg-ui-3: var(--mist-200);
 
   /** Light mode surface tokens */
 
@@ -457,26 +457,26 @@
 
   /** Dark mode fill tokens */
 
-  --fill-primary: var(--mist-50-opacity-88);
-  --fill-secondary: var(--mist-50-opacity-60);
-  --fill-tertiary: var(--mist-50-opacity-16);
-  --fill-subtle: var(--mist-50-opacity-6);
-  --fill-muted: var(--mist-50-opacity-8);
-  --fill-active: var(--mist-50);
-  --fill-disabled: var(--mist-50-opacity-38);
-  --fill-primary-inverse: var(--slate-900-opacity-88);
-  --fill-secondary-inverse: var(--slate-900-opacity-60);
-  --fill-tertiary-inverse: var(--mist-50-opacity-24);
-  --fill-subtle-inverse: var(--slate-900-opacity-6);
-  --fill-muted-inverse: var(--slate-900-opacity-8);
-  --fill-disabled-inverse: var(--slate-900-opacity-38);
-  --fill-active-inverse: var(--slate-950);
-  --fill-selected-range: var(--mist-50-opacity-8);
-  --fill-onsurface-ui-1: var(--slate-600);
-  --fill-onsurface-ui-2: var(--slate-300);
-  --fill-onsurface-ui-3: var(--slate-400);
+  --fill-content-primary: var(--mist-50-opacity-88);
+  --fill-content-secondary: var(--mist-50-opacity-60);
+  --fill-content-tertiary: var(--mist-50-opacity-16);
+  --fill-content-active: var(--mist-50);
+  --fill-content-disabled: var(--mist-50-opacity-38);
+  --fill-content-primary-inverse: var(--slate-900-opacity-88);
+  --fill-content-secondary-inverse: var(--slate-900-opacity-60);
+  --fill-content-tertiary-inverse: var(--slate-900-opacity-24);
+  --fill-content-disabled-inverse: var(--slate-900-opacity-38);
+  --fill-content-active-inverse: var(--slate-950);
+  --fill-content-selected-range: var(--mist-50-opacity-8);
+  --fill-content-track: var(--slate-100);
 
-  --slider-track: var(--slate-100);
+  --fill-onsurface-subtle: var(--mist-50-opacity-6);
+  --fill-onsurface-muted: var(--mist-50-opacity-8);
+  --fill-onsurface-subtle-inverse: var(--slate-900-opacity-6);
+  --fill-onsurface-muted-inverse: var(--slate-900-opacity-8);
+  --fill-onsurface-bg-ui-1: var(--slate-600);
+  --fill-onsurface-bg-ui-2: var(--slate-300);
+  --fill-onsurface-bg-ui-3: var(--slate-400);
 
   /** Dark mode surface tokens */
 
@@ -581,20 +581,20 @@
 @layer utilities {
   /** Icon classes */
   .icon {
-    color: color-mix(in srgb, var(--color-fill-active) 60%, transparent);
+    color: color-mix(in srgb, var(--color-fill-content-active) 60%, transparent);
   }
 
   .icon-interactive {
-    color: color-mix(in srgb, var(--color-fill-active) 60%, transparent);
+    color: color-mix(in srgb, var(--color-fill-content-active) 60%, transparent);
     transition: color 0.2s;
   }
 
   .icon-interactive:hover {
-    color: color-mix(in srgb, var(--color-fill-active) 88%, transparent);
+    color: color-mix(in srgb, var(--color-fill-content-active) 88%, transparent);
   }
 
   .icon-interactive:disabled {
-    color: color-mix(in srgb, var(--color-fill-active) 30%, transparent);
+    color: color-mix(in srgb, var(--color-fill-content-active) 30%, transparent);
   }
 
   input[type='number']::-webkit-inner-spin-button,

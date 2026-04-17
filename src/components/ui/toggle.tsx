@@ -7,7 +7,7 @@ import { cn } from '../../lib/utils';
 import { buttonVariants } from './button';
 
 // Toggle reuses button variants (secondary, outline, ghost) and sizes
-// with the addition of data-[state=on]:bg-fill-active for the on state
+// with the addition of data-[state=on]:bg-fill-content-active for the on state
 type ToggleVariant = 'secondary' | 'outline' | 'ghost';
 type ToggleSize =
   | 'xs'
@@ -31,7 +31,7 @@ function toggleVariants({
 } = {}) {
   return cn(
     buttonVariants({ variant, size }),
-    'data-[state=on]:bg-fill-active data-[state=on]:text-fg-primary-inverse',
+    'data-[state=on]:bg-fill-content-active data-[state=on]:text-fg-primary-inverse',
 
     variant === 'outline' &&
       'data-[state=on]:border-stroke-active-inverse data-[state=on]:border-2',

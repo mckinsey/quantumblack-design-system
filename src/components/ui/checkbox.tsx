@@ -108,12 +108,12 @@ function Checkbox({
         )}>
         <CheckboxPrimitive.Indicator
           data-slot="checkbox-indicator"
-          className="text-fill-active group-disabled:text-fill-disabled absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-none">
+          className="text-fill-content-active group-disabled:text-fill-content-disabled absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-none">
           <CheckmarkIcon size={size} />
 
           <div
             className={cn(
-              'bg-fill-active group-disabled:bg-fill-disabled h-0.5 group-data-[state=checked]:hidden',
+              'bg-fill-content-active group-disabled:bg-fill-content-disabled h-0.5 group-data-[state=checked]:hidden',
             )}
             style={{ width: indicatorWidth }}
           />

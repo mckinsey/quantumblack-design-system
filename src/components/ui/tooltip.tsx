@@ -68,13 +68,13 @@ function TooltipContent({
         data-slot="tooltip-content"
         sideOffset={sideOffset}
         className={cn(
-          'bg-fill-primary text-fg-primary-inverse paragraph-small-primary animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 shadow-elevation-1 z-50 w-fit min-w-[36px] origin-(--radix-tooltip-content-transform-origin) text-balance',
+          'bg-fill-content-primary text-fg-primary-inverse paragraph-small-primary animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 shadow-elevation-1 z-50 w-fit min-w-[36px] origin-(--radix-tooltip-content-transform-origin) text-balance',
           isMultiLine ? 'max-w-[220px] p-2' : 'max-w-[140px] p-1',
           className,
         )}
         {...props}>
         {children}
-        <TooltipPrimitive.Arrow className="fill-fill-primary" />
+        <TooltipPrimitive.Arrow className="fill-fill-content-primary" />
       </TooltipPrimitive.Content>
     </TooltipPrimitive.Portal>
   );

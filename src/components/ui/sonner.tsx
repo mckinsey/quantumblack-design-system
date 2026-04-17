@@ -58,7 +58,7 @@ const toastTypeConfig = {
   },
   default: {
     borderClass: 'border-l-[var(--border-primary)]',
-    iconClass: 'text-fill-active',
+    iconClass: 'text-fill-content-active',
     iconName: 'playlist_add_check',
   },
 } as const;
@@ -103,7 +103,7 @@ function getCancelComponent(
       size="icon-xs"
       onClick={() => sonnerToast.dismiss(id)}
       aria-label="Close toast">
-      <Close className="text-fill-active size-4" />
+      <Close className="text-fill-content-active size-4" />
     </Button>
   );
 }
@@ -120,7 +120,7 @@ const Toast = memo(function Toast({ id, message, type, options }: ToastProps) {
   return (
     <div
       className={cn(
-        'bg-fill-onsurface-ui-3 shadow-elevation-2 flex h-[44px] items-center gap-2 border-l-4 py-2 pr-3 pl-4',
+        'bg-fill-onsurface-bg-ui-3 shadow-elevation-2 flex h-[44px] items-center gap-2 border-l-4 py-2 pr-3 pl-4',
         config.borderClass,
         className,
       )}

@@ -104,7 +104,7 @@ export function Navbar() {
               onClick={() => setIsSearchOpen(true)}>
               <Search className="size-4" />
               <span className="paragraph-small-primary">Search...</span>
-              <kbd className="border-stroke-tertiary bg-fill-subtle paragraph-code-text text-fg-tertiary pointer-events-none hidden h-5 items-center gap-1 border px-1.5 select-none sm:flex">
+              <kbd className="border-stroke-tertiary bg-fill-onsurface-subtle paragraph-code-text text-fg-tertiary pointer-events-none hidden h-5 items-center gap-1 border px-1.5 select-none sm:flex">
                 <span className="text-xs">⌘</span>K
               </kbd>
             </Button>
@@ -158,7 +158,7 @@ export function Navbar() {
                   onChange={e => setSearchQuery(e.target.value)}
                 />
                 <InputGroupAddon align="inline-end">
-                  <kbd className="border-stroke-tertiary bg-fill-subtle paragraph-code-text text-fg-tertiary pointer-events-none hidden h-5 items-center border px-1.5 select-none sm:flex">
+                  <kbd className="border-stroke-tertiary bg-fill-onsurface-subtle paragraph-code-text text-fg-tertiary pointer-events-none hidden h-5 items-center border px-1.5 select-none sm:flex">
                     ESC
                   </kbd>
                 </InputGroupAddon>

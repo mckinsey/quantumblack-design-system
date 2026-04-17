@@ -32,9 +32,9 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        'high-emphasis': 'bg-fill-active text-fg-primary-inverse',
+        'high-emphasis': 'bg-fill-content-active text-fg-primary-inverse',
         'brand-accent': 'bg-brand-accents-qb-accent text-mist-50',
-        alternative: 'bg-fill-muted text-fg-secondary',
+        alternative: 'bg-fill-onsurface-muted text-fg-secondary',
         error: 'bg-status-error text-fg-primary-inverse',
         warning: 'bg-status-warning text-fg-primary-inverse',
         success: 'bg-status-success text-fg-primary-inverse',
@@ -49,7 +49,7 @@ const badgeVariants = cva(
         lg: 'h-7 label-regular-primary min-w-7',
       },
       outline: {
-        true: 'bg-fill-active-inverse text-fg-primary outline outline-solid outline-1',
+        true: 'bg-fill-content-active-inverse text-fg-primary outline outline-solid outline-1',
       },
     },
     compoundVariants: [
@@ -66,7 +66,8 @@ const badgeVariants = cva(
       {
         variant: 'alternative',
         outline: true,
-        className: 'outline-stroke-secondary text-fg-secondary bg-fill-muted',
+        className:
+          'outline-stroke-secondary text-fg-secondary bg-fill-onsurface-muted',
       },
       {
         variant: 'error',
@@ -145,8 +146,8 @@ const numericBadgeVariants = cva(
   {
     variants: {
       variant: {
-        primary: 'bg-fill-active  text-fg-primary-inverse',
-        secondary: 'bg-fill-muted text-fg-primary',
+        primary: 'bg-fill-content-active  text-fg-primary-inverse',
+        secondary: 'bg-fill-onsurface-muted text-fg-primary',
         accent: 'bg-brand-accents-qb-accent text-fg-primary-inverse',
       },
       size: {
@@ -156,7 +157,7 @@ const numericBadgeVariants = cva(
       },
       outline: {
         false: 'outline-stroke-active-inverse',
-        true: 'bg-fill-primary-inverse text-fg-primary',
+        true: 'bg-fill-content-primary-inverse text-fg-primary',
       },
     },
     compoundVariants: [
@@ -253,7 +254,7 @@ type StatusBadgeDotSize = 'sm' | 'default' | 'lg' | 'xl';
 const statusBadgeCoreVariants = cva('box-content shrink-0 rounded-full', {
   variants: {
     variant: {
-      neutral: 'bg-fill-active',
+      neutral: 'bg-fill-content-active',
       'neutral-brand': 'bg-brand-accents-qb-accent',
       error: 'bg-status-error',
       warning: 'bg-status-warning',

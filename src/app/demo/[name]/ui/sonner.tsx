@@ -152,7 +152,7 @@ export function SonnerWithAction() {
  */
 function CustomToast({ id }: { id: string | number }) {
   return (
-    <div className="border-l-status-information bg-fill-onsurface-ui-1 flex items-center gap-3 rounded-md border-l-4 px-4 py-3 shadow-lg">
+    <div className="border-l-status-information bg-fill-onsurface-bg-ui-1 flex items-center gap-3 rounded-md border-l-4 px-4 py-3 shadow-lg">
       <div className="flex-1">
         <p className="text-fg-primary text-sm font-medium">
           Custom styled notification
@@ -170,7 +170,7 @@ function CustomToast({ id }: { id: string | number }) {
       </Button>
       <button
         onClick={() => sonnerToast.dismiss(id)}
-        className="hover:bg-fill-onsurface-ui-2 shrink-0 rounded p-1"
+        className="hover:bg-fill-onsurface-bg-ui-2 shrink-0 rounded p-1"
         aria-label="Close">
         <Close className="text-fg-secondary size-4" />
       </button>

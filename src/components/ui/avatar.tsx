@@ -36,7 +36,7 @@ const avatarVariants = cva(
       // State: Enable (default)
       state: {
         default: [
-          'bg-fill-onsurface-ui-2',
+          'bg-fill-onsurface-bg-ui-2',
           'border border-stroke-active-inverse',
         ],
         disabled: [

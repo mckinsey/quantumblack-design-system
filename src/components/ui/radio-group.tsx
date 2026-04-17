@@ -58,8 +58,8 @@ function RadioGroupItem({
         <div
           className={cn(
             dotSize,
-            'bg-fill-active rounded-full',
-            'group-disabled:bg-fill-disabled',
+            'bg-fill-content-active rounded-full',
+            'group-disabled:bg-fill-content-disabled',
           )}
         />
       </RadioGroupPrimitive.Indicator>

@@ -11,13 +11,13 @@ const switchVariants = cva(
     'group inline-flex shrink-0 items-center relative',
     'border border-stroke-secondary data-[state=checked]:border-stroke-primary-inverse',
     'transition-all',
-    'bg-fill-muted data-[state=checked]:bg-fill-primary',
+    'bg-fill-onsurface-muted data-[state=checked]:bg-fill-content-primary',
     'focus-visible:outline-[2px] focus-visible:outline-stroke-status-focus',
     'focus-visible:border-stroke-active',
-    'data-[state=checked]:focus-visible:border-stroke-active-inverse data-[state=checked]:focus-visible:bg-fill-active',
+    'data-[state=checked]:focus-visible:border-stroke-active-inverse data-[state=checked]:focus-visible:bg-fill-content-active',
     'disabled:cursor-not-allowed',
     'disabled:border-stroke-tertiary disabled:data-[state=checked]:border-stroke-tertiary',
-    'disabled:data-[state=checked]:bg-fill-muted',
+    'disabled:data-[state=checked]:bg-fill-onsurface-muted',
   ].join(' '),
   {
     variants: {
@@ -36,10 +36,10 @@ const switchVariants = cva(
 const switchThumbVariants = cva(
   [
     'block pointer-events-none rounded-full',
-    'bg-fill-secondary data-[state=checked]:bg-fill-active-inverse',
+    'bg-fill-content-secondary data-[state=checked]:bg-fill-content-active-inverse',
     'data-[state=unchecked]:translate-x-0.5',
     'ring-0 transition-transform',
-    'data-disabled:bg-fill-disabled data-disabled:cursor-not-allowed data-disabled:data-[state=checked]:bg-fill-disabled',
+    'data-disabled:bg-fill-content-disabled data-disabled:cursor-not-allowed data-disabled:data-[state=checked]:bg-fill-content-disabled',
   ].join(' '),
   {
     variants: {

@@ -84,7 +84,7 @@ export async function ComponentDetailTabs({
           <Suspense
             fallback={
               <div className="space-y-4">
-                <Skeleton className="bg-fill-onsurface-ui-3 h-[400px] w-full" />
+                <Skeleton className="bg-fill-onsurface-bg-ui-3 h-[400px] w-full" />
               </div>
             }>
             <CodeTabContent component={component} />
