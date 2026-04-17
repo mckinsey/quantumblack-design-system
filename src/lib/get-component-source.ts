@@ -9,19 +9,55 @@ export interface ComponentSource {
   language: string;
 }
 
-function isSafeRegistryRelativeFilePath(relativePath: string): boolean {
+/** One path segment under `src/` (registry paths only use safe names). */
+const SAFE_REGISTRY_SEGMENT = /^[a-zA-Z0-9][a-zA-Z0-9_.-]*$/;
+
+/** Next.js dynamic route folder, e.g. `[name]`. */
+const DYNAMIC_ROUTE_SEGMENT = /^\[[a-zA-Z0-9_-]+\]$/;
+
+function isSafeRegistryPathSegment(segment: string): boolean {
+  return (
+    SAFE_REGISTRY_SEGMENT.test(segment) || DYNAMIC_ROUTE_SEGMENT.test(segment)
+  );
+}
+
+/**
+ * Resolve a registry-relative path under `projectRoot` using only validated
+ * single-segment joins (avoids path.join(root, fullUserString) for SAST).
+ */
+function resolveRegistrySourcePath(
+  projectRoot: string,
+  relativePath: string,
+): string | null {
   if (path.isAbsolute(relativePath)) {
-    return false;
+    return null;
   }
 
-  const normalized = path.normalize(relativePath);
-  const hasParentSegment = normalized.split(path.sep).some(s => s === '..');
+  const posixStyle = relativePath.split(path.sep).join('/');
+  const normalized = path.posix.normalize(posixStyle);
+  const segments = normalized.split('/').filter(s => s.length > 0);
 
-  if (hasParentSegment) {
-    return false;
+  if (segments.length === 0 || segments[0] !== 'src') {
+    return null;
   }
 
-  return normalized.startsWith(`src${path.sep}`);
+  if (segments.some(s => s === '..' || !isSafeRegistryPathSegment(s))) {
+    return null;
+  }
+
+  let resolved = projectRoot;
+
+  for (const segment of segments) {
+    resolved = path.join(resolved, segment);
+  }
+
+  const relativeToRoot = path.relative(projectRoot, resolved);
+
+  if (relativeToRoot.startsWith('..') || path.isAbsolute(relativeToRoot)) {
+    return null;
+  }
+
+  return resolved;
 }
 
 /**
@@ -40,17 +76,10 @@ export async function getComponentSource(
 
   for (const file of component.files) {
     try {
-      if (!isSafeRegistryRelativeFilePath(file.path)) {
+      const filePath = resolveRegistrySourcePath(root, file.path);
+
+      if (!filePath) {
         console.error('Skipped unsafe or non-src registry path: %s', file.path);
-        continue;
-      }
-
-      const normalized = path.normalize(file.path);
-      const filePath = path.join(root, normalized);
-      const relativeToRoot = path.relative(root, filePath);
-
-      if (relativeToRoot.startsWith('..') || path.isAbsolute(relativeToRoot)) {
-        console.error('Skipped path outside project: %s', file.path);
         continue;
       }
 
