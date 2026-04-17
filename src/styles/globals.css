@@ -101,6 +101,7 @@
   --slate-700: #1b1e2a;
   --slate-800: #181b26;
   --slate-900: #141721;
+  --slate-950: #10121b;
 
   /** Slate Opacity Tokens */
   --slate-900-opacity-0: #14172100;
@@ -192,8 +193,8 @@
   --color-surface-bg-primary: var(--surface-bg-primary);
   --color-surface-bg-secondary: var(--surface-bg-secondary);
   --color-surface-bg-tertiary: var(--surface-bg-tertiary);
-  --color-surface-bg-accent: var(--surface-bg-accent);
-  --color-sidebar: var(--surface-bg-accent);
+  --color-surface-bg-base: var(--surface-bg-base);
+  --color-sidebar: var(--surface-bg-base);
   --color-sidebar-foreground: var(--text-primary);
   --color-surface-primary: var(--surface-primary);
   --color-surface-secondary: var(--surface-secondary);
@@ -310,7 +311,7 @@
   --border-secondary: var(--slate-900-opacity-24);
   --border-tertiary: var(--slate-900-opacity-16);
   --border-tertiary-hover: var(--slate-900-opacity-38);
-  --border-active: var(--slate-900);
+  --border-active: var(--slate-950);
   --border-status-focus: var(--color-sky-400);
   --border-status-mono: var(--slate-900-opacity-24);
   --border-status-error: var(--color-red-700);
@@ -330,7 +331,7 @@
   --fill-tertiary: var(--slate-900-opacity-16);
   --fill-subtle: var(--slate-900-opacity-6);
   --fill-muted: var(--slate-900-opacity-8);
-  --fill-active: var(--slate-900);
+  --fill-active: var(--slate-950);
   --fill-disabled: var(--slate-900-opacity-38);
   --fill-primary-inverse: var(--mist-50-opacity-88);
   --fill-secondary-inverse: var(--mist-50-opacity-60);
@@ -351,7 +352,7 @@
   --surface-bg-primary: var(--mist-50);
   --surface-bg-secondary: var(--mist-100);
   --surface-bg-tertiary: var(--mist-400);
-  --surface-bg-accent: var(--mist-100);
+  --surface-bg-base: var(--mist-100);
   --surface-primary: var(--mist-50);
   --surface-secondary: var(--mist-400);
 
@@ -372,7 +373,7 @@
   --stateslayer-overlay-hover: var(--slate-900-opacity-8);
   --stateslayer-overlay-pressed: var(--slate-900-opacity-16);
   --stateslayer-overlay-disabled: var(--slate-900-opacity-8);
-  --stateslayer-overlay-active: var(--slate-900);
+  --stateslayer-overlay-active: var(--slate-950);
   --stateslayer-overlay-hover-inverse: var(--mist-50-opacity-8);
   --stateslayer-overlay-pressed-inverse: var(--mist-50-opacity-16);
   --stateslayer-overlay-disabled-inverse: var(--slate-900-opacity-38);
@@ -452,7 +453,7 @@
   --border-secondary-inverse: var(--slate-900-opacity-38);
   --border-tertiary-inverse: var(--slate-900-opacity-16);
   --border-tertiary-hover-inverse: var(--slate-900-opacity-38);
-  --border-active-inverse: var(--slate-900);
+  --border-active-inverse: var(--slate-950);
 
   /** Dark mode fill tokens */
 
@@ -469,7 +470,7 @@
   --fill-subtle-inverse: var(--slate-900-opacity-6);
   --fill-muted-inverse: var(--slate-900-opacity-8);
   --fill-disabled-inverse: var(--slate-900-opacity-38);
-  --fill-active-inverse: var(--slate-900);
+  --fill-active-inverse: var(--slate-950);
   --fill-selected-range: var(--mist-50-opacity-8);
   --fill-onsurface-ui-1: var(--slate-600);
   --fill-onsurface-ui-2: var(--slate-300);
@@ -482,7 +483,7 @@
   --surface-bg-primary: var(--slate-800);
   --surface-bg-secondary: var(--slate-700);
   --surface-bg-tertiary: var(--slate-500);
-  --surface-bg-accent: var(--slate-900);
+  --surface-bg-base: var(--slate-900);
   --surface-primary: var(--slate-800);
   --surface-secondary: var(--slate-700);
 
@@ -507,7 +508,7 @@
   --stateslayer-overlay-hover-inverse: var(--slate-900-opacity-8);
   --stateslayer-overlay-pressed-inverse: var(--slate-900-opacity-16);
   --stateslayer-overlay-disabled-inverse: var(--slate-900-opacity-8);
-  --stateslayer-overlay-active-inverse: var(--slate-900);
+  --stateslayer-overlay-active-inverse: var(--slate-950);
   --stateslayer-overlay-enabled-inverse: var(--slate-900-opacity-0);
 
   /** Dark mode elevation tokens */

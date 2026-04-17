@@ -90,7 +90,7 @@ export default function RegistryItemPage() {
 
   if (!component || !name) {
     return (
-      <div className="bg-surface-bg-accent flex min-h-screen w-full items-center justify-center p-5">
+      <div className="bg-surface-bg-base flex min-h-screen w-full items-center justify-center p-5">
         <p className="text-fg-secondary paragraph-large-primary">
           Component not found.
         </p>
@@ -147,7 +147,7 @@ export default function RegistryItemPage() {
   ) : null;
 
   return (
-    <div className="bg-surface-bg-accent min-h-screen w-full p-5 md:p-10">
+    <div className="bg-surface-bg-base min-h-screen w-full p-5 md:p-10">
       <div className="mx-auto w-full max-w-[800px]">
         <ComponentPageLayout
           component={component}

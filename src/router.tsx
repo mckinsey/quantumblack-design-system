@@ -26,7 +26,7 @@ function RegistryLayout() {
       <SidebarProvider>
         <MobileSidebarTrigger />
         <RegistrySidebar />
-        <main className="bg-surface-bg-accent flex-1 overflow-auto">
+        <main className="bg-surface-bg-base flex-1 overflow-auto">
           <Suspense>
             <Outlet />
           </Suspense>
