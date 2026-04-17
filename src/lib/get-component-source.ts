@@ -21,10 +21,18 @@ export async function getComponentSource(
 
   const sources: ComponentSource[] = [];
 
+  const root = path.resolve(process.cwd());
+
   for (const file of component.files) {
     try {
-      // Read from the source path (relative to project root)
-      const filePath = path.join(process.cwd(), file.path);
+      const filePath = path.resolve(root, file.path);
+      const relativeToRoot = path.relative(root, filePath);
+
+      if (relativeToRoot.startsWith('..') || path.isAbsolute(relativeToRoot)) {
+        console.error(`Skipped path outside project: ${file.path}`);
+        continue;
+      }
+
       const content = await fs.readFile(filePath, 'utf-8');
 
       // Determine language from file extension

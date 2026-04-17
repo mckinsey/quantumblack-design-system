@@ -14,13 +14,37 @@ interface ComponentDetailTabsProps {
   component: Component;
 }
 
+const DEMO_UI_DIR = path.join('src', 'app', 'demo', '[name]', 'ui');
+
+/**
+ * Resolve a demo source file under DEMO_UI_DIR only (path traversal safe for SAST).
+ */
+function resolveSafeDemoSourcePath(componentName: string): string | null {
+  const baseDir = path.resolve(process.cwd(), DEMO_UI_DIR);
+  const leaf = path.basename(componentName).replace(/\.tsx$/i, '');
+
+  if (!/^[a-zA-Z0-9][a-zA-Z0-9-]*$/.test(leaf)) {
+    return null;
+  }
+
+  const candidate = path.resolve(baseDir, `${leaf}.tsx`);
+  const relative = path.relative(baseDir, candidate);
+
+  if (relative.startsWith('..') || path.isAbsolute(relative)) {
+    return null;
+  }
+
+  return candidate;
+}
+
 async function readDemoCode(componentName: string): Promise<string | null> {
+  const demoPath = resolveSafeDemoSourcePath(componentName);
+
+  if (!demoPath) {
+    return null;
+  }
+
   try {
-    const demoPath = path.join(
-      process.cwd(),
-      'src/app/demo/[name]/ui',
-      `${componentName}.tsx`,
-    );
     return await fs.readFile(demoPath, 'utf-8');
   } catch (error) {
     console.error('Failed to read demo file:', error);
