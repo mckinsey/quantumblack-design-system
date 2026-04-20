@@ -18,8 +18,8 @@ export default function IntroductionPage() {
           <div className="flex flex-col gap-4">
             <p className="paragraph-large-primary text-fg-secondary">
               QuantumBlack Design System is a set of beautifully-designed,
-              accessible components built with Radix UI and styled with your
-              design tokens. Open Source. Open Code.
+              accessible components based on shadcn, built with Radix UI and
+              styled with your design tokens. Open Source. Open Code.
             </p>
 
             <p className="paragraph-large-primary text-fg-secondary">
