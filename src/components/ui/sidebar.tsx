@@ -131,7 +131,7 @@ function SidebarProvider({
             } as React.CSSProperties
           }
           className={cn(
-            'group/sidebar-wrapper has-data-[variant=inset]:bg-surface-bg-accent flex min-h-svh w-full',
+            'group/sidebar-wrapper has-data-[variant=inset]:bg-surface-bg-base flex min-h-svh w-full',
             className,
           )}
           {...props}>
@@ -161,7 +161,7 @@ function Sidebar({
       <div
         data-slot="sidebar"
         className={cn(
-          'bg-surface-bg-accent text-fg-primary flex h-full w-(--sidebar-width) flex-col',
+          'bg-surface-bg-base text-fg-primary flex h-full w-(--sidebar-width) flex-col',
           className,
         )}
         {...props}>
@@ -207,7 +207,7 @@ function Sidebar({
         <div
           data-sidebar="sidebar"
           data-slot="sidebar-inner"
-          className="bg-surface-bg-accent group-data-[variant=floating]:border-stroke-tertiary flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm">
+          className="bg-surface-bg-base group-data-[variant=floating]:border-stroke-tertiary flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm">
           {children}
         </div>
       </div>
@@ -441,7 +441,7 @@ const sidebarMenuButtonVariants = cva(
       variant: {
         default: 'hover:bg-stateslayer-overlay-hover hover:text-fg-primary',
         outline:
-          'bg-surface-bg-accent border border-stroke-tertiary hover:bg-stateslayer-overlay-hover hover:text-fg-primary hover:border-stroke-tertiary-hover',
+          'bg-surface-bg-base border border-stroke-tertiary hover:bg-stateslayer-overlay-hover hover:text-fg-primary hover:border-stroke-tertiary-hover',
       },
       size: {
         default: 'h-8 text-sm',
