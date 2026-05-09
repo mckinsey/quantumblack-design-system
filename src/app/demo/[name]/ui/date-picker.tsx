@@ -41,7 +41,7 @@ const dateSegmentFocusClassName = cn(
   '[&::-webkit-datetime-edit-year-field:focus]:outline-none',
 );
 
-const dateInputClassName = cn(
+export const dateInputClassName = cn(
   'w-auto min-w-0 cursor-pointer',
   '[&::-webkit-calendar-picker-indicator]:hidden',
   '[&::-webkit-calendar-picker-indicator]:appearance-none',
