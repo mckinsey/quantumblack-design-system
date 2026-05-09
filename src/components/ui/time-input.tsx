@@ -5,6 +5,7 @@ import * as React from 'react';
 
 import { cn } from '../../lib/utils';
 import { Schedule } from '../icons';
+import { IconShell } from './icon-shell';
 import { inputVariantStyles } from './input';
 
 // ============================================================================
@@ -453,9 +454,9 @@ const triggerSizeMap = {
 } as const;
 
 const triggerIconSizeMap = {
-  sm: 'size-4',
-  default: 'size-4',
-  lg: 'size-6',
+  sm: 'sm',
+  default: 'sm',
+  lg: 'default',
 } as const;
 
 export interface TimeInputTriggerProps extends Omit<
@@ -481,16 +482,18 @@ function TimeInputTrigger({
       className={cn(
         'inline-flex shrink-0 items-center justify-center',
         'cursor-pointer rounded-none border-0 bg-transparent p-0 outline-none',
-        'text-fill-active',
+        'text-fill-content-active',
         'disabled:text-fg-disabled disabled:cursor-not-allowed',
         triggerSizeMap[size],
         className,
       )}
       {...props}>
       {children ?? (
-        <Schedule
-          className={cn('text-[length:inherit]', triggerIconSizeMap[size])}
-        />
+        <IconShell
+          size={triggerIconSizeMap[size]}
+          variant={disabled ? 'disabled' : 'secondary'}>
+          <Schedule />
+        </IconShell>
       )}
     </button>
   );
