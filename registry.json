@@ -356,6 +356,7 @@
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/input-group.json",
+        "__REGISTRY_URL__/r/input.json",
         "__REGISTRY_URL__/r/button.json"
       ],
       "files": [
@@ -489,7 +490,10 @@
       "type": "registry:ui",
       "title": "Sonner",
       "description": "A toast notification component.",
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/button.json"
+      ],
       "dependencies": ["sonner", "next-themes"],
       "files": [
         {
@@ -614,7 +618,10 @@
       "type": "registry:ui",
       "title": "Textarea",
       "description": "Displays a form textarea or a component that looks like a textarea.",
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/input.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/textarea.tsx",
