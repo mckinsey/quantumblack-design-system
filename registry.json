@@ -27,6 +27,21 @@
       ]
     },
     {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect Ratio",
+      "description": "Constrains content to a fixed width-to-height ratio — ideal for images, video placeholders, and media cards.",
+      "dependencies": ["@radix-ui/react-aspect-ratio"],
+      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "files": [
+        {
+          "path": "src/components/ui/aspect-ratio.tsx",
+          "type": "registry:file",
+          "target": "components/ui/aspect-ratio.tsx"
+        }
+      ]
+    },
+    {
       "name": "avatar",
       "type": "registry:ui",
       "title": "Avatar",
