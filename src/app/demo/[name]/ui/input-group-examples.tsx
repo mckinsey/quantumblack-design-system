@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { Add } from '@/components/icons/Add';
+import { Cancel } from '@/components/icons/Cancel';
 import { Remove } from '@/components/icons/Remove';
+import { Search } from '@/components/icons/Search';
 import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';
 import { IconShell } from '@/components/ui/icon-shell';
 import {
@@ -11,6 +13,7 @@ import {
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
+  InputGroupText,
 } from '@/components/ui/input-group';
 import { type DemoExample } from '@/lib/demo-utils';
 import { cn } from '@/lib/utils';
@@ -258,6 +261,91 @@ export function InputGroupStepperStates() {
           </div>
         ),
       )}
+    </div>
+  );
+}
+
+/**
+ * Search-style input group with a trailing clear control (QBDS dismiss pattern).
+ * The clear icon is visible only while the field is focused and has text.
+ */
+export function InputGroupClearableSearch() {
+  const { label, description, gap, iconSize } = inputGroupFieldConfig.default;
+  const inlineLabelClass = cn(label, 'mb-[-4px]');
+
+  function ClearableField({
+    variant,
+    labelClassName,
+  }: Readonly<{
+    variant: 'default' | 'inline';
+    labelClassName: string;
+  }>) {
+    const [value, setValue] = useState('');
+    const [isFocused, setIsFocused] = useState(false);
+    const groupContainerRef = useRef<HTMLDivElement>(null);
+
+    const showClear = isFocused && value.length > 0;
+
+    const focusControl = () => {
+      const control =
+        groupContainerRef.current?.querySelector<HTMLInputElement>(
+          '[data-slot=input-group-control]',
+        );
+
+      control?.focus();
+    };
+
+    return (
+      <FieldSet className={`w-[240px] ${gap}`}>
+        <FieldTitle className={labelClassName}>Label</FieldTitle>
+        <div ref={groupContainerRef}>
+          <InputGroup variant={variant}>
+            <InputGroupAddon align="inline-start">
+              <InputGroupText>
+                <Search className={`icon ${iconSize}`} aria-hidden />
+              </InputGroupText>
+            </InputGroupAddon>
+            <InputGroupInput
+              variant={variant}
+              placeholder="Search…"
+              value={value}
+              autoComplete="off"
+              onChange={e => setValue(e.target.value)}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+            />
+            {showClear ? (
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton
+                  type="button"
+                  size="icon-xs"
+                  variant="ghost"
+                  aria-label="Clear input"
+                  onMouseDown={e => e.preventDefault()}
+                  onClick={() => {
+                    setValue('');
+                    focusControl();
+                  }}>
+                  <IconShell size="sm" variant="secondary">
+                    <Cancel aria-hidden />
+                  </IconShell>
+                </InputGroupButton>
+              </InputGroupAddon>
+            ) : null}
+          </InputGroup>
+        </div>
+        <FieldDescription className={description}>
+          Clear appears while the input is focused and has text.
+        </FieldDescription>
+      </FieldSet>
+    );
+  }
+
+  return (
+    <div className="flex gap-6">
+      <ClearableField variant="default" labelClassName={label} />
+
+      <ClearableField variant="inline" labelClassName={inlineLabelClass} />
     </div>
   );
 }

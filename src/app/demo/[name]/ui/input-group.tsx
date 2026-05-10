@@ -19,6 +19,7 @@ import { cn } from '@/lib/utils';
 
 import { inputGroupFieldConfig } from './input-group-config';
 import {
+  InputGroupClearableSearch,
   InputGroupStepperSizes,
   InputGroupStepperStates,
 } from './input-group-examples';
@@ -29,6 +30,7 @@ export { inputGroupFieldConfig } from './input-group-config';
 
 // Re-export client-side components
 export {
+  InputGroupClearableSearch,
   InputGroupStepperSizes,
   InputGroupStepperStates,
 } from './input-group-examples';
@@ -335,6 +337,12 @@ export const examples: DemoExample[] = [
       'Error, warning, and success states with default and inline variants side by side.',
   },
   {
+    name: 'InputGroupClearableSearch',
+    title: 'Clear on focus',
+    description:
+      'Trailing clear icon while the field is focused and has text (default and inline).',
+  },
+  {
     name: 'InputGroupStepperSizes',
     title: 'Stepper Sizes',
     description:
@@ -355,6 +363,7 @@ export const inputGroup = createLegacyDemo('input-group', examples, {
   InputGroupBothSides: <InputGroupBothSides />,
   InputGroupSizes: <InputGroupSizes />,
   InputGroupStatusStates: <InputGroupStatusStates />,
+  InputGroupClearableSearch: <InputGroupClearableSearch />,
   InputGroupStepperSizes: <InputGroupStepperSizes />,
   InputGroupStepperStates: <InputGroupStepperStates />,
 });
