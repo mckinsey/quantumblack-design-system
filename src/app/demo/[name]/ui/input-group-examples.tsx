@@ -107,7 +107,6 @@ export function InputGroupStepperSizes() {
       {sizes.map(({ size, width }) => (
         <div key={size} className="flex justify-center gap-[200px]">
           <StepperItem size={size} width={width} variant="default" />
-
           <StepperItem size={size} width={width} variant="inline" />
         </div>
       ))}
@@ -338,7 +337,6 @@ export function InputGroupClearableSearch() {
   return (
     <div className="flex flex-col gap-6">
       <ClearableField variant="default" labelClassName={label} />
-
       <ClearableField variant="inline" labelClassName={inlineLabelClass} />
     </div>
   );
