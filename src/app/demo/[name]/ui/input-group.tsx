@@ -338,9 +338,9 @@ export const examples: DemoExample[] = [
   },
   {
     name: 'InputGroupClearableSearch',
-    title: 'Clear on focus',
+    title: 'Clear icon (focused)',
     description:
-      'Trailing clear icon while the field is focused and has text (default and inline).',
+      'Trailing clear control while the field is focused — default and inline, stacked vertically.',
   },
   {
     name: 'InputGroupStepperSizes',

@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react';
 
 import { Add } from '@/components/icons/Add';
-import { Cancel } from '@/components/icons/Cancel';
+import { Backspace } from '@/components/icons/Backspace';
 import { Remove } from '@/components/icons/Remove';
 import { Search } from '@/components/icons/Search';
 import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';
@@ -265,10 +265,7 @@ export function InputGroupStepperStates() {
   );
 }
 
-/**
- * Search-style input group with a trailing clear control (QBDS dismiss pattern).
- * The clear icon is visible only while the field is focused and has text.
- */
+/** Clear/backspace control shown while the search field is focused (demo). */
 export function InputGroupClearableSearch() {
   const { label, description, gap, iconSize } = inputGroupFieldConfig.default;
   const inlineLabelClass = cn(label, 'mb-[-4px]');
@@ -283,8 +280,6 @@ export function InputGroupClearableSearch() {
     const [value, setValue] = useState('');
     const [isFocused, setIsFocused] = useState(false);
     const groupContainerRef = useRef<HTMLDivElement>(null);
-
-    const showClear = isFocused && value.length > 0;
 
     const focusControl = () => {
       const control =
@@ -314,35 +309,34 @@ export function InputGroupClearableSearch() {
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
             />
-            {showClear ? (
+            {isFocused ? (
               <InputGroupAddon align="inline-end">
                 <InputGroupButton
                   type="button"
                   size="icon-xs"
                   variant="ghost"
                   aria-label="Clear input"
+                  className="hover:bg-transparent active:bg-transparent"
                   onMouseDown={e => e.preventDefault()}
                   onClick={() => {
                     setValue('');
                     focusControl();
                   }}>
                   <IconShell size="sm" variant="secondary">
-                    <Cancel aria-hidden />
+                    <Backspace aria-hidden />
                   </IconShell>
                 </InputGroupButton>
               </InputGroupAddon>
             ) : null}
           </InputGroup>
         </div>
-        <FieldDescription className={description}>
-          Clear appears while the input is focused and has text.
-        </FieldDescription>
+        <FieldDescription className={description}>Helper text</FieldDescription>
       </FieldSet>
     );
   }
 
   return (
-    <div className="flex gap-6">
+    <div className="flex flex-col gap-6">
       <ClearableField variant="default" labelClassName={label} />
 
       <ClearableField variant="inline" labelClassName={inlineLabelClass} />
