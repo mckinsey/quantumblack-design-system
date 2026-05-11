@@ -15,6 +15,7 @@ const InstallationPage = lazy(
   () => import('./app/(registry)/docs/installation/page'),
 );
 const IntroductionPage = lazy(() => import('./app/(registry)/docs/page'));
+const TokensPage = lazy(() => import('./app/(registry)/docs/tokens/page'));
 const RegistryItemPage = lazy(
   () => import('./app/(registry)/registry/[name]/page'),
 );
@@ -44,6 +45,7 @@ export const router = createBrowserRouter(
         { index: true, element: <IntroductionPage /> },
         { path: 'components', element: <ComponentsPage /> },
         { path: 'installation', element: <InstallationPage /> },
+        { path: 'tokens', element: <TokensPage /> },
         { path: 'registry/:name', element: <RegistryItemPage /> },
       ],
     },

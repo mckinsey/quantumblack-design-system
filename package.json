@@ -17,6 +17,7 @@
     "registry:build": "npx shadcn@latest build && cp -R registry.json public/r/ && tsx scripts/inject-registry-urls.ts && concurrently --kill-others-on-fail \"npm run generate:api-docs\" \"npm run extract:examples\"",
     "generate:api-docs": "tsx scripts/generate-api-docs.ts",
     "extract:examples": "tsx scripts/extract-examples.ts",
+    "tokens:generate": "tsx scripts/generate-tokens.ts",
     "test:unit": "vitest run",
     "test:watch": "vitest",
     "test": "concurrently --kill-others-on-fail \"npm run test:unit\" \"npm run build\" \"npm run lint\"",
