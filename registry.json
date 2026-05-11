@@ -453,6 +453,21 @@
       ]
     },
     {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "A scrollable viewport with custom scrollbars, built on Radix Scroll Area primitives.",
+      "dependencies": ["@radix-ui/react-scroll-area"],
+      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "files": [
+        {
+          "path": "src/components/ui/scroll-area.tsx",
+          "type": "registry:file",
+          "target": "components/ui/scroll-area.tsx"
+        }
+      ]
+    },
+    {
       "name": "separator",
       "type": "registry:ui",
       "title": "Separator",
