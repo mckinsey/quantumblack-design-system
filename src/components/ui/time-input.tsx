@@ -3,10 +3,10 @@
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
-import { cn } from '../../lib/utils';
-import { Schedule } from '../icons';
-import { IconShell } from './icon-shell';
-import { inputVariantStyles } from './input';
+import { Schedule } from '@/components/icons/Schedule';
+import { IconShell } from '@/components/ui/icon-shell';
+import { inputVariantStyles } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 
 // ============================================================================
 // TYPES

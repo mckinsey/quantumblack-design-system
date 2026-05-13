@@ -3,8 +3,8 @@
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 import { cva } from 'class-variance-authority';
 
-import { cn } from '../../lib/utils';
-import { DropdownMenuRadioGroup } from './dropdown-menu';
+import { DropdownMenuRadioGroup } from '@/components/ui/dropdown-menu';
+import { cn } from '@/lib/utils';
 
 // ============================================================================
 // TYPES & INTERFACES
