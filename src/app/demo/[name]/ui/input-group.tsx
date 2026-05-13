@@ -340,7 +340,7 @@ export const examples: DemoExample[] = [
     name: 'InputGroupDeleteOnFocus',
     title: 'Input with delete icon on focus',
     description:
-      'Trailing delete control (Backspace icon) while the input group is focused — default and inline, stacked vertically.',
+      'Trailing delete control (Backspace icon) shown with CSS :focus-within — control stays mounted for predictable focus; default and inline, stacked vertically.',
   },
   {
     name: 'InputGroupStepperSizes',

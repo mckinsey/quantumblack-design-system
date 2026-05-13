@@ -264,7 +264,7 @@ export function InputGroupStepperStates() {
   );
 }
 
-/** Trailing delete (Backspace) control while the input group has focus (demo). */
+/** Trailing delete (Backspace) control; always mounted, shown via `:focus-within` (demo). */
 export function InputGroupDeleteOnFocus() {
   const { label, description, gap, iconSize } = inputGroupFieldConfig.default;
   const inlineLabelClass = cn(label, 'mb-[-4px]');
@@ -277,7 +277,6 @@ export function InputGroupDeleteOnFocus() {
     labelClassName: string;
   }>) {
     const [value, setValue] = useState('');
-    const [hasFocusWithin, setHasFocusWithin] = useState(false);
     const groupContainerRef = useRef<HTMLDivElement>(null);
 
     const focusControl = () => {
@@ -289,20 +288,16 @@ export function InputGroupDeleteOnFocus() {
       control?.focus();
     };
 
-    const handleBlurFocusLeavingGroup = (
-      e: React.FocusEvent<HTMLInputElement | HTMLButtonElement>,
-    ) => {
-      const next = e.relatedTarget;
-
-      if (!groupContainerRef.current?.contains(next)) {
-        setHasFocusWithin(false);
-      }
-    };
+    const deleteAddonVisibility = cn(
+      'transition-[opacity,visibility] duration-150',
+      'invisible opacity-0 pointer-events-none',
+      'group-focus-within:visible group-focus-within:opacity-100 group-focus-within:pointer-events-auto',
+    );
 
     return (
       <FieldSet className={`w-[240px] ${gap}`}>
         <FieldTitle className={labelClassName}>Label</FieldTitle>
-        <div ref={groupContainerRef}>
+        <div ref={groupContainerRef} className="group">
           <InputGroup variant={variant}>
             <InputGroupAddon align="inline-start">
               <InputGroupText>
@@ -315,28 +310,25 @@ export function InputGroupDeleteOnFocus() {
               value={value}
               autoComplete="off"
               onChange={e => setValue(e.target.value)}
-              onFocus={() => setHasFocusWithin(true)}
-              onBlur={handleBlurFocusLeavingGroup}
             />
-            {hasFocusWithin ? (
-              <InputGroupAddon align="inline-end">
-                <InputGroupButton
-                  type="button"
-                  size="icon-xs"
-                  variant="ghost"
-                  aria-label="Delete entered text"
-                  className="hover:bg-transparent active:bg-transparent"
-                  onBlur={handleBlurFocusLeavingGroup}
-                  onClick={() => {
-                    setValue('');
-                    focusControl();
-                  }}>
-                  <IconShell size="sm" variant="secondary">
-                    <Backspace aria-hidden />
-                  </IconShell>
-                </InputGroupButton>
-              </InputGroupAddon>
-            ) : null}
+            <InputGroupAddon
+              align="inline-end"
+              className={deleteAddonVisibility}>
+              <InputGroupButton
+                type="button"
+                size="icon-xs"
+                variant="ghost"
+                aria-label="Delete entered text"
+                className="hover:bg-transparent active:bg-transparent"
+                onClick={() => {
+                  setValue('');
+                  focusControl();
+                }}>
+                <IconShell size="sm" variant="secondary">
+                  <Backspace aria-hidden />
+                </IconShell>
+              </InputGroupButton>
+            </InputGroupAddon>
           </InputGroup>
         </div>
         <FieldDescription className={description}>Helper text</FieldDescription>
