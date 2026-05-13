@@ -4,7 +4,7 @@ import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 const DUMMY = 'https://placehold.co';
 
 function dummyImage(width: number, height: number, label: string) {
-  return `${DUMMY}/${width}x${height}?text=${label}`;
+  return `${DUMMY}/${width}x${height}?text=${encodeURIComponent(label)}`;
 }
 
 /** Single media frame using 16:9 — common video and hero proportion */
