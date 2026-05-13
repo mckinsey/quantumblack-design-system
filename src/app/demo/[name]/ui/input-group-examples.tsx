@@ -264,12 +264,12 @@ export function InputGroupStepperStates() {
   );
 }
 
-/** Clear/backspace control shown while the search field is focused (demo). */
-export function InputGroupClearableSearch() {
+/** Trailing delete (Backspace) control while the input group has focus (demo). */
+export function InputGroupDeleteOnFocus() {
   const { label, description, gap, iconSize } = inputGroupFieldConfig.default;
   const inlineLabelClass = cn(label, 'mb-[-4px]');
 
-  function ClearableField({
+  function DeleteOnFocusField({
     variant,
     labelClassName,
   }: Readonly<{
@@ -277,7 +277,7 @@ export function InputGroupClearableSearch() {
     labelClassName: string;
   }>) {
     const [value, setValue] = useState('');
-    const [isFocused, setIsFocused] = useState(false);
+    const [hasFocusWithin, setHasFocusWithin] = useState(false);
     const groupContainerRef = useRef<HTMLDivElement>(null);
 
     const focusControl = () => {
@@ -287,6 +287,16 @@ export function InputGroupClearableSearch() {
         );
 
       control?.focus();
+    };
+
+    const handleBlurFocusLeavingGroup = (
+      e: React.FocusEvent<HTMLInputElement | HTMLButtonElement>,
+    ) => {
+      const next = e.relatedTarget;
+
+      if (!groupContainerRef.current?.contains(next)) {
+        setHasFocusWithin(false);
+      }
     };
 
     return (
@@ -305,18 +315,18 @@ export function InputGroupClearableSearch() {
               value={value}
               autoComplete="off"
               onChange={e => setValue(e.target.value)}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
+              onFocus={() => setHasFocusWithin(true)}
+              onBlur={handleBlurFocusLeavingGroup}
             />
-            {isFocused ? (
+            {hasFocusWithin ? (
               <InputGroupAddon align="inline-end">
                 <InputGroupButton
                   type="button"
                   size="icon-xs"
                   variant="ghost"
-                  aria-label="Clear input"
+                  aria-label="Delete entered text"
                   className="hover:bg-transparent active:bg-transparent"
-                  onMouseDown={e => e.preventDefault()}
+                  onBlur={handleBlurFocusLeavingGroup}
                   onClick={() => {
                     setValue('');
                     focusControl();
@@ -336,8 +346,8 @@ export function InputGroupClearableSearch() {
 
   return (
     <div className="flex flex-col gap-6">
-      <ClearableField variant="default" labelClassName={label} />
-      <ClearableField variant="inline" labelClassName={inlineLabelClass} />
+      <DeleteOnFocusField variant="default" labelClassName={label} />
+      <DeleteOnFocusField variant="inline" labelClassName={inlineLabelClass} />
     </div>
   );
 }

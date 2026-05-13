@@ -19,7 +19,7 @@ import { cn } from '@/lib/utils';
 
 import { inputGroupFieldConfig } from './input-group-config';
 import {
-  InputGroupClearableSearch,
+  InputGroupDeleteOnFocus,
   InputGroupStepperSizes,
   InputGroupStepperStates,
 } from './input-group-examples';
@@ -30,7 +30,7 @@ export { inputGroupFieldConfig } from './input-group-config';
 
 // Re-export client-side components
 export {
-  InputGroupClearableSearch,
+  InputGroupDeleteOnFocus,
   InputGroupStepperSizes,
   InputGroupStepperStates,
 } from './input-group-examples';
@@ -337,10 +337,10 @@ export const examples: DemoExample[] = [
       'Error, warning, and success states with default and inline variants side by side.',
   },
   {
-    name: 'InputGroupClearableSearch',
-    title: 'Clear icon (focused)',
+    name: 'InputGroupDeleteOnFocus',
+    title: 'Input with delete icon on focus',
     description:
-      'Trailing clear control while the field is focused — default and inline, stacked vertically.',
+      'Trailing delete control (Backspace icon) while the input group is focused — default and inline, stacked vertically.',
   },
   {
     name: 'InputGroupStepperSizes',
@@ -363,7 +363,7 @@ export const inputGroup = createLegacyDemo('input-group', examples, {
   InputGroupBothSides: <InputGroupBothSides />,
   InputGroupSizes: <InputGroupSizes />,
   InputGroupStatusStates: <InputGroupStatusStates />,
-  InputGroupClearableSearch: <InputGroupClearableSearch />,
+  InputGroupDeleteOnFocus: <InputGroupDeleteOnFocus />,
   InputGroupStepperSizes: <InputGroupStepperSizes />,
   InputGroupStepperStates: <InputGroupStepperStates />,
 });

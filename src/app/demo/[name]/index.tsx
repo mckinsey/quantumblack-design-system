@@ -155,7 +155,7 @@ import {
 } from '@/app/demo/[name]/ui/input';
 import {
   InputGroupBothSides,
-  InputGroupClearableSearch,
+  InputGroupDeleteOnFocus,
   InputGroupDemo,
   InputGroupLeadingIcon,
   InputGroupSizes,
@@ -458,7 +458,7 @@ export const exampleComponentMaps: Record<
     InputGroupBothSides,
     InputGroupSizes,
     InputGroupStatusStates,
-    InputGroupClearableSearch,
+    InputGroupDeleteOnFocus,
     InputGroupStepperSizes,
     InputGroupStepperStates,
   },
