@@ -58,11 +58,11 @@ export function AspectRatioLandscapeRatios() {
     height: number;
   }[] = [
     { ratio: 1, ratioLabel: '1:1', width: 500, height: 500 },
-    { ratio: 5 / 4, ratioLabel: '5:4', width: 500, height: 500 },
-    { ratio: 4 / 3, ratioLabel: '4:3', width: 500, height: 500 },
-    { ratio: 3 / 2, ratioLabel: '3:2', width: 500, height: 500 },
-    { ratio: 16 / 9, ratioLabel: '16:9', width: 500, height: 500 },
-    { ratio: 2, ratioLabel: '2:1', width: 500, height: 500 },
+    { ratio: 5 / 4, ratioLabel: '5:4', width: 500, height: 400 },
+    { ratio: 4 / 3, ratioLabel: '4:3', width: 400, height: 300 },
+    { ratio: 3 / 2, ratioLabel: '3:2', width: 600, height: 400 },
+    { ratio: 16 / 9, ratioLabel: '16:9', width: 640, height: 360 },
+    { ratio: 2, ratioLabel: '2:1', width: 600, height: 300 },
   ];
 
   return (
