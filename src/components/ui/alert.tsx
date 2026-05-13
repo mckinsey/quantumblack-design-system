@@ -1,10 +1,10 @@
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
-import { cn } from '../../lib/utils';
-import { Close } from '../icons/Close';
-import { Button } from './button';
-import { IconShell } from './icon-shell';
+import { Close } from '@/components/icons/Close';
+import { Button } from '@/components/ui/button';
+import { IconShell } from '@/components/ui/icon-shell';
+import { cn } from '@/lib/utils';
 
 const alertVariants = cva(
   'group/alert relative w-full bg-fill-onsurface-ui-3 shadow-elevation-2 flex items-center rounded-lg',
