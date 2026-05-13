@@ -138,7 +138,8 @@
       "description": "Custom time input with composable segment-based hh:mm entry, keyboard navigation, and clock icon trigger. Exports TimeInputRoot, TimeSegmentInput, TimeSeparator, TimeInputTrigger, and TimeInput convenience wrapper.",
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
-        "__REGISTRY_URL__/r/input.json"
+        "__REGISTRY_URL__/r/input.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
       ],
       "files": [
         {
@@ -448,6 +449,21 @@
           "path": "src/components/icons/ChevronDown.tsx",
           "type": "registry:file",
           "target": "components/icons/ChevronDown.tsx"
+        }
+      ]
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "A scrollable viewport with custom scrollbars, built on Radix Scroll Area primitives.",
+      "dependencies": ["@radix-ui/react-scroll-area"],
+      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "files": [
+        {
+          "path": "src/components/ui/scroll-area.tsx",
+          "type": "registry:file",
+          "target": "components/ui/scroll-area.tsx"
         }
       ]
     },
