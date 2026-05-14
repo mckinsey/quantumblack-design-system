@@ -1,0 +1,20 @@
+{
+  "codeConnect": {
+    "parser": "react",
+    "include": [
+      "src/icons/code-connect-*.figma.tsx",
+      "src/icons/*.tsx",
+      "src/icons/index.ts",
+      "src/components/ui/*.figma.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/icon-shell.tsx"
+    ],
+    "exclude": [
+      "node_modules/**",
+      "dist/**"
+    ],
+    "importPaths": {
+      "src/icons/*": "@qbds/icons"
+    }
+  }
+}
