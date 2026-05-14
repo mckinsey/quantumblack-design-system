@@ -198,6 +198,7 @@
   --color-sidebar-foreground: var(--text-primary);
   --color-surface-primary: var(--surface-primary);
   --color-surface-secondary: var(--surface-secondary);
+  --color-surface-tertiary: var(--surface-tertiary);
 
   /*** Status Tokens */
 
@@ -248,6 +249,9 @@
   --color-stateslayer-overlay-active-inverse: var(
     --stateslayer-overlay-active-inverse
   );
+  --color-stateslayer-overlay-enabled-inverse: var(
+    --stateslayer-overlay-enabled-inverse
+  );
 
   /*** Elevation Tokens */
 
@@ -265,6 +269,7 @@
 
 :root {
   /** Sharp radius tokens (default - no radius) */
+  --rad-round: 1000px;
   --rad-reg: 0px;
   --rad-sm: 0px;
   --rad-md: 0px;
@@ -355,6 +360,7 @@
   --surface-bg-base: var(--mist-100);
   --surface-primary: var(--mist-50);
   --surface-secondary: var(--mist-400);
+  --surface-tertiary: var(--mist-500);
 
   /** Light mode status tokens */
 
@@ -365,7 +371,7 @@
   --status-success-inverse: var(--color-green-400);
   --status-error-inverse: var(--color-red-400);
   --status-warning-inverse: var(--color-amber-400);
-  --status-information-inverse: var(--color-cyan-400);
+  --status-information-inverse: var(--color-sky-400);
 
   /** Light mode state layer tokens */
 
@@ -392,6 +398,44 @@
   --elevations-shade-03: var(--slate-900-opacity-8);
   --elevations-shade-t-04: var(--slate-900-opacity-12);
   --elevations-shade-04: var(--slate-900-opacity-8);
+
+  /** Figma DS-Primitives: Spacing scale (mode-invariant) */
+  --ds-spacing-1: 1px;
+  --ds-spacing-2: 2px;
+  --ds-spacing-4: 4px;
+  --ds-spacing-8: 8px;
+  --ds-spacing-12: 12px;
+  --ds-spacing-16: 16px;
+  --ds-spacing-20: 20px;
+  --ds-spacing-24: 24px;
+  --ds-spacing-28: 28px;
+  --ds-spacing-32: 32px;
+  --ds-spacing-36: 36px;
+  --ds-spacing-40: 40px;
+  --ds-spacing-48: 48px;
+  --ds-spacing-52: 52px;
+  --ds-spacing-56: 56px;
+  --ds-spacing-60: 60px;
+  --ds-spacing-64: 64px;
+  --ds-spacing-72: 72px;
+  --ds-spacing-80: 80px;
+  --ds-spacing-96: 96px;
+  --ds-spacing-infinite: 9999px;
+
+  /** Figma DS-Primitives: Stroke widths (mode-invariant) */
+  --ds-stroke-05: 0.5px;
+  --ds-stroke-1: 1px;
+  --ds-stroke-2: 2px;
+  --ds-stroke-4: 4px;
+  --ds-stroke-8: 8px;
+  --ds-stroke-12: 12px;
+  --ds-stroke-16: 16px;
+
+  /** Figma DS-Primitives: Paragraph spacing (mode-invariant) */
+  --ds-paragraph-spacing-8: 8px;
+  --ds-paragraph-spacing-12: 12px;
+  --ds-paragraph-spacing-16: 16px;
+  --ds-paragraph-spacing-20: 20px;
 }
 
 .dark {
@@ -411,7 +455,7 @@
   --text-secondary-inverse: var(--slate-900-opacity-60);
   --text-tertiary-inverse: var(--slate-900-opacity-50);
   --text-disabled-inverse: var(--slate-900-opacity-38);
-  --text-information: var(--color-cyan-400);
+  --text-information: var(--color-sky-400);
   --text-error: var(--color-red-400);
   --text-warning: var(--color-amber-400);
   --text-success: var(--color-green-400);
@@ -486,6 +530,7 @@
   --surface-bg-base: var(--slate-900);
   --surface-primary: var(--slate-800);
   --surface-secondary: var(--slate-700);
+  --surface-tertiary: var(--slate-500);
 
   /** Dark mode status tokens */
 
@@ -496,7 +541,7 @@
   --status-success-inverse: var(--color-green-600);
   --status-error-inverse: var(--color-red-600);
   --status-warning-inverse: var(--color-amber-600);
-  --status-information-inverse: var(--color-cyan-600);
+  --status-information-inverse: var(--color-sky-400);
 
   /** Dark mode state layer tokens */
 
@@ -527,6 +572,7 @@
 
 .radius-mode {
   /** Rounded radius tokens */
+  --rad-round: 1000px;
   --rad-reg: 8px;
   --rad-sm: 4px;
   --rad-md: 12px;
