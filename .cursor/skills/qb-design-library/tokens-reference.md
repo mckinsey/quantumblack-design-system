@@ -122,20 +122,6 @@ Complete catalog of CSS custom properties defined in `globals.css`. All tokens a
 | `bg-stateslayer-overlay-disabled-inverse` | Disabled on dark backgrounds |
 | `bg-stateslayer-overlay-active-inverse` | Active on dark backgrounds |
 
-### Tag Accents — `tags-accent-*`
-
-> **CSS-only extension.** This namespace exists only in `globals.css` and has no
-> equivalent semantic variables in the Figma file (Figma exposes the underlying
-> Tailwind palette as primitives, but no `tags-accent` semantic layer). When a
-> designer asks for a tag color, use these tokens; do not look for a Figma
-> variable named `tags-accent-*`.
-
-Available colors: `blue`, `sky`, `amber`, `teal`, `lime`, `indigo`, `red`, `emerald`.
-
-Each color has two levels:
-- **Primary**: `bg-tags-accent-primary-{color}` — solid accent color
-- **Subtle**: `bg-tags-accent-subtle-{color}` — very light background
-
 ---
 
 ## Elevation Shadows
@@ -305,13 +291,13 @@ Use as `margin-bottom` between paragraphs in long-form content.
 
 ## Notes on parity with the Figma file
 
-`globals.css` and the Figma `QBDS_(v2.0.0)` library are kept aligned, with one
-deliberate exception:
-
-- **`tags-accent-*` is CSS-only** — see the section above. Figma has the
-  underlying Tailwind primitives (`blue/600`, `red/50`, etc.) but no `tags-accent`
-  semantic layer.
-
-All other semantic tokens (Text/Information, Status/Information-Inverse, etc.)
-are now aligned with the Figma spec including the `sky-*` info family in dark
+`globals.css` and the Figma `QBDS_(v2.0.0)` library are kept fully aligned —
+every semantic token (Text/Information, Status/Information-Inverse, surfaces,
+state layers, etc.) matches Figma, including the `sky-*` info family in dark
 mode. If you spot a mismatch, treat the Figma file as the source of truth.
+
+> **Removed:** the `tags-accent-*` namespace was a CSS-only invention with no
+> Figma equivalent and zero component consumers. It has been deleted from
+> `globals.css`. If a designer asks for a tag color, use the underlying Tailwind
+> palette utilities (`bg-blue-50`, `text-red-600`, etc.) directly, or propose a
+> new semantic token with designer sign-off.
