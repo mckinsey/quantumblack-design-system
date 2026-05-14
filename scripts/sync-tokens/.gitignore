@@ -1,0 +1,4 @@
+# Generated snapshots and audit artifacts.
+# These are produced by `npm run tokens:sync` and should not be committed —
+# the source of truth is Figma + globals.css, not the cached snapshot.
+.cache/

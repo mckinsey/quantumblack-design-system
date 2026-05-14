@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$comment": "Maps Figma variable names to CSS custom property names. The diff script normalises Figma names by lowercasing, replacing '/' with '-', and stripping the listed prefixes. Explicit overrides win over the heuristic. Add an override here whenever the audit reports an 'unmapped Figma variable' that should align with an existing CSS token.",
+
+  "figmaFileKey": "iuMWqCsIohoKAUB0tBS0xr",
+
+  "stripPrefixes": [
+    "DS-Primitives/",
+    "DS-Semantics/",
+    "DS_Themes/",
+    "Tokens/",
+    "Colors/Primary/",
+    "Colors/",
+    "Color/"
+  ],
+
+  "stripInfixes": [
+    "_comment: Path segments removed from the middle of Figma names. Use when the Figma library nests semantically-equivalent tokens under an extra grouping (e.g. `Fill/Content/Primary` -> `--fill-primary`, `Font/Family/Display` -> `--font-display`).",
+    "Content/",
+    "Family/"
+  ],
+
+  "modeAliases": {
+    "_comment": "Maps Figma mode names to one of the four CSS-snapshot mode keys: theme (@theme inline), light (:root), dark (.dark), radius (.radius-mode). Mode-invariant collections (single-mode like 'Value') map to light by default since :root is the unconditional baseline.",
+    "light": ["Light", "Default", "Mode 1", "Value", "Sharp"],
+    "dark": ["Dark", "Mode 2"],
+    "radius": ["Round"]
+  },
+
+  "collectionScope": {
+    "include": ["DS-Primitives", "DS_Themes", "Radius"],
+    "exclude": []
+  },
+
+  "overrides": {
+    "_comment": "Format: 'Figma variable path' -> '--css-custom-property'. Use the FULL Figma path (after stripPrefixes are applied if any). Multi-mode tokens map to the SAME CSS name; the per-mode value goes to :root (light) or .dark (dark) automatically.",
+    "Spacing/infinite": "--ds-spacing-infinite",
+    "Stroke-Weight/0.5": "--ds-stroke-05"
+  },
+
+  "ignoreFigmaVariables": [
+    "_comment: Figma-only variables that intentionally have no CSS counterpart (e.g. internal layout primitives used only by Figma component variants). Listed here to keep the audit report quiet."
+  ],
+
+  "ignoreCssTokens": [
+    "_comment: CSS-only tokens that intentionally have no Figma counterpart (e.g. shadcn/Tailwind compatibility shims). Listed here to keep the audit report quiet.",
+    "--font-sans",
+    "--text-xs", "--text-xs-line-height",
+    "--text-sm", "--text-sm-line-height",
+    "--text-base", "--text-base-line-height",
+    "--text-lg", "--text-lg-line-height",
+    "--text-xl", "--text-xl-line-height",
+    "--text-2xl", "--text-2xl-line-height",
+    "--text-3xl", "--text-3xl-line-height",
+    "--text-4xl", "--text-4xl-line-height",
+    "--text-5xl", "--text-5xl-line-height",
+    "--text-6xl", "--text-6xl-line-height",
+    "--radius-round", "--radius-reg", "--radius-sm", "--radius-md", "--radius-lg",
+    "--color-sidebar", "--color-sidebar-foreground"
+  ]
+}
