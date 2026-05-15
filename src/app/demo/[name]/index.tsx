@@ -12,6 +12,13 @@ import {
   examples as alertExamples,
 } from '@/app/demo/[name]/ui/alert';
 import {
+  AspectRatioDemo,
+  AspectRatioLandscapeRatios,
+  AspectRatioPortraitRatios,
+  aspectRatio,
+  examples as aspectRatioExamples,
+} from '@/app/demo/[name]/ui/aspect-ratio';
+import {
   AvatarCheckboxList,
   AvatarDemo,
   AvatarDisabled,
@@ -152,6 +159,7 @@ import {
 } from '@/app/demo/[name]/ui/input';
 import {
   InputGroupBothSides,
+  InputGroupDeleteOnFocus,
   InputGroupDemo,
   InputGroupLeadingIcon,
   InputGroupSizes,
@@ -339,6 +347,11 @@ export const exampleComponentMaps: Record<
     AlertVariants,
     AlertWithoutIcon,
   },
+  'aspect-ratio': {
+    AspectRatioDemo,
+    AspectRatioLandscapeRatios,
+    AspectRatioPortraitRatios,
+  },
   avatar: {
     AvatarDemo,
     AvatarSizes,
@@ -451,6 +464,7 @@ export const exampleComponentMaps: Record<
     InputGroupBothSides,
     InputGroupSizes,
     InputGroupStatusStates,
+    InputGroupDeleteOnFocus,
     InputGroupStepperSizes,
     InputGroupStepperStates,
   },
@@ -582,6 +596,7 @@ export const exampleComponentMaps: Record<
 // Example metadata for new format demos
 export const examplesMeta: Record<string, ExampleMeta[]> = {
   alert: alertExamples,
+  'aspect-ratio': aspectRatioExamples,
   avatar: avatarExamples,
   badge: badgeExamples,
   button: buttonExamples,
@@ -622,6 +637,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...alert,
     examples: alertExamples,
     exampleComponents: exampleComponentMaps.alert,
+  },
+  'aspect-ratio': {
+    ...aspectRatio,
+    examples: aspectRatioExamples,
+    exampleComponents: exampleComponentMaps['aspect-ratio'],
   },
   avatar: {
     ...avatar,

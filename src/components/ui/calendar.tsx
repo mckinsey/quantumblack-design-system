@@ -27,12 +27,12 @@ import {
   useDayPicker,
 } from 'react-day-picker';
 
-import { cn } from '../../lib/utils';
-import { ChevronLeft } from '../icons/ChevronLeft';
-import { ChevronRight } from '../icons/ChevronRight';
-import { Button } from './button';
-import { IconShell } from './icon-shell';
-import { Input } from './input';
+import { ChevronLeft } from '@/components/icons/ChevronLeft';
+import { ChevronRight } from '@/components/icons/ChevronRight';
+import { Button } from '@/components/ui/button';
+import { IconShell } from '@/components/ui/icon-shell';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 
 // Constants
 const MONTH_NAMES = [

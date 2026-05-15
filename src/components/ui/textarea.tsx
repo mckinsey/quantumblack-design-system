@@ -3,8 +3,8 @@
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
-import { cn } from '../../lib/utils';
-import { inputVariantStyles } from './input';
+import { inputVariantStyles } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 
 const textareaVariants = cva(
   'flex w-full rounded-none outline-none transition-[border-color,box-shadow,background-color] font-normal min-h-16 selection:bg-fill-active selection:text-fg-primary-inverse',

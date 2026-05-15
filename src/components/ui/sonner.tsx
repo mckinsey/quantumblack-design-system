@@ -9,14 +9,14 @@ import {
   toast as sonnerToast,
 } from 'sonner';
 
-import { cn } from '../../lib/utils';
-import { Cancel } from '../icons/Cancel';
-import { CheckCircle } from '../icons/CheckCircle';
-import { Close } from '../icons/Close';
-import { ErrorIcon } from '../icons/ErrorIcon';
-import { Info } from '../icons/Info';
-import { PlaylistAddCheck } from '../icons/PlaylistAddCheck';
-import { Button } from './button';
+import { Cancel } from '@/components/icons/Cancel';
+import { CheckCircle } from '@/components/icons/CheckCircle';
+import { Close } from '@/components/icons/Close';
+import { ErrorIcon } from '@/components/icons/ErrorIcon';
+import { Info } from '@/components/icons/Info';
+import { PlaylistAddCheck } from '@/components/icons/PlaylistAddCheck';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 type ToastType = NonNullable<ToastT['type']>;
 
