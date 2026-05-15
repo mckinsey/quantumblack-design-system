@@ -53,33 +53,33 @@ export async function ComponentDetailTabs({
 }: ComponentDetailTabsProps) {
   return (
     <Tabs defaultValue="preview" className="flex h-full w-full flex-col">
-      <TabsList className="bg-surface-bg-primary border-stroke-tertiary grid h-auto w-full flex-shrink-0 grid-cols-3 rounded-none border-b p-0">
+      <TabsList className="bg-surface-primary border-stroke-tertiary grid h-auto w-full flex-shrink-0 grid-cols-3 rounded-none border-b p-0">
         <TabsTrigger
           value="preview"
-          className="data-[state=active]:bg-surface-bg-primary rounded-none transition-colors">
+          className="data-[state=active]:bg-surface-primary rounded-none transition-colors">
           Preview
         </TabsTrigger>
         <TabsTrigger
           value="code"
-          className="data-[state=active]:bg-surface-bg-primary rounded-none transition-colors">
+          className="data-[state=active]:bg-surface-primary rounded-none transition-colors">
           Code
         </TabsTrigger>
         <TabsTrigger
           value="installation"
-          className="data-[state=active]:bg-surface-bg-primary rounded-none transition-colors">
+          className="data-[state=active]:bg-surface-primary rounded-none transition-colors">
           Installation
         </TabsTrigger>
       </TabsList>
 
       <TabsContent
         value="preview"
-        className="bg-surface-bg-primary mt-0 min-h-0 w-full flex-1 overflow-y-auto">
+        className="bg-surface-primary mt-0 min-h-0 w-full flex-1 overflow-y-auto">
         <PreviewContent component={component} />
       </TabsContent>
 
       <TabsContent
         value="code"
-        className="bg-surface-bg-primary mt-0 min-h-0 w-full flex-1 overflow-y-auto py-0">
+        className="bg-surface-primary mt-0 min-h-0 w-full flex-1 overflow-y-auto py-0">
         <div className="space-y-6">
           <Suspense
             fallback={
@@ -94,7 +94,7 @@ export async function ComponentDetailTabs({
 
       <TabsContent
         value="installation"
-        className="bg-surface-bg-primary mt-0 min-h-0 w-full flex-1 overflow-y-auto p-6">
+        className="bg-surface-primary mt-0 min-h-0 w-full flex-1 overflow-y-auto p-6">
         <InstallationGuide component={component} />
       </TabsContent>
     </Tabs>
