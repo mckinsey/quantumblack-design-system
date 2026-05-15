@@ -362,6 +362,11 @@
           "target": ""
         },
         {
+          "path": "src/app/demo/[name]/ui/form-shared.tsx",
+          "type": "registry:example",
+          "target": ""
+        },
+        {
           "path": "src/components/icons/CalendarMonth.tsx",
           "type": "registry:file",
           "target": "components/icons/CalendarMonth.tsx"
