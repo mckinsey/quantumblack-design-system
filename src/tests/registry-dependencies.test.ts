@@ -164,14 +164,16 @@ describe('registry.json dependency coverage', () => {
       }
 
       const declaredDeps = registryDepNames(item.registryDependencies);
-      const filePaths =
-        item.files?.filter(f => f.type === 'registry:file').map(f => f.path) ??
-        [];
-      const declaredFileKeys = new Set(filePaths.map(normalizePathKey));
+      const allFilePaths = item.files?.map(f => f.path) ?? [];
+      const declaredFileKeys = new Set(allFilePaths.map(normalizePathKey));
 
-      const uiSourceFiles = filePaths.filter(p =>
-        p.replace(/\\/g, '/').startsWith('src/components/ui/'),
-      );
+      const uiSourceFiles =
+        item.files
+          ?.filter(f => f.type === 'registry:ui')
+          .map(f => f.path)
+          .filter(p =>
+            p.replace(/\\/g, '/').startsWith('src/components/ui/'),
+          ) ?? [];
 
       for (const relativePath of uiSourceFiles) {
         const absFile = path.join(REPO_ROOT, relativePath);
