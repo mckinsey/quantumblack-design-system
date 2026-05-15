@@ -58,7 +58,7 @@ export function ReactHookForm() {
                 id={field.name}
                 name={field.name}
                 label={formCopy.fields.field1.label}
-                placeholder={formCopy.fields.field1.placeholder}
+                placeholder={formCopy.placeholders.text.default}
                 description={formCopy.fields.field1.description}
                 value={field.value}
                 onChange={field.onChange}
@@ -77,7 +77,7 @@ export function ReactHookForm() {
                 id={field.name}
                 name={field.name}
                 label={formCopy.fields.field2.label}
-                placeholder={formCopy.fields.field2.placeholder}
+                placeholder={formCopy.placeholders.text.default}
                 description={formCopy.fields.field2.description}
                 value={field.value}
                 onChange={field.onChange}
@@ -226,7 +226,7 @@ export function TanStackForm() {
                   id={field.name}
                   name={field.name}
                   label={formCopy.fields.field1.label}
-                  placeholder={formCopy.fields.field1.placeholder}
+                  placeholder={formCopy.placeholders.text.inline}
                   description={formCopy.fields.field1.description}
                   value={field.state.value}
                   onChange={field.handleChange}
@@ -247,7 +247,7 @@ export function TanStackForm() {
                   id={field.name}
                   name={field.name}
                   label={formCopy.fields.field2.label}
-                  placeholder={formCopy.fields.field2.placeholder}
+                  placeholder={formCopy.placeholders.text.inline}
                   description={formCopy.fields.field2.description}
                   value={field.state.value}
                   onChange={field.handleChange}

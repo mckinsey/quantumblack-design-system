@@ -37,22 +37,19 @@ import { TimePickerFieldInput } from './time-picker';
 // Schema + values
 // ============================================================================
 
-export const BIO_MAX_CHARACTERS = 280;
+export const BIO_MAX_CHARACTERS = 150;
 
 export const formSchema = z.object({
-  field1: z.string().min(1, 'Please enter your full name.'),
-  field2: z.string().email('Please enter a valid email address.'),
-  date: z.string().min(1, 'Please pick a preferred date.'),
-  time: z.string().min(1, 'Please pick a preferred time.'),
+  field1: z.string().min(1, 'This field is required.'),
+  field2: z.string().min(1, 'This field is required.'),
+  date: z.string().min(1, 'Date is required.'),
+  time: z.string().min(1, 'Time is required.'),
   bio: z
     .string()
-    .min(1, 'Please share a short note so we can prepare.')
-    .max(
-      BIO_MAX_CHARACTERS,
-      `Please keep this under ${BIO_MAX_CHARACTERS} characters.`,
-    ),
+    .min(1, 'Required.')
+    .max(BIO_MAX_CHARACTERS, `Max ${BIO_MAX_CHARACTERS} characters.`),
   acceptTerms: z.boolean().refine(val => val === true, {
-    message: 'You need to accept the terms to continue.',
+    message: 'You must accept the terms.',
   }),
   newsletter: z.boolean(),
 });
@@ -65,54 +62,35 @@ export const defaultValues: FormValues = {
   date: '',
   time: '',
   bio: '',
-  acceptTerms: false,
-  newsletter: true,
+  acceptTerms: true,
+  newsletter: false,
 };
-
-// ============================================================================
-// Copy (single source of truth for both recipes)
-// ============================================================================
 
 export const formCopy = {
   header: {
-    title: 'Book a consultation',
+    title: 'Form Title Goes Here',
     description:
-      'Tell us a bit about you and pick a slot that works. We will confirm by email within one business day.',
+      'Fill in the fields below so we can verify your details and provide the most relevant results. Please ensure all information is accurate to avoid any processing delays.',
   },
   fields: {
-    field1: {
-      label: 'Full name',
-      placeholder: 'Jane Cooper',
-      description: 'As you would like it to appear on the calendar invite.',
-    },
-    field2: {
-      label: 'Work email',
-      placeholder: 'jane@example.com',
-      description: 'We will send the meeting link here.',
-    },
-    date: {
-      label: 'Preferred date',
-      description: 'Mon–Fri, next 30 days.',
-    },
-    time: {
-      label: 'Preferred time',
-      description: '30-minute slots, your local timezone.',
-    },
+    field1: { label: 'Field label', description: 'Helper text' },
+    field2: { label: 'Field label', description: 'Helper text' },
+    date: { label: 'Select date', description: 'Helper text' },
+    time: { label: 'Select time', description: 'Helper text' },
     bio: {
-      label: 'What would you like to discuss?',
-      placeholder: 'A short brief helps us route you to the right person.',
-      description: 'Up to 280 characters.',
+      label: 'Field label',
+      placeholder: 'Hint text',
+      description: 'Helper text',
     },
-    acceptTerms: 'I agree to the terms and privacy policy.',
-    newsletter: 'Send me product updates (at most once a month).',
+    acceptTerms: 'I accept the Terms and Conditions',
+    newsletter: 'Sign me up for news and exclusive updates.',
   },
-  submit: 'Book consultation',
+  placeholders: {
+    text: { default: 'Placeholder', inline: 'Hint text' },
+  },
+  submit: 'Submit',
   cancel: 'Cancel',
 } as const;
-
-// ============================================================================
-// Layout shell
-// ============================================================================
 
 const formFieldDefault = inputGroupFieldConfig.default;
 export const formFieldDefaultLabel = formFieldDefault.label;
@@ -204,10 +182,6 @@ export function FormBioCharCount({
   );
 }
 
-// ============================================================================
-// Library-agnostic error normalization
-// ============================================================================
-
 type TanStackFieldErrors = ReadonlyArray<
   string | { message?: string } | null | undefined
 >;
@@ -222,10 +196,6 @@ export function normalizeTanStackErrors(
     .map(e => (typeof e === 'string' ? { message: e } : e));
 }
 
-/**
- * Snapshot of a TanStack field's validation status, shaped so a row helper
- * doesn't have to recompute `isTouched && !isValid` and re-normalize errors.
- */
 export function getTanStackFieldStatus(meta: {
   isTouched: boolean;
   isValid: boolean;
