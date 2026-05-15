@@ -25,11 +25,11 @@ const searchCancelButtonStyles = [
 // Shared input variant styles - exported for use in InputGroup
 export const inputVariantStyles = {
   default: {
-    base: 'border border-transparent bg-fill-onsurface-ui-3',
+    base: 'border border-transparent bg-fill-onsurface-ui-3 shadow-elevation-0',
     text: 'text-fg-primary placeholder:text-fg-tertiary',
     hover: 'hover:bg-stateslayer-overlay-hover',
     focus:
-      'focus-visible:bg-stateslayer-overlay-active-inverse focus-visible:ring-stroke-status-focus focus-visible:shadow-elevation-0',
+      'focus-visible:bg-stateslayer-overlay-active-inverse focus-visible:ring-stroke-status-focus',
     error: 'aria-invalid:border-status-error aria-invalid:ring-0',
     disabled:
       'disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-stateslayer-overlay-disabled disabled:text-fg-disabled disabled:placeholder:text-fg-disabled',
