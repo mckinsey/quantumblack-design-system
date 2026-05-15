@@ -651,8 +651,8 @@ function CheckboxFieldRow({
 // ============================================================================
 // React Hook Form recipe (stacked / default layout)
 //
-// Validation strategy: `onTouched` — errors appear after first blur and then
-// re-validate on every change. Matches the TanStack recipe so both demos
+// Validation strategy: `onSubmit` — errors appear after the first submit and
+// then re-validate on change. Matches the TanStack recipe so both demos
 // behave the same way for the user; only the binding layer differs.
 // ============================================================================
 
@@ -662,7 +662,7 @@ export function ReactHookForm() {
   const form = useRhfForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues,
-    mode: 'onTouched',
+    mode: 'onSubmit',
   });
 
   const onSubmit = (data: FormValues) => {
