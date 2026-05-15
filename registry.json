@@ -347,6 +347,8 @@
         "__REGISTRY_URL__/r/popover.json",
         "__REGISTRY_URL__/r/textarea.json",
         "__REGISTRY_URL__/r/time-input.json",
+        "__REGISTRY_URL__/r/time-picker.json",
+        "__REGISTRY_URL__/r/dropdown-menu.json",
         "__REGISTRY_URL__/r/checkbox.json",
         "__REGISTRY_URL__/r/icon-shell.json"
       ],

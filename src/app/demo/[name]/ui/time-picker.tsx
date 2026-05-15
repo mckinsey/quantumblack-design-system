@@ -37,8 +37,8 @@ const fieldConfig = {
   },
 } as const;
 
-const sampleHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-const sampleMinutes = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
+export const sampleHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+export const sampleMinutes = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
 
 const createTimeValueHandler = (
   setter: (value: number) => void,
@@ -50,7 +50,7 @@ const createTimeValueHandler = (
   };
 };
 
-function TimePickerColumn({
+export function TimePickerColumn({
   value,
   onValueChange,
   items,
