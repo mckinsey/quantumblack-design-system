@@ -41,7 +41,6 @@ async function fetchExampleCodeMap(
     componentName,
     `${componentName}-examples`,
     `${componentName}-interactive`,
-    `${componentName}-shared`,
   ];
 
   for (const jsonName of jsonNames) {
