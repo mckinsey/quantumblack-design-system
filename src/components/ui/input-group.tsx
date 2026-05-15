@@ -3,15 +3,15 @@
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
-import { cn } from '../../lib/utils';
-import { Button } from './button';
+import { Button } from '@/components/ui/button';
 import {
   Input,
   type InputProps,
   inputSizeDefinitions,
   inputVariantStyles,
-} from './input';
-import { Textarea } from './textarea';
+} from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
 
 // Focus state wrapper styles for default variant
 // Triggered by child input focus-visible OR data-open="true" on the wrapper

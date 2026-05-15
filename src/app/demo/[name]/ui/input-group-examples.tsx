@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { Add } from '@/components/icons/Add';
+import { Backspace } from '@/components/icons/Backspace';
 import { Remove } from '@/components/icons/Remove';
+import { Search } from '@/components/icons/Search';
 import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';
 import { IconShell } from '@/components/ui/icon-shell';
 import {
@@ -11,6 +13,7 @@ import {
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
+  InputGroupText,
 } from '@/components/ui/input-group';
 import { type DemoExample } from '@/lib/demo-utils';
 import { cn } from '@/lib/utils';
@@ -104,7 +107,6 @@ export function InputGroupStepperSizes() {
       {sizes.map(({ size, width }) => (
         <div key={size} className="flex justify-center gap-[200px]">
           <StepperItem size={size} width={width} variant="default" />
-
           <StepperItem size={size} width={width} variant="inline" />
         </div>
       ))}
@@ -258,6 +260,86 @@ export function InputGroupStepperStates() {
           </div>
         ),
       )}
+    </div>
+  );
+}
+
+/** Trailing delete (Backspace) control; always mounted, shown via `:focus-within` (demo). */
+export function InputGroupDeleteOnFocus() {
+  const { label, description, gap, iconSize } = inputGroupFieldConfig.default;
+  const inlineLabelClass = cn(label, 'mb-[-4px]');
+
+  function DeleteOnFocusField({
+    variant,
+    labelClassName,
+  }: Readonly<{
+    variant: 'default' | 'inline';
+    labelClassName: string;
+  }>) {
+    const [value, setValue] = useState('');
+    const groupContainerRef = useRef<HTMLDivElement>(null);
+
+    const focusControl = () => {
+      const control =
+        groupContainerRef.current?.querySelector<HTMLInputElement>(
+          '[data-slot=input-group-control]',
+        );
+
+      control?.focus();
+    };
+
+    const deleteAddonVisibility = cn(
+      'transition-[opacity,visibility] duration-150',
+      'invisible opacity-0 pointer-events-none',
+      'group-focus-within:visible group-focus-within:opacity-100 group-focus-within:pointer-events-auto',
+    );
+
+    return (
+      <FieldSet className={`w-[240px] ${gap}`}>
+        <FieldTitle className={labelClassName}>Label</FieldTitle>
+        <div ref={groupContainerRef} className="group">
+          <InputGroup variant={variant}>
+            <InputGroupAddon align="inline-start">
+              <InputGroupText>
+                <Search className={`icon ${iconSize}`} aria-hidden />
+              </InputGroupText>
+            </InputGroupAddon>
+            <InputGroupInput
+              variant={variant}
+              placeholder="Search…"
+              value={value}
+              autoComplete="off"
+              onChange={e => setValue(e.target.value)}
+            />
+            <InputGroupAddon
+              align="inline-end"
+              className={deleteAddonVisibility}>
+              <InputGroupButton
+                type="button"
+                size="icon-xs"
+                variant="ghost"
+                aria-label="Delete entered text"
+                className="hover:bg-transparent active:bg-transparent"
+                onClick={() => {
+                  setValue('');
+                  focusControl();
+                }}>
+                <IconShell size="sm" variant="secondary">
+                  <Backspace aria-hidden />
+                </IconShell>
+              </InputGroupButton>
+            </InputGroupAddon>
+          </InputGroup>
+        </div>
+        <FieldDescription className={description}>Helper text</FieldDescription>
+      </FieldSet>
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-6">
+      <DeleteOnFocusField variant="default" labelClassName={label} />
+      <DeleteOnFocusField variant="inline" labelClassName={inlineLabelClass} />
     </div>
   );
 }
