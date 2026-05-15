@@ -571,7 +571,7 @@
       "description": "A toast notification component.",
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
-        "__REGISTRY_URL__/r/button.json"
+        "__REGISTRY_URL__/r/button.json",
         "__REGISTRY_URL__/r/utils.json"
       ],
       "dependencies": ["sonner", "next-themes"],
