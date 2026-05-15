@@ -1,6 +1,6 @@
-import * as FormInteractive from './form-interactive';
+import * as FormInteractive from './form-examples';
 
-export { ReactHookForm, TanStackForm } from './form-interactive';
+export { ReactHookForm, TanStackForm } from './form-examples';
 
 export const examples = [
   {

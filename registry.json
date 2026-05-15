@@ -357,7 +357,7 @@
           "target": ""
         },
         {
-          "path": "src/app/demo/[name]/ui/form-interactive.tsx",
+          "path": "src/app/demo/[name]/ui/form-examples.tsx",
           "type": "registry:example",
           "target": ""
         },

@@ -37,11 +37,7 @@ async function fetchExampleCodeMap(
   componentName: string,
 ): Promise<Record<string, string> | null> {
   const codeMap: Record<string, string> = {};
-  const jsonNames = [
-    componentName,
-    `${componentName}-examples`,
-    `${componentName}-interactive`,
-  ];
+  const jsonNames = [componentName, `${componentName}-examples`];
 
   for (const jsonName of jsonNames) {
     try {

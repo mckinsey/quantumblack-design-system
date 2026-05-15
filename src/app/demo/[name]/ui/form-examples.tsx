@@ -30,11 +30,11 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
+import { TimeInput } from '@/components/ui/time-input';
 import { cn } from '@/lib/utils';
 
 import { dateInputClassName } from './date-picker';
 import { inputGroupFieldConfig } from './input-group-config';
-import { TimePickerFieldInput } from './time-picker';
 
 // ============================================================================
 // Schema, defaults, copy
@@ -212,6 +212,36 @@ function getTanStackFieldStatus(meta: {
 }): { isInvalid: boolean; errors: NormalizedFieldError[] } {
   const isInvalid = meta.isTouched && !meta.isValid;
   return { isInvalid, errors: normalizeTanStackErrors(meta.errors) };
+}
+
+// ============================================================================
+// Time-string helpers (form value is "HH:mm"; TimeInput is hour + minute)
+// ============================================================================
+
+function parseTimeFieldString(value: string | undefined) {
+  if (!value) {
+    return { hour: null as number | null, minute: null as number | null };
+  }
+
+  const [h, m] = value.split(':');
+  const hour = h ? Number.parseInt(h, 10) : null;
+  const minute = m ? Number.parseInt(m, 10) : null;
+
+  return {
+    hour: Number.isFinite(hour) ? hour : null,
+    minute: Number.isFinite(minute) ? minute : null,
+  };
+}
+
+function formatTimeFieldValue(hour: number | null, minute: number | null) {
+  if (hour === null && minute === null) {
+    return '';
+  }
+
+  const hh = String(hour ?? 0).padStart(2, '0');
+  const mm = String(minute ?? 0).padStart(2, '0');
+
+  return `${hh}:${mm}`;
 }
 
 // ============================================================================
@@ -443,17 +473,20 @@ function TimeFieldRow({
 }: Readonly<TimeRowProps>) {
   const labelClass =
     variant === 'inline' ? formFieldInlineLabel : formFieldDefaultLabel;
+  const { hour, minute } = parseTimeFieldString(value);
 
   return (
     <Field data-invalid={invalid} className="gap-2">
       <FieldLabel htmlFor={id} className={labelClass}>
         {label}
       </FieldLabel>
-      <TimePickerFieldInput
+      <TimeInput
         id={id}
         name={name}
-        value={value}
-        onChange={onChange}
+        hour={hour}
+        minute={minute}
+        onHourChange={h => onChange(formatTimeFieldValue(h, minute))}
+        onMinuteChange={m => onChange(formatTimeFieldValue(hour, m))}
         onBlur={onBlur}
         aria-invalid={invalid}
         variant={variant === 'inline' ? 'inline' : 'default'}

@@ -37,13 +37,10 @@ const fieldConfig = {
   },
 } as const;
 
-/** Shared with {@link TimePickerFieldInput} — hour/minute options */
-export const timePickerSampleHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-export const timePickerSampleMinutes = [
-  0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55,
-];
+const sampleHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+const sampleMinutes = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
 
-export const createTimeValueHandler = (
+const createTimeValueHandler = (
   setter: (value: number) => void,
 ): ((value: string) => void) => {
   return (value: string) => {
@@ -53,7 +50,7 @@ export const createTimeValueHandler = (
   };
 };
 
-export function TimePickerColumn({
+function TimePickerColumn({
   value,
   onValueChange,
   items,
@@ -74,7 +71,7 @@ export function TimePickerColumn({
     if (checked) {
       checked.scrollIntoView({ block: 'nearest' });
     }
-  }, [value]);
+  }, []);
 
   return (
     <div className="h-full w-fit">
@@ -94,121 +91,6 @@ export function TimePickerColumn({
     </div>
   );
 }
-
-export function timePickerPreventCloseOnTimeInputOutside(event: {
-  preventDefault: () => void;
-}) {
-  const custom = event as CustomEvent<{
-    originalEvent: PointerEvent;
-  }>;
-  const target = custom.detail?.originalEvent?.target;
-
-  if (
-    target instanceof HTMLElement &&
-    target.closest('[data-slot="time-input-root"]')
-  ) {
-    event.preventDefault();
-  }
-}
-
-function parseTimeFieldString(value: string | undefined) {
-  if (!value) {
-    return { hour: null as number | null, minute: null as number | null };
-  }
-
-  const [h, m] = value.split(':');
-  const hour = h ? Number.parseInt(h, 10) : null;
-  const minute = m ? Number.parseInt(m, 10) : null;
-
-  return {
-    hour: Number.isFinite(hour) ? hour : null,
-    minute: Number.isFinite(minute) ? minute : null,
-  };
-}
-
-function formatTimeFieldValue(hour: number | null, minute: number | null) {
-  if (hour === null && minute === null) {
-    return '';
-  }
-
-  const hh = String(hour ?? 0).padStart(2, '0');
-  const mm = String(minute ?? 0).padStart(2, '0');
-
-  return `${hh}:${mm}`;
-}
-
-/**
- * TimeInput + scroll lists (see {@link TimePickerExample}), controlled as one
- * `HH:mm` string for form libraries. Exported camelCase so `extract-examples`
- * does not treat this as a demo entry.
- */
-export const TimePickerFieldInput = ({
-  id,
-  name,
-  value,
-  onChange,
-  onBlur,
-  'aria-invalid': ariaInvalid,
-  variant = 'default',
-  size = 'default',
-}: Readonly<{
-  id: string;
-  name?: string;
-  value: string | undefined;
-  onChange: (value: string) => void;
-  onBlur?: () => void;
-  'aria-invalid'?: boolean;
-  variant?: 'default' | 'inline';
-  size?: 'sm' | 'default' | 'lg';
-}>) => {
-  const [open, setOpen] = useState(false);
-  const { hour, minute } = parseTimeFieldString(value);
-  const dropdownSize: 'default' | 'lg' = size === 'lg' ? 'lg' : 'default';
-
-  return (
-    <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
-      <DropdownMenuTrigger asChild>
-        <TimeInput
-          id={id}
-          name={name}
-          size={size}
-          variant={variant}
-          hour={hour}
-          minute={minute}
-          onHourChange={h => onChange(formatTimeFieldValue(h, minute))}
-          onMinuteChange={m => onChange(formatTimeFieldValue(hour, m))}
-          onBlur={onBlur}
-          aria-invalid={ariaInvalid}
-          data-open={open}
-          className={variant === 'inline' ? undefined : 'w-fit justify-between'}
-        />
-      </DropdownMenuTrigger>
-
-      <TimePickerListContent
-        size={dropdownSize}
-        className="z-10"
-        sideOffset={4}
-        align="start"
-        onOpenAutoFocus={e => e.preventDefault()}
-        onInteractOutside={timePickerPreventCloseOnTimeInputOutside}>
-        <TimePickerColumn
-          value={hour}
-          onValueChange={h => onChange(formatTimeFieldValue(h, minute))}
-          items={timePickerSampleHours}
-          size={dropdownSize}
-        />
-        <TimePickerColumn
-          value={minute}
-          onValueChange={m => onChange(formatTimeFieldValue(hour, m))}
-          items={timePickerSampleMinutes}
-          size={dropdownSize}
-        />
-      </TimePickerListContent>
-    </DropdownMenu>
-  );
-};
-
-TimePickerFieldInput.displayName = 'TimePickerFieldInput';
 
 // ============================================================================
 // Shared Time Picker Example
@@ -269,18 +151,30 @@ function TimePickerExample({
           sideOffset={4}
           align="start"
           onOpenAutoFocus={e => e.preventDefault()}
-          onInteractOutside={timePickerPreventCloseOnTimeInputOutside}>
+          onInteractOutside={e => {
+            const custom = e as CustomEvent<{
+              originalEvent: PointerEvent;
+            }>;
+            const target = custom.detail?.originalEvent?.target;
+
+            if (
+              target instanceof HTMLElement &&
+              target.closest('[data-slot="time-input-root"]')
+            ) {
+              e.preventDefault();
+            }
+          }}>
           <TimePickerColumn
             value={selectedHour}
             onValueChange={setSelectedHour}
-            items={timePickerSampleHours}
+            items={sampleHours}
             size={dropdownSize}
           />
 
           <TimePickerColumn
             value={selectedMinute}
             onValueChange={setSelectedMinute}
-            items={timePickerSampleMinutes}
+            items={sampleMinutes}
             size={dropdownSize}
           />
         </TimePickerListContent>
@@ -326,13 +220,13 @@ function TimePickerOverlay({
         <TimePickerColumn
           value={selectedHour}
           onValueChange={setSelectedHour}
-          items={timePickerSampleHours}
+          items={sampleHours}
           size={size}
         />
         <TimePickerColumn
           value={selectedMinute}
           onValueChange={setSelectedMinute}
-          items={timePickerSampleMinutes}
+          items={sampleMinutes}
           size={size}
         />
       </TimePickerListContent>
