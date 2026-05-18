@@ -79,7 +79,7 @@ export function InstallationGuide({ component }: InstallationGuideProps) {
               Files Included
             </h3>
           </div>
-          <div className="border-stroke-tertiary bg-surface-bg-primary border p-4">
+          <div className="border-stroke-tertiary bg-surface-primary border p-4">
             <ul className="space-y-2">
               {component.files
                 .filter(file => file.target && file.target.trim())
