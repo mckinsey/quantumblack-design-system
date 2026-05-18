@@ -268,6 +268,13 @@ import {
   examples as tagExamples,
 } from '@/app/demo/[name]/ui/tag';
 import {
+  TagGroupAvatarDismissable,
+  TagGroupDismissable,
+  TagToggleGroup,
+  tagGroup,
+  examples as tagGroupExamples,
+} from '@/app/demo/[name]/ui/tag-group';
+import {
   TagToggleDemo,
   TagToggleDisabled,
   TagTogglePill,
@@ -555,6 +562,11 @@ export const exampleComponentMaps: Record<
     TagWithAvatar,
     TagDisabled,
   },
+  'tag-group': {
+    TagGroupDismissable,
+    TagGroupAvatarDismissable,
+    TagToggleGroup,
+  },
   'tag-toggle': {
     TagToggleDemo,
     TagToggleVariants,
@@ -629,6 +641,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   table: tableExamples,
   tabs: tabsExamples,
   tag: tagExamples,
+  'tag-group': tagGroupExamples,
   'tag-toggle': tagToggleExamples,
   textarea: textareaExamples,
   'time-input': timeInputExamples,
@@ -778,6 +791,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...tag,
     examples: tagExamples,
     exampleComponents: exampleComponentMaps.tag,
+  },
+  'tag-group': {
+    ...tagGroup,
+    examples: tagGroupExamples,
+    exampleComponents: exampleComponentMaps['tag-group'],
   },
   'tag-toggle': {
     ...tagToggle,
