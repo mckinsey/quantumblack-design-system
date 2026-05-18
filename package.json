@@ -21,7 +21,10 @@
     "test:watch": "vitest",
     "test": "concurrently --kill-others-on-fail \"npm run test:unit\" \"npm run build\" \"npm run lint\"",
     "lint": "eslint . --cache --cache-location .eslintcache",
-    "start": "vite preview --host 0.0.0.0 --port 3000"
+    "secrets:scan": "sh scripts/secret-scan.sh",
+    "precommit": "npm run lint && npm run test:unit && npm run secrets:scan",
+    "start": "vite preview --host 0.0.0.0 --port 3000",
+    "prepare": "husky"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
@@ -101,6 +104,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-unused-imports": "^4.4.1",
     "globals": "^16.4.0",
+    "husky": "^9.1.7",
     "jsdom": "^25.0.1",
     "postcss": "^8.5.14",
     "prettier-plugin-tailwindcss": "^0.6.14",
