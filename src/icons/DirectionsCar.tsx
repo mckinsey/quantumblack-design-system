@@ -1,0 +1,23 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function DirectionsCar({ className, ...props }: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M224.61-220v80H140v-336.92L232.23-740h495.54L820-476.92V-140h-84.61v-80H224.61Zm-.3-316.92h511.38L685.23-680H274.77l-50.46 143.08Zm-24.31 60V-280v-196.92Zm98.55 150.77q21.83 0 37.03-15.29 15.19-15.28 15.19-37.11t-15.28-37.03q-15.29-15.19-37.12-15.19t-37.02 15.28q-15.2 15.29-15.2 37.12t15.29 37.02q15.28 15.2 37.11 15.2Zm363.08 0q21.83 0 37.02-15.29 15.2-15.28 15.2-37.11t-15.29-37.03q-15.28-15.19-37.11-15.19t-37.03 15.28q-15.19 15.29-15.19 37.12t15.28 37.02q15.29 15.2 37.12 15.2ZM200-280h560v-196.92H200V-280Z" />
+    </svg>
+  );
+}

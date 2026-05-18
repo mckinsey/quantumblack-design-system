@@ -1,0 +1,26 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function AndroidWifi3BarPlus({
+  className,
+  ...props
+}: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M720.77-180v-80h-80v-60h80v-80h60v80h80v60h-80v80h-60ZM118.23-536l-70.77-70.77q87.77-83.61 199.43-128.42Q358.54-780 480-780q121.46 0 233.11 44.81 111.66 44.81 199.43 128.42L841.77-536q-73.46-69.69-166.96-106.85Q581.31-680 480-680t-194.81 37.15Q191.69-605.69 118.23-536ZM283-372l-70.15-70.15q54.77-51.93 123.46-79.7Q405-549.61 480-549.61q60.31 0 116.5 17.92t104.81 51.77q-28.08 6.15-53.31 21.15-25.23 15-44.39 37-28.84-13.62-59.99-20.73-31.16-7.12-63.62-7.12-55.85 0-106.19 20-50.35 20-90.81 57.62Zm197 198.15L374.77-279.08q20.69-18.84 47.81-29.88Q449.69-320 480-320q20.08 0 38.65 5.12 18.58 5.11 35.04 13.73-1.23 12.84-.04 25.42 1.2 12.58 3.2 25.04L480-173.85Z" />
+    </svg>
+  );
+}

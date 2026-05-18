@@ -1,0 +1,23 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function ParkingSign({ className, ...props }: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M605.77-529.23h47.69v-73.85h133.08v-147.69H605.77v221.54Zm47.69-121.54v-52.31h85.39v52.31h-85.39ZM460-420v-440h440v440H710v280h-60v-280H460Zm60-60h320v-320H520v320ZM321.16-140v-80H100v-60h245.77v-196.92H100v-60h221.46L271-680H100v-60h213.54l92.23 263.08V-140h-84.61ZM247.4-326.15q21.83 0 37.02-15.29 15.2-15.28 15.2-37.11t-15.29-37.03q-15.28-15.19-37.11-15.19t-37.03 15.28Q195-400.2 195-378.37t15.29 37.02q15.28 15.2 37.11 15.2ZM680-640Z" />
+    </svg>
+  );
+}

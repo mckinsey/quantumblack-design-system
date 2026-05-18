@@ -1,0 +1,23 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function MicDouble({ className, ...props }: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M294.62-130v-131.85q-99-11.31-164.5-84.92-65.5-73.62-65.5-173.23h60q0 83 58.5 141.5t141.5 58.5q6.53 0 12.88-.19 6.35-.19 12.5-1.58 9.92 14.62 21.27 27.69Q382.62-281 395-269.46q-10 2.61-19.69 4.3-9.7 1.7-20.7 3.31V-130h-59.99Zm7.69-293.16q-33.77-8-55.73-34.34-21.96-26.35-21.96-62.5v-240q0-41.92 29.04-70.96Q282.69-860 324.62-860q41.92 0 70.96 29.04 29.03 29.04 29.03 70.96v152.31H287.69V-520q0 25.61 3.66 49.73 3.65 24.11 10.96 47.11Zm262.11-25.88q-29.03-29.04-29.03-70.96v-240q0-41.92 29.03-70.96Q593.46-860 635.38-860q41.93 0 70.96 29.04 29.04 29.04 29.04 70.96v240q0 41.92-29.04 70.96Q677.31-420 635.38-420q-41.92 0-70.96-29.04ZM605.39-130v-131.85q-99-11.31-164.5-84.92-65.5-73.62-65.5-173.23h59.99q0 83 58.5 141.5t141.5 58.5q83 0 141.5-58.5t58.5-141.5h60q0 99.61-65.5 173.23-65.5 73.61-164.5 84.92V-130h-59.99Zm58.49-361.5q11.5-11.5 11.5-28.5v-240q0-17-11.5-28.5t-28.5-11.5q-17 0-28.5 11.5t-11.5 28.5v240q0 17 11.5 28.5t28.5 11.5q17 0 28.5-11.5ZM635.38-640Z" />
+    </svg>
+  );
+}

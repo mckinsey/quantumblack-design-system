@@ -1,0 +1,26 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function DeveloperBoardOff({
+  className,
+  ...props
+}: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M834.39-46.08 53.93-826.54l42.76-42.77L877.15-88.85l-42.76 42.77ZM259.16-820h525.45v155.39h70.77v59.99h-70.77v91.16h70.77v60h-70.77v91.15h70.77v60h-78.15l-52.61-52.61V-760H319.15l-59.99-60Zm183.15 188.15-32.77-32.76h32.77v32.76Zm73 68-26.85-26.84v-73.92h140.77v100.76H515.31ZM629.23-444l-72.15-72.15h72.15V-444Zm-199.54-1.39Zm88.08-117.23ZM260-295.39v-140.76h182.31v140.76H260ZM150.69-815.31 206-760H164.62v560h560V-241.38l59.61 59.61V-140H104.62v-675.31h46.07Zm337.77 337.77 140.77 140.77v41.38H488.46v-182.15ZM301.39-664.61l140.92 140.92v39.84H260v-180.76h41.39Z" />
+    </svg>
+  );
+}

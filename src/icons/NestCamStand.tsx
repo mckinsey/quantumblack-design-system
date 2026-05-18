@@ -1,0 +1,23 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function NestCamStand({ className, ...props }: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M380-653q-47.69 24.31-79.15 70.08Q269.38-537.15 264-480l-24 280h480l-24-280q-4.38-57.77-35.85-103.54-31.46-45.77-80.15-70.08V-560q0 41.92-29.04 70.96Q521.92-460 480-460q-41.92 0-70.96-29.04Q380-518.08 380-560v-93Zm128.5 121.5Q520-543 520-560v-160q0-17-11.5-28.5T480-760q-17 0-28.5 11.5T440-720v160q0 17 11.5 28.5T480-520q17 0 28.5-11.5ZM480-820q39.46 0 67.58 25.66 28.11 25.65 31.8 64.49v8.47q73.23 27.38 121.93 90 48.69 62.61 55.07 144.92L785.84-140h-611.3L204-486.46q7-82.31 55.19-144.62 48.2-62.3 121.43-89.69v-8.46q3.69-38.85 31.8-64.81Q440.54-820 480-820Z" />
+    </svg>
+  );
+}

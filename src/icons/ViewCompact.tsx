@@ -1,0 +1,23 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function ViewCompact({ className, ...props }: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M99.23-186.92v-586.16h761.54v586.16H99.23Zm60-410.77h115.39v-115.39H159.23v115.39Zm175.38 0H450v-115.39H334.61v115.39Zm175.39 0h115.39v-115.39H510v115.39Zm175.38 0h115.39v-115.39H685.38v115.39Zm0 175.38h115.39v-115.38H685.38v115.38Zm-175.38 0h115.39v-115.38H510v115.38Zm-175.39 0H450v-115.38H334.61v115.38Zm-59.99-115.38H159.23v115.38h115.39v-115.38Zm410.76 290.77h115.39v-115.39H685.38v115.39Zm-175.38 0h115.39v-115.39H510v115.39Zm-175.39 0H450v-115.39H334.61v115.39Zm-175.38 0h115.39v-115.39H159.23v115.39Z" />
+    </svg>
+  );
+}

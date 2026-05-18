@@ -1,0 +1,23 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function MultilineChart({ className, ...props }: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M137.15-233.08 95-276.46l283.85-284.62 159.23 159.24L668.69-548q-55.23-64.62-127.5-102.31Q468.92-688 383.62-688q-70.24 0-132.85 25.35-62.62 25.34-114.39 68.8l-42.15-43.38Q153.92-689 227.27-718.5 300.62-748 383.62-748q95.69 0 178.3 40.65 82.62 40.66 146.93 113.97l114.77-130L865.77-680l-120 135.23q32.61 51.08 53.88 111.35 21.27 60.27 28.43 125.42h-60q-6.77-48.08-23-95.69-16.23-47.62-41.93-93.23L540.54-315.08 378.85-475.54l-241.7 242.46Z" />
+    </svg>
+  );
+}

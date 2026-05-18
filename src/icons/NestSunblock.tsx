@@ -1,0 +1,23 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function NestSunblock({ className, ...props }: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M90-679.23V-790h60v110.77H90ZM90-170v-110.77h60V-170H90Zm192.31-429.54-42.77-42.77L318-720.77 360.77-678l-78.46 78.46ZM318-239.23l-78.46-78.46 42.77-42.77L360.77-282 318-239.23ZM320.38-450v-60H580l-78.15-104.08 48.23-36.07L700-450H320.38Zm440 240v-540h100v540h-100ZM91.15-330v-60q37.13 0 63.57-26.46 26.44-26.46 26.44-63.61 0-37.16-26.44-63.55Q128.28-570 91.15-570v-60q62.16 0 106.08 43.92 43.92 43.93 43.92 106.08t-43.92 106.08Q153.31-330 91.15-330Z" />
+    </svg>
+  );
+}

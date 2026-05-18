@@ -1,0 +1,26 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function MultimodalHandEye({
+  className,
+  ...props
+}: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M463.08-70.39H264.54L43.23-291.92 95.31-346l111.61 29.54V-670h60v433l-113.77-30.31 136.16 136.92h173.77q37.12 0 63.56-26.43 26.44-26.44 26.44-63.57v-173.46h59.99v173.46q0 62.16-43.92 106.08T463.08-70.39ZM322.31-338.85v-190.38h60v190.38h-60Zm115.38 0v-142.69h60v142.69h-60Zm25.39 208.46H309.92h153.16Zm179.6-411.15q-82.14 0-151.64-42.81-69.5-42.8-105.65-116.42 36.15-73.61 105.66-116.42Q560.56-860 642.7-860q82.15 0 151.65 42.81Q863.84-774.38 900-700.77q-36.16 73.62-105.66 116.42-69.51 42.81-151.66 42.81Zm106.17-86.38q49.92-26.39 82.69-72.85-32.77-46.46-82.64-72.85Q699.03-800 642.75-800q-56.29 0-106.21 26.38-49.92 26.39-82.69 72.85 32.77 46.46 82.63 72.85 49.87 26.38 106.16 26.38 56.28 0 106.21-26.38Zm-141.54-37.42q-14.62-14.57-14.62-35.38 0-20.82 14.57-35.43 14.57-14.62 35.39-14.62 20.81 0 35.43 14.57 14.61 14.57 14.61 35.39 0 20.81-14.57 35.42-14.57 14.62-35.38 14.62-20.82 0-35.43-14.57Z" />
+    </svg>
+  );
+}

@@ -1,0 +1,23 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function BookOnline({ className, ...props }: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M220-60v-840h521.54v198.62H780v169.69h-38.46V-60H220Zm60-60h401.54v-720H280v720Zm0 0v-720 720Zm52.31-212.31h295.38v-110.77q-15.69 0-26.31-10.61-10.61-10.62-10.61-26.31t10.61-26.31q10.62-10.61 26.31-10.61v-110.77H332.31v110.77q15.69 0 26.31 10.61 10.61 10.62 10.61 26.31t-10.61 26.31q-10.62 10.61-26.31 10.61v110.77Zm134.65-60.81q-5.42-5.42-5.42-13.03 0-7.62 5.42-13.04 5.42-5.43 13.04-5.43 7.62 0 13.04 5.43 5.42 5.42 5.42 13.04 0 7.61-5.42 13.03-5.42 5.43-13.04 5.43-7.62 0-13.04-5.43Zm0-73.84q-5.42-5.42-5.42-13.04 0-7.62 5.42-13.04 5.42-5.42 13.04-5.42 7.62 0 13.04 5.42 5.42 5.42 5.42 13.04 0 7.62-5.42 13.04-5.42 5.42-13.04 5.42-7.62 0-13.04-5.42Zm0-73.85q-5.42-5.42-5.42-13.04 0-7.61 5.42-13.03 5.42-5.43 13.04-5.43 7.62 0 13.04 5.43 5.42 5.42 5.42 13.03 0 7.62-5.42 13.04-5.42 5.43-13.04 5.43-7.62 0-13.04-5.43Z" />
+    </svg>
+  );
+}

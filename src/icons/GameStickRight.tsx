@@ -1,0 +1,23 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function GameStickRight({ className, ...props }: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M707-441.04q93-47.27 93-114.81 0-67.53-93-115-93-47.46-227-47.46t-227 47.46q-93 47.47-93 115 0 67.54 93 114.81 93 47.27 227 47.27t227-47.27Zm-41.62 81.19V-180H294.23v-179.85q-87.92-29.3-141.07-80.77Q100-492.08 100-555.85q0-93.3 110.73-158.92Q321.46-780.38 480-780.38q158.54 0 269.27 65.61Q860-649.15 860-555.85q0 63.77-53.16 115.23-53.15 51.47-141.46 80.77ZM480-555.85Zm-69.15 104.16h35.38v-76.23h32.23l50.85 76.23h41.84l-59.07-83.39q20-7.38 30.5-21.3 10.5-13.93 10.5-35.16 0-29.61-19.12-46.04Q514.85-654 481.15-654h-70.3v202.31Zm35.38-104.69v-65.7h29.85q19.46 0 30.04 8.5 10.57 8.5 10.57 24.27 0 16.77-10.38 24.85-10.39 8.08-30.46 8.08h-29.62Z" />
+    </svg>
+  );
+}

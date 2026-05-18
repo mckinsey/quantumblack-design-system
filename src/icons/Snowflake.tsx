@@ -1,0 +1,23 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function Snowflake({ className, ...props }: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M450-90v-84.54l-73.23 61.31-38.92-45.62L450-253.38v-173.93l-151.23 86.77-25.85 144-59.38-10.54 17.31-94.54-74 43.16-30-52.08 74-42.77-90.16-32.46 20.46-56.15 137.62 49.07L419.62-480l-150.85-86.77-137.62 49.69-20.46-56.77 90.16-31.84-74-42.77 30-52.08 74 43.16-17.31-94.54 59.38-10.54 25.85 144L450-531.69v-173.93l-112.15-94.53 38.92-45.62L450-784.46V-870h60v85.54l72.85-61.31 38.92 45.62L510-705.62v173.93l150.23-86.77 25.85-144 59.38 10.54-17.31 94.54 74-43.16 30 52.08-74 42.77 90.16 31.84-20.46 56.77-137.62-49.69L540-480l150.23 87.15 137.62-49.07 20.46 56.15-90.16 32.46 74 42.77-30 52.08-74-43.16 17.31 94.54-59.38 10.54-25.85-144L510-427.31v173.93l111.77 94.53-38.92 45.62L510-174.54V-90h-60Z" />
+    </svg>
+  );
+}

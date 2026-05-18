@@ -1,0 +1,23 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function TransitionFade({ className, ...props }: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M140-140v-680h254.23v680H140Zm301.92-604.61V-820h75.39v75.39h-75.39Zm75.39 75.76v-75.76h75.77v75.76h-75.77Zm75.77-75.76V-820h75.38v75.39h-75.38Zm151.15 0V-820h75.38v75.39h-75.38Zm-75.77 75.76v-75.76h75.77v75.76h-75.77Zm-226.54 75.39v-75.39h75.39v75.39h-75.39Zm151.16 0v-75.39h75.38v75.39h-75.38Zm151.15 0v-75.39h75.38v75.39h-75.38Zm-226.92 75.77v-75.77h75.77v75.77h-75.77Zm151.15 0v-75.77h75.77v75.77h-75.77Zm-226.54 75.38v-75.38h75.39v75.38h-75.39Zm151.16 0v-75.38h75.38v75.38h-75.38Zm151.15 0v-75.38h75.38v75.38h-75.38Zm-226.92 75.77v-75.77h75.77v75.77h-75.77Zm151.15 0v-75.77h75.77v75.77h-75.77Zm-226.54 75.39v-75.39h75.39v75.39h-75.39Zm151.16 0v-75.39h75.38v75.39h-75.38Zm151.15 0v-75.39h75.38v75.39h-75.38Zm-226.92 75.76v-75.76h75.77v75.76h-75.77Zm151.15 0v-75.76h75.77v75.76h-75.77ZM441.92-140v-75.39h75.39V-140h-75.39Zm151.16 0v-75.39h75.38V-140h-75.38Zm151.15 0v-75.39h75.38V-140h-75.38Z" />
+    </svg>
+  );
+}

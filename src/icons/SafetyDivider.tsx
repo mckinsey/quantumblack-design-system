@@ -1,0 +1,23 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function SafetyDivider({ className, ...props }: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M450-210v-540h60v540h-60ZM50-330v-14.92q0-20.54 11.46-37.27 11.46-16.73 31.39-25.58 24.84-11 51.57-16.61Q171.15-430 200-430q28.85 0 55.58 5.62 26.73 5.61 51.57 16.61 19.93 8.85 31.39 25.58Q350-365.46 350-344.92V-330H50Zm560 0v-14.92q0-20.54 11.46-37.27 11.46-16.73 31.39-25.58 24.84-11 51.57-16.61Q731.15-430 760-430q28.85 0 55.58 5.62 26.73 5.61 51.57 16.61 19.93 8.85 31.39 25.58Q910-365.46 910-344.92V-330H610ZM200-490q-29.15 0-49.58-20.42Q130-530.85 130-560t20.42-49.58Q170.85-630 200-630t49.58 20.42Q270-589.15 270-560t-20.42 49.58Q229.15-490 200-490Zm560 0q-29.15 0-49.58-20.42Q690-530.85 690-560t20.42-49.58Q730.85-630 760-630t49.58 20.42Q830-589.15 830-560t-20.42 49.58Q789.15-490 760-490Z" />
+    </svg>
+  );
+}

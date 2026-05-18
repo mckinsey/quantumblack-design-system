@@ -1,0 +1,23 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function MobileSoundOff({ className, ...props }: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="m675.31-409.23-46.62-46q2-6.19 3-12.39 1-6.19 1-12.38 0-18.31-8.23-34.54t-22.15-28.38l43.38-43.39q22.23 21.08 34.62 48.46 12.38 27.39 12.38 57.85 0 18.15-4.34 35.88-4.35 17.73-13.04 34.89Zm92.46 91.46-43.15-43.15q17.69-26.23 26.53-56.25Q760-447.18 760-480q0-44.62-16.81-84.81Q726.38-605 695.38-636l42.16-42.15q39.84 39.25 61.15 90.66Q820-536.08 820-480q0 45.01-13.31 86.04-13.31 41.04-38.92 76.19Zm59.15 267.85L41.85-835 84-877.15 869.08-92.08l-42.16 42.16ZM220-900h520v146.15h-60V-840H220v-60Zm286 175.97q10.15-10.18 10.15-25.23t-10.18-25.2q-10.18-10.15-25.23-10.15t-25.2 10.18q-10.15 10.18-10.15 25.23t10.18 25.2q10.18 10.15 25.23 10.15t25.2-10.18ZM220-60v-681.15l60 60V-120h400v-161.15l60 59.99V-60H220Zm218.69-340.77Zm70.16-165.92Z" />
+    </svg>
+  );
+}

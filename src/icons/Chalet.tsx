@@ -1,0 +1,23 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function Chalet({ className, ...props }: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M702.31-522.31v-51.08L670-541.08 645.08-566l57.23-57.23v-39.08h-39.08L606-605.08 581.08-630l32.31-32.31h-51.08v-35.38h51.08L581.08-730 606-754.92l57.23 56.84h39.08v-38.69L645.08-794 670-818.92l32.31 32.31v-51.08h35.38v51.08L770-818.92 794.92-794l-57.23 57.23v39.08h39.08L834-754.92 858.92-730l-32.31 32.31h51.08v35.38h-51.08L858.92-630 834-605.08l-57.23-57.23h-39.08v39.08L794.92-566 770-541.08l-32.31-32.31v51.08h-35.38Zm-77.54 200.08L580-367v187H220v-188l-40.92 40.92-41.77-41.77L400-631.54 666.54-365l-41.77 42.77ZM280-240h90v-110h60v110h90v-187L400-547 280-427.38V-240Zm0 0h240-240Z" />
+    </svg>
+  );
+}

@@ -1,0 +1,26 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function AndroidCellDual5BarPlus({
+  className,
+  ...props
+}: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M60-380.77v-193.46h93.85v193.46H60Zm186.54 0v-250.77h93.84v250.77h-93.84Zm186.54 0v-286.15h93.84v286.15h-93.84ZM60-180v-131.54h93.85V-180H60Zm186.54 0v-131.54h93.84V-180h-93.84Zm186.54 0v-131.54h93.84V-180h-93.84Zm373.07-306.15V-780H900v325.77q-20-14.39-43.77-22.58-23.77-8.19-50.08-9.34Zm-92.69 14.92q-22 9.23-41.35 23.34-19.34 14.12-34.03 32.89h-18.46v-289.23h93.84v233ZM760.77-180v-80h-80v-60h80v-80h60v80h80v60h-80v80h-60Z" />
+    </svg>
+  );
+}

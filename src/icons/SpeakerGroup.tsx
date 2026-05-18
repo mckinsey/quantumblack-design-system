@@ -1,0 +1,23 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function SpeakerGroup({ className, ...props }: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M380-260h380v-580H380v580Zm-60 60v-700h500v700H320Zm250.04-463.85q23.42 0 39.77-16.39 16.34-16.39 16.34-39.81 0-23.41-16.39-39.76-16.39-16.34-39.81-16.34-23.41 0-39.76 16.39-16.34 16.39-16.34 39.81 0 23.41 16.39 39.76 16.39 16.34 39.8 16.34ZM570-318.46q54.15 0 92.08-37.92Q700-394.31 700-448.46t-37.92-92.08q-37.93-37.92-92.08-37.92t-92.08 37.92Q440-502.61 440-448.46t37.92 92.08q37.93 37.92 92.08 37.92Zm0-60q-28.85 0-49.42-20.58Q500-419.61 500-448.46t20.58-49.42q20.57-20.58 49.42-20.58t49.42 20.58Q640-477.31 640-448.46t-20.58 49.42q-20.57 20.58-49.42 20.58ZM620-60H180v-680h60v620h380v60ZM380-840V-260-840Z" />
+    </svg>
+  );
+}

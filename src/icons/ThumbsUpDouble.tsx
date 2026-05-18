@@ -1,0 +1,23 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function ThumbsUpDouble({ className, ...props }: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M720.69-296.16 840-575.08v-33.38H595.69l20.93-147.08-72.31 71.92L502.54-726l133.61-134L685-810.77l-20.39 142.31H900v106.15L786.15-296.16h-65.46ZM60-140v-372.31h175.38v60H120V-200h115.38v60H60Zm115.39 0v-338.46l224.99-225.38 49.23 49.23-20.38 142.3h236.92v106.54L551.92-140H175.39Zm59.99-60h277.01l93.76-217.92v-34.39H359.92l20.93-147.08-145.47 145.85V-200Zm0 0v-253.54V-200Z" />
+    </svg>
+  );
+}

@@ -1,0 +1,23 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function CarTag({ className, ...props }: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M258.55-326.15q21.83 0 37.03-15.29 15.19-15.28 15.19-37.11t-15.28-37.03q-15.29-15.19-37.12-15.19t-37.02 15.28q-15.2 15.29-15.2 37.12t15.29 37.02q15.28 15.2 37.11 15.2ZM160-280v-196.92V-280Zm24.61 60v80H100v-336.92L191.81-740h170.5v60H234.77l-50.46 143.08h288.23l60 60H160V-280h560v-48.92l60-60V-140h-84.61v-80H184.61Zm415.38-505.39q14.7 0 24.66-9.94 9.96-9.95 9.96-24.66 0-14.7-9.94-24.66-9.95-9.96-24.66-9.96-14.7 0-24.66 9.94-9.96 9.95-9.96 24.66 0 14.7 9.94 24.66 9.95 9.96 24.66 9.96ZM704-428.85l-254-255V-910h225.77l254.38 255L704-428.85Zm0-84.92L845.23-655l-195-195H510v141.23l194 195Zm-82.46 187.62q12.83 0 23.38-5.5 10.54-5.5 17.39-15.12l-72.46-72.46q-9.62 6.85-15.12 17.39-5.5 10.54-5.5 23.38 0 21.79 15.26 37.05 15.25 15.26 37.05 15.26Zm56.38-355.93Z" />
+    </svg>
+  );
+}

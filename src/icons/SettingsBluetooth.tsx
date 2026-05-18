@@ -1,0 +1,26 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function SettingsBluetooth({
+  className,
+  ...props
+}: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="M294.96-14.96Q284.62-25.31 284.62-40t10.34-25.04Q305.31-75.38 320-75.38t25.04 10.34Q355.38-54.69 355.38-40t-10.34 25.04Q334.69-4.62 320-4.62t-25.04-10.34Zm160 0Q444.62-25.31 444.62-40t10.34-25.04Q465.31-75.38 480-75.38t25.04 10.34Q515.38-54.69 515.38-40t-10.34 25.04Q494.69-4.62 480-4.62t-25.04-10.34Zm160 0Q604.62-25.31 604.62-40t10.34-25.04Q625.31-75.38 640-75.38t25.04 10.34Q675.38-54.69 675.38-40t-10.34 25.04Q654.69-4.62 640-4.62t-25.04-10.34ZM450-173.85v-314l-194 194L213.85-336l224-224-224-224L256-826.15l194 194v-314h30L694.15-732l-172 172 172 172L480-173.85h-30Zm60-115.53L609.85-388 510-487.85v198.47Zm0-342.77L609.85-732 510-830.62v198.47Z" />
+    </svg>
+  );
+}

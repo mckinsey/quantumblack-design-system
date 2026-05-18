@@ -1,0 +1,23 @@
+// AUTO-GENERATED. Do not edit by hand.
+// Source: Material Symbols (Sharp, 24dp, weight 300)
+// Regenerate with: python3 ~/qbds-material-symbols-complete/wrapper-generator.py
+import * as React from 'react';
+
+import { cn } from '../lib/utils';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+  readonly className?: string;
+}
+
+export function Rowing({ className, ...props }: Readonly<IconProps>) {
+  return (
+    <svg
+      className={cn('', className)}
+      viewBox="0 -960 960 960"
+      fill="currentColor"
+      aria-hidden="true"
+      {...props}>
+      <path d="m721.54-15.39-110-110v-60L321.39-475.54q-9 2-16.85 3-7.85 1-17.62 1.77v-64.92q48.85-1.08 104.7-28.42 55.84-27.35 85.92-60.04L532-683.08q11.08-13.46 26.46-20.19 15.39-6.73 33.08-6.73 32.23 0 54.57 22.35 22.35 22.34 22.35 54.57V-400q0 27.15-10.85 48.65-10.84 21.5-28.61 36.58L511.54-431v-141.62q-28.08 26.23-58.96 45.04-30.89 18.81-63.04 30.96L656.15-230h60l110 110L721.54-15.39ZM219.23-153.08l-46.15-46.15 182.69-182.69L447.69-290h-91.54L219.23-153.08Zm331.19-621.96Q530-795.46 530-824.61q0-29.16 20.42-49.58 20.43-20.42 49.58-20.42t49.58 20.42Q670-853.77 670-824.61q0 29.15-20.42 49.57-20.43 20.43-49.58 20.43t-49.58-20.43Z" />
+    </svg>
+  );
+}
