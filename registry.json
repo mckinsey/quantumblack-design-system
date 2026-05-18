@@ -768,6 +768,26 @@
       ]
     },
     {
+      "name": "tag-group",
+      "type": "registry:example",
+      "title": "Tag Group",
+      "description": "Examples of grouped tags \u2014 dismissable, with avatars, and toggleable \u2014 across sizes, shapes, and outlines.",
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/tag.json",
+        "__REGISTRY_URL__/r/tag-toggle.json",
+        "__REGISTRY_URL__/r/avatar.json"
+      ],
+      "files": [
+        {
+          "path": "src/app/demo/[name]/ui/tag-group.tsx",
+          "type": "registry:example",
+          "target": ""
+        }
+      ]
+    },
+    {
       "name": "tag-toggle",
       "type": "registry:ui",
       "title": "Tag Toggle",

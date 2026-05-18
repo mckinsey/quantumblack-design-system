@@ -39,7 +39,7 @@ const COMPONENT_GROUPS: { label: string; names: string[] }[] = [
   },
   { label: 'Overlay', names: ['dialog', 'popover', 'sonner'] },
   { label: 'Table', names: ['table', 'data-table'] },
-  { label: 'Tag', names: ['tag', 'tag-toggle'] },
+  { label: 'Tag', names: ['tag', 'tag-group', 'tag-toggle'] },
 ];
 
 const groupedNames = new Set(COMPONENT_GROUPS.flatMap(g => g.names));
