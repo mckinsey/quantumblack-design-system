@@ -190,14 +190,12 @@
 
   /*** Surface Tokens */
 
-  --color-surface-bg-primary: var(--surface-bg-primary);
-  --color-surface-bg-secondary: var(--surface-bg-secondary);
-  --color-surface-bg-tertiary: var(--surface-bg-tertiary);
-  --color-surface-bg-base: var(--surface-bg-base);
-  --color-sidebar: var(--surface-bg-base);
-  --color-sidebar-foreground: var(--text-primary);
   --color-surface-primary: var(--surface-primary);
   --color-surface-secondary: var(--surface-secondary);
+  --color-surface-tertiary: var(--surface-tertiary);
+  --color-surface-base: var(--surface-base);
+  --color-sidebar: var(--surface-base);
+  --color-sidebar-foreground: var(--text-primary);
 
   /*** Status Tokens */
 
@@ -311,12 +309,10 @@
 
   /** Light mode surface tokens */
 
-  --surface-bg-primary: var(--mist-50);
-  --surface-bg-secondary: var(--mist-400);
-  --surface-bg-tertiary: var(--mist-500);
-  --surface-bg-base: var(--mist-100);
   --surface-primary: var(--mist-50);
   --surface-secondary: var(--mist-400);
+  --surface-tertiary: var(--mist-500);
+  --surface-base: var(--mist-100);
 
   /** Light mode status tokens */
 
@@ -423,12 +419,10 @@
 
   /** Dark mode surface tokens */
 
-  --surface-bg-primary: var(--slate-800);
-  --surface-bg-secondary: var(--slate-700);
-  --surface-bg-tertiary: var(--slate-500);
-  --surface-bg-base: var(--slate-900);
   --surface-primary: var(--slate-800);
   --surface-secondary: var(--slate-700);
+  --surface-tertiary: var(--slate-500);
+  --surface-base: var(--slate-900);
 
   /** Dark mode status tokens */
 

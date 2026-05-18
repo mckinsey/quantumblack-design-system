@@ -72,7 +72,7 @@ export function ExamplePreview({
   return (
     <div
       className={cn(
-        'border-stroke-tertiary bg-surface-bg-primary overflow-hidden border',
+        'border-stroke-tertiary bg-surface-primary overflow-hidden border',
         className,
       )}>
       {/* Header with title and description */}
@@ -92,7 +92,7 @@ export function ExamplePreview({
       {/* Preview */}
       <div
         className={cn(
-          'bg-surface-bg-primary flex w-full items-center justify-center p-6',
+          'bg-surface-primary flex w-full items-center justify-center p-6',
           featured ? 'min-h-[200px]' : 'min-h-[120px]',
         )}>
         {children}
@@ -150,14 +150,14 @@ export function ExamplePreview({
               : `grid-template-rows ${isExpanded ? '220ms' : '160ms'} cubic-bezier(0.23, 1, 0.32, 1)`,
           }}>
           <div className="min-h-0">
-            <div className="bg-surface-bg-secondary max-h-[400px] w-full overflow-auto">
+            <div className="bg-surface-secondary max-h-[400px] w-full overflow-auto">
               {highlightedCode ? (
                 <div
-                  className="paragraph-code-text [&>pre]:bg-surface-bg-secondary [&_.shiki]:!bg-surface-bg-secondary [&_code]:font-mono [&_code]:text-sm [&_code]:whitespace-pre [&>pre]:m-0 [&>pre]:p-4"
+                  className="paragraph-code-text [&>pre]:bg-surface-secondary [&_.shiki]:!bg-surface-secondary [&_code]:font-mono [&_code]:text-sm [&_code]:whitespace-pre [&>pre]:m-0 [&>pre]:p-4"
                   dangerouslySetInnerHTML={{ __html: highlightedCode }}
                 />
               ) : (
-                <pre className="bg-surface-bg-secondary m-0 p-4">
+                <pre className="bg-surface-secondary m-0 p-4">
                   <code className="text-fg-primary font-mono text-sm whitespace-pre">
                     {code}
                   </code>

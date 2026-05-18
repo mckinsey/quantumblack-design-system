@@ -59,7 +59,7 @@ export function CodeBlock({
   return (
     <div
       className={cn(
-        'border-stroke-tertiary bg-surface-bg-secondary relative flex flex-col border transition-colors',
+        'border-stroke-tertiary bg-surface-secondary relative flex flex-col border transition-colors',
         className,
       )}>
       {/* Sticky Header with filename and copy button */}
@@ -93,18 +93,18 @@ export function CodeBlock({
       </div>
 
       {/* Scrollable Code content */}
-      <div className="bg-surface-bg-secondary flex-1 overflow-auto">
+      <div className="bg-surface-secondary flex-1 overflow-auto">
         {html ? (
           <div
             className={cn(
-              'paragraph-code-text [&>pre]:bg-surface-bg-secondary [&>pre]:m-0 [&>pre]:p-4',
+              'paragraph-code-text [&>pre]:bg-surface-secondary [&>pre]:m-0 [&>pre]:p-4',
               '[&_code]:font-mono [&_code]:text-sm [&_code]:whitespace-pre',
               showLineNumbers && '[&>pre]:pl-12',
             )}
             dangerouslySetInnerHTML={{ __html: html }}
           />
         ) : (
-          <pre className="bg-surface-bg-secondary m-0 p-4">
+          <pre className="bg-surface-secondary m-0 p-4">
             <code className="text-fg-primary font-mono text-sm whitespace-pre">
               {code}
             </code>

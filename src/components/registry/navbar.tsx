@@ -71,7 +71,7 @@ export function Navbar() {
 
   return (
     <>
-      <header className="border-stroke-tertiary bg-surface-bg-base sticky top-0 z-50 w-full border-b">
+      <header className="border-stroke-tertiary bg-surface-base sticky top-0 z-50 w-full border-b">
         <div className="flex h-14 items-center px-4 md:px-6">
           {/* Brand */}
           <Link to="/" className="mr-6 flex items-center">
@@ -140,7 +140,7 @@ export function Navbar() {
             role="dialog"
             aria-modal="true"
             aria-label="Search components"
-            className="border-stroke-tertiary bg-surface-bg-base fixed top-20 left-1/2 z-50 w-full max-w-lg -translate-x-1/2 border p-0"
+            className="border-stroke-tertiary bg-surface-base fixed top-20 left-1/2 z-50 w-full max-w-lg -translate-x-1/2 border p-0"
             onClick={e => e.stopPropagation()}
             onKeyDown={e => e.stopPropagation()}>
             {/* Search Input */}

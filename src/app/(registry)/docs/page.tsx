@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 
 export default function IntroductionPage() {
   return (
-    <main className="bg-surface-bg-base min-h-screen w-full p-5 md:p-10">
+    <main className="bg-surface-base min-h-screen w-full p-5 md:p-10">
       <div className="mx-auto w-full max-w-[800px]">
         <div className="flex flex-col gap-8">
           {/* Header */}
