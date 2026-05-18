@@ -1,4 +1,4 @@
-import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';
+import { FieldDescription, FieldLabel, FieldSet } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
@@ -45,7 +45,11 @@ export function InputDemo() {
 
   return (
     <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-      <FieldTitle className={getInputLabelClass('default')}>Label</FieldTitle>
+      <FieldLabel
+        htmlFor="input-demo"
+        className={getInputLabelClass('default')}>
+        Label
+      </FieldLabel>
       <Input id="input-demo" placeholder="Placeholder" />
       <FieldDescription className={description}>Helper text</FieldDescription>
     </FieldSet>
@@ -61,15 +65,21 @@ export function InputVariants() {
   return (
     <div className={`${FIELD_WIDTH} space-y-4`}>
       <FieldSet className={gap}>
-        <FieldTitle className={getInputLabelClass('default')}>Label</FieldTitle>
+        <FieldLabel
+          htmlFor="input-variant-default"
+          className={getInputLabelClass('default')}>
+          Label
+        </FieldLabel>
         <Input id="input-variant-default" placeholder="Placeholder" />
         <FieldDescription className={description}>Helper text</FieldDescription>
       </FieldSet>
 
       <FieldSet className={gap}>
-        <FieldTitle className={getInputLabelClass('default', 'inline')}>
+        <FieldLabel
+          htmlFor="input-variant-inline"
+          className={getInputLabelClass('default', 'inline')}>
           Label
-        </FieldTitle>
+        </FieldLabel>
         <Input
           id="input-variant-inline"
           variant="inline"
@@ -99,9 +109,11 @@ export function InputSizes() {
         return (
           <div key={size} className="flex gap-6">
             <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-              <FieldTitle className={getInputLabelClass(size)}>
+              <FieldLabel
+                htmlFor={`input-size-${size}`}
+                className={getInputLabelClass(size)}>
                 Label
-              </FieldTitle>
+              </FieldLabel>
               <Input
                 id={`input-size-${size}`}
                 size={size}
@@ -113,9 +125,11 @@ export function InputSizes() {
             </FieldSet>
 
             <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-              <FieldTitle className={getInputLabelClass(size, 'inline')}>
+              <FieldLabel
+                htmlFor={`input-size-${size}-inline`}
+                className={getInputLabelClass(size, 'inline')}>
                 Label
-              </FieldTitle>
+              </FieldLabel>
               <Input
                 id={`input-size-${size}-inline`}
                 size={size}
@@ -197,38 +211,43 @@ export function InputStates() {
           inlineProps,
           statusDescriptionClass,
           descriptionText,
-        }) => (
-          <div key={label} className="flex gap-6">
-            <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-              <FieldTitle className={getInputLabelClass('default')}>
-                Label
-              </FieldTitle>
-              <Input
-                id={`input-state-${label.toLowerCase().replaceAll(' ', '-')}`}
-                {...props}
-              />
-              <FieldDescription
-                className={`${descriptionClass} ${statusDescriptionClass ?? ''}`}>
-                {descriptionText ?? 'Helper text'}
-              </FieldDescription>
-            </FieldSet>
+        }) => {
+          const stateIdBase = `input-state-${label.toLowerCase().replaceAll(' ', '-')}`;
 
-            <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-              <FieldTitle className={getInputLabelClass('default', 'inline')}>
-                Label
-              </FieldTitle>
-              <Input
-                id={`input-state-${label.toLowerCase().replaceAll(' ', '-')}-inline`}
-                variant="inline"
-                {...inlineProps}
-              />
-              <FieldDescription
-                className={`${descriptionClass} ${statusDescriptionClass ?? ''}`}>
-                {descriptionText ?? 'Helper text'}
-              </FieldDescription>
-            </FieldSet>
-          </div>
-        ),
+          return (
+            <div key={label} className="flex gap-6">
+              <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
+                <FieldLabel
+                  htmlFor={stateIdBase}
+                  className={getInputLabelClass('default')}>
+                  Label
+                </FieldLabel>
+                <Input id={stateIdBase} {...props} />
+                <FieldDescription
+                  className={`${descriptionClass} ${statusDescriptionClass ?? ''}`}>
+                  {descriptionText ?? 'Helper text'}
+                </FieldDescription>
+              </FieldSet>
+
+              <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
+                <FieldLabel
+                  htmlFor={`${stateIdBase}-inline`}
+                  className={getInputLabelClass('default', 'inline')}>
+                  Label
+                </FieldLabel>
+                <Input
+                  id={`${stateIdBase}-inline`}
+                  variant="inline"
+                  {...inlineProps}
+                />
+                <FieldDescription
+                  className={`${descriptionClass} ${statusDescriptionClass ?? ''}`}>
+                  {descriptionText ?? 'Helper text'}
+                </FieldDescription>
+              </FieldSet>
+            </div>
+          );
+        },
       )}
     </div>
   );
@@ -252,9 +271,11 @@ export function InputTypes() {
       {types.map(({ type }) => (
         <div key={type} className="flex gap-6">
           <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-            <FieldTitle className={getInputLabelClass('default')}>
+            <FieldLabel
+              htmlFor={`input-type-${type}`}
+              className={getInputLabelClass('default')}>
               Label
-            </FieldTitle>
+            </FieldLabel>
             <Input
               id={`input-type-${type}`}
               type={type}
@@ -266,9 +287,11 @@ export function InputTypes() {
           </FieldSet>
 
           <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-            <FieldTitle className={getInputLabelClass('default', 'inline')}>
+            <FieldLabel
+              htmlFor={`input-type-${type}-inline`}
+              className={getInputLabelClass('default', 'inline')}>
               Label
-            </FieldTitle>
+            </FieldLabel>
             <Input
               id={`input-type-${type}-inline`}
               type={type}

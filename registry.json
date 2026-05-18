@@ -4,25 +4,53 @@
   "homepage": "",
   "items": [
     {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "QBDS Utilities",
+      "description": "Tailwind class merge with QBDS typography class-group support.",
+      "dependencies": ["clsx", "tailwind-merge"],
+      "files": [
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
       "name": "alert",
       "type": "registry:ui",
       "title": "Alert",
       "description": "Displays contextual messages with two layouts (modal, long). Compose with AlertIcon, AlertContent, AlertTitle, AlertDescription, and optional AlertClose.",
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/button.json",
         "__REGISTRY_URL__/r/icon-shell.json"
       ],
       "files": [
         {
           "path": "src/components/ui/alert.tsx",
-          "type": "registry:file",
-          "target": "components/ui/alert.tsx"
+          "type": "registry:ui"
         },
         {
           "path": "src/components/icons/Close.tsx",
+          "type": "registry:component",
+          "target": "@components/icons/Close.tsx"
+        }
+      ]
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect Ratio",
+      "description": "Constrains content to a fixed width-to-height ratio — ideal for images, video placeholders, and media cards.",
+      "dependencies": ["@radix-ui/react-aspect-ratio"],
+      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "files": [
+        {
+          "path": "src/components/ui/aspect-ratio.tsx",
           "type": "registry:file",
-          "target": "components/icons/Close.tsx"
+          "target": "components/ui/aspect-ratio.tsx"
         }
       ]
     },
@@ -32,12 +60,14 @@
       "title": "Avatar",
       "description": "An avatar component with support for images and tooltips.",
       "dependencies": ["@radix-ui/react-avatar"],
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/avatar.tsx",
-          "type": "registry:file",
-          "target": "components/ui/avatar.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -47,12 +77,14 @@
       "title": "Badge",
       "description": "A badge component.",
       "dependencies": ["@radix-ui/react-slot"],
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/badge.tsx",
-          "type": "registry:file",
-          "target": "components/ui/badge.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -62,12 +94,14 @@
       "title": "Button",
       "description": "Allows users to take actions with a single click or tap.",
       "dependencies": ["@radix-ui/react-slot"],
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/button.tsx",
-          "type": "registry:file",
-          "target": "components/ui/button.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -79,6 +113,7 @@
       "dependencies": ["react-day-picker", "date-fns"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/button.json",
         "__REGISTRY_URL__/r/icon-shell.json",
         "__REGISTRY_URL__/r/input.json"
@@ -86,18 +121,17 @@
       "files": [
         {
           "path": "src/components/ui/calendar.tsx",
-          "type": "registry:file",
-          "target": "components/ui/calendar.tsx"
+          "type": "registry:ui"
         },
         {
           "path": "src/components/icons/ChevronLeft.tsx",
-          "type": "registry:file",
-          "target": "components/icons/ChevronLeft.tsx"
+          "type": "registry:component",
+          "target": "@components/icons/ChevronLeft.tsx"
         },
         {
           "path": "src/components/icons/ChevronRight.tsx",
-          "type": "registry:file",
-          "target": "components/icons/ChevronRight.tsx"
+          "type": "registry:component",
+          "target": "@components/icons/ChevronRight.tsx"
         }
       ]
     },
@@ -109,6 +143,7 @@
       "dependencies": ["react-day-picker", "date-fns"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/calendar.json",
         "__REGISTRY_URL__/r/input-group.json",
         "__REGISTRY_URL__/r/popover.json"
@@ -121,13 +156,13 @@
         },
         {
           "path": "src/components/icons/CalendarMonth.tsx",
-          "type": "registry:file",
-          "target": "components/icons/CalendarMonth.tsx"
+          "type": "registry:component",
+          "target": "@components/icons/CalendarMonth.tsx"
         },
         {
           "path": "src/components/icons/ArrowForward.tsx",
-          "type": "registry:file",
-          "target": "components/icons/ArrowForward.tsx"
+          "type": "registry:component",
+          "target": "@components/icons/ArrowForward.tsx"
         }
       ]
     },
@@ -138,13 +173,19 @@
       "description": "Custom time input with composable segment-based hh:mm entry, keyboard navigation, and clock icon trigger. Exports TimeInputRoot, TimeSegmentInput, TimeSeparator, TimeInputTrigger, and TimeInput convenience wrapper.",
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
-        "__REGISTRY_URL__/r/input.json"
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/input.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
       ],
       "files": [
         {
           "path": "src/components/ui/time-input.tsx",
-          "type": "registry:file",
-          "target": "components/ui/time-input.tsx"
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/components/icons/Schedule.tsx",
+          "type": "registry:component",
+          "target": "@components/icons/Schedule.tsx"
         },
         {
           "path": "src/app/demo/[name]/ui/time-input.tsx",
@@ -160,6 +201,7 @@
       "description": "Individual components for building time picker interfaces. Includes TimePickerItem (radio list item) and TimePickerList (scrollable list) with size support (sm, default, lg).",
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/dropdown-menu.json",
         "__REGISTRY_URL__/r/scroll-area.json",
         "__REGISTRY_URL__/r/time-input.json"
@@ -167,8 +209,7 @@
       "files": [
         {
           "path": "src/components/ui/time-picker.tsx",
-          "type": "registry:file",
-          "target": "components/ui/time-picker.tsx"
+          "type": "registry:ui"
         },
         {
           "path": "src/app/demo/[name]/ui/time-picker.tsx",
@@ -182,12 +223,14 @@
       "type": "registry:ui",
       "title": "Card",
       "description": "A card component.",
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/card.tsx",
-          "type": "registry:file",
-          "target": "components/ui/card.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -197,12 +240,14 @@
       "title": "Checkbox",
       "description": "Allows users to select multiple items from a list of options.",
       "dependencies": ["@radix-ui/react-checkbox"],
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/checkbox.tsx",
-          "type": "registry:file",
-          "target": "components/ui/checkbox.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -212,12 +257,14 @@
       "title": "Dialog",
       "description": "A dialog component.",
       "dependencies": ["@radix-ui/react-dialog"],
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/dialog.tsx",
-          "type": "registry:file",
-          "target": "components/ui/dialog.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -229,13 +276,13 @@
       "dependencies": ["@radix-ui/react-dropdown-menu"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/button.json"
       ],
       "files": [
         {
           "path": "src/components/ui/dropdown-menu.tsx",
-          "type": "registry:file",
-          "target": "components/ui/dropdown-menu.tsx"
+          "type": "registry:ui"
         },
         {
           "path": "src/app/demo/[name]/ui/dropdown-menu.tsx",
@@ -249,12 +296,14 @@
       "type": "registry:ui",
       "title": "Empty",
       "description": "Displays empty states with support for icons, titles, descriptions, and custom content. Compose with EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, and EmptyContent.",
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/empty.tsx",
-          "type": "registry:file",
-          "target": "components/ui/empty.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -265,14 +314,14 @@
       "description": "Composable field layout and structure for forms. Use FieldSet, FieldLegend, FieldGroup, Field, FieldLabel, FieldContent, FieldTitle, and FieldDescription.",
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/label.json",
         "__REGISTRY_URL__/r/separator.json"
       ],
       "files": [
         {
           "path": "src/components/ui/field.tsx",
-          "type": "registry:file",
-          "target": "components/ui/field.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -289,13 +338,13 @@
       ],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/label.json"
       ],
       "files": [
         {
           "path": "src/components/ui/form.tsx",
-          "type": "registry:file",
-          "target": "components/ui/form.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -305,12 +354,14 @@
       "title": "Icon Shell",
       "description": "An icon component.",
       "dependencies": ["@radix-ui/react-slot"],
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/icon-shell.tsx",
-          "type": "registry:file",
-          "target": "components/ui/icon-shell.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -319,12 +370,14 @@
       "type": "registry:ui",
       "title": "Input",
       "description": "A text input field with support for variants (default, inline) and sizes (small, default, large).",
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/input.tsx",
-          "type": "registry:file",
-          "target": "components/ui/input.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -335,6 +388,7 @@
       "description": "A composite input component with support for icons, buttons, and text addons.",
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/input.json",
         "__REGISTRY_URL__/r/button.json",
         "__REGISTRY_URL__/r/textarea.json"
@@ -342,8 +396,7 @@
       "files": [
         {
           "path": "src/components/ui/input-group.tsx",
-          "type": "registry:file",
-          "target": "components/ui/input-group.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -355,29 +408,29 @@
       "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/input-group.json",
         "__REGISTRY_URL__/r/button.json"
       ],
       "files": [
         {
           "path": "src/components/ui/combobox.tsx",
-          "type": "registry:file",
-          "target": "components/ui/combobox.tsx"
+          "type": "registry:ui"
         },
         {
           "path": "src/components/icons/Check.tsx",
-          "type": "registry:file",
-          "target": "components/icons/Check.tsx"
+          "type": "registry:component",
+          "target": "@components/icons/Check.tsx"
         },
         {
           "path": "src/components/icons/ChevronDown.tsx",
-          "type": "registry:file",
-          "target": "components/icons/ChevronDown.tsx"
+          "type": "registry:component",
+          "target": "@components/icons/ChevronDown.tsx"
         },
         {
           "path": "src/components/icons/Close.tsx",
-          "type": "registry:file",
-          "target": "components/icons/Close.tsx"
+          "type": "registry:component",
+          "target": "@components/icons/Close.tsx"
         }
       ]
     },
@@ -387,12 +440,14 @@
       "title": "Label",
       "description": "A component that displays a label for form elements.",
       "dependencies": ["@radix-ui/react-label"],
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/label.tsx",
-          "type": "registry:file",
-          "target": "components/ui/label.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -402,12 +457,14 @@
       "title": "Popover",
       "description": "A popover component.",
       "dependencies": ["@radix-ui/react-popover"],
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/popover.tsx",
-          "type": "registry:file",
-          "target": "components/ui/popover.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -417,12 +474,14 @@
       "title": "Radio Group",
       "description": "A radio group component.",
       "dependencies": ["@radix-ui/react-radio-group"],
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/radio-group.tsx",
-          "type": "registry:file",
-          "target": "components/ui/radio-group.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -432,22 +491,41 @@
       "title": "Select",
       "description": "A select component with single and multiple selection support.",
       "dependencies": ["@base-ui/react"],
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/select.tsx",
-          "type": "registry:file",
-          "target": "components/ui/select.tsx"
+          "type": "registry:ui"
         },
         {
           "path": "src/components/icons/Check.tsx",
-          "type": "registry:file",
-          "target": "components/icons/Check.tsx"
+          "type": "registry:component",
+          "target": "@components/icons/Check.tsx"
         },
         {
           "path": "src/components/icons/ChevronDown.tsx",
-          "type": "registry:file",
-          "target": "components/icons/ChevronDown.tsx"
+          "type": "registry:component",
+          "target": "@components/icons/ChevronDown.tsx"
+        }
+      ]
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "A scrollable viewport with custom scrollbars, built on Radix Scroll Area primitives.",
+      "dependencies": ["@radix-ui/react-scroll-area"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/scroll-area.tsx",
+          "type": "registry:ui"
         }
       ]
     },
@@ -457,12 +535,14 @@
       "title": "Separator",
       "description": "A visual divider that separates content. Supports horizontal and vertical orientation.",
       "dependencies": ["@radix-ui/react-separator"],
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/separator.tsx",
-          "type": "registry:file",
-          "target": "components/ui/separator.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -474,13 +554,13 @@
       "dependencies": ["@radix-ui/react-slider"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/tooltip.json"
       ],
       "files": [
         {
           "path": "src/components/ui/slider.tsx",
-          "type": "registry:file",
-          "target": "components/ui/slider.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -489,43 +569,45 @@
       "type": "registry:ui",
       "title": "Sonner",
       "description": "A toast notification component.",
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "dependencies": ["sonner", "next-themes"],
       "files": [
         {
           "path": "src/components/ui/sonner.tsx",
-          "type": "registry:file",
-          "target": "components/ui/sonner.tsx"
+          "type": "registry:ui"
         },
         {
           "path": "src/components/icons/CheckCircle.tsx",
-          "type": "registry:file",
-          "target": "components/icons/CheckCircle.tsx"
+          "type": "registry:component",
+          "target": "@components/icons/CheckCircle.tsx"
         },
         {
           "path": "src/components/icons/Cancel.tsx",
-          "type": "registry:file",
-          "target": "components/icons/Cancel.tsx"
+          "type": "registry:component",
+          "target": "@components/icons/Cancel.tsx"
         },
         {
           "path": "src/components/icons/ErrorIcon.tsx",
-          "type": "registry:file",
-          "target": "components/icons/ErrorIcon.tsx"
+          "type": "registry:component",
+          "target": "@components/icons/ErrorIcon.tsx"
         },
         {
           "path": "src/components/icons/Info.tsx",
-          "type": "registry:file",
-          "target": "components/icons/Info.tsx"
+          "type": "registry:component",
+          "target": "@components/icons/Info.tsx"
         },
         {
           "path": "src/components/icons/PlaylistAddCheck.tsx",
-          "type": "registry:file",
-          "target": "components/icons/PlaylistAddCheck.tsx"
+          "type": "registry:component",
+          "target": "@components/icons/PlaylistAddCheck.tsx"
         },
         {
           "path": "src/components/icons/Close.tsx",
-          "type": "registry:file",
-          "target": "components/icons/Close.tsx"
+          "type": "registry:component",
+          "target": "@components/icons/Close.tsx"
         }
       ]
     },
@@ -535,12 +617,14 @@
       "title": "Switch",
       "description": "A switch component.",
       "dependencies": ["@radix-ui/react-switch", "class-variance-authority"],
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/switch.tsx",
-          "type": "registry:file",
-          "target": "components/ui/switch.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -549,12 +633,14 @@
       "type": "registry:ui",
       "title": "Table",
       "description": "A responsive table component.",
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/table.tsx",
-          "type": "registry:file",
-          "target": "components/ui/table.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -566,6 +652,7 @@
       "dependencies": ["@tanstack/react-table"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/table.json",
         "__REGISTRY_URL__/r/checkbox.json",
         "__REGISTRY_URL__/r/select.json",
@@ -579,18 +666,18 @@
         },
         {
           "path": "src/components/icons/SwapVert.tsx",
-          "type": "registry:file",
-          "target": "components/icons/SwapVert.tsx"
+          "type": "registry:component",
+          "target": "@components/icons/SwapVert.tsx"
         },
         {
           "path": "src/components/icons/ArrowDownwardAlt.tsx",
-          "type": "registry:file",
-          "target": "components/icons/ArrowDownwardAlt.tsx"
+          "type": "registry:component",
+          "target": "@components/icons/ArrowDownwardAlt.tsx"
         },
         {
           "path": "src/components/icons/ArrowUpwardAlt.tsx",
-          "type": "registry:file",
-          "target": "components/icons/ArrowUpwardAlt.tsx"
+          "type": "registry:component",
+          "target": "@components/icons/ArrowUpwardAlt.tsx"
         }
       ]
     },
@@ -600,12 +687,14 @@
       "title": "Tabs",
       "description": "A responsive tabs component.",
       "dependencies": ["@radix-ui/react-tabs"],
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/tabs.tsx",
-          "type": "registry:file",
-          "target": "components/ui/tabs.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -614,12 +703,14 @@
       "type": "registry:ui",
       "title": "Textarea",
       "description": "Displays a form textarea or a component that looks like a textarea.",
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/textarea.tsx",
-          "type": "registry:file",
-          "target": "components/ui/textarea.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -642,12 +733,14 @@
       "title": "Tooltip",
       "description": "A component that displays informative text when users hover over an element.",
       "dependencies": ["@radix-ui/react-tooltip"],
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/tooltip.tsx",
-          "type": "registry:file",
-          "target": "components/ui/tooltip.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -656,17 +749,39 @@
       "type": "registry:ui",
       "title": "Tag",
       "description": "A dismissable tag component with support for icons, variants (default, secondary, accent, outline, accent-outline), pill shape, and sizes.",
-      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
       "files": [
         {
           "path": "src/components/ui/tag.tsx",
-          "type": "registry:file",
-          "target": "components/ui/tag.tsx"
+          "type": "registry:ui"
         },
         {
           "path": "src/components/icons/Close.tsx",
-          "type": "registry:file",
-          "target": "components/icons/Close.tsx"
+          "type": "registry:component",
+          "target": "@components/icons/Close.tsx"
+        }
+      ]
+    },
+    {
+      "name": "tag-group",
+      "type": "registry:example",
+      "title": "Tag Group",
+      "description": "Examples of grouped tags \u2014 dismissable, with avatars, and toggleable \u2014 across sizes, shapes, and outlines.",
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/tag.json",
+        "__REGISTRY_URL__/r/tag-toggle.json",
+        "__REGISTRY_URL__/r/avatar.json"
+      ],
+      "files": [
+        {
+          "path": "src/app/demo/[name]/ui/tag-group.tsx",
+          "type": "registry:example",
+          "target": ""
         }
       ]
     },
@@ -678,14 +793,14 @@
       "dependencies": ["@radix-ui/react-toggle"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/button.json",
         "__REGISTRY_URL__/r/tag.json"
       ],
       "files": [
         {
           "path": "src/components/ui/tag-toggle.tsx",
-          "type": "registry:file",
-          "target": "components/ui/tag-toggle.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -697,13 +812,13 @@
       "dependencies": ["@radix-ui/react-toggle"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/button.json"
       ],
       "files": [
         {
           "path": "src/components/ui/toggle.tsx",
-          "type": "registry:file",
-          "target": "components/ui/toggle.tsx"
+          "type": "registry:ui"
         }
       ]
     }

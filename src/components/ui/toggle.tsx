@@ -3,8 +3,8 @@
 import * as TogglePrimitive from '@radix-ui/react-toggle';
 import * as React from 'react';
 
-import { cn } from '../../lib/utils';
-import { buttonVariants } from './button';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 // Toggle reuses button variants (secondary, outline, ghost) and sizes
 // with the addition of data-[state=on]:bg-fill-active for the on state

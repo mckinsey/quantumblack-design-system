@@ -19,6 +19,7 @@ import { cn } from '@/lib/utils';
 
 import { inputGroupFieldConfig } from './input-group-config';
 import {
+  InputGroupDeleteOnFocus,
   InputGroupStepperSizes,
   InputGroupStepperStates,
 } from './input-group-examples';
@@ -29,6 +30,7 @@ export { inputGroupFieldConfig } from './input-group-config';
 
 // Re-export client-side components
 export {
+  InputGroupDeleteOnFocus,
   InputGroupStepperSizes,
   InputGroupStepperStates,
 } from './input-group-examples';
@@ -335,6 +337,12 @@ export const examples: DemoExample[] = [
       'Error, warning, and success states with default and inline variants side by side.',
   },
   {
+    name: 'InputGroupDeleteOnFocus',
+    title: 'Input with delete icon on focus',
+    description:
+      'Trailing delete control (Backspace icon) shown with CSS :focus-within — control stays mounted for predictable focus; default and inline, stacked vertically.',
+  },
+  {
     name: 'InputGroupStepperSizes',
     title: 'Stepper Sizes',
     description:
@@ -355,6 +363,7 @@ export const inputGroup = createLegacyDemo('input-group', examples, {
   InputGroupBothSides: <InputGroupBothSides />,
   InputGroupSizes: <InputGroupSizes />,
   InputGroupStatusStates: <InputGroupStatusStates />,
+  InputGroupDeleteOnFocus: <InputGroupDeleteOnFocus />,
   InputGroupStepperSizes: <InputGroupStepperSizes />,
   InputGroupStepperStates: <InputGroupStepperStates />,
 });
