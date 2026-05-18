@@ -1,0 +1,72 @@
+name: Publish Code Connect
+
+# Publishes Code Connect mappings to Figma whenever a push to `main`
+# changes any `*.figma.tsx`, the icon library, or the CC config. Runs as
+# a single, batched publish (--batch-size 500) to avoid Figma's
+# "request too large" error.
+#
+# Requirements:
+#   - Repository secret FIGMA_ACCESS_TOKEN with scopes:
+#       File content -> Read
+#       Code Connect -> Write
+#   - The token must have access to every Figma file referenced by the
+#     mappings (currently QBDS v2.0.0 + the Material Symbols icon file).
+#
+# A failure here is non-blocking for `main` itself — it surfaces as a
+# red check on the merge commit, alerting the maintainer to investigate
+# (typically: expired token, missing scope, or a node deleted in Figma).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**/*.figma.tsx'
+      - 'src/icons/**'
+      - 'src/components/ui/**'
+      - 'figma.config.json'
+
+  # Allow manual republish, useful after rotating the Figma token or
+  # when reconciling drift discovered out-of-band.
+  workflow_dispatch:
+
+concurrency:
+  group: cc-publish-main
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: figma-code-connect
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Cache node_modules
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('.nvmrc') }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Verify token is present
+        env:
+          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_ACCESS_TOKEN }}
+        run: |
+          if [ -z "$FIGMA_ACCESS_TOKEN" ]; then
+            echo "::error::FIGMA_ACCESS_TOKEN secret is not set on this repository."
+            echo "Add it under Settings -> Secrets and variables -> Actions."
+            exit 1
+          fi
+          echo "Token length: ${#FIGMA_ACCESS_TOKEN} (expected ~45 for figd_...)"
+
+      - name: Publish Code Connect mappings
+        env:
+          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_ACCESS_TOKEN }}
+        run: npm run cc:publish

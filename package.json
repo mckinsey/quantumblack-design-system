@@ -21,7 +21,10 @@
     "test:watch": "vitest",
     "test": "concurrently --kill-others-on-fail \"npm run test:unit\" \"npm run build\" \"npm run lint\"",
     "lint": "eslint . --cache --cache-location .eslintcache",
-    "start": "vite preview --host 0.0.0.0 --port 3000"
+    "start": "vite preview --host 0.0.0.0 --port 3000",
+    "cc:parse": "figma connect parse",
+    "cc:publish": "figma connect publish --batch-size 500",
+    "cc:publish:dry-run": "figma connect publish --dry-run --batch-size 500 --exit-on-unreadable-files"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
@@ -81,6 +84,7 @@
     "@babel/types": "^7.25.2",
     "@biomejs/biome": "1.9.4",
     "@eslint/js": "^9.37.0",
+    "@figma/code-connect": "^1.4.5",
     "@material-symbols/svg-400": "^0.40.2",
     "@tailwindcss/postcss": "^4.1.11",
     "@testing-library/dom": "^10.4.0",

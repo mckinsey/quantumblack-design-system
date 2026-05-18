@@ -1,0 +1,67 @@
+name: Validate Code Connect
+
+# Runs on every PR that touches Code Connect source files (`*.figma.tsx`)
+# or the Code Connect config / package globs. It only `parse`s — it never
+# publishes — so it is safe to run on forks and does not need the
+# FIGMA_ACCESS_TOKEN secret.
+#
+# The job acts as a gate: if any `figma.connect()` mapping fails to compile
+# or has an unmapped Figma prop, the check fails and the PR is blocked.
+
+on:
+  pull_request:
+    paths:
+      - 'src/**/*.figma.tsx'
+      - 'src/icons/**'
+      - 'figma.config.json'
+
+concurrency:
+  group: cc-validate-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  parse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Cache node_modules
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('.nvmrc') }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Check Code Connect is configured
+        id: check
+        run: |
+          if [ ! -f figma.config.json ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::No figma.config.json on this branch; skipping CC parse."
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Parse Code Connect mappings
+        if: steps.check.outputs.configured == 'true'
+        run: npm run cc:parse -- --exit-on-unreadable-files > /tmp/cc-parse.log 2>&1
+
+      - name: Summarise results
+        if: always() && steps.check.outputs.configured == 'true'
+        run: |
+          echo "::group::Parse summary"
+          MAPPINGS=$(grep -c '"_codeConnectFilePath"' /tmp/cc-parse.log || echo 0)
+          echo "Mappings serialised: $MAPPINGS"
+          echo "::endgroup::"
+
+          echo "::group::Errors"
+          grep -iE 'parser ?error|could not resolve|could not find|^error' /tmp/cc-parse.log || echo "(none)"
+          echo "::endgroup::"
