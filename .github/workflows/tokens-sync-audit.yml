@@ -1,0 +1,139 @@
+name: Tokens Sync Audit
+
+# Runs the Figma <-> globals.css token audit on PRs that touch either
+# side and posts a summary as a sticky PR comment. The check is
+# advisory: it never blocks merge. The goal is visibility so that
+# token drift between Figma and code is caught in PR review instead of
+# in QA or production.
+#
+# Why this is not a `pull_request_target` workflow:
+#   `_target` runs in the base-branch context and has access to repo
+#   secrets, including for fork PRs. That convenience comes with a
+#   security risk because the workflow would still check out and run
+#   code from the untrusted PR. We deliberately use plain
+#   `pull_request` and gracefully skip when secrets are absent, which
+#   keeps fork PRs safe at the cost of not auditing them automatically.
+#   A maintainer can always run `npm run tokens:sync` locally on a
+#   fork PR if they need the audit.
+
+on:
+  pull_request:
+    paths:
+      - 'src/styles/globals.css'
+      - 'scripts/sync-tokens/**'
+      - '.github/workflows/tokens-sync-audit.yml'
+
+concurrency:
+  group: tokens-audit-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Cache node_modules
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('.nvmrc') }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Check Figma token availability
+        id: token
+        env:
+          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_ACCESS_TOKEN }}
+        run: |
+          if [ -z "$FIGMA_ACCESS_TOKEN" ]; then
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::FIGMA_ACCESS_TOKEN unavailable (fork PR or secret not set). Skipping audit; run \`npm run tokens:sync\` locally to view drift."
+          else
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run token sync audit
+        if: steps.token.outputs.available == 'true'
+        env:
+          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_ACCESS_TOKEN }}
+        run: npm run tokens:sync 2>&1 | tee /tmp/audit-stdout.txt
+        # Never fail the PR — this is advisory only
+        continue-on-error: true
+
+      - name: Upload audit artifacts
+        if: steps.token.outputs.available == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: tokens-audit
+          path: |
+            scripts/sync-tokens/.cache/tokens-audit.md
+            scripts/sync-tokens/.cache/tokens-diff.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Post audit as PR comment
+        if: steps.token.outputs.available == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const AUDIT_PATH = 'scripts/sync-tokens/.cache/tokens-audit.md';
+            const MARKER = '<!-- qbds-tokens-audit -->';
+            const MAX_BODY = 60000; // GitHub comment limit is 65536; keep headroom
+
+            if (!fs.existsSync(AUDIT_PATH)) {
+              core.warning('Audit file was not produced; skipping comment.');
+              return;
+            }
+
+            let audit = fs.readFileSync(AUDIT_PATH, 'utf8');
+            let truncated = false;
+            if (audit.length > MAX_BODY) {
+              audit = audit.slice(0, MAX_BODY);
+              truncated = true;
+            }
+
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const footer = [
+              '',
+              '---',
+              truncated
+                ? `_Audit truncated to fit comment size. Full report in the [\`tokens-audit\` artifact](${runUrl})._`
+                : `_Full report also available as the [\`tokens-audit\` artifact](${runUrl}) on this run._`,
+              `_Advisory check — never blocks merge. Last updated for commit \`${context.sha.slice(0, 7)}\`._`,
+            ].join('\n');
+
+            const body = `${MARKER}\n## QBDS Tokens Sync Audit\n\n${audit}${footer}`;
+
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+            const { data: comments } = await github.rest.issues.listComments({
+              owner, repo, issue_number, per_page: 100,
+            });
+            const existing = comments.find(
+              c => c.body && c.body.startsWith(MARKER)
+            );
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner, repo, comment_id: existing.id, body,
+              });
+              core.notice(`Updated existing audit comment #${existing.id}.`);
+            } else {
+              const { data: created } = await github.rest.issues.createComment({
+                owner, repo, issue_number, body,
+              });
+              core.notice(`Created audit comment #${created.id}.`);
+            }
