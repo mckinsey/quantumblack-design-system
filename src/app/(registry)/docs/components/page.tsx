@@ -6,7 +6,7 @@ const components = getUIPrimitives();
 
 export default function ComponentsPage() {
   return (
-    <main className="bg-surface-bg-base min-h-screen w-full p-5 md:p-10">
+    <main className="bg-surface-base min-h-screen w-full p-5 md:p-10">
       <div className="mx-auto w-full max-w-[800px]">
         <div className="flex flex-col gap-8">
           {/* Header */}
@@ -25,7 +25,7 @@ export default function ComponentsPage() {
                 key={component.name}
                 to={`/registry/${component.name}`}
                 className="group">
-                <div className="border-stroke-tertiary bg-surface-bg-primary hover:border-stroke-tertiary-hover flex h-full flex-col gap-1 border p-4 transition-colors">
+                <div className="border-stroke-tertiary bg-surface-primary hover:border-stroke-tertiary-hover flex h-full flex-col gap-1 border p-4 transition-colors">
                   <span className="paragraph-regular-primary text-fg-primary group-hover:text-fg-primary font-semibold transition-colors">
                     {component.title}
                   </span>
