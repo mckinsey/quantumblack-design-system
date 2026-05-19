@@ -30,7 +30,15 @@ npm run lint            # ESLint
 
 Icons are wrapped in `<IconShell>` to apply QBDS sizing (`sm`/`default`/`lg`), tone (`primary`/`secondary`/`disabled`), and colour (`neutral`/`neutral-inverse`/`accent`) tokens. The raw icon components in `src/components/icons/` are implementation detail — when rendering an icon inside another component or a demo, reach for them through `IconShell`.
 
-If you need a Material Symbol that isn't already in `src/components/icons/`, add it by hand following the pattern of an existing one (Sharp style, 24dp, weight 300, `viewBox="0 -960 960 960"`, `fill="currentColor"`).
+Icon component files in `src/components/icons/` are **generated** from `src/components/icons/icons.json` by `scripts/generate-icons.ts`. Do not edit the `.tsx` files by hand — changes will be overwritten the next time the generator runs.
+
+To add a Material Symbol:
+
+1. Append an entry to `src/components/icons/icons.json`, e.g. `{ "name": "Bookmark" }`. The PascalCase `name` is the React component name and is converted to Google's `snake_case` automatically. If the Google name differs (e.g. `ChevronDown` → `keyboard_arrow_down`), add `"source": "keyboard_arrow_down"`.
+2. Run `npm run icons:gen`.
+3. Commit `icons.json` and the regenerated files together.
+
+The generator pulls from `@material-symbols/svg-300` (Sharp, weight 300, `fill = 0`), which matches the QBDS spec. If a source SVG contains multiple paths or unexpected attributes the generator fails loudly — extend `scripts/generate-icons.ts` rather than working around it. Use `npm run icons:check` in CI to fail on drift.
 
 ## Before raising a PR
 
