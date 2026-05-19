@@ -43,9 +43,9 @@ npm run registry:build
 
 ## Environment variables
 
-| Variable            | Description                                                                                                                                                                                                                                       |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `QBDS_REGISTRY_URL` | Base URL for the component registry — **no trailing slash**. Used by `registry:build` to inject dependency URLs into `public/r/*.json`, and by the app for install command URLs. In the browser, defaults to `window.location.origin` when unset. |
+| Variable            | Description                                                                                                                             |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `QBDS_REGISTRY_URL` | Base URL for the component registry — **no trailing slash**. Used by `registry:build` to inject dependency URLs into `public/r/*.json`. |
 
 ### Local development
 
