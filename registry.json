@@ -332,24 +332,46 @@
     },
     {
       "name": "form",
-      "type": "registry:ui",
+      "type": "registry:example",
       "title": "Form",
-      "description": "Build accessible forms with validation using react-hook-form and zod.",
+      "description": "Form recipes built on the Field primitive. Includes a React Hook Form + zod example (stacked layout) and a TanStack Form + zod example (inline layout) with header, sectioned fields (text, date, time, textarea, checkboxes), and submit/cancel actions.",
       "dependencies": [
         "react-hook-form",
         "@hookform/resolvers",
+        "@tanstack/react-form",
         "zod",
-        "@radix-ui/react-slot"
+        "date-fns"
       ],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
-        "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/label.json"
+        "__REGISTRY_URL__/r/field.json",
+        "__REGISTRY_URL__/r/button.json",
+        "__REGISTRY_URL__/r/input.json",
+        "__REGISTRY_URL__/r/input-group.json",
+        "__REGISTRY_URL__/r/calendar.json",
+        "__REGISTRY_URL__/r/popover.json",
+        "__REGISTRY_URL__/r/textarea.json",
+        "__REGISTRY_URL__/r/time-input.json",
+        "__REGISTRY_URL__/r/time-picker.json",
+        "__REGISTRY_URL__/r/dropdown-menu.json",
+        "__REGISTRY_URL__/r/checkbox.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
       ],
       "files": [
         {
-          "path": "src/components/ui/form.tsx",
-          "type": "registry:ui"
+          "path": "src/app/demo/[name]/ui/form.tsx",
+          "type": "registry:example",
+          "target": ""
+        },
+        {
+          "path": "src/app/demo/[name]/ui/form-examples.tsx",
+          "type": "registry:example",
+          "target": ""
+        },
+        {
+          "path": "src/components/icons/CalendarMonth.tsx",
+          "type": "registry:file",
+          "target": "components/icons/CalendarMonth.tsx"
         }
       ]
     },

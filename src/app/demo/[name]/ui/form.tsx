@@ -1,79 +1,19 @@
-import {
-  InlineInputForm,
-  InputGroupForm,
-  LoginForm,
-  ProfileForm,
-  SettingsForm,
-} from './form-interactive';
+import * as FormInteractive from './form-examples';
 
-// ============================================================================
-// Example Components (New Format)
-// ============================================================================
-
-/**
- * Profile form example
- */
-export function FormProfile() {
-  return <ProfileForm />;
-}
-
-/**
- * Settings form with various controls
- */
-export function FormSettings() {
-  return <SettingsForm />;
-}
-
-/**
- * Login form example
- */
-export function FormLogin() {
-  return <LoginForm />;
-}
-
-/**
- * Form with input groups
- */
-export function FormInputGroup() {
-  return <InputGroupForm />;
-}
-
-/**
- * Form with inline inputs
- */
-export function FormInline() {
-  return <InlineInputForm />;
-}
-
-// ============================================================================
-// Example Metadata
-// ============================================================================
+export { ReactHookForm, TanStackForm } from './form-examples';
 
 export const examples = [
   {
-    name: 'FormProfile',
-    title: 'Profile Form',
-    description: 'User profile editing form.',
+    name: 'ReactHookForm',
+    title: 'React Hook Form',
+    description:
+      'Full form using react-hook-form + zod with Controller, built on Field. Stacked (filled) input layout.',
   },
   {
-    name: 'FormSettings',
-    title: 'Settings Form',
-    description: 'Application settings with various input types.',
-  },
-  {
-    name: 'FormLogin',
-    title: 'Login Form',
-    description: 'Authentication login form.',
-  },
-  {
-    name: 'FormInputGroup',
-    title: 'Input Groups',
-    description: 'Form using input groups with icons.',
-  },
-  {
-    name: 'FormInline',
-    title: 'Inline Inputs',
-    description: 'Form with inline input styling.',
+    name: 'TanStackForm',
+    title: 'TanStack Form',
+    description:
+      'Full form using @tanstack/react-form + zod with form.Field, built on Field. Inline (bottom-border) input layout.',
   },
 ];
 
@@ -84,10 +24,7 @@ export const examples = [
 export const form = {
   name: 'form',
   components: {
-    'Profile Form': <FormProfile />,
-    'Settings Form': <FormSettings />,
-    'Login Form': <FormLogin />,
-    'Input Groups': <FormInputGroup />,
-    'Inline Inputs': <FormInline />,
+    'React Hook Form': <FormInteractive.ReactHookForm />,
+    'TanStack Form': <FormInteractive.TanStackForm />,
   },
 };
