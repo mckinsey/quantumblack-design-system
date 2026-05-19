@@ -145,6 +145,8 @@
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/calendar.json",
+        "__REGISTRY_URL__/r/field.json",
+        "__REGISTRY_URL__/r/icon-shell.json",
         "__REGISTRY_URL__/r/input-group.json",
         "__REGISTRY_URL__/r/popover.json"
       ],
@@ -174,6 +176,7 @@
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/field.json",
         "__REGISTRY_URL__/r/input.json",
         "__REGISTRY_URL__/r/icon-shell.json"
       ],
@@ -203,6 +206,8 @@
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/dropdown-menu.json",
+        "__REGISTRY_URL__/r/field.json",
+        "__REGISTRY_URL__/r/scroll-area.json",
         "__REGISTRY_URL__/r/time-input.json"
       ],
       "files": [
@@ -276,7 +281,8 @@
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/button.json"
+        "__REGISTRY_URL__/r/button.json",
+        "__REGISTRY_URL__/r/toggle.json"
       ],
       "files": [
         {

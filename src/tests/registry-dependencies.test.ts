@@ -1,14 +1,13 @@
 /**
  * @vitest-environment node
  *
- * Ensures registry.json stays aligned with source imports:
- * - Every registry:ui item lists `theme` in registryDependencies.
- * - Imports from other UI components are listed in registryDependencies.
- * - Imports from components/icons are listed in this item's files.
+ * Ensures registry.json stays aligned with source imports for registry:ui items:
+ * - Every item lists `theme` in registryDependencies.
+ * - Imports from other UI components in shipped ui/example files are in registryDependencies.
+ * - Imports from components/icons in shipped ui/component files are listed in files[].
  */
 import { parse as babelParse } from '@babel/parser';
 import traverse from '@babel/traverse';
-import type { File } from '@babel/types';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -96,21 +95,15 @@ function resolveModuleFile(specifier: string, fromFile: string): string | null {
 }
 
 function collectImportSources(content: string, filePath: string): string[] {
-  let ast: File;
-
-  try {
-    ast = babelParse(content, {
-      sourceType: 'module',
-      plugins: [
-        'jsx',
-        'typescript',
-        ['decorators', { decoratorsBeforeExport: false }],
-      ],
-      sourceFilename: filePath,
-    });
-  } catch {
-    return [];
-  }
+  const ast = babelParse(content, {
+    sourceType: 'module',
+    plugins: [
+      'jsx',
+      'typescript',
+      ['decorators', { decoratorsBeforeExport: false }],
+    ],
+    sourceFilename: filePath,
+  });
 
   const sources: string[] = [];
 
@@ -155,7 +148,7 @@ describe('registry.json dependency coverage', () => {
     ).toEqual([]);
   });
 
-  it('UI and icon imports from shipped ui files match registry metadata', () => {
+  it('UI and icon imports from shipped files match registry metadata', () => {
     const failures: string[] = [];
 
     for (const item of registry.items) {
@@ -167,15 +160,20 @@ describe('registry.json dependency coverage', () => {
       const allFilePaths = item.files?.map(f => f.path) ?? [];
       const declaredFileKeys = new Set(allFilePaths.map(normalizePathKey));
 
-      const uiSourceFiles =
-        item.files
-          ?.filter(f => f.type === 'registry:ui')
-          .map(f => f.path)
-          .filter(p =>
-            p.replace(/\\/g, '/').startsWith('src/components/ui/'),
-          ) ?? [];
+      const uiDepFiles =
+        item.files?.filter(
+          f =>
+            (f.type === 'registry:ui' &&
+              f.path.replace(/\\/g, '/').startsWith('src/components/ui/')) ||
+            f.type === 'registry:example',
+        ) ?? [];
 
-      for (const relativePath of uiSourceFiles) {
+      const iconDepFiles =
+        item.files?.filter(
+          f => f.type === 'registry:ui' || f.type === 'registry:component',
+        ) ?? [];
+
+      const checkUiDeps = (relativePath: string) => {
         const absFile = path.join(REPO_ROOT, relativePath);
 
         if (!fs.existsSync(absFile)) {
@@ -183,7 +181,7 @@ describe('registry.json dependency coverage', () => {
             `[${item.name}] registry lists missing file on disk: ${relativePath}`,
           );
 
-          continue;
+          return;
         }
 
         const content = fs.readFileSync(absFile, 'utf8');
@@ -198,34 +196,69 @@ describe('registry.json dependency coverage', () => {
 
           const norm = normalizePathKey(resolved);
 
-          if (norm.startsWith(normalizePathKey(UI_DIR) + '/')) {
-            const base = path.basename(resolved, path.extname(resolved));
-
-            if (base === item.name) {
-              continue;
-            }
-
-            if (!declaredDeps.has(base)) {
-              failures.push(
-                `[${item.name}] ${relativePath} imports UI "${base}" (${spec}) but registryDependencies does not include r/${base}.json`,
-              );
-            }
-
+          if (!norm.startsWith(normalizePathKey(UI_DIR) + '/')) {
             continue;
           }
 
-          if (norm.startsWith(normalizePathKey(ICONS_DIR) + '/')) {
-            const registryRelative = normalizePathKey(
-              path.relative(REPO_ROOT, resolved),
-            );
+          const base = path.basename(resolved, path.extname(resolved));
 
-            if (!declaredFileKeys.has(registryRelative)) {
-              failures.push(
-                `[${item.name}] ${relativePath} imports icon "${registryRelative}" (${spec}) but that path is not listed in this item's files[]`,
-              );
-            }
+          if (base === item.name) {
+            continue;
+          }
+
+          if (!declaredDeps.has(base)) {
+            failures.push(
+              `[${item.name}] ${relativePath} imports UI "${base}" (${spec}) but registryDependencies does not include r/${base}.json`,
+            );
           }
         }
+      };
+
+      const checkIconDeps = (relativePath: string) => {
+        const absFile = path.join(REPO_ROOT, relativePath);
+
+        if (!fs.existsSync(absFile)) {
+          failures.push(
+            `[${item.name}] registry lists missing file on disk: ${relativePath}`,
+          );
+
+          return;
+        }
+
+        const content = fs.readFileSync(absFile, 'utf8');
+        const importSources = collectImportSources(content, absFile);
+
+        for (const spec of importSources) {
+          const resolved = resolveModuleFile(spec, absFile);
+
+          if (!resolved) {
+            continue;
+          }
+
+          const norm = normalizePathKey(resolved);
+
+          if (!norm.startsWith(normalizePathKey(ICONS_DIR) + '/')) {
+            continue;
+          }
+
+          const registryRelative = normalizePathKey(
+            path.relative(REPO_ROOT, resolved),
+          );
+
+          if (!declaredFileKeys.has(registryRelative)) {
+            failures.push(
+              `[${item.name}] ${relativePath} imports icon "${registryRelative}" (${spec}) but that path is not listed in this item's files[]`,
+            );
+          }
+        }
+      };
+
+      for (const entry of uiDepFiles) {
+        checkUiDeps(entry.path);
+      }
+
+      for (const entry of iconDepFiles) {
+        checkIconDeps(entry.path);
       }
     }
 
