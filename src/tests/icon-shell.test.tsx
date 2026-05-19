@@ -63,6 +63,19 @@ describe(`${componentName} — structure`, () => {
     },
   );
 
+  it.each(['neutral', 'neutral-inverse', 'accent'] as const)(
+    'renders type="%s" without crashing',
+    type => {
+      expect(() =>
+        render(
+          <IconShell type={type}>
+            <Info />
+          </IconShell>,
+        ),
+      ).not.toThrow();
+    },
+  );
+
   it('renders children inside the shell', () => {
     render(
       <IconShell>
