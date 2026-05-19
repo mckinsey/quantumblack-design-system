@@ -13,7 +13,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      QBDS_REGISTRY_URL: ${{ vars.QBDS_REGISTRY_URL }}
+      QBDS_REGISTRY_URL: https://designsystem.quantumblack.com
     steps:
       - uses: actions/checkout@v6
 
@@ -38,7 +38,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      QBDS_REGISTRY_URL: ${{ vars.QBDS_REGISTRY_URL }}
+      QBDS_REGISTRY_URL: https://designsystem.quantumblack.com
     steps:
       - uses: actions/checkout@v6
 
