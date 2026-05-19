@@ -22,7 +22,7 @@
     "test": "concurrently --kill-others-on-fail \"npm run test:unit\" \"npm run build\" \"npm run lint\"",
     "lint": "eslint . --cache --cache-location .eslintcache",
     "secretscan": "scripts/secret-scan.sh",
-    "precommit": "concurrently --kill-others-on-fail -n lint,test,secrets \"npm run lint\" \"npm run test:unit\" \"npm run secretsscan\"",
+    "precommit": "concurrently --kill-others-on-fail -n lint,test,secrets \"npm run lint\" \"npm run test:unit\" \"npm run secretscan\"",
     "start": "vite preview --host 0.0.0.0 --port 3000",
     "prepare": "husky"
   },
