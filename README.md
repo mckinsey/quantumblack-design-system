@@ -43,8 +43,8 @@ npm run registry:build
 
 ## Environment variables
 
-| Variable            | Description                                                                                                                                                                                                                                                  |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Variable            | Description                                                                                                                                                                                                                                       |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `QBDS_REGISTRY_URL` | Base URL for the component registry — **no trailing slash**. Used by `registry:build` to inject dependency URLs into `public/r/*.json`, and by the app for install command URLs. In the browser, defaults to `window.location.origin` when unset. |
 
 ### Local development
@@ -56,15 +56,6 @@ cp .env.example .env
 ```
 
 `.env` is gitignored — never commit it.
-
-### CI / GitHub Actions
-
-| Workflow           | `QBDS_REGISTRY_URL` |
-| ------------------ | ------------------- |
-| `pr.yml`           | `https://designsystem.quantumblack.com` (hardcoded — works for fork PRs) |
-| `deploy-pages.yml` | Repository variable — **Settings → Secrets and variables → Actions → Variables** |
-
-PR CI does not use `${{ vars.QBDS_REGISTRY_URL }}` so fork pull requests can run `npm run build` without base-repo variable access. Set the repository variable for production deploys only.
 
 ## Project structure
 
@@ -149,5 +140,5 @@ The build also runs `generate-api-docs` and `extract-examples` to produce the pr
 
 ## CI/CD
 
-- **`pr.yml`** — unit tests, build, and lint on push to `main` and pull requests. Build uses `QBDS_REGISTRY_URL=https://designsystem.quantumblack.com`.
-- **`deploy-pages.yml`** — builds and deploys to GitHub Pages on push to `main` (or manual trigger). Uses the `QBDS_REGISTRY_URL` repository variable. Includes a `404.html` for SPA routing.
+- **`pr.yml`** — unit tests, build, and lint on push to `main` and pull requests.
+- **`deploy-pages.yml`** — builds and deploys to GitHub Pages on push to `main` (or manual trigger). Includes a `404.html` for SPA routing.
