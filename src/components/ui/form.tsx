@@ -85,6 +85,37 @@ function FormItem({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
+/**
+ * Optional Form header. Maps to the `headerSlot` property in the QBDS Figma
+ * `Form` component set; use it for the form's title, description, or any
+ * leading content above the sections.
+ */
+function FormHeader({ className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div
+      data-slot="form-header"
+      className={cn('flex flex-col gap-1', className)}
+      {...props}
+    />
+  );
+}
+
+/**
+ * Optional Form section. Repeat as many times as needed to cover the
+ * `sectionSlot1`, `sectionSlot2`, `sectionSlot3`, and `sectionSlot4`
+ * properties in the QBDS Figma `Form` component set; in code the count is
+ * unbounded by design (Figma caps at 4 because Figma slots must be named).
+ */
+function FormSection({ className, ...props }: React.ComponentProps<'section'>) {
+  return (
+    <section
+      data-slot="form-section"
+      className={cn('flex flex-col gap-4', className)}
+      {...props}
+    />
+  );
+}
+
 function FormLabel({
   className,
   ...props
@@ -167,6 +198,8 @@ export {
   useFormField,
   Form,
   FormItem,
+  FormHeader,
+  FormSection,
   FormLabel,
   FormControl,
   FormDescription,

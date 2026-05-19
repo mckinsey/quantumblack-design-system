@@ -30,15 +30,52 @@ const labelVariants = cva(
 export interface LabelProps
   extends
     React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>,
-    VariantProps<typeof labelVariants> {}
+    VariantProps<typeof labelVariants> {
+  /**
+   * Optional content rendered after the label, right-aligned. Maps to the
+   * `infoCounterSlot` property in the QBDS Figma `Elements/Label` component
+   * set (e.g. `12 / 50` character counter).
+   */
+  infoCounter?: React.ReactNode;
+  /**
+   * Optional content rendered after the label, right-aligned, sitting beside
+   * `infoCounter` when both are present. Maps to the `infoMiscsSlot` property
+   * in the QBDS Figma `Elements/Label` component set (e.g. an info icon or
+   * "Optional" hint).
+   */
+  infoMiscs?: React.ReactNode;
+}
 
-function Label({ className, size, disabled, ...props }: LabelProps) {
+function Label({
+  className,
+  size,
+  disabled,
+  infoCounter,
+  infoMiscs,
+  children,
+  ...props
+}: LabelProps) {
+  const hasInfo = infoCounter !== undefined || infoMiscs !== undefined;
+
   return (
     <LabelPrimitive.Root
       className={cn(labelVariants({ size, disabled }), className)}
       data-slot="label"
-      {...props}
-    />
+      {...props}>
+      {children}
+      {hasInfo && (
+        <span
+          data-slot="label-info"
+          className="ml-auto inline-flex items-center gap-1">
+          {infoCounter !== undefined && (
+            <span data-slot="label-info-counter">{infoCounter}</span>
+          )}
+          {infoMiscs !== undefined && (
+            <span data-slot="label-info-miscs">{infoMiscs}</span>
+          )}
+        </span>
+      )}
+    </LabelPrimitive.Root>
   );
 }
 

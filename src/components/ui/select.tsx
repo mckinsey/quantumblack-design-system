@@ -193,11 +193,24 @@ function SelectLabel({
   );
 }
 
+/**
+ * `leading` and `trailing` map to the `leadingSlot` and `trailingSlot`
+ * properties in the QBDS Figma `MenuItem/Select` component set. Use them for
+ * an item-leading icon/avatar and an item-trailing affordance (e.g. shortcut,
+ * counter, status dot). Both are rendered alongside the item's `children`.
+ */
+type SelectItemProps = SelectPrimitive.Item.Props & {
+  leading?: React.ReactNode;
+  trailing?: React.ReactNode;
+};
+
 function SelectItem({
   className,
   children,
+  leading,
+  trailing,
   ...props
-}: SelectPrimitive.Item.Props) {
+}: SelectItemProps) {
   const sizeContext = useSelectSizeContext();
   const size = sizeContext?.size ?? 'default';
 
@@ -220,7 +233,19 @@ function SelectItem({
         className,
       )}
       {...props}>
+      {leading !== undefined && (
+        <span data-slot="select-item-leading" className="inline-flex shrink-0">
+          {leading}
+        </span>
+      )}
       {children}
+      {trailing !== undefined && (
+        <span
+          data-slot="select-item-trailing"
+          className="ml-auto inline-flex shrink-0">
+          {trailing}
+        </span>
+      )}
     </SelectPrimitive.Item>
   );
 }
