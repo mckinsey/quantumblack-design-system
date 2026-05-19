@@ -26,6 +26,12 @@ npm run lint            # ESLint
 3. Register it in `registry.json` (follow the `alert` / `alert-demo` pattern)
 4. Run `npm run registry:build` to regenerate registry files
 
+## Icons
+
+Icons are wrapped in `<IconShell>` to apply QBDS sizing (`sm`/`default`/`lg`), tone (`primary`/`secondary`/`disabled`), and colour (`neutral`/`neutral-inverse`/`accent`) tokens. The raw icon components in `src/components/icons/` are implementation detail — when rendering an icon inside another component or a demo, reach for them through `IconShell`.
+
+If you need a Material Symbol that isn't already in `src/components/icons/`, add it by hand following the pattern of an existing one (Sharp style, 24dp, weight 300, `viewBox="0 -960 960 960"`, `fill="currentColor"`).
+
 ## Before raising a PR
 
 - [ ] `npm run build` passes

@@ -17,6 +17,16 @@ const iconVariants = cva(
         default: 'text-[24px] size-6',
         lg: 'text-[32px] size-8',
       },
+      // Mirrors the Figma IconShell `Type` axis. `neutral` is intentionally
+      // empty so the icon inherits `currentColor` from its parent (e.g.
+      // inside a Button), matching the prior behaviour before this axis
+      // existed. `accent-inverse` is omitted until QBDS defines a
+      // `--brand-accents-qb-accent-inverse` token.
+      type: {
+        neutral: '',
+        'neutral-inverse': 'text-fg-primary-inverse',
+        accent: 'text-brand-accents-qb-accent',
+      },
       variant: {
         primary: 'opacity-88',
         secondary: 'opacity-60',
@@ -25,6 +35,7 @@ const iconVariants = cva(
     },
     defaultVariants: {
       size: 'default',
+      type: 'neutral',
       variant: 'primary',
     },
   },
@@ -33,6 +44,7 @@ const iconVariants = cva(
 function IconShell({
   className,
   size,
+  type,
   variant,
   asChild = false,
   children,
@@ -46,7 +58,7 @@ function IconShell({
   return (
     <Comp
       data-slot="icon"
-      className={cn(iconVariants({ size, variant }), className)}
+      className={cn(iconVariants({ size, type, variant }), className)}
       {...props}>
       {children}
     </Comp>
