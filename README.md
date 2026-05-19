@@ -140,5 +140,5 @@ The build also runs `generate-api-docs` and `extract-examples` to produce the pr
 
 ## CI/CD
 
-- **`pr.yml`** — unit tests, build, and lint on push to `main` and pull requests.
+- **`pr.yml`** — unit tests, build, and lint on push to `main` and pull requests. Uses `vars.QBDS_REGISTRY_URL` when set, otherwise `https://designsystem.quantumblack.com` (fork PRs).
 - **`deploy-pages.yml`** — builds and deploys to GitHub Pages on push to `main` (or manual trigger). Includes a `404.html` for SPA routing.
