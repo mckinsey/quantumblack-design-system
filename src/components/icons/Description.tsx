@@ -17,7 +17,7 @@ export function Description({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M329.39-257.31h301.22v-45.38H329.39v45.38Zm0-167.31h301.22V-470H329.39v45.38ZM180-100v-760h405.23L780-665.23V-100H180Zm382.54-544.77v-169.84H225.39v669.22h509.22v-499.38H562.54ZM225.39-814.61v169.84-169.84 669.22-669.22Z" />
+      <path d="M330-250h300v-60H330v60Zm0-160h300v-60H330v60ZM180-100v-760h390l210 210v550H180Zm360-520v-180H240v640h480v-460H540ZM240-800v180-180 640-640Z" />
     </svg>
   );
 }

@@ -17,7 +17,7 @@ export function Send({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M140-190v-580l688.46 290L140-190Zm45.39-70.31L710.54-480 185.39-701.92v168L403.92-480l-218.53 52.31v167.38Zm0 0v-441.61 441.61Z" />
+      <path d="M140-190v-580l688.46 290L140-190Zm60-90 474-200-474-200v147.69L416.92-480 200-427.69V-280Zm0 0v-400 400Z" />
     </svg>
   );
 }

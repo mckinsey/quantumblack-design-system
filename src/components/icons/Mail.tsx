@@ -17,7 +17,7 @@ export function Mail({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M100-180v-600h760v600H100Zm380-293.92L145.39-695.39v470h669.22v-470L480-473.92Zm0-47.7 325.61-212.99H155.39L480-521.62ZM145.39-695.39v-39.22 509.22-470Z" />
+      <path d="M100-180v-600h760v600H100Zm380-277.69L160-662.31V-240h640v-422.31L480-457.69Zm0-62.31 313.85-200h-627.7L480-520ZM160-662.31V-720v480-422.31Z" />
     </svg>
   );
 }

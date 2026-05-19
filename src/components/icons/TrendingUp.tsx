@@ -17,7 +17,7 @@ export function TrendingUp({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M132.62-258.08 100-290.69l271.23-271 165.08 165.08L785-643.77H649.54v-45.38H860v210.46h-44.77v-131.85L535.69-330.62 370.62-495.69l-238 237.61Z" />
+      <path d="M142.15-258.08 100-300.23l274.08-276.08 160 160 224.54-221.77H640v-60h220v220h-60v-117.84L534.08-330l-160-160-231.93 231.92Z" />
     </svg>
   );
 }

@@ -17,7 +17,7 @@ export function ChevronUp({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M480-560.92 286.46-367.39 253.85-400 480-626.15 706.15-400l-32.61 32.61L480-560.92Z" />
+      <path d="m480-541.85-184 184L253.85-400 480-626.15 706.15-400 664-357.85l-184-184Z" />
     </svg>
   );
 }

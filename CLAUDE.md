@@ -38,7 +38,7 @@ To add a Material Symbol:
 2. Run `npm run icons:gen`.
 3. Commit `icons.json` and the regenerated files together.
 
-The generator pulls from `@material-symbols/svg-300` (Sharp, weight 300, `fill = 0`), which matches the QBDS spec. If a source SVG contains multiple paths or unexpected attributes the generator fails loudly — extend `scripts/generate-icons.ts` rather than working around it. Use `npm run icons:check` in CI to fail on drift.
+The generator fetches each glyph live from Google's `material-design-icons` GitHub master (Sharp, 24dp, weight 300, `fill = 0`) — the same source the QBDS Figma library uses, so the bytes match what designers see. Requires network when running. Use `npm run icons:check` in CI to fail on drift.
 
 ## Before raising a PR
 

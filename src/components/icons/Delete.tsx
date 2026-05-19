@@ -17,7 +17,7 @@ export function Delete({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M220.62-140v-601.92H180v-45.39h171.08v-28.07h257.84v28.07H780v45.39h-40.62V-140H220.62ZM266-185.39h428v-556.53H266v556.53Zm115.23-84.46h45.39v-388.61h-45.39v388.61Zm152.15 0h45.39v-388.61h-45.39v388.61ZM266-741.92v556.53-556.53Z" />
+      <path d="M220-140v-580h-40v-60h180v-35.38h240V-780h180v60h-40v580H220Zm60-60h400v-520H280v520Zm96.16-80h59.99v-360h-59.99v360Zm147.69 0h59.99v-360h-59.99v360ZM280-720v520-520Z" />
     </svg>
   );
 }

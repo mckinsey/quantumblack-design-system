@@ -17,7 +17,7 @@ export function ArrowDownwardAlt({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M479.38-253.85 252.23-480.62l32-32.61 173.08 170.46v-405h45.38v406.62l171.46-171.46 32 31.99-226.77 226.77Z" />
+      <path d="M480-253.85 253.85-480 296-522.15l154 154V-750h60v381.85l154-154L706.15-480 480-253.85Z" />
     </svg>
   );
 }

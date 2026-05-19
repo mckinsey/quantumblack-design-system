@@ -17,7 +17,7 @@ export function Remove({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M220-457.31v-45.38h520v45.38H220Z" />
+      <path d="M220-450v-60h520v60H220Z" />
     </svg>
   );
 }
