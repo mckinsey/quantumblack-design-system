@@ -7,9 +7,9 @@ const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const ICONS_DIR = resolve(SCRIPT_DIR, '../src/components/icons');
 const MANIFEST = join(ICONS_DIR, 'icons.json');
 
-// QBDS icon spec (ICON-RULES.md §2): each size renders from the Google
-// source whose optical size matches it. Weight 400 is Google's default and
-// is omitted from the filename; weight 300 is explicit.
+// QBDS icon spec: each IconShell size renders from the Google source whose
+// optical size matches it. Weight 400 is Google's default and is omitted
+// from the filename; weight 300 is explicit.
 const SOURCES = {
   sm: { suffix: '20px' }, // 20dp @ wght400
   default: { suffix: 'wght300_24px' }, // 24dp @ wght300

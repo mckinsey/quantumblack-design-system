@@ -38,7 +38,7 @@ To add a Material Symbol:
 2. Run `npm run icons:gen`.
 3. Commit `icons.json` and the regenerated files together.
 
-The generator fetches **three glyphs per icon** live from Google's `material-design-icons` GitHub master, one for each IconShell size (per ICON-RULES.md §2):
+The generator fetches **three glyphs per icon** live from Google's `material-design-icons` GitHub master, one for each IconShell size:
 
 - `sm` → 20dp @ weight 400
 - `default` → 24dp @ weight 300
