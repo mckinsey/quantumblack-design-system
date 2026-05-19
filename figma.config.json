@@ -1,0 +1,18 @@
+{
+  "codeConnect": {
+    "parser": "react",
+    "include": ["src/components/ui/**/*.{ts,tsx}"],
+    "exclude": [
+      "**/*.test.{ts,tsx}",
+      "**/*.stories.{ts,tsx}",
+      "**/*.figma.{ts,tsx}",
+      "node_modules/**",
+      "dist/**"
+    ],
+    "importPaths": {
+      "src/components/ui/*": "@/components/ui"
+    },
+    "defaultBranch": "main",
+    "interactiveSetupFigmaFileUrl": "https://www.figma.com/design/iuMWqCsIohoKAUB0tBS0xr"
+  }
+}
