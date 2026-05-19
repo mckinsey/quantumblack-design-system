@@ -5,11 +5,25 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+type IconSize = 'sm' | 'default' | 'lg';
+
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   readonly className?: string;
+  readonly size?: IconSize;
 }
 
-export function CropFree({ className, ...props }: Readonly<IconProps>) {
+const PATHS: Record<IconSize, string> = {
+  sm: 'M144-144v-240h72v168h168v72H144Zm432 0v-72h168v-168h72v240H576ZM144-576v-240h240v72H216v168h-72Zm600 0v-168H576v-72h240v240h-72Z',
+  default:
+    'M140-140v-220h60v160h160v60H140Zm460 0v-60h160v-160h60v220H600ZM140-600v-220h220v60H200v160h-60Zm620 0v-160H600v-60h220v220h-60Z',
+  lg: 'M140-140v-216.21h50.26v165.95h165.95V-140H140Zm463.79 0v-50.26h165.95v-165.95H820V-140H603.79ZM140-603.79V-820h216.21v50.26H190.26v165.95H140Zm629.74 0v-165.95H603.79V-820H820v216.21h-50.26Z',
+};
+
+export function CropFree({
+  className,
+  size = 'default',
+  ...props
+}: Readonly<IconProps>) {
   return (
     <svg
       className={cn('', className)}
@@ -17,7 +31,7 @@ export function CropFree({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M140-140v-220h60v160h160v60H140Zm460 0v-60h160v-160h60v220H600ZM140-600v-220h220v60H200v160h-60Zm620 0v-160H600v-60h220v220h-60Z" />
+      <path d={PATHS[size]} />
     </svg>
   );
 }

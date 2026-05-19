@@ -5,11 +5,25 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+type IconSize = 'sm' | 'default' | 'lg';
+
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   readonly className?: string;
+  readonly size?: IconSize;
 }
 
-export function Edit({ className, ...props }: Readonly<IconProps>) {
+const PATHS: Record<IconSize, string> = {
+  sm: 'M216-216h51l375-375-51-51-375 375v51Zm-72 72v-153l549-549 153 153-549 549H144Zm600-549-51-51 51 51Zm-127.95 76.95L591-642l51 51-25.95-25.05Z',
+  default:
+    'M200-200h50.46l409.46-409.46-50.46-50.46L200-250.46V-200Zm-60 60v-135.38l570-569.54 134.31 136.77L275.38-140H140Zm620-569.77L709.77-760 760-709.77Zm-125.75 75.52-24.79-25.67 50.46 50.46-25.67-24.79Z',
+  lg: 'M190.26-190.26h44.1l448.85-448.43-44.11-44.11-448.84 448.44v44.1ZM140-140v-114.82l585.69-585.64 115.23 115.79L254.82-140H140Zm629.33-585.87-43.05-42.8 43.05 42.8Zm-108.16 65.36L639.1-682.8l44.11 44.11-22.04-21.82Z',
+};
+
+export function Edit({
+  className,
+  size = 'default',
+  ...props
+}: Readonly<IconProps>) {
   return (
     <svg
       className={cn('', className)}
@@ -17,7 +31,7 @@ export function Edit({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M200-200h50.46l409.46-409.46-50.46-50.46L200-250.46V-200Zm-60 60v-135.38l570-569.54 134.31 136.77L275.38-140H140Zm620-569.77L709.77-760 760-709.77Zm-125.75 75.52-24.79-25.67 50.46 50.46-25.67-24.79Z" />
+      <path d={PATHS[size]} />
     </svg>
   );
 }

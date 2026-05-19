@@ -5,11 +5,24 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+type IconSize = 'sm' | 'default' | 'lg';
+
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   readonly className?: string;
+  readonly size?: IconSize;
 }
 
-export function Remove({ className, ...props }: Readonly<IconProps>) {
+const PATHS: Record<IconSize, string> = {
+  sm: 'M232-444v-72h496v72H232Z',
+  default: 'M220-450v-60h520v60H220Z',
+  lg: 'M220-454.87v-50.26h520v50.26H220Z',
+};
+
+export function Remove({
+  className,
+  size = 'default',
+  ...props
+}: Readonly<IconProps>) {
   return (
     <svg
       className={cn('', className)}
@@ -17,7 +30,7 @@ export function Remove({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M220-450v-60h520v60H220Z" />
+      <path d={PATHS[size]} />
     </svg>
   );
 }

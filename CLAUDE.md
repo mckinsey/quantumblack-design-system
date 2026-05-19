@@ -38,7 +38,13 @@ To add a Material Symbol:
 2. Run `npm run icons:gen`.
 3. Commit `icons.json` and the regenerated files together.
 
-The generator fetches each glyph live from Google's `material-design-icons` GitHub master (Sharp, 24dp, weight 300, `fill = 0`) — the same source the QBDS Figma library uses, so the bytes match what designers see. Requires network when running. Use `npm run icons:check` in CI to fail on drift.
+The generator fetches **three glyphs per icon** live from Google's `material-design-icons` GitHub master, one for each IconShell size (per ICON-RULES.md §2):
+
+- `sm` → 20dp @ weight 400
+- `default` → 24dp @ weight 300
+- `lg` → 40dp @ weight 300
+
+Each icon component exposes a `size` prop and picks the matching path. `IconShell` clones its child to forward its own resolved `size` automatically, so consumers don't need to set `size` on the icon directly — just `<IconShell size="sm"><Add /></IconShell>` works. Requires network when running `icons:gen`. Use `npm run icons:check` in CI to fail on drift.
 
 ## Before raising a PR
 

@@ -5,11 +5,25 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+type IconSize = 'sm' | 'default' | 'lg';
+
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   readonly className?: string;
+  readonly size?: IconSize;
 }
 
-export function ArrowUpwardAlt({ className, ...props }: Readonly<IconProps>) {
+const PATHS: Record<IconSize, string> = {
+  sm: 'M444-240v-294L339-429l-51-51 192-192 192 192-51 51-105-105v294h-72Z',
+  default:
+    'M450-253.85v-381.84l-154 154-42.15-42.16L480-750l226.15 226.15L664-481.69l-154-154v381.84h-60Z',
+  lg: 'M455.95-255.74v-397.54L289.23-488.05l-35.38-35.8 226.56-226.56 226.82 226.56-35.38 35.39L506.2-654.1v398.36h-50.25Z',
+};
+
+export function ArrowUpwardAlt({
+  className,
+  size = 'default',
+  ...props
+}: Readonly<IconProps>) {
   return (
     <svg
       className={cn('', className)}
@@ -17,7 +31,7 @@ export function ArrowUpwardAlt({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M450-253.85v-381.84l-154 154-42.15-42.16L480-750l226.15 226.15L664-481.69l-154-154v381.84h-60Z" />
+      <path d={PATHS[size]} />
     </svg>
   );
 }

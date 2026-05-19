@@ -7,10 +7,20 @@ const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const ICONS_DIR = resolve(SCRIPT_DIR, '../src/components/icons');
 const MANIFEST = join(ICONS_DIR, 'icons.json');
 
-// QBDS spec: Sharp style, 24dp source, weight 300, fill = 0. Pulled live
-// from Google's master so we always match their canonical glyph bytes.
-const SOURCE_URL = (name: string) =>
-  `https://raw.githubusercontent.com/google/material-design-icons/master/symbols/web/${name}/materialsymbolssharp/${name}_wght300_24px.svg`;
+// QBDS icon spec (ICON-RULES.md §2): each size renders from the Google
+// source whose optical size matches it. Weight 400 is Google's default and
+// is omitted from the filename; weight 300 is explicit.
+const SOURCES = {
+  sm: { suffix: '20px' }, // 20dp @ wght400
+  default: { suffix: 'wght300_24px' }, // 24dp @ wght300
+  lg: { suffix: 'wght300_40px' }, // 40dp @ wght300
+} as const;
+
+type Size = keyof typeof SOURCES;
+const SIZES = Object.keys(SOURCES) as Size[];
+
+const sourceUrl = (name: string, size: Size) =>
+  `https://raw.githubusercontent.com/google/material-design-icons/master/symbols/web/${name}/materialsymbolssharp/${name}_${SOURCES[size].suffix}.svg`;
 
 interface IconEntry {
   name: string;
@@ -35,28 +45,34 @@ function extractPathD(svg: string, source: string): string {
   return match[1];
 }
 
-async function fetchPath(source: string): Promise<string> {
-  const res = await fetch(SOURCE_URL(source));
+async function fetchPath(source: string, size: Size): Promise<string> {
+  const res = await fetch(sourceUrl(source, size));
   if (!res.ok) {
     throw new Error(
-      `Failed to fetch "${source}" from Google (${res.status}). ` +
-        `Check the source name or your network.`,
+      `Failed to fetch "${source}" @ ${size} from Google (${res.status}).`,
     );
   }
   return extractPathD(await res.text(), source);
 }
 
-function renderComponent(name: string, d: string): string {
+function renderComponent(name: string, paths: Record<Size, string>): string {
   return `${HEADER}
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+type IconSize = ${SIZES.map(s => `'${s}'`).join(' | ')};
+
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   readonly className?: string;
+  readonly size?: IconSize;
 }
 
-export function ${name}({ className, ...props }: Readonly<IconProps>) {
+const PATHS: Record<IconSize, string> = {
+${SIZES.map(s => `  ${s}: '${paths[s]}',`).join('\n')}
+};
+
+export function ${name}({ className, size = 'default', ...props }: Readonly<IconProps>) {
   return (
     <svg
       className={cn('', className)}
@@ -64,7 +80,7 @@ export function ${name}({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="${d}" />
+      <path d={PATHS[size]} />
     </svg>
   );
 }
@@ -89,10 +105,13 @@ async function build(): Promise<Map<string, string>> {
   };
   const files = new Map<string, string>();
   for (const { name, source } of icons) {
-    const d = await fetchPath(source ?? pascalToSnake(name));
+    const src = source ?? pascalToSnake(name);
+    const paths = Object.fromEntries(
+      await Promise.all(SIZES.map(async s => [s, await fetchPath(src, s)])),
+    ) as Record<Size, string>;
     files.set(
       `${name}.tsx`,
-      await format(`${name}.tsx`, renderComponent(name, d)),
+      await format(`${name}.tsx`, renderComponent(name, paths)),
     );
   }
   files.set(

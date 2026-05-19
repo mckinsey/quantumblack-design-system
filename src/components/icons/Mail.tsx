@@ -5,11 +5,25 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+type IconSize = 'sm' | 'default' | 'lg';
+
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   readonly className?: string;
+  readonly size?: IconSize;
 }
 
-export function Mail({ className, ...props }: Readonly<IconProps>) {
+const PATHS: Record<IconSize, string> = {
+  sm: 'M96-192v-576h768v576H96Zm384-240L168-611v347h624v-347L480-432Zm0-84 311-180H170l310 180Zm-312-95v-85 432-347Z',
+  default:
+    'M100-180v-600h760v600H100Zm380-277.69L160-662.31V-240h640v-422.31L480-457.69Zm0-62.31 313.85-200h-627.7L480-520ZM160-662.31V-720v480-422.31Z',
+  lg: 'M100-180v-600h760v600H100Zm380-288.51L150.26-684.36v454.1h659.48v-454.1L480-468.51Zm0-52.57 321.69-208.66H158.97L480-521.08ZM150.26-684.36v-45.38 499.48-454.1Z',
+};
+
+export function Mail({
+  className,
+  size = 'default',
+  ...props
+}: Readonly<IconProps>) {
   return (
     <svg
       className={cn('', className)}
@@ -17,7 +31,7 @@ export function Mail({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M100-180v-600h760v600H100Zm380-277.69L160-662.31V-240h640v-422.31L480-457.69Zm0-62.31 313.85-200h-627.7L480-520ZM160-662.31V-720v480-422.31Z" />
+      <path d={PATHS[size]} />
     </svg>
   );
 }

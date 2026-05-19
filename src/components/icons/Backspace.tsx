@@ -5,11 +5,25 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+type IconSize = 'sm' | 'default' | 'lg';
+
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   readonly className?: string;
+  readonly size?: IconSize;
 }
 
-export function Backspace({ className, ...props }: Readonly<IconProps>) {
+const PATHS: Record<IconSize, string> = {
+  sm: 'M336-240 144-480l192-240h432v480H336Zm35-72h325v-336H371L236-480l135 168Zm61-24 96-96 96 96 48-48-96-96 96-96-48-48-96 96-96-96-48 48 96 96-96 96 48 48Zm264 24v-336 336Z',
+  default:
+    'M323.77-220 140-480l184.54-260H820v520H323.77Zm32-60H760v-400H355.77L213.38-480l142.39 200Zm93.31-53.85 104-104 104 104L699.23-376l-104-104 104-104-42.15-42.15-104 104-104-104L406.92-584l104 104-104 104 42.16 42.15ZM760-280v-400 400Z',
+  lg: 'M323.77-220 140-480l184.54-260H820v520H323.77Zm26.72-50.26h419.25v-419.48H350.49L202.15-480l148.34 209.74Zm94.79-66.56 107.8-107.8 107.79 107.8 36.05-35.8L588.46-480l107.38-107.38-35.79-35.8-106.97 107.8-107.8-107.8-35.79 35.8L517.69-480l-108.2 107.38 35.79 35.8Zm324.46 66.56v-419.48 419.48Z',
+};
+
+export function Backspace({
+  className,
+  size = 'default',
+  ...props
+}: Readonly<IconProps>) {
   return (
     <svg
       className={cn('', className)}
@@ -17,7 +31,7 @@ export function Backspace({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M323.77-220 140-480l184.54-260H820v520H323.77Zm32-60H760v-400H355.77L213.38-480l142.39 200Zm93.31-53.85 104-104 104 104L699.23-376l-104-104 104-104-42.15-42.15-104 104-104-104L406.92-584l104 104-104 104 42.16 42.15ZM760-280v-400 400Z" />
+      <path d={PATHS[size]} />
     </svg>
   );
 }

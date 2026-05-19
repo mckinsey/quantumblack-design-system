@@ -5,11 +5,25 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+type IconSize = 'sm' | 'default' | 'lg';
+
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   readonly className?: string;
+  readonly size?: IconSize;
 }
 
-export function PlaylistAddCheck({ className, ...props }: Readonly<IconProps>) {
+const PATHS: Record<IconSize, string> = {
+  sm: 'M144-348v-72h288v72H144Zm0-150v-72h432v72H144Zm0-150v-72h432v72H144Zm499 408L508-376l51-51 84 85 170-170 51 51-221 221Z',
+  default:
+    'M130-330v-60h300v60H130Zm0-160v-60h460v60H130Zm0-160v-60h460v60H130Zm524 436.15L525.85-342 568-384.15l86 84.77 170-170L866.15-426 654-213.85Z',
+  lg: 'M130-335.28v-50.26h293.23v50.26H130Zm0-162.57v-50.25h456.61v50.25H130Zm0-162.3v-50.26h456.61v50.26H130Zm522.92 445.89L527.74-339.69l35.39-35.8 89.79 89.23 177.44-177.17 35.79 35.94-213.23 213.23Z',
+};
+
+export function PlaylistAddCheck({
+  className,
+  size = 'default',
+  ...props
+}: Readonly<IconProps>) {
   return (
     <svg
       className={cn('', className)}
@@ -17,7 +31,7 @@ export function PlaylistAddCheck({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M130-330v-60h300v60H130Zm0-160v-60h460v60H130Zm0-160v-60h460v60H130Zm524 436.15L525.85-342 568-384.15l86 84.77 170-170L866.15-426 654-213.85Z" />
+      <path d={PATHS[size]} />
     </svg>
   );
 }

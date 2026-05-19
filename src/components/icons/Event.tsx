@@ -5,11 +5,25 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+type IconSize = 'sm' | 'default' | 'lg';
+
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   readonly className?: string;
+  readonly size?: IconSize;
 }
 
-export function Event({ className, ...props }: Readonly<IconProps>) {
+const PATHS: Record<IconSize, string> = {
+  sm: 'M576.23-240Q536-240 508-267.77q-28-27.78-28-68Q480-376 507.77-404q27.78-28 68-28Q616-432 644-404.23q28 27.78 28 68Q672-296 644.23-268q-27.78 28-68 28ZM144-96v-672h144v-96h72v96h240v-96h72v96h144v672H144Zm72-72h528v-360H216v360Zm0-432h528v-96H216v96Zm0 0v-96 96Z',
+  default:
+    'M587.69-240q-38.54 0-65.42-26.88-26.88-26.89-26.88-65.43 0-38.54 26.88-65.42 26.88-26.88 65.42-26.88 38.54 0 65.43 26.88Q680-370.85 680-332.31q0 38.54-26.88 65.43Q626.23-240 587.69-240ZM140-100v-680h127.69v-84.61h61.54V-780h303.08v-84.61h60V-780H820v680H140Zm60-60h560v-387.69H200V-160Zm0-447.69h560V-720H200v112.31Zm0 0V-720v112.31Z',
+  lg: 'M595.8-230.26q-37.98 0-64.32-26.49-26.35-26.5-26.35-64.48 0-37.97 26.5-64.32 26.49-26.35 64.47-26.35 37.98 0 64.32 26.5 26.35 26.5 26.35 64.47 0 37.98-26.5 64.33-26.49 26.34-64.47 26.34ZM140-100v-689.74h130.26v-74.87h54.1v74.87h312.82v-74.87H690v74.87h130V-100H140Zm50.26-50.26h579.48v-402.3H190.26v402.3Zm0-452.56h579.48v-136.67H190.26v136.67Zm0 0v-136.67 136.67Z',
+};
+
+export function Event({
+  className,
+  size = 'default',
+  ...props
+}: Readonly<IconProps>) {
   return (
     <svg
       className={cn('', className)}
@@ -17,7 +31,7 @@ export function Event({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M587.69-240q-38.54 0-65.42-26.88-26.88-26.89-26.88-65.43 0-38.54 26.88-65.42 26.88-26.88 65.42-26.88 38.54 0 65.43 26.88Q680-370.85 680-332.31q0 38.54-26.88 65.43Q626.23-240 587.69-240ZM140-100v-680h127.69v-84.61h61.54V-780h303.08v-84.61h60V-780H820v680H140Zm60-60h560v-387.69H200V-160Zm0-447.69h560V-720H200v112.31Zm0 0V-720v112.31Z" />
+      <path d={PATHS[size]} />
     </svg>
   );
 }

@@ -5,11 +5,25 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+type IconSize = 'sm' | 'default' | 'lg';
+
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   readonly className?: string;
+  readonly size?: IconSize;
 }
 
-export function VolumeDown({ className, ...props }: Readonly<IconProps>) {
+const PATHS: Record<IconSize, string> = {
+  sm: 'M240-384v-192h144l192-192v576L384-384H240Zm408 55v-302q46 19 71 61t25 90q0 48-25 89.5T648-329ZM504-594l-90 90H312v48h102l90 90v-228Zm-97 114Z',
+  default:
+    'M220-380v-200h148.46L540-751.53v543.06L368.46-380H220Zm415.38 46.15v-294.3q38.85 21 61.73 60.96Q720-527.23 720-480t-22.89 86.19q-22.88 38.96-61.73 59.96ZM480-606l-86 86H280v80h114l86 86v-252ZM380-480Z',
+  lg: 'M220-380v-200h148.46L540-751.53v543.06L368.46-380H220Zm405.64 49.95v-301.49q43.05 19.11 68.7 60.55Q720-529.54 720-480q0 50.2-25.66 90.52-25.65 40.33-68.7 59.43Zm-135.9-296.51-99.12 96.82H270.26v99.48h120.36l99.12 97.23v-293.53ZM378.92-480Z',
+};
+
+export function VolumeDown({
+  className,
+  size = 'default',
+  ...props
+}: Readonly<IconProps>) {
   return (
     <svg
       className={cn('', className)}
@@ -17,7 +31,7 @@ export function VolumeDown({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M220-380v-200h148.46L540-751.53v543.06L368.46-380H220Zm415.38 46.15v-294.3q38.85 21 61.73 60.96Q720-527.23 720-480t-22.89 86.19q-22.88 38.96-61.73 59.96ZM480-606l-86 86H280v80h114l86 86v-252ZM380-480Z" />
+      <path d={PATHS[size]} />
     </svg>
   );
 }

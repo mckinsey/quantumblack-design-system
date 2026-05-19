@@ -5,11 +5,25 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+type IconSize = 'sm' | 'default' | 'lg';
+
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   readonly className?: string;
+  readonly size?: IconSize;
 }
 
-export function CalendarMonth({ className, ...props }: Readonly<IconProps>) {
+const PATHS: Record<IconSize, string> = {
+  sm: 'M444-384v-72h72v72h-72Zm-156 0v-72h72v72h-72Zm312 0v-72h72v72h-72ZM444-240v-72h72v72h-72Zm-156 0v-72h72v72h-72Zm312 0v-72h72v72h-72ZM144-96v-672h144v-96h72v96h240v-96h72v96h144v672H144Zm72-72h528v-360H216v360Zm0-432h528v-96H216v96Zm0 0v-96 96Z',
+  default:
+    'M444.62-396.92v-70.77h70.76v70.77h-70.76Zm-160 0v-70.77h70.76v70.77h-70.76Zm320 0v-70.77h70.76v70.77h-70.76ZM444.62-240v-70.77h70.76V-240h-70.76Zm-160 0v-70.77h70.76V-240h-70.76Zm320 0v-70.77h70.76V-240h-70.76ZM140-100v-680h127.69v-84.61h61.54V-780h303.08v-84.61h60V-780H820v680H140Zm60-60h560v-387.69H200V-160Zm0-447.69h560V-720H200v112.31Zm0 0V-720v112.31Z',
+  lg: 'M444.62-396.92v-70.77h70.76v70.77h-70.76Zm-160 0v-70.77h70.76v70.77h-70.76Zm320 0v-70.77h70.76v70.77h-70.76ZM444.62-240v-70.77h70.76V-240h-70.76Zm-160 0v-70.77h70.76V-240h-70.76Zm320 0v-70.77h70.76V-240h-70.76ZM140-100v-689.74h130.26v-74.87h54.1v74.87h312.82v-74.87H690v74.87h130V-100H140Zm50.26-50.26h579.48v-402.3H190.26v402.3Zm0-452.56h579.48v-136.67H190.26v136.67Zm0 0v-136.67 136.67Z',
+};
+
+export function CalendarMonth({
+  className,
+  size = 'default',
+  ...props
+}: Readonly<IconProps>) {
   return (
     <svg
       className={cn('', className)}
@@ -17,7 +31,7 @@ export function CalendarMonth({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M444.62-396.92v-70.77h70.76v70.77h-70.76Zm-160 0v-70.77h70.76v70.77h-70.76Zm320 0v-70.77h70.76v70.77h-70.76ZM444.62-240v-70.77h70.76V-240h-70.76Zm-160 0v-70.77h70.76V-240h-70.76Zm320 0v-70.77h70.76V-240h-70.76ZM140-100v-680h127.69v-84.61h61.54V-780h303.08v-84.61h60V-780H820v680H140Zm60-60h560v-387.69H200V-160Zm0-447.69h560V-720H200v112.31Zm0 0V-720v112.31Z" />
+      <path d={PATHS[size]} />
     </svg>
   );
 }

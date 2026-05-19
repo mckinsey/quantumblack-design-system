@@ -5,11 +5,25 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+type IconSize = 'sm' | 'default' | 'lg';
+
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   readonly className?: string;
+  readonly size?: IconSize;
 }
 
-export function ChevronRight({ className, ...props }: Readonly<IconProps>) {
+const PATHS: Record<IconSize, string> = {
+  sm: 'M522-480 333-669l51-51 240 240-240 240-51-51 189-189Z',
+  default:
+    'm517.85-480-184-184L376-706.15 602.15-480 376-253.85 333.85-296l184-184Z',
+  lg: 'M530.57-480.41 339.8-671.44l35.79-35.79 226.56 226.82-226.56 226.56-35.79-35.79 190.77-190.77Z',
+};
+
+export function ChevronRight({
+  className,
+  size = 'default',
+  ...props
+}: Readonly<IconProps>) {
   return (
     <svg
       className={cn('', className)}
@@ -17,7 +31,7 @@ export function ChevronRight({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="m517.85-480-184-184L376-706.15 602.15-480 376-253.85 333.85-296l184-184Z" />
+      <path d={PATHS[size]} />
     </svg>
   );
 }

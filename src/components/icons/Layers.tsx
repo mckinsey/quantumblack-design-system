@@ -5,11 +5,25 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+type IconSize = 'sm' | 'default' | 'lg';
+
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   readonly className?: string;
+  readonly size?: IconSize;
 }
 
-export function Layers({ className, ...props }: Readonly<IconProps>) {
+const PATHS: Record<IconSize, string> = {
+  sm: 'M480-144 144-408l58-46 278 218 278-218 58 46-336 264Zm0-192L144-600l336-264 336 264-336 264Zm0-258Zm0 166 219-172-219-172-219 172 219 172Z',
+  default:
+    'M480-164.16 152.31-418.77l49.08-37.69L480-240.77l278.61-215.69 49.08 37.69L480-164.16Zm0-177.38L152.31-596.15 480-850.77l327.69 254.62L480-341.54Zm0-254.61Zm0 178 230-178-230-178-230 178 230 178Z',
+  lg: 'M480-170.11 152.31-424.72l41.23-31.33L480-234l286.46-222.05 41.23 31.33L480-170.11Zm0-153.02L152.31-577.74 480-832.36l327.69 254.62L480-323.13Zm0-264.77Zm0 200.87 245.69-190.71L480-768.2 234.31-577.74 480-387.03Z',
+};
+
+export function Layers({
+  className,
+  size = 'default',
+  ...props
+}: Readonly<IconProps>) {
   return (
     <svg
       className={cn('', className)}
@@ -17,7 +31,7 @@ export function Layers({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M480-164.16 152.31-418.77l49.08-37.69L480-240.77l278.61-215.69 49.08 37.69L480-164.16Zm0-177.38L152.31-596.15 480-850.77l327.69 254.62L480-341.54Zm0-254.61Zm0 178 230-178-230-178-230 178 230 178Z" />
+      <path d={PATHS[size]} />
     </svg>
   );
 }

@@ -5,11 +5,25 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+type IconSize = 'sm' | 'default' | 'lg';
+
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   readonly className?: string;
+  readonly size?: IconSize;
 }
 
-export function Delete({ className, ...props }: Readonly<IconProps>) {
+const PATHS: Record<IconSize, string> = {
+  sm: 'M240-144v-552h-48v-72h192v-48h192v48h192v72h-48v552H240Zm72-72h336v-480H312v480Zm72-72h72v-336h-72v336Zm120 0h72v-336h-72v336ZM312-696v480-480Z',
+  default:
+    'M220-140v-580h-40v-60h180v-35.38h240V-780h180v60h-40v580H220Zm60-60h400v-520H280v520Zm96.16-80h59.99v-360h-59.99v360Zm147.69 0h59.99v-360h-59.99v360ZM280-720v520-520Z',
+  lg: 'M220.41-140v-594.62H180v-50.25h174.05v-30.51h251.9v30.51H780v50.25h-40.41V-140H220.41Zm50.26-50.26h418.66v-544.36H270.67v544.36Zm108.87-82.97h50.25v-379.08h-50.25v379.08Zm150.67 0h50.25v-379.08h-50.25v379.08ZM270.67-734.62v544.36-544.36Z',
+};
+
+export function Delete({
+  className,
+  size = 'default',
+  ...props
+}: Readonly<IconProps>) {
   return (
     <svg
       className={cn('', className)}
@@ -17,7 +31,7 @@ export function Delete({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M220-140v-580h-40v-60h180v-35.38h240V-780h180v60h-40v580H220Zm60-60h400v-520H280v520Zm96.16-80h59.99v-360h-59.99v360Zm147.69 0h59.99v-360h-59.99v360ZM280-720v520-520Z" />
+      <path d={PATHS[size]} />
     </svg>
   );
 }

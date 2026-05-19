@@ -5,11 +5,25 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+type IconSize = 'sm' | 'default' | 'lg';
+
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   readonly className?: string;
+  readonly size?: IconSize;
 }
 
-export function TrendingUp({ className, ...props }: Readonly<IconProps>) {
+const PATHS: Record<IconSize, string> = {
+  sm: 'm147-209-51-51 281-281 152 152 212-211H624v-72h240v240h-72v-117L529-287 377-439 147-209Z',
+  default:
+    'M142.15-258.08 100-300.23l274.08-276.08 160 160 224.54-221.77H640v-60h220v220h-60v-117.84L534.08-330l-160-160-231.93 231.92Z',
+  lg: 'M135.8-258.08 100-293.87l272.18-272.69 163.38 163.38 240.65-238.69H646.36v-50.26H860v213.64h-49.85v-127.18l-275 275.26L371.77-493.8 135.8-258.08Z',
+};
+
+export function TrendingUp({
+  className,
+  size = 'default',
+  ...props
+}: Readonly<IconProps>) {
   return (
     <svg
       className={cn('', className)}
@@ -17,7 +31,7 @@ export function TrendingUp({ className, ...props }: Readonly<IconProps>) {
       fill="currentColor"
       aria-hidden="true"
       {...props}>
-      <path d="M142.15-258.08 100-300.23l274.08-276.08 160 160 224.54-221.77H640v-60h220v220h-60v-117.84L534.08-330l-160-160-231.93 231.92Z" />
+      <path d={PATHS[size]} />
     </svg>
   );
 }

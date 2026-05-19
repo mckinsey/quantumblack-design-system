@@ -49,13 +49,23 @@ function IconShell({
     asChild?: boolean;
   }) {
   const Comp = asChild ? Slot : 'span';
+  const resolvedSize = size ?? 'default';
+
+  // Pass resolvedSize down so the child icon can render its optical-size-
+  // matched glyph (20dp@400 / 24dp@300 / 40dp@300 per ICON-RULES.md §2).
+  // Only clones a single React element child; anything else passes through.
+  const child =
+    React.isValidElement(children) &&
+    (children.props as { size?: unknown }).size === undefined
+      ? React.cloneElement(children, { size: resolvedSize } as Partial<unknown>)
+      : children;
 
   return (
     <Comp
       data-slot="icon"
       className={cn(iconVariants({ size, type, variant }), className)}
       {...props}>
-      {children}
+      {child}
     </Comp>
   );
 }
