@@ -135,11 +135,8 @@ import {
   examples as emptyExamples,
 } from '@/app/demo/[name]/ui/empty';
 import {
-  FormInline,
-  FormInputGroup,
-  FormLogin,
-  FormProfile,
-  FormSettings,
+  ReactHookForm,
+  TanStackForm,
   form,
   examples as formExamples,
 } from '@/app/demo/[name]/ui/form';
@@ -451,11 +448,8 @@ export const exampleComponentMaps: Record<
     EmptyCompact,
   },
   form: {
-    FormProfile,
-    FormSettings,
-    FormLogin,
-    FormInputGroup,
-    FormInline,
+    ReactHookForm,
+    TanStackForm,
   },
   'icon-shell': {
     IconShellDemo,
