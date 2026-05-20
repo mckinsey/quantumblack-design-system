@@ -45,19 +45,20 @@ figma.connect(Badge, '<QBDS_BADGE_ICON_LABEL>', {
       true: true,
       false: false,
     }),
+    withIcon: figma.boolean('showLeadingIcon'),
     icon: figma.boolean('showLeadingIcon', {
       true: figma.children('Leading-Icon*'),
       false: undefined,
     }),
     label: figma.string('label'),
   },
-  example: ({ variant, size, outline, icon, label }) => (
+  example: ({ variant, size, outline, withIcon, icon, label }) => (
     <Badge
       format={'pill'}
       outline={outline}
       size={size}
       variant={variant}
-      withIcon={Boolean(icon)}>
+      withIcon={withIcon}>
       {icon}
       {label}
     </Badge>
@@ -79,19 +80,20 @@ figma.connect(Badge, '<QBDS_BADGE_DOT_LABEL>', {
       reg: 'default',
       lg: 'lg',
     }),
+    withDot: figma.boolean('showLeadingIcon'),
     dot: figma.boolean('showLeadingIcon', {
       true: figma.children('Leading-Icon*'),
       false: undefined,
     }),
     label: figma.textContent('value'),
   },
-  example: ({ variant, size, dot, label }) => (
+  example: ({ variant, size, withDot, dot, label }) => (
     <Badge
       format={'pill'}
       outline={true}
       size={size}
       variant={variant}
-      withDot={Boolean(dot)}>
+      withDot={withDot}>
       {dot}
       {label}
     </Badge>
