@@ -52,10 +52,8 @@ describe(`${componentName} — structure`, () => {
     expect(() => render(<Badge variant={variant}>Label</Badge>)).not.toThrow();
   });
 
-  it('renders pill and rect format variants', () => {
-    const { rerender } = render(<Badge format="pill">Pill</Badge>);
-    expect(screen.getByText('Pill')).toBeInTheDocument();
-    rerender(<Badge format="rect">Rect</Badge>);
-    expect(screen.getByText('Rect')).toBeInTheDocument();
+  it('renders pill badge with rounded-full', () => {
+    render(<Badge>Pill</Badge>);
+    expect(screen.getByText('Pill')).toHaveClass('rounded-full');
   });
 });

@@ -4,31 +4,23 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-/**
- * Padding lookup, keyed by content mode → size.
- * Keeps padding rules in one flat map instead of a combinatorial compound matrix.
- */
 const badgePadding = {
-  'icon-rect': { sm: 'pl-1 pr-2', default: 'pl-1 pr-2', lg: 'pl-1 pr-2' },
-  'icon-pill': { sm: 'pl-1 pr-2', default: 'pl-1 pr-2', lg: 'pl-1 pr-2' },
-  'dot-rect': { sm: 'pl-1 pr-2', default: 'pl-1 pr-2', lg: 'pl-2 pr-3' },
-  'dot-pill': { sm: 'pl-1 pr-2', default: 'px-2', lg: 'pl-2 pr-3' },
-  'label-rect': { sm: 'px-1', default: 'px-2', lg: 'px-2' },
-  'label-pill': { sm: 'px-2', default: 'px-2', lg: 'px-2' },
+  icon: { sm: 'pl-1 pr-2', default: 'pl-1 pr-2', lg: 'pl-1 pr-2' },
+  dot: { sm: 'pl-1 pr-2', default: 'px-2', lg: 'pl-2 pr-3' },
+  label: { sm: 'px-2', default: 'px-2', lg: 'px-2' },
 } as const;
 
 function getBadgePadding(
   size: 'sm' | 'default' | 'lg',
-  format: 'pill' | 'rect',
   withIcon: boolean,
   withDot: boolean,
 ) {
   const mode = withIcon ? 'icon' : withDot ? 'dot' : 'label';
-  return badgePadding[`${mode}-${format}`][size];
+  return badgePadding[mode][size];
 }
 
 const badgeVariants = cva(
-  'inline-flex items-center justify-center w-fit whitespace-nowrap shrink-0 [&>svg]:size-4 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden',
+  'inline-flex items-center justify-center w-fit whitespace-nowrap shrink-0 rounded-full [&>svg]:size-4 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden',
   {
     variants: {
       variant: {
@@ -38,10 +30,6 @@ const badgeVariants = cva(
         error: 'bg-status-error text-fg-primary-inverse',
         warning: 'bg-status-warning text-fg-primary-inverse',
         success: 'bg-status-success text-fg-primary-inverse',
-      },
-      format: {
-        pill: 'rounded-full',
-        rect: 'rounded-[4px]',
       },
       size: {
         sm: 'h-5 label-small-primary min-w-5',
@@ -91,7 +79,6 @@ const badgeVariants = cva(
     ],
     defaultVariants: {
       variant: 'high-emphasis',
-      format: 'rect',
       size: 'default',
       outline: false,
     },
@@ -104,16 +91,13 @@ export type BadgeProps = Omit<
 > &
   VariantProps<typeof badgeVariants> & {
     asChild?: boolean;
-    /** Adjusts padding for a leading icon. @default false */
     withIcon?: boolean;
-    /** Adjusts padding for a leading status dot. @default false */
     withDot?: boolean;
   };
 
 function Badge({
   className,
   variant,
-  format = 'rect',
   size = 'default',
   outline,
   withIcon = false,
@@ -124,14 +108,13 @@ function Badge({
   const Comp = asChild ? Slot : 'span';
 
   const resolvedSize = size ?? 'default';
-  const resolvedFormat = format ?? 'rect';
 
   return (
     <Comp
       data-slot="badge"
       className={cn(
-        badgeVariants({ variant, format, size, outline }),
-        getBadgePadding(resolvedSize, resolvedFormat, withIcon, withDot),
+        badgeVariants({ variant, size, outline }),
+        getBadgePadding(resolvedSize, withIcon, withDot),
         withIcon && resolvedSize === 'sm' && !outline && 'gap-0.5',
         className,
       )}
@@ -191,7 +174,7 @@ const numericBadgeVariants = cva(
 
 type NumericBadgeProps = Omit<
   React.ComponentProps<typeof Badge>,
-  'variant' | 'format' | 'size' | 'outline'
+  'variant' | 'size' | 'outline'
 > & {
   variant?: 'primary' | 'secondary' | 'accent';
   size?: 'sm' | 'default' | 'lg';
@@ -217,9 +200,6 @@ function NumericBadge({
   );
 }
 
-/**
- * Outer frame: 8 / 12 / 16 / 20px; centers the dot (ring wrapping core) inside.
- */
 const statusBadgeRootVariants = cva(
   'box-border inline-flex shrink-0 items-center justify-center rounded-full',
   {
@@ -246,10 +226,6 @@ type StatusBadgeDotVariant =
 
 type StatusBadgeDotSize = 'sm' | 'default' | 'lg' | 'xl';
 
-/**
- * Inner dot core. `variant` sets filled **bg**; when `outline`, `outline` slot adds transparent fill +
- * inset outline stroke (merge via `cn()` so `bg-transparent` wins over variant `bg-*`).
- */
 const statusBadgeCoreVariants = cva('box-content shrink-0 rounded-full', {
   variants: {
     variant: {
@@ -314,10 +290,6 @@ const statusBadgeCoreVariants = cva('box-content shrink-0 rounded-full', {
   },
 });
 
-/**
- * Outer ring span: **always** the contrast stroke (`border-stroke-active-inverse` + width from size).
- * Flex-centers the core; same content size as the core so they stack without absolute positioning.
- */
 const statusBadgeRingVariants = cva(
   'border-stroke-active-inverse box-content inline-flex shrink-0 items-center justify-center rounded-full border-solid',
   {
@@ -341,9 +313,6 @@ type StatusBadgeProps = Omit<React.ComponentProps<'span'>, 'variant'> & {
   outline?: boolean;
 };
 
-/**
- * Hint-Dot: outer ring always bordered; inner is fill OR semantic border per `outline`.
- */
 function StatusBadge({
   className,
   variant = 'neutral',
