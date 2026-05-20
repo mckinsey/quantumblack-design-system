@@ -112,9 +112,8 @@ function SelectTrigger({
         'data-invalid:border-destructive',
 
         '[&_svg]:pointer-events-none [&_svg]:shrink-0',
-        (size === 'sm' || size === 'default') &&
-          '[&_[data-slot=icon-glyph]]:text-base [&_svg]:size-4',
-        size === 'lg' && '[&_[data-slot=icon-glyph]]:text-2xl [&_svg]:size-6',
+        (size === 'sm' || size === 'default') && '[&_svg]:size-4',
+        size === 'lg' && '[&_svg]:size-6',
 
         '*:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2',
         className,
@@ -218,6 +217,7 @@ function SelectItem({
         'active:bg-stateslayer-overlay-pressed',
 
         'data-disabled:text-fg-disabled data-disabled:cursor-not-allowed',
+
         className,
       )}
       {...props}>

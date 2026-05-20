@@ -10,7 +10,6 @@ const iconVariants = cva(
   [
     'inline-flex items-center justify-center',
     '[&_svg]:fill-current [&_svg]:stroke-current',
-    '[&_[data-slot=icon-glyph]]:text-current',
   ],
   {
     variants: {

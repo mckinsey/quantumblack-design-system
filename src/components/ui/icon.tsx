@@ -18,6 +18,15 @@ const SIZE_MAP: Record<
   lg: { fontSize: 32, weight: 300, opticalSize: 40 },
 };
 
+/** Match legacy SVG slots that only set Tailwind box utilities (e.g. size-4). */
+function inferIconSize(className?: string): IconSize | undefined {
+  if (!className) return undefined;
+  if (/\b(?:size|h)-8\b/.test(className)) return 'lg';
+  if (/\b(?:size|h)-6\b/.test(className)) return 'default';
+  if (/\b(?:size|h)-(?:4|5)\b/.test(className)) return 'sm';
+  return undefined;
+}
+
 function Icon({
   icon,
   size: sizeProp,
@@ -29,7 +38,8 @@ function Icon({
   size?: IconSize;
 }) {
   const sizeFromShell = React.useContext(IconSizeContext);
-  const size = sizeProp ?? sizeFromShell ?? 'default';
+  const size =
+    sizeProp ?? sizeFromShell ?? inferIconSize(className) ?? 'default';
   const { fontSize, weight, opticalSize } = SIZE_MAP[size];
 
   return (
@@ -37,11 +47,14 @@ function Icon({
       data-slot="icon-glyph"
       aria-hidden
       className={cn(
-        'material-symbols-sharp inline-block leading-none',
+        'material-symbols-sharp inline-flex shrink-0 items-center justify-center leading-none',
         className,
       )}
       style={{
         fontSize,
+        width: fontSize,
+        height: fontSize,
+        lineHeight: `${fontSize}px`,
         fontVariationSettings: `'FILL' 0, 'wght' ${weight}, 'opsz' ${opticalSize}`,
         ...style,
       }}
@@ -51,4 +64,4 @@ function Icon({
   );
 }
 
-export { Icon, SIZE_MAP };
+export { Icon, SIZE_MAP, inferIconSize };

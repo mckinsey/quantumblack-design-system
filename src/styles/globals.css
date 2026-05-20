@@ -656,4 +656,17 @@
   .cta-button-link-03 {
     @apply font-sans text-xs leading-4 font-semibold tracking-[-0.012px] underline;
   }
+
+  .material-symbols-sharp {
+    font-family: 'Material Symbols Sharp';
+    font-weight: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-transform: none;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+  }
 }

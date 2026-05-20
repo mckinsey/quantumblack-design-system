@@ -95,21 +95,21 @@ function SelectItemWithIcon({
   disabled?: boolean;
 }) {
   const sizeCtx = useSelectSizeContext();
-  const isLg = sizeCtx?.size === 'lg';
-  const iconClass = isLg ? 'size-6' : 'size-4';
+  const iconSize = sizeCtx?.size === 'lg' ? 'default' : 'sm';
 
   return (
     <SelectItem value={value} disabled={disabled}>
       <Icon
         icon="crop_free"
-        className={`text-fg-secondary shrink-0 ${iconClass}`}
+        size={iconSize}
+        className="text-fg-secondary"
         aria-hidden
       />
 
       <SelectItemText>{children}</SelectItemText>
 
       <SelectItemIndicator>
-        <Icon icon="check" className={iconClass} />
+        <Icon icon="check" size={iconSize} />
       </SelectItemIndicator>
     </SelectItem>
   );
