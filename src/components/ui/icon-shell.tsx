@@ -4,11 +4,13 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+import { type IconSize, IconSizeContext } from './icon';
+
 const iconVariants = cva(
-  // Base styles
   [
     'inline-flex items-center justify-center',
     '[&_svg]:fill-current [&_svg]:stroke-current',
+    '[&_[data-slot=icon-glyph]]:text-current',
   ],
   {
     variants: {
@@ -49,24 +51,17 @@ function IconShell({
     asChild?: boolean;
   }) {
   const Comp = asChild ? Slot : 'span';
-  const resolvedSize = size ?? 'default';
-
-  // Pass resolvedSize down so the child icon can render its optical-size-
-  // matched glyph (20dp@400 / 24dp@300 / 40dp@300). Only clones a single
-  // React element child; anything else passes through.
-  const child =
-    React.isValidElement(children) &&
-    (children.props as { size?: unknown }).size === undefined
-      ? React.cloneElement(children, { size: resolvedSize } as Partial<unknown>)
-      : children;
+  const resolvedSize: IconSize = size ?? 'default';
 
   return (
-    <Comp
-      data-slot="icon"
-      className={cn(iconVariants({ size, type, variant }), className)}
-      {...props}>
-      {child}
-    </Comp>
+    <IconSizeContext.Provider value={resolvedSize}>
+      <Comp
+        data-slot="icon"
+        className={cn(iconVariants({ size, type, variant }), className)}
+        {...props}>
+        {children}
+      </Comp>
+    </IconSizeContext.Provider>
   );
 }
 

@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 
-import { VolumeDown } from '@/components/icons/VolumeDown';
-import { VolumeUp } from '@/components/icons/VolumeUp';
+import { Icon } from '@/components/ui/icon';
 import { Slider } from '@/components/ui/slider';
 
 export function LabeledSlider() {
@@ -71,7 +70,10 @@ export function VolumeControl() {
           className="size-[24px]"
           onClick={handleVolumeDown}
           aria-label="Decrease volume">
-          <VolumeDown className="icon-24 icon-interactive text-fg-primary" />
+          <Icon
+            icon="volume_down"
+            className="icon-24 icon-interactive text-fg-primary"
+          />
         </button>
 
         <Slider
@@ -87,7 +89,10 @@ export function VolumeControl() {
           className="size-[24px]"
           onClick={handleVolumeUp}
           aria-label="Increase volume">
-          <VolumeUp className="icon-24 icon-interactive text-fg-primary" />
+          <Icon
+            icon="volume_up"
+            className="icon-24 icon-interactive text-fg-primary"
+          />
         </button>
       </div>
     </div>

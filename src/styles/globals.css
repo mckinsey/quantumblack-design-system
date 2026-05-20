@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,300..400,0,0&display=block');
 
 /* Dark mode variant - equivalent to @custom-variant dark */
 @custom-variant dark (&:where(.dark, .dark *));

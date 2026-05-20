@@ -1,10 +1,6 @@
-import { Cancel } from '@/components/icons/Cancel';
-import { CheckCircle } from '@/components/icons/CheckCircle';
-import { Info } from '@/components/icons/Info';
-import { Schedule } from '@/components/icons/Schedule';
 import { Badge, NumericBadge, StatusBadge } from '@/components/ui/badge';
+import { Icon } from '@/components/ui/icon';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
-import { cn } from '@/lib/utils';
 
 /** Default numeric badge */
 export function BadgeDemo() {
@@ -182,14 +178,14 @@ const iconLabelVariants = [
   'success',
 ] as const;
 
-/** Leading icon component per badge variant (check, info, cancel, clock, etc.). */
+/** Material Symbols ligature per badge variant. */
 const iconByVariant = {
-  'high-emphasis': CheckCircle,
-  'brand-accent': CheckCircle,
-  alternative: Info,
-  error: Cancel,
-  warning: Schedule,
-  success: CheckCircle,
+  'high-emphasis': 'check_circle',
+  'brand-accent': 'check_circle',
+  alternative: 'info',
+  error: 'cancel',
+  warning: 'schedule',
+  success: 'check_circle',
 } as const;
 
 /** Icon color for outline badges only – icon matches outline, passed from demo */
@@ -214,24 +210,31 @@ export function BadgeIconLabel() {
     <div className="flex flex-col gap-10">
       <div className="flex flex-col gap-3">
         {iconLabelVariants.map(v => {
-          const Icon = iconByVariant[v];
+          const iconName = iconByVariant[v];
 
           return (
             <div key={v} className="flex flex-wrap items-center gap-3">
               <Badge format="rect" size="sm" variant={v} withIcon>
-                <Icon className="size-4" />
+                <Icon icon={iconName} size="sm" />
                 Label
               </Badge>
               <Badge format="rect" size="default" variant={v} withIcon>
-                <Icon className="size-4" />
+                <Icon icon={iconName} />
                 Label
               </Badge>
               <Badge format="rect" outline size="sm" variant={v} withIcon>
-                <Icon className={cn('size-4', iconOutlineColorByVariant[v])} />
+                <Icon
+                  icon={iconName}
+                  size="sm"
+                  className={iconOutlineColorByVariant[v]}
+                />
                 Label
               </Badge>
               <Badge format="rect" outline size="default" variant={v} withIcon>
-                <Icon className={cn('size-4', iconOutlineColorByVariant[v])} />
+                <Icon
+                  icon={iconName}
+                  className={iconOutlineColorByVariant[v]}
+                />
                 Label
               </Badge>
             </div>
@@ -240,24 +243,31 @@ export function BadgeIconLabel() {
       </div>
       <div className="flex flex-col gap-3">
         {iconLabelVariants.map(v => {
-          const Icon = iconByVariant[v];
+          const iconName = iconByVariant[v];
 
           return (
             <div key={v} className="flex flex-wrap items-center gap-3">
               <Badge format="pill" size="sm" variant={v} withIcon>
-                <Icon className="size-4" />
+                <Icon icon={iconName} size="sm" />
                 Label
               </Badge>
               <Badge format="pill" size="default" variant={v} withIcon>
-                <Icon className="size-4" />
+                <Icon icon={iconName} />
                 Label
               </Badge>
               <Badge format="pill" outline size="sm" variant={v} withIcon>
-                <Icon className={cn('size-4', iconOutlineColorByVariant[v])} />
+                <Icon
+                  icon={iconName}
+                  size="sm"
+                  className={iconOutlineColorByVariant[v]}
+                />
                 Label
               </Badge>
               <Badge format="pill" outline size="default" variant={v} withIcon>
-                <Icon className={cn('size-4', iconOutlineColorByVariant[v])} />
+                <Icon
+                  icon={iconName}
+                  className={iconOutlineColorByVariant[v]}
+                />
                 Label
               </Badge>
             </div>

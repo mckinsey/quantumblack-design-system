@@ -1,4 +1,4 @@
-import { CropFree } from '@/components/icons/CropFree';
+import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 
 // ============================================================================
@@ -11,7 +11,7 @@ import { IconShell } from '@/components/ui/icon-shell';
 export function IconShellDemo() {
   return (
     <IconShell className="text-fg-primary">
-      <CropFree />
+      <Icon icon="crop_free" />
     </IconShell>
   );
 }
@@ -24,19 +24,19 @@ export function IconShellSizes() {
     <div className="text-fg-primary flex items-center gap-4">
       <div className="flex flex-col items-center gap-2">
         <IconShell size="sm">
-          <CropFree />
+          <Icon icon="crop_free" />
         </IconShell>
         <span className="text-fg-secondary text-xs">Small</span>
       </div>
       <div className="flex flex-col items-center gap-2">
         <IconShell size="default">
-          <CropFree />
+          <Icon icon="crop_free" />
         </IconShell>
         <span className="text-fg-secondary text-xs">Default</span>
       </div>
       <div className="flex flex-col items-center gap-2">
         <IconShell size="lg">
-          <CropFree />
+          <Icon icon="crop_free" />
         </IconShell>
         <span className="text-fg-secondary text-xs">Large</span>
       </div>
@@ -52,19 +52,19 @@ export function IconShellVariants() {
     <div className="text-fg-primary flex items-center gap-6">
       <div className="flex flex-col items-center gap-2">
         <IconShell size="default" variant="primary">
-          <CropFree />
+          <Icon icon="crop_free" />
         </IconShell>
         <span className="text-fg-secondary text-xs">Primary</span>
       </div>
       <div className="flex flex-col items-center gap-2">
         <IconShell size="default" variant="secondary">
-          <CropFree />
+          <Icon icon="crop_free" />
         </IconShell>
         <span className="text-fg-secondary text-xs">Secondary</span>
       </div>
       <div className="flex flex-col items-center gap-2">
         <IconShell size="default" variant="disabled">
-          <CropFree />
+          <Icon icon="crop_free" />
         </IconShell>
         <span className="text-fg-secondary text-xs">Disabled</span>
       </div>
@@ -82,13 +82,13 @@ export function IconShellAll() {
         <span className="text-fg-secondary text-xs">Small</span>
         <div className="flex items-center gap-4">
           <IconShell size="sm" variant="primary">
-            <CropFree />
+            <Icon icon="crop_free" />
           </IconShell>
           <IconShell size="sm" variant="secondary">
-            <CropFree />
+            <Icon icon="crop_free" />
           </IconShell>
           <IconShell size="sm" variant="disabled">
-            <CropFree />
+            <Icon icon="crop_free" />
           </IconShell>
         </div>
       </div>
@@ -96,13 +96,13 @@ export function IconShellAll() {
         <span className="text-fg-secondary text-xs">Default</span>
         <div className="flex items-center gap-4">
           <IconShell size="default" variant="primary">
-            <CropFree />
+            <Icon icon="crop_free" />
           </IconShell>
           <IconShell size="default" variant="secondary">
-            <CropFree />
+            <Icon icon="crop_free" />
           </IconShell>
           <IconShell size="default" variant="disabled">
-            <CropFree />
+            <Icon icon="crop_free" />
           </IconShell>
         </div>
       </div>
@@ -110,13 +110,13 @@ export function IconShellAll() {
         <span className="text-fg-secondary text-xs">Large</span>
         <div className="flex items-center gap-4">
           <IconShell size="lg" variant="primary">
-            <CropFree />
+            <Icon icon="crop_free" />
           </IconShell>
           <IconShell size="lg" variant="secondary">
-            <CropFree />
+            <Icon icon="crop_free" />
           </IconShell>
           <IconShell size="lg" variant="disabled">
-            <CropFree />
+            <Icon icon="crop_free" />
           </IconShell>
         </div>
       </div>

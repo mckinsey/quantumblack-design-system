@@ -28,23 +28,19 @@ npm run lint            # ESLint
 
 ## Icons
 
-Icons are wrapped in `<IconShell>` to apply QBDS sizing (`sm`/`default`/`lg`), tone (`primary`/`secondary`/`disabled`), and colour (`neutral`/`neutral-inverse`/`accent`) tokens. The raw icon components in `src/components/icons/` are implementation detail — when rendering an icon inside another component or a demo, reach for them through `IconShell`.
+Icons use the **Material Symbols Sharp** variable font via `<Icon icon="search" />`. Ligature names are Google's snake_case (e.g. `keyboard_arrow_down`, `check_circle`). No per-icon files or codegen — any icon in the font catalog works.
 
-Icon component files in `src/components/icons/` are **generated** from `src/components/icons/icons.json` by `scripts/generate-icons.ts`. Do not edit the `.tsx` files by hand — changes will be overwritten the next time the generator runs.
+Wrap icons in `<IconShell>` for QBDS sizing (`sm`/`default`/`lg`), tone (`neutral`/`neutral-inverse`/`accent`), and opacity (`primary`/`secondary`/`disabled`). `IconShell` provides size context to `<Icon>` automatically:
 
-To add a Material Symbol:
+```tsx
+<IconShell size="sm" variant="secondary">
+  <Icon icon="search" />
+</IconShell>
+```
 
-1. Append an entry to `src/components/icons/icons.json`, e.g. `{ "name": "Bookmark" }`. The PascalCase `name` is the React component name and is converted to Google's `snake_case` automatically. If the Google name differs (e.g. `ChevronDown` → `keyboard_arrow_down`), add `"source": "keyboard_arrow_down"`.
-2. Run `npm run icons:gen`.
-3. Commit `icons.json` and the regenerated files together.
+Optical-size contract (same as Figma): `sm` → 20dp@wght400, `default` → 24dp@wght300, `lg` → 40dp@wght300 via `fontVariationSettings`. Set `size` on `<Icon>` directly when not using `IconShell`.
 
-The generator fetches **three glyphs per icon** live from Google's `material-design-icons` GitHub master, one for each IconShell size:
-
-- `sm` → 20dp @ weight 400
-- `default` → 24dp @ weight 300
-- `lg` → 40dp @ weight 300
-
-Each icon component exposes a `size` prop and picks the matching path. `IconShell` clones its child to forward its own resolved `size` automatically, so consumers don't need to set `size` on the icon directly — just `<IconShell size="sm"><Add /></IconShell>` works. Requires network when running `icons:gen`. Use `npm run icons:check` in CI to fail on drift.
+Registry: `npx shadcn add icon` ships `icon.tsx` and appends the Google Fonts `@import` to the consumer's CSS.
 
 ## Before raising a PR
 

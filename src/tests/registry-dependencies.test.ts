@@ -4,7 +4,7 @@
  * Ensures registry.json stays aligned with source imports for registry:ui items:
  * - Every item lists `theme` in registryDependencies.
  * - Imports from other UI components in shipped ui/example files are in registryDependencies.
- * - Imports from components/icons in shipped ui/component files are listed in files[].
+ * - Imports from `@/components/ui/icon` in shipped files declare `icon` in registryDependencies.
  */
 import { parse as babelParse } from '@babel/parser';
 import traverse from '@babel/traverse';
@@ -19,7 +19,7 @@ const REPO_ROOT = path.resolve(
 );
 const REGISTRY_PATH = path.join(REPO_ROOT, 'registry.json');
 const UI_DIR = path.join(REPO_ROOT, 'src/components/ui');
-const ICONS_DIR = path.join(REPO_ROOT, 'src/components/icons');
+const ICON_MODULE = path.join(REPO_ROOT, 'src/components/ui/icon.tsx');
 
 interface RegistryFileEntry {
   readonly path: string;
@@ -157,8 +157,6 @@ describe('registry.json dependency coverage', () => {
       }
 
       const declaredDeps = registryDepNames(item.registryDependencies);
-      const allFilePaths = item.files?.map(f => f.path) ?? [];
-      const declaredFileKeys = new Set(allFilePaths.map(normalizePathKey));
 
       const uiDepFiles =
         item.files?.filter(
@@ -168,9 +166,12 @@ describe('registry.json dependency coverage', () => {
             f.type === 'registry:example',
         ) ?? [];
 
-      const iconDepFiles =
+      const shippedFiles =
         item.files?.filter(
-          f => f.type === 'registry:ui' || f.type === 'registry:component',
+          f =>
+            f.type === 'registry:ui' ||
+            f.type === 'registry:component' ||
+            f.type === 'registry:example',
         ) ?? [];
 
       const checkUiDeps = (relativePath: string) => {
@@ -214,7 +215,7 @@ describe('registry.json dependency coverage', () => {
         }
       };
 
-      const checkIconDeps = (relativePath: string) => {
+      const checkIconModuleDep = (relativePath: string) => {
         const absFile = path.join(REPO_ROOT, relativePath);
 
         if (!fs.existsSync(absFile)) {
@@ -235,19 +236,13 @@ describe('registry.json dependency coverage', () => {
             continue;
           }
 
-          const norm = normalizePathKey(resolved);
-
-          if (!norm.startsWith(normalizePathKey(ICONS_DIR) + '/')) {
+          if (normalizePathKey(resolved) !== normalizePathKey(ICON_MODULE)) {
             continue;
           }
 
-          const registryRelative = normalizePathKey(
-            path.relative(REPO_ROOT, resolved),
-          );
-
-          if (!declaredFileKeys.has(registryRelative)) {
+          if (!declaredDeps.has('icon')) {
             failures.push(
-              `[${item.name}] ${relativePath} imports icon "${registryRelative}" (${spec}) but that path is not listed in this item's files[]`,
+              `[${item.name}] ${relativePath} imports Icon (${spec}) but registryDependencies does not include r/icon.json`,
             );
           }
         }
@@ -257,8 +252,8 @@ describe('registry.json dependency coverage', () => {
         checkUiDeps(entry.path);
       }
 
-      for (const entry of iconDepFiles) {
-        checkIconDeps(entry.path);
+      for (const entry of shippedFiles) {
+        checkIconModuleDep(entry.path);
       }
     }
 

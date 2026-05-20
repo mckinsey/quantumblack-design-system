@@ -7,7 +7,6 @@ import * as React from 'react';
 import { Controller, useForm as useRhfForm } from 'react-hook-form';
 import * as z from 'zod';
 
-import { CalendarMonth } from '@/components/icons/CalendarMonth';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -21,6 +20,7 @@ import {
   FieldError,
   FieldLabel,
 } from '@/components/ui/field';
+import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import { Input } from '@/components/ui/input';
 import {
@@ -428,7 +428,10 @@ function DateFieldRow({
             <InputGroupAddon align="inline-end">
               <span className="flex size-5 cursor-pointer items-center justify-center">
                 <IconShell size="sm">
-                  <CalendarMonth className="text-[length:inherit]" />
+                  <Icon
+                    icon="calendar_month"
+                    className="text-[length:inherit]"
+                  />
                 </IconShell>
               </span>
             </InputGroupAddon>

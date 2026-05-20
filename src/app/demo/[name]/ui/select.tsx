@@ -3,8 +3,6 @@
 import * as React from 'react';
 import type { ReactNode } from 'react';
 
-import { Check } from '@/components/icons/Check';
-import { CropFree } from '@/components/icons/CropFree';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   FieldDescription,
@@ -12,6 +10,7 @@ import {
   FieldSet,
   FieldTitle,
 } from '@/components/ui/field';
+import { Icon } from '@/components/ui/icon';
 import {
   Select,
   SelectContent,
@@ -101,7 +100,8 @@ function SelectItemWithIcon({
 
   return (
     <SelectItem value={value} disabled={disabled}>
-      <CropFree
+      <Icon
+        icon="crop_free"
         className={`text-fg-secondary shrink-0 ${iconClass}`}
         aria-hidden
       />
@@ -109,7 +109,7 @@ function SelectItemWithIcon({
       <SelectItemText>{children}</SelectItemText>
 
       <SelectItemIndicator>
-        <Check className={iconClass} />
+        <Icon icon="check" className={iconClass} />
       </SelectItemIndicator>
     </SelectItem>
   );
