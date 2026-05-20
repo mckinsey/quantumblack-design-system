@@ -1,17 +1,25 @@
+/**
+ * Generate Figma Code Connect config from environment variables.
+ *
+ * Reads figma.config.template.json and writes figma.config.json with
+ * documentUrlSubstitutions built from every FIGMA_URL_* env var
+ * (FIGMA_URL_QBDS_BADGE_NUMERIC → <QBDS_BADGE_NUMERIC>).
+ *
+ * Run from repo root: npm run figma:config
+ */
 import { readFileSync, writeFileSync } from 'node:fs';
 
-// FIGMA_URL_QBDS_BADGE_NUMERIC → <QBDS_BADGE_NUMERIC> in Code Connect files
 const PREFIX = 'FIGMA_URL_';
 
 function loadEnv(): void {
   try {
     const env = readFileSync('.env', 'utf-8');
 
-    for (const line of env.split('\n')) {
+    for (const line of env.split(/\r?\n/)) {
       const m = line.match(/^\s*([A-Z_][A-Z0-9_]*)\s*=\s*"?([^"\n]*)"?\s*$/);
 
       if (m && !process.env[m[1]]) {
-        process.env[m[1]] = m[2];
+        process.env[m[1]] = m[2].trim();
       }
     }
   } catch {

@@ -83,6 +83,7 @@ Set `QBDS_REGISTRY_URL` as a **repository variable** under **Settings → Secret
 ## Project structure
 
 ```
+code-connect/                   # Figma Code Connect mappings (*.figma.tsx)
 src/
 ├── app/
 │   ├── (registry)/             # Registry site routes
@@ -96,7 +97,6 @@ src/
 │   └── registry/               # Registry site UI (navbar, sidebar, API reference, etc.)
 ├── hooks/                      # Shared React hooks
 ├── lib/                        # Utils, registry helpers, source extraction
-├── code-connect/               # Figma Code Connect mappings (*.figma.tsx)
 └── styles/
     └── globals.css             # Tailwind + QBDS theme tokens
 scripts/

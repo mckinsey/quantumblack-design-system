@@ -61,7 +61,7 @@ figma.connect(Badge, '<QBDS_BADGE_ICON_LABEL>', {
       outline={outline}
       size={size}
       variant={variant}
-      withIcon={true}>
+      withIcon={Boolean(icon)}>
       {icon}
       {label}
     </Badge>
@@ -99,7 +99,7 @@ figma.connect(Badge, '<QBDS_BADGE_DOT_LABEL>', {
       outline={true}
       size={size}
       variant={variant}
-      withDot={true}>
+      withDot={Boolean(dot)}>
       {dot}
       {label}
     </Badge>
