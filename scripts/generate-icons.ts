@@ -95,7 +95,8 @@ function renderIndex(names: string[]): string {
 }
 
 async function format(filename: string, contents: string): Promise<string> {
-  const config = await prettier.resolveConfig(join(ICONS_DIR, filename));
+  const config =
+    (await prettier.resolveConfig(join(ICONS_DIR, filename))) ?? {};
   return prettier.format(contents, { ...config, parser: 'typescript' });
 }
 
