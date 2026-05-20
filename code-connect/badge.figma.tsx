@@ -37,10 +37,6 @@ figma.connect(Badge, '<QBDS_BADGE_ICON_LABEL>', {
       warning: 'warning',
       success: 'success',
     }),
-    format: figma.enum('format', {
-      rec: 'rect',
-      pill: 'pill',
-    }),
     size: figma.enum('size', {
       sm: 'sm',
       reg: 'default',
@@ -55,9 +51,9 @@ figma.connect(Badge, '<QBDS_BADGE_ICON_LABEL>', {
     }),
     label: figma.string('label'),
   },
-  example: ({ variant, format, size, outline, icon, label }) => (
+  example: ({ variant, size, outline, icon, label }) => (
     <Badge
-      format={format}
+      format={'pill'}
       outline={outline}
       size={size}
       variant={variant}
@@ -78,10 +74,6 @@ figma.connect(Badge, '<QBDS_BADGE_DOT_LABEL>', {
       warning: 'warning',
       success: 'success',
     }),
-    format: figma.enum('format', {
-      rec: 'rect',
-      pill: 'pill',
-    }),
     size: figma.enum('size', {
       sm: 'sm',
       reg: 'default',
@@ -93,9 +85,9 @@ figma.connect(Badge, '<QBDS_BADGE_DOT_LABEL>', {
     }),
     label: figma.textContent('value'),
   },
-  example: ({ variant, format, size, dot, label }) => (
+  example: ({ variant, size, dot, label }) => (
     <Badge
-      format={format}
+      format={'pill'}
       outline={true}
       size={size}
       variant={variant}
@@ -111,14 +103,10 @@ figma.connect(Badge, '<QBDS_BADGE_LABEL_ONLY>', {
     variant: figma.enum('type', {
       'high-emphasis': 'high-emphasis',
       'brand-accent': 'brand-accent',
-      neutral: 'alternative',
+      alternative: 'alternative',
       error: 'error',
       warning: 'warning',
       success: 'success',
-    }),
-    format: figma.enum('format', {
-      rec: 'rect',
-      pill: 'pill',
     }),
     size: figma.enum('size', {
       sm: 'sm',
@@ -130,8 +118,8 @@ figma.connect(Badge, '<QBDS_BADGE_LABEL_ONLY>', {
     }),
     label: figma.string('label'),
   },
-  example: ({ variant, format, size, outline, label }) => (
-    <Badge format={format} outline={outline} size={size} variant={variant}>
+  example: ({ variant, size, outline, label }) => (
+    <Badge format={'pill'} outline={outline} size={size} variant={variant}>
       {label}
     </Badge>
   ),
