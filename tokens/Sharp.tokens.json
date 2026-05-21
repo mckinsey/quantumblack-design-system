@@ -1,0 +1,72 @@
+{
+  "rad-sm": {
+    "$type": "number",
+    "$value": 0,
+    "$description": "Small components like tags, badges",
+    "$extensions": {
+      "com.figma.variableId": "VariableID:35241:30793",
+      "com.figma.scopes": [
+        "CORNER_RADIUS"
+      ],
+      "com.figma.codeSyntax": {
+        "WEB": "var(--radi-1)"
+      }
+    }
+  },
+  "rad-reg": {
+    "$type": "number",
+    "$value": 0,
+    "$description": "regular or small components that often live inside others, like buttons or nested components",
+    "$extensions": {
+      "com.figma.variableId": "VariableID:35241:30792",
+      "com.figma.scopes": [
+        "CORNER_RADIUS"
+      ],
+      "com.figma.codeSyntax": {
+        "WEB": "var(--radi-2)"
+      }
+    }
+  },
+  "rad-md": {
+    "$type": "number",
+    "$value": 0,
+    "$description": "Medium components like cards, snack bars, banners",
+    "$extensions": {
+      "com.figma.variableId": "VariableID:37574:57841",
+      "com.figma.hiddenFromPublishing": true,
+      "com.figma.scopes": [
+        "CORNER_RADIUS"
+      ]
+    }
+  },
+  "rad-lg": {
+    "$type": "number",
+    "$value": 0,
+    "$description": "Large container components like sheets and dialogs",
+    "$extensions": {
+      "com.figma.variableId": "VariableID:37574:57842",
+      "com.figma.scopes": [
+        "CORNER_RADIUS"
+      ],
+      "com.figma.codeSyntax": {
+        "WEB": "var(--radi-2)"
+      }
+    }
+  },
+  "rad-round": {
+    "$type": "number",
+    "$value": 1000,
+    "$extensions": {
+      "com.figma.variableId": "VariableID:35241:30787",
+      "com.figma.scopes": [
+        "CORNER_RADIUS"
+      ],
+      "com.figma.codeSyntax": {
+        "WEB": "var(--radi-10)"
+      }
+    }
+  },
+  "$extensions": {
+    "com.figma.modeName": "Sharp"
+  }
+}
