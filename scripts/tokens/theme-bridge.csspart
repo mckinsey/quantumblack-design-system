@@ -1,0 +1,148 @@
+/*
+ * Hand-maintained Tailwind / shadcn bridge — pasted into @theme inline after
+ * Figma-synced primitives. Not generated from token JSON; edit here when adding
+ * framework aliases (e.g. --text-sm, --color-fg-*, --radius-*).
+ */
+
+  /** Text Size Mappings - shadcn convention mapped to primitives */
+  --text-xs: var(--font-font-size-12);
+  --text-xs-line-height: var(--font-line-height-12);
+  --text-sm: var(--font-font-size-14);
+  --text-sm-line-height: var(--font-line-height-16);
+  --text-base: var(--font-font-size-16);
+  --text-base-line-height: var(--font-line-height-20);
+  --text-lg: var(--font-font-size-20);
+  --text-lg-line-height: var(--font-line-height-24);
+  --text-xl: var(--font-font-size-20);
+  --text-xl-line-height: var(--font-line-height-24);
+  --text-2xl: var(--font-font-size-24);
+  --text-2xl-line-height: var(--font-line-height-28);
+  --text-3xl: var(--font-font-size-32);
+  --text-3xl-line-height: var(--font-line-height-32);
+  --text-4xl: var(--font-font-size-40);
+  --text-4xl-line-height: var(--font-line-height-40);
+  --text-5xl: var(--font-font-size-48);
+  --text-5xl-line-height: var(--font-line-height-48);
+  --text-6xl: var(--font-font-size-56);
+  --text-6xl-line-height: var(--font-line-height-56);
+
+  /** Mist Utility Colors */
+  --color-mist-50: var(--mist-50);
+  --color-mist-50-opacity-88: var(--mist-50-opacity-88);
+
+  /** Brand Accent Utility Colors */
+  --color-brand-accents-qb-accent: var(--brand-accents-qb-accent);
+
+  /** Radius Tokens - Available as Tailwind utilities */
+  --radius-round: var(--rad-round);
+  --radius-reg: var(--rad-reg);
+  --radius-sm: var(--rad-sm);
+  --radius-md: var(--rad-md);
+  --radius-lg: var(--rad-lg);
+
+  /*** Foreground (Text/Icon) Tokens */
+
+  --color-fg-primary: var(--text-primary);
+  --color-fg-secondary: var(--text-secondary);
+  --color-fg-tertiary: var(--text-tertiary);
+  --color-fg-disabled: var(--text-disabled);
+  --color-fg-primary-inverse: var(--text-primary-inverse);
+  --color-fg-secondary-inverse: var(--text-secondary-inverse);
+  --color-fg-tertiary-inverse: var(--text-tertiary-inverse);
+  --color-fg-disabled-inverse: var(--text-disabled-inverse);
+
+  /*** Stroke (Border) Tokens */
+
+  --color-stroke-divider: var(--border-divider);
+  --color-stroke-primary: var(--border-primary);
+  --color-stroke-secondary: var(--border-secondary);
+  --color-stroke-tertiary: var(--border-tertiary);
+  --color-stroke-active: var(--border-active);
+  --color-stroke-status-focus: var(--border-status-focus);
+  --color-stroke-status-mono: var(--border-status-mono);
+  --color-stroke-status-error: var(--border-status-error);
+  --color-stroke-status-success: var(--border-status-success);
+  --color-stroke-status-warning: var(--border-status-warning);
+  --color-stroke-divider-inverse: var(--border-divider-inverse);
+  --color-stroke-primary-inverse: var(--border-primary-inverse);
+  --color-stroke-secondary-inverse: var(--border-secondary-inverse);
+  --color-stroke-tertiary-inverse: var(--border-tertiary-inverse);
+  --color-stroke-tertiary-hover: var(--border-tertiary-hover);
+  --color-stroke-tertiary-hover-inverse: var(--border-tertiary-hover-inverse);
+  --color-stroke-active-inverse: var(--border-active-inverse);
+
+  /*** Fill Tokens */
+
+  --color-fill-primary: var(--fill-primary);
+  --color-fill-secondary: var(--fill-secondary);
+  --color-fill-tertiary: var(--fill-tertiary);
+  --color-fill-subtle: var(--fill-subtle);
+  --color-fill-muted: var(--fill-muted);
+  --color-fill-active: var(--fill-active);
+  --color-fill-disabled: var(--fill-disabled);
+  --color-fill-primary-inverse: var(--fill-primary-inverse);
+  --color-fill-secondary-inverse: var(--fill-secondary-inverse);
+  --color-fill-tertiary-inverse: var(--fill-tertiary-inverse);
+  --color-fill-subtle-inverse: var(--fill-subtle-inverse);
+  --color-fill-disabled-inverse: var(--fill-disabled-inverse);
+  --color-fill-active-inverse: var(--fill-active-inverse);
+  --color-fill-muted-inverse: var(--fill-muted-inverse);
+  --color-fill-selected-range: var(--fill-selected-range);
+  --color-fill-onsurface-ui-1: var(--fill-onsurface-ui-1);
+  --color-fill-onsurface-ui-2: var(--fill-onsurface-ui-2);
+  --color-fill-onsurface-ui-3: var(--fill-onsurface-ui-3);
+
+  --color-slider-track: var(--slider-track);
+
+  /*** Surface Tokens */
+
+  --color-surface-primary: var(--surface-primary);
+  --color-surface-secondary: var(--surface-secondary);
+  --color-surface-tertiary: var(--surface-tertiary);
+  --color-surface-base: var(--surface-base);
+  --color-sidebar: var(--surface-base);
+  --color-sidebar-foreground: var(--text-primary);
+
+  /*** Status Tokens */
+
+  --color-status-success: var(--status-success);
+  --color-status-error: var(--status-error);
+  --color-status-warning: var(--status-warning);
+  --color-status-information: var(--status-information);
+  --color-status-success-inverse: var(--status-success-inverse);
+  --color-status-error-inverse: var(--status-error-inverse);
+  --color-status-warning-inverse: var(--status-warning-inverse);
+  --color-status-information-inverse: var(--status-information-inverse);
+
+  /*** State Layer Tokens */
+
+  --color-stateslayer-overlay-enabled: var(--stateslayer-overlay-enabled);
+  --color-stateslayer-overlay-hover: var(--stateslayer-overlay-hover);
+  --color-stateslayer-overlay-pressed: var(--stateslayer-overlay-pressed);
+  --color-stateslayer-overlay-disabled: var(--stateslayer-overlay-disabled);
+  --color-stateslayer-overlay-active: var(--stateslayer-overlay-active);
+  --color-stateslayer-overlay-hover-inverse: var(
+    --stateslayer-overlay-hover-inverse
+  );
+  --color-stateslayer-overlay-pressed-inverse: var(
+    --stateslayer-overlay-pressed-inverse
+  );
+  --color-stateslayer-overlay-disabled-inverse: var(
+    --stateslayer-overlay-disabled-inverse
+  );
+  --color-stateslayer-overlay-active-inverse: var(
+    --stateslayer-overlay-active-inverse
+  );
+
+  /*** Elevation Tokens */
+
+  --color-elevations-shade-t: var(--elevations-shade-t);
+  --color-elevations-shade: var(--elevations-shade);
+  --color-elevations-shade-t-01: var(--elevations-shade-t-01);
+  --color-elevations-shade-01: var(--elevations-shade-01);
+  --color-elevations-shade-t-02: var(--elevations-shade-t-02);
+  --color-elevations-shade-02: var(--elevations-shade-02);
+  --color-elevations-shade-t-03: var(--elevations-shade-t-03);
+  --color-elevations-shade-03: var(--elevations-shade-03);
+  --color-elevations-shade-t-04: var(--elevations-shade-t-04);
+  --color-elevations-shade-04: var(--elevations-shade-04);

@@ -1,0 +1,34 @@
+{
+  "source": "file",
+  "globalsPath": "src/styles/globals.css",
+  "themeBridgePath": "scripts/tokens/theme-bridge.csspart",
+  "sections": [
+    {
+      "id": "theme-inline",
+      "wrapper": "@theme inline",
+      "files": ["tokens/Value.tokens.json"]
+    },
+    {
+      "id": "semantic",
+      "selectors": [
+        {
+          "file": "tokens/Light.tokens.json",
+          "selector": ":root",
+          "mergeFiles": ["tokens/Sharp.tokens.json"],
+          "label": "Light mode"
+        },
+        {
+          "file": "tokens/Dark.tokens.json",
+          "selector": ".dark",
+          "mergeFiles": ["tokens/Sharp.tokens.json"],
+          "label": "Dark mode"
+        },
+        {
+          "file": "tokens/Round.tokens.json",
+          "selector": ".radius-mode",
+          "label": "Rounded radius"
+        }
+      ]
+    }
+  ]
+}
