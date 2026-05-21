@@ -29,6 +29,29 @@ function loadConfig(): TokensSyncConfig {
   ) as TokensSyncConfig
 }
 
+function indexAfterSelectorBlock(css: string, selector: string): number {
+  const start = css.indexOf(`${selector} {`)
+  if (start === -1) return -1
+  let depth = 0
+  for (let i = css.indexOf('{', start); i < css.length; i++) {
+    if (css[i] === '{') depth++
+    else if (css[i] === '}') {
+      depth--
+      if (depth === 0) return i + 1
+    }
+  }
+  return -1
+}
+
+function semanticSectionEndIndex(css: string): number {
+  return (
+    indexAfterSelectorBlock(css, '.radius-mode') ??
+    indexAfterSelectorBlock(css, '.dark') ??
+    indexAfterSelectorBlock(css, ':root') ??
+    css.indexOf('\n@utility shadow-elevation-0')
+  )
+}
+
 function insertMarkersIfMissing(globalsCss: string): string {
   let css = globalsCss
   if (!css.includes(MARKER_BEGIN('theme-inline'))) {
@@ -40,10 +63,7 @@ function insertMarkersIfMissing(globalsCss: string): string {
   }
   if (!css.includes(MARKER_BEGIN('semantic'))) {
     css = css.replace(':root {', `${MARKER_BEGIN('semantic')}\n:root {`)
-    const insertAt =
-      css.indexOf('\n.radius-mode {') !== -1
-        ? css.indexOf('\n.radius-mode {')
-        : css.indexOf('\n@utility shadow-elevation-0')
+    const insertAt = semanticSectionEndIndex(css)
     if (insertAt !== -1) {
       css = css.slice(0, insertAt) + `\n${MARKER_END('semantic')}` + css.slice(insertAt)
     }

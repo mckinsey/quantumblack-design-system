@@ -662,13 +662,6 @@
   --rad-sm: 4px;
 }
 /* qbds:tokens:end semantic */
-.radius-mode {
-  /** Rounded radius tokens */
-  --rad-reg: 8px;
-  --rad-sm: 4px;
-  --rad-md: 12px;
-  --rad-lg: 16px;
-}
 
 @utility shadow-elevation-0 {
   --tw-shadow:
