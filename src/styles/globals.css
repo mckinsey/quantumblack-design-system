@@ -647,7 +647,7 @@
   --elevations-shade-04: var(--slate-900-opacity-88);
 
   /** Dark mode fill tokens */
-  --fill-stepmarkers+track: var(--slate-100);
+  --fill-stepmarkers-track: var(--slate-100);
 
   /** Sharp radius tokens (default - no radius) */
   --rad-round: 1000px;
