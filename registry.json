@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "Quantumblack Design System Registry",
-  "homepage": "",
+  "homepage": "https://github.com/mckinsey/quantumblack-design-system",
   "items": [
     {
       "name": "utils",
