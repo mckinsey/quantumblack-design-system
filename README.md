@@ -57,6 +57,25 @@ cp .env.example .env
 
 `.env` is gitignored — never commit it.
 
+### Figma Code Connect
+
+Mappings live in [`code-connect/`](code-connect/) (flat `*.figma.tsx` files). [`figma.config.template.json`](figma.config.template.json) is committed; `figma.config.json` is generated from the template + `.env` and gitignored.
+
+| Variable | Description |
+| -------- | ----------- |
+| `FIGMA_ACCESS_TOKEN` | Figma personal access token (local publish only) |
+| `FIGMA_URL_<PLACEHOLDER>` | Full Figma URL for each `<QBDS_*>` placeholder used in mappings |
+
+Local publish (from repo root):
+
+```bash
+cp .env.example .env
+# Set FIGMA_ACCESS_TOKEN and FIGMA_URL_* for placeholders in code-connect/
+npm run figma:publish
+```
+
+New bindings are added in a [stacked PR chain](https://github.com/McK-Internal/qbds-internal/pulls): each branch is cut from the previous phase branch for review.
+
 ### CI / GitHub Actions
 
 Set `QBDS_REGISTRY_URL` as a **repository variable** under **Settings → Secrets and variables → Actions → Variables**. All workflows read it via `${{ vars.QBDS_REGISTRY_URL }}`.
@@ -64,6 +83,7 @@ Set `QBDS_REGISTRY_URL` as a **repository variable** under **Settings → Secret
 ## Project structure
 
 ```
+code-connect/                   # Figma Code Connect mappings (*.figma.tsx)
 src/
 ├── app/
 │   ├── (registry)/             # Registry site routes
