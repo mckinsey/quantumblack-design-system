@@ -3,7 +3,7 @@
 import { Select as SelectPrimitive } from '@base-ui/react/select';
 import * as React from 'react';
 
-import { ChevronDown } from '@/components/icons/ChevronDown';
+import { Icon } from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
 
 export type SelectSize = 'sm' | 'default' | 'lg';
@@ -121,7 +121,7 @@ function SelectTrigger({
       {...props}>
       {children}
       <SelectIcon className="transition-transform duration-200 [[data-popup-open]>&]:rotate-180">
-        <ChevronDown />
+        <Icon icon="keyboard_arrow_down" size="sm" />
       </SelectIcon>
     </SelectPrimitive.Trigger>
   );
@@ -217,6 +217,7 @@ function SelectItem({
         'active:bg-stateslayer-overlay-pressed',
 
         'data-disabled:text-fg-disabled data-disabled:cursor-not-allowed',
+
         className,
       )}
       {...props}>
@@ -285,7 +286,7 @@ function SelectScrollUpArrow({
         className,
       )}
       {...props}>
-      <ChevronDown className="size-4 rotate-180" />
+      <Icon icon="keyboard_arrow_down" size="sm" className="rotate-180" />
     </SelectPrimitive.ScrollUpArrow>
   );
 }
@@ -302,7 +303,7 @@ function SelectScrollDownArrow({
         className,
       )}
       {...props}>
-      <ChevronDown className="size-4" />
+      <Icon icon="keyboard_arrow_down" size="sm" />
     </SelectPrimitive.ScrollDownArrow>
   );
 }

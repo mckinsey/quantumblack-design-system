@@ -1,6 +1,5 @@
 import { type ReactNode, useState } from 'react';
 
-import { Check } from '@/components/icons/Check';
 import {
   Avatar,
   AvatarFallback,
@@ -10,6 +9,7 @@ import {
 } from '@/components/ui/avatar';
 import { NumericBadge, StatusBadge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Icon } from '@/components/ui/icon';
 import {
   Select,
   SelectContent,
@@ -359,7 +359,8 @@ export function AvatarRadioList() {
               }
               trailing={
                 selected[size] === user.id ? (
-                  <Check
+                  <Icon
+                    icon="check"
                     className={`text-fill-active shrink-0 ${checkIconSize[size]}`}
                   />
                 ) : undefined
@@ -446,7 +447,7 @@ export function AvatarPickerSingle() {
             <SelectItemText>{user.name}</SelectItemText>
 
             <SelectItemIndicator>
-              <Check className="size-4" />
+              <Icon icon="check" className="size-4" />
             </SelectItemIndicator>
           </SelectItem>
         ))}

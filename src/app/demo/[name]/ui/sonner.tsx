@@ -2,8 +2,8 @@
 
 import { toast as sonnerToast } from 'sonner';
 
-import { Close } from '@/components/icons/Close';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { toast } from '@/components/ui/sonner';
 
 // ============================================================================
@@ -172,7 +172,7 @@ function CustomToast({ id }: { id: string | number }) {
         onClick={() => sonnerToast.dismiss(id)}
         className="hover:bg-fill-onsurface-ui-2 shrink-0 rounded p-1"
         aria-label="Close">
-        <Close className="text-fg-secondary size-4" />
+        <Icon icon="close" className="text-fg-secondary size-4" />
       </button>
     </div>
   );

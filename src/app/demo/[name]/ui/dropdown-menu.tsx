@@ -1,13 +1,5 @@
 import * as React from 'react';
 
-import { AttachMoney } from '@/components/icons/AttachMoney';
-import { Close } from '@/components/icons/Close';
-import { Delete } from '@/components/icons/Delete';
-import { Edit } from '@/components/icons/Edit';
-import { Key } from '@/components/icons/Key';
-import { Mail } from '@/components/icons/Mail';
-import { Person } from '@/components/icons/Person';
-import { Send } from '@/components/icons/Send';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -25,6 +17,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Icon } from '@/components/ui/icon';
 import { Toggle } from '@/components/ui/toggle';
 
 // When the menu trigger merges props, Radix may set `data-state="open"` instead of
@@ -134,24 +127,24 @@ export function DropdownMenuWithIcons() {
     <DropdownMenuWithToggleTrigger triggerLabel="Open">
       <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
         <DropdownMenuItem>
-          <Person className="size-4" />
+          <Icon icon="person" className="size-4" />
           Profile
         </DropdownMenuItem>
 
         <DropdownMenuItem>
-          <AttachMoney className="size-4" />
+          <Icon icon="attach_money" className="size-4" />
           Billing
         </DropdownMenuItem>
 
         <DropdownMenuItem>
-          <Key className="size-4" />
+          <Icon icon="key" className="size-4" />
           Settings
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
 
         <DropdownMenuItem variant="destructive">
-          <Close className="size-4" />
+          <Icon icon="close" className="size-4" />
           Log out
         </DropdownMenuItem>
       </DropdownMenuContent>
@@ -168,20 +161,20 @@ export function DropdownMenuWithSubmenu() {
       <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <Person className="size-4" />
+            <Icon icon="person" className="size-4" />
             Team
           </DropdownMenuItem>
 
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
-              <Send className="size-4" />
+              <Icon icon="send" className="size-4" />
               Invite users
             </DropdownMenuSubTrigger>
 
             <DropdownMenuPortal>
               <DropdownMenuSubContent className={DROPDOWN_MENU_PANEL_CLASS}>
                 <DropdownMenuItem>
-                  <Mail className="size-4" />
+                  <Icon icon="mail" className="size-4" />
                   Email
                 </DropdownMenuItem>
 
@@ -274,12 +267,12 @@ export function DropdownMenuDestructive() {
       <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <Edit className="size-4" />
+            <Icon icon="edit" className="size-4" />
             Edit
           </DropdownMenuItem>
 
           <DropdownMenuItem>
-            <Send className="size-4" />
+            <Icon icon="send" className="size-4" />
             Share
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -288,7 +281,7 @@ export function DropdownMenuDestructive() {
 
         <DropdownMenuGroup>
           <DropdownMenuItem variant="destructive">
-            <Delete className="size-4" />
+            <Icon icon="delete" className="size-4" />
             Delete
           </DropdownMenuItem>
         </DropdownMenuGroup>

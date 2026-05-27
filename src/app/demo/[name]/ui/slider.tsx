@@ -2,9 +2,8 @@
 
 import { useState } from 'react';
 
-import { VolumeDown } from '@/components/icons/VolumeDown';
-import { VolumeUp } from '@/components/icons/VolumeUp';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import { Slider } from '@/components/ui/slider';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
@@ -161,7 +160,7 @@ export function SliderVolume() {
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon-sm" onClick={decrease}>
           <IconShell size="sm">
-            <VolumeDown />
+            <Icon icon="volume_down" />
           </IconShell>
         </Button>
         <Slider
@@ -173,7 +172,7 @@ export function SliderVolume() {
         />
         <Button variant="ghost" size="icon-sm" onClick={increase}>
           <IconShell size="sm">
-            <VolumeUp />
+            <Icon icon="volume_up" />
           </IconShell>
         </Button>
       </div>

@@ -5,6 +5,7 @@ import { RouterProvider } from 'react-router';
 
 import { Toaster } from '@/components/ui/sonner';
 import '@/styles/globals.css';
+import '@/styles/icon-font.css';
 
 import { router } from './router';
 

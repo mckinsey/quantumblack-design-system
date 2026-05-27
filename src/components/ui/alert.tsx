@@ -1,8 +1,8 @@
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
-import { Close } from '@/components/icons/Close';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import { cn } from '@/lib/utils';
 
@@ -98,7 +98,7 @@ function AlertClose({ ...props }: React.ComponentProps<typeof Button>) {
       size="icon"
       variant="ghost">
       <IconShell variant="secondary">
-        <Close className="text-[length:inherit]" />
+        <Icon icon="close" />
         <span className="sr-only">Close</span>
       </IconShell>
     </Button>

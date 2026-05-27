@@ -28,9 +28,19 @@ npm run lint            # ESLint
 
 ## Icons
 
-Icons are wrapped in `<IconShell>` to apply QBDS sizing (`sm`/`default`/`lg`), tone (`primary`/`secondary`/`disabled`), and colour (`neutral`/`neutral-inverse`/`accent`) tokens. The raw icon components in `src/components/icons/` are implementation detail — when rendering an icon inside another component or a demo, reach for them through `IconShell`.
+Icons use the **Material Symbols Sharp** variable font via `<Icon icon="search" />`. Ligature names are Google's snake_case (e.g. `keyboard_arrow_down`, `check_circle`). No per-icon files or codegen — any icon in the font catalog works.
 
-If you need a Material Symbol that isn't already in `src/components/icons/`, add it by hand following the pattern of an existing one (Sharp style, 24dp, weight 300, `viewBox="0 -960 960 960"`, `fill="currentColor"`).
+Wrap icons in `<IconShell>` for QBDS sizing (`sm`/`default`/`lg`), tone (`neutral`/`neutral-inverse`/`accent`), and opacity (`primary`/`secondary`/`disabled`). `IconShell` provides size context to `<Icon>` automatically:
+
+```tsx
+<IconShell size="sm" variant="secondary">
+  <Icon icon="search" />
+</IconShell>
+```
+
+Optical-size contract (same as Figma): `sm` → 20dp@wght400, `default` → 24dp@wght300, `lg` → 40dp@wght300 via `fontVariationSettings`. Set `size` on `<Icon>` directly when not using `IconShell`.
+
+Registry: `npx shadcn add icon` ships `icon.tsx` and appends the Google Fonts `@import` to the consumer's CSS.
 
 ## Before raising a PR
 

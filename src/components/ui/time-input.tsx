@@ -3,7 +3,7 @@
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
-import { Schedule } from '@/components/icons/Schedule';
+import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import { inputVariantStyles } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -492,7 +492,7 @@ function TimeInputTrigger({
         <IconShell
           size={triggerIconSizeMap[size]}
           variant={disabled ? 'disabled' : 'secondary'}>
-          <Schedule />
+          <Icon icon="schedule" />
         </IconShell>
       )}
     </button>

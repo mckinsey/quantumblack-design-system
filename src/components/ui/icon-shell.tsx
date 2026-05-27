@@ -4,8 +4,9 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+import { type IconSize, IconSizeContext } from './icon';
+
 const iconVariants = cva(
-  // Base styles
   [
     'inline-flex items-center justify-center',
     '[&_svg]:fill-current [&_svg]:stroke-current',
@@ -49,14 +50,17 @@ function IconShell({
     asChild?: boolean;
   }) {
   const Comp = asChild ? Slot : 'span';
+  const resolvedSize: IconSize = size ?? 'default';
 
   return (
-    <Comp
-      data-slot="icon"
-      className={cn(iconVariants({ size, type, variant }), className)}
-      {...props}>
-      {children}
-    </Comp>
+    <IconSizeContext.Provider value={resolvedSize}>
+      <Comp
+        data-slot="icon"
+        className={cn(iconVariants({ size, type, variant }), className)}
+        {...props}>
+        {children}
+      </Comp>
+    </IconSizeContext.Provider>
   );
 }
 
