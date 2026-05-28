@@ -13,9 +13,9 @@
   --font-headings: 'Inter';
   --font-paragraph: 'Inter';
   --font-code-text: 'Roboto Mono';
-  --font-weight-300: 'Light';
-  --font-weight-400: 'Regular';
-  --font-weight-600: 'Semibold';
+  --font-weight-300: 300;
+  --font-weight-400: 400;
+  --font-weight-600: 600;
   --font-font-size-12: 12px;
   --font-font-size-14: 14px;
   --font-font-size-16: 16px;
@@ -226,6 +226,9 @@
   );
   --color-stateslayer-overlay-active-inverse: var(
     --stateslayer-overlay-active-inverse
+  );
+  --color-stateslayer-overlay-enabled-inverse: var(
+    --stateslayer-overlay-enabled-inverse
   );
 
   /*** Elevation Tokens */
