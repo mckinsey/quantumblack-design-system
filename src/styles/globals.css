@@ -9,10 +9,10 @@
 
 @theme inline {
   /** Font Tokens */
-  --font-display: 'Inter';
-  --font-headings: 'Inter';
-  --font-paragraph: 'Inter';
-  --font-code-text: 'Roboto Mono';
+  --font-display: 'Inter', sans-serif;
+  --font-headings: 'Inter', sans-serif;
+  --font-paragraph: 'Inter', sans-serif;
+  --font-code-text: 'Roboto Mono', monospace;
   --font-weight-300: 300;
   --font-weight-400: 400;
   --font-weight-600: 600;
