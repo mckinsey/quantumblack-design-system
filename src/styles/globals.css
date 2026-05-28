@@ -240,6 +240,31 @@
   --color-elevations-shade-03: var(--elevations-shade-03);
   --color-elevations-shade-t-04: var(--elevations-shade-t-04);
   --color-elevations-shade-04: var(--elevations-shade-04);
+
+  /*** shadcn compatibility aliases — let plain-Tailwind / stock shadcn classes
+       (bg-background, text-foreground, bg-popover, text-destructive, ring-ring, etc.)
+       resolve to QBDS semantic tokens. Keep these as last-resort aliases; prefer
+       QBDS tokens (text-fg-*, bg-fill-*, bg-surface-*) in new component code. */
+
+  --color-background: var(--surface-base);
+  --color-foreground: var(--text-primary);
+  --color-card: var(--surface-primary);
+  --color-card-foreground: var(--text-primary);
+  --color-popover: var(--surface-primary);
+  --color-popover-foreground: var(--text-primary);
+  --color-primary: var(--fill-active);
+  --color-primary-foreground: var(--text-primary-inverse);
+  --color-secondary: var(--fill-tertiary);
+  --color-secondary-foreground: var(--text-primary);
+  --color-muted: var(--fill-muted);
+  --color-muted-foreground: var(--text-secondary);
+  --color-accent: var(--fill-subtle);
+  --color-accent-foreground: var(--text-primary);
+  --color-destructive: var(--status-error);
+  --color-destructive-foreground: var(--text-primary-inverse);
+  --color-border: var(--border-divider);
+  --color-input: var(--border-secondary);
+  --color-ring: var(--border-status-focus);
 }
 
 :root {
@@ -248,6 +273,7 @@
   --rad-sm: 0px;
   --rad-md: 0px;
   --rad-lg: 0px;
+  --rad-round: 9999px;
 
   /** Light mode text tokens */
 
@@ -259,7 +285,7 @@
   --text-secondary-inverse: var(--mist-50-opacity-60);
   --text-tertiary-inverse: var(--mist-50-opacity-50);
   --text-disabled-inverse: var(--mist-50-opacity-38);
-  --text-information: var(--color-cyan-700);
+  --text-information: var(--color-sky-700);
   --text-error: var(--color-red-700);
   --text-warning: var(--color-amber-700);
   --text-success: var(--color-green-700);
@@ -358,6 +384,7 @@
   --rad-sm: 0px;
   --rad-md: 0px;
   --rad-lg: 0px;
+  --rad-round: 9999px;
 
   /** Dark mode text tokens */
 
@@ -369,7 +396,7 @@
   --text-secondary-inverse: var(--slate-900-opacity-60);
   --text-tertiary-inverse: var(--slate-900-opacity-50);
   --text-disabled-inverse: var(--slate-900-opacity-38);
-  --text-information: var(--color-cyan-400);
+  --text-information: var(--color-sky-400);
   --text-error: var(--color-red-400);
   --text-warning: var(--color-amber-400);
   --text-success: var(--color-green-400);
