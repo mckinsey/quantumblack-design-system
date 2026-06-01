@@ -115,7 +115,16 @@ export function Navbar() {
               size="icon"
               className="md:hidden"
               onClick={() => setIsSearchOpen(true)}>
-              <Icon icon="search" className="size-5" />
+              <Icon
+                icon="search"
+                className="size-5"
+                style={{
+                  fontSize: 20,
+                  width: 20,
+                  height: 20,
+                  lineHeight: '20px',
+                }}
+              />
             </Button>
 
             {/* Theme toggle */}

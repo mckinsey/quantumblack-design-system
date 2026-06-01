@@ -81,7 +81,11 @@ export function MobileSidebarTrigger() {
   return (
     <div className="absolute top-8 right-4 md:hidden">
       <Button aria-label="Open menu" onClick={() => setOpenMobile(true)}>
-        <Icon icon="menu" className="size-5" />
+        <Icon
+          icon="menu"
+          className="size-5"
+          style={{ fontSize: 20, width: 20, height: 20, lineHeight: '20px' }}
+        />
       </Button>
     </div>
   );

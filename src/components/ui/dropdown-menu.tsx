@@ -143,7 +143,13 @@ function DropdownMenuRadioItem({
         <DropdownMenuPrimitive.ItemIndicator>
           <Icon
             icon="circle"
-            style={{ fontSize: 8, width: 8, height: 8, lineHeight: '8px' }}
+            style={{
+              fontSize: 8,
+              width: 8,
+              height: 8,
+              lineHeight: '8px',
+              fontVariationSettings: "'FILL' 1, 'wght' 400, 'opsz' 20",
+            }}
           />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>

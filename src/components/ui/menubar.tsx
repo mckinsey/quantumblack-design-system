@@ -156,7 +156,13 @@ function MenubarRadioItem({
         <MenubarPrimitive.ItemIndicator>
           <Icon
             icon="circle"
-            style={{ fontSize: 4, width: 4, height: 4, lineHeight: '4px' }}
+            style={{
+              fontSize: 4,
+              width: 4,
+              height: 4,
+              lineHeight: '4px',
+              fontVariationSettings: "'FILL' 1, 'wght' 400, 'opsz' 20",
+            }}
           />
         </MenubarPrimitive.ItemIndicator>
       </span>
