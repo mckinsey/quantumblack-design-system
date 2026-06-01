@@ -38,6 +38,17 @@ export function SegmentedControlsTypes() {
   );
 }
 
+/** Ghost segmented control */
+export function SegmentedControlsGhost() {
+  return (
+    <SegmentedControls defaultValue="week" type="ghost">
+      <SegmentedControlsItem value="day">Day</SegmentedControlsItem>
+      <SegmentedControlsItem value="week">Week</SegmentedControlsItem>
+      <SegmentedControlsItem value="month">Month</SegmentedControlsItem>
+    </SegmentedControls>
+  );
+}
+
 /** Segmented control sizes */
 export function SegmentedControlsSizes() {
   return (
@@ -119,6 +130,11 @@ export const examples: DemoExample[] = [
     description: 'Secondary-filled and ghost types.',
   },
   {
+    name: 'SegmentedControlsGhost',
+    title: 'Ghost',
+    description: 'Ghost type with transparent segment backgrounds.',
+  },
+  {
     name: 'SegmentedControlsSizes',
     title: 'Sizes',
     description: 'Reg, sm, xsm, and xxs sizes.',
@@ -141,6 +157,7 @@ export const segmentedControls = createLegacyDemo(
   {
     SegmentedControlsDemo: <SegmentedControlsDemo />,
     SegmentedControlsTypes: <SegmentedControlsTypes />,
+    SegmentedControlsGhost: <SegmentedControlsGhost />,
     SegmentedControlsSizes: <SegmentedControlsSizes />,
     SegmentedControlsIconOnly: <SegmentedControlsIconOnly />,
     SegmentedControlsDisabled: <SegmentedControlsDisabled />,

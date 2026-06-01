@@ -213,6 +213,7 @@ import {
 import {
   SegmentedControlsDemo,
   SegmentedControlsDisabled,
+  SegmentedControlsGhost,
   SegmentedControlsIconOnly,
   SegmentedControlsSizes,
   SegmentedControlsTypes,
@@ -545,6 +546,7 @@ export const exampleComponentMaps: Record<
   'segmented-controls': {
     SegmentedControlsDemo,
     SegmentedControlsTypes,
+    SegmentedControlsGhost,
     SegmentedControlsSizes,
     SegmentedControlsIconOnly,
     SegmentedControlsDisabled,
