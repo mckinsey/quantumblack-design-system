@@ -35,7 +35,6 @@ const dismissIconColor = {
 function tagBaseStyles(disabledPrefix: 'disabled' | 'aria-disabled') {
   return [
     'whitespace-nowrap outline-none transition-all',
-    `hover:underline [text-underline-position:from-font] ${disabledPrefix}:no-underline`,
     'focus-visible:ring-2 focus-visible:ring-stroke-status-focus',
     `${disabledPrefix}:cursor-not-allowed`,
     `${disabledPrefix}:hover:[background-image:none]`,
@@ -43,14 +42,39 @@ function tagBaseStyles(disabledPrefix: 'disabled' | 'aria-disabled') {
   ];
 }
 
+/**
+ * Wrap raw string/number children in a span that carries the hover underline,
+ * so the underline only crosses text — not sibling icon glyphs or the dismiss button.
+ * The parent must have the `group` class for `group-hover` to take effect.
+ */
+function wrapTagText(
+  children: React.ReactNode,
+  disabledPrefix: 'disabled' | 'aria-disabled',
+): React.ReactNode {
+  const underlineClass = cn(
+    'group-hover:underline [text-underline-position:from-font]',
+    disabledPrefix === 'aria-disabled'
+      ? 'group-aria-disabled:no-underline'
+      : 'group-disabled:no-underline',
+  );
+
+  return React.Children.map(children, child => {
+    if (typeof child === 'string' || typeof child === 'number') {
+      return <span className={underlineClass}>{child}</span>;
+    }
+
+    return child;
+  });
+}
+
 /** Size & pill classes shared with TagToggle */
 const tagSizeVariants = cva('inline-flex items-center w-fit px-1 gap-1', {
   variants: {
     size: {
-      xs: 'h-5 label-small-primary hover:tracking-[0.024px]',
-      sm: 'h-6 label-regular-primary hover:tracking-[-0.028px]',
-      default: 'h-7 label-regular-primary hover:tracking-[-0.028px]',
-      lg: 'h-8 label-large-primary hover:tracking-[-0.032px]',
+      xs: 'h-5 label-small-primary',
+      sm: 'h-6 label-regular-primary',
+      default: 'h-7 label-regular-primary',
+      lg: 'h-8 label-large-primary',
     },
     pill: {
       false: 'rounded-none !px-1',
@@ -174,11 +198,11 @@ function Tag({
       className={cn(
         tagSizeVariants({ size, pill }),
         tagVariants({ variant }),
-        onRemove && 'group',
+        'group',
         className,
       )}
       {...props}>
-      {children}
+      {wrapTagText(children, 'aria-disabled')}
 
       {onRemove && (
         <button
@@ -206,4 +230,4 @@ function Tag({
   );
 }
 
-export { Tag, tagBaseStyles, tagSizeVariants, tagVariants };
+export { Tag, tagBaseStyles, tagSizeVariants, tagVariants, wrapTagText };
