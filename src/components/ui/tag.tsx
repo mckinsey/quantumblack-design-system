@@ -43,9 +43,10 @@ function tagBaseStyles(disabledPrefix: 'disabled' | 'aria-disabled') {
 }
 
 /**
- * Wrap raw string/number children in a span that carries the hover underline,
- * so the underline only crosses text — not sibling icon glyphs or the dismiss button.
- * The parent must have the `group` class for `group-hover` to take effect.
+ * Apply the hover underline to text-bearing children — raw text/number nodes
+ * and plain `<span>` wrappers — while skipping design system primitives
+ * (anything carrying a `data-slot`, like Icon or Avatar). The parent must
+ * have the `group` class for `group-hover` to take effect.
  */
 function wrapTagText(
   children: React.ReactNode,
@@ -61,6 +62,18 @@ function wrapTagText(
   return React.Children.map(children, child => {
     if (typeof child === 'string' || typeof child === 'number') {
       return <span className={underlineClass}>{child}</span>;
+    }
+
+    if (
+      React.isValidElement<{ className?: string; 'data-slot'?: string }>(
+        child,
+      ) &&
+      child.type === 'span' &&
+      !child.props['data-slot']
+    ) {
+      return React.cloneElement(child, {
+        className: cn(child.props.className, underlineClass),
+      });
     }
 
     return child;
