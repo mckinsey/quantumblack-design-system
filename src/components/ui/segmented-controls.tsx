@@ -120,8 +120,8 @@ function SegmentedControls({
       <ToggleGroupPrimitive.Root
         className={cn(segmentedControlsVariants({ size }), className)}
         data-slot="segmented-controls"
-        type="single"
-        {...props}>
+        {...props}
+        type="single">
         {children}
       </ToggleGroupPrimitive.Root>
     </SegmentedControlsContext.Provider>
