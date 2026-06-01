@@ -54,6 +54,9 @@ const segmentedControlsItemVariants = cva(
     'focus-visible:ring-1 focus-visible:ring-stroke-status-focus',
     'disabled:cursor-not-allowed disabled:text-fg-disabled',
     'data-[state=on]:bg-fill-active data-[state=on]:text-fg-primary-inverse',
+    // A disabled segment always reads as disabled, even when selected: the
+    // compound variant outranks the unconditional data-[state=on] styles above.
+    'disabled:data-[state=on]:text-fg-disabled',
   ],
   {
     variants: {
@@ -63,11 +66,13 @@ const segmentedControlsItemVariants = cva(
           hoverOverlay,
           pressedOverlay,
           disabledOverlay,
+          'disabled:data-[state=on]:bg-fill-muted',
         ],
         ghost: [
           'bg-transparent text-fg-primary',
           'hover:bg-stateslayer-overlay-hover active:bg-stateslayer-overlay-pressed',
           'disabled:bg-transparent disabled:hover:bg-transparent disabled:active:bg-transparent',
+          'disabled:data-[state=on]:bg-transparent',
         ],
       },
       size: {
