@@ -211,6 +211,15 @@ import {
   examples as radioGroupExamples,
 } from '@/app/demo/[name]/ui/radio-group';
 import {
+  SegmentedControlsDemo,
+  SegmentedControlsDisabled,
+  SegmentedControlsIconOnly,
+  SegmentedControlsSizes,
+  SegmentedControlsTypes,
+  segmentedControls,
+  examples as segmentedControlsExamples,
+} from '@/app/demo/[name]/ui/segmented-controls';
+import {
   SelectDemo,
   SelectMultipleDemo,
   SelectSizes,
@@ -533,6 +542,13 @@ export const exampleComponentMaps: Record<
     RadioGroupDisabled,
     RadioGroupPartialDisabled,
   },
+  'segmented-controls': {
+    SegmentedControlsDemo,
+    SegmentedControlsTypes,
+    SegmentedControlsSizes,
+    SegmentedControlsIconOnly,
+    SegmentedControlsDisabled,
+  },
   select: {
     SelectDemo,
     SelectSizes,
@@ -661,6 +677,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   label: labelExamples,
   popover: popoverExamples,
   'radio-group': radioGroupExamples,
+  'segmented-controls': segmentedControlsExamples,
   select: selectExamples,
   slider: sliderExamples,
   sonner: sonnerExamples,
@@ -788,6 +805,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...radioGroup,
     examples: radioGroupExamples,
     exampleComponents: exampleComponentMaps['radio-group'],
+  },
+  'segmented-controls': {
+    ...segmentedControls,
+    examples: segmentedControlsExamples,
+    exampleComponents: exampleComponentMaps['segmented-controls'],
   },
   select: {
     ...select,
