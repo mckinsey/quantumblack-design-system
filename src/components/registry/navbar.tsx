@@ -1,10 +1,10 @@
-import { Search } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router';
 
 import { RegistryLogo } from '@/components/registry/registry-logo';
 import { ModeToggle } from '@/components/registry/theme-toggle';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import {
   InputGroup,
   InputGroupAddon,
@@ -102,7 +102,7 @@ export function Navbar() {
               variant="outline"
               className="text-fg-secondary hover:text-fg-primary hidden h-9 items-center gap-2 px-3 md:flex"
               onClick={() => setIsSearchOpen(true)}>
-              <Search className="size-4" />
+              <Icon icon="search" className="size-4" />
               <span className="paragraph-small-primary">Search...</span>
               <kbd className="border-stroke-tertiary bg-fill-subtle paragraph-code-text text-fg-tertiary pointer-events-none hidden h-5 items-center gap-1 border px-1.5 select-none sm:flex">
                 <span className="text-xs">⌘</span>K
@@ -115,7 +115,7 @@ export function Navbar() {
               size="icon"
               className="md:hidden"
               onClick={() => setIsSearchOpen(true)}>
-              <Search className="size-5" />
+              <Icon icon="search" className="size-5" />
             </Button>
 
             {/* Theme toggle */}
@@ -147,7 +147,7 @@ export function Navbar() {
             <div className="border-stroke-tertiary border-b">
               <InputGroup className="border-0 bg-transparent">
                 <InputGroupAddon align="inline-start">
-                  <Search className="size-4" />
+                  <Icon icon="search" className="size-4" />
                 </InputGroupAddon>
                 <InputGroupInput
                   ref={searchInputRef}
