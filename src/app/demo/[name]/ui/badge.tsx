@@ -1,6 +1,7 @@
 import { Badge, NumericBadge, StatusBadge } from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
+import { cn } from '@/lib/utils';
 
 export function BadgeDemo() {
   return (
@@ -167,24 +168,30 @@ export function BadgeIconLabel() {
   return (
     <div className="flex flex-col gap-3">
       {iconLabelVariants.map(v => {
-        const Icon = iconByVariant[v];
+        const icon = iconByVariant[v];
 
         return (
           <div key={v} className="flex flex-wrap items-center gap-3">
             <Badge size="sm" variant={v} withIcon>
-              <Icon className="size-4" />
+              <Icon icon={icon} className="size-4" />
               Label
             </Badge>
             <Badge size="default" variant={v} withIcon>
-              <Icon className="size-4" />
+              <Icon icon={icon} className="size-4" />
               Label
             </Badge>
             <Badge outline size="sm" variant={v} withIcon>
-              <Icon className={cn('size-4', iconOutlineColorByVariant[v])} />
+              <Icon
+                icon={icon}
+                className={cn('size-4', iconOutlineColorByVariant[v])}
+              />
               Label
             </Badge>
             <Badge outline size="default" variant={v} withIcon>
-              <Icon className={cn('size-4', iconOutlineColorByVariant[v])} />
+              <Icon
+                icon={icon}
+                className={cn('size-4', iconOutlineColorByVariant[v])}
+              />
               Label
             </Badge>
           </div>
