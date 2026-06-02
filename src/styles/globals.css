@@ -352,7 +352,7 @@
   --status-success-inverse: var(--color-green-400);
   --status-error-inverse: var(--color-red-400);
   --status-warning-inverse: var(--color-amber-400);
-  --status-information-inverse: var(--color-cyan-400);
+  --status-information-inverse: var(--color-sky-400);
 
   /** Light mode state layer tokens */
 
@@ -435,7 +435,7 @@
   --fill-disabled: var(--mist-50-opacity-38);
   --fill-primary-inverse: var(--slate-900-opacity-88);
   --fill-secondary-inverse: var(--slate-900-opacity-60);
-  --fill-tertiary-inverse: var(--mist-50-opacity-24);
+  --fill-tertiary-inverse: var(--slate-900-opacity-24);
   --fill-subtle-inverse: var(--slate-900-opacity-6);
   --fill-muted-inverse: var(--slate-900-opacity-8);
   --fill-disabled-inverse: var(--slate-900-opacity-38);
@@ -463,7 +463,7 @@
   --status-success-inverse: var(--color-green-600);
   --status-error-inverse: var(--color-red-600);
   --status-warning-inverse: var(--color-amber-600);
-  --status-information-inverse: var(--color-cyan-600);
+  --status-information-inverse: var(--color-sky-400);
 
   /** Dark mode state layer tokens */
 
