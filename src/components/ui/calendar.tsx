@@ -27,9 +27,8 @@ import {
   useDayPicker,
 } from 'react-day-picker';
 
-import { ChevronLeft } from '@/components/icons/ChevronLeft';
-import { ChevronRight } from '@/components/icons/ChevronRight';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -307,7 +306,7 @@ function Calendar({
                 className={cn('z-20', btnClassName)}
                 {...restProps}>
                 <IconShell>
-                  <ChevronRight className="text-[length:inherit]" />
+                  <Icon icon="chevron_right" />
                 </IconShell>
               </Button>
             );
@@ -323,7 +322,7 @@ function Calendar({
                 className={cn('z-20', btnClassName)}
                 {...restProps}>
                 <IconShell>
-                  <ChevronLeft className="text-[length:inherit]" />
+                  <Icon icon="chevron_left" />
                 </IconShell>
               </Button>
             );

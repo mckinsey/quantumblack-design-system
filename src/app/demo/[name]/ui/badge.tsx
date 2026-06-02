@@ -1,10 +1,6 @@
-import { Cancel } from '@/components/icons/Cancel';
-import { CheckCircle } from '@/components/icons/CheckCircle';
-import { Info } from '@/components/icons/Info';
-import { Schedule } from '@/components/icons/Schedule';
 import { Badge, NumericBadge, StatusBadge } from '@/components/ui/badge';
+import { Icon } from '@/components/ui/icon';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
-import { cn } from '@/lib/utils';
 
 export function BadgeDemo() {
   return (
@@ -147,12 +143,12 @@ const iconLabelVariants = [
 ] as const;
 
 const iconByVariant = {
-  'high-emphasis': CheckCircle,
-  'brand-accent': CheckCircle,
-  alternative: Info,
-  error: Cancel,
-  warning: Schedule,
-  success: CheckCircle,
+  'high-emphasis': 'check_circle',
+  'brand-accent': 'check_circle',
+  alternative: 'info',
+  error: 'cancel',
+  warning: 'schedule',
+  success: 'check_circle',
 } as const;
 
 const iconOutlineColorByVariant: Record<

@@ -2,9 +2,6 @@
 
 import * as React from 'react';
 
-import { Description } from '@/components/icons/Description';
-import { Layers } from '@/components/icons/Layers';
-import { Search } from '@/components/icons/Search';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   Combobox,
@@ -20,6 +17,7 @@ import {
   ComboboxTrigger,
 } from '@/components/ui/combobox';
 import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';
+import { Icon } from '@/components/ui/icon';
 import {
   InputGroup,
   InputGroupAddon,
@@ -124,13 +122,13 @@ export function ComboboxDemo() {
           <InputGroup size="default" className="w-full">
             <InputGroupAddon align="inline-start">
               <InputGroupText>
-                <Search className="icon text-[16px]" />
+                <Icon icon="search" className="icon text-[16px]" />
               </InputGroupText>
             </InputGroupAddon>
             <ComboboxInput size="default" placeholder="Placeholder" />
             <InputGroupAddon align="inline-end">
               <InputGroupText>
-                <Layers className="icon text-[16px]" />
+                <Icon icon="layers" className="icon text-[16px]" />
               </InputGroupText>
               <InputGroupButton
                 size="icon-xs"
@@ -149,7 +147,8 @@ export function ComboboxDemo() {
             {item => (
               <ComboboxItem key={item} value={item}>
                 <span className="flex items-center gap-2">
-                  <Description
+                  <Icon
+                    icon="description"
                     className="text-fg-secondary size-4 shrink-0"
                     aria-hidden
                   />
@@ -323,7 +322,7 @@ export function ComboboxCustomToggle() {
                   <span
                     className="text-fg-secondary [&_svg]:size-4"
                     aria-hidden>
-                    <Search className="icon" />
+                    <Icon icon="search" className="icon" />
                   </span>
                   <span className="flex-1">{item.label}</span>
                   <span className="text-fg-secondary">{item.subLabel}</span>

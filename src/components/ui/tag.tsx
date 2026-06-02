@@ -1,7 +1,7 @@
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
-import { Close } from '@/components/icons/Close';
+import { Icon } from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
 
 const hoverOverlay = {
@@ -195,7 +195,11 @@ function Tag({
             dismissIconColor[variant ?? 'primary'],
           )}
           aria-label="Remove tag">
-          <Close className={cn(size !== 'xs' && 'ml-1', 'size-4')} />
+          <Icon
+            icon="close"
+            size="sm"
+            className={cn(size !== 'xs' && 'ml-1')}
+          />
         </button>
       )}
     </div>

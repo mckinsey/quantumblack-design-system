@@ -2,11 +2,8 @@
 
 import { useRef, useState } from 'react';
 
-import { Add } from '@/components/icons/Add';
-import { Backspace } from '@/components/icons/Backspace';
-import { Remove } from '@/components/icons/Remove';
-import { Search } from '@/components/icons/Search';
 import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';
+import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import {
   InputGroup,
@@ -72,7 +69,7 @@ export function InputGroupStepperSizes() {
               <IconShell
                 size={iconShellSize}
                 variant={isDecrementDisabled ? 'disabled' : 'secondary'}>
-                <Remove />
+                <Icon icon="remove" />
               </IconShell>
             </InputGroupButton>
           </InputGroupAddon>
@@ -92,7 +89,7 @@ export function InputGroupStepperSizes() {
               onClick={increment}
               aria-label="Increase">
               <IconShell size={iconShellSize} variant="secondary">
-                <Add />
+                <Icon icon="add" />
               </IconShell>
             </InputGroupButton>
           </InputGroupAddon>
@@ -198,7 +195,7 @@ export function InputGroupStepperStates() {
               <IconShell
                 size={iconShellSize}
                 variant={isDecrementDisabled ? 'disabled' : 'secondary'}>
-                <Remove />
+                <Icon icon="remove" />
               </IconShell>
             </InputGroupButton>
           </InputGroupAddon>
@@ -219,7 +216,7 @@ export function InputGroupStepperStates() {
               onClick={increment}
               aria-label="Increase">
               <IconShell size={iconShellSize} variant="secondary">
-                <Add />
+                <Icon icon="add" />
               </IconShell>
             </InputGroupButton>
           </InputGroupAddon>
@@ -301,7 +298,11 @@ export function InputGroupDeleteOnFocus() {
           <InputGroup variant={variant}>
             <InputGroupAddon align="inline-start">
               <InputGroupText>
-                <Search className={`icon ${iconSize}`} aria-hidden />
+                <Icon
+                  icon="search"
+                  className={`icon ${iconSize}`}
+                  aria-hidden
+                />
               </InputGroupText>
             </InputGroupAddon>
             <InputGroupInput
@@ -325,7 +326,7 @@ export function InputGroupDeleteOnFocus() {
                   focusControl();
                 }}>
                 <IconShell size="sm" variant="secondary">
-                  <Backspace aria-hidden />
+                  <Icon icon="backspace" aria-hidden />
                 </IconShell>
               </InputGroupButton>
             </InputGroupAddon>

@@ -1,4 +1,4 @@
-import { CropFree } from '@/components/icons/CropFree';
+import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import { Toggle } from '@/components/ui/toggle';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
@@ -77,7 +77,7 @@ function IconToggleRow({ className }: { className?: string }) {
           size="icon"
           className={className}>
           <IconShell size="sm">
-            <CropFree />
+            <Icon icon="crop_free" />
           </IconShell>
         </Toggle>
       ))}
@@ -109,7 +109,7 @@ export function ToggleIconSizes() {
       {sizes.map(({ size, iconSize }) => (
         <Toggle key={size} variant="secondary" size={size}>
           <IconShell size={iconSize}>
-            <CropFree />
+            <Icon icon="crop_free" />
           </IconShell>
         </Toggle>
       ))}
