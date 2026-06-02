@@ -1,9 +1,9 @@
 'use client';
 
-import { Check, Copy } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
 
 interface CodeBlockProps {
@@ -76,14 +76,14 @@ export function CodeBlock({
           className="ml-auto h-8 px-2 transition-colors">
           {copied ? (
             <>
-              <Check className="text-status-success mr-1 size-4" />
+              <Icon icon="check" className="text-status-success mr-1 size-4" />
               <span className="paragraph-small-primary text-fg-primary">
                 Copied
               </span>
             </>
           ) : (
             <>
-              <Copy className="mr-1 size-4" />
+              <Icon icon="content_copy" className="mr-1 size-4" />
               <span className="paragraph-small-primary text-fg-primary">
                 Copy
               </span>

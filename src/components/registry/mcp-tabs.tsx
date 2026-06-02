@@ -1,10 +1,10 @@
 'use client';
 
-import { Check, ClipboardIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { AddToCursor } from '@/components/registry/add-to-cursor';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export async function copyToClipboard(value: string) {
@@ -77,7 +77,7 @@ export function MCPTabs({ rootUrl }: { rootUrl: string }) {
               setHasCopied(true);
             }}
             className="shadow-none">
-            {hasCopied ? <Check /> : <ClipboardIcon />}
+            {hasCopied ? <Icon icon="check" /> : <Icon icon="content_paste" />}
             Copy
           </Button>
         </div>
