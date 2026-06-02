@@ -141,10 +141,27 @@ import {
   examples as formExamples,
 } from '@/app/demo/[name]/ui/form';
 import {
+  IconColors,
+  IconDemo,
+  IconSizes,
+  IconSpinner,
+  icon,
+  examples as iconExamples,
+} from '@/app/demo/[name]/ui/icon';
+import {
+  IconCatalog,
+  IconInButtons,
+  IconInputAffordances,
+  IconLoading,
+  IconNavigation,
+  IconOpticalSizing,
   IconShellAll,
   IconShellDemo,
   IconShellSizes,
+  IconShellTypes,
   IconShellVariants,
+  IconStandalone,
+  IconStatus,
   iconShell,
   examples as iconShellExamples,
 } from '@/app/demo/[name]/ui/icon-shell';
@@ -193,6 +210,16 @@ import {
   radioGroup,
   examples as radioGroupExamples,
 } from '@/app/demo/[name]/ui/radio-group';
+import {
+  SegmentedControlsDemo,
+  SegmentedControlsDisabled,
+  SegmentedControlsGhost,
+  SegmentedControlsIconOnly,
+  SegmentedControlsSizes,
+  SegmentedControlsTypes,
+  segmentedControls,
+  examples as segmentedControlsExamples,
+} from '@/app/demo/[name]/ui/segmented-controls';
 import {
   SelectDemo,
   SelectMultipleDemo,
@@ -451,11 +478,26 @@ export const exampleComponentMaps: Record<
     ReactHookForm,
     TanStackForm,
   },
+  icon: {
+    IconDemo,
+    IconSizes,
+    IconColors,
+    IconSpinner,
+  },
   'icon-shell': {
     IconShellDemo,
     IconShellSizes,
     IconShellVariants,
+    IconShellTypes,
     IconShellAll,
+    IconStandalone,
+    IconCatalog,
+    IconNavigation,
+    IconStatus,
+    IconInButtons,
+    IconLoading,
+    IconOpticalSizing,
+    IconInputAffordances,
   },
   input: {
     InputDemo,
@@ -500,6 +542,14 @@ export const exampleComponentMaps: Record<
     RadioGroupStates,
     RadioGroupDisabled,
     RadioGroupPartialDisabled,
+  },
+  'segmented-controls': {
+    SegmentedControlsDemo,
+    SegmentedControlsTypes,
+    SegmentedControlsGhost,
+    SegmentedControlsSizes,
+    SegmentedControlsIconOnly,
+    SegmentedControlsDisabled,
   },
   select: {
     SelectDemo,
@@ -621,6 +671,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   'dropdown-menu': dropdownMenuExamples,
   empty: emptyExamples,
   form: formExamples,
+  icon: iconExamples,
   'icon-shell': iconShellExamples,
   input: inputExamples,
   'input-group': inputGroupExamples,
@@ -628,6 +679,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   label: labelExamples,
   popover: popoverExamples,
   'radio-group': radioGroupExamples,
+  'segmented-controls': segmentedControlsExamples,
   select: selectExamples,
   slider: sliderExamples,
   sonner: sonnerExamples,
@@ -716,6 +768,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     examples: formExamples,
     exampleComponents: exampleComponentMaps.form,
   },
+  icon: {
+    ...icon,
+    examples: iconExamples,
+    exampleComponents: exampleComponentMaps.icon,
+  },
   'icon-shell': {
     ...iconShell,
     examples: iconShellExamples,
@@ -750,6 +807,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...radioGroup,
     examples: radioGroupExamples,
     exampleComponents: exampleComponentMaps['radio-group'],
+  },
+  'segmented-controls': {
+    ...segmentedControls,
+    examples: segmentedControlsExamples,
+    exampleComponents: exampleComponentMaps['segmented-controls'],
   },
   select: {
     ...select,

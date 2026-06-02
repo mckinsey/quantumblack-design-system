@@ -9,13 +9,8 @@ import {
   toast as sonnerToast,
 } from 'sonner';
 
-import { Cancel } from '@/components/icons/Cancel';
-import { CheckCircle } from '@/components/icons/CheckCircle';
-import { Close } from '@/components/icons/Close';
-import { ErrorIcon } from '@/components/icons/ErrorIcon';
-import { Info } from '@/components/icons/Info';
-import { PlaylistAddCheck } from '@/components/icons/PlaylistAddCheck';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
 
 type ToastType = NonNullable<ToastT['type']>;
@@ -73,21 +68,9 @@ const getToastConfig = (type: ToastType) => {
   return toastTypeConfig.info;
 };
 
-const getDefaultIcon = (config: ReturnType<typeof getToastConfig>) => {
-  const iconClassName = cn('size-6', config.iconClass);
-
-  const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-    check_circle: CheckCircle,
-    cancel: Cancel,
-    error: ErrorIcon,
-    info: Info,
-    playlist_add_check: PlaylistAddCheck,
-  };
-
-  const IconComponent = iconMap[config.iconName] || Info;
-
-  return <IconComponent className={iconClassName} />;
-};
+const getDefaultIcon = (config: ReturnType<typeof getToastConfig>) => (
+  <Icon icon={config.iconName} className={cn('size-6', config.iconClass)} />
+);
 
 function getCancelComponent(
   cancel: ToastOptions['cancel'],
@@ -103,7 +86,7 @@ function getCancelComponent(
       size="icon-xs"
       onClick={() => sonnerToast.dismiss(id)}
       aria-label="Close toast">
-      <Close className="text-fill-active size-4" />
+      <Icon icon="close" size="sm" className="text-fill-active" />
     </Button>
   );
 }

@@ -26,6 +26,22 @@ npm run lint            # ESLint
 3. Register it in `registry.json` (follow the `alert` / `alert-demo` pattern)
 4. Run `npm run registry:build` to regenerate registry files
 
+## Icons
+
+Icons use the **Material Symbols Sharp** variable font via `<Icon icon="search" />`. Ligature names are Google's snake_case (e.g. `keyboard_arrow_down`, `check_circle`). No per-icon files or codegen — any icon in the font catalog works.
+
+Wrap icons in `<IconShell>` for QBDS sizing (`sm`/`default`/`lg`), tone (`neutral`/`neutral-inverse`/`accent`), and opacity (`primary`/`secondary`/`disabled`). `IconShell` provides size context to `<Icon>` automatically:
+
+```tsx
+<IconShell size="sm" variant="secondary">
+  <Icon icon="search" />
+</IconShell>
+```
+
+Optical-size contract (same as Figma): `sm` → 20dp@wght400, `default` → 24dp@wght300, `lg` → 40dp@wght300 via `fontVariationSettings`. Set `size` on `<Icon>` directly when not using `IconShell`.
+
+Registry: `npx shadcn add icon` ships `icon.tsx` and appends the Google Fonts `@import` to the consumer's CSS.
+
 ## Before raising a PR
 
 - [ ] `npm run build` passes
@@ -37,6 +53,10 @@ npm run lint            # ESLint
 Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
+
+### Token selection
+
+When choosing a color, border, surface, fill, text, or radius token, read [docs/TOKENS.md](docs/TOKENS.md) first. It maps every QBDS semantic CSS variable to its Tailwind utility and intended use, with quick rules for "what NOT to use".
 
 ### 1. Think Before Coding
 

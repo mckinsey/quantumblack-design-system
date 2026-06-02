@@ -8,10 +8,9 @@ import type {
   OnSelectHandler,
 } from 'react-day-picker';
 
-import { ArrowForward } from '@/components/icons/ArrowForward';
-import { CalendarMonth } from '@/components/icons/CalendarMonth';
 import { Calendar } from '@/components/ui/calendar';
 import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
+import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import {
   InputGroup,
@@ -232,7 +231,10 @@ export function DatePickerDemo() {
             <InputGroupAddon align="inline-end">
               <span className="flex size-5 cursor-pointer items-center justify-center">
                 <IconShell size="sm">
-                  <CalendarMonth className="text-[length:inherit]" />
+                  <Icon
+                    icon="calendar_month"
+                    className="text-[length:inherit]"
+                  />
                 </IconShell>
               </span>
             </InputGroupAddon>
@@ -296,7 +298,7 @@ export function DatePickerRange() {
             />
             <InputGroupAddon className="order-none">
               <InputGroupText>
-                <ArrowForward className="text-[length:inherit]" />
+                <Icon icon="arrow_forward" className="text-[length:inherit]" />
               </InputGroupText>
             </InputGroupAddon>
             <InputGroupInput
@@ -311,7 +313,10 @@ export function DatePickerRange() {
             <InputGroupAddon align="inline-end">
               <span className="flex size-5 cursor-pointer items-center justify-center">
                 <IconShell size="sm">
-                  <CalendarMonth className="text-[length:inherit]" />
+                  <Icon
+                    icon="calendar_month"
+                    className="text-[length:inherit]"
+                  />
                 </IconShell>
               </span>
             </InputGroupAddon>
@@ -364,7 +369,7 @@ export function DatePickerDisabled() {
         <InputGroupAddon align="inline-end">
           <span className="flex size-5 cursor-not-allowed items-center justify-center">
             <IconShell size="sm">
-              <CalendarMonth className="text-[length:inherit]" />
+              <Icon icon="calendar_month" className="text-[length:inherit]" />
             </IconShell>
           </span>
         </InputGroupAddon>
@@ -436,7 +441,10 @@ function DatePickerSized({
                   'flex cursor-pointer items-center justify-center',
                 )}>
                 <IconShell size={size === 'lg' ? 'default' : 'sm'}>
-                  <CalendarMonth className="text-[length:inherit]" />
+                  <Icon
+                    icon="calendar_month"
+                    className="text-[length:inherit]"
+                  />
                 </IconShell>
               </span>
             </InputGroupAddon>
@@ -579,7 +587,10 @@ function DatePickerValidationItem({
             <InputGroupAddon align="inline-end">
               <span className="flex size-5 cursor-pointer items-center justify-center">
                 <IconShell size="sm">
-                  <CalendarMonth className="text-[length:inherit]" />
+                  <Icon
+                    icon="calendar_month"
+                    className="text-[length:inherit]"
+                  />
                 </IconShell>
               </span>
             </InputGroupAddon>
@@ -683,7 +694,7 @@ export function DatePickerRangeInline() {
             />
             <InputGroupAddon className="order-none">
               <InputGroupText>
-                <ArrowForward className="text-[length:inherit]" />
+                <Icon icon="arrow_forward" className="text-[length:inherit]" />
               </InputGroupText>
             </InputGroupAddon>
             <InputGroupInput
@@ -699,7 +710,10 @@ export function DatePickerRangeInline() {
             <InputGroupAddon align="inline-end">
               <span className="flex size-5 cursor-pointer items-center justify-center">
                 <IconShell size="sm">
-                  <CalendarMonth className="text-[length:inherit]" />
+                  <Icon
+                    icon="calendar_month"
+                    className="text-[length:inherit]"
+                  />
                 </IconShell>
               </span>
             </InputGroupAddon>

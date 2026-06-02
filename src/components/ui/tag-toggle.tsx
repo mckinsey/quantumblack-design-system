@@ -4,7 +4,11 @@ import * as TogglePrimitive from '@radix-ui/react-toggle';
 import type { VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 
-import { tagBaseStyles, tagSizeVariants } from '@/components/ui/tag';
+import {
+  tagBaseStyles,
+  tagSizeVariants,
+  wrapTagText,
+} from '@/components/ui/tag';
 import { cn } from '@/lib/utils';
 
 type TagToggleVariant = 'default' | 'outline';
@@ -87,7 +91,7 @@ function TagToggle({
       data-slot="tag-toggle"
       className={tagToggleClasses({ variant, size, pill, className })}
       {...props}>
-      {children}
+      {wrapTagText(children, 'disabled')}
     </TogglePrimitive.Root>
   );
 }

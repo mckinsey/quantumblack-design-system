@@ -34,6 +34,9 @@ yarn-error.log*
 .env
 .env*.local
 
+# generated from figma.config.template.json + .env via npm run figma:config
+figma.config.json
+
 
 # typescript
 *.tsbuildinfo

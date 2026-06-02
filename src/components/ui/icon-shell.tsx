@@ -4,8 +4,9 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+import { type IconSize, IconSizeContext } from './icon';
+
 const iconVariants = cva(
-  // Base styles
   [
     'inline-flex items-center justify-center',
     '[&_svg]:fill-current [&_svg]:stroke-current',
@@ -17,6 +18,11 @@ const iconVariants = cva(
         default: 'text-[24px] size-6',
         lg: 'text-[32px] size-8',
       },
+      type: {
+        neutral: '',
+        'neutral-inverse': 'text-fg-primary-inverse',
+        accent: 'text-brand-accents-qb-accent',
+      },
       variant: {
         primary: 'opacity-88',
         secondary: 'opacity-60',
@@ -25,6 +31,7 @@ const iconVariants = cva(
     },
     defaultVariants: {
       size: 'default',
+      type: 'neutral',
       variant: 'primary',
     },
   },
@@ -33,6 +40,7 @@ const iconVariants = cva(
 function IconShell({
   className,
   size,
+  type,
   variant,
   asChild = false,
   children,
@@ -42,14 +50,17 @@ function IconShell({
     asChild?: boolean;
   }) {
   const Comp = asChild ? Slot : 'span';
+  const resolvedSize: IconSize = size ?? 'default';
 
   return (
-    <Comp
-      data-slot="icon"
-      className={cn(iconVariants({ size, variant }), className)}
-      {...props}>
-      {children}
-    </Comp>
+    <IconSizeContext.Provider value={resolvedSize}>
+      <Comp
+        data-slot="icon"
+        className={cn(iconVariants({ size, type, variant }), className)}
+        {...props}>
+        {children}
+      </Comp>
+    </IconSizeContext.Provider>
   );
 }
 

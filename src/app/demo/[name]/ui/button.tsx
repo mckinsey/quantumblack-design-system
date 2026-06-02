@@ -1,6 +1,5 @@
-import { CropFree } from '@/components/icons/CropFree';
-import { ProgressActivity } from '@/components/icons/ProgressActivity';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 
@@ -64,14 +63,14 @@ export function ButtonWithIcons() {
     <div className="flex flex-wrap items-center gap-4">
       <Button>
         <IconShell size="sm">
-          <CropFree />
+          <Icon icon="crop_free" />
         </IconShell>
         Leading Icon
       </Button>
       <Button>
         Trailing Icon
         <IconShell size="sm">
-          <CropFree />
+          <Icon icon="crop_free" />
         </IconShell>
       </Button>
     </div>
@@ -84,17 +83,17 @@ export function ButtonLoading() {
     <div className="flex flex-wrap items-center gap-4">
       <Button disabled className="w-[100px]">
         <IconShell size="sm">
-          <ProgressActivity className="animate-spin" />
+          <Icon icon="progress_activity" className="animate-spin" />
         </IconShell>
       </Button>
       <Button variant="outline" disabled className="w-[100px]">
         <IconShell size="sm">
-          <ProgressActivity className="animate-spin" />
+          <Icon icon="progress_activity" className="animate-spin" />
         </IconShell>
       </Button>
       <Button variant="secondary" disabled>
         <IconShell size="sm">
-          <ProgressActivity className="animate-spin" />
+          <Icon icon="progress_activity" className="animate-spin" />
         </IconShell>
         Loading...
       </Button>
@@ -108,22 +107,22 @@ export function ButtonIconOnly() {
     <div className="flex flex-wrap items-center gap-4">
       <Button size="icon-lg">
         <IconShell size="default">
-          <CropFree />
+          <Icon icon="crop_free" />
         </IconShell>
       </Button>
       <Button size="icon">
         <IconShell size="sm">
-          <CropFree />
+          <Icon icon="crop_free" />
         </IconShell>
       </Button>
       <Button size="icon-sm">
         <IconShell size="sm">
-          <CropFree />
+          <Icon icon="crop_free" />
         </IconShell>
       </Button>
       <Button size="icon-xs">
         <IconShell size="sm">
-          <CropFree />
+          <Icon icon="crop_free" />
         </IconShell>
       </Button>
     </div>
@@ -136,22 +135,22 @@ export function ButtonIconRounded() {
     <div className="flex flex-wrap items-center gap-4">
       <Button size="icon-lg" className="rounded-full">
         <IconShell size="default">
-          <CropFree />
+          <Icon icon="crop_free" />
         </IconShell>
       </Button>
       <Button size="icon" className="rounded-full">
         <IconShell size="sm">
-          <CropFree />
+          <Icon icon="crop_free" />
         </IconShell>
       </Button>
       <Button size="icon-sm" className="rounded-full" variant="outline">
         <IconShell size="sm">
-          <CropFree />
+          <Icon icon="crop_free" />
         </IconShell>
       </Button>
       <Button size="icon-xs" className="rounded-full" variant="ghost">
         <IconShell size="sm">
-          <CropFree />
+          <Icon icon="crop_free" />
         </IconShell>
       </Button>
     </div>

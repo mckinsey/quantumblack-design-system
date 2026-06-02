@@ -1,6 +1,6 @@
 'use client';
 
-import { Style as StyleIcon } from '@/components/icons/Style';
+import { Icon } from '@/components/ui/icon';
 import { TagToggle } from '@/components/ui/tag-toggle';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 
@@ -8,7 +8,7 @@ import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 export function TagToggleDemo() {
   return (
     <TagToggle>
-      <StyleIcon className="size-4" />
+      <Icon icon="style" className="size-4" />
       Label
     </TagToggle>
   );
@@ -19,12 +19,12 @@ export function TagToggleVariants() {
   return (
     <div className="flex flex-wrap gap-3">
       <TagToggle variant="default">
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Default
       </TagToggle>
 
       <TagToggle variant="outline">
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Outline
       </TagToggle>
     </div>
@@ -36,12 +36,12 @@ export function TagTogglePill() {
   return (
     <div className="flex flex-wrap gap-3">
       <TagToggle pill>
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Default
       </TagToggle>
 
       <TagToggle variant="outline" pill>
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Outline
       </TagToggle>
     </div>
@@ -53,22 +53,22 @@ export function TagToggleSizes() {
   return (
     <div className="flex flex-wrap items-center gap-3">
       <TagToggle size="xs">
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Extra small
       </TagToggle>
 
       <TagToggle size="sm">
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Small
       </TagToggle>
 
       <TagToggle size="default">
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Default
       </TagToggle>
 
       <TagToggle size="lg">
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Large
       </TagToggle>
     </div>
@@ -80,17 +80,17 @@ export function TagToggleDisabled() {
   return (
     <div className="flex flex-wrap gap-3">
       <TagToggle disabled>
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Disabled
       </TagToggle>
 
       <TagToggle variant="outline" disabled>
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Disabled
       </TagToggle>
 
       <TagToggle pill disabled>
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Disabled Pill
       </TagToggle>
     </div>
