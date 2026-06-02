@@ -43,11 +43,9 @@ npm run registry:build
 
 ## Environment variables
 
-| Variable            | Description                                                                                                                             |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `QBDS_REGISTRY_URL` | Public URL of this site — **no trailing slash** (e.g. `https://
-designsystem.quantumblack.com` or `http://
-localhost:4123`). Used for registry builds and install commands in the docs. If unset locally, install commands use your current browser URL. |
+| Variable            | Description                                                                                                                                                                                                 |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `QBDS_REGISTRY_URL` | Public URL of this site — **no trailing slash** (e.g. `https://designsystem.quantumblack.com` or `http://localhost:4123`). Used for registry builds and install commands in the docs. If unset locally, install commands use your current browser URL. |
 
 ### Local development
 
