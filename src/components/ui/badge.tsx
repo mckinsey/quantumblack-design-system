@@ -113,7 +113,7 @@ function Badge({
     <Comp
       data-slot="badge"
       className={cn(
-        badgeVariants({ variant, size, outline }),
+        badgeVariants({ variant, size: resolvedSize, outline }),
         getBadgePadding(resolvedSize, withIcon, withDot),
         withIcon && resolvedSize === 'sm' && !outline && 'gap-0.5',
         className,
