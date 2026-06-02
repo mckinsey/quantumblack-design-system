@@ -115,6 +115,10 @@ registry.json                   # Source of truth for all registered components
 4. Run `npm run registry:build` to regenerate `public/r/` files.
 5. Before raising a PR, run `npm run build` and `npm run lint` to confirm everything passes.
 
+## Tokens
+
+See [docs/TOKENS.md](docs/TOKENS.md) for the full token catalogue — every QBDS semantic CSS variable mapped to its Tailwind utility and intended use, with guidance on what to use and what to avoid.
+
 ## Icons
 
 Icons use the **Material Symbols Sharp** variable font via `<Icon icon="search" />`. Use Google's snake_case ligature names (e.g. `keyboard_arrow_down`). Wrap in `<IconShell>` for QBDS size, colour, and opacity tokens.
