@@ -45,7 +45,9 @@ npm run registry:build
 
 | Variable            | Description                                                                                                                             |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `QBDS_REGISTRY_URL` | Base URL for the component registry — **no trailing slash**. Used by `registry:build` to inject dependency URLs into `public/r/*.json`. |
+| `QBDS_REGISTRY_URL` | Public URL of this site — **no trailing slash** (e.g. `https://
+designsystem.quantumblack.com` or `http://
+localhost:4123`). Used for registry builds and install commands in the docs. If unset locally, install commands use your current browser URL. |
 
 ### Local development
 
