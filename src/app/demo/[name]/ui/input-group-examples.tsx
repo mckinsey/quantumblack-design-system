@@ -300,7 +300,8 @@ export function InputGroupDeleteOnFocus() {
               <InputGroupText>
                 <Icon
                   icon="search"
-                  className={`icon ${iconSize}`}
+                  size={iconSize}
+                  className="icon"
                   aria-hidden
                 />
               </InputGroupText>
