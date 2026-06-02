@@ -2,10 +2,10 @@
 
 import { Slot } from '@radix-ui/react-slot';
 import { type VariantProps, cva } from 'class-variance-authority';
-import { PanelLeftIcon } from 'lucide-react';
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -234,7 +234,7 @@ function SidebarTrigger({
         toggleSidebar();
       }}
       {...props}>
-      <PanelLeftIcon />
+      <Icon icon="left_panel_open" size="sm" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );

@@ -1,6 +1,5 @@
 'use client';
 
-import { Check, Copy } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -118,12 +117,15 @@ export function ExamplePreview({
               className="h-7 px-2 text-xs">
               {copied ? (
                 <>
-                  <Check className="text-status-success mr-1 size-3.5" />
+                  <Icon
+                    icon="check"
+                    className="text-status-success mr-1 size-4"
+                  />
                   Copied
                 </>
               ) : (
                 <>
-                  <Copy className="mr-1 size-3.5" />
+                  <Icon icon="content_copy" className="mr-1 size-4" />
                   Copy
                 </>
               )}
