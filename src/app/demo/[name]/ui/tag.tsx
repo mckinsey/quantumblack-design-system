@@ -1,7 +1,7 @@
 'use client';
 
-import { Style as StyleIcon } from '@/components/icons/Style';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Icon } from '@/components/ui/icon';
 import { Tag } from '@/components/ui/tag';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 import { cn } from '@/lib/utils';
@@ -12,7 +12,7 @@ const basePath = import.meta.env.VITE_BASE_PATH ?? '';
 export function TagDemo() {
   return (
     <Tag onRemove={() => console.log('Remove')}>
-      <StyleIcon className="size-4" />
+      <Icon icon="style" className="size-4" />
       Default Tag
     </Tag>
   );
@@ -23,24 +23,24 @@ export function TagVariants() {
   return (
     <div className="flex flex-wrap gap-3">
       <Tag variant="primary" onRemove={() => {}}>
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Primary
       </Tag>
       <Tag variant="secondary" onRemove={() => {}}>
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Secondary
       </Tag>
       <Tag variant="accent" onRemove={() => {}}>
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Accent
       </Tag>
       <Tag variant="outline" onRemove={() => {}}>
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Outline
       </Tag>
 
       <Tag variant="accent-outline" onRemove={() => {}}>
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Accent Outline
       </Tag>
     </div>
@@ -52,24 +52,24 @@ export function TagPill() {
   return (
     <div className="flex flex-wrap gap-3">
       <Tag variant="primary" pill onRemove={() => {}}>
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Primary
       </Tag>
       <Tag variant="secondary" pill onRemove={() => {}}>
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Secondary
       </Tag>
       <Tag variant="accent" pill onRemove={() => {}}>
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Accent
       </Tag>
       <Tag variant="outline" pill onRemove={() => {}}>
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Outline
       </Tag>
 
       <Tag variant="accent-outline" pill onRemove={() => {}}>
-        <StyleIcon className="size-4" />
+        <Icon icon="style" className="size-4" />
         Accent Outline
       </Tag>
     </div>
@@ -86,19 +86,19 @@ export function TagSizes() {
         </span>
         <div className="flex flex-wrap items-center gap-3">
           <Tag size="xs" onRemove={() => {}}>
-            <StyleIcon className="size-4" />
+            <Icon icon="style" className="size-4" />
             Extra small
           </Tag>
           <Tag size="sm" onRemove={() => {}}>
-            <StyleIcon className="size-4" />
+            <Icon icon="style" className="size-4" />
             Small
           </Tag>
           <Tag size="default" onRemove={() => {}}>
-            <StyleIcon className="size-4" />
+            <Icon icon="style" className="size-4" />
             Default
           </Tag>
           <Tag size="lg" onRemove={() => {}}>
-            <StyleIcon className="size-4" />
+            <Icon icon="style" className="size-4" />
             Large
           </Tag>
         </div>
@@ -109,19 +109,19 @@ export function TagSizes() {
         </span>
         <div className="flex flex-wrap items-center gap-3">
           <Tag size="xs" pill onRemove={() => {}}>
-            <StyleIcon className="size-4" />
+            <Icon icon="style" className="size-4" />
             Extra small
           </Tag>
           <Tag size="sm" pill onRemove={() => {}}>
-            <StyleIcon className="size-4" />
+            <Icon icon="style" className="size-4" />
             Small
           </Tag>
           <Tag size="default" pill onRemove={() => {}}>
-            <StyleIcon className="size-4" />
+            <Icon icon="style" className="size-4" />
             Default
           </Tag>
           <Tag size="lg" pill onRemove={() => {}}>
-            <StyleIcon className="size-4" />
+            <Icon icon="style" className="size-4" />
             Large
           </Tag>
         </div>
@@ -258,22 +258,22 @@ export function TagDisabled() {
         <span className="text-fg-tertiary text-sm">Default shape</span>
         <div className="flex flex-wrap items-center gap-3">
           <Tag variant="primary" disabled onRemove={() => {}}>
-            <StyleIcon className="size-4" />
+            <Icon icon="style" className="size-4" />
             Primary
           </Tag>
 
           <Tag variant="secondary" disabled onRemove={() => {}}>
-            <StyleIcon className="size-4" />
+            <Icon icon="style" className="size-4" />
             Secondary
           </Tag>
 
           <Tag variant="accent" disabled onRemove={() => {}}>
-            <StyleIcon className="size-4" />
+            <Icon icon="style" className="size-4" />
             Accent
           </Tag>
 
           <Tag variant="outline" disabled onRemove={() => {}}>
-            <StyleIcon className="size-4" />
+            <Icon icon="style" className="size-4" />
             Outline
           </Tag>
         </div>
@@ -283,22 +283,22 @@ export function TagDisabled() {
         <span className="text-fg-tertiary text-sm">Pill shape</span>
         <div className="flex flex-wrap items-center gap-3">
           <Tag variant="primary" pill disabled onRemove={() => {}}>
-            <StyleIcon className="size-4" />
+            <Icon icon="style" className="size-4" />
             Primary
           </Tag>
 
           <Tag variant="secondary" pill disabled onRemove={() => {}}>
-            <StyleIcon className="size-4" />
+            <Icon icon="style" className="size-4" />
             Secondary
           </Tag>
 
           <Tag variant="accent" pill disabled onRemove={() => {}}>
-            <StyleIcon className="size-4" />
+            <Icon icon="style" className="size-4" />
             Accent
           </Tag>
 
           <Tag variant="outline" pill disabled onRemove={() => {}}>
-            <StyleIcon className="size-4" />
+            <Icon icon="style" className="size-4" />
             Outline
           </Tag>
         </div>

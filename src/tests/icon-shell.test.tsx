@@ -3,7 +3,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 
 import { exampleComponentMaps } from '@/app/demo/[name]/index';
 import { Renderer } from '@/app/demo/[name]/renderer';
-import { Info } from '@/components/icons/Info';
+import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 
 const componentName = 'icon-shell';
@@ -31,7 +31,7 @@ describe(`${componentName} — structure`, () => {
   it('renders with data-slot="icon"', () => {
     render(
       <IconShell>
-        <Info />
+        <Icon icon="info" />
       </IconShell>,
     );
     expect(document.querySelector('[data-slot="icon"]')).toBeInTheDocument();
@@ -43,7 +43,7 @@ describe(`${componentName} — structure`, () => {
       expect(() =>
         render(
           <IconShell variant={variant}>
-            <Info />
+            <Icon icon="info" />
           </IconShell>,
         ),
       ).not.toThrow();
@@ -56,7 +56,7 @@ describe(`${componentName} — structure`, () => {
       expect(() =>
         render(
           <IconShell size={size}>
-            <Info />
+            <Icon icon="info" />
           </IconShell>,
         ),
       ).not.toThrow();
@@ -69,7 +69,7 @@ describe(`${componentName} — structure`, () => {
       expect(() =>
         render(
           <IconShell type={type}>
-            <Info />
+            <Icon icon="info" />
           </IconShell>,
         ),
       ).not.toThrow();

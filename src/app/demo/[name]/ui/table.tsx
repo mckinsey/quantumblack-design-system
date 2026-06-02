@@ -15,11 +15,6 @@ import {
 import * as React from 'react';
 import { useState } from 'react';
 
-import { ArrowDownwardAlt } from '@/components/icons/ArrowDownwardAlt';
-import { ArrowUpwardAlt } from '@/components/icons/ArrowUpwardAlt';
-import { Delete } from '@/components/icons/Delete';
-import { Edit } from '@/components/icons/Edit';
-import { SwapVert } from '@/components/icons/SwapVert';
 import {
   Avatar,
   AvatarFallback,
@@ -29,6 +24,7 @@ import {
 import { Badge, StatusBadge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import {
   Select,
@@ -293,9 +289,7 @@ export function TableRich() {
               </div>
             </TableCell>
             <TableCell>
-              <Badge format="pill" variant="high-emphasis">
-                {user.role}
-              </Badge>
+              <Badge variant="high-emphasis">{user.role}</Badge>
             </TableCell>
             <TableCell>
               <Badge outline variant="high-emphasis">
@@ -306,12 +300,12 @@ export function TableRich() {
               <div className="flex items-center justify-end gap-1">
                 <Button variant="ghost" size="icon-xs">
                   <IconShell size="sm">
-                    <Edit />
+                    <Icon icon="edit" />
                   </IconShell>
                 </Button>
                 <Button variant="ghost" size="icon-xs">
                   <IconShell size="sm">
-                    <Delete />
+                    <Icon icon="delete" />
                   </IconShell>
                 </Button>
               </div>
@@ -405,12 +399,12 @@ const getPaymentColumns = (
       const sortDirection = column.getIsSorted();
       const isSorted = sortDirection !== false;
 
-      let SortIcon = SwapVert;
+      let sortIcon = 'swap_vert';
 
       if (sortDirection === 'asc') {
-        SortIcon = ArrowUpwardAlt;
+        sortIcon = 'arrow_upward_alt';
       } else if (sortDirection === 'desc') {
-        SortIcon = ArrowDownwardAlt;
+        sortIcon = 'arrow_downward_alt';
       }
 
       let nextSortDirection = 'ascending';
@@ -427,7 +421,7 @@ const getPaymentColumns = (
           aria-label={`Sort by Email ${nextSortDirection}`}>
           Email
           <IconShell size="sm" variant={isSorted ? 'primary' : 'secondary'}>
-            <SortIcon />
+            <Icon icon={sortIcon} />
           </IconShell>
         </button>
       );
@@ -440,11 +434,7 @@ const getPaymentColumns = (
     cell: ({ row }) => {
       const status = row.getValue('status') as Payment['status'];
 
-      return (
-        <Badge format="pill" variant="high-emphasis">
-          {status}
-        </Badge>
-      );
+      return <Badge variant="high-emphasis">{status}</Badge>;
     },
   },
   {

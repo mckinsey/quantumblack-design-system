@@ -11,7 +11,7 @@ The registry site itself is a Vite + React Router app with docs, installation gu
 - **shadcn/ui** (new-york style) for registry tooling
 - **TanStack Query** for component detail pages
 - **TanStack Table**, **react-hook-form**, **zod** for complex component demos
-- Icons from Material Symbols sharp (`@material-symbols/svg-400`)
+- Icons via Material Symbols Sharp variable font (`<Icon />` + `<IconShell />`)
 
 ## Running locally
 
@@ -93,7 +93,7 @@ src/
 │       └── ui/                 # Per-component demo files
 ├── components/
 │   ├── ui/                     # QBDS component primitives (30+ components)
-│   ├── icons/                  # Material Symbols–based icon components
+│   ├── ui/icon.tsx             # Material Symbols Sharp (variable font)
 │   └── registry/               # Registry site UI (navbar, sidebar, API reference, etc.)
 ├── hooks/                      # Shared React hooks
 ├── lib/                        # Utils, registry helpers, source extraction
@@ -117,44 +117,15 @@ registry.json                   # Source of truth for all registered components
 
 ## Icons
 
-Icons are React components wrapping Material Symbols sharp SVG paths. All icons live in `src/components/icons/` and are exported from `src/components/icons/index.ts`.
-
-### Adding a new icon
-
-1. Find the SVG in `node_modules/@material-symbols/svg-400/sharp/{icon-name}.svg` and copy the `d` attribute from the `<path>` element.
-
-2. Create `src/components/icons/{IconName}.tsx`:
+Icons use the **Material Symbols Sharp** variable font via `<Icon icon="search" />`. Use Google's snake_case ligature names (e.g. `keyboard_arrow_down`). Wrap in `<IconShell>` for QBDS size, colour, and opacity tokens.
 
 ```tsx
-import * as React from 'react';
-
-import { cn } from '@/lib/utils';
-
-interface IconProps extends React.SVGProps<SVGSVGElement> {
-  className?: string;
-}
-
-export function IconName({ className, ...props }: IconProps) {
-  return (
-    <svg
-      className={cn('', className)}
-      viewBox="0 -960 960 960"
-      fill="currentColor"
-      aria-hidden="true"
-      {...props}>
-      <path d="..." />
-    </svg>
-  );
-}
+<IconShell size="sm" variant="secondary">
+  <Icon icon="search" />
+</IconShell>
 ```
 
-3. Export from `src/components/icons/index.ts`:
-
-```ts
-export { IconName } from './IconName';
-```
-
-4. If the icon is used by a registered component, add it to that component's `files` array in `registry.json`.
+Install via registry: `npx shadcn add icon` (ships `icon.tsx` and the Google Fonts `@import`).
 
 ## Registry
 

@@ -1,12 +1,5 @@
-import { AttachMoney } from '@/components/icons/AttachMoney';
-import { Cancel } from '@/components/icons/Cancel';
-import { CheckCircle } from '@/components/icons/CheckCircle';
-import { Info } from '@/components/icons/Info';
-import { Mail } from '@/components/icons/Mail';
-import { Person } from '@/components/icons/Person';
-import { Search } from '@/components/icons/Search';
-import { Send } from '@/components/icons/Send';
 import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';
+import { Icon } from '@/components/ui/icon';
 import {
   InputGroup,
   InputGroupAddon,
@@ -53,7 +46,7 @@ export function InputGroupDemo() {
       <FieldTitle className={label}>Label</FieldTitle>
       <InputGroup>
         <LeadingIcon>
-          <Search className={`icon ${iconSize}`} />
+          <Icon icon="search" size={iconSize} className="icon" />
         </LeadingIcon>
         <InputGroupInput placeholder="Placeholder" />
       </InputGroup>
@@ -72,7 +65,7 @@ export function InputGroupLeadingIcon() {
         <FieldTitle className={label}>Label</FieldTitle>
         <InputGroup>
           <LeadingIcon>
-            <Mail className={`icon ${iconSize}`} />
+            <Icon icon="mail" size={iconSize} className="icon" />
           </LeadingIcon>
           <InputGroupInput type="email" placeholder="Placeholder" />
         </InputGroup>
@@ -83,7 +76,7 @@ export function InputGroupLeadingIcon() {
         <FieldTitle className={label}>Label</FieldTitle>
         <InputGroup>
           <LeadingIcon>
-            <Person className={`icon ${iconSize}`} />
+            <Icon icon="person" size={iconSize} className="icon" />
           </LeadingIcon>
           <InputGroupInput placeholder="Placeholder" />
         </InputGroup>
@@ -116,7 +109,7 @@ export function InputGroupTrailing() {
           <InputGroupInput placeholder="Placeholder" />
           <InputGroupAddon align="inline-end">
             <InputGroupButton size="icon-xs" variant="ghost">
-              <Send className={`icon ${iconSize}`} />
+              <Icon icon="send" size={iconSize} className="icon" />
             </InputGroupButton>
           </InputGroupAddon>
         </InputGroup>
@@ -135,7 +128,7 @@ export function InputGroupBothSides() {
       <FieldTitle className={label}>Label</FieldTitle>
       <InputGroup>
         <LeadingIcon>
-          <AttachMoney className={`icon ${iconSize}`} />
+          <Icon icon="attach_money" size={iconSize} className="icon" />
         </LeadingIcon>
         <InputGroupInput type="number" placeholder="Placeholder" />
         <InputGroupAddon align="inline-end">
@@ -172,7 +165,7 @@ export function InputGroupSizes() {
               <FieldTitle className={labelClass}>Label</FieldTitle>
               <InputGroup size={size}>
                 <LeadingIcon>
-                  <Search className={`icon ${iconSize}`} />
+                  <Icon icon="search" size={iconSize} className="icon" />
                 </LeadingIcon>
                 <InputGroupInput size={size} placeholder="Placeholder" />
               </InputGroup>
@@ -185,7 +178,7 @@ export function InputGroupSizes() {
               <FieldTitle className={inlineLabelClass}>Label</FieldTitle>
               <InputGroup variant="inline" size={size}>
                 <LeadingIcon>
-                  <Search className={`icon ${iconSize}`} />
+                  <Icon icon="search" size={iconSize} className="icon" />
                 </LeadingIcon>
                 <InputGroupInput
                   variant="inline"
@@ -217,7 +210,7 @@ export function InputGroupStatusStates() {
   const statuses = [
     {
       label: 'Error',
-      icon: Cancel,
+      icon: 'cancel',
       statusColor: 'text-status-error',
       defaultInputProps: {
         'aria-invalid': true,
@@ -232,7 +225,7 @@ export function InputGroupStatusStates() {
     },
     {
       label: 'Warning',
-      icon: Info,
+      icon: 'info',
       statusColor: 'text-status-warning',
       defaultInputProps: { placeholder: 'Placeholder' },
       inlineInputProps: { placeholder: 'Placeholder' },
@@ -241,7 +234,7 @@ export function InputGroupStatusStates() {
     },
     {
       label: 'Success',
-      icon: CheckCircle,
+      icon: 'check_circle',
       statusColor: 'text-status-success',
       defaultInputProps: { placeholder: 'Placeholder' },
       inlineInputProps: { placeholder: 'Placeholder' },
@@ -255,7 +248,7 @@ export function InputGroupStatusStates() {
       {statuses.map(
         ({
           label,
-          icon: StatusIcon,
+          icon: statusIcon,
           statusColor,
           defaultInputProps,
           inlineInputProps,
@@ -269,7 +262,11 @@ export function InputGroupStatusStates() {
                 <InputGroupInput {...defaultInputProps} />
                 <InputGroupAddon align="inline-end">
                   <InputGroupText>
-                    <StatusIcon className={`${iconSize} ${statusColor}`} />
+                    <Icon
+                      icon={statusIcon}
+                      size={iconSize}
+                      className={statusColor}
+                    />
                   </InputGroupText>
                 </InputGroupAddon>
               </InputGroup>
@@ -287,7 +284,11 @@ export function InputGroupStatusStates() {
                 <InputGroupInput variant="inline" {...inlineInputProps} />
                 <InputGroupAddon align="inline-end">
                   <InputGroupText>
-                    <StatusIcon className={`${iconSize} ${statusColor}`} />
+                    <Icon
+                      icon={statusIcon}
+                      size={iconSize}
+                      className={statusColor}
+                    />
                   </InputGroupText>
                 </InputGroupAddon>
               </InputGroup>
