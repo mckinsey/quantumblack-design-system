@@ -1,7 +1,3 @@
-import { CheckCircle } from '@/components/icons/CheckCircle';
-import { ErrorIcon } from '@/components/icons/ErrorIcon';
-import { Info } from '@/components/icons/Info';
-import { Warning } from '@/components/icons/Warning';
 import {
   Alert,
   AlertClose,
@@ -11,6 +7,7 @@ import {
   AlertTitle,
 } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 
 // ============================================================================
 // Shared Helpers
@@ -41,7 +38,7 @@ export function AlertDemo() {
   return (
     <Alert layout="modal">
       <AlertIcon>
-        <Info className="text-[25px]" />
+        <Icon icon="info" className="text-[25px]" />
       </AlertIcon>
       <AlertContent>
         <AlertTitle>Alert Title</AlertTitle>
@@ -59,7 +56,7 @@ export function AlertWithButtons() {
   return (
     <Alert layout="modal">
       <AlertIcon>
-        <Info className="text-[25px]" />
+        <Icon icon="info" className="text-[25px]" />
       </AlertIcon>
       <AlertContent>
         <AlertTitle>Alert Title</AlertTitle>
@@ -78,7 +75,7 @@ export function AlertLongLayout() {
   return (
     <Alert layout="long">
       <AlertIcon>
-        <Info className="text-[25px]" />
+        <Icon icon="info" className="text-[25px]" />
       </AlertIcon>
       <AlertContent className="flex-row items-center gap-3 pt-0">
         <AlertTitle className="shrink-0">Alert Title</AlertTitle>
@@ -98,7 +95,7 @@ export function AlertLongWithButtons() {
   return (
     <Alert layout="long">
       <AlertIcon>
-        <Info className="text-[25px]" />
+        <Icon icon="info" className="text-[25px]" />
       </AlertIcon>
       <AlertContent className="flex-row items-center gap-3 pt-0">
         <AlertTitle className="shrink-0">Alert Title</AlertTitle>
@@ -122,19 +119,19 @@ export function AlertVariants() {
   const variants = [
     {
       color: 'text-status-success',
-      icon: <CheckCircle className="text-[25px]" />,
+      icon: <Icon icon="check_circle" className="text-[25px]" />,
       title: 'Success!',
       description: 'Your changes have been saved successfully.',
     },
     {
       color: 'text-status-warning',
-      icon: <Warning className="text-[25px]" />,
+      icon: <Icon icon="warning" className="text-[25px]" />,
       title: 'Warning',
       description: 'Please review your changes before proceeding.',
     },
     {
       color: 'text-status-error',
-      icon: <ErrorIcon className="text-[25px]" />,
+      icon: <Icon icon="error" className="text-[25px]" />,
       title: 'Error',
       description: 'Something went wrong. Please try again.',
     },

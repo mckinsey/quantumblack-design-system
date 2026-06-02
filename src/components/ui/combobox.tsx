@@ -3,10 +3,8 @@
 import { Combobox as ComboboxPrimitive } from '@base-ui/react';
 import * as React from 'react';
 
-import { Check } from '@/components/icons/Check';
-import { ChevronDown } from '@/components/icons/ChevronDown';
-import { Close } from '@/components/icons/Close';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { inputVariantStyles } from '@/components/ui/input';
 import { InputGroupButton, InputGroupInput } from '@/components/ui/input-group';
 import { cn } from '@/lib/utils';
@@ -51,9 +49,11 @@ function ComboboxTrigger({
       className={cn("[&_svg:not([class*='size-'])]:size-4", className)}
       {...props}>
       {children}
-      <ChevronDown
+      <Icon
+        icon="keyboard_arrow_down"
+        size="sm"
         data-slot="combobox-trigger-icon"
-        className="text-fg-secondary pointer-events-none size-4"
+        className="text-fg-secondary pointer-events-none"
       />
     </ComboboxPrimitive.Trigger>
   );
@@ -66,7 +66,11 @@ function ComboboxClear({ className, ...props }: ComboboxPrimitive.Clear.Props) {
       render={<InputGroupButton variant="ghost" size="icon-xs" />}
       className={cn(className)}
       {...props}>
-      <Close className="pointer-events-none size-3" />
+      <Icon
+        icon="close"
+        className="pointer-events-none text-xs"
+        style={{ fontSize: 12 }}
+      />
     </ComboboxPrimitive.Clear>
   );
 }
@@ -215,7 +219,7 @@ function ComboboxItem({
       <ComboboxPrimitive.ItemIndicator
         data-slot="combobox-item-indicator"
         render={<span className="flex size-4 items-center justify-center" />}>
-        <Check className="size-4" />
+        <Icon icon="check" size="sm" />
       </ComboboxPrimitive.ItemIndicator>
     </ComboboxPrimitive.Item>
   );
@@ -318,7 +322,11 @@ function ComboboxChip({
         render={<Button variant="ghost" size="icon-xs" />}
         className="-ml-1 opacity-50 hover:opacity-100"
         data-slot="combobox-chip-remove">
-        <Close className="pointer-events-none" />
+        <Icon
+          icon="close"
+          className="pointer-events-none text-xs"
+          style={{ fontSize: 12 }}
+        />
       </ComboboxPrimitive.ChipRemove>
     </ComboboxPrimitive.Chip>
   );

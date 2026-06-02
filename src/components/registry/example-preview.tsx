@@ -1,10 +1,9 @@
 'use client';
 
-import { Check, Copy } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import { ChevronDown } from '@/components/icons/ChevronDown';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
 
 interface ExamplePreviewProps {
@@ -118,19 +117,24 @@ export function ExamplePreview({
               className="h-7 px-2 text-xs">
               {copied ? (
                 <>
-                  <Check className="text-status-success mr-1 size-3.5" />
+                  <Icon
+                    icon="check"
+                    className="text-status-success mr-1 size-4"
+                  />
                   Copied
                 </>
               ) : (
                 <>
-                  <Copy className="mr-1 size-3.5" />
+                  <Icon icon="content_copy" className="mr-1 size-4" />
                   Copy
                 </>
               )}
             </Button>
-            <ChevronDown
-              className="text-fg-secondary size-3.5"
+            <Icon
+              icon="keyboard_arrow_down"
+              className="text-fg-secondary"
               style={{
+                fontSize: 14,
                 transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
                 transition: prefersReducedMotion
                   ? undefined

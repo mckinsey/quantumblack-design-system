@@ -1,11 +1,28 @@
 import registry from '@/registry';
 
+export interface ComponentFile {
+  path: string;
+  type: string;
+  target?: string;
+}
+
 export interface Component {
   name: string;
   type: string;
   title: string;
   description?: string;
-  files?: { path: string; type: string; target: string }[];
+  files?: ComponentFile[];
+}
+
+/** Install path shown in docs — uses target when set, otherwise derives from registry path. */
+export function getComponentFileTarget(file: ComponentFile): string | null {
+  const target = file.target?.trim();
+  if (target) return target;
+
+  const path = file.path?.trim();
+  if (!path) return null;
+
+  return path.startsWith('src/') ? path.slice(4) : path;
 }
 
 /**
