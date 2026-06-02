@@ -28,7 +28,10 @@ const uiItems = getUIPrimitives();
 
 const COMPONENT_GROUPS: { label: string; names: string[] }[] = [
   { label: 'Layout', names: ['aspect-ratio'] },
-  { label: 'Buttons & Toggle', names: ['button', 'toggle'] },
+  {
+    label: 'Buttons & Toggle',
+    names: ['button', 'segmented-controls', 'toggle'],
+  },
   {
     label: 'Date & Time',
     names: ['calendar', 'date-picker', 'time-input', 'time-picker'],
