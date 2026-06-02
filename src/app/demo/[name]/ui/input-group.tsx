@@ -210,7 +210,7 @@ export function InputGroupStatusStates() {
   const statuses = [
     {
       label: 'Error',
-      icon: Cancel,
+      icon: 'cancel',
       statusColor: 'text-status-error',
       defaultInputProps: {
         'aria-invalid': true,
@@ -225,7 +225,7 @@ export function InputGroupStatusStates() {
     },
     {
       label: 'Warning',
-      icon: Info,
+      icon: 'info',
       statusColor: 'text-status-warning',
       defaultInputProps: { placeholder: 'Placeholder' },
       inlineInputProps: { placeholder: 'Placeholder' },
@@ -234,7 +234,7 @@ export function InputGroupStatusStates() {
     },
     {
       label: 'Success',
-      icon: CheckCircle,
+      icon: 'check_circle',
       statusColor: 'text-status-success',
       defaultInputProps: { placeholder: 'Placeholder' },
       inlineInputProps: { placeholder: 'Placeholder' },
@@ -248,7 +248,7 @@ export function InputGroupStatusStates() {
       {statuses.map(
         ({
           label,
-          icon: StatusIcon,
+          icon: statusIcon,
           statusColor,
           defaultInputProps,
           inlineInputProps,
@@ -262,7 +262,10 @@ export function InputGroupStatusStates() {
                 <InputGroupInput {...defaultInputProps} />
                 <InputGroupAddon align="inline-end">
                   <InputGroupText>
-                    <StatusIcon className={`${iconSize} ${statusColor}`} />
+                    <Icon
+                      icon={statusIcon}
+                      className={`${iconSize} ${statusColor}`}
+                    />
                   </InputGroupText>
                 </InputGroupAddon>
               </InputGroup>
@@ -280,7 +283,10 @@ export function InputGroupStatusStates() {
                 <InputGroupInput variant="inline" {...inlineInputProps} />
                 <InputGroupAddon align="inline-end">
                   <InputGroupText>
-                    <StatusIcon className={`${iconSize} ${statusColor}`} />
+                    <Icon
+                      icon={statusIcon}
+                      className={`${iconSize} ${statusColor}`}
+                    />
                   </InputGroupText>
                 </InputGroupAddon>
               </InputGroup>
