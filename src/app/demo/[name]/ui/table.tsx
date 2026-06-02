@@ -289,9 +289,7 @@ export function TableRich() {
               </div>
             </TableCell>
             <TableCell>
-              <Badge format="pill" variant="high-emphasis">
-                {user.role}
-              </Badge>
+              <Badge variant="high-emphasis">{user.role}</Badge>
             </TableCell>
             <TableCell>
               <Badge outline variant="high-emphasis">
@@ -436,11 +434,7 @@ const getPaymentColumns = (
     cell: ({ row }) => {
       const status = row.getValue('status') as Payment['status'];
 
-      return (
-        <Badge format="pill" variant="high-emphasis">
-          {status}
-        </Badge>
-      );
+      return <Badge variant="high-emphasis">{status}</Badge>;
     },
   },
   {

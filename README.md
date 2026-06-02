@@ -43,9 +43,9 @@ npm run registry:build
 
 ## Environment variables
 
-| Variable            | Description                                                                                                                                                                                                                                                  |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `QBDS_REGISTRY_URL` | Base URL for the component registry — **no trailing slash** (e.g. `https://your-host`). Used by the registry build to inject dependency URLs into `public/r/*.json`, and by the app to construct install command URLs. Defaults to `window.location.origin`. |
+| Variable            | Description                                                                                                                                                                                                 |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `QBDS_REGISTRY_URL` | Public URL of this site — **no trailing slash** (e.g. `https://designsystem.quantumblack.com` or `http://localhost:4123`). Used for registry builds and install commands in the docs. If unset locally, install commands use your current browser URL. |
 
 ### Local development
 
@@ -139,5 +139,5 @@ The build also runs `generate-api-docs` and `extract-examples` to produce the pr
 
 ## CI/CD
 
+- **`pr.yml`** — unit tests, build, and lint on push to `main` and pull requests. Uses `vars.QBDS_REGISTRY_URL` when set, otherwise `https://designsystem.quantumblack.com`.
 - **`deploy-pages.yml`** — builds and deploys to GitHub Pages on push to `main` (or manual trigger). Includes a `404.html` for SPA routing.
-- **`pr.yml`** — runs unit tests, build, and lint in parallel on push to `main` and pull requests.

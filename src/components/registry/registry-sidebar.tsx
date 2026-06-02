@@ -1,4 +1,3 @@
-import { ChevronDown, Menu } from 'lucide-react';
 import { Link, useLocation } from 'react-router';
 
 import { Button } from '@/components/ui/button';
@@ -7,6 +6,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
+import { Icon } from '@/components/ui/icon';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Sidebar,
@@ -28,7 +28,10 @@ const uiItems = getUIPrimitives();
 
 const COMPONENT_GROUPS: { label: string; names: string[] }[] = [
   { label: 'Layout', names: ['aspect-ratio'] },
-  { label: 'Buttons & Toggle', names: ['button', 'toggle'] },
+  {
+    label: 'Buttons & Toggle',
+    names: ['button', 'segmented-controls', 'toggle'],
+  },
   {
     label: 'Date & Time',
     names: ['calendar', 'date-picker', 'time-input', 'time-picker'],
@@ -81,7 +84,11 @@ export function MobileSidebarTrigger() {
   return (
     <div className="absolute top-8 right-4 md:hidden">
       <Button aria-label="Open menu" onClick={() => setOpenMobile(true)}>
-        <Menu className="size-5" />
+        <Icon
+          icon="menu"
+          className="size-5"
+          style={{ fontSize: 20, width: 20, height: 20, lineHeight: '20px' }}
+        />
       </Button>
     </div>
   );
@@ -135,7 +142,11 @@ export function RegistrySidebar() {
                         <CollapsibleTrigger asChild className="cursor-pointer">
                           <SidebarMenuButton className="flex w-full items-center justify-between">
                             <span>{entry.group.label}</span>
-                            <ChevronDown className="size-3.5 flex-shrink-0 transition-transform duration-200 group-data-[state=open]/subgroup:rotate-180" />
+                            <Icon
+                              icon="keyboard_arrow_down"
+                              size="sm"
+                              className="flex-shrink-0 transition-transform duration-200 group-data-[state=open]/subgroup:rotate-180"
+                            />
                           </SidebarMenuButton>
                         </CollapsibleTrigger>
                         <CollapsibleContent>

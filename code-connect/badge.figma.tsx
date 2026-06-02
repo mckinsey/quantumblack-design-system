@@ -53,12 +53,7 @@ figma.connect(Badge, '<QBDS_BADGE_ICON_LABEL>', {
     label: figma.string('label'),
   },
   example: ({ variant, size, outline, withIcon, icon, label }) => (
-    <Badge
-      format={'pill'}
-      outline={outline}
-      size={size}
-      variant={variant}
-      withIcon={withIcon}>
+    <Badge outline={outline} size={size} variant={variant} withIcon={withIcon}>
       {icon}
       {label}
     </Badge>
@@ -88,12 +83,7 @@ figma.connect(Badge, '<QBDS_BADGE_DOT_LABEL>', {
     label: figma.textContent('value'),
   },
   example: ({ variant, size, withDot, dot, label }) => (
-    <Badge
-      format={'pill'}
-      outline={true}
-      size={size}
-      variant={variant}
-      withDot={withDot}>
+    <Badge outline={true} size={size} variant={variant} withDot={withDot}>
       {dot}
       {label}
     </Badge>
@@ -121,7 +111,7 @@ figma.connect(Badge, '<QBDS_BADGE_LABEL_ONLY>', {
     label: figma.string('label'),
   },
   example: ({ variant, size, outline, label }) => (
-    <Badge format={'pill'} outline={outline} size={size} variant={variant}>
+    <Badge outline={outline} size={size} variant={variant}>
       {label}
     </Badge>
   ),

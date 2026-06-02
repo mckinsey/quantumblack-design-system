@@ -260,7 +260,8 @@
       ],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
-        "__REGISTRY_URL__/r/utils.json"
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/icon.json"
       ],
       "files": [
         {
@@ -534,6 +535,25 @@
       "files": [
         {
           "path": "src/components/ui/radio-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "segmented-controls",
+      "type": "registry:ui",
+      "title": "Segmented Controls",
+      "description": "Single-select segmented control with secondary-filled and ghost variants across four sizes.",
+      "dependencies": [
+        "@radix-ui/react-toggle-group"
+      ],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/segmented-controls.tsx",
           "type": "registry:ui"
         }
       ]

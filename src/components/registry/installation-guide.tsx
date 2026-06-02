@@ -1,5 +1,4 @@
-import { FileCode, Package, Terminal } from 'lucide-react';
-
+import { Icon } from '@/components/ui/icon';
 import {
   type Component,
   getComponentFileTarget,
@@ -29,7 +28,7 @@ export function InstallationGuide({ component }: InstallationGuideProps) {
       {/* CLI Installation */}
       <div className="space-y-3">
         <div className="flex items-center gap-2">
-          <Terminal className="text-fg-primary size-4" />
+          <Icon icon="terminal" className="text-fg-primary size-4" />
           <h3 className="headings-h4-semibold text-fg-primary">
             CLI Installation
           </h3>
@@ -47,7 +46,7 @@ export function InstallationGuide({ component }: InstallationGuideProps) {
       {/* Manual Installation */}
       <div className="space-y-3">
         <div className="flex items-center gap-2">
-          <FileCode className="text-fg-primary size-4" />
+          <Icon icon="code" className="text-fg-primary size-4" />
           <h3 className="headings-h4-semibold text-fg-primary">
             Manual Installation
           </h3>
@@ -83,7 +82,7 @@ export function InstallationGuide({ component }: InstallationGuideProps) {
       {includedFiles.length > 0 && (
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <Package className="text-fg-primary size-4" />
+            <Icon icon="package_2" className="text-fg-primary size-4" />
             <h3 className="headings-h4-semibold text-fg-primary">
               Files Included
             </h3>
