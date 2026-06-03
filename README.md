@@ -126,17 +126,17 @@ The **`/tokens`** page on the registry site is built from that file plus [`src/s
 
 ### Syncing from Figma
 
-When variables change in design, update **`globals.css`** (the actual values) and **`docs/TOKENS.md`** (the catalogue). Source of truth in Figma: [QBDS v2.0.0](https://www.figma.com/design/iuMWqCsIohoKAUB0tBS0xr/QBDS-v2.0.0) (file key `iuMWqCsIohoKAUB0tBS0xr`).
+When variables change in design, update **`globals.css`** (the values) and **`docs/TOKENS.md`** (the catalogue).
 
 | Figma collection | Where it lives in code |
 | ---------------- | --------------------- |
-| **DS-Primitives** | Hex colours in `@theme inline` — mist, slate, status palettes (red through sky), brand accents. Each step has a `--color-*` bridge for Tailwind (e.g. `--green-700` → `--color-green-700`). |
-| **DS_Themes** (Light / Dark) | Semantic tokens in `:root` and `.dark` — e.g. `--text-success` points at a primitive. In Figma, `Text/Success` might use `green/700`; in CSS that becomes `var(--color-green-700)`. |
+| **DS-Primitives** (Figma link to DS-Primitives) | Hex colours in `@theme inline` — mist, slate, status palettes (red through sky), brand accents. Each step has a `--color-*` bridge for Tailwind (e.g. `--green-700` → `--color-green-700`). |
+| **DS_Themes** (Figma link to DS-Themes, Light / Dark) | Semantic tokens in `:root` and `.dark` — e.g. `--text-success` points at a primitive. In Figma, `Text/Success` might use `green/700`; in CSS that becomes `var(--color-green-700)`. |
 | **Radius** (Sharp / Round) | `--rad-*` and `.radius-mode` |
 
 Figma names use slashes (`Text/Primary`, `green/700`). CSS uses kebab-case (`--text-primary`, `--green-700`). Keep the Figma name in the **Design name** column in `TOKENS.md`.
 
-To pull values out of Figma, add `FIGMA_ACCESS_TOKEN` to `.env` and use the [local variables API](https://www.figma.com/developers/api#get-local-variables-endpoint) (`GET …/files/iuMWqCsIohoKAUB0tBS0xr/variables/local`) or the Figma MCP tools on the same file. Put primitive colours in as hex inside `@theme inline`.
+To pull values from Figma, add `FIGMA_ACCESS_TOKEN` to `.env` and call the [local variables API](https://www.figma.com/developers/api#get-local-variables-endpoint) on the QBDS file, or use Figma MCP on that file. Put primitive colours in as hex inside `@theme inline`.
 
 When you are done editing:
 
