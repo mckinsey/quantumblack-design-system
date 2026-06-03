@@ -18,6 +18,12 @@ export interface Token {
 
 const COLOR_DOC_END = '## Typography';
 
+/** Short guidance shown under section headings on `/tokens`. */
+export const REGISTRY_CATEGORY_INTROS: Partial<Record<string, string>> = {
+  Elevations:
+    'Use the composed shadow-elevation-* utilities — not the shade variables directly.',
+};
+
 const CATEGORY_ORDER = [
   'Surface',
   'Fill — content',
@@ -288,4 +294,9 @@ export function formatTailwindDisplay(tailwind: string): string {
     .split(',')
     .map(s => s.trim())
     .join(' · ');
+}
+
+/** Registry display — trims trailing punctuation from markdown table cells. */
+export function formatTokenDescription(description: string): string {
+  return description.replace(/[.\s]+$/, '').trim();
 }

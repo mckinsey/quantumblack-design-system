@@ -9,9 +9,11 @@ import {
   filterRegistryColorTokens,
   filterTokens,
   formatTailwindDisplay,
+  formatTokenDescription,
   getCategories,
   groupByCategory,
   loadColorTokens,
+  REGISTRY_CATEGORY_INTROS,
   tokenAnchor,
 } from '@/lib/tokens';
 import { cn } from '@/lib/utils';
@@ -25,6 +27,19 @@ const DARK_CANVAS = '#141721';
 
 const TOKEN_ROW_GRID =
   'sm:grid sm:grid-cols-[4.5rem_minmax(0,1fr)_8.75rem_8.75rem] sm:gap-x-4';
+
+const ELEVATION_SHADOW_CLASS = {
+  'shadow-elevation-0': 'shadow-elevation-0',
+  'shadow-elevation-1': 'shadow-elevation-1',
+  'shadow-elevation-2': 'shadow-elevation-2',
+  'shadow-elevation-3': 'shadow-elevation-3',
+  'shadow-elevation-4': 'shadow-elevation-4',
+} as const;
+
+function elevationShadowClass(tailwind: string): string | null {
+  const key = tailwind.trim() as keyof typeof ELEVATION_SHADOW_CLASS;
+  return ELEVATION_SHADOW_CLASS[key] ?? null;
+}
 
 function CopyBtn({ value }: { value: string }) {
   const [copied, setCopied] = useState(false);
@@ -119,6 +134,37 @@ function ModeChip({
   );
 }
 
+function ElevationChip({
+  canvas,
+  shadowClass,
+  darkScope,
+}: {
+  canvas: string;
+  shadowClass: string;
+  darkScope: boolean;
+}) {
+  const onLight = canvas === LIGHT_CANVAS;
+
+  return (
+    <div
+      className={cn(
+        'border-stroke-tertiary flex h-[3.25rem] w-[8.75rem] items-center justify-center border px-2',
+        darkScope && 'dark',
+      )}
+      style={{ backgroundColor: canvas }}
+      aria-label={onLight ? 'Light mode shadow' : 'Dark mode shadow'}
+      role="img">
+      <div
+        className={cn(
+          'bg-surface-primary size-9 shrink-0 rounded-sm',
+          shadowClass,
+        )}
+        aria-hidden
+      />
+    </div>
+  );
+}
+
 function TokenRow({ token }: { token: Token }) {
   const tailwindDisplay = formatTailwindDisplay(token.tailwind);
   const tailwindCopy = token.tailwind
@@ -126,8 +172,14 @@ function TokenRow({ token }: { token: Token }) {
     .map(s => s.trim())
     .join(' ');
   const chipSpan = token.description ? 'sm:row-span-3' : 'sm:row-span-2';
+  const elevationShadow = elevationShadowClass(token.tailwind);
+  const showElevationPreviews =
+    token.category === 'Elevations' && elevationShadow !== null;
   const showSwatches =
-    !token.patternOnly && token.light?.hex && token.dark?.hex;
+    !showElevationPreviews &&
+    !token.patternOnly &&
+    token.light?.hex &&
+    token.dark?.hex;
 
   return (
     <li
@@ -155,45 +207,53 @@ function TokenRow({ token }: { token: Token }) {
 
         {token.description && (
           <p className="paragraph-small-primary text-fg-secondary col-span-2 sm:col-span-1 sm:col-start-2 sm:row-start-3">
-            {token.description}
-            {token.patternOnly && (
-              <span className="text-fg-tertiary">
-                {' '}
-                (pattern — see docs/TOKENS.md)
-              </span>
-            )}
+            {formatTokenDescription(token.description)}
           </p>
         )}
       </div>
 
-      {showSwatches ? (
+      {showSwatches || showElevationPreviews ? (
         <div className="flex justify-end gap-2 sm:contents">
           <div
             className={cn(
               'sm:col-start-3 sm:row-start-1 sm:self-center',
               chipSpan,
             )}>
-            <ModeChip
-              label="Light"
-              canvas={LIGHT_CANVAS}
-              color={token.light!}
-            />
+            {showElevationPreviews ? (
+              <ElevationChip
+                canvas={LIGHT_CANVAS}
+                shadowClass={elevationShadow!}
+                darkScope={false}
+              />
+            ) : (
+              <ModeChip
+                label="Light"
+                canvas={LIGHT_CANVAS}
+                color={token.light!}
+              />
+            )}
           </div>
           <div
             className={cn(
               'sm:col-start-4 sm:row-start-1 sm:self-center',
               chipSpan,
             )}>
-            <ModeChip label="Dark" canvas={DARK_CANVAS} color={token.dark!} />
+            {showElevationPreviews ? (
+              <ElevationChip
+                canvas={DARK_CANVAS}
+                shadowClass={elevationShadow!}
+                darkScope
+              />
+            ) : (
+              <ModeChip label="Dark" canvas={DARK_CANVAS} color={token.dark!} />
+            )}
           </div>
         </div>
       ) : (
         <p className="paragraph-small-primary text-fg-tertiary sm:col-span-2 sm:col-start-3 sm:row-span-2">
-          {token.category === 'Elevations'
-            ? 'Use composed shadow utility'
-            : token.patternOnly
-              ? 'Expand pattern in TOKENS.md'
-              : 'Could not resolve colour from globals.css'}
+          {token.patternOnly
+            ? 'Pattern token — see TOKENS.md'
+            : 'Could not resolve colour from globals.css'}
         </p>
       )}
     </li>
@@ -220,9 +280,9 @@ export default function TokensPage() {
               Design Tokens
             </h1>
             <p className="paragraph-large-primary text-fg-secondary">
-              Every QBDS colour in one place: the name you see in Figma, the
-              Tailwind class to paste into your code, and a preview in light and
-              dark.
+              QBDS colours and elevation shadows in one place: the Figma name,
+              the Tailwind class to paste into your code, and a light/dark
+              preview (swatches or shadow samples).
             </p>
           </div>
 
@@ -261,6 +321,11 @@ export default function TokensPage() {
                 <h2 className="headings-h3-semibold text-fg-primary">
                   {category}
                 </h2>
+                {REGISTRY_CATEGORY_INTROS[category] && (
+                  <p className="paragraph-small-primary text-fg-secondary -mt-1">
+                    {REGISTRY_CATEGORY_INTROS[category]}
+                  </p>
+                )}
                 <ul className="border-stroke-tertiary border-t">
                   {sectionTokens.map(t => (
                     <TokenRow

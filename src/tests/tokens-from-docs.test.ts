@@ -66,6 +66,10 @@ describe('tokens from TOKENS.md + globals.css', () => {
     expect(elevation?.cssVar).toBeNull();
     expect(elevation?.patternOnly).toBe(true);
     expect(elevation?.light).toBeNull();
+    expect(elevation?.description).toBe('Subtle lift');
+    const modal = parsed.find(t => t.tailwind === 'shadow-elevation-3');
+    expect(modal?.description).toBe('Modal / popover');
+    expect(modal?.description).not.toContain('--elevations');
   });
 
   it('defines Tailwind color bridges for all documented brand accents', () => {

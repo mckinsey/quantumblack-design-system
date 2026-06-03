@@ -2,7 +2,7 @@
 
 The single source of truth for picking a design token in code. Every row below maps a **CSS variable** defined in [`src/styles/globals.css`](../src/styles/globals.css) to the **Tailwind utility** you should use in components, with guidance on what it's for. The **Design name** column lists the upstream identifier in the QBDS design library — use it when syncing changes between code and design.
 
-A searchable reference with light/dark swatches is at **`/tokens`** on the registry site (this file + `globals.css`, via [`src/lib/tokens.ts`](../src/lib/tokens.ts)). After edits, run `npm run tokens:check` and spot-check `/tokens` in the dev server. The page skips `*-inverse` rows for now; they stay in the tables below.
+A searchable reference with light/dark swatches (and shadow previews for elevations) is at **`/tokens`** on the registry site (this file + `globals.css`, via [`src/lib/tokens.ts`](../src/lib/tokens.ts)). After edits, run `npm run tokens:check` and spot-check `/tokens` in the dev server. The page skips `*-inverse` rows for now; they stay in the tables below.
 
 ## How to choose a token
 
@@ -140,11 +140,11 @@ Shadow colour pairs. **Do not use directly** — use the composed `shadow-elevat
 
 | Utility | Composition | Design name |
 | ------- | ----------- | ----------- |
-| `shadow-elevation-0` | Hairline (`--elevations-shade-t` + `--elevations-shade`). | `Elevations/Shade_T` + `Elevations/Shade` |
-| `shadow-elevation-1` | Subtle lift (`--elevations-shade-t-01` + `--elevations-shade-01`). | `Elevations/Shade_T–01` + `Elevations/Shade–01` |
-| `shadow-elevation-2` | Card / dropdown (`--elevations-shade-t-02` + `--elevations-shade-02`). | `Elevations/Shade_T–02` + `Elevations/Shade–02` |
-| `shadow-elevation-3` | Modal / popover (`--elevations-shade-t-03` + `--elevations-shade-03`). | `Elevations/Shade_T–03` + `Elevations/Shade–03` |
-| `shadow-elevation-4` | Highest — full-screen overlay (`--elevations-shade-t-04` + `--elevations-shade-04`). | `Elevations/Shade_T–04` + `Elevations/Shade–04` |
+| `shadow-elevation-0` | Hairline | `Elevations/Shade_T` + `Elevations/Shade` |
+| `shadow-elevation-1` | Subtle lift | `Elevations/Shade_T–01` + `Elevations/Shade–01` |
+| `shadow-elevation-2` | Card / dropdown | `Elevations/Shade_T–02` + `Elevations/Shade–02` |
+| `shadow-elevation-3` | Modal / popover | `Elevations/Shade_T–03` + `Elevations/Shade–03` |
+| `shadow-elevation-4` | Highest — full-screen overlay | `Elevations/Shade_T–04` + `Elevations/Shade–04` |
 
 Shadow colour tokens are also exposed as `--color-elevations-shade*` if you ever need to compose a custom shadow, but prefer the utilities.
 
