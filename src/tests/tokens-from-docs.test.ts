@@ -54,7 +54,8 @@ describe('tokens from TOKENS.md + globals.css', () => {
   it('marks wildcard catalogue rows as pattern-only without a bogus cssVar', () => {
     const parsed = parseTokensMarkdown(tokensMd);
     const fillInverse = parsed.find(
-      t => t.tailwind === 'bg-fill-*-inverse' && t.category === 'Fill — content',
+      t =>
+        t.tailwind === 'bg-fill-*-inverse' && t.category === 'Fill — content',
     );
     expect(fillInverse?.cssVar).toBeNull();
     expect(fillInverse?.patternOnly).toBe(true);

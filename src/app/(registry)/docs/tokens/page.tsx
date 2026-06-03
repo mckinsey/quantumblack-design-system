@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import {
+  REGISTRY_CATEGORY_INTROS,
   type Token,
   type TokenColor,
   filterRegistryColorTokens,
@@ -13,7 +14,6 @@ import {
   getCategories,
   groupByCategory,
   loadColorTokens,
-  REGISTRY_CATEGORY_INTROS,
   tokenAnchor,
 } from '@/lib/tokens';
 import { cn } from '@/lib/utils';
