@@ -47,7 +47,6 @@ import {
 import {
   ButtonDemo,
   ButtonDisabled,
-  ButtonGroups,
   ButtonIconOnly,
   ButtonIconRounded,
   ButtonLoading,
@@ -57,6 +56,15 @@ import {
   button,
   examples as buttonExamples,
 } from '@/app/demo/[name]/ui/button';
+import {
+  ButtonGroupConfigs,
+  ButtonGroupDemo,
+  ButtonGroupIconOnly,
+  ButtonGroupSizes,
+  ButtonGroupVertical,
+  buttonGroup,
+  examples as buttonGroupExamples,
+} from '@/app/demo/[name]/ui/button-group';
 import {
   CalendarDemo,
   CalendarDisabledDays,
@@ -417,7 +425,13 @@ export const exampleComponentMaps: Record<
     ButtonLoading,
     ButtonIconOnly,
     ButtonIconRounded,
-    ButtonGroups,
+  },
+  'button-group': {
+    ButtonGroupDemo,
+    ButtonGroupConfigs,
+    ButtonGroupSizes,
+    ButtonGroupVertical,
+    ButtonGroupIconOnly,
   },
   calendar: {
     CalendarDemo,
@@ -662,6 +676,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   avatar: avatarExamples,
   badge: badgeExamples,
   button: buttonExamples,
+  'button-group': buttonGroupExamples,
   calendar: calendarExamples,
   card: cardExamples,
   checkbox: checkboxExamples,
@@ -722,6 +737,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...button,
     examples: buttonExamples,
     exampleComponents: exampleComponentMaps.button,
+  },
+  'button-group': {
+    ...buttonGroup,
+    examples: buttonGroupExamples,
+    exampleComponents: exampleComponentMaps['button-group'],
   },
   calendar: {
     ...calendar,

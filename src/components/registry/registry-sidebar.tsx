@@ -30,7 +30,7 @@ const COMPONENT_GROUPS: { label: string; names: string[] }[] = [
   { label: 'Layout', names: ['aspect-ratio'] },
   {
     label: 'Buttons & Toggle',
-    names: ['button', 'segmented-controls', 'toggle'],
+    names: ['button', 'button-group', 'segmented-controls', 'toggle'],
   },
   {
     label: 'Date & Time',
