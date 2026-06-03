@@ -138,7 +138,7 @@ export function getUIPrimitivesByCategory() {
       'aspect',
       'scroll',
     ],
-    Navigation: ['menu', 'navigation', 'tabs', 'breadcrumb', 'pagination'],
+    Navigation: ['menu', 'navigation', 'tabs', 'breadcrumb', 'pagination', 'toolbar'],
     Feedback: ['alert', 'progress', 'skeleton', 'badge', 'tag', 'empty'],
     Display: [
       'avatar',
