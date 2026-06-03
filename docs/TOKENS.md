@@ -2,7 +2,7 @@
 
 The single source of truth for picking a design token in code. Every row below maps a **CSS variable** defined in [`src/styles/globals.css`](../src/styles/globals.css) to the **Tailwind utility** you should use in components, with guidance on what it's for. The **Design name** column lists the upstream identifier in the QBDS design library — use it when syncing changes between code and design.
 
-A searchable visual reference with light/dark swatches lives at **`/tokens`** on the registry site (generated from this file + `globals.css`).
+A searchable reference with light/dark swatches is at **`/tokens`** on the registry site (this file + `globals.css`, via [`src/lib/tokens.ts`](../src/lib/tokens.ts)). After edits, run `npm run tokens:check` and spot-check `/tokens` in the dev server. The page skips `*-inverse` rows for now; they stay in the tables below.
 
 ## How to choose a token
 

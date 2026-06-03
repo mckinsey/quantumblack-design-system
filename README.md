@@ -40,6 +40,7 @@ npm run registry:build
 | `npm run test:unit`      | Run Vitest unit tests                              |
 | `npm run test:watch`     | Run Vitest in watch mode                           |
 | `npm run test`           | Run unit tests + build + lint (used in CI)         |
+| `npm run tokens:check`   | Check token docs against `globals.css` (Vitest)    |
 
 ## Environment variables
 
@@ -83,11 +84,13 @@ Set `QBDS_REGISTRY_URL` as a **repository variable** under **Settings → Secret
 ## Project structure
 
 ```
+docs/
+└── TOKENS.md                   # Token catalogue (feeds the /tokens page)
 code-connect/                   # Figma Code Connect mappings (*.figma.tsx)
 src/
 ├── app/
 │   ├── (registry)/             # Registry site routes
-│   │   ├── docs/               # Intro, components list, installation guide
+│   │   ├── docs/               # Intro, components list, installation guide, /tokens
 │   │   └── registry/[name]/    # Component detail page (API docs, source, demos)
 │   └── demo/[name]/            # Isolated demo pages rendered in iframes
 │       └── ui/                 # Per-component demo files
@@ -96,7 +99,7 @@ src/
 │   ├── ui/icon.tsx             # Material Symbols Sharp (variable font)
 │   └── registry/               # Registry site UI (navbar, sidebar, API reference, etc.)
 ├── hooks/                      # Shared React hooks
-├── lib/                        # Utils, registry helpers, source extraction
+├── lib/                        # Utils, registry helpers, tokens.ts, source extraction
 └── styles/
     └── globals.css             # Tailwind + QBDS theme tokens
 scripts/
@@ -117,21 +120,30 @@ registry.json                   # Source of truth for all registered components
 
 ## Tokens
 
-See [docs/TOKENS.md](docs/TOKENS.md) for the catalogue — CSS variable, Tailwind utility, usage, and **Design name** for each QBDS token. The registry **`/tokens`** page is generated from that file + [`src/styles/globals.css`](src/styles/globals.css).
+[docs/TOKENS.md](docs/TOKENS.md) lists every token: CSS variable, Tailwind class, when to use it, and the matching Figma name.
+
+The **`/tokens`** page on the registry site is built from that file plus [`src/styles/globals.css`](src/styles/globals.css) ([`src/lib/tokens.ts`](src/lib/tokens.ts) ties them together at build time). There is no separate hand-maintained colour list.
 
 ### Syncing from Figma
 
-When QBDS variables change, keep **`globals.css`** (values) and **`docs/TOKENS.md`** (catalogue) aligned with [QBDS v2.0.0](https://www.figma.com/design/iuMWqCsIohoKAUB0tBS0xr/QBDS-v2.0.0) (file key `iuMWqCsIohoKAUB0tBS0xr`):
+When variables change in design, update **`globals.css`** (the actual values) and **`docs/TOKENS.md`** (the catalogue). Source of truth in Figma: [QBDS v2.0.0](https://www.figma.com/design/iuMWqCsIohoKAUB0tBS0xr/QBDS-v2.0.0) (file key `iuMWqCsIohoKAUB0tBS0xr`).
 
-| Figma collection | Maps to in code |
-| ---------------- | --------------- |
-| **DS_Themes** Light / Dark | `:root` / `.dark` semantics |
-| **DS-Primitives** | `@theme inline` hex (`--mist-*`, `--slate-*`, …) |
-| **Radius** Sharp / Round | `--rad-*`, `.radius-mode` |
+| Figma collection | Where it lives in code |
+| ---------------- | --------------------- |
+| **DS-Primitives** | Hex colours in `@theme inline` — mist, slate, status palettes (red through sky), brand accents. Each step has a `--color-*` bridge for Tailwind (e.g. `--green-700` → `--color-green-700`). |
+| **DS_Themes** (Light / Dark) | Semantic tokens in `:root` and `.dark` — e.g. `--text-success` points at a primitive. In Figma, `Text/Success` might use `green/700`; in CSS that becomes `var(--color-green-700)`. |
+| **Radius** (Sharp / Round) | `--rad-*` and `.radius-mode` |
 
-Set `FIGMA_ACCESS_TOKEN` in `.env`, then `GET https://api.figma.com/v1/files/iuMWqCsIohoKAUB0tBS0xr/variables/local`, or use Figma MCP `use_figma` on the same file key. Copy exact Figma names into the TOKENS.md **Design name** column; CSS uses kebab-case (`Text/Primary` → `--text-primary`). Store primitives as hex.
+Figma names use slashes (`Text/Primary`, `green/700`). CSS uses kebab-case (`--text-primary`, `--green-700`). Keep the Figma name in the **Design name** column in `TOKENS.md`.
 
-Verify with `npx vitest run src/tests/tokens-from-docs.test.ts` and the `/tokens` page on the dev server.
+To pull values out of Figma, add `FIGMA_ACCESS_TOKEN` to `.env` and use the [local variables API](https://www.figma.com/developers/api#get-local-variables-endpoint) (`GET …/files/iuMWqCsIohoKAUB0tBS0xr/variables/local`) or the Figma MCP tools on the same file. Put primitive colours in as hex inside `@theme inline`.
+
+When you are done editing:
+
+```bash
+npm run tokens:check
+npm run dev    # open /tokens and check the swatches
+```
 
 ## Icons
 

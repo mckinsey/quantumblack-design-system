@@ -200,11 +200,8 @@ export default function TokensPage() {
               Design Tokens
             </h1>
             <p className="paragraph-large-primary text-fg-secondary">
-              Loaded from <code className="font-mono">docs/TOKENS.md</code> and{' '}
-              <code className="font-mono">globals.css</code> at dev/build time (
-              <code className="font-mono">*-inverse</code> rows hidden here). Edit
-              those files, run <code className="font-mono">npm run tokens:check</code>,
-              then refresh.
+              Every QBDS colour in one place: the name you see in Figma, the Tailwind
+              class to paste into your code, and a preview in light and dark.
             </p>
           </div>
 
