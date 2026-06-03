@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toggle",
+  "title": "Toggle",
+  "description": "A toggle component.",
+  "dependencies": [
+    "@radix-ui/react-toggle"
+  ],
+  "registryDependencies": [
+    "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+    "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+    "https://designsystem.quantumblack.com/pr-preview/pr-59/r/button.json"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/toggle.tsx",
+      "content": "'use client';\n\nimport * as TogglePrimitive from '@radix-ui/react-toggle';\nimport * as React from 'react';\n\nimport { buttonVariants } from '@/components/ui/button';\nimport { cn } from '@/lib/utils';\n\n// Toggle reuses button variants (secondary, outline, ghost) and sizes\n// with the addition of data-[state=on]:bg-fill-active for the on state\ntype ToggleVariant = 'secondary' | 'outline' | 'ghost';\ntype ToggleSize =\n  | 'xs'\n  | 'sm'\n  | 'default'\n  | 'lg'\n  | 'icon-xs'\n  | 'icon-sm'\n  | 'icon'\n  | 'icon-lg';\n\n// Helper function to get toggle classes - reuses buttonVariants and adds on state\nfunction toggleVariants({\n  variant = 'secondary',\n  size = 'default',\n  className,\n}: {\n  variant?: ToggleVariant;\n  size?: ToggleSize;\n  className?: string;\n} = {}) {\n  return cn(\n    buttonVariants({ variant, size }),\n    'data-[state=on]:bg-fill-active data-[state=on]:text-fg-primary-inverse',\n\n    variant === 'outline' &&\n      'data-[state=on]:border-stroke-active-inverse data-[state=on]:border-2',\n\n    className,\n  );\n}\n\nfunction Toggle({\n  className,\n  variant = 'secondary',\n  size = 'default',\n  ...props\n}: React.ComponentProps<typeof TogglePrimitive.Root> & {\n  variant?: ToggleVariant;\n  size?: ToggleSize;\n}) {\n  return (\n    <TogglePrimitive.Root\n      data-slot=\"toggle\"\n      className={toggleVariants({ variant, size, className })}\n      {...props}\n    />\n  );\n}\n\nexport { Toggle, toggleVariants, type ToggleVariant, type ToggleSize };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

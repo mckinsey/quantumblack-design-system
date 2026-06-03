@@ -1,0 +1,32 @@
+[
+  {
+    "displayName": "IconShell",
+    "description": "",
+    "props": {
+      "size": {
+        "type": "\"default\" | \"sm\" | \"lg\"",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "type": {
+        "type": "\"neutral\" | \"neutral-inverse\" | \"accent\"",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "variant": {
+        "type": "\"primary\" | \"secondary\" | \"disabled\"",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "asChild": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      }
+    }
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "name": "AvatarDemo",
+    "code": "export function AvatarDemo() {\n  return (\n    <Avatar>\n      <AvatarImage src={`${basePath}/users/avatar-1.jpg`} />\n      <AvatarFallback>CN</AvatarFallback>\n    </Avatar>\n  );\n}"
+  },
+  {
+    "name": "AvatarSizes",
+    "code": "export function AvatarSizes() {\n  return <AvatarSizeRow showImage />;\n}"
+  },
+  {
+    "name": "AvatarFallbacks",
+    "code": "export function AvatarFallbacks() {\n  return <AvatarSizeRow />;\n}"
+  },
+  {
+    "name": "AvatarDisabled",
+    "code": "export function AvatarDisabled() {\n  const sizes = ['sm', undefined, 'lg'] as const;\n  return (\n    <div className=\"flex items-center gap-4\">\n      {sizes.map((size, i) => (\n        <Avatar key={i} disabled size={size ?? undefined}>\n          <AvatarFallback>CN</AvatarFallback>\n        </Avatar>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "AvatarWithTooltip",
+    "code": "export function AvatarWithTooltip() {\n  const items = [\n    { size: 'sm' as const, showImage: true, tooltip: 'Cool person' },\n    { size: undefined, showImage: false, tooltip: 'Chuck Norris' },\n    { size: 'lg' as const, showImage: true, tooltip: 'Cool person' },\n  ];\n  return (\n    <div className=\"flex items-center gap-4\">\n      {items.map((item, i) => (\n        <Tooltip key={i}>\n          <TooltipTrigger asChild>\n            <Avatar size={item.size}>\n              {item.showImage && <AvatarImage src={AVATAR_IMG} />}\n              <AvatarFallback>CN</AvatarFallback>\n            </Avatar>\n          </TooltipTrigger>\n          <TooltipContent>{item.tooltip}</TooltipContent>\n        </Tooltip>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "AvatarWithCount",
+    "code": "export function AvatarWithCount() {\n  const items = [\n    { avatarSize: undefined, badgeSize: 'sm' as const },\n    { avatarSize: 'lg' as const, badgeSize: 'default' as const },\n    { avatarSize: 'xl' as const, badgeSize: 'lg' as const },\n  ];\n  return (\n    <div className=\"flex items-center gap-6\">\n      {items.map((item, i) => (\n        <div key={i} className=\"relative\">\n          <Avatar size={item.avatarSize}>\n            <AvatarImage src={AVATAR_IMG} />\n            <AvatarFallback>CN</AvatarFallback>\n          </Avatar>\n          <NumericBadge\n            variant=\"primary\"\n            size={item.badgeSize}\n            className=\"absolute -top-1 -right-1 font-mono tabular-nums\">\n            9\n          </NumericBadge>\n        </div>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "AvatarWithStatus",
+    "code": "export function AvatarWithStatus() {\n  const sizes = ['sm', undefined, 'lg', 'xl'] as const;\n  return (\n    <div className=\"flex items-center gap-6\">\n      {sizes.map((size, i) => (\n        <div key={i} className=\"relative\">\n          <Avatar size={size ?? undefined}>\n            <AvatarImage src={AVATAR_IMG} />\n            <AvatarFallback>CN</AvatarFallback>\n          </Avatar>\n          <StatusBadge\n            variant=\"success\"\n            size={size ?? 'default'}\n            className=\"absolute -right-0.5 -bottom-0.5\"\n          />\n        </div>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "AvatarGroupStacked",
+    "code": "export function AvatarGroupStacked() {\n  return (\n    <AvatarGroup>\n      <Avatar>\n        <AvatarImage src={`${basePath}/users/avatar-4.jpg`} alt=\"@shadcn\" />\n        <AvatarFallback>CN</AvatarFallback>\n      </Avatar>\n      <Avatar>\n        <AvatarImage src={`${basePath}/users/avatar-5.jpg`} alt=\"@maxleiter\" />\n        <AvatarFallback>LR</AvatarFallback>\n      </Avatar>\n      <Avatar>\n        <AvatarImage src={`${basePath}/users/avatar-6.jpg`} alt=\"@evilrabbit\" />\n        <AvatarFallback>ER</AvatarFallback>\n      </Avatar>\n      <AvatarGroupCount>+3</AvatarGroupCount>\n    </AvatarGroup>\n  );\n}"
+  },
+  {
+    "name": "AvatarCheckboxList",
+    "code": "export function AvatarCheckboxList() {\n  return (\n    <div className=\"grid grid-cols-2 items-start gap-8\">\n      {LIST_SIZES.map(size => (\n        <div key={size} className={`flex flex-col ${listWidth[size]}`}>\n          {USERS.map(user => (\n            <AvatarListItem\n              key={user.id}\n              user={user}\n              size={size}\n              className={checkboxRowClass[size]}\n              leading={<Checkbox size={checkboxSize[size]} />}\n            />\n          ))}\n        </div>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "AvatarRadioList",
+    "code": "export function AvatarRadioList() {\n  const [selected, setSelected] = useState<Record<ListItemSize, number | null>>(\n    { xs: 1, sm: 1, default: 1, lg: 1 },\n  );\n\n  return (\n    <div className=\"grid grid-cols-2 items-start gap-8\">\n      {LIST_SIZES.map(size => (\n        <div key={size} className={`flex flex-col ${listWidth[size]}`}>\n          {USERS.map(user => (\n            <AvatarListItem\n              key={user.id}\n              user={user}\n              size={size}\n              className={radioRowClass[size]}\n              onClick={() =>\n                setSelected(prev => ({ ...prev, [size]: user.id }))\n              }\n              trailing={\n                selected[size] === user.id ? (\n                  <Icon\n                    icon=\"check\"\n                    className={`text-fill-active shrink-0 ${checkIconSize[size]}`}\n                  />\n                ) : undefined\n              }\n            />\n          ))}\n        </div>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "AvatarPickerSingle",
+    "code": "export function AvatarPickerSingle() {\n  const [value, setValue] = useState<string>('');\n\n  const selectedUser = PICKER_USERS.find(u => String(u.id) === value);\n\n  return (\n    <Select\n      items={pickerItems}\n      value={value}\n      onValueChange={v => setValue(v as string)}>\n      <SelectTrigger className=\"w-[280px]\">\n        <SelectValue placeholder=\"Select a person\">\n          {selectedUser ? (\n            <span className=\"flex items-center gap-2\">\n              <Avatar size=\"xs\">\n                <AvatarImage src={selectedUser.avatar} />\n                <AvatarFallback>{initials(selectedUser.name)}</AvatarFallback>\n              </Avatar>\n              <span className=\"truncate\">{selectedUser.name}</span>\n            </span>\n          ) : null}\n        </SelectValue>\n      </SelectTrigger>\n\n      <SelectContent>\n        {PICKER_USERS.map(user => (\n          <SelectItem key={user.id} value={String(user.id)}>\n            <Avatar size=\"sm\">\n              <AvatarImage src={user.avatar} />\n              <AvatarFallback>{initials(user.name)}</AvatarFallback>\n            </Avatar>\n\n            <SelectItemText>{user.name}</SelectItemText>\n\n            <SelectItemIndicator>\n              <Icon icon=\"check\" className=\"size-4\" />\n            </SelectItemIndicator>\n          </SelectItem>\n        ))}\n      </SelectContent>\n    </Select>\n  );\n}"
+  },
+  {
+    "name": "AvatarPickerMultiple",
+    "code": "export function AvatarPickerMultiple() {\n  const [value, setValue] = useState<string[]>([]);\n\n  return (\n    <Select\n      multiple\n      items={pickerItems}\n      value={value}\n      onValueChange={v => setValue(v as string[])}>\n      <SelectTrigger className=\"w-[280px]\">\n        <SelectValue placeholder=\"Select people\">\n          {value.length > 0 ? (\n            <span className=\"flex items-center gap-2\">\n              <Tag\n                variant=\"secondary\"\n                size=\"xs\"\n                pill\n                onRemove={e => {\n                  e.stopPropagation();\n                  setValue([]);\n                }}>\n                <span className=\"pl-1\">{value.length}</span>\n              </Tag>\n              <span className=\"truncate\">people selected</span>\n            </span>\n          ) : null}\n        </SelectValue>\n      </SelectTrigger>\n\n      <SelectContent>\n        {PICKER_USERS.map(user => (\n          <SelectItem key={user.id} value={String(user.id)}>\n            <Checkbox\n              size=\"default\"\n              checked={value.includes(String(user.id))}\n              onCheckedChange={() => {}}\n              tabIndex={-1}\n              className=\"pointer-events-none\"\n            />\n\n            <Avatar size=\"sm\">\n              <AvatarImage src={user.avatar} />\n              <AvatarFallback>{initials(user.name)}</AvatarFallback>\n            </Avatar>\n\n            <SelectItemText>{user.name}</SelectItemText>\n          </SelectItem>\n        ))}\n      </SelectContent>\n    </Select>\n  );\n}"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "name": "SegmentedControlsDemo",
+    "code": "export function SegmentedControlsDemo() {\n  return (\n    <SegmentedControls defaultValue=\"week\">\n      <SegmentedControlsItem value=\"day\">Day</SegmentedControlsItem>\n      <SegmentedControlsItem value=\"week\">Week</SegmentedControlsItem>\n      <SegmentedControlsItem value=\"month\">Month</SegmentedControlsItem>\n    </SegmentedControls>\n  );\n}"
+  },
+  {
+    "name": "SegmentedControlsTypes",
+    "code": "export function SegmentedControlsTypes() {\n  return (\n    <div className=\"flex flex-col gap-4\">\n      <SegmentedControls defaultValue=\"week\" type=\"secondary-filled\">\n        <SegmentedControlsItem value=\"day\">Day</SegmentedControlsItem>\n        <SegmentedControlsItem value=\"week\">Week</SegmentedControlsItem>\n        <SegmentedControlsItem value=\"month\">Month</SegmentedControlsItem>\n      </SegmentedControls>\n\n      <SegmentedControls defaultValue=\"week\" type=\"ghost\">\n        <SegmentedControlsItem value=\"day\">Day</SegmentedControlsItem>\n        <SegmentedControlsItem value=\"week\">Week</SegmentedControlsItem>\n        <SegmentedControlsItem value=\"month\">Month</SegmentedControlsItem>\n      </SegmentedControls>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "SegmentedControlsGhost",
+    "code": "export function SegmentedControlsGhost() {\n  return (\n    <SegmentedControls defaultValue=\"week\" type=\"ghost\">\n      <SegmentedControlsItem value=\"day\">Day</SegmentedControlsItem>\n      <SegmentedControlsItem value=\"week\">Week</SegmentedControlsItem>\n      <SegmentedControlsItem value=\"month\">Month</SegmentedControlsItem>\n    </SegmentedControls>\n  );\n}"
+  },
+  {
+    "name": "SegmentedControlsSizes",
+    "code": "export function SegmentedControlsSizes() {\n  return (\n    <div className=\"flex flex-col items-start gap-4\">\n      <SegmentedControls defaultValue=\"week\" size=\"reg\">\n        <SegmentedControlsItem value=\"day\">Day</SegmentedControlsItem>\n        <SegmentedControlsItem value=\"week\">Week</SegmentedControlsItem>\n        <SegmentedControlsItem value=\"month\">Month</SegmentedControlsItem>\n      </SegmentedControls>\n\n      <SegmentedControls defaultValue=\"week\" size=\"sm\">\n        <SegmentedControlsItem value=\"day\">Day</SegmentedControlsItem>\n        <SegmentedControlsItem value=\"week\">Week</SegmentedControlsItem>\n        <SegmentedControlsItem value=\"month\">Month</SegmentedControlsItem>\n      </SegmentedControls>\n\n      <SegmentedControls defaultValue=\"week\" size=\"xsm\">\n        <SegmentedControlsItem value=\"day\">Day</SegmentedControlsItem>\n        <SegmentedControlsItem value=\"week\">Week</SegmentedControlsItem>\n        <SegmentedControlsItem value=\"month\">Month</SegmentedControlsItem>\n      </SegmentedControls>\n\n      <SegmentedControls defaultValue=\"week\" size=\"xxs\">\n        <SegmentedControlsItem value=\"day\">Day</SegmentedControlsItem>\n        <SegmentedControlsItem value=\"week\">Week</SegmentedControlsItem>\n        <SegmentedControlsItem value=\"month\">Month</SegmentedControlsItem>\n      </SegmentedControls>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "SegmentedControlsIconOnly",
+    "code": "export function SegmentedControlsIconOnly() {\n  return (\n    <SegmentedControls defaultValue=\"left\">\n      <SegmentedControlsItem aria-label=\"Align left\" value=\"left\">\n        <IconShell size=\"sm\">\n          <Icon icon=\"format_align_left\" />\n        </IconShell>\n      </SegmentedControlsItem>\n\n      <SegmentedControlsItem aria-label=\"Align center\" value=\"center\">\n        <IconShell size=\"sm\">\n          <Icon icon=\"format_align_center\" />\n        </IconShell>\n      </SegmentedControlsItem>\n\n      <SegmentedControlsItem aria-label=\"Align right\" value=\"right\">\n        <IconShell size=\"sm\">\n          <Icon icon=\"format_align_right\" />\n        </IconShell>\n      </SegmentedControlsItem>\n    </SegmentedControls>\n  );\n}"
+  },
+  {
+    "name": "SegmentedControlsDisabled",
+    "code": "export function SegmentedControlsDisabled() {\n  return (\n    <SegmentedControls defaultValue=\"day\">\n      <SegmentedControlsItem value=\"day\">Day</SegmentedControlsItem>\n      <SegmentedControlsItem value=\"week\">Week</SegmentedControlsItem>\n      <SegmentedControlsItem disabled value=\"month\">\n        Month\n      </SegmentedControlsItem>\n    </SegmentedControls>\n  );\n}"
+  }
+]

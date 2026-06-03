@@ -1,0 +1,22 @@
+[
+  {
+    "name": "SwitchDemo",
+    "code": "export function SwitchDemo() {\n  return (\n    <div className=\"flex items-center space-x-2\">\n      <Switch id=\"airplane-mode\" />\n      <Label htmlFor=\"airplane-mode\">Airplane Mode</Label>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "SwitchSizes",
+    "code": "export function SwitchSizes() {\n  return (\n    <div className=\"space-y-4\">\n      <div className=\"flex items-center space-x-2\">\n        <Switch id=\"switch-sm\" size=\"sm\" />\n        <Label htmlFor=\"switch-sm\" size=\"sm\">\n          Small\n        </Label>\n      </div>\n      <div className=\"flex items-center space-x-2\">\n        <Switch id=\"switch-default\" size=\"default\" />\n        <Label htmlFor=\"switch-default\">Default</Label>\n      </div>\n      <div className=\"flex items-center space-x-2\">\n        <Switch id=\"switch-lg\" size=\"lg\" />\n        <Label htmlFor=\"switch-lg\" size=\"lg\">\n          Large\n        </Label>\n      </div>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "SwitchChecked",
+    "code": "export function SwitchChecked() {\n  return (\n    <div className=\"space-y-4\">\n      <div className=\"flex items-center space-x-2\">\n        <Switch id=\"checked-sm\" size=\"sm\" checked />\n        <Label htmlFor=\"checked-sm\" size=\"sm\">\n          Small Checked\n        </Label>\n      </div>\n      <div className=\"flex items-center space-x-2\">\n        <Switch id=\"checked-default\" size=\"default\" checked />\n        <Label htmlFor=\"checked-default\">Default Checked</Label>\n      </div>\n      <div className=\"flex items-center space-x-2\">\n        <Switch id=\"checked-lg\" size=\"lg\" checked />\n        <Label htmlFor=\"checked-lg\" size=\"lg\">\n          Large Checked\n        </Label>\n      </div>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "SwitchDisabled",
+    "code": "export function SwitchDisabled() {\n  return (\n    <div className=\"space-y-4\">\n      <div className=\"flex items-center space-x-2\">\n        <Switch id=\"disabled-off\" disabled />\n        <Label htmlFor=\"disabled-off\" disabled>\n          Disabled Off\n        </Label>\n      </div>\n      <div className=\"flex items-center space-x-2\">\n        <Switch id=\"disabled-on\" disabled checked />\n        <Label htmlFor=\"disabled-on\" disabled>\n          Disabled On\n        </Label>\n      </div>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "SwitchStates",
+    "code": "export function SwitchStates() {\n  return (\n    <div className=\"grid grid-cols-2 gap-x-10 gap-y-8\">\n      <div className=\"space-y-4\">\n        <Label className=\"text-fg-secondary text-xs\">Unchecked</Label>\n        <div className=\"flex flex-col items-start gap-3\">\n          <div>\n            <Switch size=\"sm\" />\n          </div>\n          <div>\n            <Switch size=\"default\" />\n          </div>\n          <div>\n            <Switch size=\"lg\" />\n          </div>\n        </div>\n      </div>\n      <div className=\"space-y-4\">\n        <Label className=\"text-fg-secondary text-xs\">Checked</Label>\n        <div className=\"flex flex-col items-start gap-3\">\n          <div>\n            <Switch size=\"sm\" checked />\n          </div>\n          <div>\n            <Switch size=\"default\" checked />\n          </div>\n          <div>\n            <Switch size=\"lg\" checked />\n          </div>\n        </div>\n      </div>\n      <div className=\"space-y-4\">\n        <Label className=\"text-fg-secondary text-xs\">Disabled Off</Label>\n        <div className=\"flex flex-col items-start gap-3\">\n          <div>\n            <Switch size=\"sm\" disabled />\n          </div>\n          <div>\n            <Switch size=\"default\" disabled />\n          </div>\n          <div>\n            <Switch size=\"lg\" disabled />\n          </div>\n        </div>\n      </div>\n      <div className=\"space-y-4\">\n        <Label className=\"text-fg-secondary text-xs\">Disabled On</Label>\n        <div className=\"flex flex-col items-start gap-3\">\n          <div>\n            <Switch size=\"sm\" disabled checked />\n          </div>\n          <div>\n            <Switch size=\"default\" disabled checked />\n          </div>\n          <div>\n            <Switch size=\"lg\" disabled checked />\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n}"
+  }
+]

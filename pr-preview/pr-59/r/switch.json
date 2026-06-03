@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "switch",
+  "title": "Switch",
+  "description": "A switch component.",
+  "dependencies": [
+    "@radix-ui/react-switch",
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+    "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/switch.tsx",
+      "content": "'use client';\n\nimport * as SwitchPrimitive from '@radix-ui/react-switch';\nimport { type VariantProps, cva } from 'class-variance-authority';\nimport * as React from 'react';\n\nimport { cn } from '@/lib/utils';\n\nconst switchVariants = cva(\n  [\n    'group inline-flex shrink-0 items-center relative',\n    'border border-stroke-secondary data-[state=checked]:border-stroke-primary-inverse',\n    'transition-all',\n    'bg-fill-muted data-[state=checked]:bg-fill-primary',\n    'focus-visible:outline-[2px] focus-visible:outline-stroke-status-focus',\n    'focus-visible:border-stroke-active',\n    'data-[state=checked]:focus-visible:border-stroke-active-inverse data-[state=checked]:focus-visible:bg-fill-active',\n    'disabled:cursor-not-allowed',\n    'disabled:border-stroke-tertiary disabled:data-[state=checked]:border-stroke-tertiary',\n    'disabled:data-[state=checked]:bg-fill-muted',\n  ].join(' '),\n  {\n    variants: {\n      size: {\n        sm: 'w-6 h-3 rounded-full border-[0.5px]',\n        default: 'w-8 h-4 rounded-full border',\n        lg: 'w-10 h-5 rounded-full border',\n      },\n    },\n    defaultVariants: {\n      size: 'default',\n    },\n  },\n);\n\nconst switchThumbVariants = cva(\n  [\n    'block pointer-events-none rounded-full',\n    'bg-fill-secondary data-[state=checked]:bg-fill-active-inverse',\n    'data-[state=unchecked]:translate-x-0.5',\n    'ring-0 transition-transform',\n    'data-disabled:bg-fill-disabled data-disabled:cursor-not-allowed data-disabled:data-[state=checked]:bg-fill-disabled',\n  ].join(' '),\n  {\n    variants: {\n      size: {\n        sm: 'size-2 data-[state=checked]:translate-x-3.5',\n        default: 'size-2.5 data-[state=checked]:translate-x-4.75',\n        lg: 'size-3.5 data-[state=checked]:translate-x-5.75',\n      },\n    },\n    defaultVariants: {\n      size: 'default',\n    },\n  },\n);\n\n/**\n * Component to render a switch\n * @param className - The class name to apply to the switch\n * @param size - The size of the switch: 'sm', 'default', or 'lg'\n * @param props - Additional props to pass to the switch\n * @returns A React component\n */\nfunction Switch({\n  className,\n  size,\n  ...props\n}: React.ComponentProps<typeof SwitchPrimitive.Root> &\n  VariantProps<typeof switchVariants>) {\n  return (\n    <SwitchPrimitive.Root\n      data-slot=\"switch\"\n      className={cn(switchVariants({ size }), className)}\n      {...props}>\n      <SwitchPrimitive.Thumb\n        data-slot=\"switch-thumb\"\n        className={cn(switchThumbVariants({ size }))}\n      />\n      {size === 'lg' && (\n        <span\n          className={cn(\n            'block size-1 rounded-full',\n            'absolute top-1/2 right-1 -translate-y-1/2',\n            'border-stroke-secondary border-[0.5px]',\n            'group-data-[state=checked]:hidden',\n            'group-focus-visible:border-stroke-active',\n            'group-disabled:border-stroke-tertiary',\n          )}\n        />\n      )}\n    </SwitchPrimitive.Root>\n  );\n}\n\nexport { Switch, switchVariants };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

@@ -1,0 +1,73 @@
+[
+  {
+    "displayName": "Field",
+    "description": "",
+    "props": {
+      "orientation": {
+        "type": "\"vertical\" | \"horizontal\" | \"responsive\"",
+        "defaultValue": "vertical",
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "FieldLabel",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "FieldDescription",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "FieldError",
+    "description": "",
+    "props": {
+      "errors": {
+        "type": "{ message?: string; }[]",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "FieldGroup",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "FieldLegend",
+    "description": "",
+    "props": {
+      "variant": {
+        "type": "\"label\" | \"legend\"",
+        "defaultValue": "legend",
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "FieldSeparator",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "FieldSet",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "FieldContent",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "FieldTitle",
+    "description": "",
+    "props": {}
+  }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "displayName": "TagToggle",
+    "description": "",
+    "props": {
+      "variant": {
+        "type": "TagToggleVariant",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      },
+      "size": {
+        "type": "TagToggleSize",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      },
+      "pill": {
+        "type": "any",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "tagToggleClasses",
+    "description": "",
+    "props": {
+      "variant": {
+        "type": "TagToggleVariant",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      },
+      "size": {
+        "type": "TagToggleSize",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      },
+      "pill": {
+        "type": "any",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "className": {
+        "type": "string",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  }
+]

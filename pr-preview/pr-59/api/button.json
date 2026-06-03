@@ -1,0 +1,31 @@
+[
+  {
+    "displayName": "Button",
+    "description": "Button component that allows users to take actions with a single click or tap.",
+    "props": {
+      "asChild": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "Render as a child component using Radix Slot.\nWhen true, the button will merge its props with its immediate child element.",
+        "required": false
+      },
+      "size": {
+        "type": "\"default\" | \"xxs\" | \"xs\" | \"sm\" | \"lg\" | \"icon-xs\" | \"icon-sm\" | \"icon\" | \"icon-lg\"",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "variant": {
+        "type": "\"default\" | \"accent\" | \"secondary\" | \"outline\" | \"ghost\"",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "wrapTextNodes",
+    "description": "",
+    "props": {}
+  }
+]

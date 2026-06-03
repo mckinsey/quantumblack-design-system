@@ -1,0 +1,26 @@
+[
+  {
+    "name": "EmptyDemo",
+    "code": "export function EmptyDemo() {\n  return (\n    <Empty>\n      <EmptyIconHeader\n        mediaVariant=\"default\"\n        icon={\n          <Icon icon=\"crop_free\" className=\"text-fg-secondary text-[48px]\" />\n        }\n        title=\"No results found\"\n        description=\"We couldn't find any items matching your search.\"\n      />\n    </Empty>\n  );\n}"
+  },
+  {
+    "name": "EmptyWithIcon",
+    "code": "export function EmptyWithIcon() {\n  return (\n    <Empty className=\"border-stroke-tertiary border\">\n      <EmptyIconHeader\n        icon={<Icon icon=\"mail\" className=\"text-fg-secondary\" />}\n        title=\"No messages\"\n        description=\"You don't have any messages yet. Start a conversation to get going.\"\n      />\n    </Empty>\n  );\n}"
+  },
+  {
+    "name": "EmptyWithAction",
+    "code": "export function EmptyWithAction() {\n  return (\n    <Empty>\n      <EmptyIconHeader\n        icon={<Icon icon=\"layers\" className=\"text-fg-secondary\" />}\n        title=\"No projects yet\"\n        description=\"Get started by creating your first project.\"\n      />\n      <EmptyContent>\n        <Button>Create Project</Button>\n      </EmptyContent>\n    </Empty>\n  );\n}"
+  },
+  {
+    "name": "EmptyWithMultipleActions",
+    "code": "export function EmptyWithMultipleActions() {\n  return (\n    <Empty className=\"border-stroke-tertiary border border-dashed\">\n      <EmptyIconHeader\n        icon={<Icon icon=\"key\" className=\"text-fg-secondary\" />}\n        title=\"No API keys\"\n        description=\"Create an API key to start integrating with our platform.\"\n      />\n      <EmptyContent>\n        <div className=\"flex gap-2\">\n          <Button>Generate API Key</Button>\n          <Button variant=\"secondary\">View Docs</Button>\n        </div>\n      </EmptyContent>\n    </Empty>\n  );\n}"
+  },
+  {
+    "name": "EmptyError",
+    "code": "export function EmptyError() {\n  return (\n    <Empty>\n      <EmptyIconHeader\n        icon={<Icon icon=\"error\" className=\"text-status-error\" />}\n        title=\"Something went wrong\"\n        description=\"We encountered an error loading your content. Please try again.\"\n      />\n      <EmptyContent>\n        <Button variant=\"secondary\">Retry</Button>\n      </EmptyContent>\n    </Empty>\n  );\n}"
+  },
+  {
+    "name": "EmptyCompact",
+    "code": "export function EmptyCompact() {\n  return (\n    <Empty className=\"min-h-0 p-8\">\n      <EmptyHeader>\n        <EmptyTitle>No items</EmptyTitle>\n        <EmptyDescription className=\"text-xs\">\n          There are no items to display.\n        </EmptyDescription>\n      </EmptyHeader>\n    </Empty>\n  );\n}"
+  }
+]

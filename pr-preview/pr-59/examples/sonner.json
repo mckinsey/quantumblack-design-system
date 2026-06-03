@@ -1,0 +1,38 @@
+[
+  {
+    "name": "SonnerDemo",
+    "code": "export function SonnerDemo() {\n  return (\n    <ToastTrigger\n      type=\"default\"\n      message=\"Your message has been sent\"\n      label=\"Show Toast\"\n    />\n  );\n}"
+  },
+  {
+    "name": "SonnerSuccess",
+    "code": "export function SonnerSuccess() {\n  return (\n    <ToastTrigger\n      type=\"success\"\n      message=\"Event has been created successfully\"\n      label=\"Show Success Toast\"\n    />\n  );\n}"
+  },
+  {
+    "name": "SonnerError",
+    "code": "export function SonnerError() {\n  return (\n    <ToastTrigger\n      type=\"error\"\n      message=\"Something went wrong. Please try again.\"\n      label=\"Show Error Toast\"\n    />\n  );\n}"
+  },
+  {
+    "name": "SonnerWarning",
+    "code": "export function SonnerWarning() {\n  return (\n    <ToastTrigger\n      type=\"warning\"\n      message=\"Please review your changes before proceeding\"\n      label=\"Show Warning Toast\"\n    />\n  );\n}"
+  },
+  {
+    "name": "SonnerInfo",
+    "code": "export function SonnerInfo() {\n  return (\n    <ToastTrigger\n      type=\"info\"\n      message=\"A new version is available\"\n      label=\"Show Info Toast\"\n    />\n  );\n}"
+  },
+  {
+    "name": "SonnerVariants",
+    "code": "export function SonnerVariants() {\n  return (\n    <div className=\"flex flex-wrap gap-3\">\n      {toastVariants.map(v => (\n        <ToastTrigger\n          key={v.type}\n          type={v.type}\n          message={v.message}\n          label={v.label}\n        />\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "SonnerWithAction",
+    "code": "export function SonnerWithAction() {\n  const showToastWithAction = () => {\n    const toastId = toast.success('Event has been created', {\n      action: (\n        <Button\n          variant=\"ghost\"\n          size=\"sm\"\n          onClick={() => {\n            console.log('Undo clicked');\n            sonnerToast.dismiss(toastId);\n          }}\n          className=\"underline\">\n          Undo\n        </Button>\n      ),\n      duration: 10000,\n    });\n  };\n\n  return (\n    <Button variant=\"outline\" onClick={showToastWithAction}>\n      Toast with Action\n    </Button>\n  );\n}"
+  },
+  {
+    "name": "SonnerCustom",
+    "code": "export function SonnerCustom() {\n  return (\n    <Button\n      variant=\"outline\"\n      onClick={() => sonnerToast.custom(id => <CustomToast id={id} />)}>\n      Show Custom Toast\n    </Button>\n  );\n}"
+  },
+  {
+    "name": "SonnerPersistent",
+    "code": "export function SonnerPersistent() {\n  return (\n    <div className=\"flex flex-wrap gap-3\">\n      <Button\n        variant=\"outline\"\n        onClick={() =>\n          toast.info('This toast stays visible', { duration: Infinity })\n        }>\n        Persistent Toast\n      </Button>\n      <Button variant=\"secondary\" onClick={() => sonnerToast.dismiss()}>\n        Dismiss All\n      </Button>\n    </div>\n  );\n}"
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "displayName": "Switch",
+    "description": "Component to render a switch",
+    "props": {
+      "size": {
+        "type": "\"default\" | \"sm\" | \"lg\"",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  }
+]

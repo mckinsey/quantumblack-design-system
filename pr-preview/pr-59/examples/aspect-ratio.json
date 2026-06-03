@@ -1,0 +1,14 @@
+[
+  {
+    "name": "AspectRatioDemo",
+    "code": "export function AspectRatioDemo() {\n  return (\n    <div className=\"min-w-[400px] p-4\">\n      <AspectRatio ratio={16 / 9}>\n        <img\n          src={dummyImage(640, 360, '16:9')}\n          alt=\"Example constrained to 16:9\"\n          className=\"h-full w-full rounded-md object-cover\"\n        />\n      </AspectRatio>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "AspectRatioLandscapeRatios",
+    "code": "export function AspectRatioLandscapeRatios() {\n  const tiles: {\n    ratio: number;\n    ratioLabel: string;\n    width: number;\n    height: number;\n  }[] = [\n    { ratio: 1, ratioLabel: '1:1', width: 500, height: 500 },\n    { ratio: 5 / 4, ratioLabel: '5:4', width: 500, height: 400 },\n    { ratio: 4 / 3, ratioLabel: '4:3', width: 400, height: 300 },\n    { ratio: 3 / 2, ratioLabel: '3:2', width: 600, height: 400 },\n    { ratio: 16 / 9, ratioLabel: '16:9', width: 640, height: 360 },\n    { ratio: 2, ratioLabel: '2:1', width: 600, height: 300 },\n  ];\n\n  return (\n    <div className=\"grid max-w-5xl min-w-[400px] grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6\">\n      {tiles.map(tile => (\n        <RatioTile\n          key={tile.ratioLabel}\n          ratio={tile.ratio}\n          ratioLabel={tile.ratioLabel}\n          orientationLabel=\"Landscape\"\n          width={tile.width}\n          height={tile.height}\n          className=\"size-[100px]\"\n        />\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "AspectRatioPortraitRatios",
+    "code": "export function AspectRatioPortraitRatios() {\n  const tiles: {\n    ratio: number;\n    ratioLabel: string;\n    width: number;\n    height: number;\n  }[] = [\n    { ratio: 1, ratioLabel: '1:1', width: 280, height: 280 },\n    { ratio: 4 / 5, ratioLabel: '4:5', width: 280, height: 350 },\n    { ratio: 3 / 4, ratioLabel: '3:4', width: 240, height: 320 },\n    { ratio: 2 / 3, ratioLabel: '2:3', width: 280, height: 420 },\n    { ratio: 9 / 16, ratioLabel: '9:16', width: 270, height: 480 },\n    { ratio: 1 / 2, ratioLabel: '1:2', width: 280, height: 560 },\n  ];\n\n  return (\n    <div className=\"grid max-w-5xl min-w-[400px] grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6\">\n      {tiles.map(tile => (\n        <RatioTile\n          key={tile.ratioLabel}\n          ratio={tile.ratio}\n          ratioLabel={tile.ratioLabel}\n          orientationLabel=\"Portrait\"\n          width={tile.width}\n          height={tile.height}\n          className=\"w-full\"\n        />\n      ))}\n    </div>\n  );\n}"
+  }
+]

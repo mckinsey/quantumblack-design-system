@@ -1,0 +1,54 @@
+[
+  {
+    "name": "IconShellDemo",
+    "code": "export function IconShellDemo() {\n  return (\n    <IconShell className=\"text-fg-primary\">\n      <Icon icon=\"crop_free\" />\n    </IconShell>\n  );\n}"
+  },
+  {
+    "name": "IconShellSizes",
+    "code": "export function IconShellSizes() {\n  return (\n    <div className=\"text-fg-primary flex items-end gap-8\">\n      {(\n        [\n          ['sm', '16px · 20dp@400'],\n          ['default', '24px · 24dp@300'],\n          ['lg', '32px · 40dp@300'],\n        ] as const\n      ).map(([size, label]) => (\n        <div key={size} className=\"flex flex-col items-center gap-2\">\n          <IconShell size={size}>\n            <Icon icon=\"search\" />\n          </IconShell>\n          <span className=\"text-fg-secondary text-xs\">{label}</span>\n        </div>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "IconShellVariants",
+    "code": "export function IconShellVariants() {\n  return (\n    <div className=\"text-fg-primary flex items-center gap-8\">\n      {(\n        [\n          ['primary', 'Primary (88%)'],\n          ['secondary', 'Secondary (60%)'],\n          ['disabled', 'Disabled (30%)'],\n        ] as const\n      ).map(([variant, label]) => (\n        <div key={variant} className=\"flex flex-col items-center gap-2\">\n          <IconShell size=\"default\" variant={variant}>\n            <Icon icon=\"info\" />\n          </IconShell>\n          <span className=\"text-fg-secondary text-xs\">{label}</span>\n        </div>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "IconShellTypes",
+    "code": "export function IconShellTypes() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-6\">\n      <div className=\"flex flex-col items-center gap-2\">\n        <IconShell size=\"default\" type=\"neutral\" className=\"text-fg-primary\">\n          <Icon icon=\"mail\" />\n        </IconShell>\n        <span className=\"text-fg-secondary text-xs\">neutral</span>\n      </div>\n      <div className=\"bg-fill-active flex flex-col items-center gap-2 rounded-lg px-6 py-4\">\n        <IconShell size=\"default\" type=\"neutral-inverse\">\n          <Icon icon=\"mail\" />\n        </IconShell>\n        <span className=\"text-fg-primary-inverse text-xs\">neutral-inverse</span>\n      </div>\n      <div className=\"flex flex-col items-center gap-2\">\n        <IconShell size=\"default\" type=\"accent\">\n          <Icon icon=\"mail\" />\n        </IconShell>\n        <span className=\"text-fg-secondary text-xs\">accent</span>\n      </div>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "IconShellAll",
+    "code": "export function IconShellAll() {\n  const sizes = ['sm', 'default', 'lg'] as const;\n  const variants = ['primary', 'secondary', 'disabled'] as const;\n\n  return (\n    <div className=\"text-fg-primary space-y-6\">\n      {sizes.map(size => (\n        <div key={size} className=\"space-y-2\">\n          <span className=\"text-fg-secondary text-xs font-medium capitalize\">\n            {size}\n          </span>\n          <div className=\"flex items-center gap-4\">\n            {variants.map(variant => (\n              <IconShell key={variant} size={size} variant={variant}>\n                <Icon icon=\"crop_free\" />\n              </IconShell>\n            ))}\n          </div>\n        </div>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "IconStandalone",
+    "code": "export function IconStandalone() {\n  return (\n    <div className=\"text-fg-primary flex items-end gap-8\">\n      {(['sm', 'default', 'lg'] as const).map(size => (\n        <div key={size} className=\"flex flex-col items-center gap-2\">\n          <Icon\n            icon=\"favorite\"\n            size={size}\n            className=\"text-brand-accents-qb-accent\"\n          />\n          <span className=\"text-fg-secondary text-xs\">{size}</span>\n        </div>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "IconCatalog",
+    "code": "export function IconCatalog() {\n  return (\n    <div className=\"text-fg-primary grid max-w-2xl grid-cols-4 gap-x-4 gap-y-6 sm:grid-cols-6 md:grid-cols-8\">\n      {CATALOG_ICONS.map(({ icon, label }) => (\n        <div key={icon} className=\"flex flex-col items-center gap-2\">\n          <IconShell size=\"default\" variant=\"secondary\">\n            <Icon icon={icon} />\n          </IconShell>\n          <span className=\"text-fg-secondary max-w-full truncate text-center font-mono text-[10px]\">\n            {label}\n          </span>\n        </div>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "IconNavigation",
+    "code": "export function IconNavigation() {\n  const icons = [\n    'chevron_left',\n    'chevron_right',\n    'keyboard_arrow_down',\n    'keyboard_arrow_up',\n    'arrow_forward',\n    'arrow_downward_alt',\n    'arrow_upward_alt',\n    'swap_vert',\n  ] as const;\n\n  return (\n    <div className=\"text-fg-primary flex flex-wrap items-center gap-6\">\n      {icons.map(icon => (\n        <div key={icon} className=\"flex flex-col items-center gap-2\">\n          <IconShell size=\"default\">\n            <Icon icon={icon} />\n          </IconShell>\n          <span className=\"text-fg-secondary font-mono text-[10px]\">\n            {icon}\n          </span>\n        </div>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "IconStatus",
+    "code": "export function IconStatus() {\n  const icons = [\n    { icon: 'check_circle', tone: 'text-status-success' },\n    { icon: 'error', tone: 'text-status-error' },\n    { icon: 'warning', tone: 'text-status-warning' },\n    { icon: 'info', tone: 'text-status-information' },\n    { icon: 'cancel', tone: 'text-fg-secondary' },\n    { icon: 'playlist_add_check', tone: 'text-status-success' },\n  ] as const;\n\n  return (\n    <div className=\"flex flex-wrap items-center gap-8\">\n      {icons.map(({ icon, tone }) => (\n        <div key={icon} className=\"flex flex-col items-center gap-2\">\n          <IconShell size=\"default\" variant=\"primary\">\n            <Icon icon={icon} className={tone} />\n          </IconShell>\n          <span className=\"text-fg-secondary font-mono text-[10px]\">\n            {icon}\n          </span>\n        </div>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "IconInButtons",
+    "code": "export function IconInButtons() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-4\">\n      <Button>\n        <IconShell size=\"sm\">\n          <Icon icon=\"add\" />\n        </IconShell>\n        Create\n      </Button>\n      <Button variant=\"secondary\">\n        Save\n        <IconShell size=\"sm\">\n          <Icon icon=\"check\" />\n        </IconShell>\n      </Button>\n      <Button variant=\"outline\">\n        <IconShell size=\"sm\">\n          <Icon icon=\"delete\" />\n        </IconShell>\n        Delete\n      </Button>\n      <Button size=\"icon\" aria-label=\"Search\">\n        <IconShell size=\"sm\">\n          <Icon icon=\"search\" />\n        </IconShell>\n      </Button>\n      <Button size=\"icon-sm\" variant=\"ghost\" aria-label=\"More options\">\n        <IconShell size=\"sm\">\n          <Icon icon=\"more_vert\" />\n        </IconShell>\n      </Button>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "IconLoading",
+    "code": "export function IconLoading() {\n  return (\n    <div className=\"text-fg-primary flex flex-wrap items-center gap-6\">\n      {(['sm', 'default', 'lg'] as const).map(size => (\n        <div key={size} className=\"flex flex-col items-center gap-2\">\n          <IconShell size={size}>\n            <Icon icon=\"progress_activity\" className=\"animate-spin\" />\n          </IconShell>\n          <span className=\"text-fg-secondary text-xs\">{size}</span>\n        </div>\n      ))}\n      <Button disabled className=\"min-w-[120px]\">\n        <IconShell size=\"sm\">\n          <Icon icon=\"progress_activity\" className=\"animate-spin\" />\n        </IconShell>\n        Loading…\n      </Button>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "IconOpticalSizing",
+    "code": "export function IconOpticalSizing() {\n  return (\n    <div className=\"text-fg-primary flex items-end gap-10\">\n      {(['sm', 'default', 'lg'] as const).map(size => (\n        <div key={size} className=\"flex flex-col items-center gap-3\">\n          <IconShell size={size} variant=\"primary\">\n            <Icon icon=\"menu\" />\n          </IconShell>\n          <div className=\"text-fg-secondary text-center text-xs\">\n            <div className=\"font-medium capitalize\">{size}</div>\n            <div className=\"font-mono text-[10px] opacity-80\">\n              {size === 'sm' && '20dp @ wght 400'}\n              {size === 'default' && '24dp @ wght 300'}\n              {size === 'lg' && '40dp @ wght 300'}\n            </div>\n          </div>\n        </div>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "IconInputAffordances",
+    "code": "export function IconInputAffordances() {\n  const icons = [\n    'search',\n    'person',\n    'mail',\n    'calendar_month',\n    'schedule',\n    'attach_money',\n    'key',\n    'backspace',\n  ] as const;\n\n  return (\n    <div className=\"text-fg-primary flex flex-wrap items-center gap-4\">\n      {icons.map(icon => (\n        <div\n          key={icon}\n          className={cn(\n            'border-border-primary bg-fill-onsurface-ui-3 flex h-10 items-center gap-2 rounded-md border px-3',\n          )}>\n          <IconShell size=\"sm\" variant=\"secondary\">\n            <Icon icon={icon} />\n          </IconShell>\n          <span className=\"text-fg-secondary text-sm\">Placeholder</span>\n        </div>\n      ))}\n    </div>\n  );\n}"
+  }
+]

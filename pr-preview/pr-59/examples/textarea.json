@@ -1,0 +1,26 @@
+[
+  {
+    "name": "TextareaDemo",
+    "code": "export function TextareaDemo() {\n  return (\n    <FieldSet className={`${demoFieldWidth} ${fieldConfig.default.gap}`}>\n      <FieldTitle className={fieldConfig.default.label}>Label</FieldTitle>\n      <Textarea size=\"default\" placeholder=\"Hint text\" />\n\n      <FieldDescription className={fieldConfig.default.description}>\n        Helper text\n      </FieldDescription>\n    </FieldSet>\n  );\n}"
+  },
+  {
+    "name": "TextareaSizes",
+    "code": "export function TextareaSizes() {\n  return (\n    <div className={`${demoFieldWidth} space-y-4`}>\n      <FieldSet className={fieldConfig.sm.gap}>\n        <FieldTitle className={fieldConfig.sm.label}>Small</FieldTitle>\n        <Textarea size=\"sm\" placeholder=\"Hint text\" />\n\n        <FieldDescription className={fieldConfig.sm.description}>\n          Helper text\n        </FieldDescription>\n      </FieldSet>\n\n      <FieldSet className={fieldConfig.default.gap}>\n        <FieldTitle className={fieldConfig.default.label}>Default</FieldTitle>\n        <Textarea size=\"default\" placeholder=\"Hint text\" />\n\n        <FieldDescription className={fieldConfig.default.description}>\n          Helper text\n        </FieldDescription>\n      </FieldSet>\n\n      <FieldSet className={fieldConfig.lg.gap}>\n        <FieldTitle className={fieldConfig.lg.label}>Large</FieldTitle>\n        <Textarea size=\"lg\" placeholder=\"Hint text\" />\n\n        <FieldDescription className={fieldConfig.lg.description}>\n          Helper text\n        </FieldDescription>\n      </FieldSet>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "TextareaStates",
+    "code": "export function TextareaStates() {\n  return (\n    <div className={`${demoFieldWidth} space-y-4`}>\n      <FieldSet className={fieldConfig.default.gap}>\n        <FieldTitle className={fieldConfig.default.label}>Filled</FieldTitle>\n        <Textarea\n          size=\"default\"\n          defaultValue=\"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\"\n        />\n\n        <FieldDescription className={fieldConfig.default.description}>\n          Helper text\n        </FieldDescription>\n      </FieldSet>\n\n      <FieldSet className={fieldConfig.default.gap}>\n        <FieldTitle className={fieldConfig.default.label}>Disabled</FieldTitle>\n        <Textarea size=\"default\" placeholder=\"Hint text\" disabled />\n\n        <FieldDescription className={fieldConfig.default.description}>\n          Helper text\n        </FieldDescription>\n      </FieldSet>\n\n      <FieldSet className={fieldConfig.default.gap}>\n        <FieldTitle className={fieldConfig.default.label}>Error</FieldTitle>\n        <Textarea\n          size=\"default\"\n          aria-invalid\n          defaultValue=\"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\"\n        />\n        <FieldError>Feedback message here</FieldError>\n      </FieldSet>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "TextareaWithCounter",
+    "code": "export function TextareaWithCounter() {\n  return (\n    <TextareaRoot maxCharacters={150} size=\"default\">\n      <FieldSet className={`${demoFieldWidth} ${fieldConfig.default.gap}`}>\n        <div className=\"flex items-center justify-between\">\n          <FieldTitle className={fieldConfig.default.label}>Bio</FieldTitle>\n          <TextareaCounter />\n        </div>\n        <Textarea size=\"default\" placeholder=\"Tell us about yourself...\" />\n\n        <FieldDescription className={fieldConfig.default.description}>\n          Write a brief description about yourself.\n        </FieldDescription>\n      </FieldSet>\n    </TextareaRoot>\n  );\n}"
+  },
+  {
+    "name": "TextareaRows",
+    "code": "export function TextareaRows() {\n  return (\n    <FieldSet className={`${demoFieldWidth} ${fieldConfig.default.gap}`}>\n      <FieldTitle className={fieldConfig.default.label}>Notes</FieldTitle>\n      <Textarea size=\"default\" rows={8} placeholder=\"Hint text\" />\n\n      <FieldDescription className={fieldConfig.default.description}>\n        Helper text\n      </FieldDescription>\n    </FieldSet>\n  );\n}"
+  },
+  {
+    "name": "TextareaError",
+    "code": "export function TextareaError() {\n  return (\n    <TextareaRoot maxCharacters={20} size=\"default\">\n      <FieldSet className={`${demoFieldWidth} ${fieldConfig.default.gap}`}>\n        <div className=\"flex items-center justify-between\">\n          <FieldTitle className={fieldConfig.default.label}>\n            Feedback\n          </FieldTitle>\n          <TextareaCounter />\n        </div>\n        <Textarea\n          size=\"default\"\n          defaultValue=\"This text is way too long for the limit of 20 characters.\"\n        />\n        <FieldError>\n          Character limit exceeded. Please shorten your text.\n        </FieldError>\n      </FieldSet>\n    </TextareaRoot>\n  );\n}"
+  }
+]

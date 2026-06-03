@@ -1,0 +1,22 @@
+[
+  {
+    "name": "TagToggleDemo",
+    "code": "export function TagToggleDemo() {\n  return (\n    <TagToggle>\n      <Icon icon=\"style\" className=\"size-4\" />\n      Label\n    </TagToggle>\n  );\n}"
+  },
+  {
+    "name": "TagToggleVariants",
+    "code": "export function TagToggleVariants() {\n  return (\n    <div className=\"flex flex-wrap gap-3\">\n      <TagToggle variant=\"default\">\n        <Icon icon=\"style\" className=\"size-4\" />\n        Default\n      </TagToggle>\n\n      <TagToggle variant=\"outline\">\n        <Icon icon=\"style\" className=\"size-4\" />\n        Outline\n      </TagToggle>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "TagTogglePill",
+    "code": "export function TagTogglePill() {\n  return (\n    <div className=\"flex flex-wrap gap-3\">\n      <TagToggle pill>\n        <Icon icon=\"style\" className=\"size-4\" />\n        Default\n      </TagToggle>\n\n      <TagToggle variant=\"outline\" pill>\n        <Icon icon=\"style\" className=\"size-4\" />\n        Outline\n      </TagToggle>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "TagToggleSizes",
+    "code": "export function TagToggleSizes() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-3\">\n      <TagToggle size=\"xs\">\n        <Icon icon=\"style\" className=\"size-4\" />\n        Extra small\n      </TagToggle>\n\n      <TagToggle size=\"sm\">\n        <Icon icon=\"style\" className=\"size-4\" />\n        Small\n      </TagToggle>\n\n      <TagToggle size=\"default\">\n        <Icon icon=\"style\" className=\"size-4\" />\n        Default\n      </TagToggle>\n\n      <TagToggle size=\"lg\">\n        <Icon icon=\"style\" className=\"size-4\" />\n        Large\n      </TagToggle>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "TagToggleDisabled",
+    "code": "export function TagToggleDisabled() {\n  return (\n    <div className=\"flex flex-wrap gap-3\">\n      <TagToggle disabled>\n        <Icon icon=\"style\" className=\"size-4\" />\n        Disabled\n      </TagToggle>\n\n      <TagToggle variant=\"outline\" disabled>\n        <Icon icon=\"style\" className=\"size-4\" />\n        Disabled\n      </TagToggle>\n\n      <TagToggle pill disabled>\n        <Icon icon=\"style\" className=\"size-4\" />\n        Disabled Pill\n      </TagToggle>\n    </div>\n  );\n}"
+  }
+]

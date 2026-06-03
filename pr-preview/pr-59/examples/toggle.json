@@ -1,0 +1,30 @@
+[
+  {
+    "name": "ToggleDemo",
+    "code": "export function ToggleDemo() {\n  return <Toggle>Toggle</Toggle>;\n}"
+  },
+  {
+    "name": "ToggleVariants",
+    "code": "export function ToggleVariants() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-3\">\n      {toggleVariants.map(v => (\n        <Toggle key={v} variant={v}>\n          {v.charAt(0).toUpperCase() + v.slice(1)}\n        </Toggle>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "ToggleSizes",
+    "code": "export function ToggleSizes() {\n  const sizes = [\n    { size: 'xs', label: 'Extra Small' },\n    { size: 'sm', label: 'Small' },\n    { size: 'default', label: 'Default' },\n    { size: 'lg', label: 'Large' },\n  ] as const;\n  return (\n    <div className=\"flex flex-wrap items-center gap-3\">\n      {sizes.map(s => (\n        <Toggle key={s.size} size={s.size}>\n          {s.label}\n        </Toggle>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "TogglePressed",
+    "code": "export function TogglePressed() {\n  return (\n    <div className=\"space-y-4\">\n      <div className=\"flex flex-wrap items-center gap-3\">\n        {toggleVariants.map(v => (\n          <Toggle key={v} variant={v}>\n            Off\n          </Toggle>\n        ))}\n      </div>\n      <div className=\"flex flex-wrap items-center gap-3\">\n        {toggleVariants.map(v => (\n          <Toggle key={v} variant={v} defaultPressed>\n            On\n          </Toggle>\n        ))}\n      </div>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "ToggleIcons",
+    "code": "export function ToggleIcons() {\n  return <IconToggleRow />;\n}"
+  },
+  {
+    "name": "ToggleIconsRound",
+    "code": "export function ToggleIconsRound() {\n  return <IconToggleRow className=\"rounded-full\" />;\n}"
+  },
+  {
+    "name": "ToggleIconSizes",
+    "code": "export function ToggleIconSizes() {\n  const sizes = [\n    { size: 'icon-xs', iconSize: 'sm' },\n    { size: 'icon-sm', iconSize: 'sm' },\n    { size: 'icon', iconSize: 'sm' },\n    { size: 'icon-lg', iconSize: 'default' },\n  ] as const;\n\n  return (\n    <div className=\"flex flex-wrap items-center gap-3\">\n      {sizes.map(({ size, iconSize }) => (\n        <Toggle key={size} variant=\"secondary\" size={size}>\n          <IconShell size={iconSize}>\n            <Icon icon=\"crop_free\" />\n          </IconShell>\n        </Toggle>\n      ))}\n    </div>\n  );\n}"
+  }
+]

@@ -1,0 +1,100 @@
+[
+  {
+    "displayName": "Combobox",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ComboboxAnchor",
+    "description": "Wrapper that provides the anchor ref for the combobox popup.\nCompose with InputGroup, ComboboxInput, ComboboxTrigger, ComboboxClear as needed.",
+    "props": {}
+  },
+  {
+    "displayName": "ComboboxInput",
+    "description": "",
+    "props": {
+      "size": {
+        "type": "\"sm\" | \"default\" | \"lg\"",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "variant": {
+        "type": "\"inline\" | \"default\"",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "ComboboxContent",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ComboboxList",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ComboboxItem",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ComboboxGroup",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ComboboxLabel",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ComboboxCollection",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ComboboxEmpty",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ComboboxSeparator",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ComboboxChips",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ComboboxChip",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ComboboxChipsInput",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ComboboxTrigger",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ComboboxClear",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ComboboxValue",
+    "description": "",
+    "props": {}
+  }
+]

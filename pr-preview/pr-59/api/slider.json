@@ -1,0 +1,32 @@
+[
+  {
+    "displayName": "Slider",
+    "description": "Component to render a slider",
+    "props": {
+      "showStepMarkers": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      "showValueTooltip": {
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      "showStepLabels": {
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      "formatValue": {
+        "type": "(value: number) => string",
+        "defaultValue": "val => val.toString()",
+        "description": "",
+        "required": false
+      }
+    }
+  }
+]

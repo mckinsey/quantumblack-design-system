@@ -1,0 +1,2051 @@
+{
+  "alert": [
+    {
+      "displayName": "Alert",
+      "description": "",
+      "props": {
+        "layout": {
+          "type": "\"modal\" | \"long\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "AlertIcon",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "AlertContent",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "AlertTitle",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "AlertDescription",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "AlertClose",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "aspect-ratio": [
+    {
+      "displayName": "AspectRatio",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "avatar": [
+    {
+      "displayName": "Avatar",
+      "description": "",
+      "props": {
+        "disabled": {
+          "type": "boolean",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "size": {
+          "type": "\"default\" | \"xxs\" | \"xs\" | \"sm\" | \"lg\" | \"xl\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "state": {
+          "type": "\"default\" | \"disabled\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "AvatarImage",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "AvatarFallback",
+      "description": "",
+      "props": {
+        "disabled": {
+          "type": "boolean",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "size": {
+          "type": "\"default\" | \"xxs\" | \"xs\" | \"sm\" | \"lg\" | \"xl\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "AvatarGroup",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "AvatarGroupCount",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "badge": [
+    {
+      "displayName": "Badge",
+      "description": "",
+      "props": {
+        "variant": {
+          "type": "\"high-emphasis\" | \"brand-accent\" | \"alternative\" | \"error\" | \"warning\" | \"success\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "size": {
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        },
+        "outline": {
+          "type": "boolean",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "asChild": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "",
+          "required": false
+        },
+        "withIcon": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "",
+          "required": false
+        },
+        "withDot": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "NumericBadge",
+      "description": "",
+      "props": {
+        "asChild": {
+          "type": "boolean",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "withIcon": {
+          "type": "boolean",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "withDot": {
+          "type": "boolean",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "variant": {
+          "type": "\"primary\" | \"secondary\" | \"accent\"",
+          "defaultValue": "primary",
+          "description": "",
+          "required": false
+        },
+        "size": {
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        },
+        "outline": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "StatusBadge",
+      "description": "",
+      "props": {
+        "variant": {
+          "type": "StatusBadgeDotVariant",
+          "defaultValue": "neutral",
+          "description": "",
+          "required": false
+        },
+        "size": {
+          "type": "StatusBadgeDotSize",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        },
+        "outline": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "",
+          "required": false
+        }
+      }
+    }
+  ],
+  "button": [
+    {
+      "displayName": "Button",
+      "description": "Button component that allows users to take actions with a single click or tap.",
+      "props": {
+        "asChild": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Render as a child component using Radix Slot.\nWhen true, the button will merge its props with its immediate child element.",
+          "required": false
+        },
+        "size": {
+          "type": "\"default\" | \"xxs\" | \"xs\" | \"sm\" | \"lg\" | \"icon-xs\" | \"icon-sm\" | \"icon\" | \"icon-lg\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "variant": {
+          "type": "\"default\" | \"accent\" | \"secondary\" | \"outline\" | \"ghost\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "wrapTextNodes",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "calendar": [
+    {
+      "displayName": "Calendar",
+      "description": "",
+      "props": {
+        "size": {
+          "type": "\"default\" | \"lg\"",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "CalendarDayButton",
+      "description": "",
+      "props": {
+        "calendarSize": {
+          "type": "\"default\" | \"lg\"",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        }
+      }
+    }
+  ],
+  "card": [
+    {
+      "displayName": "Card",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "CardHeader",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "CardFooter",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "CardTitle",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "CardAction",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "CardDescription",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "CardContent",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "checkbox": [
+    {
+      "displayName": "Checkbox",
+      "description": "Checkbox component for binary or tri-state selection.\n\nSupports checked, unchecked, and indeterminate states.\nBuilt on Radix UI Checkbox primitive for accessibility.",
+      "props": {
+        "size": {
+          "type": "\"default\" | \"lg\"",
+          "defaultValue": "default",
+          "description": "The size of the checkbox.\n- `default`: 16px visible box (20px bounding box)\n- `lg`: 20px visible box (24px bounding box)",
+          "required": false
+        },
+        "checked": {
+          "type": "boolean | \"indeterminate\"",
+          "defaultValue": null,
+          "description": "The controlled checked state. Can be true, false, or \"indeterminate\".",
+          "required": false
+        },
+        "defaultChecked": {
+          "type": "boolean | \"indeterminate\"",
+          "defaultValue": null,
+          "description": "The default checked state for uncontrolled usage.",
+          "required": false
+        }
+      }
+    }
+  ],
+  "collapsible": [
+    {
+      "displayName": "Collapsible",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "CollapsibleTrigger",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "CollapsibleContent",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "combobox": [
+    {
+      "displayName": "Combobox",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "ComboboxAnchor",
+      "description": "Wrapper that provides the anchor ref for the combobox popup.\nCompose with InputGroup, ComboboxInput, ComboboxTrigger, ComboboxClear as needed.",
+      "props": {}
+    },
+    {
+      "displayName": "ComboboxInput",
+      "description": "",
+      "props": {
+        "size": {
+          "type": "\"sm\" | \"default\" | \"lg\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "variant": {
+          "type": "\"inline\" | \"default\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "ComboboxContent",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "ComboboxList",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "ComboboxItem",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "ComboboxGroup",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "ComboboxLabel",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "ComboboxCollection",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "ComboboxEmpty",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "ComboboxSeparator",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "ComboboxChips",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "ComboboxChip",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "ComboboxChipsInput",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "ComboboxTrigger",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "ComboboxClear",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "ComboboxValue",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "dialog": [
+    {
+      "displayName": "Dialog",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "DialogClose",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "DialogContent",
+      "description": "",
+      "props": {
+        "showCloseButton": {
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "DialogDescription",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "DialogFooter",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "DialogHeader",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "DialogOverlay",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "DialogPortal",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "DialogTitle",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "DialogTrigger",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "dropdown-menu": [
+    {
+      "displayName": "DropdownMenu",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "DropdownMenuPortal",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "DropdownMenuTrigger",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "DropdownMenuContent",
+      "description": "",
+      "props": {
+        "onOpenAutoFocus": {
+          "type": "(event: Event) => void",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "DropdownMenuGroup",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "DropdownMenuLabel",
+      "description": "",
+      "props": {
+        "inset": {
+          "type": "boolean",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "DropdownMenuItem",
+      "description": "",
+      "props": {
+        "inset": {
+          "type": "boolean",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "variant": {
+          "type": "\"default\" | \"destructive\"",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "DropdownMenuCheckboxItem",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "DropdownMenuRadioGroup",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "DropdownMenuRadioItem",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "DropdownMenuSeparator",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "DropdownMenuShortcut",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "DropdownMenuSub",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "DropdownMenuSubTrigger",
+      "description": "",
+      "props": {
+        "inset": {
+          "type": "boolean",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "DropdownMenuSubContent",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "empty": [
+    {
+      "displayName": "Empty",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "EmptyHeader",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "EmptyTitle",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "EmptyDescription",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "EmptyContent",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "EmptyMedia",
+      "description": "",
+      "props": {
+        "variant": {
+          "type": "\"default\" | \"icon\"",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        }
+      }
+    }
+  ],
+  "field": [
+    {
+      "displayName": "Field",
+      "description": "",
+      "props": {
+        "orientation": {
+          "type": "\"vertical\" | \"horizontal\" | \"responsive\"",
+          "defaultValue": "vertical",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "FieldLabel",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "FieldDescription",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "FieldError",
+      "description": "",
+      "props": {
+        "errors": {
+          "type": "{ message?: string; }[]",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "FieldGroup",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "FieldLegend",
+      "description": "",
+      "props": {
+        "variant": {
+          "type": "\"label\" | \"legend\"",
+          "defaultValue": "legend",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "FieldSeparator",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "FieldSet",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "FieldContent",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "FieldTitle",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "icon-shell": [
+    {
+      "displayName": "IconShell",
+      "description": "",
+      "props": {
+        "size": {
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "type": {
+          "type": "\"neutral\" | \"neutral-inverse\" | \"accent\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "variant": {
+          "type": "\"primary\" | \"secondary\" | \"disabled\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "asChild": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "",
+          "required": false
+        }
+      }
+    }
+  ],
+  "icon": [
+    {
+      "displayName": "IconSizeContext",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "Icon",
+      "description": "",
+      "props": {
+        "icon": {
+          "type": "string",
+          "defaultValue": null,
+          "description": "",
+          "required": true
+        },
+        "size": {
+          "type": "IconSize",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "inferIconSize",
+      "description": "Match legacy SVG slots that only set Tailwind box utilities (e.g. size-4).",
+      "props": {}
+    }
+  ],
+  "input-group": [
+    {
+      "displayName": "InputGroup",
+      "description": "",
+      "props": {
+        "variant": {
+          "type": "\"default\" | \"inline\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "size": {
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "InputGroupAddon",
+      "description": "",
+      "props": {
+        "align": {
+          "type": "\"inline-start\" | \"inline-end\" | \"block-start\" | \"block-end\"",
+          "defaultValue": "inline-start",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "InputGroupButton",
+      "description": "",
+      "props": {
+        "size": {
+          "type": "\"sm\" | \"xs\" | \"icon-xxs\" | \"icon-xs\" | \"icon-sm\"",
+          "defaultValue": "xs",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "InputGroupText",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "InputGroupInput",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "InputGroupTextarea",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "input": [
+    {
+      "displayName": "Input",
+      "description": "Input component for single-line text entry.\n\nSupports text, email, password, search, and other input types.\nUse with InputGroup for inputs with icons or addons.",
+      "props": {
+        "variant": {
+          "type": "\"default\" | \"inline\"",
+          "defaultValue": "\"default\"",
+          "description": "The visual style variant of the input.\n- `default`: Standard input with background and border\n- `inline`: Transparent background with only bottom border",
+          "required": false
+        },
+        "size": {
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "defaultValue": "\"default\"",
+          "description": "The size of the input.\n- `sm`: Small (28px height)\n- `default`: Default (36px height)\n- `lg`: Large (40px height)",
+          "required": false
+        }
+      }
+    }
+  ],
+  "label": [
+    {
+      "displayName": "Label",
+      "description": "",
+      "props": {
+        "size": {
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "disabled": {
+          "type": "boolean",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    }
+  ],
+  "menubar": [
+    {
+      "displayName": "Menubar",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "MenubarPortal",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "MenubarMenu",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "MenubarTrigger",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "MenubarContent",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "MenubarGroup",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "MenubarSeparator",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "MenubarLabel",
+      "description": "",
+      "props": {
+        "inset": {
+          "type": "boolean",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "MenubarItem",
+      "description": "",
+      "props": {
+        "inset": {
+          "type": "boolean",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "variant": {
+          "type": "\"default\" | \"destructive\"",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "MenubarShortcut",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "MenubarCheckboxItem",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "MenubarRadioGroup",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "MenubarRadioItem",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "MenubarSub",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "MenubarSubTrigger",
+      "description": "",
+      "props": {
+        "inset": {
+          "type": "boolean",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "MenubarSubContent",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "popover": [
+    {
+      "displayName": "Popover",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "PopoverTrigger",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "PopoverContent",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "PopoverAnchor",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "progress": [
+    {
+      "displayName": "Progress",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "radio-group": [
+    {
+      "displayName": "RadioGroup",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "RadioGroupItem",
+      "description": "",
+      "props": {
+        "size": {
+          "type": "\"default\" | \"lg\"",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        }
+      }
+    }
+  ],
+  "scroll-area": [
+    {
+      "displayName": "ScrollArea",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "ScrollBar",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "segmented-controls": [
+    {
+      "displayName": "SegmentedControls",
+      "description": "",
+      "props": {
+        "type": {
+          "type": "SegmentedControlsType",
+          "defaultValue": "secondary-filled",
+          "description": "",
+          "required": false
+        },
+        "size": {
+          "type": "SegmentedControlsSize",
+          "defaultValue": "reg",
+          "description": "",
+          "required": false
+        },
+        "value": {
+          "type": "string",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "defaultValue": {
+          "type": "string",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "onValueChange": {
+          "type": "(value: string) => void",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "SegmentedControlsItem",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "select": [
+    {
+      "displayName": "Select",
+      "description": "Select component for choosing from a list of options.\n\nBuilt on Base UI Select primitive. Supports single and multiple selection\nvia the `multiple` prop.",
+      "props": {
+        "size": {
+          "type": "SelectSize",
+          "defaultValue": "default",
+          "description": "The size of the select and its items.",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "SelectContent",
+      "description": "",
+      "props": {
+        "className": {
+          "type": "string | (((state: SelectPositionerState) => string) & string)",
+          "defaultValue": null,
+          "description": "CSS class applied to the element, or a function that\nreturns a class based on the component’s state.",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "SelectGroup",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SelectIcon",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SelectItem",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SelectItemIndicator",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SelectItemText",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SelectLabel",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SelectScrollDownArrow",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SelectScrollUpArrow",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SelectSeparator",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SelectTrigger",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SelectValue",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "separator": [
+    {
+      "displayName": "Separator",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "sidebar": [
+    {
+      "displayName": "Sidebar",
+      "description": "",
+      "props": {
+        "side": {
+          "type": "\"left\" | \"right\"",
+          "defaultValue": "left",
+          "description": "",
+          "required": false
+        },
+        "variant": {
+          "type": "\"sidebar\" | \"floating\" | \"inset\"",
+          "defaultValue": "sidebar",
+          "description": "",
+          "required": false
+        },
+        "collapsible": {
+          "type": "\"none\" | \"offcanvas\" | \"icon\"",
+          "defaultValue": "offcanvas",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "SidebarContent",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SidebarFooter",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SidebarGroup",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SidebarGroupAction",
+      "description": "",
+      "props": {
+        "asChild": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "SidebarGroupContent",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SidebarGroupLabel",
+      "description": "",
+      "props": {
+        "asChild": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "SidebarHeader",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SidebarInput",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SidebarInset",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SidebarMenu",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SidebarMenuAction",
+      "description": "",
+      "props": {
+        "asChild": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "",
+          "required": false
+        },
+        "showOnHover": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "SidebarMenuBadge",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SidebarMenuButton",
+      "description": "",
+      "props": {
+        "asChild": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "",
+          "required": false
+        },
+        "isActive": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "",
+          "required": false
+        },
+        "tooltip": {
+          "type": "any",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "variant": {
+          "type": "\"default\" | \"outline\"",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        },
+        "size": {
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "SidebarMenuItem",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SidebarMenuSkeleton",
+      "description": "",
+      "props": {
+        "showIcon": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "SidebarMenuSub",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SidebarMenuSubButton",
+      "description": "",
+      "props": {
+        "asChild": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "",
+          "required": false
+        },
+        "size": {
+          "type": "\"sm\" | \"md\"",
+          "defaultValue": "md",
+          "description": "",
+          "required": false
+        },
+        "isActive": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "SidebarMenuSubItem",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SidebarProvider",
+      "description": "",
+      "props": {
+        "defaultOpen": {
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "",
+          "required": false
+        },
+        "open": {
+          "type": "boolean",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "onOpenChange": {
+          "type": "(open: boolean) => void",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "SidebarRail",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SidebarSeparator",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "SidebarTrigger",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "skeleton": [
+    {
+      "displayName": "Skeleton",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "slider": [
+    {
+      "displayName": "Slider",
+      "description": "Component to render a slider",
+      "props": {
+        "showStepMarkers": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "",
+          "required": false
+        },
+        "showValueTooltip": {
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "",
+          "required": false
+        },
+        "showStepLabels": {
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "",
+          "required": false
+        },
+        "formatValue": {
+          "type": "(value: number) => string",
+          "defaultValue": "val => val.toString()",
+          "description": "",
+          "required": false
+        }
+      }
+    }
+  ],
+  "sonner": [
+    {
+      "displayName": "Toaster",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "switch": [
+    {
+      "displayName": "Switch",
+      "description": "Component to render a switch",
+      "props": {
+        "size": {
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    }
+  ],
+  "table": [
+    {
+      "displayName": "Table",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "TableHeader",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "TableBody",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "TableFooter",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "TableHead",
+      "description": "",
+      "props": {
+        "size": {
+          "type": "\"small\" | \"default\"",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        },
+        "selected": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "TableRow",
+      "description": "",
+      "props": {
+        "selected": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "TableCell",
+      "description": "",
+      "props": {
+        "size": {
+          "type": "\"small\" | \"default\"",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "TableCaption",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "tabs": [
+    {
+      "displayName": "TabsRoot",
+      "description": "",
+      "props": {
+        "size": {
+          "type": "TabSize",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        },
+        "hideBaseline": {
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "",
+          "required": false
+        },
+        "padded": {
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "TabsList",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "TabsTrigger",
+      "description": "",
+      "props": {
+        "size": {
+          "type": "TabSize",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "TabsContent",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "tag-toggle": [
+    {
+      "displayName": "TagToggle",
+      "description": "",
+      "props": {
+        "variant": {
+          "type": "TagToggleVariant",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        },
+        "size": {
+          "type": "TagToggleSize",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        },
+        "pill": {
+          "type": "any",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "tagToggleClasses",
+      "description": "",
+      "props": {
+        "variant": {
+          "type": "TagToggleVariant",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        },
+        "size": {
+          "type": "TagToggleSize",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        },
+        "pill": {
+          "type": "any",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "className": {
+          "type": "string",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    }
+  ],
+  "tag": [
+    {
+      "displayName": "Tag",
+      "description": "",
+      "props": {
+        "disabled": {
+          "type": "boolean",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "onRemove": {
+          "type": "(event: MouseEvent<HTMLButtonElement, MouseEvent>) => void",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "size": {
+          "type": "\"default\" | \"xs\" | \"sm\" | \"lg\"",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        },
+        "pill": {
+          "type": "boolean",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "variant": {
+          "type": "\"primary\" | \"secondary\" | \"accent\" | \"outline\" | \"accent-outline\"",
+          "defaultValue": "primary",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "tagBaseStyles",
+      "description": "Base interaction classes shared with TagToggle (parameterised by disabled prefix)",
+      "props": {}
+    },
+    {
+      "displayName": "wrapTagText",
+      "description": "Apply the hover underline to text-bearing children — raw text/number nodes\nand plain `<span>` wrappers — while skipping design system primitives\n(anything carrying a `data-slot`, like Icon or Avatar). The parent must\nhave the `group` class for `group-hover` to take effect.",
+      "props": {}
+    }
+  ],
+  "textarea": [
+    {
+      "displayName": "Textarea",
+      "description": "",
+      "props": {
+        "variant": {
+          "type": "\"default\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "size": {
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "TextareaRoot",
+      "description": "",
+      "props": {
+        "maxCharacters": {
+          "type": "number",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "size": {
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "TextareaCounter",
+      "description": "",
+      "props": {}
+    }
+  ],
+  "time-input": [
+    {
+      "displayName": "TimeInputRoot",
+      "description": "",
+      "props": {
+        "variant": {
+          "type": "\"default\" | \"inline\"",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "size": {
+          "type": "\"default\" | \"sm\" | \"lg\"",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        },
+        "disabled": {
+          "type": "boolean",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "validationState": {
+          "type": "ValidationState",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "TimeSegmentInput",
+      "description": "",
+      "props": {
+        "onChange": {
+          "type": "(value: number) => void",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "value": {
+          "type": "number",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "min": {
+          "type": "number",
+          "defaultValue": "0",
+          "description": "",
+          "required": false
+        },
+        "max": {
+          "type": "number",
+          "defaultValue": "59",
+          "description": "",
+          "required": false
+        },
+        "step": {
+          "type": "number",
+          "defaultValue": "1",
+          "description": "",
+          "required": false
+        },
+        "onComplete": {
+          "type": "() => void",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "onNavigateLeft": {
+          "type": "() => void",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "onNavigateRight": {
+          "type": "() => void",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "TimeSeparator",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "TimeInputTrigger",
+      "description": "",
+      "props": {
+        "size": {
+          "type": "TimeInputSize",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "TimeInput",
+      "description": "",
+      "props": {
+        "variant": {
+          "type": "TimeInputVariant",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "size": {
+          "type": "TimeInputSize",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        },
+        "validationState": {
+          "type": "ValidationState",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "hour": {
+          "type": "number",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "minute": {
+          "type": "number",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "onHourChange": {
+          "type": "(hour: number) => void",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "onMinuteChange": {
+          "type": "(minute: number) => void",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "onTriggerClick": {
+          "type": "() => void",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "placeholderHour": {
+          "type": "string",
+          "defaultValue": "hh",
+          "description": "",
+          "required": false
+        },
+        "placeholderMinute": {
+          "type": "string",
+          "defaultValue": "mm",
+          "description": "",
+          "required": false
+        }
+      }
+    }
+  ],
+  "time-picker": [
+    {
+      "displayName": "TimePickerList",
+      "description": "List container for time picker items",
+      "props": {
+        "className": {
+          "type": "string",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "size": {
+          "type": "\"default\" | \"lg\"",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "TimePickerListContent",
+      "description": "DropdownMenuContent wrapper for time picker list content",
+      "props": {
+        "size": {
+          "type": "\"default\" | \"lg\"",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        },
+        "onOpenAutoFocus": {
+          "type": "(event: Event) => void",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        },
+        "onCloseAutoFocus": {
+          "type": "(event: Event) => void",
+          "defaultValue": null,
+          "description": "Event handler called when auto-focusing on close.\nCan be prevented.",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "TimePickerItem",
+      "description": "Individual time picker list item (hour or minute)",
+      "props": {
+        "size": {
+          "type": "\"default\" | \"lg\"",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        }
+      }
+    }
+  ],
+  "toggle": [
+    {
+      "displayName": "Toggle",
+      "description": "",
+      "props": {
+        "variant": {
+          "type": "ToggleVariant",
+          "defaultValue": "secondary",
+          "description": "",
+          "required": false
+        },
+        "size": {
+          "type": "ToggleSize",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        }
+      }
+    },
+    {
+      "displayName": "toggleVariants",
+      "description": "",
+      "props": {
+        "variant": {
+          "type": "ToggleVariant",
+          "defaultValue": "secondary",
+          "description": "",
+          "required": false
+        },
+        "size": {
+          "type": "ToggleSize",
+          "defaultValue": "default",
+          "description": "",
+          "required": false
+        },
+        "className": {
+          "type": "string",
+          "defaultValue": null,
+          "description": "",
+          "required": false
+        }
+      }
+    }
+  ],
+  "tooltip": [
+    {
+      "displayName": "Tooltip",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "TooltipTrigger",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "TooltipContent",
+      "description": "",
+      "props": {}
+    },
+    {
+      "displayName": "TooltipProvider",
+      "description": "",
+      "props": {}
+    }
+  ]
+}

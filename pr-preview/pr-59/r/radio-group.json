@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "radio-group",
+  "title": "Radio Group",
+  "description": "A radio group component.",
+  "dependencies": [
+    "@radix-ui/react-radio-group"
+  ],
+  "registryDependencies": [
+    "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+    "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/radio-group.tsx",
+      "content": "'use client';\n\nimport * as RadioGroupPrimitive from '@radix-ui/react-radio-group';\nimport * as React from 'react';\n\nimport { cn } from '@/lib/utils';\n\nfunction RadioGroup({\n  className,\n  ...props\n}: React.ComponentProps<typeof RadioGroupPrimitive.Root>) {\n  return (\n    <RadioGroupPrimitive.Root\n      data-slot=\"radio-group\"\n      className={cn('grid gap-3', className)}\n      {...props}\n    />\n  );\n}\n\nfunction RadioGroupItem({\n  className,\n  size = 'default',\n  ...props\n}: React.ComponentProps<typeof RadioGroupPrimitive.Item> & {\n  size?: 'default' | 'lg';\n}) {\n  const isLg = size === 'lg';\n  const bboxSize = isLg ? 'size-6' : 'size-5';\n  const circleSize = isLg ? 'size-5' : 'size-4';\n  const dotSize = isLg ? 'size-2.5' : 'size-2';\n\n  return (\n    <RadioGroupPrimitive.Item\n      data-slot=\"radio-group-item\"\n      data-size={size}\n      className={cn(\n        bboxSize,\n        'group relative shrink-0 rounded-full outline-none',\n        'flex items-center justify-center',\n        'disabled:cursor-not-allowed',\n        className,\n      )}\n      {...props}>\n      <div\n        className={cn(\n          circleSize,\n          'rounded-full border bg-transparent transition-colors',\n          'border-stroke-primary',\n          'ring-stroke-status-focus group-focus-visible:border-stroke-active group-focus-visible:ring-2',\n          'group-disabled:border-stroke-tertiary',\n        )}\n      />\n\n      <RadioGroupPrimitive.Indicator\n        data-slot=\"radio-group-indicator\"\n        className=\"absolute inset-0 flex items-center justify-center\">\n        <div\n          className={cn(\n            dotSize,\n            'bg-fill-active rounded-full',\n            'group-disabled:bg-fill-disabled',\n          )}\n        />\n      </RadioGroupPrimitive.Indicator>\n    </RadioGroupPrimitive.Item>\n  );\n}\n\nexport { RadioGroup, RadioGroupItem };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

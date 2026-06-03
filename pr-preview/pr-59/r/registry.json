@@ -1,0 +1,869 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "Quantumblack Design System Registry",
+  "homepage": "https://github.com/mckinsey/quantumblack-design-system",
+  "items": [
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "QBDS Utilities",
+      "description": "Tailwind class merge with QBDS typography class-group support.",
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "files": [
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Displays contextual messages with two layouts (modal, long). Compose with AlertIcon, AlertContent, AlertTitle, AlertDescription, and optional AlertClose.",
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/button.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/icon-shell.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/alert.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect Ratio",
+      "description": "Constrains content to a fixed width-to-height ratio — ideal for images, video placeholders, and media cards.",
+      "dependencies": [
+        "@radix-ui/react-aspect-ratio"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/aspect-ratio.tsx",
+          "type": "registry:file",
+          "target": "components/ui/aspect-ratio.tsx"
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "An avatar component with support for images and tooltips.",
+      "dependencies": [
+        "@radix-ui/react-avatar"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/avatar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "A badge component.",
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/badge.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Allows users to take actions with a single click or tap.",
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "A date picker component built with react-day-picker.",
+      "dependencies": [
+        "react-day-picker",
+        "date-fns"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/button.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/icon-shell.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/input.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/calendar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "Date Picker",
+      "description": "Date picker examples with input integration for single date and date range selection. The Date Picker is built using a composition of the <Popover />, <Input /> and the <Calendar /> components.",
+      "dependencies": [
+        "react-day-picker",
+        "date-fns"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/calendar.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/field.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/icon-shell.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/input-group.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/popover.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/app/demo/[name]/ui/date-picker.tsx",
+          "type": "registry:example",
+          "target": ""
+        }
+      ]
+    },
+    {
+      "name": "time-input",
+      "type": "registry:ui",
+      "title": "Time Input",
+      "description": "Custom time input with composable segment-based hh:mm entry, keyboard navigation, and clock icon trigger. Exports TimeInputRoot, TimeSegmentInput, TimeSeparator, TimeInputTrigger, and TimeInput convenience wrapper.",
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/field.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/input.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/icon-shell.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/time-input.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/app/demo/[name]/ui/time-input.tsx",
+          "type": "registry:example",
+          "target": ""
+        }
+      ]
+    },
+    {
+      "name": "time-picker",
+      "type": "registry:ui",
+      "title": "Time Picker",
+      "description": "Individual components for building time picker interfaces. Includes TimePickerItem (radio list item) and TimePickerList (scrollable list) with size support (sm, default, lg).",
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/dropdown-menu.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/field.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/scroll-area.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/time-input.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/time-picker.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/app/demo/[name]/ui/time-picker.tsx",
+          "type": "registry:example",
+          "target": ""
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "A card component.",
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Allows users to select multiple items from a list of options.",
+      "dependencies": [
+        "@radix-ui/react-checkbox"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "A dialog component.",
+      "dependencies": [
+        "@radix-ui/react-dialog"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "A contextual menu triggered by a button. Supports items, checkboxes, radio groups, submenus, shortcuts, and destructive actions.",
+      "dependencies": [
+        "@radix-ui/react-dropdown-menu"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/button.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/toggle.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/app/demo/[name]/ui/dropdown-menu.tsx",
+          "type": "registry:example",
+          "target": ""
+        }
+      ]
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "Displays empty states with support for icons, titles, descriptions, and custom content. Compose with EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, and EmptyContent.",
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/empty.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Composable field layout and structure for forms. Use FieldSet, FieldLegend, FieldGroup, Field, FieldLabel, FieldContent, FieldTitle, and FieldDescription.",
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/label.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/separator.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/field.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "form",
+      "type": "registry:example",
+      "title": "Form",
+      "description": "Form recipes built on the Field primitive. Includes a React Hook Form + zod example (stacked layout) and a TanStack Form + zod example (inline layout) with header, sectioned fields (text, date, time, textarea, checkboxes), and submit/cancel actions.",
+      "dependencies": [
+        "react-hook-form",
+        "@hookform/resolvers",
+        "@tanstack/react-form",
+        "zod",
+        "date-fns"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/field.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/button.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/input.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/input-group.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/calendar.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/popover.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/textarea.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/time-input.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/time-picker.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/dropdown-menu.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/checkbox.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/icon-shell.json"
+      ],
+      "files": [
+        {
+          "path": "src/app/demo/[name]/ui/form.tsx",
+          "type": "registry:example",
+          "target": ""
+        },
+        {
+          "path": "src/app/demo/[name]/ui/form-examples.tsx",
+          "type": "registry:example",
+          "target": ""
+        }
+      ]
+    },
+    {
+      "name": "icon",
+      "type": "registry:ui",
+      "title": "Icon",
+      "description": "Material Symbols Sharp icon via variable font. Optical-size-matched per QBDS size (sm/default/lg).",
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+      ],
+      "css": {
+        "@import": "url('https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,300..400,0,0&display=block')",
+        "@layer base": {
+          ".material-symbols-sharp": {
+            "font-family": "'Material Symbols Sharp'",
+            "font-weight": "normal",
+            "font-style": "normal",
+            "letter-spacing": "normal",
+            "text-transform": "none",
+            "white-space": "nowrap",
+            "word-wrap": "normal",
+            "direction": "ltr",
+            "font-feature-settings": "'liga'",
+            "-webkit-font-smoothing": "antialiased"
+          }
+        }
+      },
+      "files": [
+        {
+          "path": "src/components/ui/icon.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "icon-shell",
+      "type": "registry:ui",
+      "title": "Icon Shell",
+      "description": "An icon component.",
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/icon-shell.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "A text input field with support for variants (default, inline) and sizes (small, default, large).",
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/input.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "A composite input component with support for icons, buttons, and text addons.",
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/input.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/button.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/textarea.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/input-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Autocomplete input with a list of suggestions. Supports sizes (sm, default, lg), inline variant, and input group addons.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/input-group.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/input.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/button.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/combobox.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "A component that displays a label for form elements.",
+      "dependencies": [
+        "@radix-ui/react-label"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/label.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "A popover component.",
+      "dependencies": [
+        "@radix-ui/react-popover"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/popover.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "A radio group component.",
+      "dependencies": [
+        "@radix-ui/react-radio-group"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/radio-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "segmented-controls",
+      "type": "registry:ui",
+      "title": "Segmented Controls",
+      "description": "Single-select segmented control with secondary-filled and ghost variants across four sizes.",
+      "dependencies": [
+        "@radix-ui/react-toggle-group"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/segmented-controls.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "A select component with single and multiple selection support.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/select.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "A scrollable viewport with custom scrollbars, built on Radix Scroll Area primitives.",
+      "dependencies": [
+        "@radix-ui/react-scroll-area"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/scroll-area.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "A visual divider that separates content. Supports horizontal and vertical orientation.",
+      "dependencies": [
+        "@radix-ui/react-separator"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/separator.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "An input where the user selects a value from within a given range.",
+      "dependencies": [
+        "@radix-ui/react-slider"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/slider.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sonner",
+      "type": "registry:ui",
+      "title": "Sonner",
+      "description": "A toast notification component.",
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/button.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/icon.json"
+      ],
+      "dependencies": [
+        "sonner",
+        "next-themes"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/sonner.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "A switch component.",
+      "dependencies": [
+        "@radix-ui/react-switch",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/switch.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "A responsive table component.",
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/table.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "data-table",
+      "type": "registry:example",
+      "title": "Data Table",
+      "description": "A fully-featured data table component built with TanStack Table. Includes sorting, filtering, pagination, column visibility, and row selection.",
+      "dependencies": [
+        "@tanstack/react-table"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/table.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/checkbox.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/select.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/icon-shell.json"
+      ],
+      "files": [
+        {
+          "path": "src/app/demo/[name]/ui/table.tsx",
+          "type": "registry:example",
+          "target": ""
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "A responsive tabs component.",
+      "dependencies": [
+        "@radix-ui/react-tabs"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Displays a form textarea or a component that looks like a textarea.",
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/input.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/textarea.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "theme",
+      "type": "registry:theme",
+      "title": "Global Theme",
+      "description": "Brand themed styles using Tailwind and Shadcn/ui",
+      "files": [
+        {
+          "path": "src/styles/globals.css",
+          "type": "registry:file",
+          "target": "styles/globals.css"
+        }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "A component that displays informative text when users hover over an element.",
+      "dependencies": [
+        "@radix-ui/react-tooltip"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/tooltip.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tag",
+      "type": "registry:ui",
+      "title": "Tag",
+      "description": "A dismissable tag component with support for icons, variants (default, secondary, accent, outline, accent-outline), pill shape, and sizes.",
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/tag.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "tag-group",
+      "type": "registry:example",
+      "title": "Tag Group",
+      "description": "Examples of grouped tags — dismissable, with avatars, and toggleable — across sizes, shapes, and outlines.",
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/tag.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/tag-toggle.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/avatar.json"
+      ],
+      "files": [
+        {
+          "path": "src/app/demo/[name]/ui/tag-group.tsx",
+          "type": "registry:example",
+          "target": ""
+        }
+      ]
+    },
+    {
+      "name": "tag-toggle",
+      "type": "registry:ui",
+      "title": "Tag Toggle",
+      "description": "A toggleable tag component with support for icons, pill shape, and sizes. Built on Radix Toggle primitive with tag styling.",
+      "dependencies": [
+        "@radix-ui/react-toggle"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/button.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/tag.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/tag-toggle.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "A toggle component.",
+      "dependencies": [
+        "@radix-ui/react-toggle"
+      ],
+      "registryDependencies": [
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+        "https://designsystem.quantumblack.com/pr-preview/pr-59/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/toggle.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

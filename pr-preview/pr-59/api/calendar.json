@@ -1,0 +1,26 @@
+[
+  {
+    "displayName": "Calendar",
+    "description": "",
+    "props": {
+      "size": {
+        "type": "\"default\" | \"lg\"",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "CalendarDayButton",
+    "description": "",
+    "props": {
+      "calendarSize": {
+        "type": "\"default\" | \"lg\"",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      }
+    }
+  }
+]

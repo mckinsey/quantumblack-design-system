@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "utils",
+  "title": "QBDS Utilities",
+  "description": "Tailwind class merge with QBDS typography class-group support.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "files": [
+    {
+      "path": "src/lib/utils.ts",
+      "content": "import { type ClassValue, clsx } from 'clsx';\nimport { extendTailwindMerge } from 'tailwind-merge';\n\n// All Text Style classes from globals.css registered as a single conflict group.\n// This ensures cn('label-regular-primary', 'label-small-primary') → 'label-small-primary'\nconst twMerge = extendTailwindMerge<'typography'>({\n  extend: {\n    classGroups: {\n      typography: [\n        // Display\n        'display-d1-regular',\n        'display-d2-regular',\n        'display-d3-regular',\n        // Headings\n        'headings-h1-regular',\n        'headings-h2-semibold',\n        'headings-h2-regular',\n        'headings-h3-regular',\n        'headings-h3-semibold',\n        'headings-h4-regular',\n        'headings-h4-semibold',\n        // Labels\n        'label-large-primary',\n        'label-regular-primary',\n        'label-small-primary',\n        // Paragraph\n        'paragraph-large-primary',\n        'paragraph-large-primary-link',\n        'paragraph-large-emphasised',\n        'paragraph-regular-primary',\n        'paragraph-regular-primary-link',\n        'paragraph-regular-emphasised-600',\n        'paragraph-small-primary',\n        'paragraph-small-primary-link',\n        'paragraph-small-emphasised',\n        'paragraph-code-text',\n        // CTA Buttons\n        'cta-button-01',\n        'cta-button-link-01',\n        'cta-button-02',\n        'cta-button-link-02',\n        'cta-button-03',\n        'cta-button-link-03',\n      ],\n    },\n  },\n});\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n",
+      "type": "registry:lib"
+    }
+  ],
+  "type": "registry:lib"
+}

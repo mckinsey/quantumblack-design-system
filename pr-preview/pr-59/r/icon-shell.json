@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icon-shell",
+  "title": "Icon Shell",
+  "description": "An icon component.",
+  "dependencies": [
+    "@radix-ui/react-slot"
+  ],
+  "registryDependencies": [
+    "https://designsystem.quantumblack.com/pr-preview/pr-59/r/theme.json",
+    "https://designsystem.quantumblack.com/pr-preview/pr-59/r/utils.json",
+    "https://designsystem.quantumblack.com/pr-preview/pr-59/r/icon.json"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/icon-shell.tsx",
+      "content": "import { Slot } from '@radix-ui/react-slot';\nimport { type VariantProps, cva } from 'class-variance-authority';\nimport * as React from 'react';\n\nimport { cn } from '@/lib/utils';\n\nimport { type IconSize, IconSizeContext } from './icon';\n\nconst iconVariants = cva(\n  [\n    'inline-flex items-center justify-center',\n    '[&_svg]:fill-current [&_svg]:stroke-current',\n  ],\n  {\n    variants: {\n      size: {\n        sm: 'text-[16px] size-4',\n        default: 'text-[24px] size-6',\n        lg: 'text-[32px] size-8',\n      },\n      type: {\n        neutral: '',\n        'neutral-inverse': 'text-fg-primary-inverse',\n        accent: 'text-brand-accents-qb-accent',\n      },\n      variant: {\n        primary: 'opacity-88',\n        secondary: 'opacity-60',\n        disabled: 'opacity-30',\n      },\n    },\n    defaultVariants: {\n      size: 'default',\n      type: 'neutral',\n      variant: 'primary',\n    },\n  },\n);\n\nfunction IconShell({\n  className,\n  size,\n  type,\n  variant,\n  asChild = false,\n  children,\n  ...props\n}: React.ComponentProps<'span'> &\n  VariantProps<typeof iconVariants> & {\n    asChild?: boolean;\n  }) {\n  const Comp = asChild ? Slot : 'span';\n  const resolvedSize: IconSize = size ?? 'default';\n\n  return (\n    <IconSizeContext.Provider value={resolvedSize}>\n      <Comp\n        data-slot=\"icon\"\n        className={cn(iconVariants({ size, type, variant }), className)}\n        {...props}>\n        {children}\n      </Comp>\n    </IconSizeContext.Provider>\n  );\n}\n\nexport { IconShell, iconVariants };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

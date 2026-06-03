@@ -1,0 +1,48 @@
+[
+  {
+    "displayName": "TabsRoot",
+    "description": "",
+    "props": {
+      "size": {
+        "type": "TabSize",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      },
+      "hideBaseline": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      "padded": {
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "TabsList",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "TabsTrigger",
+    "description": "",
+    "props": {
+      "size": {
+        "type": "TabSize",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "TabsContent",
+    "description": "",
+    "props": {}
+  }
+]

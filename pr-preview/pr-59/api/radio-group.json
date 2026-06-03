@@ -1,0 +1,19 @@
+[
+  {
+    "displayName": "RadioGroup",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "RadioGroupItem",
+    "description": "",
+    "props": {
+      "size": {
+        "type": "\"default\" | \"lg\"",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      }
+    }
+  }
+]

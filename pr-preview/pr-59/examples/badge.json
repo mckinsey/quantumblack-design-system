@@ -1,0 +1,26 @@
+[
+  {
+    "name": "BadgeDemo",
+    "code": "export function BadgeDemo() {\n  return (\n    <div className=\"flex items-center gap-3\">\n      <Badge>Label</Badge>\n      <Badge outline variant=\"high-emphasis\">\n        Label\n      </Badge>\n      <NumericBadge variant=\"primary\">9</NumericBadge>\n      <NumericBadge outline variant=\"primary\">\n        9\n      </NumericBadge>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "BadgeLabelOnly",
+    "code": "export function BadgeLabelOnly() {\n  return (\n    <div className=\"flex flex-col gap-3\">\n      {labelOnlyVariants.map(v => (\n        <div key={v} className=\"flex flex-wrap items-center gap-3\">\n          <Badge size=\"sm\" variant={v}>\n            Label\n          </Badge>\n          <Badge size=\"default\" variant={v}>\n            Label\n          </Badge>\n          <Badge outline size=\"sm\" variant={v}>\n            Label\n          </Badge>\n          <Badge outline size=\"default\" variant={v}>\n            Label\n          </Badge>\n        </div>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "BadgeNumericSection",
+    "code": "export function BadgeNumericSection() {\n  return (\n    <div className=\"flex flex-col gap-10\">\n      <div className=\"space-y-3\">\n        <p className=\"text-fg-secondary text-xs font-medium\">Primary</p>\n        <NumericBadgeSizeGrid variant=\"primary\" />\n      </div>\n      <div className=\"space-y-3\">\n        <p className=\"text-fg-secondary text-xs font-medium\">Secondary</p>\n        <NumericBadgeSizeGrid variant=\"secondary\" />\n      </div>\n      <div className=\"space-y-3\">\n        <p className=\"text-fg-secondary text-xs font-medium\">Accent</p>\n        <NumericBadgeSizeGrid variant=\"accent\" />\n      </div>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "BadgeStatusSection",
+    "code": "export function BadgeStatusSection() {\n  return (\n    <div className=\"grid grid-cols-8 place-items-center gap-x-6 gap-y-8\">\n      {statusMatrixVariants.map(variant => (\n        <div key={variant} className=\"contents\">\n          {statusBadgeSizes.map(size => (\n            <StatusBadge\n              key={`${variant}-${size}`}\n              variant={variant}\n              size={size}\n            />\n          ))}\n          {statusBadgeSizes.map(size => (\n            <StatusBadge\n              key={`${variant}-${size}-outline`}\n              variant={variant}\n              size={size}\n              outline\n            />\n          ))}\n        </div>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "BadgeIconLabel",
+    "code": "export function BadgeIconLabel() {\n  return (\n    <div className=\"flex flex-col gap-3\">\n      {iconLabelVariants.map(v => {\n        const icon = iconByVariant[v];\n\n        return (\n          <div key={v} className=\"flex flex-wrap items-center gap-3\">\n            <Badge size=\"sm\" variant={v} withIcon>\n              <Icon icon={icon} className=\"size-4\" />\n              Label\n            </Badge>\n            <Badge size=\"default\" variant={v} withIcon>\n              <Icon icon={icon} className=\"size-4\" />\n              Label\n            </Badge>\n            <Badge outline size=\"sm\" variant={v} withIcon>\n              <Icon\n                icon={icon}\n                className={cn('size-4', iconOutlineColorByVariant[v])}\n              />\n              Label\n            </Badge>\n            <Badge outline size=\"default\" variant={v} withIcon>\n              <Icon\n                icon={icon}\n                className={cn('size-4', iconOutlineColorByVariant[v])}\n              />\n              Label\n            </Badge>\n          </div>\n        );\n      })}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "BadgeDotLabel",
+    "code": "export function BadgeDotLabel() {\n  return (\n    <div className=\"flex flex-col gap-3\">\n      {dotLabelOutlineVariants.map(v => (\n        <div key={v} className=\"flex flex-wrap items-center gap-3\">\n          {labelBadgeSizes.map(badgeSize => (\n            <Badge key={badgeSize} outline size={badgeSize} variant={v} withDot>\n              <StatusBadge\n                variant={dotLabelToStatusVariant[v]}\n                size={badgeSize === 'lg' ? 'default' : 'sm'}\n                className=\"shrink-0\"\n              />\n              Label\n            </Badge>\n          ))}\n        </div>\n      ))}\n    </div>\n  );\n}"
+  }
+]

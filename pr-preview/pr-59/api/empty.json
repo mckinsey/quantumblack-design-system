@@ -1,0 +1,39 @@
+[
+  {
+    "displayName": "Empty",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "EmptyHeader",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "EmptyTitle",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "EmptyDescription",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "EmptyContent",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "EmptyMedia",
+    "description": "",
+    "props": {
+      "variant": {
+        "type": "\"default\" | \"icon\"",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      }
+    }
+  }
+]

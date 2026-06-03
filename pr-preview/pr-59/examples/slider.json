@@ -1,0 +1,30 @@
+[
+  {
+    "name": "SliderDemo",
+    "code": "export function SliderDemo() {\n  return (\n    <div className=\"w-full max-w-sm\">\n      <Slider defaultValue={[50]} max={100} step={1} />\n    </div>\n  );\n}"
+  },
+  {
+    "name": "SliderRanges",
+    "code": "export function SliderRanges() {\n  return (\n    <div className=\"w-full max-w-sm space-y-10 pb-4\">\n      <SliderField label=\"0-100 (default)\">\n        <Slider defaultValue={[50]} max={100} step={1} showStepLabels={false} />\n      </SliderField>\n      <SliderField label=\"0-200\">\n        <Slider\n          defaultValue={[100]}\n          max={200}\n          step={1}\n          showStepMarkers={false}\n          showStepLabels={false}\n        />\n      </SliderField>\n      <SliderField label=\"-50 to 50\">\n        <Slider\n          defaultValue={[0]}\n          min={-50}\n          max={50}\n          step={1}\n          showStepMarkers={false}\n          showStepLabels={false}\n        />\n      </SliderField>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "SliderSteps",
+    "code": "export function SliderSteps() {\n  return (\n    <div className=\"w-full max-w-sm space-y-8\">\n      <SliderField label=\"Step: 10\">\n        <Slider\n          defaultValue={[50]}\n          max={100}\n          step={10}\n          showStepMarkers\n          showStepLabels={false}\n        />\n      </SliderField>\n      <SliderField label=\"Step: 25\">\n        <Slider\n          defaultValue={[50]}\n          max={100}\n          step={25}\n          showStepMarkers\n          showStepLabels={false}\n        />\n      </SliderField>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "SliderStepsLabeled",
+    "code": "export function SliderStepsLabeled() {\n  return (\n    <div className=\"w-full max-w-sm space-y-12 pb-6\">\n      <SliderField label=\"Step: 25 with labels\">\n        <Slider\n          defaultValue={[50]}\n          max={100}\n          step={25}\n          showStepMarkers\n          showStepLabels\n        />\n      </SliderField>\n      <SliderField label=\"Step: 20 with labels\">\n        <Slider\n          defaultValue={[40]}\n          max={100}\n          step={20}\n          showStepMarkers\n          showStepLabels\n        />\n      </SliderField>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "SliderLabeled",
+    "code": "export function SliderLabeled() {\n  const [value, setValue] = useState([50]);\n\n  return (\n    <div className=\"w-full max-w-sm space-y-4\">\n      <div className=\"flex items-center justify-between\">\n        <label className=\"text-fg-primary text-sm\">Brightness</label>\n        <span className=\"text-fg-secondary font-mono text-sm\">{value[0]}%</span>\n      </div>\n      <Slider value={value} onValueChange={setValue} max={100} step={1} />\n    </div>\n  );\n}"
+  },
+  {
+    "name": "SliderRange",
+    "code": "export function SliderRange() {\n  const [range, setRange] = useState([25, 75]);\n\n  return (\n    <div className=\"w-full max-w-sm space-y-4\">\n      <div className=\"flex items-center justify-between\">\n        <label className=\"text-fg-primary text-sm\">Price Range</label>\n        <span className=\"text-fg-secondary font-mono text-sm\">\n          ${range[0]} - ${range[1]}\n        </span>\n      </div>\n      <Slider value={range} onValueChange={setRange} max={100} step={1} />\n    </div>\n  );\n}"
+  },
+  {
+    "name": "SliderVolume",
+    "code": "export function SliderVolume() {\n  const [volume, setVolume] = useState([50]);\n\n  const decrease = () => setVolume([Math.max(0, volume[0] - 10)]);\n  const increase = () => setVolume([Math.min(100, volume[0] + 10)]);\n\n  return (\n    <div className=\"w-full max-w-sm space-y-4\">\n      <label className=\"text-fg-primary text-sm\">Volume</label>\n      <div className=\"flex items-center gap-3\">\n        <Button variant=\"ghost\" size=\"icon-sm\" onClick={decrease}>\n          <IconShell size=\"sm\">\n            <Icon icon=\"volume_down\" />\n          </IconShell>\n        </Button>\n        <Slider\n          value={volume}\n          onValueChange={setVolume}\n          max={100}\n          step={1}\n          className=\"flex-1\"\n        />\n        <Button variant=\"ghost\" size=\"icon-sm\" onClick={increase}>\n          <IconShell size=\"sm\">\n            <Icon icon=\"volume_up\" />\n          </IconShell>\n        </Button>\n      </div>\n      <p className=\"text-fg-secondary mb-4 block text-center text-sm\">\n        Volume: {volume[0]}%\n      </p>\n    </div>\n  );\n}"
+  }
+]

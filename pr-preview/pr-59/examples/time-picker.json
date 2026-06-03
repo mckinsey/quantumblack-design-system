@@ -1,0 +1,18 @@
+[
+  {
+    "name": "TimePickerColumn",
+    "code": "export function TimePickerColumn({\n  value,\n  onValueChange,\n  items,\n  size,\n}: Readonly<{\n  value: number | null;\n  onValueChange: (value: number) => void;\n  items: number[];\n  size: 'default' | 'lg';\n}>) {\n  const listRef = useRef<HTMLDivElement>(null);\n\n  useEffect(() => {\n    const checked = listRef.current?.querySelector<HTMLElement>(\n      '[data-state=\"checked\"]',\n    );\n\n    if (checked) {\n      checked.scrollIntoView({ block: 'nearest' });\n    }\n  }, []);\n\n  return (\n    <div className=\"h-full w-fit\">\n      <ScrollArea className=\"animation-none h-full w-fit transition-none\">\n        <TimePickerList\n          ref={listRef}\n          size={size}\n          value={value === null ? '' : String(value)}\n          onValueChange={createTimeValueHandler(onValueChange)}>\n          {items.map(item => (\n            <TimePickerItem key={item} value={String(item)} size={size}>\n              {formatTwoDigits(item)}\n            </TimePickerItem>\n          ))}\n        </TimePickerList>\n      </ScrollArea>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "TimePickerDemo",
+    "code": "export function TimePickerDemo() {\n  return (\n    <div className=\"flex flex-wrap items-end gap-8\">\n      <TimePickerExample id=\"tp-sm\" label=\"Small\" size=\"sm\" />\n      <TimePickerExample id=\"tp-default\" label=\"Default\" size=\"default\" />\n      <TimePickerExample id=\"tp-lg\" label=\"Large\" size=\"lg\" />\n    </div>\n  );\n}"
+  },
+  {
+    "name": "TimePickerInline",
+    "code": "export function TimePickerInline() {\n  return (\n    <div className=\"flex flex-wrap items-end gap-8\">\n      <TimePickerExample\n        id=\"tp-inline-sm\"\n        label=\"Small\"\n        size=\"sm\"\n        variant=\"inline\"\n      />\n\n      <TimePickerExample\n        id=\"tp-inline-default\"\n        label=\"Default\"\n        size=\"default\"\n        variant=\"inline\"\n      />\n\n      <TimePickerExample\n        id=\"tp-inline-lg\"\n        label=\"Large\"\n        size=\"lg\"\n        variant=\"inline\"\n      />\n    </div>\n  );\n}"
+  },
+  {
+    "name": "TimePickerOverlaySizes",
+    "code": "export function TimePickerOverlaySizes() {\n  return (\n    <div className=\"flex min-h-[240px] gap-32\">\n      <div className=\"flex flex-col items-center gap-3\">\n        <TimePickerOverlay size=\"default\" defaultHour={1} defaultMinute={5} />\n      </div>\n\n      <div className=\"flex flex-col items-center gap-3\">\n        <TimePickerOverlay size=\"lg\" defaultHour={1} defaultMinute={5} />\n      </div>\n    </div>\n  );\n}"
+  }
+]

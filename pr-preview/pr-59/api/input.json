@@ -1,0 +1,20 @@
+[
+  {
+    "displayName": "Input",
+    "description": "Input component for single-line text entry.\n\nSupports text, email, password, search, and other input types.\nUse with InputGroup for inputs with icons or addons.",
+    "props": {
+      "variant": {
+        "type": "\"default\" | \"inline\"",
+        "defaultValue": "\"default\"",
+        "description": "The visual style variant of the input.\n- `default`: Standard input with background and border\n- `inline`: Transparent background with only bottom border",
+        "required": false
+      },
+      "size": {
+        "type": "\"default\" | \"sm\" | \"lg\"",
+        "defaultValue": "\"default\"",
+        "description": "The size of the input.\n- `sm`: Small (28px height)\n- `default`: Default (36px height)\n- `lg`: Large (40px height)",
+        "required": false
+      }
+    }
+  }
+]
