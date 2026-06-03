@@ -24,9 +24,7 @@ describe('tokens from TOKENS.md + globals.css', () => {
     const parsed = parseTokensMarkdown(tokensMd);
     expect(parsed.length).toBeGreaterThan(50);
     expect(parsed.some(t => t.name === 'Surface/Primary')).toBe(true);
-    expect(parsed.some(t => t.tailwind.includes('text-fg-primary'))).toBe(
-      true,
-    );
+    expect(parsed.some(t => t.tailwind.includes('text-fg-primary'))).toBe(true);
   });
 
   it('resolves concrete semantic colours from globals.css', () => {
@@ -48,9 +46,7 @@ describe('tokens from TOKENS.md + globals.css', () => {
 
   it('resolves brand accent primitives from @theme inline', () => {
     const tokens = loadColorTokens(globalsCss);
-    const accent = tokens.find(
-      t => t.cssVar === '--brand-accents-qb-accent',
-    );
+    const accent = tokens.find(t => t.cssVar === '--brand-accents-qb-accent');
     expect(accent?.light?.hex).toBe('#00a9f4ff');
     expect(accent?.dark?.hex).toBe('#00a9f4ff');
   });

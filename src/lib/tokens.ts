@@ -181,8 +181,7 @@ function resolveColorValue(
   seen.add(name);
 
   const alias = name;
-  const next =
-    semantic.get(name) ?? primitives.get(name) ?? null;
+  const next = semantic.get(name) ?? primitives.get(name) ?? null;
   if (!next) return null;
 
   const resolved = resolveColorValue(next, primitives, semantic, seen);
@@ -192,7 +191,9 @@ function resolveColorValue(
 
 function attachResolvedColors(tokens: Token[], globalsCss: string): Token[] {
   const primitives = buildPrimitives(globalsCss);
-  const lightSemantic = parseDeclarations(extractRuleBlock(globalsCss, ':root'));
+  const lightSemantic = parseDeclarations(
+    extractRuleBlock(globalsCss, ':root'),
+  );
   const darkSemantic = parseDeclarations(extractRuleBlock(globalsCss, '.dark'));
 
   return tokens.map(token => {
@@ -204,8 +205,7 @@ function attachResolvedColors(tokens: Token[], globalsCss: string): Token[] {
       darkSemantic.get(token.cssVar) ?? primitives.get(token.cssVar) ?? '';
 
     const light =
-      resolveColorValue(lightRaw, primitives, lightSemantic, new Set()) ??
-      null;
+      resolveColorValue(lightRaw, primitives, lightSemantic, new Set()) ?? null;
     const dark =
       resolveColorValue(darkRaw, primitives, darkSemantic, new Set()) ?? null;
 

@@ -3,19 +3,18 @@ import { useEffect, useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
 import {
+  type Token,
+  type TokenColor,
+  filterRegistryColorTokens,
   filterTokens,
   formatTailwindDisplay,
   getCategories,
   groupByCategory,
-  filterRegistryColorTokens,
   loadColorTokens,
   tokenAnchor,
-  type Token,
-  type TokenColor,
 } from '@/lib/tokens';
-
+import { cn } from '@/lib/utils';
 import globalsCss from '@/styles/globals.css?raw';
 
 const tokens = filterRegistryColorTokens(loadColorTokens(globalsCss));
@@ -114,7 +113,7 @@ function TokenRow({ token }: { token: Token }) {
       id={tokenAnchor(token.name)}
       className={cn(
         TOKEN_ROW_GRID,
-        'border-stroke-divider scroll-mt-20 flex flex-col gap-2 border-b py-3 last:border-b-0 sm:grid sm:gap-y-1',
+        'border-stroke-divider flex scroll-mt-20 flex-col gap-2 border-b py-3 last:border-b-0 sm:grid sm:gap-y-1',
       )}>
       <div className="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-x-4 gap-y-1 sm:contents">
         <span className="paragraph-small-emphasised text-fg-tertiary sm:col-start-1 sm:row-start-1 sm:self-baseline">
@@ -134,7 +133,7 @@ function TokenRow({ token }: { token: Token }) {
         </span>
 
         {token.description && (
-          <p className="paragraph-small-primary text-fg-secondary col-span-2 sm:col-start-2 sm:row-start-3 sm:col-span-1">
+          <p className="paragraph-small-primary text-fg-secondary col-span-2 sm:col-span-1 sm:col-start-2 sm:row-start-3">
             {token.description}
             {token.patternOnly && (
               <span className="text-fg-tertiary">
@@ -200,8 +199,9 @@ export default function TokensPage() {
               Design Tokens
             </h1>
             <p className="paragraph-large-primary text-fg-secondary">
-              Every QBDS colour in one place: the name you see in Figma, the Tailwind
-              class to paste into your code, and a preview in light and dark.
+              Every QBDS colour in one place: the name you see in Figma, the
+              Tailwind class to paste into your code, and a preview in light and
+              dark.
             </p>
           </div>
 
