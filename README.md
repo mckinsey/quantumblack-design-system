@@ -63,7 +63,7 @@ Mappings live in [`code-connect/`](code-connect/) (flat `*.figma.tsx` files). [`
 
 | Variable | Description |
 | -------- | ----------- |
-| `FIGMA_ACCESS_TOKEN` | Figma personal access token (local publish only) |
+| `FIGMA_ACCESS_TOKEN` | Figma personal access token — Code Connect publish and reading QBDS variables (see [Tokens](#tokens)) |
 | `FIGMA_URL_<PLACEHOLDER>` | Full Figma URL for each `<QBDS_*>` placeholder used in mappings |
 
 Local publish (from repo root):
@@ -117,7 +117,21 @@ registry.json                   # Source of truth for all registered components
 
 ## Tokens
 
-See [docs/TOKENS.md](docs/TOKENS.md) for the full token catalogue — every QBDS semantic CSS variable mapped to its Tailwind utility and intended use, with guidance on what to use and what to avoid.
+See [docs/TOKENS.md](docs/TOKENS.md) for the catalogue — CSS variable, Tailwind utility, usage, and **Design name** for each QBDS token. The registry **`/tokens`** page is generated from that file + [`src/styles/globals.css`](src/styles/globals.css).
+
+### Syncing from Figma
+
+When QBDS variables change, keep **`globals.css`** (values) and **`docs/TOKENS.md`** (catalogue) aligned with [QBDS v2.0.0](https://www.figma.com/design/iuMWqCsIohoKAUB0tBS0xr/QBDS-v2.0.0) (file key `iuMWqCsIohoKAUB0tBS0xr`):
+
+| Figma collection | Maps to in code |
+| ---------------- | --------------- |
+| **DS_Themes** Light / Dark | `:root` / `.dark` semantics |
+| **DS-Primitives** | `@theme inline` hex (`--mist-*`, `--slate-*`, …) |
+| **Radius** Sharp / Round | `--rad-*`, `.radius-mode` |
+
+Set `FIGMA_ACCESS_TOKEN` in `.env`, then `GET https://api.figma.com/v1/files/iuMWqCsIohoKAUB0tBS0xr/variables/local`, or use Figma MCP `use_figma` on the same file key. Copy exact Figma names into the TOKENS.md **Design name** column; CSS uses kebab-case (`Text/Primary` → `--text-primary`). Store primitives as hex.
+
+Verify with `npx vitest run src/tests/tokens-from-docs.test.ts` and the `/tokens` page on the dev server.
 
 ## Icons
 

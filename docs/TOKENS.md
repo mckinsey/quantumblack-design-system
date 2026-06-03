@@ -2,6 +2,8 @@
 
 The single source of truth for picking a design token in code. Every row below maps a **CSS variable** defined in [`src/styles/globals.css`](../src/styles/globals.css) to the **Tailwind utility** you should use in components, with guidance on what it's for. The **Design name** column lists the upstream identifier in the QBDS design library — use it when syncing changes between code and design.
 
+A searchable visual reference with light/dark swatches lives at **`/tokens`** on the registry site (generated from this file + `globals.css`).
+
 ## How to choose a token
 
 1. **Identify purpose first.** Is it a background panel (`surface`), a content/component fill (`fill`), text colour (`text`/`fg`), a stroke (`border`/`stroke`), status feedback (`status`), an interaction overlay (`stateslayer-overlay`), or a shadow (`shadow-elevation`)? Match purpose to the right family before picking a shade.
@@ -118,15 +120,19 @@ Interaction state overlays applied to the **entire UI item** (e.g. button hover 
 | `--stateslayer-overlay-pressed` | `bg-stateslayer-overlay-pressed` | Pressed state overlay. | `StatesLayer-Overlay/Pressed` |
 | `--stateslayer-overlay-disabled` | `bg-stateslayer-overlay-disabled` | Disabled state overlay. | `StatesLayer-Overlay/Disabled` |
 | `--stateslayer-overlay-active` | `bg-stateslayer-overlay-active` | Active state overlay. | `StatesLayer-Overlay/Active` |
+| `--stateslayer-overlay-enabled-inverse` | `bg-stateslayer-overlay-enabled-inverse` | Default inverse overlay (no tint). | `StatesLayer-Overlay/Enabled_Inverse` |
 | `--stateslayer-overlay-*-inverse` | `bg-stateslayer-overlay-*-inverse` | Same overlays on high-contrast / accent elements. | `StatesLayer-Overlay/*-Inverse` |
 
 ## Brand accent
 
-A single brand accent token for decorative highlights (active states, accent badges/tags, focal icons). Use sparingly — it's a brand colour, not a status colour.
+Brand accent primitives for decorative highlights (active states, accent badges/tags, focal icons). Use sparingly — brand colours, not status colours.
 
 | CSS variable | Tailwind | Use for | Design name |
 | ------------ | -------- | ------- | ----------- |
-| `--brand-accents-qb-accent` | `bg-brand-accents-qb-accent`, `text-brand-accents-qb-accent`, `border-brand-accents-qb-accent` | Brand-accent decorative use (e.g. accent badge, brand-accent tag variant). | `brand-accents/qb-accent` |
+| `--brand-accents-mckinsey-deep-blue` | `bg-brand-accents-mckinsey-deep-blue`, etc. | McKinsey deep blue. | `Brand-Accents/McKinsey-Deep-Blue` |
+| `--brand-accents-mckinsey-electric-blue` | `bg-brand-accents-mckinsey-electric-blue`, etc. | McKinsey electric blue. | `Brand-Accents/McKinsey-Electric-Blue` |
+| `--brand-accents-mckinsey-cyan` | `bg-brand-accents-mckinsey-cyan`, etc. | McKinsey cyan. | `Brand-Accents/McKinsey-Cyan` |
+| `--brand-accents-qb-accent` | `bg-brand-accents-qb-accent`, `text-brand-accents-qb-accent`, `border-brand-accents-qb-accent` | QB accent. | `Brand-Accents/QB-Accent` |
 
 ## Elevations
 
@@ -262,3 +268,5 @@ So write `gap-4`, not `gap-[16px]`.
 - **Inline CSS variables.** `bg-[var(--surface-base)]` works but the Tailwind utility `bg-surface-base` exists for the same thing — use it for readability and class-merging.
 - **Hand-rolled state overlays.** Don't write `bg-white/8` for a hover tint — use `bg-stateslayer-overlay-hover` so it adapts to dark / theme-switched contexts.
 - **Hand-rolled typography.** Don't compose `text-sm leading-5 tracking-[-0.028px]` — use `paragraph-regular-primary`.
+
+Maintainers syncing from Figma: see [README — Syncing from Figma](../README.md#syncing-from-figma).
