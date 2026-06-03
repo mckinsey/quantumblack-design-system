@@ -36,8 +36,20 @@ const CATEGORY_ORDER = [
   'Elevations',
 ] as const;
 
+/** Intro sections in TOKENS.md — not token tables. */
+const NON_TOKEN_SECTIONS = new Set([
+  'QBDS Tokens',
+  'How to choose a token',
+  'Quick rules',
+]);
+
 function stripTicks(value: string): string {
   return value.replace(/`/g, '').trim();
+}
+
+/** Strip markdown `#` prefixes — first split chunk is the `# QBDS Tokens` title. */
+function normalizeHeading(raw: string): string {
+  return raw.replace(/^#+\s*/, '').trim();
 }
 
 function parseCssVarCell(cell: string): string | null {
@@ -111,16 +123,10 @@ export function parseTokensMarkdown(markdown: string): Token[] {
   for (const part of parts) {
     const nl = part.indexOf('\n');
     if (nl === -1) continue;
-    const heading = part.slice(0, nl).trim();
+    const heading = normalizeHeading(part.slice(0, nl).trim());
     const body = part.slice(nl + 1);
 
-    if (
-      heading === 'QBDS Tokens' ||
-      heading === 'How to choose a token' ||
-      heading === 'Quick rules'
-    ) {
-      continue;
-    }
+    if (NON_TOKEN_SECTIONS.has(heading)) continue;
 
     const kind = heading === 'Elevations' ? 'elevation' : 'semantic';
     tokens.push(...parseTableRows(body, heading, kind));
@@ -146,21 +152,19 @@ function extractRuleBlock(css: string, selector: ':root' | '.dark'): string {
   return css.match(re)?.[1] ?? '';
 }
 
-function normalizeHex(value: string): string | null {
-  const hex = value.trim();
-  if (/^#[\da-fA-F]{8}$/.test(hex)) return hex.toLowerCase();
-  if (/^#[\da-fA-F]{6}$/.test(hex)) return `${hex.toLowerCase()}ff`;
-  if (/^#[\da-fA-F]{3}$/.test(hex)) {
-    const r = hex[1];
-    const g = hex[2];
-    const b = hex[3];
+/** Resolved CSS color for swatches — hex or oklch() from globals.css. */
+function normalizeCssColor(value: string): string | null {
+  const trimmed = value.trim();
+  if (/^#[\da-fA-F]{8}$/.test(trimmed)) return trimmed.toLowerCase();
+  if (/^#[\da-fA-F]{6}$/.test(trimmed)) return `${trimmed.toLowerCase()}ff`;
+  if (/^#[\da-fA-F]{3}$/.test(trimmed)) {
+    const r = trimmed[1];
+    const g = trimmed[2];
+    const b = trimmed[3];
     return `#${r}${r}${g}${g}${b}${b}ff`;
   }
+  if (/^oklch\(/i.test(trimmed)) return trimmed;
   return null;
-}
-
-function normalizeColorValue(value: string): string | null {
-  return normalizeHex(value);
 }
 
 function buildPrimitives(globalsCss: string): Map<string, string> {
@@ -176,7 +180,7 @@ function resolveColorValue(
   seen: Set<string>,
 ): { hex: string; alias: string | null } | null {
   const value = raw.trim();
-  const direct = normalizeColorValue(value);
+  const direct = normalizeCssColor(value);
   if (direct) return { hex: direct, alias: null };
 
   const varMatch = value.match(/^var\(\s*(--[a-z0-9-]+)\s*\)$/);

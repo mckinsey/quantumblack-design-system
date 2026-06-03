@@ -67,6 +67,11 @@ function CopyBtn({ value }: { value: string }) {
         copied ? 'Copied' : copyFailed ? 'Copy failed' : `Copy ${value}`
       }
       onClick={() => {
+        if (!navigator.clipboard?.writeText) {
+          setCopied(false);
+          setCopyFailed(true);
+          return;
+        }
         void navigator.clipboard
           .writeText(value)
           .then(() => {
