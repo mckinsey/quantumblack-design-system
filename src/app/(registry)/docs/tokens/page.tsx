@@ -24,6 +24,8 @@ const categories = getCategories(tokens);
 
 const LIGHT_CANVAS = '#ffffff';
 const DARK_CANVAS = '#141721';
+/** Neutral panel for dark-mode elevation previews — shadows need a light surface. */
+const ELEVATION_DARK_PREVIEW_SURFACE = '#e5e5e5';
 
 const TOKEN_ROW_GRID =
   'sm:grid sm:grid-cols-[4.5rem_minmax(0,1fr)_8.75rem_8.75rem] sm:gap-x-4';
@@ -39,6 +41,47 @@ const ELEVATION_SHADOW_CLASS = {
 function elevationShadowClass(tailwind: string): string | null {
   const key = tailwind.trim() as keyof typeof ELEVATION_SHADOW_CLASS;
   return ELEVATION_SHADOW_CLASS[key] ?? null;
+}
+
+/** Figma-style transparency grid behind alpha < 1 swatches. */
+const CHECKERBOARD: React.CSSProperties = {
+  backgroundColor: '#ffffff',
+  backgroundImage:
+    'linear-gradient(45deg, #cccccc 25%, transparent 25%, transparent 75%, #cccccc 75%, #cccccc), linear-gradient(45deg, #cccccc 25%, transparent 25%, transparent 75%, #cccccc 75%, #cccccc)',
+  backgroundSize: '5px 5px',
+  backgroundPosition: '0 0, 2.5px 2.5px',
+};
+
+function isTransparentHex8(hex: string): boolean {
+  return /^#[\da-f]{8}$/i.test(hex) && hex.slice(7, 9).toLowerCase() !== 'ff';
+}
+
+function ColorSwatch({ hex, onLight }: { hex: string; onLight: boolean }) {
+  const borderClass = onLight
+    ? 'border border-[#14172129]'
+    : 'border border-[#ffffff29]';
+
+  if (!isTransparentHex8(hex)) {
+    return (
+      <div
+        className={cn('size-7 shrink-0 rounded-full', borderClass)}
+        style={{ backgroundColor: hex }}
+        aria-hidden
+      />
+    );
+  }
+
+  return (
+    <div
+      className={cn(
+        'relative size-7 shrink-0 overflow-hidden rounded-full',
+        borderClass,
+      )}
+      aria-hidden>
+      <div className="absolute inset-0" style={CHECKERBOARD} />
+      <div className="absolute inset-0" style={{ backgroundColor: hex }} />
+    </div>
+  );
 }
 
 function CopyBtn({ value }: { value: string }) {
@@ -108,15 +151,7 @@ function ModeChip({
       className="border-stroke-tertiary grid h-[3.25rem] w-[8.75rem] grid-cols-[1.75rem_1fr] items-center gap-2 border px-2"
       style={{ backgroundColor: canvas }}
       title={title}>
-      <div
-        className={
-          onLight
-            ? 'size-7 rounded-full border border-[#14172129]'
-            : 'size-7 rounded-full border border-[#ffffff29]'
-        }
-        style={{ backgroundColor: color.hex }}
-        aria-hidden
-      />
+      <ColorSwatch hex={color.hex} onLight={onLight} />
       <div className="min-w-0">
         <p
           className={
@@ -161,9 +196,15 @@ function ElevationChip({
       role="img">
       <div
         className={cn(
-          'bg-surface-primary size-9 shrink-0 rounded-sm',
+          'size-9 shrink-0 rounded-sm',
+          onLight && 'bg-surface-primary',
           shadowClass,
         )}
+        style={
+          onLight
+            ? undefined
+            : { backgroundColor: ELEVATION_DARK_PREVIEW_SURFACE }
+        }
         aria-hidden
       />
     </div>
