@@ -60,69 +60,69 @@
   --text-6xl-line-height: var(--font-line-height-56);
 
   /** Mist Primitives */
-  --mist-50: #ffffff;
-  --mist-100: #fafafb;
-  --mist-200: #f5f6f6;
-  --mist-300: #f2f3f4;
-  --mist-400: #ebedee;
-  --mist-500: #e6e8ea;
-  --mist-600: #e2e4e6;
-  --mist-700: #dddfe1;
-  --mist-800: #d8dadd;
-  --mist-900: #d3d6d9;
+  --mist-50: oklch(100.00% 0.0000 0.00);
+  --mist-100: oklch(98.54% 0.0013 286.38);
+  --mist-200: oklch(97.24% 0.0011 197.14);
+  --mist-300: oklch(96.37% 0.0017 247.84);
+  --mist-400: oklch(94.49% 0.0025 228.79);
+  --mist-500: oklch(93.00% 0.0035 247.86);
+  --mist-600: oklch(91.79% 0.0035 247.86);
+  --mist-700: oklch(90.27% 0.0035 247.86);
+  --mist-800: oklch(88.77% 0.0046 258.33);
+  --mist-900: oklch(87.46% 0.0053 247.88);
 
   /** Mist Opacity Tokens */
-  --mist-50-opacity-0: #ffffff00;
-  --mist-50-opacity-4: #ffffff0a;
-  --mist-50-opacity-6: #ffffff0f;
-  --mist-50-opacity-8: #ffffff14;
-  --mist-50-opacity-10: #ffffff1a;
-  --mist-50-opacity-12: #ffffff1f;
-  --mist-50-opacity-16: #ffffff29;
-  --mist-50-opacity-24: #ffffff3d;
-  --mist-50-opacity-30: #ffffff4d;
-  --mist-50-opacity-38: #ffffff61;
-  --mist-50-opacity-50: #ffffff80;
-  --mist-50-opacity-60: #ffffff99;
-  --mist-50-opacity-88: #ffffffe0;
+  --mist-50-opacity-0: oklch(100.00% 0.0000 0.00 / 0);
+  --mist-50-opacity-4: oklch(100.00% 0.0000 0.00 / calc(10 / 255));
+  --mist-50-opacity-6: oklch(100.00% 0.0000 0.00 / calc(15 / 255));
+  --mist-50-opacity-8: oklch(100.00% 0.0000 0.00 / calc(20 / 255));
+  --mist-50-opacity-10: oklch(100.00% 0.0000 0.00 / calc(26 / 255));
+  --mist-50-opacity-12: oklch(100.00% 0.0000 0.00 / calc(31 / 255));
+  --mist-50-opacity-16: oklch(100.00% 0.0000 0.00 / calc(41 / 255));
+  --mist-50-opacity-24: oklch(100.00% 0.0000 0.00 / calc(61 / 255));
+  --mist-50-opacity-30: oklch(100.00% 0.0000 0.00 / calc(77 / 255));
+  --mist-50-opacity-38: oklch(100.00% 0.0000 0.00 / calc(97 / 255));
+  --mist-50-opacity-50: oklch(100.00% 0.0000 0.00 / calc(128 / 255));
+  --mist-50-opacity-60: oklch(100.00% 0.0000 0.00 / calc(153 / 255));
+  --mist-50-opacity-88: oklch(100.00% 0.0000 0.00 / calc(224 / 255));
 
   /** Mist Utility Colors */
   --color-mist-50: var(--mist-50);
   --color-mist-50-opacity-88: var(--mist-50-opacity-88);
 
   /** Slate Primitives */
-  --slate-50: #373a44;
-  --slate-100: #333640;
-  --slate-200: #2f323c;
-  --slate-300: #2b2e39;
-  --slate-400: #272a35;
-  --slate-500: #232632;
-  --slate-600: #1f222e;
-  --slate-700: #1b1e2a;
-  --slate-800: #181b26;
-  --slate-900: #141721;
-  --slate-950: #10121b;
+  --slate-50: oklch(34.96% 0.0179 272.24);
+  --slate-100: oklch(33.40% 0.0181 272.20);
+  --slate-200: oklch(31.83% 0.0183 272.16);
+  --slate-300: oklch(30.29% 0.0203 273.16);
+  --slate-400: oklch(28.68% 0.0206 273.08);
+  --slate-500: oklch(27.10% 0.0227 273.84);
+  --slate-600: oklch(25.44% 0.0231 273.73);
+  --slate-700: oklch(23.76% 0.0235 273.59);
+  --slate-800: oklch(22.43% 0.0220 272.68);
+  --slate-900: oklch(20.64% 0.0205 271.56);
+  --slate-950: oklch(18.46% 0.0187 274.71);
 
   /** Slate Opacity Tokens */
-  --slate-900-opacity-0: #14172100;
-  --slate-900-opacity-4: #1417210a;
-  --slate-900-opacity-6: #1417210f;
-  --slate-900-opacity-8: #14172114;
-  --slate-900-opacity-10: #1417211a;
-  --slate-900-opacity-12: #1417211f;
-  --slate-900-opacity-16: #14172129;
-  --slate-900-opacity-24: #1417213d;
-  --slate-900-opacity-30: #1417214d;
-  --slate-900-opacity-38: #14172161;
-  --slate-900-opacity-50: #14172180;
-  --slate-900-opacity-60: #14172199;
-  --slate-900-opacity-88: #141721e0;
+  --slate-900-opacity-0: oklch(20.64% 0.0205 271.56 / 0);
+  --slate-900-opacity-4: oklch(20.64% 0.0205 271.56 / calc(10 / 255));
+  --slate-900-opacity-6: oklch(20.64% 0.0205 271.56 / calc(15 / 255));
+  --slate-900-opacity-8: oklch(20.64% 0.0205 271.56 / calc(20 / 255));
+  --slate-900-opacity-10: oklch(20.64% 0.0205 271.56 / calc(26 / 255));
+  --slate-900-opacity-12: oklch(20.64% 0.0205 271.56 / calc(31 / 255));
+  --slate-900-opacity-16: oklch(20.64% 0.0205 271.56 / calc(41 / 255));
+  --slate-900-opacity-24: oklch(20.64% 0.0205 271.56 / calc(61 / 255));
+  --slate-900-opacity-30: oklch(20.64% 0.0205 271.56 / calc(77 / 255));
+  --slate-900-opacity-38: oklch(20.64% 0.0205 271.56 / calc(97 / 255));
+  --slate-900-opacity-50: oklch(20.64% 0.0205 271.56 / calc(128 / 255));
+  --slate-900-opacity-60: oklch(20.64% 0.0205 271.56 / calc(153 / 255));
+  --slate-900-opacity-88: oklch(20.64% 0.0205 271.56 / calc(224 / 255));
 
   /** Brand Accents */
-  --brand-accents-mckinsey-deep-blue: #051c2c;
-  --brand-accents-mckinsey-electric-blue: #2251ff;
-  --brand-accents-mckinsey-cyan: #00a9f4;
-  --brand-accents-qb-accent: #00a9f4;
+  --brand-accents-mckinsey-deep-blue: oklch(21.74% 0.0429 242.02);
+  --brand-accents-mckinsey-electric-blue: oklch(53.17% 0.2600 265.39);
+  --brand-accents-mckinsey-cyan: oklch(69.89% 0.1572 238.91);
+  --brand-accents-qb-accent: oklch(69.89% 0.1572 238.91);
 
   /** Brand Accent Utility Colors */
   --color-brand-accents-mckinsey-deep-blue: var(--brand-accents-mckinsey-deep-blue);
