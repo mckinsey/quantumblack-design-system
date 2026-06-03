@@ -39,9 +39,9 @@ describe('tokens from TOKENS.md + globals.css', () => {
   it('resolves concrete semantic colours from globals.css', () => {
     const tokens = loadColorTokens(globalsCss);
     const primary = tokens.find(t => t.cssVar === '--surface-primary');
-    expect(primary?.light?.hex).toBe('#ffffffff');
+    expect(primary?.light?.value).toBe('#ffffffff');
     expect(primary?.light?.alias).toBe('--mist-50');
-    expect(primary?.dark?.hex).toBe('#181b26ff');
+    expect(primary?.dark?.value).toBe('#181b26ff');
     expect(primary?.dark?.alias).toBe('--slate-800');
   });
 
@@ -51,24 +51,35 @@ describe('tokens from TOKENS.md + globals.css', () => {
       t => t.category === 'Status' && t.cssVar === '--status-success',
     );
     expect(success?.patternOnly).toBe(false);
-    expect(success?.light?.hex).toBe('#16a34aff');
-    expect(success?.dark?.hex).toBe('#4ade80ff');
+    expect(success?.light?.value).toBe('#16a34aff');
+    expect(success?.dark?.value).toBe('#4ade80ff');
   });
 
   it('resolves brand accent primitives from @theme inline', () => {
     const tokens = loadColorTokens(globalsCss);
     const accent = tokens.find(t => t.cssVar === '--brand-accents-qb-accent');
-    expect(accent?.light?.hex).toBe('#00a9f4ff');
-    expect(accent?.dark?.hex).toBe('#00a9f4ff');
+    expect(accent?.light?.value).toBe('#00a9f4ff');
+    expect(accent?.dark?.value).toBe('#00a9f4ff');
   });
 
   it('resolves all non-pattern registry colours to 8-digit hex', () => {
     const tokens = loadColorTokens(globalsCss);
     for (const token of tokens) {
       if (token.patternOnly) continue;
-      if (token.light) expect(token.light.hex).toMatch(/^#[\da-f]{8}$/);
-      if (token.dark) expect(token.dark.hex).toMatch(/^#[\da-f]{8}$/);
+      if (token.light) expect(token.light.value).toMatch(/^#[\da-f]{8}$/);
+      if (token.dark) expect(token.dark.value).toMatch(/^#[\da-f]{8}$/);
     }
+  });
+
+  it('marks multi-variable catalogue rows as pattern-only without a bogus cssVar', () => {
+    const parsed = parseTokensMarkdown(tokensMd);
+    const onSurfaceInverse = parsed.find(
+      t =>
+        t.tailwind.includes('bg-fill-subtle-inverse') &&
+        t.category === 'Fill — onSurface',
+    );
+    expect(onSurfaceInverse?.cssVar).toBeNull();
+    expect(onSurfaceInverse?.patternOnly).toBe(true);
   });
 
   it('marks wildcard catalogue rows as pattern-only without a bogus cssVar', () => {

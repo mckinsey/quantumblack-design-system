@@ -56,16 +56,16 @@ function isTransparentHex8(hex: string): boolean {
   return /^#[\da-f]{8}$/i.test(hex) && hex.slice(7, 9).toLowerCase() !== 'ff';
 }
 
-function ColorSwatch({ hex, onLight }: { hex: string; onLight: boolean }) {
+function ColorSwatch({ value, onLight }: { value: string; onLight: boolean }) {
   const borderClass = onLight
     ? 'border border-[#14172129]'
     : 'border border-[#ffffff29]';
 
-  if (!isTransparentHex8(hex)) {
+  if (!isTransparentHex8(value)) {
     return (
       <div
         className={cn('size-7 shrink-0 rounded-full', borderClass)}
-        style={{ backgroundColor: hex }}
+        style={{ backgroundColor: value }}
         aria-hidden
       />
     );
@@ -79,7 +79,7 @@ function ColorSwatch({ hex, onLight }: { hex: string; onLight: boolean }) {
       )}
       aria-hidden>
       <div className="absolute inset-0" style={CHECKERBOARD} />
-      <div className="absolute inset-0" style={{ backgroundColor: hex }} />
+      <div className="absolute inset-0" style={{ backgroundColor: value }} />
     </div>
   );
 }
@@ -144,14 +144,14 @@ function ModeChip({
   color: TokenColor;
 }) {
   const onLight = canvas === LIGHT_CANVAS;
-  const title = color.alias ? `${color.hex} · ${color.alias}` : color.hex;
+  const title = color.alias ? `${color.value} · ${color.alias}` : color.value;
 
   return (
     <div
       className="border-stroke-tertiary grid h-[3.25rem] w-[8.75rem] grid-cols-[1.75rem_1fr] items-center gap-2 border px-2"
       style={{ backgroundColor: canvas }}
       title={title}>
-      <ColorSwatch hex={color.hex} onLight={onLight} />
+      <ColorSwatch value={color.value} onLight={onLight} />
       <div className="min-w-0">
         <p
           className={
@@ -167,7 +167,7 @@ function ModeChip({
               ? 'paragraph-small-primary truncate font-mono text-[#141721]'
               : 'paragraph-small-primary truncate font-mono text-[#ffffff]'
           }>
-          {color.hex}
+          {color.value}
         </p>
       </div>
     </div>
@@ -224,8 +224,8 @@ function TokenRow({ token }: { token: Token }) {
   const showSwatches =
     !showElevationPreviews &&
     !token.patternOnly &&
-    token.light?.hex &&
-    token.dark?.hex;
+    token.light?.value &&
+    token.dark?.value;
 
   return (
     <li

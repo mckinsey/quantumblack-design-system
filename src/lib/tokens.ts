@@ -1,7 +1,8 @@
 import tokensMarkdown from '../../docs/TOKENS.md?raw';
 
 export interface TokenColor {
-  hex: string;
+  /** Resolved 8-digit hex (`#rrggbbaa`) for registry swatches and labels. */
+  value: string;
   alias: string | null;
 }
 
@@ -54,8 +55,9 @@ function normalizeHeading(raw: string): string {
 
 function parseCssVarCell(cell: string): string | null {
   if (cell.includes('*')) return null;
-  const match = cell.match(/--[a-z0-9-]+/);
-  return match?.[0] ?? null;
+  const matches = [...cell.matchAll(/--[a-z0-9-]+/g)].map(match => match[0]);
+  if (matches.length !== 1) return null;
+  return matches[0];
 }
 
 function parseTableRows(
@@ -282,7 +284,7 @@ function resolveColorValue(
   primitives: Map<string, string>,
   semantic: Map<string, string>,
   seen: Set<string>,
-): { hex: string; alias: string | null } | null {
+): { value: string; alias: string | null } | null {
   const value = evaluateCssCalc(raw.trim());
 
   const varMatch = value.match(/^var\(\s*(--[a-z0-9-]+)\s*\)$/);
@@ -297,12 +299,12 @@ function resolveColorValue(
 
     const resolved = resolveColorValue(next, primitives, semantic, seen);
     if (!resolved) return null;
-    return { hex: resolved.hex, alias };
+    return { value: resolved.value, alias };
   }
 
-  const hex = cssColorToHex8(value);
-  if (!hex) return null;
-  return { hex, alias: null };
+  const hex8 = cssColorToHex8(value);
+  if (!hex8) return null;
+  return { value: hex8, alias: null };
 }
 
 function attachResolvedColors(tokens: Token[], globalsCss: string): Token[] {
