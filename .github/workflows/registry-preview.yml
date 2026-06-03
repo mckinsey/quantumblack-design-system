@@ -1,56 +1,36 @@
-# Publishes a registry preview for each pull request at /pr-preview/pr-<number>/.
-# Preview link: open the "Registry preview" check → View deployment (or job Summary).
-# Requires GitHub Pages source: Deploy from branch → gh-pages (root). See deploy-pages.yml.
+# Deploys a GitHub Pages preview for each PR using the same Actions-based flow as
+# deploy-pages.yml (preview: true). Preview link: Registry preview check → View deployment.
 #
-# Automatic: runs on pull_request once this file is on main.
-# Manual test (before merge): Actions → Registry preview → Run workflow → your branch + PR number.
+# Manual test (before merge): Actions → Registry preview → Run workflow → your branch.
 name: Registry preview
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, closed]
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
-    inputs:
-      pr_number:
-        description: Pull request number (shown in the PR URL, e.g. 42)
-        required: true
-        type: string
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-  group: registry-preview-${{ github.event.pull_request.number || inputs.pr_number }}
+  group: registry-preview-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  preview:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: Registry preview
-      url: ${{ steps.meta.outputs.preview_url }}
+    environment: Registry preview
     env:
-      PREVIEW_SITE_URL: ${{ vars.QBDS_REGISTRY_URL || 'https://designsystem.quantumblack.com' }}
+      QBDS_REGISTRY_URL: ${{ vars.QBDS_REGISTRY_URL || 'https://designsystem.quantumblack.com' }}
     steps:
-      - name: Resolve preview target
-        id: meta
-        run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            pr="${{ github.event.pull_request.number }}"
-            closed="${{ github.event.action == 'closed' }}"
-          else
-            pr="${{ inputs.pr_number }}"
-            closed="false"
-          fi
-          site_url="${PREVIEW_SITE_URL%/}"
-          echo "pr_number=${pr}" >> "$GITHUB_OUTPUT"
-          echo "preview_path=pr-preview/pr-${pr}" >> "$GITHUB_OUTPUT"
-          echo "preview_url=${site_url}/pr-preview/pr-${pr}" >> "$GITHUB_OUTPUT"
-          echo "is_closed=${closed}" >> "$GITHUB_OUTPUT"
-
       - uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.sha || github.ref }}
+
+      - uses: actions/configure-pages@v5
+        id: pages
 
       - uses: actions/setup-node@v6
         with:
@@ -64,77 +44,39 @@ jobs:
           key: node-modules-${{ runner.os }}-${{ hashFiles('.nvmrc') }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install
-        if: steps.cache.outputs.cache-hit != 'true' && steps.meta.outputs.is_closed != 'true'
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci --prefer-offline --no-audit
 
       - name: Build registry site
-        if: steps.meta.outputs.is_closed != 'true'
         env:
-          VITE_BASE_PATH: /${{ steps.meta.outputs.preview_path }}/
-          QBDS_REGISTRY_URL: ${{ env.PREVIEW_SITE_URL }}/${{ steps.meta.outputs.preview_path }}
+          VITE_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          QBDS_REGISTRY_URL: ${{ vars.QBDS_REGISTRY_URL || steps.pages.outputs.base_url }}
         run: |
           export QBDS_REGISTRY_URL="${QBDS_REGISTRY_URL%/}"
           npm run build
           cp dist/index.html dist/404.html
 
-      - name: Publish preview to gh-pages
-        if: steps.meta.outputs.is_closed != 'true'
-        env:
-          PREVIEW_DIR: ${{ steps.meta.outputs.preview_path }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
 
-          cp -R dist /tmp/registry-preview-dist
-
-          git fetch origin gh-pages 2>/dev/null || true
-          if git show-ref --verify --quiet refs/remotes/origin/gh-pages; then
-            git checkout gh-pages
-          else
-            git checkout --orphan gh-pages
-            git reset --hard
-          fi
-
-          rm -rf "$PREVIEW_DIR"
-          mkdir -p "$PREVIEW_DIR"
-          cp -R /tmp/registry-preview-dist/. "$PREVIEW_DIR/"
-
-          git add "$PREVIEW_DIR"
-          if git diff --staged --quiet; then
-            echo "No preview changes to publish."
-          else
-            git commit -m "Deploy registry preview for PR #${{ steps.meta.outputs.pr_number }}"
-            git push origin gh-pages
-          fi
-
-      - name: Remove preview from gh-pages
-        if: steps.meta.outputs.is_closed == 'true'
-        env:
-          PREVIEW_DIR: ${{ steps.meta.outputs.preview_path }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git fetch origin gh-pages 2>/dev/null || exit 0
-          git checkout gh-pages 2>/dev/null || exit 0
-
-          if [ ! -d "$PREVIEW_DIR" ]; then
-            echo "Preview directory already removed."
-            exit 0
-          fi
-
-          git rm -rf "$PREVIEW_DIR"
-          if git diff --staged --quiet; then
-            exit 0
-          fi
-
-          git commit -m "Remove registry preview for PR #${{ steps.meta.outputs.pr_number }}"
-          git push origin gh-pages
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: Registry preview
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy preview to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          preview: true
 
       - name: Add preview link to job summary
-        if: steps.meta.outputs.is_closed != 'true'
+        if: steps.deployment.outputs.page_url != ''
         env:
-          PREVIEW_URL: ${{ steps.meta.outputs.preview_url }}
+          PREVIEW_URL: ${{ steps.deployment.outputs.page_url }}
         run: |
           {
             echo "## Registry preview"
