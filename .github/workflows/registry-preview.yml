@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: Registry preview
-      url: ${{ steps.deploy.outputs.preview-url }}
+      url: ${{ steps.meta.outputs.preview_url }}
     env:
       PREVIEW_SITE_URL: ${{ vars.QBDS_REGISTRY_URL || 'https://designsystem.quantumblack.com' }}
     steps:
@@ -42,11 +42,15 @@ jobs:
             pr="${{ inputs.pr_number }}"
             closed="false"
           fi
+          site_url="${PREVIEW_SITE_URL%/}"
           echo "pr_number=${pr}" >> "$GITHUB_OUTPUT"
           echo "preview_path=pr-preview/pr-${pr}" >> "$GITHUB_OUTPUT"
+          echo "preview_url=${site_url}/pr-preview/pr-${pr}" >> "$GITHUB_OUTPUT"
           echo "is_closed=${closed}" >> "$GITHUB_OUTPUT"
 
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.ref }}
 
       - uses: actions/setup-node@v6
         with:
@@ -73,27 +77,64 @@ jobs:
           npm run build
           cp dist/index.html dist/404.html
 
-      - name: Prepare dist directory for preview removal
-        if: steps.meta.outputs.is_closed == 'true'
-        run: mkdir -p dist
+      - name: Publish preview to gh-pages
+        if: steps.meta.outputs.is_closed != 'true'
+        env:
+          PREVIEW_DIR: ${{ steps.meta.outputs.preview_path }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Deploy preview
-        id: deploy
-        uses: rossjrw/pr-preview-action@v1
-        with:
-          source-dir: ./dist/
-          preview-branch: gh-pages
-          umbrella-dir: pr-preview
-          pr-number: ${{ steps.meta.outputs.pr_number }}
-          pages-base-url: ${{ env.PREVIEW_SITE_URL }}
-          wait-for-pages-deployment: true
-          comment: false
-          qr-code: false
+          cp -R dist /tmp/registry-preview-dist
+
+          git fetch origin gh-pages 2>/dev/null || true
+          if git show-ref --verify --quiet refs/remotes/origin/gh-pages; then
+            git checkout gh-pages
+          else
+            git checkout --orphan gh-pages
+            git reset --hard
+          fi
+
+          rm -rf "$PREVIEW_DIR"
+          mkdir -p "$PREVIEW_DIR"
+          cp -R /tmp/registry-preview-dist/. "$PREVIEW_DIR/"
+
+          git add "$PREVIEW_DIR"
+          if git diff --staged --quiet; then
+            echo "No preview changes to publish."
+          else
+            git commit -m "Deploy registry preview for PR #${{ steps.meta.outputs.pr_number }}"
+            git push origin gh-pages
+          fi
+
+      - name: Remove preview from gh-pages
+        if: steps.meta.outputs.is_closed == 'true'
+        env:
+          PREVIEW_DIR: ${{ steps.meta.outputs.preview_path }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git fetch origin gh-pages 2>/dev/null || exit 0
+          git checkout gh-pages 2>/dev/null || exit 0
+
+          if [ ! -d "$PREVIEW_DIR" ]; then
+            echo "Preview directory already removed."
+            exit 0
+          fi
+
+          git rm -rf "$PREVIEW_DIR"
+          if git diff --staged --quiet; then
+            exit 0
+          fi
+
+          git commit -m "Remove registry preview for PR #${{ steps.meta.outputs.pr_number }}"
+          git push origin gh-pages
 
       - name: Add preview link to job summary
-        if: steps.deploy.outputs.preview-url != ''
+        if: steps.meta.outputs.is_closed != 'true'
         env:
-          PREVIEW_URL: ${{ steps.deploy.outputs.preview-url }}
+          PREVIEW_URL: ${{ steps.meta.outputs.preview_url }}
         run: |
           {
             echo "## Registry preview"
