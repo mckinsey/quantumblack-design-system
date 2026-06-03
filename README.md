@@ -139,5 +139,6 @@ The build also runs `generate-api-docs` and `extract-examples` to produce the pr
 
 ## CI/CD
 
-- **`pr.yml`** — runs tests, build, and lint on pull requests and on pushes to `main`. On pull requests it also publishes a preview of the registry site so reviewers can see changes before merge. Find the preview link on the **CI / preview** check.
-- **`deploy-pages.yml`** — builds and deploys to GitHub Pages on push to `main` (or manual trigger). Includes a `404.html` for SPA routing.
+- **`pr.yml`** — runs tests, build, and lint on pull requests and on pushes to `main`.
+- **`registry-preview.yml`** — on pull requests, publishes a preview of the registry site so reviewers can see changes before merge. Find the preview link on the **Registry preview** check. To test before this file is on `main`: **Actions → Registry preview → Run workflow**, select your branch, and enter your PR number.
+- **`deploy-pages.yml`** — builds and deploys production to the `gh-pages` branch on push to `main`. Preserves `pr-preview/` when deploying.

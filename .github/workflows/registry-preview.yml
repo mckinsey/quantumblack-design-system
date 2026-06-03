@@ -1,0 +1,102 @@
+# Publishes a registry preview for each pull request at /pr-preview/pr-<number>/.
+# Preview link: open the "Registry preview" check → View deployment (or job Summary).
+# Requires GitHub Pages source: Deploy from branch → gh-pages (root). See deploy-pages.yml.
+#
+# Automatic: runs on pull_request once this file is on main.
+# Manual test (before merge): Actions → Registry preview → Run workflow → your branch + PR number.
+name: Registry preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: Pull request number (shown in the PR URL, e.g. 42)
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: registry-preview-${{ github.event.pull_request.number || inputs.pr_number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    environment:
+      name: Registry preview
+      url: ${{ steps.deploy.outputs.preview-url }}
+    env:
+      PREVIEW_SITE_URL: ${{ vars.QBDS_REGISTRY_URL || 'https://designsystem.quantumblack.com' }}
+    steps:
+      - name: Resolve preview target
+        id: meta
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            pr="${{ github.event.pull_request.number }}"
+            closed="${{ github.event.action == 'closed' }}"
+          else
+            pr="${{ inputs.pr_number }}"
+            closed="false"
+          fi
+          echo "pr_number=${pr}" >> "$GITHUB_OUTPUT"
+          echo "preview_path=pr-preview/pr-${pr}" >> "$GITHUB_OUTPUT"
+          echo "is_closed=${closed}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Cache node_modules
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('.nvmrc') }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install
+        if: steps.cache.outputs.cache-hit != 'true' && steps.meta.outputs.is_closed != 'true'
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Build registry site
+        if: steps.meta.outputs.is_closed != 'true'
+        env:
+          VITE_BASE_PATH: /${{ steps.meta.outputs.preview_path }}/
+          QBDS_REGISTRY_URL: ${{ env.PREVIEW_SITE_URL }}/${{ steps.meta.outputs.preview_path }}
+        run: |
+          export QBDS_REGISTRY_URL="${QBDS_REGISTRY_URL%/}"
+          npm run build
+          cp dist/index.html dist/404.html
+
+      - name: Prepare dist directory for preview removal
+        if: steps.meta.outputs.is_closed == 'true'
+        run: mkdir -p dist
+
+      - name: Deploy preview
+        id: deploy
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./dist/
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          pr-number: ${{ steps.meta.outputs.pr_number }}
+          pages-base-url: ${{ env.PREVIEW_SITE_URL }}
+          wait-for-pages-deployment: true
+          comment: false
+          qr-code: false
+
+      - name: Add preview link to job summary
+        if: steps.deploy.outputs.preview-url != ''
+        env:
+          PREVIEW_URL: ${{ steps.deploy.outputs.preview-url }}
+        run: |
+          {
+            echo "## Registry preview"
+            echo ""
+            echo "[Open preview](${PREVIEW_URL})"
+          } >> "$GITHUB_STEP_SUMMARY"

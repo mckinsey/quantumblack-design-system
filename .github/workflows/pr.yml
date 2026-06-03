@@ -4,7 +4,6 @@ on:
   push:
     branches: [main]
   pull_request:
-    types: [opened, synchronize, reopened, closed]
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -83,69 +82,3 @@ jobs:
 
       - name: Lint
         run: npm run lint
-
-  preview:
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    environment:
-      name: Registry preview
-      url: ${{ steps.deploy.outputs.preview-url }}
-    env:
-      PREVIEW_SITE_URL: ${{ vars.QBDS_REGISTRY_URL || 'https://designsystem.quantumblack.com' }}
-      PREVIEW_PATH: pr-preview/pr-${{ github.event.pull_request.number }}
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: actions/setup-node@v6
-        with:
-          node-version-file: '.nvmrc'
-
-      - name: Cache node_modules
-        id: cache
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: node-modules-${{ runner.os }}-${{ hashFiles('.nvmrc') }}-${{ hashFiles('package-lock.json') }}
-
-      - name: Install
-        if: steps.cache.outputs.cache-hit != 'true' && github.event.action != 'closed'
-        run: npm ci --prefer-offline --no-audit
-
-      - name: Build registry site
-        if: github.event.action != 'closed'
-        env:
-          VITE_BASE_PATH: /${{ env.PREVIEW_PATH }}/
-          QBDS_REGISTRY_URL: ${{ env.PREVIEW_SITE_URL }}/${{ env.PREVIEW_PATH }}
-        run: |
-          export QBDS_REGISTRY_URL="${QBDS_REGISTRY_URL%/}"
-          npm run build
-          cp dist/index.html dist/404.html
-
-      - name: Prepare dist directory for preview removal
-        if: github.event.action == 'closed'
-        run: mkdir -p dist
-
-      - name: Deploy preview
-        id: deploy
-        uses: rossjrw/pr-preview-action@v1
-        with:
-          source-dir: ./dist/
-          preview-branch: gh-pages
-          umbrella-dir: pr-preview
-          pages-base-url: ${{ env.PREVIEW_SITE_URL }}
-          wait-for-pages-deployment: true
-          comment: false
-          qr-code: false
-
-      - name: Add preview link to job summary
-        if: steps.deploy.outputs.preview-url != ''
-        env:
-          PREVIEW_URL: ${{ steps.deploy.outputs.preview-url }}
-        run: |
-          {
-            echo "## Registry preview"
-            echo ""
-            echo "[Open preview](${PREVIEW_URL})"
-          } >> "$GITHUB_STEP_SUMMARY"
