@@ -1,16 +1,13 @@
-# Builds and deploys the registry site for each PR, then comments the preview URL.
-# Uses GitHub Pages preview deployments (deploy-pages preview: true). Requires Pages
-# to be enabled with the "GitHub Actions" source (same as deploy-pages.yml).
+# Deploys each PR to https://<site>/pr-preview/pr-<number>/ on the gh-pages branch.
+# Requires GitHub Pages source: Deploy from branch → gh-pages (root). See deploy-pages.yml.
 name: Registry PR preview
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, closed]
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
   pull-requests: write
 
 concurrency:
@@ -18,15 +15,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  preview:
     runs-on: ubuntu-latest
-    environment:
-      name: Pages Preview
+    env:
+      PREVIEW_SITE_URL: ${{ vars.QBDS_REGISTRY_URL || 'https://designsystem.quantumblack.com' }}
+      PREVIEW_PATH: pr-preview/pr-${{ github.event.pull_request.number }}
     steps:
       - uses: actions/checkout@v6
-
-      - uses: actions/configure-pages@v5
-        id: pages
 
       - uses: actions/setup-node@v6
         with:
@@ -40,78 +35,30 @@ jobs:
           key: node-modules-${{ runner.os }}-${{ hashFiles('.nvmrc') }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit != 'true' && github.event.action != 'closed'
         run: npm ci --prefer-offline --no-audit
 
       - name: Build registry site
+        if: github.event.action != 'closed'
         env:
-          VITE_BASE_PATH: ${{ steps.pages.outputs.base_path }}
-          QBDS_REGISTRY_URL: ${{ vars.QBDS_REGISTRY_URL || steps.pages.outputs.base_url }}
+          VITE_BASE_PATH: /${{ env.PREVIEW_PATH }}/
+          QBDS_REGISTRY_URL: ${{ env.PREVIEW_SITE_URL }}/${{ env.PREVIEW_PATH }}
         run: |
           export QBDS_REGISTRY_URL="${QBDS_REGISTRY_URL%/}"
           npm run build
+          cp dist/index.html dist/404.html
 
-      - name: Copy index.html to 404.html for SPA routing
-        run: cp dist/index.html dist/404.html
+      - name: Prepare dist directory for preview removal
+        if: github.event.action == 'closed'
+        run: mkdir -p dist
 
-      - uses: actions/upload-pages-artifact@v4
+      - name: Deploy preview
+        uses: rossjrw/pr-preview-action@v1
         with:
-          path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: Pages Preview
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy preview to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-        with:
-          preview: true
-
-      - name: Comment preview URL on pull request
-        if: steps.deployment.outputs.page_url != ''
-        uses: actions/github-script@v7
-        env:
-          PREVIEW_URL: ${{ steps.deployment.outputs.page_url }}
-        with:
-          script: |
-            const marker = '<!-- registry-pr-preview -->';
-            const url = process.env.PREVIEW_URL;
-            const body = [
-              marker,
-              '## Registry preview',
-              '',
-              `Preview this pull request’s registry build: **${url}**`,
-              '',
-              `Commit: \`${context.sha.slice(0, 7)}\``,
-            ].join('\n');
-
-            const issue_number = context.payload.pull_request.number;
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number,
-            });
-
-            const existing = comments.find(
-              (c) => c.user?.type === 'Bot' && c.body?.includes(marker),
-            );
-
-            if (existing) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: existing.id,
-                body,
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number,
-                body,
-              });
-            }
+          source-dir: ./dist/
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          pages-base-url: ${{ env.PREVIEW_SITE_URL }}
+          wait-for-pages-deployment: true
+          comment: true
+          qr-code: false
