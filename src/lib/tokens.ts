@@ -35,6 +35,7 @@ function stripTicks(value: string): string {
 }
 
 function parseCssVarCell(cell: string): string | null {
+  if (cell.includes('*')) return null;
   const match = cell.match(/--[a-z0-9-]+/);
   return match?.[0] ?? null;
 }
@@ -79,17 +80,16 @@ function parseTableRows(
       const tailwind = stripTicks(cells[0]);
       const description = cells[1] ?? '';
       const name = stripTicks(cells[2] ?? '');
-      const cssVar = parseCssVarCell(description);
 
       tokens.push({
         name,
         category,
-        cssVar,
+        cssVar: null,
         tailwind,
         description,
         light: null,
         dark: null,
-        patternOnly: !cssVar,
+        patternOnly: true,
       });
     }
   }

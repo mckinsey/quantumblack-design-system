@@ -28,6 +28,7 @@ const TOKEN_ROW_GRID =
 
 function CopyBtn({ value }: { value: string }) {
   const [copied, setCopied] = useState(false);
+  const [copyFailed, setCopyFailed] = useState(false);
 
   useEffect(() => {
     if (!copied) return;
@@ -35,17 +36,37 @@ function CopyBtn({ value }: { value: string }) {
     return () => window.clearTimeout(id);
   }, [copied]);
 
+  useEffect(() => {
+    if (!copyFailed) return;
+    const id = window.setTimeout(() => setCopyFailed(false), 2000);
+    return () => window.clearTimeout(id);
+  }, [copyFailed]);
+
   return (
     <Button
       type="button"
       variant="ghost"
       size="sm"
       className="size-6 shrink-0 p-0"
-      aria-label={copied ? 'Copied' : `Copy ${value}`}
+      aria-label={
+        copied ? 'Copied' : copyFailed ? 'Copy failed' : `Copy ${value}`
+      }
       onClick={() => {
-        void navigator.clipboard.writeText(value).then(() => setCopied(true));
+        void navigator.clipboard
+          .writeText(value)
+          .then(() => {
+            setCopyFailed(false);
+            setCopied(true);
+          })
+          .catch(() => {
+            setCopied(false);
+            setCopyFailed(true);
+          });
       }}>
-      <Icon icon={copied ? 'check' : 'content_copy'} size="sm" />
+      <Icon
+        icon={copied ? 'check' : copyFailed ? 'error' : 'content_copy'}
+        size="sm"
+      />
     </Button>
   );
 }

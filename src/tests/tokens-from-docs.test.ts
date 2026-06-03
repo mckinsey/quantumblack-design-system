@@ -50,4 +50,33 @@ describe('tokens from TOKENS.md + globals.css', () => {
     expect(accent?.light?.hex).toBe('#00a9f4ff');
     expect(accent?.dark?.hex).toBe('#00a9f4ff');
   });
+
+  it('marks wildcard catalogue rows as pattern-only without a bogus cssVar', () => {
+    const parsed = parseTokensMarkdown(tokensMd);
+    const fillInverse = parsed.find(
+      t => t.tailwind === 'bg-fill-*-inverse' && t.category === 'Fill — content',
+    );
+    expect(fillInverse?.cssVar).toBeNull();
+    expect(fillInverse?.patternOnly).toBe(true);
+  });
+
+  it('marks elevation utilities as pattern-only (composed shadows)', () => {
+    const parsed = parseTokensMarkdown(tokensMd);
+    const elevation = parsed.find(t => t.tailwind === 'shadow-elevation-1');
+    expect(elevation?.cssVar).toBeNull();
+    expect(elevation?.patternOnly).toBe(true);
+    expect(elevation?.light).toBeNull();
+  });
+
+  it('defines Tailwind color bridges for all documented brand accents', () => {
+    expect(globalsCss).toContain(
+      '--color-brand-accents-mckinsey-deep-blue: var(--brand-accents-mckinsey-deep-blue)',
+    );
+    expect(globalsCss).toContain(
+      '--color-brand-accents-mckinsey-electric-blue: var(--brand-accents-mckinsey-electric-blue)',
+    );
+    expect(globalsCss).toContain(
+      '--color-brand-accents-mckinsey-cyan: var(--brand-accents-mckinsey-cyan)',
+    );
+  });
 });

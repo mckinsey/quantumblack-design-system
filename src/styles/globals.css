@@ -125,6 +125,9 @@
   --brand-accents-qb-accent: #00a9f4;
 
   /** Brand Accent Utility Colors */
+  --color-brand-accents-mckinsey-deep-blue: var(--brand-accents-mckinsey-deep-blue);
+  --color-brand-accents-mckinsey-electric-blue: var(--brand-accents-mckinsey-electric-blue);
+  --color-brand-accents-mckinsey-cyan: var(--brand-accents-mckinsey-cyan);
   --color-brand-accents-qb-accent: var(--brand-accents-qb-accent);
 
   /** Red primitives (DS-Primitives) */
