@@ -1,37 +1,5 @@
 import tokensMarkdown from '../../docs/TOKENS.md?raw';
 
-/**
- * Fallback palette for `/tokens` swatch resolution only.
- *
- * `loadColorTokens` walks `var(--…)` chains in raw `globals.css`. QBDS mist/slate/brand
- * values are declared in `@theme inline`, but status tokens point at Tailwind utilities
- * (e.g. `--text-error: var(--color-red-700)`). Those `--color-*` names exist at runtime
- * via Tailwind’s default theme — they are not written out in this file — so the walker
- * would stop without these entries and status/text-information swatches would be blank.
- */
-const TAILWIND_DEFAULT_COLORS: Record<string, string> = {
-  '--color-red-400': 'oklch(70.4% 0.191 22.216)',
-  '--color-red-500': 'oklch(63.7% 0.237 25.331)',
-  '--color-red-600': 'oklch(57.7% 0.245 27.325)',
-  '--color-red-700': 'oklch(50.5% 0.213 27.518)',
-  '--color-amber-400': 'oklch(82.8% 0.189 84.429)',
-  '--color-amber-500': 'oklch(76.9% 0.188 70.08)',
-  '--color-amber-600': 'oklch(66.6% 0.179 58.318)',
-  '--color-amber-700': 'oklch(55.5% 0.163 48.998)',
-  '--color-green-400': 'oklch(79.2% 0.209 151.711)',
-  '--color-green-500': 'oklch(72.3% 0.219 149.579)',
-  '--color-green-600': 'oklch(62.7% 0.194 149.214)',
-  '--color-green-700': 'oklch(52.7% 0.154 150.069)',
-  '--color-cyan-400': 'oklch(78.9% 0.154 211.53)',
-  '--color-cyan-500': 'oklch(71.5% 0.143 215.221)',
-  '--color-cyan-600': 'oklch(60.9% 0.126 221.723)',
-  '--color-cyan-700': 'oklch(52% 0.105 223.128)',
-  '--color-sky-400': 'oklch(74.6% 0.16 232.661)',
-  '--color-sky-500': 'oklch(68.5% 0.169 237.323)',
-  '--color-sky-600': 'oklch(58.8% 0.158 241.966)',
-  '--color-sky-700': 'oklch(50% 0.134 242.749)',
-};
-
 export interface TokenColor {
   hex: string;
   alias: string | null;
@@ -185,62 +153,14 @@ function normalizeHex(value: string): string | null {
   return null;
 }
 
-function parseOklch(value: string): { l: number; c: number; h: number } | null {
-  const match = value
-    .trim()
-    .match(/^oklch\(\s*([\d.]+%?)\s+([\d.]+)\s+([\d.]+)\s*\)$/i);
-  if (!match) return null;
-  let l = Number.parseFloat(match[1]);
-  if (match[1].includes('%')) l /= 100;
-  return { l, c: Number.parseFloat(match[2]), h: Number.parseFloat(match[3]) };
-}
-
-/** OKLCH (D65) → #rrggbbaa for token swatches. */
-export function oklchToHex(value: string): string | null {
-  const parsed = parseOklch(value);
-  if (!parsed) return null;
-
-  const hRad = (parsed.h * Math.PI) / 180;
-  const labA = parsed.c * Math.cos(hRad);
-  const labB = parsed.c * Math.sin(hRad);
-  const labL = parsed.l;
-
-  const l_ = labL + 0.3963377774 * labA + 0.2158037573 * labB;
-  const m_ = labL - 0.1055613458 * labA - 0.0638541728 * labB;
-  const s_ = labL - 0.0894841775 * labA - 1.291485548 * labB;
-
-  const l3 = l_ ** 3;
-  const m3 = m_ ** 3;
-  const s3 = s_ ** 3;
-
-  const linear = [
-    4.0767416621 * l3 - 3.3077115913 * m3 + 0.2309699292 * s3,
-    -1.2684380046 * l3 + 2.6097574011 * m3 - 0.3413193965 * s3,
-    -0.0041960863 * l3 - 0.7034186147 * m3 + 1.707614701 * s3,
-  ];
-
-  const toSrgb = (x: number) =>
-    x <= 0.0031308 ? 12.92 * x : 1.055 * x ** (1 / 2.4) - 0.055;
-
-  const [r, g, b] = linear.map(x =>
-    Math.round(Math.min(1, Math.max(0, toSrgb(x))) * 255),
-  );
-
-  return `#${[r, g, b].map(n => n.toString(16).padStart(2, '0')).join('')}ff`;
-}
-
 function normalizeColorValue(value: string): string | null {
-  return normalizeHex(value) ?? oklchToHex(value);
+  return normalizeHex(value);
 }
 
 function buildPrimitives(globalsCss: string): Map<string, string> {
   const themeBlock =
     globalsCss.match(/@theme inline \{([\s\S]*?)\n\}/)?.[1] ?? '';
-  const primitives = parseDeclarations(themeBlock);
-  for (const [name, raw] of Object.entries(TAILWIND_DEFAULT_COLORS)) {
-    if (!primitives.has(name)) primitives.set(name, raw);
-  }
-  return primitives;
+  return parseDeclarations(themeBlock);
 }
 
 function resolveColorValue(
@@ -278,20 +198,16 @@ function attachResolvedColors(tokens: Token[], globalsCss: string): Token[] {
   return tokens.map(token => {
     if (token.patternOnly || !token.cssVar) return token;
 
+    const lightRaw =
+      lightSemantic.get(token.cssVar) ?? primitives.get(token.cssVar) ?? '';
+    const darkRaw =
+      darkSemantic.get(token.cssVar) ?? primitives.get(token.cssVar) ?? '';
+
     const light =
-      resolveColorValue(
-        lightSemantic.get(token.cssVar) ?? '',
-        primitives,
-        lightSemantic,
-        new Set(),
-      ) ?? null;
+      resolveColorValue(lightRaw, primitives, lightSemantic, new Set()) ??
+      null;
     const dark =
-      resolveColorValue(
-        darkSemantic.get(token.cssVar) ?? '',
-        primitives,
-        darkSemantic,
-        new Set(),
-      ) ?? null;
+      resolveColorValue(darkRaw, primitives, darkSemantic, new Set()) ?? null;
 
     return { ...token, light, dark };
   });
@@ -306,10 +222,25 @@ export function loadColorTokens(globalsCss: string): Token[] {
   return attachResolvedColors(parsedMarkdown, globalsCss);
 }
 
+/** True for `*-inverse` catalogue rows (including `*-*-inverse` patterns). */
+export function isInverseToken(token: Token): boolean {
+  if (token.cssVar?.includes('-inverse')) return true;
+  if (token.tailwind.includes('-inverse')) return true;
+  if (/inverse/i.test(token.name)) return true;
+  return false;
+}
+
+/** Subset for the registry `/tokens` page — full catalogue stays in TOKENS.md. */
+export function filterRegistryColorTokens(tokens: Token[]): Token[] {
+  return tokens.filter(t => !isInverseToken(t));
+}
+
 export function getCategories(tokens: Token[]): string[] {
   const seen = new Set(tokens.map(t => t.category));
   const ordered = CATEGORY_ORDER.filter(c => seen.has(c));
-  const extras = [...seen].filter(c => !ordered.includes(c)).sort();
+  const extras = [...seen]
+    .filter(c => !(ordered as readonly string[]).includes(c))
+    .sort();
   return [...ordered, ...extras];
 }
 

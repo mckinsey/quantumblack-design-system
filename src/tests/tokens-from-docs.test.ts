@@ -3,7 +3,7 @@ import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 
-import { loadColorTokens, oklchToHex, parseTokensMarkdown } from '@/lib/tokens';
+import { loadColorTokens, parseTokensMarkdown } from '@/lib/tokens';
 
 const REPO_ROOT = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -37,13 +37,21 @@ describe('tokens from TOKENS.md + globals.css', () => {
   });
 
   it('resolves status fill colours from globals.css', () => {
-    expect(oklchToHex('oklch(62.7% 0.194 149.214)')).toMatch(/^#[\da-f]{8}$/);
     const tokens = loadColorTokens(globalsCss);
     const success = tokens.find(
       t => t.category === 'Status' && t.cssVar === '--status-success',
     );
     expect(success?.patternOnly).toBe(false);
-    expect(success?.light?.hex).toMatch(/^#[\da-f]{8}$/);
-    expect(success?.dark?.hex).toMatch(/^#[\da-f]{8}$/);
+    expect(success?.light?.hex).toBe('#16a34aff');
+    expect(success?.dark?.hex).toBe('#4ade80ff');
+  });
+
+  it('resolves brand accent primitives from @theme inline', () => {
+    const tokens = loadColorTokens(globalsCss);
+    const accent = tokens.find(
+      t => t.cssVar === '--brand-accents-qb-accent',
+    );
+    expect(accent?.light?.hex).toBe('#00a9f4ff');
+    expect(accent?.dark?.hex).toBe('#00a9f4ff');
   });
 });
