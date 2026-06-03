@@ -152,19 +152,123 @@ function extractRuleBlock(css: string, selector: ':root' | '.dark'): string {
   return css.match(re)?.[1] ?? '';
 }
 
-/** Resolved CSS color for swatches — hex or oklch() from globals.css. */
-function normalizeCssColor(value: string): string | null {
-  const trimmed = value.trim();
-  if (/^#[\da-fA-F]{8}$/.test(trimmed)) return trimmed.toLowerCase();
-  if (/^#[\da-fA-F]{6}$/.test(trimmed)) return `${trimmed.toLowerCase()}ff`;
-  if (/^#[\da-fA-F]{3}$/.test(trimmed)) {
-    const r = trimmed[1];
-    const g = trimmed[2];
-    const b = trimmed[3];
+/** Evaluate `calc(N / 255)` alpha expressions from globals.css. */
+function evaluateCssCalc(value: string): string {
+  return value.replace(
+    /calc\(\s*(\d+(?:\.\d+)?)\s*\/\s*255\s*\)/gi,
+    (_, n: string) => String(Number(n) / 255),
+  );
+}
+
+function normalizeHex8(value: string): string | null {
+  const hex = value.trim();
+  if (/^#[\da-fA-F]{8}$/.test(hex)) return hex.toLowerCase();
+  if (/^#[\da-fA-F]{6}$/.test(hex)) return `${hex.toLowerCase()}ff`;
+  if (/^#[\da-fA-F]{3}$/.test(hex)) {
+    const r = hex[1];
+    const g = hex[2];
+    const b = hex[3];
     return `#${r}${r}${g}${g}${b}${b}ff`;
   }
-  if (/^oklch\(/i.test(trimmed)) return trimmed;
   return null;
+}
+
+function parseOklch(value: string): {
+  l: number;
+  c: number;
+  h: number;
+  alpha: number;
+} | null {
+  const match = value
+    .trim()
+    .match(
+      /^oklch\(\s*([\d.]+%?)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?\s*\)$/i,
+    );
+  if (!match) return null;
+
+  let l = Number.parseFloat(match[1]);
+  if (match[1].endsWith('%')) l /= 100;
+
+  return {
+    l,
+    c: Number.parseFloat(match[2]),
+    h: Number.parseFloat(match[3]),
+    alpha: match[4] !== undefined ? Number.parseFloat(match[4]) : 1,
+  };
+}
+
+function linearRgbToSrgb(channel: number): number {
+  const abs = Math.abs(channel);
+  if (abs > 0.0031308) {
+    return (Math.sign(channel) || 1) * (1.055 * abs ** (1 / 2.4) - 0.055);
+  }
+  return channel * 12.92;
+}
+
+/** OKLab → sRGB (CSS Color 4 matrices, clamped to the sRGB gamut). */
+function oklchToSrgb(
+  l: number,
+  c: number,
+  h: number,
+): [number, number, number] {
+  const hRad = (h * Math.PI) / 180;
+  const a = c * Math.cos(hRad);
+  const b = c * Math.sin(hRad);
+
+  const lCube = (l + 0.3963377773761749 * a + 0.2158037573099136 * b) ** 3;
+  const mCube = (l - 0.1055613458156586 * a - 0.0638541728258133 * b) ** 3;
+  const sCube = (l - 0.0894841775298119 * a - 1.2914855480194092 * b) ** 3;
+
+  const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+
+  return [
+    clamp01(
+      linearRgbToSrgb(
+        4.0767416360759574 * lCube -
+          3.3077115392580616 * mCube +
+          0.2309699031821044 * sCube,
+      ),
+    ),
+    clamp01(
+      linearRgbToSrgb(
+        -1.2684379732850317 * lCube +
+          2.6097573492876887 * mCube -
+          0.3413193760026573 * sCube,
+      ),
+    ),
+    clamp01(
+      linearRgbToSrgb(
+        -0.0041960761386756 * lCube -
+          0.7034186179359362 * mCube +
+          1.7076146940746117 * sCube,
+      ),
+    ),
+  ];
+}
+
+function rgbToHex8(r: number, g: number, b: number, alpha: number): string {
+  const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+  const byte = (v: number) =>
+    Math.round(clamp01(v) * 255)
+      .toString(16)
+      .padStart(2, '0');
+  return `#${byte(r)}${byte(g)}${byte(b)}${byte(alpha)}`;
+}
+
+function oklchToHex8(value: string): string | null {
+  const oklch = parseOklch(value);
+  if (!oklch) return null;
+  const [r, g, b] = oklchToSrgb(oklch.l, oklch.c, oklch.h);
+  return rgbToHex8(r, g, b, oklch.alpha);
+}
+
+/** Convert a resolved CSS color literal to 8-digit hex for the registry UI. */
+function cssColorToHex8(value: string): string | null {
+  const trimmed = evaluateCssCalc(value.trim());
+  const hex = normalizeHex8(trimmed);
+  if (hex) return hex;
+  if (!/^oklch\(/i.test(trimmed)) return null;
+  return oklchToHex8(trimmed);
 }
 
 function buildPrimitives(globalsCss: string): Map<string, string> {
@@ -179,24 +283,26 @@ function resolveColorValue(
   semantic: Map<string, string>,
   seen: Set<string>,
 ): { hex: string; alias: string | null } | null {
-  const value = raw.trim();
-  const direct = normalizeCssColor(value);
-  if (direct) return { hex: direct, alias: null };
+  const value = evaluateCssCalc(raw.trim());
 
   const varMatch = value.match(/^var\(\s*(--[a-z0-9-]+)\s*\)$/);
-  if (!varMatch) return null;
+  if (varMatch) {
+    const name = varMatch[1];
+    if (seen.has(name)) return null;
+    seen.add(name);
 
-  const name = varMatch[1];
-  if (seen.has(name)) return null;
-  seen.add(name);
+    const alias = name;
+    const next = semantic.get(name) ?? primitives.get(name) ?? null;
+    if (!next) return null;
 
-  const alias = name;
-  const next = semantic.get(name) ?? primitives.get(name) ?? null;
-  if (!next) return null;
+    const resolved = resolveColorValue(next, primitives, semantic, seen);
+    if (!resolved) return null;
+    return { hex: resolved.hex, alias };
+  }
 
-  const resolved = resolveColorValue(next, primitives, semantic, seen);
-  if (!resolved) return null;
-  return { hex: resolved.hex, alias };
+  const hex = cssColorToHex8(value);
+  if (!hex) return null;
+  return { hex, alias: null };
 }
 
 function attachResolvedColors(tokens: Token[], globalsCss: string): Token[] {

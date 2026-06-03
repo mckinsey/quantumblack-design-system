@@ -39,9 +39,9 @@ describe('tokens from TOKENS.md + globals.css', () => {
   it('resolves concrete semantic colours from globals.css', () => {
     const tokens = loadColorTokens(globalsCss);
     const primary = tokens.find(t => t.cssVar === '--surface-primary');
-    expect(primary?.light?.hex).toMatch(/^oklch\(/i);
+    expect(primary?.light?.hex).toBe('#ffffffff');
     expect(primary?.light?.alias).toBe('--mist-50');
-    expect(primary?.dark?.hex).toMatch(/^oklch\(/i);
+    expect(primary?.dark?.hex).toBe('#181b26ff');
     expect(primary?.dark?.alias).toBe('--slate-800');
   });
 
@@ -58,8 +58,17 @@ describe('tokens from TOKENS.md + globals.css', () => {
   it('resolves brand accent primitives from @theme inline', () => {
     const tokens = loadColorTokens(globalsCss);
     const accent = tokens.find(t => t.cssVar === '--brand-accents-qb-accent');
-    expect(accent?.light?.hex).toBe('oklch(69.89% 0.1572 238.91)');
-    expect(accent?.dark?.hex).toBe('oklch(69.89% 0.1572 238.91)');
+    expect(accent?.light?.hex).toBe('#00a9f4ff');
+    expect(accent?.dark?.hex).toBe('#00a9f4ff');
+  });
+
+  it('resolves all non-pattern registry colours to 8-digit hex', () => {
+    const tokens = loadColorTokens(globalsCss);
+    for (const token of tokens) {
+      if (token.patternOnly) continue;
+      if (token.light) expect(token.light.hex).toMatch(/^#[\da-f]{8}$/);
+      if (token.dark) expect(token.dark.hex).toMatch(/^#[\da-f]{8}$/);
+    }
   });
 
   it('marks wildcard catalogue rows as pattern-only without a bogus cssVar', () => {
