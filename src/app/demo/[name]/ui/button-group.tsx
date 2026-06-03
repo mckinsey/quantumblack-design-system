@@ -18,12 +18,13 @@ export function ButtonGroupDemo() {
 
 /**
  * CTA pairings: a primary action (mono `default` or `accent`) paired with a
- * secondary-style action (`secondary`, `outline`, or `ghost`).
+ * secondary-style action (`secondary`, `outline`, or `ghost`). Each pairing is
+ * shown with the primary leading (left column) and trailing (right column).
  */
 export function ButtonGroupConfigs() {
   return (
-    <div className="grid grid-cols-2 gap-x-8 gap-y-4">
-      {/* Mono primary */}
+    <div className="grid grid-cols-2 gap-x-16 gap-y-4">
+      {/* Primary leading */}
       <div className="flex flex-col gap-4">
         <ButtonGroup>
           <Button variant="default">Button</Button>
@@ -37,10 +38,6 @@ export function ButtonGroupConfigs() {
           <Button variant="default">Button</Button>
           <Button variant="ghost">Button</Button>
         </ButtonGroup>
-      </div>
-
-      {/* Accent primary */}
-      <div className="flex flex-col gap-4">
         <ButtonGroup>
           <Button variant="accent">Button</Button>
           <Button variant="secondary">Button</Button>
@@ -54,23 +51,34 @@ export function ButtonGroupConfigs() {
           <Button variant="ghost">Button</Button>
         </ButtonGroup>
       </div>
-    </div>
-  );
-}
 
-/** CTA alignment — primary leading (left) vs primary trailing (right) */
-export function ButtonGroupAlignment() {
-  return (
-    <div className="flex flex-col gap-4">
-      <ButtonGroup>
-        <Button variant="default">Button</Button>
-        <Button variant="secondary">Button</Button>
-      </ButtonGroup>
-
-      <ButtonGroup>
-        <Button variant="secondary">Button</Button>
-        <Button variant="default">Button</Button>
-      </ButtonGroup>
+      {/* Primary trailing (reversed) */}
+      <div className="flex flex-col gap-4">
+        <ButtonGroup>
+          <Button variant="secondary">Button</Button>
+          <Button variant="default">Button</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button variant="outline">Button</Button>
+          <Button variant="default">Button</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button variant="ghost">Button</Button>
+          <Button variant="default">Button</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button variant="secondary">Button</Button>
+          <Button variant="accent">Button</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button variant="outline">Button</Button>
+          <Button variant="accent">Button</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button variant="ghost">Button</Button>
+          <Button variant="accent">Button</Button>
+        </ButtonGroup>
+      </div>
     </div>
   );
 }
@@ -164,12 +172,7 @@ export const examples: DemoExample[] = [
     name: 'ButtonGroupConfigs',
     title: 'Configurations',
     description:
-      'A primary action (mono or accent) paired with a secondary, outline, or ghost action.',
-  },
-  {
-    name: 'ButtonGroupAlignment',
-    title: 'Alignment',
-    description: 'The primary action can lead (left) or trail (right).',
+      'A primary action (mono or accent) paired with a secondary, outline, or ghost action, shown leading (left) and trailing (right).',
   },
   {
     name: 'ButtonGroupSizes',
@@ -191,7 +194,6 @@ export const examples: DemoExample[] = [
 export const buttonGroup = createLegacyDemo('button-group', examples, {
   ButtonGroupDemo: <ButtonGroupDemo />,
   ButtonGroupConfigs: <ButtonGroupConfigs />,
-  ButtonGroupAlignment: <ButtonGroupAlignment />,
   ButtonGroupSizes: <ButtonGroupSizes />,
   ButtonGroupVertical: <ButtonGroupVertical />,
   ButtonGroupIconOnly: <ButtonGroupIconOnly />,
