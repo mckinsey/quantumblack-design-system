@@ -16,8 +16,50 @@ export function ButtonGroupDemo() {
   );
 }
 
-/** Common CTA pairings */
+/**
+ * CTA pairings: a primary action (mono `default` or `accent`) paired with a
+ * secondary-style action (`secondary`, `outline`, or `ghost`).
+ */
 export function ButtonGroupConfigs() {
+  return (
+    <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+      {/* Mono primary */}
+      <div className="flex flex-col gap-4">
+        <ButtonGroup>
+          <Button variant="default">Button</Button>
+          <Button variant="secondary">Button</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button variant="default">Button</Button>
+          <Button variant="outline">Button</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button variant="default">Button</Button>
+          <Button variant="ghost">Button</Button>
+        </ButtonGroup>
+      </div>
+
+      {/* Accent primary */}
+      <div className="flex flex-col gap-4">
+        <ButtonGroup>
+          <Button variant="accent">Button</Button>
+          <Button variant="secondary">Button</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button variant="accent">Button</Button>
+          <Button variant="outline">Button</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button variant="accent">Button</Button>
+          <Button variant="ghost">Button</Button>
+        </ButtonGroup>
+      </div>
+    </div>
+  );
+}
+
+/** CTA alignment — primary leading (left) vs primary trailing (right) */
+export function ButtonGroupAlignment() {
   return (
     <div className="flex flex-col gap-4">
       <ButtonGroup>
@@ -26,13 +68,8 @@ export function ButtonGroupConfigs() {
       </ButtonGroup>
 
       <ButtonGroup>
+        <Button variant="secondary">Button</Button>
         <Button variant="default">Button</Button>
-        <Button variant="ghost">Button</Button>
-      </ButtonGroup>
-
-      <ButtonGroup>
-        <Button variant="accent">Button</Button>
-        <Button variant="outline">Button</Button>
       </ButtonGroup>
     </div>
   );
@@ -127,7 +164,12 @@ export const examples: DemoExample[] = [
     name: 'ButtonGroupConfigs',
     title: 'Configurations',
     description:
-      'Common CTA pairings: primary + secondary, primary + ghost, and accent + outline.',
+      'A primary action (mono or accent) paired with a secondary, outline, or ghost action.',
+  },
+  {
+    name: 'ButtonGroupAlignment',
+    title: 'Alignment',
+    description: 'The primary action can lead (left) or trail (right).',
   },
   {
     name: 'ButtonGroupSizes',
@@ -149,6 +191,7 @@ export const examples: DemoExample[] = [
 export const buttonGroup = createLegacyDemo('button-group', examples, {
   ButtonGroupDemo: <ButtonGroupDemo />,
   ButtonGroupConfigs: <ButtonGroupConfigs />,
+  ButtonGroupAlignment: <ButtonGroupAlignment />,
   ButtonGroupSizes: <ButtonGroupSizes />,
   ButtonGroupVertical: <ButtonGroupVertical />,
   ButtonGroupIconOnly: <ButtonGroupIconOnly />,

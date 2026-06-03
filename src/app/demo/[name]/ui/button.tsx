@@ -157,136 +157,6 @@ export function ButtonIconRounded() {
   );
 }
 
-/** Button groups / CTAs */
-export function ButtonGroups() {
-  return (
-    <div className="grid grid-cols-2 gap-x-8 gap-y-4">
-      {/* Left column: secondary | secondary, secondary | ghost, default | secondary, default | ghost */}
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center gap-3">
-          <Button variant="secondary">Button</Button>
-          <Button variant="secondary">Button</Button>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button variant="secondary">Button</Button>
-          <Button variant="ghost">Button</Button>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button variant="default">Button</Button>
-          <Button variant="secondary">Button</Button>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button variant="default">Button</Button>
-          <Button variant="ghost">Button</Button>
-        </div>
-      </div>
-      {/* Right column: outline | secondary, ghost | secondary, outline | default, ghost | default */}
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center gap-3">
-          <Button variant="outline">Button</Button>
-          <Button variant="secondary">Button</Button>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button variant="ghost">Button</Button>
-          <Button variant="secondary">Button</Button>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button variant="outline">Button</Button>
-          <Button variant="default">Button</Button>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button variant="ghost">Button</Button>
-          <Button variant="default">Button</Button>
-        </div>
-      </div>
-
-      {/* Accent + outline (left) | outline + accent (right, variants interchanged) */}
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center gap-3">
-          <Button variant="accent">Button</Button>
-          <Button variant="outline">Button</Button>
-        </div>
-      </div>
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center gap-3">
-          <Button variant="outline">Button</Button>
-          <Button variant="accent">Button</Button>
-        </div>
-      </div>
-
-      {/* Different sizes – default | secondary (left) | secondary | default (right, variants interchanged) */}
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center gap-3">
-          <Button variant="default" size="xs">
-            Button
-          </Button>
-          <Button variant="secondary" size="xs">
-            Button
-          </Button>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button variant="default" size="sm">
-            Button
-          </Button>
-          <Button variant="secondary" size="sm">
-            Button
-          </Button>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button variant="default" size="default">
-            Button
-          </Button>
-          <Button variant="secondary" size="default">
-            Button
-          </Button>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button variant="default" size="lg">
-            Button
-          </Button>
-          <Button variant="secondary" size="lg">
-            Button
-          </Button>
-        </div>
-      </div>
-      <div className="flex flex-col gap-4">
-        <div className="flex items-center gap-3">
-          <Button variant="secondary" size="xs">
-            Button
-          </Button>
-          <Button variant="default" size="xs">
-            Button
-          </Button>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button variant="secondary" size="sm">
-            Button
-          </Button>
-          <Button variant="default" size="sm">
-            Button
-          </Button>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button variant="secondary" size="default">
-            Button
-          </Button>
-          <Button variant="default" size="default">
-            Button
-          </Button>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button variant="secondary" size="lg">
-            Button
-          </Button>
-          <Button variant="default" size="lg">
-            Button
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export const examples: DemoExample[] = [
   {
     name: 'ButtonDemo',
@@ -329,12 +199,6 @@ export const examples: DemoExample[] = [
     title: 'Rounded Icons',
     description: 'Circular icon buttons using rounded-full class.',
   },
-  {
-    name: 'ButtonGroups',
-    title: 'Button Groups / CTAs',
-    description:
-      'Pairs of buttons for primary and secondary actions: default, secondary, and outline combinations.',
-  },
 ];
 
 export const button = createLegacyDemo('button', examples, {
@@ -346,5 +210,4 @@ export const button = createLegacyDemo('button', examples, {
   ButtonLoading: <ButtonLoading />,
   ButtonIconOnly: <ButtonIconOnly />,
   ButtonIconRounded: <ButtonIconRounded />,
-  ButtonGroups: <ButtonGroups />,
 });

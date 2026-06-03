@@ -47,7 +47,6 @@ import {
 import {
   ButtonDemo,
   ButtonDisabled,
-  ButtonGroups,
   ButtonIconOnly,
   ButtonIconRounded,
   ButtonLoading,
@@ -58,6 +57,7 @@ import {
   examples as buttonExamples,
 } from '@/app/demo/[name]/ui/button';
 import {
+  ButtonGroupAlignment,
   ButtonGroupConfigs,
   ButtonGroupDemo,
   ButtonGroupIconOnly,
@@ -426,11 +426,11 @@ export const exampleComponentMaps: Record<
     ButtonLoading,
     ButtonIconOnly,
     ButtonIconRounded,
-    ButtonGroups,
   },
   'button-group': {
     ButtonGroupDemo,
     ButtonGroupConfigs,
+    ButtonGroupAlignment,
     ButtonGroupSizes,
     ButtonGroupVertical,
     ButtonGroupIconOnly,
