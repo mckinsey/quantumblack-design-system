@@ -44,3 +44,4 @@ figma.config.json
 # cache
 .eslintcache
 .vite/
+.cursor/
