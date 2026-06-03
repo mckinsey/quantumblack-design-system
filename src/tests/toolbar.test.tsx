@@ -40,7 +40,9 @@ describe(`${componentName} — structure & interaction`, () => {
       </Toolbar>,
     );
 
-    expect(screen.getByRole('toolbar', { name: 'Editor tools' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('toolbar', { name: 'Editor tools' }),
+    ).toBeInTheDocument();
   });
 
   it('applies boxed and variant data attributes', () => {
