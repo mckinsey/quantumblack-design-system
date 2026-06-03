@@ -1,9 +1,9 @@
 name: CI
 
 on:
-  push:
-    branches: [main]
   pull_request:
+    types: [opened, synchronize, reopened, closed]
+  push:
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -11,6 +11,7 @@ concurrency:
 
 jobs:
   test:
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     env:
       QBDS_REGISTRY_URL: ${{ vars.QBDS_REGISTRY_URL || 'https://designsystem.quantumblack.com' }}
@@ -36,6 +37,7 @@ jobs:
         run: npm run test:unit
 
   build:
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     env:
       QBDS_REGISTRY_URL: ${{ vars.QBDS_REGISTRY_URL || 'https://designsystem.quantumblack.com' }}
@@ -61,6 +63,7 @@ jobs:
         run: npm run build
 
   lint:
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -82,3 +85,99 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+  preview:
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref != 'refs/heads/main')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    environment:
+      name: Registry preview
+      url: ${{ steps.preview.outputs.preview-url }}
+    env:
+      PREVIEW_SITE_URL: ${{ vars.QBDS_REGISTRY_URL || 'https://designsystem.quantumblack.com' }}
+    steps:
+      - name: Resolve preview target
+        id: meta
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "pr_number=${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
+            echo "preview_path=pr-preview/pr-${{ github.event.pull_request.number }}" >> "$GITHUB_OUTPUT"
+            echo "is_closed=${{ github.event.action == 'closed' }}" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          pr_number="$(gh pr list --head "${{ github.ref_name }}" --state open --json number --jq '.[0].number' || true)"
+          if [ -n "$pr_number" ]; then
+            echo "Open PR #${pr_number} exists — skipping push-triggered preview (pull_request event handles it)."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          safe_branch="$(echo "${{ github.ref_name }}" | sed 's/[^a-zA-Z0-9._-]/-/g')"
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+          echo "pr_number=branch-${safe_branch}" >> "$GITHUB_OUTPUT"
+          echo "preview_path=pr-preview/pr-branch-${safe_branch}" >> "$GITHUB_OUTPUT"
+          echo "is_closed=false" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v6
+        if: steps.meta.outputs.skip != 'true'
+
+      - uses: actions/setup-node@v6
+        if: steps.meta.outputs.skip != 'true'
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Cache node_modules
+        if: steps.meta.outputs.skip != 'true'
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('.nvmrc') }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install
+        if: steps.meta.outputs.skip != 'true' && steps.cache.outputs.cache-hit != 'true' && steps.meta.outputs.is_closed != 'true'
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Build registry site
+        if: steps.meta.outputs.skip != 'true' && steps.meta.outputs.is_closed != 'true'
+        env:
+          VITE_BASE_PATH: /${{ steps.meta.outputs.preview_path }}/
+          QBDS_REGISTRY_URL: ${{ env.PREVIEW_SITE_URL }}/${{ steps.meta.outputs.preview_path }}
+        run: |
+          export QBDS_REGISTRY_URL="${QBDS_REGISTRY_URL%/}"
+          npm run build
+          cp dist/index.html dist/404.html
+
+      - name: Prepare dist directory for preview removal
+        if: steps.meta.outputs.skip != 'true' && steps.meta.outputs.is_closed == 'true'
+        run: mkdir -p dist
+
+      - name: Deploy preview
+        if: steps.meta.outputs.skip != 'true'
+        id: preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./dist/
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          pr-number: ${{ steps.meta.outputs.pr_number }}
+          pages-base-url: ${{ env.PREVIEW_SITE_URL }}
+          wait-for-pages-deployment: true
+          comment: false
+          qr-code: false
+
+      - name: Add preview link to job summary
+        if: steps.meta.outputs.skip != 'true' && steps.preview.outputs.preview-url != ''
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.preview-url }}
+        run: |
+          {
+            echo "## Registry preview"
+            echo ""
+            echo "[Open preview](${PREVIEW_URL})"
+          } >> "$GITHUB_STEP_SUMMARY"

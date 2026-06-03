@@ -139,6 +139,5 @@ The build also runs `generate-api-docs` and `extract-examples` to produce the pr
 
 ## CI/CD
 
-- **`pr.yml`** — unit tests, build, and lint on push to `main` and pull requests. Uses `vars.QBDS_REGISTRY_URL` when set, otherwise `https://designsystem.quantumblack.com`.
-- **`pr-preview.yml`** — on pull requests, builds and deploys the registry to `/pr-preview/pr-<number>/` (e.g. `https://designsystem.quantumblack.com/pr-preview/pr-42/`). The preview URL appears on the **Registry PR preview** check (View deployment) and in the job summary. Not for fork PRs.
+- **`pr.yml`** — runs tests, build, and lint on pull requests and on pushes to `main`. On pull requests it also publishes a preview of the registry site so reviewers can see changes before merge. Find the preview link on the **CI / preview** check.
 - **`deploy-pages.yml`** — builds and deploys to GitHub Pages on push to `main` (or manual trigger). Includes a `404.html` for SPA routing.
