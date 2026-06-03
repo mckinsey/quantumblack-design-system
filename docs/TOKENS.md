@@ -129,9 +129,9 @@ Brand accent primitives for decorative highlights (active states, accent badges/
 
 | CSS variable | Tailwind | Use for | Design name |
 | ------------ | -------- | ------- | ----------- |
-| `--brand-accents-mckinsey-deep-blue` | `bg-brand-accents-mckinsey-deep-blue`, etc. | McKinsey deep blue. | `Brand-Accents/McKinsey-Deep-Blue` |
-| `--brand-accents-mckinsey-electric-blue` | `bg-brand-accents-mckinsey-electric-blue`, etc. | McKinsey electric blue. | `Brand-Accents/McKinsey-Electric-Blue` |
-| `--brand-accents-mckinsey-cyan` | `bg-brand-accents-mckinsey-cyan`, etc. | McKinsey cyan. | `Brand-Accents/McKinsey-Cyan` |
+| `--brand-accents-mckinsey-deep-blue` | `bg-brand-accents-mckinsey-deep-blue`, `text-brand-accents-mckinsey-deep-blue`, `border-brand-accents-mckinsey-deep-blue` | McKinsey deep blue. | `Brand-Accents/McKinsey-Deep-Blue` |
+| `--brand-accents-mckinsey-electric-blue` | `bg-brand-accents-mckinsey-electric-blue`, `text-brand-accents-mckinsey-electric-blue`, `border-brand-accents-mckinsey-electric-blue` | McKinsey electric blue. | `Brand-Accents/McKinsey-Electric-Blue` |
+| `--brand-accents-mckinsey-cyan` | `bg-brand-accents-mckinsey-cyan`, `text-brand-accents-mckinsey-cyan`, `border-brand-accents-mckinsey-cyan` | McKinsey cyan. | `Brand-Accents/McKinsey-Cyan` |
 | `--brand-accents-qb-accent` | `bg-brand-accents-qb-accent`, `text-brand-accents-qb-accent`, `border-brand-accents-qb-accent` | QB accent. | `Brand-Accents/QB-Accent` |
 
 ## Elevations
