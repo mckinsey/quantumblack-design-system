@@ -60,6 +60,7 @@ describe(`${componentName} — structure & interaction`, () => {
 
   it.each([
     ['gap-1', 'reg', false, 'circle'],
+    ['gap-2', 'reg', true, 'circle'],
     ['gap-2', 'sm', false, 'circle'],
     ['gap-3', 'lg', false, 'circle'],
     ['gap-3', 'lg', true, 'circle'],
@@ -84,7 +85,7 @@ describe(`${componentName} — structure & interaction`, () => {
     },
   );
 
-  it('applies boxed and variant data attributes', () => {
+  it('applies boxed and variant data attributes when boxed', () => {
     render(
       <Toolbar aria-label="Tools" boxed shape="square" size="lg">
         <ToolbarButton aria-label="Action">
@@ -96,9 +97,26 @@ describe(`${componentName} — structure & interaction`, () => {
     );
 
     const toolbar = screen.getByRole('toolbar', { name: 'Tools' });
-    expect(toolbar).toHaveAttribute('data-boxed');
+    expect(toolbar).toHaveAttribute('data-boxed', 'true');
     expect(toolbar).toHaveAttribute('data-shape', 'square');
     expect(toolbar).toHaveAttribute('data-size', 'lg');
+  });
+
+  it('sets data-boxed to false when unboxed', () => {
+    render(
+      <Toolbar aria-label="Tools">
+        <ToolbarButton aria-label="Action">
+          <IconShell size="sm">
+            <Icon icon="crop_free" />
+          </IconShell>
+        </ToolbarButton>
+      </Toolbar>,
+    );
+
+    expect(screen.getByRole('toolbar', { name: 'Tools' })).toHaveAttribute(
+      'data-boxed',
+      'false',
+    );
   });
 
   it('renders a separator between groups', () => {
@@ -160,9 +178,16 @@ describe(`${componentName} — structure & interaction`, () => {
     );
   });
 
-  it('keeps dropdown trigger as a toolbar button for roving focus', () => {
+  it('moves roving focus to dropdown trigger with arrow keys', async () => {
+    const user = userEvent.setup();
+
     render(
       <Toolbar aria-label="Tools">
+        <ToolbarButton aria-label="First tool">
+          <IconShell size="sm">
+            <Icon icon="crop_free" />
+          </IconShell>
+        </ToolbarButton>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <ToolbarButton aria-label="Open menu">Menu</ToolbarButton>
@@ -174,9 +199,14 @@ describe(`${componentName} — structure & interaction`, () => {
       </Toolbar>,
     );
 
-    const toolbar = screen.getByRole('toolbar', { name: 'Tools' });
-    const trigger = screen.getByRole('button', { name: 'Open menu' });
-    expect(toolbar).toContainElement(trigger);
+    const firstTool = screen.getByRole('button', { name: 'First tool' });
+    const menuTrigger = screen.getByRole('button', { name: 'Open menu' });
+
+    await user.click(firstTool);
+    expect(firstTool).toHaveFocus();
+
+    await user.keyboard('{ArrowRight}');
+    expect(menuTrigger).toHaveFocus();
   });
 
   it('fires onClick for toolbar buttons', async () => {

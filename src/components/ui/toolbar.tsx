@@ -184,7 +184,7 @@ function ToolbarButton({
   className,
   ...props
 }: React.ComponentProps<typeof ToolbarPrimitive.Button>) {
-  const context = React.useContext(ToolbarContext);
+  const context = useToolbar();
 
   return (
     <ToolbarPrimitive.Button
@@ -202,7 +202,7 @@ function ToolbarSeparator({
   React.ComponentProps<typeof ToolbarPrimitive.Separator>,
   'decorative' | 'orientation'
 >) {
-  const context = React.useContext(ToolbarContext);
+  const context = useToolbar();
 
   return (
     <ToolbarPrimitive.Separator
@@ -236,7 +236,7 @@ function ToolbarToggleGroup({
   className,
   ...props
 }: React.ComponentProps<typeof ToolbarPrimitive.ToggleGroup>) {
-  const { boxed, shape, size, orientation } = React.useContext(ToolbarContext);
+  const { boxed, shape, size, orientation } = useToolbar();
 
   return (
     <ToolbarPrimitive.ToggleGroup
@@ -256,7 +256,7 @@ function ToolbarToggleItem({
   className,
   ...props
 }: React.ComponentProps<typeof ToolbarPrimitive.ToggleItem>) {
-  const context = React.useContext(ToolbarContext);
+  const context = useToolbar();
 
   return (
     <ToolbarPrimitive.ToggleItem
