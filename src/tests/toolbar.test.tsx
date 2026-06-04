@@ -4,6 +4,12 @@ import { afterEach, describe, expect, it } from 'vitest';
 
 import { exampleComponentMaps } from '@/app/demo/[name]/index';
 import { Renderer } from '@/app/demo/[name]/renderer';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import {
@@ -152,6 +158,25 @@ describe(`${componentName} — structure & interaction`, () => {
       'data-state',
       'off',
     );
+  });
+
+  it('keeps dropdown trigger as a toolbar button for roving focus', () => {
+    render(
+      <Toolbar aria-label="Tools">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <ToolbarButton aria-label="Open menu">Menu</ToolbarButton>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Item</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </Toolbar>,
+    );
+
+    const toolbar = screen.getByRole('toolbar', { name: 'Tools' });
+    const trigger = screen.getByRole('button', { name: 'Open menu' });
+    expect(toolbar).toContainElement(trigger);
   });
 
   it('fires onClick for toolbar buttons', async () => {

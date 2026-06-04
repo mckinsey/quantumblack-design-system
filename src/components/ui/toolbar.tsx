@@ -26,10 +26,6 @@ const ToolbarContext = React.createContext<ToolbarContextValue>({
 
 type ToolbarGapClass = 'gap-1' | 'gap-2' | 'gap-3';
 
-/**
- * Inter-item gap from Figma Spacing/4, /8, /12 — matrix by size, not a single axis.
- * lg → 12px; reg + circle + unboxed → 4px; all other cells → 8px.
- */
 function toolbarGapClass({
   boxed,
   shape,
@@ -40,7 +36,6 @@ function toolbarGapClass({
   return 'gap-2';
 }
 
-/** Full class names for Tailwind static scanning (see button.tsx). */
 const toolbarSeparatorGapOffset: Record<
   ToolbarGapClass,
   { horizontal: string; vertical: string }
@@ -50,10 +45,6 @@ const toolbarSeparatorGapOffset: Record<
   'gap-3': { horizontal: '-ms-3', vertical: '-mt-3' },
 };
 
-/**
- * Collapse the flex gap before the separator so it sits flush after the
- * preceding control, matching Figma’s spacer-on-last-toggle pattern.
- */
 function toolbarSeparatorOffsetClass(context: ToolbarContextValue) {
   const offset = toolbarSeparatorGapOffset[toolbarGapClass(context)];
   return context.orientation === 'horizontal'
@@ -68,35 +59,30 @@ const toolbarIconSizeMap: Record<ToolbarSize, 'icon-sm' | 'icon' | 'icon-lg'> =
     lg: 'icon-lg',
   };
 
-/** IconShell size paired with each toolbar button size (matches icon toggle demos). */
 const toolbarIconShellSizeMap: Record<ToolbarSize, 'sm' | 'default' | 'lg'> = {
   sm: 'sm',
   reg: 'sm',
   lg: 'default',
 };
 
-/** Divider length along the toolbar cross-axis (Figma .baseTab_spacer). */
 const toolbarSeparatorLengthMap: Record<ToolbarSize, string> = {
   sm: 'h-5',
   reg: 'h-7',
   lg: 'h-8',
 };
 
-/** Horizontal divider width (Figma spacer w-[8px] / w-[12px]). */
 const toolbarSeparatorWidthMap: Record<ToolbarSize, string> = {
   sm: 'w-2',
   reg: 'w-2',
   lg: 'w-3',
 };
 
-/** Vertical divider height (Figma spacer h-[8px]). */
 const toolbarSeparatorHeightMap: Record<ToolbarSize, string> = {
   sm: 'h-2',
   reg: 'h-2',
   lg: 'h-3',
 };
 
-/** Vertical divider width (Figma spacer w-[28px] etc.). */
 const toolbarSeparatorCrossSpanMap: Record<ToolbarSize, string> = {
   sm: 'w-6',
   reg: 'w-7',
@@ -206,21 +192,6 @@ function ToolbarButton({
   );
 }
 
-function ToolbarLink({
-  className,
-  ...props
-}: React.ComponentProps<typeof ToolbarPrimitive.Link>) {
-  const context = React.useContext(ToolbarContext);
-
-  return (
-    <ToolbarPrimitive.Link
-      data-slot="toolbar-link"
-      className={toolbarItemClasses({ ...context, className })}
-      {...props}
-    />
-  );
-}
-
 function ToolbarSeparator({
   className,
   ...props
@@ -302,7 +273,6 @@ function ToolbarToggleItem({
 export {
   Toolbar,
   ToolbarButton,
-  ToolbarLink,
   ToolbarSeparator,
   ToolbarToggleGroup,
   ToolbarToggleItem,

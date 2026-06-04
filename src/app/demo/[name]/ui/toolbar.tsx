@@ -29,7 +29,6 @@ function ToolbarIcon() {
   );
 }
 
-/** Shared toolbar items matching the Figma composition */
 function DefaultToolbarItems() {
   return (
     <>
@@ -60,7 +59,6 @@ function DefaultToolbarItems() {
   );
 }
 
-/** Default unboxed toolbar */
 export function ToolbarDemo() {
   return (
     <Toolbar aria-label="Editor tools">
@@ -69,7 +67,6 @@ export function ToolbarDemo() {
   );
 }
 
-/** Boxed vs unboxed */
 export function ToolbarBoxed() {
   return (
     <div className="flex flex-col gap-6">
@@ -83,7 +80,6 @@ export function ToolbarBoxed() {
   );
 }
 
-/** Circle vs square shapes */
 export function ToolbarShapes() {
   return (
     <div className="flex flex-col gap-6">
@@ -97,7 +93,6 @@ export function ToolbarShapes() {
   );
 }
 
-/** Toolbar sizes */
 export function ToolbarSizes() {
   return (
     <div className="flex flex-col items-start gap-6">
@@ -114,7 +109,6 @@ export function ToolbarSizes() {
   );
 }
 
-/** Vertical orientation */
 export function ToolbarVertical() {
   return (
     <div className="flex gap-8">
@@ -128,7 +122,6 @@ export function ToolbarVertical() {
   );
 }
 
-/** Toolbar with dropdown menu trigger */
 export function ToolbarWithDropdown() {
   return (
     <Toolbar aria-label="Tools with menu" boxed>
@@ -144,11 +137,11 @@ export function ToolbarWithDropdown() {
       <ToolbarSeparator />
 
       <DropdownMenu>
-        <ToolbarButton aria-label="Tool 3" asChild>
-          <DropdownMenuTrigger>
+        <DropdownMenuTrigger asChild>
+          <ToolbarButton aria-label="Tool 3">
             <ToolbarIcon />
-          </DropdownMenuTrigger>
-        </ToolbarButton>
+          </ToolbarButton>
+        </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
           <DropdownMenuItem>Duplicate</DropdownMenuItem>
           <DropdownMenuItem>Export</DropdownMenuItem>
