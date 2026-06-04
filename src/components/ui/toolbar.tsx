@@ -26,15 +26,17 @@ const ToolbarContext = React.createContext<ToolbarContextValue>({
 
 type ToolbarGapClass = 'gap-1' | 'gap-2' | 'gap-3';
 
-/** Inter-item gap from Figma spacing/4, /8, /12 per size × boxed × shape. */
+/**
+ * Inter-item gap from Figma Spacing/4, /8, /12 — matrix by size, not a single axis.
+ * lg → 12px; reg + circle + unboxed → 4px; all other cells → 8px.
+ */
 function toolbarGapClass({
   boxed,
   shape,
   size,
 }: Pick<ToolbarContextValue, 'boxed' | 'shape' | 'size'>): ToolbarGapClass {
-  if (boxed || shape === 'square') return 'gap-2';
-  if (size === 'reg') return 'gap-1';
   if (size === 'lg') return 'gap-3';
+  if (size === 'reg' && shape === 'circle' && !boxed) return 'gap-1';
   return 'gap-2';
 }
 

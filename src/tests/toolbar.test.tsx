@@ -45,6 +45,32 @@ describe(`${componentName} — structure & interaction`, () => {
     ).toBeInTheDocument();
   });
 
+  it.each([
+    ['reg', false, 'circle', 'gap-1'],
+    ['sm', false, 'circle', 'gap-2'],
+    ['lg', false, 'circle', 'gap-3'],
+    ['lg', true, 'circle', 'gap-3'],
+    ['lg', false, 'square', 'gap-3'],
+    ['reg', false, 'square', 'gap-2'],
+  ] as const)(
+    'applies %s when size=%s boxed=%s shape=%s',
+    (size, boxed, shape, gapClass) => {
+      render(
+        <Toolbar aria-label="Tools" boxed={boxed} shape={shape} size={size}>
+          <ToolbarButton aria-label="Action">
+            <IconShell size="sm">
+              <Icon icon="crop_free" />
+            </IconShell>
+          </ToolbarButton>
+        </Toolbar>,
+      );
+
+      expect(screen.getByRole('toolbar', { name: 'Tools' })).toHaveClass(
+        gapClass,
+      );
+    },
+  );
+
   it('applies boxed and variant data attributes', () => {
     render(
       <Toolbar aria-label="Tools" boxed shape="square" size="lg">
