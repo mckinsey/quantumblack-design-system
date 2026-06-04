@@ -1,7 +1,5 @@
 'use client';
 
-import type { ReactNode } from 'react';
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -62,121 +60,101 @@ function DefaultToolbarItems() {
   );
 }
 
-function DemoSurface({ children }: { children: ReactNode }) {
-  return (
-    <div className="bg-surface-base flex w-fit items-center rounded-lg p-8">
-      {children}
-    </div>
-  );
-}
-
 /** Default unboxed toolbar */
 export function ToolbarDemo() {
   return (
-    <DemoSurface>
-      <Toolbar aria-label="Editor tools">
-        <DefaultToolbarItems />
-      </Toolbar>
-    </DemoSurface>
+    <Toolbar aria-label="Editor tools">
+      <DefaultToolbarItems />
+    </Toolbar>
   );
 }
 
 /** Boxed vs unboxed */
 export function ToolbarBoxed() {
   return (
-    <DemoSurface>
-      <div className="flex flex-col gap-6">
-        <Toolbar aria-label="Boxed tools" boxed>
-          <DefaultToolbarItems />
-        </Toolbar>
-        <Toolbar aria-label="Unboxed tools">
-          <DefaultToolbarItems />
-        </Toolbar>
-      </div>
-    </DemoSurface>
+    <div className="flex flex-col gap-6">
+      <Toolbar aria-label="Boxed tools" boxed>
+        <DefaultToolbarItems />
+      </Toolbar>
+      <Toolbar aria-label="Unboxed tools">
+        <DefaultToolbarItems />
+      </Toolbar>
+    </div>
   );
 }
 
 /** Circle vs square shapes */
 export function ToolbarShapes() {
   return (
-    <DemoSurface>
-      <div className="flex flex-col gap-6">
-        <Toolbar aria-label="Circle shape tools" boxed shape="circle">
-          <DefaultToolbarItems />
-        </Toolbar>
-        <Toolbar aria-label="Square shape tools" boxed shape="square">
-          <DefaultToolbarItems />
-        </Toolbar>
-      </div>
-    </DemoSurface>
+    <div className="flex flex-col gap-6">
+      <Toolbar aria-label="Circle shape tools" boxed shape="circle">
+        <DefaultToolbarItems />
+      </Toolbar>
+      <Toolbar aria-label="Square shape tools" boxed shape="square">
+        <DefaultToolbarItems />
+      </Toolbar>
+    </div>
   );
 }
 
 /** Toolbar sizes */
 export function ToolbarSizes() {
   return (
-    <DemoSurface>
-      <div className="flex flex-col items-start gap-6">
-        <Toolbar aria-label="Small tools" boxed size="sm">
-          <DefaultToolbarItems />
-        </Toolbar>
-        <Toolbar aria-label="Regular tools" boxed size="reg">
-          <DefaultToolbarItems />
-        </Toolbar>
-        <Toolbar aria-label="Large tools" boxed size="lg">
-          <DefaultToolbarItems />
-        </Toolbar>
-      </div>
-    </DemoSurface>
+    <div className="flex flex-col items-start gap-6">
+      <Toolbar aria-label="Small tools" boxed size="sm">
+        <DefaultToolbarItems />
+      </Toolbar>
+      <Toolbar aria-label="Regular tools" boxed size="reg">
+        <DefaultToolbarItems />
+      </Toolbar>
+      <Toolbar aria-label="Large tools" boxed size="lg">
+        <DefaultToolbarItems />
+      </Toolbar>
+    </div>
   );
 }
 
 /** Vertical orientation */
 export function ToolbarVertical() {
   return (
-    <DemoSurface>
-      <div className="flex gap-8">
-        <Toolbar aria-label="Vertical boxed tools" boxed orientation="vertical">
-          <DefaultToolbarItems />
-        </Toolbar>
-        <Toolbar aria-label="Vertical unboxed tools" orientation="vertical">
-          <DefaultToolbarItems />
-        </Toolbar>
-      </div>
-    </DemoSurface>
+    <div className="flex gap-8">
+      <Toolbar aria-label="Vertical boxed tools" boxed orientation="vertical">
+        <DefaultToolbarItems />
+      </Toolbar>
+      <Toolbar aria-label="Vertical unboxed tools" orientation="vertical">
+        <DefaultToolbarItems />
+      </Toolbar>
+    </div>
   );
 }
 
 /** Toolbar with dropdown menu trigger */
 export function ToolbarWithDropdown() {
   return (
-    <DemoSurface>
-      <Toolbar aria-label="Tools with menu" boxed>
-        <ToolbarToggleGroup type="single" defaultValue="tool-1">
-          <ToolbarToggleItem aria-label="Tool 1" value="tool-1">
-            <ToolbarIcon />
-          </ToolbarToggleItem>
-          <ToolbarToggleItem aria-label="Tool 2" value="tool-2">
-            <ToolbarIcon />
-          </ToolbarToggleItem>
-        </ToolbarToggleGroup>
+    <Toolbar aria-label="Tools with menu" boxed>
+      <ToolbarToggleGroup type="single" defaultValue="tool-1">
+        <ToolbarToggleItem aria-label="Tool 1" value="tool-1">
+          <ToolbarIcon />
+        </ToolbarToggleItem>
+        <ToolbarToggleItem aria-label="Tool 2" value="tool-2">
+          <ToolbarIcon />
+        </ToolbarToggleItem>
+      </ToolbarToggleGroup>
 
-        <ToolbarSeparator />
+      <ToolbarSeparator />
 
-        <DropdownMenu>
-          <ToolbarButton aria-label="Tool 3" asChild>
-            <DropdownMenuTrigger>
-              <ToolbarIcon />
-            </DropdownMenuTrigger>
-          </ToolbarButton>
-          <DropdownMenuContent align="start">
-            <DropdownMenuItem>Duplicate</DropdownMenuItem>
-            <DropdownMenuItem>Export</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </Toolbar>
-    </DemoSurface>
+      <DropdownMenu>
+        <ToolbarButton aria-label="Tool 3" asChild>
+          <DropdownMenuTrigger>
+            <ToolbarIcon />
+          </DropdownMenuTrigger>
+        </ToolbarButton>
+        <DropdownMenuContent align="start">
+          <DropdownMenuItem>Duplicate</DropdownMenuItem>
+          <DropdownMenuItem>Export</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </Toolbar>
   );
 }
 
