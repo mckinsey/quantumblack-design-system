@@ -40,10 +40,14 @@ function toolbarGapClass({
   return 'gap-2';
 }
 
-const toolbarSeparatorGapOffset: Record<ToolbarGapClass, string> = {
-  'gap-1': '1',
-  'gap-2': '2',
-  'gap-3': '3',
+/** Full class names for Tailwind static scanning (see button.tsx). */
+const toolbarSeparatorGapOffset: Record<
+  ToolbarGapClass,
+  { horizontal: string; vertical: string }
+> = {
+  'gap-1': { horizontal: '-ms-1', vertical: '-mt-1' },
+  'gap-2': { horizontal: '-ms-2', vertical: '-mt-2' },
+  'gap-3': { horizontal: '-ms-3', vertical: '-mt-3' },
 };
 
 /**
@@ -53,8 +57,8 @@ const toolbarSeparatorGapOffset: Record<ToolbarGapClass, string> = {
 function toolbarSeparatorOffsetClass(context: ToolbarContextValue) {
   const offset = toolbarSeparatorGapOffset[toolbarGapClass(context)];
   return context.orientation === 'horizontal'
-    ? `-ms-${offset}`
-    : `-mt-${offset}`;
+    ? offset.horizontal
+    : offset.vertical;
 }
 
 const toolbarIconSizeMap: Record<ToolbarSize, 'icon-sm' | 'icon' | 'icon-lg'> =
@@ -220,7 +224,10 @@ function ToolbarLink({
 function ToolbarSeparator({
   className,
   ...props
-}: React.ComponentProps<typeof ToolbarPrimitive.Separator>) {
+}: Omit<
+  React.ComponentProps<typeof ToolbarPrimitive.Separator>,
+  'decorative' | 'orientation'
+>) {
   const context = React.useContext(ToolbarContext);
 
   return (

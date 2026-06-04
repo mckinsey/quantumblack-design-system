@@ -64,7 +64,7 @@ function DefaultToolbarItems() {
 
 function DemoSurface({ children }: { children: ReactNode }) {
   return (
-    <div className="dark bg-surface-base flex w-fit items-center rounded-lg p-8">
+    <div className="bg-surface-base flex w-fit items-center rounded-lg p-8">
       {children}
     </div>
   );

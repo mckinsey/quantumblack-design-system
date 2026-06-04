@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { exampleComponentMaps } from '@/app/demo/[name]/index';
+import { Renderer } from '@/app/demo/[name]/renderer';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import {
@@ -23,7 +24,13 @@ describe(`${componentName} — all examples render`, () => {
   it.each(Object.entries(exampleComponentMaps[componentName]))(
     'renders "%s" without crashing',
     (_, Example) => {
-      expect(() => render(<Example />)).not.toThrow();
+      expect(() =>
+        render(
+          <Renderer>
+            <Example />
+          </Renderer>,
+        ),
+      ).not.toThrow();
     },
   );
 });
@@ -46,15 +53,15 @@ describe(`${componentName} — structure & interaction`, () => {
   });
 
   it.each([
-    ['reg', false, 'circle', 'gap-1'],
-    ['sm', false, 'circle', 'gap-2'],
-    ['lg', false, 'circle', 'gap-3'],
-    ['lg', true, 'circle', 'gap-3'],
-    ['lg', false, 'square', 'gap-3'],
-    ['reg', false, 'square', 'gap-2'],
+    ['gap-1', 'reg', false, 'circle'],
+    ['gap-2', 'sm', false, 'circle'],
+    ['gap-3', 'lg', false, 'circle'],
+    ['gap-3', 'lg', true, 'circle'],
+    ['gap-3', 'lg', false, 'square'],
+    ['gap-2', 'reg', false, 'square'],
   ] as const)(
-    'applies %s when size=%s boxed=%s shape=%s',
-    (size, boxed, shape, gapClass) => {
+    'applies %s gap when size=%s boxed=%s shape=%s',
+    (gapClass, size, boxed, shape) => {
       render(
         <Toolbar aria-label="Tools" boxed={boxed} shape={shape} size={size}>
           <ToolbarButton aria-label="Action">
