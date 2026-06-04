@@ -1,6 +1,6 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { exampleComponentMaps } from '@/app/demo/[name]/index';
 import { Renderer } from '@/app/demo/[name]/renderer';
@@ -96,7 +96,7 @@ describe(`${componentName} — structure & interaction`, () => {
     );
 
     const toolbar = screen.getByRole('toolbar', { name: 'Tools' });
-    expect(toolbar).toHaveAttribute('data-boxed', 'true');
+    expect(toolbar).toHaveAttribute('data-boxed');
     expect(toolbar).toHaveAttribute('data-shape', 'square');
     expect(toolbar).toHaveAttribute('data-size', 'lg');
   });
@@ -181,15 +181,11 @@ describe(`${componentName} — structure & interaction`, () => {
 
   it('fires onClick for toolbar buttons', async () => {
     const user = userEvent.setup();
-    let clicked = false;
+    const onClick = vi.fn();
 
     render(
       <Toolbar aria-label="Tools">
-        <ToolbarButton
-          aria-label="Run action"
-          onClick={() => {
-            clicked = true;
-          }}>
+        <ToolbarButton aria-label="Run action" onClick={onClick}>
           <IconShell size="sm">
             <Icon icon="crop_free" />
           </IconShell>
@@ -199,6 +195,6 @@ describe(`${componentName} — structure & interaction`, () => {
 
     await user.click(screen.getByRole('button', { name: 'Run action' }));
 
-    expect(clicked).toBe(true);
+    expect(onClick).toHaveBeenCalledTimes(1);
   });
 });

@@ -167,7 +167,7 @@ function Toolbar({
         data-slot="toolbar"
         data-size={size}
         data-shape={shape}
-        data-boxed={boxed ? 'true' : 'false'}
+        data-boxed={boxed}
         orientation={orientation}
         className={cn(
           toolbarVariants({ boxed, orientation, shape, size }),
