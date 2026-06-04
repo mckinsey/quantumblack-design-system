@@ -25,6 +25,7 @@ npm run lint            # ESLint
 2. Add a demo in `src/app/demo/[name]/index.tsx` and `src/app/demo/[name]/ui/`
 3. Register it in `registry.json` (follow the `alert` / `alert-demo` pattern)
 4. Run `npm run registry:build` to regenerate registry files
+5. If driven by Figma: follow [figma-parity](.cursor/rules/figma-parity.mdc) (`@figma-parity` or edit under component/demo paths)
 
 ## Icons
 
@@ -47,6 +48,7 @@ Registry: `npx shadcn add icon` ships `icon.tsx` and appends the Google Fonts `@
 - [ ] `npm run build` passes
 - [ ] `npm run lint` passes
 - [ ] `registry.json` updated and `npm run registry:build` run (if component added/changed)
+- [ ] Figma-driven work: completed [figma-parity](.cursor/rules/figma-parity.mdc) checklist
 
 ## LLM Guidelines
 
@@ -56,7 +58,11 @@ Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-s
 
 ### Token selection
 
-When choosing a color, border, surface, fill, text, or radius token, read [docs/TOKENS.md](docs/TOKENS.md) first. It maps every QBDS semantic CSS variable to its Tailwind utility and intended use, with quick rules for "what NOT to use".
+When choosing a color, border, surface, fill, text, or radius token, read [docs/TOKENS.md](docs/TOKENS.md) first. It maps every QBDS semantic CSS variable to its Tailwind utility and intended use, with quick rules for "what NOT to use". Variable definitions live in [src/styles/globals.css](src/styles/globals.css) — that file is the CSS source of truth; TOKENS.md is the usage guide.
+
+### Figma ↔ code parity
+
+Figma-driven implement/review: follow [.cursor/rules/figma-parity.mdc](.cursor/rules/figma-parity.mdc) (`@figma-parity`, Figma URL, or edits under `src/components/ui/`, demos, `registry.json`, `code-connect/`). The rule is not always on — skip for unrelated work.
 
 ### 1. Think Before Coding
 
