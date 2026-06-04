@@ -25,7 +25,7 @@ npm run lint            # ESLint
 2. Add a demo in `src/app/demo/[name]/index.tsx` and `src/app/demo/[name]/ui/`
 3. Register it in `registry.json` (follow the `alert` / `alert-demo` pattern)
 4. Run `npm run registry:build` to regenerate registry files
-5. When implementing or updating a component **from a Figma spec** (URL, Dev Mode node, or QBDS library component set): follow [figma-parity](.cursor/rules/figma-parity.mdc) (`@figma-parity`). Skip for code-only fixes with no design change.
+5. When implementing or updating a component **from a Figma spec** (URL, Dev Mode node, or QBDS library component set): read and follow [figma-parity](.cursor/rules/figma-parity.mdc). In Cursor, attach with `@figma-parity`; in Claude Code, share the Figma URL or ask to follow the figma-parity workflow. Skip for code-only fixes with no design change.
 
 ## Icons
 
@@ -62,7 +62,9 @@ When choosing a color, border, surface, fill, text, or radius token, read [docs/
 
 ### Figma ↔ code parity
 
-Use [.cursor/rules/figma-parity.mdc](.cursor/rules/figma-parity.mdc) when you **implement, update, or review** a QBDS component against Figma (user gave a Figma URL/node, or the task is to match the library spec). Trigger with `@figma-parity`; globs also attach it when editing `src/components/ui/`, demos, `registry.json`, or `code-connect/`. **Do not** use for unrelated work (deps, CI, docs, refactors with no design change). The rule is not always on.
+Read and follow [.cursor/rules/figma-parity.mdc](.cursor/rules/figma-parity.mdc) when you **implement, update, or review** a QBDS component against Figma (user gave a Figma URL/node, or the task is to match the library spec). **Figma MCP output is reference only** — still run the full parity workflow (Code Connect, component description, variant matrix, TOKENS.md, demos/registry). **Do not** use for unrelated work (deps, CI, docs, refactors with no design change).
+
+**How to invoke:** In **Cursor**, attach the rule with `@figma-parity`, or it auto-attaches when editing `src/components/ui/`, demos, `registry.json`, or `code-connect/` (rule globs). In **Claude Code**, share a Figma URL or ask to follow the figma-parity workflow — read the `.mdc` file directly; `@figma-parity` is not available there.
 
 ### 1. Think Before Coding
 
