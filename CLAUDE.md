@@ -25,7 +25,7 @@ npm run lint            # ESLint
 2. Add a demo in `src/app/demo/[name]/index.tsx` and `src/app/demo/[name]/ui/`
 3. Register it in `registry.json` (follow the `alert` / `alert-demo` pattern)
 4. Run `npm run registry:build` to regenerate registry files
-5. If driven by Figma: follow [figma-parity](.cursor/rules/figma-parity.mdc) (`@figma-parity` or edit under component/demo paths)
+5. When implementing or updating a component **from a Figma spec** (URL, Dev Mode node, or QBDS library component set): follow [figma-parity](.cursor/rules/figma-parity.mdc) (`@figma-parity`). Skip for code-only fixes with no design change.
 
 ## Icons
 
@@ -48,7 +48,7 @@ Registry: `npx shadcn add icon` ships `icon.tsx` and appends the Google Fonts `@
 - [ ] `npm run build` passes
 - [ ] `npm run lint` passes
 - [ ] `registry.json` updated and `npm run registry:build` run (if component added/changed)
-- [ ] Figma-driven work: completed [figma-parity](.cursor/rules/figma-parity.mdc) checklist
+- [ ] Component matched to Figma (new or updated from spec): completed [figma-parity](.cursor/rules/figma-parity.mdc) checklist
 
 ## LLM Guidelines
 
@@ -62,7 +62,7 @@ When choosing a color, border, surface, fill, text, or radius token, read [docs/
 
 ### Figma ↔ code parity
 
-Figma-driven implement/review: follow [.cursor/rules/figma-parity.mdc](.cursor/rules/figma-parity.mdc) (`@figma-parity`, Figma URL, or edits under `src/components/ui/`, demos, `registry.json`, `code-connect/`). The rule is not always on — skip for unrelated work.
+Use [.cursor/rules/figma-parity.mdc](.cursor/rules/figma-parity.mdc) when you **implement, update, or review** a QBDS component against Figma (user gave a Figma URL/node, or the task is to match the library spec). Trigger with `@figma-parity`; globs also attach it when editing `src/components/ui/`, demos, `registry.json`, or `code-connect/`. **Do not** use for unrelated work (deps, CI, docs, refactors with no design change). The rule is not always on.
 
 ### 1. Think Before Coding
 
