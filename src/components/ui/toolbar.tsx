@@ -36,6 +36,9 @@ function toolbarGapClass({
   return 'gap-2';
 }
 
+// Negative margin cancels the flex gap before the separator (Figma spacer-on-prior-item).
+// Only use between two items — first/last overflows the container. Keys must match
+// every class `toolbarGapClass` can return.
 const toolbarSeparatorGapOffset: Record<
   ToolbarGapClass,
   { horizontal: string; vertical: string }
