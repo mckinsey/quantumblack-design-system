@@ -16,12 +16,16 @@ import {
   ToolbarSeparator,
   ToolbarToggleGroup,
   ToolbarToggleItem,
+  toolbarIconShellSizeMap,
+  useToolbar,
 } from '@/components/ui/toolbar';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 
 function ToolbarIcon() {
+  const { size } = useToolbar();
+
   return (
-    <IconShell size="sm" variant="secondary">
+    <IconShell size={toolbarIconShellSizeMap[size]} variant="secondary">
       <Icon icon="crop_free" />
     </IconShell>
   );
@@ -66,11 +70,11 @@ function DemoSurface({ children }: { children: ReactNode }) {
   );
 }
 
-/** Default boxed toolbar */
+/** Default unboxed toolbar */
 export function ToolbarDemo() {
   return (
     <DemoSurface>
-      <Toolbar boxed>
+      <Toolbar aria-label="Editor tools">
         <DefaultToolbarItems />
       </Toolbar>
     </DemoSurface>
@@ -82,10 +86,10 @@ export function ToolbarBoxed() {
   return (
     <DemoSurface>
       <div className="flex flex-col gap-6">
-        <Toolbar boxed>
+        <Toolbar aria-label="Boxed tools" boxed>
           <DefaultToolbarItems />
         </Toolbar>
-        <Toolbar>
+        <Toolbar aria-label="Unboxed tools">
           <DefaultToolbarItems />
         </Toolbar>
       </div>
@@ -98,10 +102,10 @@ export function ToolbarShapes() {
   return (
     <DemoSurface>
       <div className="flex flex-col gap-6">
-        <Toolbar boxed shape="circle">
+        <Toolbar aria-label="Circle shape tools" boxed shape="circle">
           <DefaultToolbarItems />
         </Toolbar>
-        <Toolbar boxed shape="square">
+        <Toolbar aria-label="Square shape tools" boxed shape="square">
           <DefaultToolbarItems />
         </Toolbar>
       </div>
@@ -114,13 +118,13 @@ export function ToolbarSizes() {
   return (
     <DemoSurface>
       <div className="flex flex-col items-start gap-6">
-        <Toolbar boxed size="sm">
+        <Toolbar aria-label="Small tools" boxed size="sm">
           <DefaultToolbarItems />
         </Toolbar>
-        <Toolbar boxed size="reg">
+        <Toolbar aria-label="Regular tools" boxed size="reg">
           <DefaultToolbarItems />
         </Toolbar>
-        <Toolbar boxed size="lg">
+        <Toolbar aria-label="Large tools" boxed size="lg">
           <DefaultToolbarItems />
         </Toolbar>
       </div>
@@ -133,10 +137,10 @@ export function ToolbarVertical() {
   return (
     <DemoSurface>
       <div className="flex gap-8">
-        <Toolbar boxed orientation="vertical">
+        <Toolbar aria-label="Vertical boxed tools" boxed orientation="vertical">
           <DefaultToolbarItems />
         </Toolbar>
-        <Toolbar orientation="vertical">
+        <Toolbar aria-label="Vertical unboxed tools" orientation="vertical">
           <DefaultToolbarItems />
         </Toolbar>
       </div>
@@ -148,7 +152,7 @@ export function ToolbarVertical() {
 export function ToolbarWithDropdown() {
   return (
     <DemoSurface>
-      <Toolbar boxed>
+      <Toolbar aria-label="Tools with menu" boxed>
         <ToolbarToggleGroup type="single" defaultValue="tool-1">
           <ToolbarToggleItem aria-label="Tool 1" value="tool-1">
             <ToolbarIcon />
@@ -181,12 +185,13 @@ export const examples: DemoExample[] = [
     name: 'ToolbarDemo',
     title: 'Default',
     description:
-      'Boxed horizontal toolbar with toggle group, separator, and actions.',
+      'Unboxed horizontal toolbar (default) with toggle group, separator, and icon actions.',
   },
   {
     name: 'ToolbarBoxed',
     title: 'Boxed',
-    description: 'Boxed and unboxed toolbar containers.',
+    description:
+      'Optional boxed container with elevation; compare with the default unboxed layout.',
   },
   {
     name: 'ToolbarShapes',

@@ -888,7 +888,7 @@
       "name": "toolbar",
       "type": "registry:ui",
       "title": "Toolbar",
-      "description": "Groups icon-only controls with keyboard navigation. Supports horizontal and vertical orientations, boxed and unboxed containers, circle and square shapes, and three sizes.",
+      "description": "Groups icon-only controls with keyboard navigation. Defaults to an unboxed horizontal layout; also supports optional boxed containers, vertical orientation, circle and square shapes, and sm, reg, and lg sizes.",
       "dependencies": [
         "@radix-ui/react-toolbar"
       ],
