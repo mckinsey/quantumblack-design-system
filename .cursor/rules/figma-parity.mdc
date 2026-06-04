@@ -8,12 +8,12 @@ alwaysApply: false
 
 **Scope:** Run this workflow only for Figma-driven implement/review of QBDS components. Skip for unrelated tasks. Trigger via `@figma-parity`, a Figma URL, or edits under the rule globs.
 
-QBDS file key `iuMWqCsIohoKAUB0tBS0xr` when no URL is given.
+If no Figma URL/node is provided, ask for it (or use the team’s internal/shared link).
 
 ## Sources of truth (read before styling)
 
-1. **[docs/TOKENS.md](docs/TOKENS.md)** — semantic Tailwind utilities; design-name column maps to Figma variables.
-2. **[src/styles/globals.css](src/styles/globals.css)** — CSS variables and `@theme inline`; trace utilities back to semantics (e.g. `bg-fill-*` → `--color-fill-*` → `--fill-*`). Verify **light and dark** (`.dark`); use `-inverse` on dark/accent surfaces.
+1. **[docs/TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md)** — semantic Tailwind utilities; design-name column maps to Figma variables.
+2. **[src/styles/globals.css](https://github.com/mckinsey/quantumblack-design-system/blob/main/src/styles/globals.css)** — CSS variables and `@theme inline`; trace utilities back to semantics (e.g. `bg-fill-*` → `--color-fill-*` → `--fill-*`). Verify **light and dark** (`.dark`); use `-inverse` on dark/accent surfaces.
 3. **Spacing scale** — `gap-1` / `p-1` = 4px, `gap-2` / `p-2` = 8px, `gap-3` / `p-3` = 12px. No `gap-[Npx]`, `text-[#…]`, `bg-[#…]`, or primitives (`slate-*`, `mist-*`) in components.
 
 Match Figma variables to semantic prefixes: `--fg-*`, `--fill-*`, `--stroke-*`, `--surface-*`, `--status-*`, `--stateslayer-*`, `--elevation-*`, `--brand-accents-*` (each has a `-inverse` form where the spec uses inverse surfaces).
