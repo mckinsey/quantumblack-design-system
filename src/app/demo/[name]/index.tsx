@@ -353,6 +353,16 @@ import {
   examples as toggleExamples,
 } from '@/app/demo/[name]/ui/toggle';
 import {
+  ToolbarBoxed,
+  ToolbarDemo,
+  ToolbarShapes,
+  ToolbarSizes,
+  ToolbarVertical,
+  ToolbarWithDropdown,
+  toolbar,
+  examples as toolbarExamples,
+} from '@/app/demo/[name]/ui/toolbar';
+import {
   TooltipAlignment,
   TooltipDemo,
   TooltipLongContent,
@@ -661,6 +671,14 @@ export const exampleComponentMaps: Record<
     ToggleIconsRound,
     ToggleIconSizes,
   },
+  toolbar: {
+    ToolbarDemo,
+    ToolbarBoxed,
+    ToolbarShapes,
+    ToolbarSizes,
+    ToolbarVertical,
+    ToolbarWithDropdown,
+  },
   tooltip: {
     TooltipDemo,
     TooltipPositions,
@@ -708,6 +726,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   'time-input': timeInputExamples,
   'time-picker': timePickerExamples,
   toggle: toggleExamples,
+  toolbar: toolbarExamples,
   tooltip: tooltipExamples,
 };
 
@@ -897,6 +916,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...toggle,
     examples: toggleExamples,
     exampleComponents: exampleComponentMaps.toggle,
+  },
+  toolbar: {
+    ...toolbar,
+    examples: toolbarExamples,
+    exampleComponents: exampleComponentMaps.toolbar,
   },
   tooltip: {
     ...tooltip,
