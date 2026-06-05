@@ -238,6 +238,9 @@ components:
     rounded: "{rounded.full}"
     padding: "4px 8px"
     typography: "{typography.label-small}"
+  focus-ring:
+    backgroundColor: "{colors.focus}"
+    size: "2px"
 ---
 
 # Design System: QuantumBlack Design System
