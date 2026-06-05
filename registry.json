@@ -115,6 +115,25 @@
       ]
     },
     {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "Groups related buttons together with consistent QBDS spacing. Supports horizontal and vertical orientation and size-driven gaps (sm, default, lg).",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/button-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "calendar",
       "type": "registry:ui",
       "title": "Calendar",
@@ -861,6 +880,26 @@
       "files": [
         {
           "path": "src/components/ui/toggle.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "toolbar",
+      "type": "registry:ui",
+      "title": "Toolbar",
+      "description": "Groups icon-only controls with keyboard navigation. Defaults to an unboxed horizontal layout; also supports optional boxed containers, vertical orientation, circle and square shapes, and sm, reg, and lg sizes.",
+      "dependencies": [
+        "@radix-ui/react-toolbar"
+      ],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/button.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/toolbar.tsx",
           "type": "registry:ui"
         }
       ]

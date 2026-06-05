@@ -47,7 +47,6 @@ import {
 import {
   ButtonDemo,
   ButtonDisabled,
-  ButtonGroups,
   ButtonIconOnly,
   ButtonIconRounded,
   ButtonLoading,
@@ -57,6 +56,15 @@ import {
   button,
   examples as buttonExamples,
 } from '@/app/demo/[name]/ui/button';
+import {
+  ButtonGroupConfigs,
+  ButtonGroupDemo,
+  ButtonGroupIconOnly,
+  ButtonGroupSizes,
+  ButtonGroupVertical,
+  buttonGroup,
+  examples as buttonGroupExamples,
+} from '@/app/demo/[name]/ui/button-group';
 import {
   CalendarDemo,
   CalendarDisabledDays,
@@ -345,6 +353,16 @@ import {
   examples as toggleExamples,
 } from '@/app/demo/[name]/ui/toggle';
 import {
+  ToolbarBoxed,
+  ToolbarDemo,
+  ToolbarShapes,
+  ToolbarSizes,
+  ToolbarVertical,
+  ToolbarWithDropdown,
+  toolbar,
+  examples as toolbarExamples,
+} from '@/app/demo/[name]/ui/toolbar';
+import {
   TooltipAlignment,
   TooltipDemo,
   TooltipLongContent,
@@ -417,7 +435,13 @@ export const exampleComponentMaps: Record<
     ButtonLoading,
     ButtonIconOnly,
     ButtonIconRounded,
-    ButtonGroups,
+  },
+  'button-group': {
+    ButtonGroupDemo,
+    ButtonGroupConfigs,
+    ButtonGroupSizes,
+    ButtonGroupVertical,
+    ButtonGroupIconOnly,
   },
   calendar: {
     CalendarDemo,
@@ -647,6 +671,14 @@ export const exampleComponentMaps: Record<
     ToggleIconsRound,
     ToggleIconSizes,
   },
+  toolbar: {
+    ToolbarDemo,
+    ToolbarBoxed,
+    ToolbarShapes,
+    ToolbarSizes,
+    ToolbarVertical,
+    ToolbarWithDropdown,
+  },
   tooltip: {
     TooltipDemo,
     TooltipPositions,
@@ -662,6 +694,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   avatar: avatarExamples,
   badge: badgeExamples,
   button: buttonExamples,
+  'button-group': buttonGroupExamples,
   calendar: calendarExamples,
   card: cardExamples,
   checkbox: checkboxExamples,
@@ -693,6 +726,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   'time-input': timeInputExamples,
   'time-picker': timePickerExamples,
   toggle: toggleExamples,
+  toolbar: toolbarExamples,
   tooltip: tooltipExamples,
 };
 
@@ -722,6 +756,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...button,
     examples: buttonExamples,
     exampleComponents: exampleComponentMaps.button,
+  },
+  'button-group': {
+    ...buttonGroup,
+    examples: buttonGroupExamples,
+    exampleComponents: exampleComponentMaps['button-group'],
   },
   calendar: {
     ...calendar,
@@ -877,6 +916,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...toggle,
     examples: toggleExamples,
     exampleComponents: exampleComponentMaps.toggle,
+  },
+  toolbar: {
+    ...toolbar,
+    examples: toolbarExamples,
+    exampleComponents: exampleComponentMaps.toolbar,
   },
   tooltip: {
     ...tooltip,

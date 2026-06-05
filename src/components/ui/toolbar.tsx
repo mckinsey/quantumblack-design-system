@@ -1,0 +1,286 @@
+'use client';
+
+import * as ToolbarPrimitive from '@radix-ui/react-toolbar';
+import { cva } from 'class-variance-authority';
+import * as React from 'react';
+
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+
+type ToolbarSize = 'sm' | 'reg' | 'lg';
+type ToolbarShape = 'square' | 'circle';
+
+interface ToolbarContextValue {
+  size: ToolbarSize;
+  shape: ToolbarShape;
+  boxed: boolean;
+  orientation: 'horizontal' | 'vertical';
+}
+
+const ToolbarContext = React.createContext<ToolbarContextValue>({
+  size: 'reg',
+  shape: 'circle',
+  boxed: false,
+  orientation: 'horizontal',
+});
+
+type ToolbarGapClass = 'gap-1' | 'gap-2' | 'gap-3';
+
+function toolbarGapClass({
+  boxed,
+  shape,
+  size,
+}: Pick<ToolbarContextValue, 'boxed' | 'shape' | 'size'>): ToolbarGapClass {
+  if (size === 'lg') return 'gap-3';
+  if (size === 'reg' && shape === 'circle' && !boxed) return 'gap-1';
+  return 'gap-2';
+}
+
+// Negative margin cancels the flex gap before the separator (Figma spacer-on-prior-item).
+// Only use between two items — first/last overflows the container. Keys must match
+// every class `toolbarGapClass` can return.
+const toolbarSeparatorGapOffset: Record<
+  ToolbarGapClass,
+  { horizontal: string; vertical: string }
+> = {
+  'gap-1': { horizontal: '-ms-1', vertical: '-mt-1' },
+  'gap-2': { horizontal: '-ms-2', vertical: '-mt-2' },
+  'gap-3': { horizontal: '-ms-3', vertical: '-mt-3' },
+};
+
+function toolbarSeparatorOffsetClass(context: ToolbarContextValue) {
+  const offset = toolbarSeparatorGapOffset[toolbarGapClass(context)];
+  return context.orientation === 'horizontal'
+    ? offset.horizontal
+    : offset.vertical;
+}
+
+const toolbarIconSizeMap: Record<ToolbarSize, 'icon-sm' | 'icon' | 'icon-lg'> =
+  {
+    sm: 'icon-sm',
+    reg: 'icon',
+    lg: 'icon-lg',
+  };
+
+const toolbarIconShellSizeMap: Record<ToolbarSize, 'sm' | 'default' | 'lg'> = {
+  sm: 'sm',
+  reg: 'sm',
+  lg: 'default',
+};
+
+const toolbarSeparatorLengthMap: Record<ToolbarSize, string> = {
+  sm: 'h-5',
+  reg: 'h-7',
+  lg: 'h-8',
+};
+
+const toolbarSeparatorWidthMap: Record<ToolbarSize, string> = {
+  sm: 'w-2',
+  reg: 'w-2',
+  lg: 'w-3',
+};
+
+const toolbarSeparatorHeightMap: Record<ToolbarSize, string> = {
+  sm: 'h-2',
+  reg: 'h-2',
+  lg: 'h-3',
+};
+
+const toolbarSeparatorCrossSpanMap: Record<ToolbarSize, string> = {
+  sm: 'w-6',
+  reg: 'w-7',
+  lg: 'w-8',
+};
+
+const toolbarVariants = cva('inline-flex w-fit items-center', {
+  variants: {
+    boxed: {
+      true: 'bg-fill-secondary-inverse border border-stroke-tertiary shadow-elevation-1',
+      false: '',
+    },
+    orientation: {
+      horizontal: 'flex-row',
+      vertical: 'flex-col',
+    },
+    shape: {
+      circle: '',
+      square: '',
+    },
+    size: {
+      sm: '',
+      reg: '',
+      lg: '',
+    },
+  },
+  compoundVariants: [
+    { boxed: true, shape: 'circle', className: 'rounded-full' },
+    { boxed: true, shape: 'square', className: 'rounded-md' },
+    { boxed: true, size: ['sm', 'reg'], className: 'p-2' },
+    { boxed: true, size: 'lg', className: 'p-3' },
+  ],
+  defaultVariants: {
+    boxed: false,
+    orientation: 'horizontal',
+    shape: 'circle',
+    size: 'reg',
+  },
+});
+
+function toolbarItemClasses({
+  size,
+  shape,
+  className,
+}: ToolbarContextValue & { className?: string }) {
+  return cn(
+    buttonVariants({
+      variant: 'ghost',
+      size: toolbarIconSizeMap[size],
+    }),
+    shape === 'circle' ? 'rounded-full' : 'rounded-md',
+    className,
+  );
+}
+
+function useToolbar() {
+  return React.useContext(ToolbarContext);
+}
+
+interface ToolbarProps extends React.ComponentProps<
+  typeof ToolbarPrimitive.Root
+> {
+  size?: ToolbarSize;
+  shape?: ToolbarShape;
+  boxed?: boolean;
+}
+
+function Toolbar({
+  className,
+  size = 'reg',
+  shape = 'circle',
+  boxed = false,
+  orientation = 'horizontal',
+  ...props
+}: ToolbarProps) {
+  return (
+    <ToolbarContext.Provider value={{ size, shape, boxed, orientation }}>
+      <ToolbarPrimitive.Root
+        data-slot="toolbar"
+        data-size={size}
+        data-shape={shape}
+        data-boxed={boxed}
+        orientation={orientation}
+        className={cn(
+          toolbarVariants({ boxed, orientation, shape, size }),
+          toolbarGapClass({ boxed, shape, size }),
+          className,
+        )}
+        {...props}
+      />
+    </ToolbarContext.Provider>
+  );
+}
+
+function ToolbarButton({
+  className,
+  ...props
+}: React.ComponentProps<typeof ToolbarPrimitive.Button>) {
+  const context = useToolbar();
+
+  return (
+    <ToolbarPrimitive.Button
+      data-slot="toolbar-button"
+      className={toolbarItemClasses({ ...context, className })}
+      {...props}
+    />
+  );
+}
+
+function ToolbarSeparator({
+  className,
+  ...props
+}: Omit<
+  React.ComponentProps<typeof ToolbarPrimitive.Separator>,
+  'decorative' | 'orientation'
+>) {
+  const context = useToolbar();
+
+  return (
+    <ToolbarPrimitive.Separator
+      data-slot="toolbar-separator"
+      decorative
+      orientation={
+        context.orientation === 'horizontal' ? 'vertical' : 'horizontal'
+      }
+      className={cn(
+        'border-stroke-tertiary shrink-0',
+        toolbarSeparatorOffsetClass(context),
+        context.orientation === 'horizontal'
+          ? cn(
+              'self-center border-r',
+              toolbarSeparatorWidthMap[context.size],
+              toolbarSeparatorLengthMap[context.size],
+            )
+          : cn(
+              'border-b',
+              toolbarSeparatorHeightMap[context.size],
+              toolbarSeparatorCrossSpanMap[context.size],
+            ),
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function ToolbarToggleGroup({
+  className,
+  ...props
+}: React.ComponentProps<typeof ToolbarPrimitive.ToggleGroup>) {
+  const { boxed, shape, size, orientation } = useToolbar();
+
+  return (
+    <ToolbarPrimitive.ToggleGroup
+      data-slot="toolbar-toggle-group"
+      className={cn(
+        'inline-flex items-center',
+        toolbarGapClass({ boxed, shape, size }),
+        orientation === 'vertical' ? 'flex-col' : 'flex-row',
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function ToolbarToggleItem({
+  className,
+  ...props
+}: React.ComponentProps<typeof ToolbarPrimitive.ToggleItem>) {
+  const context = useToolbar();
+
+  return (
+    <ToolbarPrimitive.ToggleItem
+      data-slot="toolbar-toggle-item"
+      className={cn(
+        toolbarItemClasses(context),
+        'data-[state=on]:bg-fill-active data-[state=on]:text-fg-primary-inverse',
+        'disabled:data-[state=on]:text-fg-disabled disabled:data-[state=on]:bg-transparent',
+        'disabled:data-[state=on]:hover:bg-transparent disabled:data-[state=on]:active:bg-transparent',
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+export {
+  Toolbar,
+  ToolbarButton,
+  ToolbarSeparator,
+  ToolbarToggleGroup,
+  ToolbarToggleItem,
+  toolbarIconShellSizeMap,
+  useToolbar,
+  type ToolbarSize,
+  type ToolbarShape,
+};
