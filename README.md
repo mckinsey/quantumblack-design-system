@@ -145,6 +145,8 @@ npm run tokens:check
 npm run dev    # open /tokens and check the swatches
 ```
 
+When designers update Figma variables (`DS_THEMES`, `Radius`, `DS-Primitives`), sync them into code with the [figma-token-sync](.cursor/rules/figma-token-sync.mdc) workflow (`@figma-token-sync` in Cursor).
+
 ## Icons
 
 Icons use the **Material Symbols Sharp** variable font via `<Icon icon="search" />`. Use Google's snake_case ligature names (e.g. `keyboard_arrow_down`). Wrap in `<IconShell>` for QBDS size, colour, and opacity tokens.

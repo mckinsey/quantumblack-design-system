@@ -421,7 +421,7 @@
   --text-secondary-inverse: var(--mist-50-opacity-60);
   --text-tertiary-inverse: var(--mist-50-opacity-50);
   --text-disabled-inverse: var(--mist-50-opacity-38);
-  --text-information: var(--color-cyan-700);
+  --text-information: var(--color-sky-600);
   --text-error: var(--color-red-700);
   --text-warning: var(--color-amber-700);
   --text-success: var(--color-green-700);

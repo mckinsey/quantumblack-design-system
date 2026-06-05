@@ -25,6 +25,7 @@ npm run lint            # ESLint
 2. Add a demo in `src/app/demo/[name]/index.tsx` and `src/app/demo/[name]/ui/`
 3. Register it in `registry.json` (follow the `alert` / `alert-demo` pattern)
 4. Run `npm run registry:build` to regenerate registry files
+5. When implementing or updating a component **from a Figma spec** (URL, Dev Mode node, or QBDS library component set): read and follow [figma-parity](.cursor/rules/figma-parity.mdc). In Cursor, attach with `@figma-parity`; in Claude Code, share the Figma URL or ask to follow the figma-parity workflow. Skip for code-only fixes with no design change.
 
 ## Icons
 
@@ -47,6 +48,7 @@ Registry: `npx shadcn add icon` ships `icon.tsx` and appends the Google Fonts `@
 - [ ] `npm run build` passes
 - [ ] `npm run lint` passes
 - [ ] `registry.json` updated and `npm run registry:build` run (if component added/changed)
+- [ ] Component matched to Figma (new or updated from spec): completed [figma-parity](.cursor/rules/figma-parity.mdc) checklist
 
 ## LLM Guidelines
 
@@ -56,7 +58,17 @@ Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-s
 
 ### Token selection
 
-When choosing a color, border, surface, fill, text, or radius token, read [docs/TOKENS.md](docs/TOKENS.md) first. It maps every QBDS semantic CSS variable to its Tailwind utility and intended use, with quick rules for "what NOT to use".
+When choosing a color, border, surface, fill, text, or radius token, read [docs/TOKENS.md](docs/TOKENS.md) first. It maps every QBDS semantic CSS variable to its Tailwind utility and intended use, with quick rules for "what NOT to use". Variable definitions live in [src/styles/globals.css](src/styles/globals.css) — that file is the CSS source of truth; TOKENS.md is the usage guide.
+
+### Figma → code token sync
+
+When designers update Figma variables and tokens need to flow into code, read and follow [figma-token-sync](.cursor/rules/figma-token-sync.mdc). In **Cursor**, attach `@figma-token-sync`. In **Claude Code**, share the Figma variables URL and ask to follow the figma-token-sync workflow. Skip for component-only changes with no token updates.
+
+### Figma ↔ code parity
+
+Read and follow [.cursor/rules/figma-parity.mdc](.cursor/rules/figma-parity.mdc) when you **implement, update, or review** a QBDS component against Figma (user gave a Figma URL/node, or the task is to match the library spec). **Figma MCP output is reference only** — still run the full parity workflow (Code Connect, component description, variant matrix, TOKENS.md, demos/registry). **Do not** use for unrelated work (deps, CI, docs, refactors with no design change).
+
+**How to invoke:** In **Cursor**, attach the rule with `@figma-parity`, or it auto-attaches when editing `src/components/ui/`, demos, `registry.json`, or `code-connect/` (rule globs). In **Claude Code**, share a Figma URL or ask to follow the figma-parity workflow — read the `.mdc` file directly; `@figma-parity` is not available there.
 
 ### Syncing tokens with Figma
 
