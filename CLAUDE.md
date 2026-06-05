@@ -60,6 +60,10 @@ Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-s
 
 When choosing a color, border, surface, fill, text, or radius token, read [docs/TOKENS.md](docs/TOKENS.md) first. It maps every QBDS semantic CSS variable to its Tailwind utility and intended use, with quick rules for "what NOT to use". Variable definitions live in [src/styles/globals.css](src/styles/globals.css) — that file is the CSS source of truth; TOKENS.md is the usage guide.
 
+### Figma → code token sync
+
+When designers update Figma variables and tokens need to flow into code, read and follow [figma-token-sync](.cursor/rules/figma-token-sync.mdc). In **Cursor**, attach `@figma-token-sync`. In **Claude Code**, share the Figma variables URL and ask to follow the figma-token-sync workflow. Skip for component-only changes with no token updates.
+
 ### Figma ↔ code parity
 
 Read and follow [.cursor/rules/figma-parity.mdc](.cursor/rules/figma-parity.mdc) when you **implement, update, or review** a QBDS component against Figma (user gave a Figma URL/node, or the task is to match the library spec). **Figma MCP output is reference only** — still run the full parity workflow (Code Connect, component description, variant matrix, TOKENS.md, demos/registry). **Do not** use for unrelated work (deps, CI, docs, refactors with no design change).
