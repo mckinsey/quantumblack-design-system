@@ -45,6 +45,42 @@ describe('tokens from TOKENS.md + globals.css', () => {
     expect(primary?.dark?.alias).toBe('--slate-800');
   });
 
+  it('resolves distinct dark surface colours', () => {
+    const tokens = loadColorTokens(globalsCss);
+    const surface = tokens.filter(t => t.category === 'Surface');
+    const darkValues = surface.map(t => t.dark?.value);
+    expect(new Set(darkValues).size).toBe(surface.length);
+    expect(surface.find(t => t.cssVar === '--surface-base')?.dark?.value).toBe(
+      '#141721ff',
+    );
+    expect(
+      surface.find(t => t.cssVar === '--surface-tertiary')?.dark?.value,
+    ).toBe('#232632ff');
+  });
+
+  it('resolves text colours from bridge-notation catalogue rows', () => {
+    const tokens = loadColorTokens(globalsCss);
+    const primary = tokens.find(
+      t => t.category === 'Text' && t.name === 'Text/Primary',
+    );
+    expect(primary?.patternOnly).toBe(false);
+    expect(primary?.cssVar).toBe('--text-primary');
+    expect(primary?.light?.value).toMatch(/^#[\da-f]{8}$/);
+    expect(primary?.dark?.value).toMatch(/^#[\da-f]{8}$/);
+    expect(primary?.light?.value).not.toBe(primary?.dark?.value);
+  });
+
+  it('resolves border colours from bridge-notation catalogue rows', () => {
+    const tokens = loadColorTokens(globalsCss);
+    const divider = tokens.find(
+      t => t.category === 'Border / Stroke' && t.name === 'Border/Divider',
+    );
+    expect(divider?.patternOnly).toBe(false);
+    expect(divider?.cssVar).toBe('--border-divider');
+    expect(divider?.light?.value).toMatch(/^#[\da-f]{8}$/);
+    expect(divider?.dark?.value).toMatch(/^#[\da-f]{8}$/);
+  });
+
   it('resolves status fill colours from globals.css', () => {
     const tokens = loadColorTokens(globalsCss);
     const success = tokens.find(

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { type CSSProperties, useEffect, useMemo, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
@@ -24,8 +24,25 @@ const categories = getCategories(tokens);
 
 const LIGHT_CANVAS = '#ffffff';
 const DARK_CANVAS = '#141721';
-/** Neutral panel for dark-mode elevation previews — shadows need a light surface. */
-const ELEVATION_DARK_PREVIEW_SURFACE = '#e5e5e5';
+
+/** Elevated card on the light canvas — fixed black, not page theme. */
+const ELEVATION_SURFACE_ON_LIGHT_CANVAS = DARK_CANVAS;
+/** Lighter card on the dark canvas so dark-mode shadows stay visible. */
+const ELEVATION_SURFACE_ON_DARK_CANVAS = '#e5e5e5';
+
+/** Light-mode elevation shades (from `:root` in globals.css). */
+const LIGHT_ELEVATION_THEME: CSSProperties = {
+  '--elevations-shade-t': 'var(--slate-900-opacity-8)',
+  '--elevations-shade': 'var(--slate-900-opacity-38)',
+  '--elevations-shade-t-01': 'var(--slate-900-opacity-12)',
+  '--elevations-shade-01': 'var(--slate-900-opacity-12)',
+  '--elevations-shade-t-02': 'var(--slate-900-opacity-12)',
+  '--elevations-shade-02': 'var(--slate-900-opacity-24)',
+  '--elevations-shade-t-03': 'var(--slate-900-opacity-12)',
+  '--elevations-shade-03': 'var(--slate-900-opacity-8)',
+  '--elevations-shade-t-04': 'var(--slate-900-opacity-12)',
+  '--elevations-shade-04': 'var(--slate-900-opacity-8)',
+};
 
 const TOKEN_ROW_GRID =
   'sm:grid sm:grid-cols-[4.5rem_minmax(0,1fr)_8.75rem_8.75rem] sm:gap-x-4';
@@ -191,20 +208,19 @@ function ElevationChip({
         'border-stroke-tertiary flex h-[3.25rem] w-[8.75rem] items-center justify-center border px-2',
         darkScope && 'dark',
       )}
-      style={{ backgroundColor: canvas }}
+      style={{
+        backgroundColor: canvas,
+        ...(darkScope ? undefined : LIGHT_ELEVATION_THEME),
+      }}
       aria-label={onLight ? 'Light mode shadow' : 'Dark mode shadow'}
       role="img">
       <div
-        className={cn(
-          'size-9 shrink-0 rounded-sm',
-          onLight && 'bg-surface-primary',
-          shadowClass,
-        )}
-        style={
-          onLight
-            ? undefined
-            : { backgroundColor: ELEVATION_DARK_PREVIEW_SURFACE }
-        }
+        className={cn('size-9 shrink-0 rounded-sm', shadowClass)}
+        style={{
+          backgroundColor: onLight
+            ? ELEVATION_SURFACE_ON_LIGHT_CANVAS
+            : ELEVATION_SURFACE_ON_DARK_CANVAS,
+        }}
         aria-hidden
       />
     </div>

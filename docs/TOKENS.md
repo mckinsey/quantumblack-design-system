@@ -68,11 +68,11 @@ The QBDS source-of-truth variables live under `--text-*`; the Tailwind bridge ex
 
 | CSS variable | Tailwind | Use for | Design name |
 | ------------ | -------- | ------- | ----------- |
-| `--text-primary` (→ `--color-fg-primary`) | `text-fg-primary` | Body copy, data entries, headers. | `Text/Primary` |
-| `--text-secondary` (→ `--color-fg-secondary`) | `text-fg-secondary` | Secondary text, additional descriptors, input labels, data labels. | `Text/Secondary` |
-| `--text-tertiary` (→ `--color-fg-tertiary`) | `text-fg-tertiary` | Placeholder, hint text, tertiary content. | `Text/Tertiary` |
-| `--text-disabled` (→ `--color-fg-disabled`) | `text-fg-disabled` | Disabled content. | `Text/Disabled` |
-| `--text-*-inverse` (→ `--color-fg-*-inverse`) | `text-fg-*-inverse` | Same usage on high-contrast backgrounds or accent elements. | `Text/*-Inverse` |
+| `--text-primary` | `text-fg-primary` | Body copy, data entries, headers. | `Text/Primary` |
+| `--text-secondary` | `text-fg-secondary` | Secondary text, additional descriptors, input labels, data labels. | `Text/Secondary` |
+| `--text-tertiary` | `text-fg-tertiary` | Placeholder, hint text, tertiary content. | `Text/Tertiary` |
+| `--text-disabled` | `text-fg-disabled` | Disabled content. | `Text/Disabled` |
+| `--text-*-inverse` | `text-fg-*-inverse` | Same usage on high-contrast backgrounds or accent elements. | `Text/*-Inverse` |
 | `--text-information` | `text-information` | Status generic info text. AA-compliant 4.5:1. | `Text/Information` |
 | `--text-error` | `text-error` | Status error text. AA-compliant 4.5:1. | `Text/Error` |
 | `--text-warning` | `text-warning` | Status warning text. AA-compliant 4.5:1. | `Text/Warning` |
@@ -84,18 +84,18 @@ Outlines, dividers, focus rings. Source-of-truth variables live under `--border-
 
 | CSS variable | Tailwind | Use for | Design name |
 | ------------ | -------- | ------- | ----------- |
-| `--border-divider` (→ `--color-stroke-divider`) | `border-stroke-divider` | Very light separators — list items, button groupings. | `Border/Divider` |
-| `--border-primary` (→ `--color-stroke-primary`) | `border-stroke-primary` | High contrast border — emphasised states. | `Border/Primary` |
-| `--border-secondary` (→ `--color-stroke-secondary`) | `border-stroke-secondary` | Medium contrast border — switches, tags, toggle elements, emphasised states. | `Border/Secondary` |
-| `--border-tertiary` (→ `--color-stroke-tertiary`) | `border-stroke-tertiary` | Subtle outlines — cards, panels, node links, inline inputs, tabs, data tables, disabled toggle items, badges, switches. | `Border/Tertiary` |
-| `--border-tertiary-hover` (→ `--color-stroke-tertiary-hover`) | `border-stroke-tertiary-hover` | Hover state of the above. | `Border/Tertiary-Hover` |
-| `--border-active` (→ `--color-stroke-active`) | `border-stroke-active` | Active state — tabs, tags, inline inputs, buttons, switches, toggles, sliders. | `Border/Active` |
-| `--border-status-focus` (→ `--color-stroke-status-focus`) | `border-stroke-status-focus` | Active / focus ring for UI elements. | `Border/Status/Focus` |
-| `--border-status-mono` (→ `--color-stroke-status-mono`) | `border-stroke-status-mono` | Active / focus variant — monochrome. | `Border/Status/Mono` |
-| `--border-status-error` (→ `--color-stroke-status-error`) | `border-stroke-status-error` | Active / focus error variant — tags, badges, indicators, cards/panels. | `Border/Status/Error` |
-| `--border-status-success` (→ `--color-stroke-status-success`) | `border-stroke-status-success` | Active / focus success variant — tags, badges, indicators, cards/panels. | `Border/Status/Success` |
-| `--border-status-warning` (→ `--color-stroke-status-warning`) | `border-stroke-status-warning` | Active / focus warning variant — tags, badges, indicators, cards/panels. | `Border/Status/Warning` |
-| `--border-*-inverse` (→ `--color-stroke-*-inverse`) | `border-stroke-*-inverse` | Same usage on high-contrast or accent surfaces. | `Border/*-Inverse` |
+| `--border-divider` | `border-stroke-divider` | Very light separators — list items, button groupings. | `Border/Divider` |
+| `--border-primary` | `border-stroke-primary` | High contrast border — emphasised states. | `Border/Primary` |
+| `--border-secondary` | `border-stroke-secondary` | Medium contrast border — switches, tags, toggle elements, emphasised states. | `Border/Secondary` |
+| `--border-tertiary` | `border-stroke-tertiary` | Subtle outlines — cards, panels, node links, inline inputs, tabs, data tables, disabled toggle items, badges, switches. | `Border/Tertiary` |
+| `--border-tertiary-hover` | `border-stroke-tertiary-hover` | Hover state of the above. | `Border/Tertiary-Hover` |
+| `--border-active` | `border-stroke-active` | Active state — tabs, tags, inline inputs, buttons, switches, toggles, sliders. | `Border/Active` |
+| `--border-status-focus` | `border-stroke-status-focus` | Active / focus ring for UI elements. | `Border/Status/Focus` |
+| `--border-status-mono` | `border-stroke-status-mono` | Active / focus variant — monochrome. | `Border/Status/Mono` |
+| `--border-status-error` | `border-stroke-status-error` | Active / focus error variant — tags, badges, indicators, cards/panels. | `Border/Status/Error` |
+| `--border-status-success` | `border-stroke-status-success` | Active / focus success variant — tags, badges, indicators, cards/panels. | `Border/Status/Success` |
+| `--border-status-warning` | `border-stroke-status-warning` | Active / focus warning variant — tags, badges, indicators, cards/panels. | `Border/Status/Warning` |
+| `--border-*-inverse` | `border-stroke-*-inverse` | Same usage on high-contrast or accent surfaces. | `Border/*-Inverse` |
 
 ## Status
 
