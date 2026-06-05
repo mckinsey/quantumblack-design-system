@@ -20,6 +20,7 @@
 /public/r/
 /public/api/*.json
 /public/examples/*.json
+/public/assets/
 
 # misc
 .DS_Store
@@ -44,3 +45,4 @@ figma.config.json
 # cache
 .eslintcache
 .vite/
+.cursor/
