@@ -130,13 +130,13 @@ When variables change in design, update **`globals.css`** (the values) and **`do
 
 | Figma collection | Where it lives in code |
 | ---------------- | --------------------- |
-| **DS-Primitives** | Hex colours in `@theme inline` — mist, slate, status palettes (red through sky), brand accents. Each step has a `--color-*` bridge for Tailwind (e.g. `--green-700` → `--color-green-700`). |
+| **DS-Primitives** | Primitive colours in `@theme inline` — mist/slate and opacities as `oklch(...)`, status palettes (red through sky) as 8-digit hex, brand accents as `oklch(...)`. Each step has a `--color-*` bridge for Tailwind (e.g. `--green-700` → `--color-green-700`). |
 | **DS_Themes** | Semantic tokens in `:root` and `.dark` — e.g. `--text-success` points at a primitive. In Figma, `Text/Success` might use `green/700`; in CSS that becomes `var(--color-green-700)`. |
 | **Radius** (Sharp / Round) | `--rad-*` and `.radius-mode` |
 
 Figma names use slashes (`Text/Primary`, `green/700`). CSS uses kebab-case (`--text-primary`, `--green-700`). Keep the Figma name in the **Design name** column in `TOKENS.md`.
 
-To pull values from Figma, add `FIGMA_ACCESS_TOKEN` to `.env` and call the [local variables API](https://www.figma.com/developers/api#get-local-variables-endpoint) on the QBDS file, or use Figma MCP on that file. Put primitive colours in as hex inside `@theme inline`.
+To pull values from Figma, add `FIGMA_ACCESS_TOKEN` to `.env` and call the [local variables API](https://www.figma.com/developers/api#get-local-variables-endpoint) on the QBDS file, or use Figma MCP on that file. Match the format already used in `@theme inline` for that palette — `oklch(...)` for mist/slate/opacities and brand accents, 8-digit hex for status palettes.
 
 When you are done editing:
 
