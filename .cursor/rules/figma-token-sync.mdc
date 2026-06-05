@@ -21,8 +21,8 @@ Use Figma MCP (`get_variable_defs` or variable export via the Figma plugin) to r
 
 | File | Role |
 |------|------|
-| [`docs/TOKENS.md`](docs/TOKENS.md) | **Figma ↔ CSS mapping** — the **Design name** column is the canonical Figma variable path for each `--*` token; read this before syncing |
-| [`src/styles/globals.css`](src/styles/globals.css) | **CSS source of truth** — primitive + semantic variable definitions and `var()` bindings |
+| [`docs/TOKENS.md`](../../docs/TOKENS.md) | **Figma ↔ CSS mapping** — the **Design name** column is the canonical Figma variable path for each `--*` token; read this before syncing |
+| [`src/styles/globals.css`](../../src/styles/globals.css) | **CSS source of truth** — primitive + semantic variable definitions and `var()` bindings |
 
 ### `globals.css` structure (preserve layout)
 
@@ -39,7 +39,7 @@ Use Figma MCP (`get_variable_defs` or variable export via the Figma plugin) to r
 ### 1 — Read Figma variables
 
 1. Confirm designers have published changes in the QBDS v2.0.0 file.
-2. Read [`docs/TOKENS.md`](docs/TOKENS.md) — for each semantic token you will sync, note its **Design name** (e.g. `--fill-active` → `Fill/Content/Active`). Use that exact Figma path when reading `DS_THEMES`; do not match by similar names in the Figma file.
+2. Read [`docs/TOKENS.md`](../../docs/TOKENS.md) — for each semantic token you will sync, note its **Design name** (e.g. `--fill-active` → `Fill/Content/Active`). Use that exact Figma path when reading `DS_THEMES`; do not match by similar names in the Figma file.
 3. Read all variables from `DS-Primitives`, `DS_THEMES`, and `Radius` for **light** and **dark** modes.
 4. Build a diff table: Design name (from TOKENS.md) → CSS variable → old `var()` binding → new binding. Flag **renames** and **removed** tokens.
 
