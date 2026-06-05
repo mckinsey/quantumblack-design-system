@@ -119,6 +119,8 @@ registry.json                   # Source of truth for all registered components
 
 See [docs/TOKENS.md](docs/TOKENS.md) for the full token catalogue — every QBDS semantic CSS variable mapped to its Tailwind utility and intended use, with guidance on what to use and what to avoid.
 
+When designers update Figma variables (`DS_THEMES`, `Radius`, `DS-Primitives`), sync them into code with the [figma-token-sync](.cursor/rules/figma-token-sync.mdc) workflow (`@figma-token-sync` in Cursor).
+
 ## Icons
 
 Icons use the **Material Symbols Sharp** variable font via `<Icon icon="search" />`. Use Google's snake_case ligature names (e.g. `keyboard_arrow_down`). Wrap in `<IconShell>` for QBDS size, colour, and opacity tokens.
