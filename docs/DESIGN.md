@@ -245,26 +245,27 @@ components:
 
 # Design System: QuantumBlack Design System
 
-> Source: [mckinsey/quantumblack-design-system](https://github.com/mckinsey/quantumblack-design-system). Validate with `npx @google/design.md lint docs/DESIGN.md`. Token utilities: [TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md).
+> Source: [mckinsey/quantumblack-design-system](https://github.com/mckinsey/quantumblack-design-system). Validate with `npx @google/design.md lint docs/DESIGN.md`. Token utilities: [TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md). Spec: [DESIGN.md format](https://stitch.withgoogle.com/docs/design-md/specification).
 
 ## Overview
 
 **Creative North Star: "Data-Dense and Composed"**
 
-**Audience:** Practitioners building and using internal analytics, ML, and data products — people who spend hours in dense dashboards, tables, and configuration flows. The UI should feel like professional tooling: precise, quiet, and structural. Not consumer, not marketing, not playful.
+The UI evokes professional analytical tooling — precise, quiet, and structural. Practitioners spend hours in dense dashboards, tables, and configuration flows; the interface should feel like engineered infrastructure, not consumer marketing. Every screen is flat by default, sharp by default, and semantically coloured. Neutral slate and mist palettes dominate. Brand cyan appears sparingly. Interaction feedback uses opacity overlays, not saturated hover colours. Material Symbols in **sharp** geometry reinforce the right-angled posture.
 
-**Emotional target:** Composed confidence. The interface earns trust through clarity and consistency, not ornament. Users should scan hierarchy in seconds, operate controls without hesitation, and switch between light and dark mode without broken contrast.
+**Audience:** Teams building and using internal analytics, ML, and data products.
 
-Every screen is flat by default, sharp by default, and semantically coloured. Neutral slate and mist palettes dominate. Brand cyan appears sparingly. Interaction feedback uses opacity overlays, not saturated hover colours. Material Symbols in **sharp** geometry reinforce the right-angled posture.
+**Emotional target:** Composed confidence. The interface earns trust through clarity and consistency, not ornament. Users scan hierarchy in seconds, operate controls without hesitation, and switch between light and dark mode without broken contrast.
 
-**Key Characteristics:**
+**Key characteristics:**
+
 - Geometry-first — sharp corners are the brand default; rounded mode is opt-in at the app level
-- Dark-capable — semantic tokens swap under `.dark`; never hardcode light-mode primitives
+- Dark-capable — semantic tokens swap under `.dark`; default to dark mode; always ship a theme toggle
 - Opacity-based state layers — hover and pressed feel like subtle tints, not colour shifts
 - Typography-driven hierarchy — class-based utilities, three weights only (300 / 400 / 600)
 - Material Symbols **sharp** @ 300–400 weight — never rounded or outlined variants
 
-### Constraints for Generation
+### Generation constraints
 
 Do not generate UI until these assets exist. Surface missing assets as blockers.
 
@@ -280,14 +281,21 @@ Do not generate UI until these assets exist. Surface missing assets as blockers.
 
 | Mode | Class | Default | Effect |
 | ---- | ----- | ------- | ------ |
-| Light / dark | `.dark` | Light | Remaps semantic colour tokens |
+| Light / dark | `.dark` | **Dark** | Remaps semantic colour tokens and chart plot tokens |
 | Sharp / rounded | `.radius-mode` | Sharp (0 px radii) | Sets sm/reg/md/lg to 4/8/12/16 px |
+
+**Theme toggle (required).** Every generated app, dashboard, and demo must expose a visible light/dark toggle. Do not ship a single-theme UI.
+
+- **Default:** dark mode on first visit — add `.dark` to `<html>` when no saved preference exists.
+- **Persistence:** store the choice in `localStorage` under the key `theme` (`"dark"` | `"light"`).
+- **Implementation:** prefer the registry `ModeToggle` (`npx shadcn add theme-toggle` or `@/components/registry/theme-toggle`). Place it in the app chrome (header, navbar, or settings).
+- **Sync:** toggling must add/remove `.dark` on `<html>` and re-apply chart plot tokens for any embedded visualizations.
 
 ## Colors
 
-A restrained semantic system. **Primary** is slate-950 — high-contrast fills and active states. **Secondary** is slate-900 — body text anchor. **Tertiary / accent** is QB cyan — decorative highlights only, not the default action colour. **Neutral** is mist-100 — base canvas. **Surface** is mist-50 — panels and cards. Never hardcode primitives in component code; semantic tokens swap under `.dark`.
+The palette is rooted in high-contrast slate neutrals with a single brand accent. **Primary** is slate-950 — high-contrast fills and active states. **Secondary** is slate-900 — the body text anchor. **Tertiary / accent** is QB cyan — decorative highlights only, not the default action colour. **Neutral** is mist-100 — base canvas. **Surface** is mist-50 — panels and cards. Semantic tokens swap under `.dark`; never hardcode light-mode primitives in component code.
 
-### Palette
+### UI palette
 
 - **Primary (#10121B):** Button fills, active states, tooltip backgrounds, selected filter chips. The default interactive anchor on light surfaces.
 - **Secondary (#141721):** Core text and icon fill at full contrast. Headings and data entries resolve here via opacity ramps in implementation.
@@ -307,22 +315,69 @@ A restrained semantic system. **Primary** is slate-950 — high-contrast fills a
 
 Dark mode remaps the same semantic roles: surfaces shift to slate-800/900, foreground to mist-50 opacity ramps, status colours lighten one step. See [TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md) for the full light/dark utility table.
 
-### Named Rules
+### Chart colours
 
-**The Semantic Token Rule.** Reach for `text-fg-primary`, `bg-surface-primary`, `bg-fill-muted` before any primitive. Primitives do not swap under `.dark`.
+QBDS chart palettes for **Chart.js, D3, Vega-Lite, Recharts**, and other non-ECharts libraries. For **Apache ECharts**, register the bundled theme JSON — the hex values below are the same palettes that theme encodes.
 
-**The Inverse Pairing Rule.** On primary fills or accent surfaces, use `-inverse` tokens so content stays legible in both themes.
+Never invent chart hex. Qualitative and continuous palettes are identical in dark and light mode; only plot/axis tokens swap on theme toggle. Chart labels, legends, tooltips, and titles use **Inter**.
 
-**The Restrained Accent Rule.** Primary actions use primary (slate-950) fills. Reserve tertiary/accent for highlight buttons, badges, and tags — one accent focal point per view at most.
+**Qualitative (discrete / categorical series)** — default for bar, line, and pie series with distinct categories. Order matches `theme.color` in the bundled ECharts themes.
 
-**The Status Text Rule.** `text-error|success|warning|information` for readable copy. `status-*` for fills and borders only.
+| # | Hex |
+|---|-----|
+| 1 | `#097DFE` |
+| 2 | `#6F39E3` |
+| 3 | `#05D0F0` |
+| 4 | `#0F766E` |
+| 5 | `#8C8DE9` |
+| 6 | `#11B883` |
+| 7 | `#E77EC2` |
+| 8 | `#C84189` |
+| 9 | `#C0CA33` |
+| 10 | `#3E495B` |
+
+**Continuous — default scales.** Stops run **light (low) → dark (high)** unless noted.
+
+| Key | Use | Stops |
+|-----|-----|-------|
+| **sequential** | Default continuous / heatmap | `#DBEBFE` → `#BDDCFE` → `#8CC6FF` → `#4BA5FF` → `#097DFE` → `#0063F6` → `#004DE0` → `#0B40B4` → `#163B8B` |
+| **sequential_plus** | Positive / "good" sentiment | `#D0FAF3` → `#A1F4E8` → `#64E9D9` → `#1BD0C1` → `#00B5A9` → `#00918A` → `#0F766E` → `#0F5B59` → `#144B49` |
+| **sequential_minus** | Reversed negative scale | `#782921` → `#922A20` → `#B22F20` → `#D63A28` → `#EA5748` → `#F1766C` → `#F7AAA3` → `#FACDC9` → `#FBE4E2` |
+| **diverging** | Data with a midpoint | `#782921` → `#B22F20` → `#EA5748` → `#F7AAA3` → `#C9D0D9` → `#8CC6FF` → `#097DFE` → `#004DE0` → `#163B8B` |
+
+Anchor the diverging centre stop (`#C9D0D9`) at the data's neutral value (often zero).
+
+**Semantic chart colours** — single-value tokens for KPIs, status badges, candlesticks, and annotations. Same in dark and light.
+
+| Role | Hex |
+|------|-----|
+| Positive / success / candlestick up | `#00B5A9` |
+| Negative / error / candlestick down | `#EA5748` |
+| Neutral | `#3E495B` |
+
+**Mode-specific plot tokens** — swap when the theme toggle changes.
+
+| Token | Dark | Light |
+|-------|------|-------|
+| Plot background | `#141721` | `#FAFAFB` |
+| Title | `rgba(255,255,255,0.878)` | `rgba(20,23,33,0.878)` |
+| Subtitle | `rgba(255,255,255,0.6)` | `rgba(20,23,33,0.6)` |
+| Axis line / tick | `rgba(255,255,255,0.380)` | `rgba(20,23,33,0.380)` |
+| Axis labels / legend | `rgba(255,255,255,0.5)` | `rgba(20,23,33,0.5)` |
+| Grid lines | `rgba(255,255,255,0.078)` | `rgba(20,23,33,0.078)` |
+| Crosshair / hover line | `rgba(255,255,255,0.380)` | `rgba(20,23,33,0.380)` |
+
+**Axis behaviour:**
+
+| Axis type | Axis line | Ticks | Grid lines |
+|-----------|-----------|-------|------------|
+| **Category** | show + ticks | same as axis (38% ink) | **no** grid lines |
+| **Value / log** | hide | — | **show** (8% ink) |
+| **Time** | show + ticks | same as axis (38% ink) | **no** grid lines |
 
 ## Typography
 
-**UI Font:** Inter — display, headings, labels, paragraphs, buttons.
-**Code Font:** Roboto Mono — inline code and monospaced data.
-
-Inter at tight negative tracking carries data-dense interfaces. Displays are light (300); body is regular (400); buttons and emphasis are semibold (600). Use class-based utilities from `globals.css` — never compose size, weight, line-height, and tracking manually.
+The typography strategy uses **Inter** for all UI text and **Roboto Mono** for code. Inter at tight negative tracking carries data-dense interfaces. Displays are light (300); body is regular (400); buttons and emphasis are semibold (600). Use class-based utilities from `globals.css` — never compose size, weight, line-height, and tracking manually.
 
 ### Hierarchy
 
@@ -344,15 +399,9 @@ Inter at tight negative tracking carries data-dense interfaces. Displays are lig
 
 Utility classes: `display-d1-regular`, `headings-h1-regular`, `paragraph-regular-primary`, `label-regular-primary`, `cta-button-02`, `paragraph-small-primary`, `paragraph-code-text`. Link variants append `-link`.
 
-### Named Rules
-
-**The Hierarchy Rule.** Hierarchy comes from size and weight, not colour alone. Body text stays `fg-primary`; de-emphasis uses `fg-secondary` or `fg-tertiary`, not a fourth weight.
-
-**The Weight Ceiling Rule.** Only 300, 400, 600 exist. Need more emphasis? Step up a heading size, not a weight.
-
 ## Layout
 
-Built on a **4px base grid**. All padding, margin, and gap values are multiples of 4 px.
+The layout follows a **4px base grid**. All padding, margin, and gap values are multiples of 4 px.
 
 Related items group inside cards or panels with **24 px internal padding** (`p-6`, `{spacing.gutter}`). Sibling elements within a group: **12 px** (`gap-3`). Between groups: **24–32 px**. Between major page sections: **48–96 px**.
 
@@ -371,12 +420,6 @@ Related items group inside cards or panels with **24 px internal padding** (`p-6
 
 Tailwind v4 defaults apply. On narrow viewports, **simplify rather than squeeze** — collapse sidebars to off-canvas, stack columns, hide secondary content. Minimum touch target: **36 × 36 px**; prefer **48 × 48 px** for primary mobile actions. Do not drop body text below 12 px on mobile.
 
-### Named Rules
-
-**The Grid Purity Rule.** Write `gap-4`, not `gap-[16px]`. Off-grid values (5 px, 7 px, 13 px) are prohibited.
-
-**The Flat Separation Rule.** Separate surfaces with background contrast and divider borders — not shadows. Shadows imply floating layers.
-
 ## Elevation & Depth
 
 Depth is structural, not decorative. Most surfaces are **flat at rest**. Five elevation levels exist for floating UI only:
@@ -389,15 +432,11 @@ Depth is structural, not decorative. Most surfaces are **flat at rest**. Five el
 | 3 | Dialogs, modals |
 | 4 | Full-screen overlays, drawers |
 
-Light-mode shadows use slate-tinted opacity (8–38%). Dark-mode shadows deepen (60–88%) to read against slate backgrounds. No coloured shadows.
-
-### Named Rules
-
-**The Flat Default Rule.** Static cards, page regions, and headers carry no shadow. Separation comes from `surface-primary` contrast and optional tertiary borders.
+Light-mode shadows use slate-tinted opacity (8–38%). Dark-mode shadows deepen (60–88%) to read against slate backgrounds. No coloured shadows. Static cards, page regions, and headers carry no shadow — separation comes from `surface-primary` contrast and optional tertiary borders.
 
 ## Shapes
 
-**Architectural precision.** Sharp corners (0 px) are the brand default — reflected in the YAML `rounded` tokens above. When `.radius-mode` is enabled on an ancestor, radii become:
+The shape language is defined by **architectural precision**. Sharp corners (0 px) are the brand default — reflected in the YAML `rounded` tokens above. When `.radius-mode` is enabled on an ancestor, radii become:
 
 | Scale | Sharp (default) | Rounded mode | Use for |
 | ----- | --------------- | ------------ | ------- |
@@ -407,13 +446,7 @@ Light-mode shadows use slate-tinted opacity (8–38%). Dark-mode shadows deepen 
 | lg | 0 px | 16 px | Modals, dialogs |
 | full | 9999 px | 9999 px | Pills, avatars, radio dots |
 
-### Named Rules
-
-**The Sharp Default Rule.** Set `.radius-mode` on `<html>` or not at all. Never mix sharp and rounded within one surface.
-
-**The No Pill Buttons Rule.** Buttons are sharp (or 4 px in rounded mode). Full rounding is for tags, badges, avatars, and radio indicators only.
-
-**The Radius Hierarchy Rule.** Smaller components get tighter radii. Never put a larger radius on a smaller element.
+Set `.radius-mode` on `<html>` or not at all. Never mix sharp and rounded within one surface. Buttons are sharp (or 4 px in rounded mode). Full rounding is for tags, badges, avatars, and radio indicators only.
 
 ## Components
 
@@ -428,7 +461,7 @@ Style guidance for common atoms. Install implementations from the [registry](htt
 - **Focus:** Sky-blue focus ring — 1 px on small controls, 2 px on default/large. Always `focus-visible`, never on mouse click alone.
 - **Disabled:** Muted fill, disabled text colour, not-allowed cursor.
 
-### Inputs / Fields
+### Input fields
 
 - **Default:** Neutral fill-on-surface background, on-surface text, hairline elevation at rest. 36 px height.
 - **Focus:** Inverse active overlay + focus ring. Inline variant uses bottom-border focus instead.
@@ -450,7 +483,7 @@ Always wrap inputs in a `Field` with an associated `Label`.
 - **Checked / indeterminate:** Primary fill for checkmark or dash; on-primary icon colour.
 - **Focus:** Focus ring + active border. Disabled: tertiary border, disabled fill.
 
-### Radio Buttons
+### Radio buttons
 
 - **Unselected:** Circular, primary-stroke border, transparent fill.
 - **Selected:** Primary-fill dot centred inside the circle.
@@ -469,7 +502,7 @@ Always wrap inputs in a `Field` with an associated `Label`.
 - **Accent variant:** Tertiary border with muted fill — not a filled accent body.
 - **Dismiss:** Icon at secondary opacity; full rounding only for the close affordance if circular.
 
-### Tables
+### Lists / Tables
 
 - **Header:** Semibold 14 px, primary surface background. Sticky on scroll.
 - **Body:** Regular 14 px, ~60 px row height, tertiary dividers.
@@ -491,16 +524,11 @@ Material Symbols **sharp** via `<IconShell>` + `<Icon>`:
 | default | 24 dp @ wght 300 | Standard UI |
 | lg | 40 dp @ wght 300 | Feature callouts |
 
-Opacity: primary 88%, secondary 60%, disabled 30%. Interactive icons brighten on hover (60% → 88%).
-
-## Iconography
-
-Icons are a brand-defining element, not an afterthought.
-
 - **Set:** Material Symbols **sharp** variable font — never rounded, outlined, or filled variants.
 - **Pattern:** `<IconShell size="default" variant="secondary"><Icon icon="search" /></IconShell>`
 - **Naming:** Google ligature snake_case (`keyboard_arrow_down`, `check_circle`, `close`)
 - **Colour:** Inherited from parent via `currentColor` and semantic text/fill tokens. Use `neutral-inverse` on dark fills, `accent` type for brand highlights.
+- **Opacity:** primary 88%, secondary 60%, disabled 30%. Interactive icons brighten on hover (60% → 88%).
 - **Accessibility:** Decorative icons are `aria-hidden`. Interactive icons live inside labelled buttons or links — the icon alone is never the accessible name.
 
 ## Do's and Don'ts
@@ -508,6 +536,8 @@ Icons are a brand-defining element, not an afterthought.
 ### Do
 
 - Use semantic tokens for all styling. Reference [TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md) when unsure.
+- Ship a visible theme toggle on every app; default to dark mode and persist the choice in `localStorage`.
+- Use QBDS chart palettes (qualitative, sequential, sequential_minus, diverging) for data visualizations — never invent series hex.
 - Default to sharp geometry. Opt into `.radius-mode` at the app root only.
 - Separate surfaces with borders and background contrast in light mode. Reserve elevation for floating UI.
 - Apply opacity-based state layers for hover and pressed — not saturated colour shifts.
@@ -516,11 +546,14 @@ Icons are a brand-defining element, not an afterthought.
 - Associate every form control with a label via `Field` or `Form`.
 - Handle empty, loading, and error states on async surfaces.
 - Pair status colours with icons and text — never colour alone.
+- Use `-inverse` tokens on primary or accent fills so content stays legible in both themes.
 - Respect `prefers-reduced-motion`.
 
 ### Don't
 
 - Hardcode primitives (`bg-slate-900`) or raw hex in components.
+- Ship light-only or dark-only UIs without a theme toggle.
+- Invent chart colours or hardcode plot chrome that ignores dark/light plot tokens.
 - Mix sharp and rounded corners in the same view.
 - Use pill-shaped buttons — pills are for tags, badges, and avatars.
 - Exceed three font weights (300 / 400 / 600) on a page.
@@ -531,3 +564,4 @@ Icons are a brand-defining element, not an afterthought.
 - Use gradients, glassmorphism, bounce easing, or decorative animation.
 - Drop body text below 12 px on mobile.
 - Reimplement registry components when `npx shadcn add` can install them.
+- Use tertiary/accent as the default primary CTA — reserve it for one focal highlight per view.
