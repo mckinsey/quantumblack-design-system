@@ -61,7 +61,7 @@ function elevationShadowClass(tailwind: string): string | null {
 }
 
 /** Figma-style transparency grid behind alpha < 1 swatches. */
-const CHECKERBOARD: React.CSSProperties = {
+const CHECKERBOARD: CSSProperties = {
   backgroundColor: '#ffffff',
   backgroundImage:
     'linear-gradient(45deg, #cccccc 25%, transparent 25%, transparent 75%, #cccccc 75%, #cccccc), linear-gradient(45deg, #cccccc 25%, transparent 25%, transparent 75%, #cccccc 75%, #cccccc)',

@@ -128,7 +128,7 @@ function SidebarProvider({
               '--sidebar-width': SIDEBAR_WIDTH,
               '--sidebar-width-icon': SIDEBAR_WIDTH_ICON,
               ...style,
-            } as React.CSSProperties
+            } as CSSProperties
           }
           className={cn(
             'group/sidebar-wrapper has-data-[variant=inset]:bg-surface-base flex min-h-svh w-full',
@@ -587,7 +587,7 @@ function SidebarMenuSkeleton({
         style={
           {
             '--skeleton-width': width,
-          } as React.CSSProperties
+          } as CSSProperties
         }
       />
     </div>
