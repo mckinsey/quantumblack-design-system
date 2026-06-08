@@ -43,7 +43,7 @@ Content-bearing fills: button bodies, tooltip backgrounds, icons, sliders, tags,
 | `--fill-tertiary` | `bg-fill-tertiary` | Medium colour contrast overlay on high contrast items, UI shells / panels, tiles. | `Fill/Content/Tertiary` |
 | `--fill-active` | `bg-fill-active` | Active state fill for icons, button backgrounds, tags, switches, toggle items, sliders. | `Fill/Content/Active` |
 | `--fill-disabled` | `bg-fill-disabled` | Any fill for disabled elements that sit on `fill-muted` or surface tokens. | `Fill/Content/Disabled` |
-| `--slider-track` | `bg-slider-track` | Slider track, step markers, stepper track fills. | `Fill/Content/StepMarkers+Track` |
+| `--slider-track` | `bg-slider-track` | Slider track, step markers, stepper track fills. | `Fill/Content/StepMarkers-Track` |
 | `--fill-*-inverse` | `bg-fill-*-inverse` | Same usage as the non-inverse token, tuned for high-contrast / theme-switch contexts. | `Fill/Content/*-Inverse` |
 
 ## Fill — onSurface

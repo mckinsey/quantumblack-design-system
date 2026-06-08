@@ -126,26 +126,16 @@ The **`/tokens`** page on the registry site is built from that file plus [`src/s
 
 ### Syncing from Figma
 
-When variables change in design, update **`globals.css`** (the values) and **`docs/TOKENS.md`** (the catalogue).
+When designers update variables in the [QBDS v2.0.0 file](https://www.figma.com/design/iuMWqCsIohoKAUB0tBS0xr/QBDS-v2.0.0), follow [figma-token-sync](.cursor/rules/figma-token-sync.mdc) (`@figma-token-sync` in Cursor). That workflow covers reading `DS-Primitives`, `DS_Themes`, and `Radius`, updating [`src/styles/globals.css`](src/styles/globals.css) and [`docs/TOKENS.md`](docs/TOKENS.md), and fixing downstream references.
 
-| Figma collection | Where it lives in code |
-| ---------------- | --------------------- |
-| **DS-Primitives** | Primitive colours in `@theme inline` — mist/slate and opacities as `oklch(...)`, status palettes (red through sky) as 8-digit hex, brand accents as `oklch(...)`. Each step has a `--color-*` bridge for Tailwind (e.g. `--green-700` → `--color-green-700`). |
-| **DS_Themes** | Semantic tokens in `:root` and `.dark` — e.g. `--text-success` points at a primitive. In Figma, `Text/Success` might use `green/700`; in CSS that becomes `var(--color-green-700)`. |
-| **Radius** (Sharp / Round) | `--rad-*` and `.radius-mode` |
-
-Figma names use slashes (`Text/Primary`, `green/700`). CSS uses kebab-case (`--text-primary`, `--green-700`). Keep the Figma name in the **Design name** column in `TOKENS.md`.
-
-To pull values from Figma, add `FIGMA_ACCESS_TOKEN` to `.env` and call the [local variables API](https://www.figma.com/developers/api#get-local-variables-endpoint) on the QBDS file, or use Figma MCP on that file. Match the format already used in `@theme inline` for that palette — `oklch(...)` for mist/slate/opacities and brand accents, 8-digit hex for status palettes.
-
-When you are done editing:
+After editing:
 
 ```bash
 npm run tokens:check
 npm run dev    # open /tokens and check the swatches
 ```
 
-When designers update Figma variables (`DS_THEMES`, `Radius`, `DS-Primitives`), sync them into code with the [figma-token-sync](.cursor/rules/figma-token-sync.mdc) workflow (`@figma-token-sync` in Cursor).
+For component work from a Figma spec, use [figma-parity](.cursor/rules/figma-parity.mdc) instead — not the token-sync workflow.
 
 ## Icons
 

@@ -421,7 +421,7 @@
   --text-secondary-inverse: var(--mist-50-opacity-60);
   --text-tertiary-inverse: var(--mist-50-opacity-50);
   --text-disabled-inverse: var(--mist-50-opacity-38);
-  --text-information: var(--color-sky-600);
+  --text-information: var(--color-sky-700);
   --text-error: var(--color-red-700);
   --text-warning: var(--color-amber-700);
   --text-success: var(--color-green-700);
@@ -434,7 +434,7 @@
   --border-tertiary: var(--slate-900-opacity-16);
   --border-tertiary-hover: var(--slate-900-opacity-38);
   --border-active: var(--slate-950);
-  --border-status-focus: var(--color-sky-400);
+  --border-status-focus: var(--color-sky-500);
   --border-status-mono: var(--slate-900-opacity-24);
   --border-status-error: var(--color-red-700);
   --border-status-success: var(--color-green-600);
@@ -481,7 +481,7 @@
   --status-success: var(--color-green-600);
   --status-error: var(--color-red-600);
   --status-warning: var(--color-amber-600);
-  --status-information: var(--color-cyan-600);
+  --status-information: var(--color-sky-600);
   --status-success-inverse: var(--color-green-400);
   --status-error-inverse: var(--color-red-400);
   --status-warning-inverse: var(--color-amber-400);
@@ -592,11 +592,11 @@
   --status-success: var(--color-green-400);
   --status-error: var(--color-red-400);
   --status-warning: var(--color-amber-400);
-  --status-information: var(--color-cyan-400);
+  --status-information: var(--color-sky-400);
   --status-success-inverse: var(--color-green-600);
   --status-error-inverse: var(--color-red-600);
   --status-warning-inverse: var(--color-amber-600);
-  --status-information-inverse: var(--color-sky-400);
+  --status-information-inverse: var(--color-sky-600);
 
   /** Dark mode state layer tokens */
 

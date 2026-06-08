@@ -72,7 +72,7 @@ Read and follow [.cursor/rules/figma-parity.mdc](.cursor/rules/figma-parity.mdc)
 
 ### Syncing tokens with Figma
 
-When updating tokens from design, follow [README.md — Syncing from Figma](README.md#syncing-from-figma).
+When updating tokens from design, follow [figma-token-sync](.cursor/rules/figma-token-sync.mdc). See also [README — Syncing from Figma](README.md#syncing-from-figma) for the post-sync verification commands.
 
 ### 1. Think Before Coding
 
