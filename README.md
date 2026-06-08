@@ -40,6 +40,7 @@ npm run registry:build
 | `npm run test:unit`      | Run Vitest unit tests                              |
 | `npm run test:watch`     | Run Vitest in watch mode                           |
 | `npm run test`           | Run unit tests + build + lint (used in CI)         |
+| `npm run tokens:check`   | Check token docs against `globals.css` (Vitest)    |
 
 ## Environment variables
 
@@ -63,7 +64,7 @@ Mappings live in [`code-connect/`](code-connect/) (flat `*.figma.tsx` files). [`
 
 | Variable | Description |
 | -------- | ----------- |
-| `FIGMA_ACCESS_TOKEN` | Figma personal access token (local publish only) |
+| `FIGMA_ACCESS_TOKEN` | Figma personal access token — Code Connect publish and reading QBDS variables (see [Tokens](#tokens)) |
 | `FIGMA_URL_<PLACEHOLDER>` | Full Figma URL for each `<QBDS_*>` placeholder used in mappings |
 
 Local publish (from repo root):
@@ -83,11 +84,13 @@ Set `QBDS_REGISTRY_URL` as a **repository variable** under **Settings → Secret
 ## Project structure
 
 ```
+docs/
+└── TOKENS.md                   # Token catalogue (feeds the /tokens page)
 code-connect/                   # Figma Code Connect mappings (*.figma.tsx)
 src/
 ├── app/
 │   ├── (registry)/             # Registry site routes
-│   │   ├── docs/               # Intro, components list, installation guide
+│   │   ├── docs/               # Intro, components list, installation guide, /tokens
 │   │   └── registry/[name]/    # Component detail page (API docs, source, demos)
 │   └── demo/[name]/            # Isolated demo pages rendered in iframes
 │       └── ui/                 # Per-component demo files
@@ -96,7 +99,7 @@ src/
 │   ├── ui/icon.tsx             # Material Symbols Sharp (variable font)
 │   └── registry/               # Registry site UI (navbar, sidebar, API reference, etc.)
 ├── hooks/                      # Shared React hooks
-├── lib/                        # Utils, registry helpers, source extraction
+├── lib/                        # Utils, registry helpers, tokens.ts, source extraction
 └── styles/
     └── globals.css             # Tailwind + QBDS theme tokens
 scripts/
@@ -117,9 +120,22 @@ registry.json                   # Source of truth for all registered components
 
 ## Tokens
 
-See [docs/TOKENS.md](docs/TOKENS.md) for the full token catalogue — every QBDS semantic CSS variable mapped to its Tailwind utility and intended use, with guidance on what to use and what to avoid.
+[docs/TOKENS.md](docs/TOKENS.md) lists every token: CSS variable, Tailwind class, when to use it, and the matching Figma name.
 
-When designers update Figma variables (`DS_THEMES`, `Radius`, `DS-Primitives`), sync them into code with the [figma-token-sync](.cursor/rules/figma-token-sync.mdc) workflow (`@figma-token-sync` in Cursor).
+The **`/tokens`** page on the registry site is built from that file plus [`src/styles/globals.css`](src/styles/globals.css) ([`src/lib/tokens.ts`](src/lib/tokens.ts) ties them together at build time). There is no separate hand-maintained colour list.
+
+### Syncing from Figma
+
+When designers update variables in the [QBDS v2.0.0 file](https://www.figma.com/design/iuMWqCsIohoKAUB0tBS0xr/QBDS-v2.0.0), follow [figma-token-sync](.cursor/rules/figma-token-sync.mdc) (`@figma-token-sync` in Cursor). That workflow covers reading `DS-Primitives`, `DS_Themes`, and `Radius`, updating [`src/styles/globals.css`](src/styles/globals.css) and [`docs/TOKENS.md`](docs/TOKENS.md), and fixing downstream references.
+
+After editing:
+
+```bash
+npm run tokens:check
+npm run dev    # open /tokens and check the swatches
+```
+
+For component work from a Figma spec, use [figma-parity](.cursor/rules/figma-parity.mdc) instead — not the token-sync workflow.
 
 ## Icons
 
