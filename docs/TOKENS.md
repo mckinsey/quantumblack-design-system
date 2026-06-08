@@ -2,6 +2,8 @@
 
 The single source of truth for picking a design token in code. Every row below maps a **CSS variable** defined in [`src/styles/globals.css`](../src/styles/globals.css) to the **Tailwind utility** you should use in components, with guidance on what it's for. The **Design name** column lists the upstream identifier in the QBDS design library — use it when syncing changes between code and design.
 
+A searchable reference with light/dark swatches (and shadow previews for elevations) is at **`/tokens`** on the registry site (this file + `globals.css`, via [`src/lib/tokens.ts`](../src/lib/tokens.ts)). After edits, run `npm run tokens:check` and spot-check `/tokens` in the dev server. The page skips `*-inverse` rows for now; they stay in the tables below.
+
 ## How to choose a token
 
 1. **Identify purpose first.** Is it a background panel (`surface`), a content/component fill (`fill`), text colour (`text`/`fg`), a stroke (`border`/`stroke`), status feedback (`status`), an interaction overlay (`stateslayer-overlay`), or a shadow (`shadow-elevation`)? Match purpose to the right family before picking a shade.
@@ -41,7 +43,7 @@ Content-bearing fills: button bodies, tooltip backgrounds, icons, sliders, tags,
 | `--fill-tertiary` | `bg-fill-tertiary` | Medium colour contrast overlay on high contrast items, UI shells / panels, tiles. | `Fill/Content/Tertiary` |
 | `--fill-active` | `bg-fill-active` | Active state fill for icons, button backgrounds, tags, switches, toggle items, sliders. | `Fill/Content/Active` |
 | `--fill-disabled` | `bg-fill-disabled` | Any fill for disabled elements that sit on `fill-muted` or surface tokens. | `Fill/Content/Disabled` |
-| `--slider-track` | `bg-slider-track` | Slider track, step markers, stepper track fills. | `Fill/Content/StepMarkers+Track` |
+| `--slider-track` | `bg-slider-track` | Slider track, step markers, stepper track fills. | `Fill/Content/StepMarkers-Track` |
 | `--fill-*-inverse` | `bg-fill-*-inverse` | Same usage as the non-inverse token, tuned for high-contrast / theme-switch contexts. | `Fill/Content/*-Inverse` |
 
 ## Fill — onSurface
@@ -66,11 +68,11 @@ The QBDS source-of-truth variables live under `--text-*`; the Tailwind bridge ex
 
 | CSS variable | Tailwind | Use for | Design name |
 | ------------ | -------- | ------- | ----------- |
-| `--text-primary` (→ `--color-fg-primary`) | `text-fg-primary` | Body copy, data entries, headers. | `Text/Primary` |
-| `--text-secondary` (→ `--color-fg-secondary`) | `text-fg-secondary` | Secondary text, additional descriptors, input labels, data labels. | `Text/Secondary` |
-| `--text-tertiary` (→ `--color-fg-tertiary`) | `text-fg-tertiary` | Placeholder, hint text, tertiary content. | `Text/Tertiary` |
-| `--text-disabled` (→ `--color-fg-disabled`) | `text-fg-disabled` | Disabled content. | `Text/Disabled` |
-| `--text-*-inverse` (→ `--color-fg-*-inverse`) | `text-fg-*-inverse` | Same usage on high-contrast backgrounds or accent elements. | `Text/*-Inverse` |
+| `--text-primary` | `text-fg-primary` | Body copy, data entries, headers. | `Text/Primary` |
+| `--text-secondary` | `text-fg-secondary` | Secondary text, additional descriptors, input labels, data labels. | `Text/Secondary` |
+| `--text-tertiary` | `text-fg-tertiary` | Placeholder, hint text, tertiary content. | `Text/Tertiary` |
+| `--text-disabled` | `text-fg-disabled` | Disabled content. | `Text/Disabled` |
+| `--text-*-inverse` | `text-fg-*-inverse` | Same usage on high-contrast backgrounds or accent elements. | `Text/*-Inverse` |
 | `--text-information` | `text-information` | Status generic info text. AA-compliant 4.5:1. | `Text/Information` |
 | `--text-error` | `text-error` | Status error text. AA-compliant 4.5:1. | `Text/Error` |
 | `--text-warning` | `text-warning` | Status warning text. AA-compliant 4.5:1. | `Text/Warning` |
@@ -82,18 +84,18 @@ Outlines, dividers, focus rings. Source-of-truth variables live under `--border-
 
 | CSS variable | Tailwind | Use for | Design name |
 | ------------ | -------- | ------- | ----------- |
-| `--border-divider` (→ `--color-stroke-divider`) | `border-stroke-divider` | Very light separators — list items, button groupings. | `Border/Divider` |
-| `--border-primary` (→ `--color-stroke-primary`) | `border-stroke-primary` | High contrast border — emphasised states. | `Border/Primary` |
-| `--border-secondary` (→ `--color-stroke-secondary`) | `border-stroke-secondary` | Medium contrast border — switches, tags, toggle elements, emphasised states. | `Border/Secondary` |
-| `--border-tertiary` (→ `--color-stroke-tertiary`) | `border-stroke-tertiary` | Subtle outlines — cards, panels, node links, inline inputs, tabs, data tables, disabled toggle items, badges, switches. | `Border/Tertiary` |
-| `--border-tertiary-hover` (→ `--color-stroke-tertiary-hover`) | `border-stroke-tertiary-hover` | Hover state of the above. | `Border/Tertiary-Hover` |
-| `--border-active` (→ `--color-stroke-active`) | `border-stroke-active` | Active state — tabs, tags, inline inputs, buttons, switches, toggles, sliders. | `Border/Active` |
-| `--border-status-focus` (→ `--color-stroke-status-focus`) | `border-stroke-status-focus` | Active / focus ring for UI elements. | `Border/Status/Focus` |
-| `--border-status-mono` (→ `--color-stroke-status-mono`) | `border-stroke-status-mono` | Active / focus variant — monochrome. | `Border/Status/Mono` |
-| `--border-status-error` (→ `--color-stroke-status-error`) | `border-stroke-status-error` | Active / focus error variant — tags, badges, indicators, cards/panels. | `Border/Status/Error` |
-| `--border-status-success` (→ `--color-stroke-status-success`) | `border-stroke-status-success` | Active / focus success variant — tags, badges, indicators, cards/panels. | `Border/Status/Success` |
-| `--border-status-warning` (→ `--color-stroke-status-warning`) | `border-stroke-status-warning` | Active / focus warning variant — tags, badges, indicators, cards/panels. | `Border/Status/Warning` |
-| `--border-*-inverse` (→ `--color-stroke-*-inverse`) | `border-stroke-*-inverse` | Same usage on high-contrast or accent surfaces. | `Border/*-Inverse` |
+| `--border-divider` | `border-stroke-divider` | Very light separators — list items, button groupings. | `Border/Divider` |
+| `--border-primary` | `border-stroke-primary` | High contrast border — emphasised states. | `Border/Primary` |
+| `--border-secondary` | `border-stroke-secondary` | Medium contrast border — switches, tags, toggle elements, emphasised states. | `Border/Secondary` |
+| `--border-tertiary` | `border-stroke-tertiary` | Subtle outlines — cards, panels, node links, inline inputs, tabs, data tables, disabled toggle items, badges, switches. | `Border/Tertiary` |
+| `--border-tertiary-hover` | `border-stroke-tertiary-hover` | Hover state of the above. | `Border/Tertiary-Hover` |
+| `--border-active` | `border-stroke-active` | Active state — tabs, tags, inline inputs, buttons, switches, toggles, sliders. | `Border/Active` |
+| `--border-status-focus` | `border-stroke-status-focus` | Active / focus ring for UI elements. | `Border/Status/Focus` |
+| `--border-status-mono` | `border-stroke-status-mono` | Active / focus variant — monochrome. | `Border/Status/Mono` |
+| `--border-status-error` | `border-stroke-status-error` | Active / focus error variant — tags, badges, indicators, cards/panels. | `Border/Status/Error` |
+| `--border-status-success` | `border-stroke-status-success` | Active / focus success variant — tags, badges, indicators, cards/panels. | `Border/Status/Success` |
+| `--border-status-warning` | `border-stroke-status-warning` | Active / focus warning variant — tags, badges, indicators, cards/panels. | `Border/Status/Warning` |
+| `--border-*-inverse` | `border-stroke-*-inverse` | Same usage on high-contrast or accent surfaces. | `Border/*-Inverse` |
 
 ## Status
 
@@ -118,15 +120,19 @@ Interaction state overlays applied to the **entire UI item** (e.g. button hover 
 | `--stateslayer-overlay-pressed` | `bg-stateslayer-overlay-pressed` | Pressed state overlay. | `StatesLayer-Overlay/Pressed` |
 | `--stateslayer-overlay-disabled` | `bg-stateslayer-overlay-disabled` | Disabled state overlay. | `StatesLayer-Overlay/Disabled` |
 | `--stateslayer-overlay-active` | `bg-stateslayer-overlay-active` | Active state overlay. | `StatesLayer-Overlay/Active` |
+| `--stateslayer-overlay-enabled-inverse` | `bg-stateslayer-overlay-enabled-inverse` | Default inverse overlay (no tint). | `StatesLayer-Overlay/Enabled_Inverse` |
 | `--stateslayer-overlay-*-inverse` | `bg-stateslayer-overlay-*-inverse` | Same overlays on high-contrast / accent elements. | `StatesLayer-Overlay/*-Inverse` |
 
 ## Brand accent
 
-A single brand accent token for decorative highlights (active states, accent badges/tags, focal icons). Use sparingly — it's a brand colour, not a status colour.
+Brand accent primitives for decorative highlights (active states, accent badges/tags, focal icons). Use sparingly — brand colours, not status colours.
 
 | CSS variable | Tailwind | Use for | Design name |
 | ------------ | -------- | ------- | ----------- |
-| `--brand-accents-qb-accent` | `bg-brand-accents-qb-accent`, `text-brand-accents-qb-accent`, `border-brand-accents-qb-accent` | Brand-accent decorative use (e.g. accent badge, brand-accent tag variant). | `brand-accents/qb-accent` |
+| `--brand-accents-mckinsey-deep-blue` | `bg-brand-accents-mckinsey-deep-blue`, `text-brand-accents-mckinsey-deep-blue`, `border-brand-accents-mckinsey-deep-blue` | McKinsey deep blue. | `Brand-Accents/McKinsey-Deep-Blue` |
+| `--brand-accents-mckinsey-electric-blue` | `bg-brand-accents-mckinsey-electric-blue`, `text-brand-accents-mckinsey-electric-blue`, `border-brand-accents-mckinsey-electric-blue` | McKinsey electric blue. | `Brand-Accents/McKinsey-Electric-Blue` |
+| `--brand-accents-mckinsey-cyan` | `bg-brand-accents-mckinsey-cyan`, `text-brand-accents-mckinsey-cyan`, `border-brand-accents-mckinsey-cyan` | McKinsey cyan. | `Brand-Accents/McKinsey-Cyan` |
+| `--brand-accents-qb-accent` | `bg-brand-accents-qb-accent`, `text-brand-accents-qb-accent`, `border-brand-accents-qb-accent` | QB accent. | `Brand-Accents/QB-Accent` |
 
 ## Elevations
 
@@ -134,11 +140,11 @@ Shadow colour pairs. **Do not use directly** — use the composed `shadow-elevat
 
 | Utility | Composition | Design name |
 | ------- | ----------- | ----------- |
-| `shadow-elevation-0` | Hairline (`--elevations-shade-t` + `--elevations-shade`). | `Elevations/Shade_T` + `Elevations/Shade` |
-| `shadow-elevation-1` | Subtle lift (`--elevations-shade-t-01` + `--elevations-shade-01`). | `Elevations/Shade_T–01` + `Elevations/Shade–01` |
-| `shadow-elevation-2` | Card / dropdown (`--elevations-shade-t-02` + `--elevations-shade-02`). | `Elevations/Shade_T–02` + `Elevations/Shade–02` |
-| `shadow-elevation-3` | Modal / popover (`--elevations-shade-t-03` + `--elevations-shade-03`). | `Elevations/Shade_T–03` + `Elevations/Shade–03` |
-| `shadow-elevation-4` | Highest — full-screen overlay (`--elevations-shade-t-04` + `--elevations-shade-04`). | `Elevations/Shade_T–04` + `Elevations/Shade–04` |
+| `shadow-elevation-0` | Hairline | `Elevations/Shade_T` + `Elevations/Shade` |
+| `shadow-elevation-1` | Subtle lift | `Elevations/Shade_T–01` + `Elevations/Shade–01` |
+| `shadow-elevation-2` | Card / dropdown | `Elevations/Shade_T–02` + `Elevations/Shade–02` |
+| `shadow-elevation-3` | Modal / popover | `Elevations/Shade_T–03` + `Elevations/Shade–03` |
+| `shadow-elevation-4` | Highest — full-screen overlay | `Elevations/Shade_T–04` + `Elevations/Shade–04` |
 
 Shadow colour tokens are also exposed as `--color-elevations-shade*` if you ever need to compose a custom shadow, but prefer the utilities.
 
@@ -262,3 +268,5 @@ So write `gap-4`, not `gap-[16px]`.
 - **Inline CSS variables.** `bg-[var(--surface-base)]` works but the Tailwind utility `bg-surface-base` exists for the same thing — use it for readability and class-merging.
 - **Hand-rolled state overlays.** Don't write `bg-white/8` for a hover tint — use `bg-stateslayer-overlay-hover` so it adapts to dark / theme-switched contexts.
 - **Hand-rolled typography.** Don't compose `text-sm leading-5 tracking-[-0.028px]` — use `paragraph-regular-primary`.
+
+Maintainers syncing from Figma: see [README — Syncing from Figma](../README.md#syncing-from-figma).

@@ -70,6 +70,10 @@ Read and follow [.cursor/rules/figma-parity.mdc](.cursor/rules/figma-parity.mdc)
 
 **How to invoke:** In **Cursor**, attach the rule with `@figma-parity`, or it auto-attaches when editing `src/components/ui/`, demos, `registry.json`, or `code-connect/` (rule globs). In **Claude Code**, share a Figma URL or ask to follow the figma-parity workflow — read the `.mdc` file directly; `@figma-parity` is not available there.
 
+### Syncing tokens with Figma
+
+When updating tokens from design, follow [figma-token-sync](.cursor/rules/figma-token-sync.mdc). See also [README — Syncing from Figma](README.md#syncing-from-figma) for the post-sync verification commands.
+
 ### 1. Think Before Coding
 
 **Don't assume. Don't hide confusion. Surface tradeoffs.**

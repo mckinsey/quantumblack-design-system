@@ -16,6 +16,7 @@ import { cn } from '@/lib/utils';
 const navItems = [
   { title: 'Docs', path: '/' },
   { title: 'Components', path: '/components' },
+  { title: 'Tokens', path: '/tokens' },
 ];
 
 export function Navbar() {
@@ -233,6 +234,14 @@ export function Navbar() {
                   onClick={handleSearchSelect}>
                   <span className="paragraph-regular-primary text-fg-primary">
                     Components
+                  </span>
+                </Link>
+                <Link
+                  to="/tokens"
+                  className="hover:bg-stateslayer-overlay-hover flex items-center gap-2 px-2 py-2 transition-colors"
+                  onClick={handleSearchSelect}>
+                  <span className="paragraph-regular-primary text-fg-primary">
+                    Tokens
                   </span>
                 </Link>
                 <Link

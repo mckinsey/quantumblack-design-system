@@ -75,6 +75,7 @@ const sortedComponentEntries: SidebarEntry[] = [
 export const sectionItems = [
   { title: 'Introduction', path: '/' },
   { title: 'Components', path: '/components' },
+  { title: 'Tokens', path: '/tokens' },
   { title: 'Installation', path: '/installation' },
 ];
 
