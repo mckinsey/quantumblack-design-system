@@ -126,7 +126,7 @@ The **`/tokens`** page on the registry site is built from that file plus [`src/s
 
 ### Syncing from Figma
 
-When designers update variables in the [QBDS v2.0.0 file](https://www.figma.com/design/iuMWqCsIohoKAUB0tBS0xr/QBDS-v2.0.0), follow [figma-token-sync](.cursor/rules/figma-token-sync.mdc) (`@figma-token-sync` in Cursor). That workflow covers reading `DS-Primitives`, `DS_Themes`, and `Radius`, updating [`src/styles/globals.css`](src/styles/globals.css) and [`docs/TOKENS.md`](docs/TOKENS.md), and fixing downstream references.
+When designers update variables in the [QBDS v2.0.0 file](https://www.figma.com/design/iuMWqCsIohoKAUB0tBS0xr/QBDS-v2.0.0), follow the [figma-token-sync](.agents/skills/figma-token-sync/SKILL.md) skill (auto-discovered in Cursor and Claude Code). That workflow covers reading `DS-Primitives`, `DS_Themes`, and `Radius`, updating [`src/styles/globals.css`](src/styles/globals.css) and [`docs/TOKENS.md`](docs/TOKENS.md), and fixing downstream references.
 
 After editing:
 
@@ -135,7 +135,7 @@ npm run tokens:check
 npm run dev    # open /tokens and check the swatches
 ```
 
-For component work from a Figma spec, use [figma-parity](.cursor/rules/figma-parity.mdc) instead — not the token-sync workflow.
+For component work from a Figma spec, use the [figma-parity](.agents/skills/figma-parity/SKILL.md) skill instead — not the token-sync workflow.
 
 ## Icons
 
