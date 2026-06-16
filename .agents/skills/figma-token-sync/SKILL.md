@@ -1,13 +1,11 @@
 ---
-description: Sync QBDS Figma variables (DS_THEMES, Radius, DS-Primitives) into globals.css and TOKENS.md
-alwaysApply: false
+name: figma-token-sync
+description: Sync QBDS Figma variables (DS_THEMES, Radius, DS-Primitives) into globals.css and TOKENS.md. Use only when designers have updated Figma variables and tokens need to flow into code (light + dark modes). Triggers — "sync tokens", "figma token sync", "designers updated variables", or a Figma variables URL for the QBDS v2.0.0 file. For component-only work use figma-parity instead.
 ---
 
 # Figma → code token sync (QBDS)
 
-**Scope:** Run only when designers have updated Figma variables and tokens need to flow into code. Skip for component-only work — use `@figma-parity` instead.
-
-**How to invoke:** In Cursor, attach `@figma-token-sync` (optionally paste the Figma variables URL). In Claude Code, share the URL and ask to follow this file.
+**Scope:** Run only when designers have updated Figma variables and tokens need to flow into code. Skip for component-only work — use the **figma-parity** skill instead.
 
 ## Figma source
 
@@ -21,8 +19,8 @@ Use Figma MCP (`get_variable_defs` or variable export via the Figma plugin) to r
 
 | File | Role |
 |------|------|
-| [`docs/TOKENS.md`](../../docs/TOKENS.md) | **Figma ↔ CSS mapping** — the **Design name** column is the canonical Figma variable path for each `--*` token; read this before syncing |
-| [`src/styles/globals.css`](../../src/styles/globals.css) | **CSS source of truth** — primitive + semantic variable definitions and `var()` bindings |
+| [`docs/TOKENS.md`](docs/TOKENS.md) | **Figma ↔ CSS mapping** — the **Design name** column is the canonical Figma variable path for each `--*` token; read this before syncing |
+| [`src/styles/globals.css`](src/styles/globals.css) | **CSS source of truth** — primitive + semantic variable definitions and `var()` bindings |
 
 ### `globals.css` structure (preserve layout)
 
@@ -39,7 +37,7 @@ Use Figma MCP (`get_variable_defs` or variable export via the Figma plugin) to r
 ### 1 — Read Figma variables
 
 1. Confirm designers have published changes in the QBDS v2.0.0 file.
-2. Read [`docs/TOKENS.md`](../../docs/TOKENS.md) — for each semantic token you will sync, note its **Design name** (e.g. `--fill-active` → `Fill/Content/Active`). Use that exact Figma path when reading `DS_THEMES`; do not match by similar names in the Figma file.
+2. Read [`docs/TOKENS.md`](docs/TOKENS.md) — for each semantic token you will sync, note its **Design name** (e.g. `--fill-active` → `Fill/Content/Active`). Use that exact Figma path when reading `DS_THEMES`; do not match by similar names in the Figma file.
 3. Read all variables from `DS-Primitives`, `DS_THEMES`, and `Radius` for **light** and **dark** modes.
 4. Build a diff table: Design name (from TOKENS.md) → CSS variable → old `var()` binding → new binding. Flag **renames** and **removed** tokens.
 
@@ -73,7 +71,7 @@ rg '--old-var' src/
 
 Update components, demos, and tests that reference old names. Prefer semantic utilities (`bg-fill-active`, `text-fg-primary`) over raw `var(...)`.
 
-**Out of scope unless asked:** Code Connect publish, registry rebuild, component visual parity (`@figma-parity`).
+**Out of scope unless asked:** Code Connect publish, registry rebuild, component visual parity (**figma-parity**).
 
 ### 5 — Verify
 
@@ -96,8 +94,6 @@ Report a summary: tokens added/changed/removed, files touched, grep hits fixed, 
 ## Minimal trigger prompt
 
 ```
-@figma-token-sync
-
 Designers updated Figma variables. Sync tokens into code.
 Variable sets: DS_THEMES, Radius, DS-Primitives
 ```
