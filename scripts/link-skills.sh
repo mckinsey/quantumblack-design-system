@@ -15,13 +15,12 @@ TARGETS=(".cursor/skills" ".claude/skills")
 
 count=0
 for target in "${TARGETS[@]}"; do
+  rm -rf "$target"
   mkdir -p "$target"
   for skill_path in "$SOURCE"/*/; do
     [ -d "$skill_path" ] || continue
     skill="$(basename "$skill_path")"
-    link="$target/$skill"
-    rm -rf "$link"
-    ln -s "../../$SOURCE/$skill" "$link"
+    ln -s "../../$SOURCE/$skill" "$target/$skill"
     count=$((count + 1))
   done
 done
