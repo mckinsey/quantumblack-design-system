@@ -126,7 +126,7 @@ The **`/tokens`** page on the registry site is built from that file plus [`src/s
 
 ### Syncing from Figma
 
-When designers update variables in the [QBDS v2.0.0 file](https://www.figma.com/design/iuMWqCsIohoKAUB0tBS0xr/QBDS-v2.0.0), follow the [figma-token-sync](.agents/skills/figma-token-sync/SKILL.md) skill (auto-discovered in Cursor and Claude Code). That workflow covers reading `DS-Primitives`, `DS_Themes`, and `Radius`, updating [`src/styles/globals.css`](src/styles/globals.css) and [`docs/TOKENS.md`](docs/TOKENS.md), and fixing downstream references.
+When designers update variables in the [QBDS v2.0.0 file](https://www.figma.com/design/iuMWqCsIohoKAUB0tBS0xr/QBDS-v2.0.0), follow the [figma-token-sync](.agents/skills/figma-token-sync/SKILL.md) skill (auto-discovered in Cursor and Claude Code). That workflow covers reading `DS-Primitives`, `DS_THEMES`, and `Radius`, updating [`src/styles/globals.css`](src/styles/globals.css) and [`docs/TOKENS.md`](docs/TOKENS.md), and fixing downstream references.
 
 After editing:
 
