@@ -93,6 +93,7 @@ typography:
     fontWeight: 400
     lineHeight: 1.33
 rounded:
+  reg: "0px"
   sm: "0px"
   md: "0px"
   lg: "0px"
