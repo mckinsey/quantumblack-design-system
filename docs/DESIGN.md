@@ -52,6 +52,13 @@ typography:
     fontSize: "20px"
     fontWeight: 400
     lineHeight: 1.4
+    letterSpacing: "0px"
+  heading-h4:
+    fontFamily: "Inter, sans-serif"
+    fontSize: "16px"
+    fontWeight: 400
+    lineHeight: 1.5
+    letterSpacing: "-0.016px"
   body:
     fontFamily: "Inter, sans-serif"
     fontSize: "14px"
