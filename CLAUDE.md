@@ -68,7 +68,7 @@ When designers update Figma variables and tokens need to flow into code, read an
 
 Read and follow the **figma-parity** skill ([.agents/skills/figma-parity/SKILL.md](.agents/skills/figma-parity/SKILL.md)) when you **implement, update, or review** a QBDS component against Figma (user gave a Figma URL/node, or the task is to match the library spec). **Figma MCP output is reference only** — still run the full parity workflow (Code Connect, component description, variant matrix, TOKENS.md, demos/registry). **Do not** use for unrelated work (deps, CI, docs, refactors with no design change).
 
-**How to invoke:** Both skills are committed under `.agents/skills/` and linked into `.cursor/skills/` and `.claude/skills/`, so **Cursor and Claude Code both discover them automatically** by description — just describe the task or share a Figma URL. No `@mention` or rule glob is required.
+**How to invoke:** Both skills are committed under `.agents/skills/` (Cursor reads them there directly; Claude Code gets symlinks in `.claude/skills/` on `npm install`), so **Cursor and Claude Code both discover them automatically** by description — just describe the task or share a Figma URL. No `@mention` or rule glob is required.
 
 ### Syncing tokens with Figma
 
