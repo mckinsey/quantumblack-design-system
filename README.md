@@ -15,7 +15,7 @@ Use the hosted documentation site to browse the registry, follow installation st
     <img
       src=".github/images/registry.png"
       alt="QuantumBlack Design System component registry"
-      width="100%" />
+      width="60%" />
   </a>
   <br />
   <a href="https://designsystem.quantumblack.com"><sub>designsystem.quantumblack.com</sub></a>
