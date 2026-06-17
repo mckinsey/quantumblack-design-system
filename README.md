@@ -6,11 +6,13 @@ QuantumBlack Design System is a set of accessible components built with [Radix U
 
 Most component libraries are installed as NPM packages — you import what the package exports and customize through wrappers or style overrides when you need something different. Here, components are added to your project as source files through a [shadcn](https://ui.shadcn.com/) registry. You can read and edit the code directly, and install only the components you need.
 
-This repository hosts the registry site (component reference, installation guides, token documentation, and live demos) and the component source.
+This repository hosts the registry site and the component source. **This README** is for cloning and running that site locally. The **documentation site** is for using components in your own project (installation, API reference, tokens).
 
 ## Documentation
 
-[designsystem.quantumblack.com](https://designsystem.quantumblack.com)
+Browse components, install them in your app, and read the design tokens reference:
+
+**[designsystem.quantumblack.com](https://designsystem.quantumblack.com)**
 
 ## Development
 

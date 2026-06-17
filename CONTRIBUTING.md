@@ -2,6 +2,10 @@
 
 Contributions of all experience levels are welcome! Please read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) and [README.md](README.md) (for prerequisites and running locally) before opening an issue or pull request on [GitHub](https://github.com/mckinsey/quantumblack-design-system).
 
+- **README.md** — clone and run this repository locally
+- **Documentation site** ([designsystem.quantumblack.com](https://designsystem.quantumblack.com)) — install components in your app, browse the API, read tokens
+- **This file** — development setup, project structure, and contributing components back to the registry
+
 ## Stack
 
 - **Vite**, **React 19**, **React Router 7**, **TypeScript 5**

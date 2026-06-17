@@ -94,6 +94,26 @@ export default function IntroductionPage() {
               <Link to="/installation">Installation</Link>
             </Button>
           </div>
+
+          <p className="paragraph-small-primary text-fg-tertiary border-stroke-tertiary mt-8 border-t pt-6">
+            Open source under the{' '}
+            <a
+              href="https://github.com/mckinsey/quantumblack-design-system/blob/main/LICENSE.txt"
+              className="text-fg-accent underline-offset-2 hover:underline"
+              target="_blank"
+              rel="noopener noreferrer">
+              Apache License 2.0
+            </a>
+            . Copyright McKinsey &amp; Company. Source on{' '}
+            <a
+              href="https://github.com/mckinsey/quantumblack-design-system"
+              className="text-fg-accent underline-offset-2 hover:underline"
+              target="_blank"
+              rel="noopener noreferrer">
+              GitHub
+            </a>
+            .
+          </p>
         </div>
       </div>
     </main>

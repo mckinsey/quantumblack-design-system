@@ -16,10 +16,44 @@ export default function InstallationPage() {
             </h1>
             <p className="paragraph-large-primary text-fg-secondary">
               Install and use components from the QuantumBlack Design System in
-              your project. Components are added via the shadcn CLI, which
-              copies source files into your codebase rather than installing an
-              NPM package.
+              your project.
             </p>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <div>
+              <h2 className="headings-h3-semibold text-fg-primary mb-2">
+                How this differs from traditional component libraries
+              </h2>
+              <p className="paragraph-regular-primary text-fg-secondary mb-4">
+                Most component libraries are distributed as NPM packages. You
+                add a dependency, import components, and use them. Customization
+                usually means overriding styles or wrapping components, and you
+                are limited to what the package exports.
+              </p>
+              <p className="paragraph-regular-primary text-fg-secondary mb-4">
+                QuantumBlack Design System uses the{' '}
+                <a
+                  href="https://ui.shadcn.com/"
+                  className="text-fg-accent underline-offset-2 hover:underline"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  shadcn
+                </a>{' '}
+                model instead. The shadcn CLI copies component source files into
+                your project — typically under{' '}
+                <code className="paragraph-code-text bg-fill-subtle px-1.5 py-0.5">
+                  components/ui/
+                </code>
+                . You own the code and can change it without working around a
+                packaged dependency.
+              </p>
+              <p className="paragraph-regular-primary text-fg-secondary">
+                To install a component, you run a shadcn command against this
+                registry. The CLI writes the files into your codebase alongside
+                your own components. You can add only what you need.
+              </p>
+            </div>
           </div>
 
           <div className="flex flex-col gap-4">
@@ -183,6 +217,26 @@ export function MyComponent() {
               <Link to="/components">Browse Components</Link>
             </Button>
           </div>
+
+          <p className="paragraph-small-primary text-fg-tertiary border-stroke-tertiary mt-8 border-t pt-6">
+            Open source under the{' '}
+            <a
+              href="https://github.com/mckinsey/quantumblack-design-system/blob/main/LICENSE.txt"
+              className="text-fg-accent underline-offset-2 hover:underline"
+              target="_blank"
+              rel="noopener noreferrer">
+              Apache License 2.0
+            </a>
+            . Copyright McKinsey &amp; Company. Source on{' '}
+            <a
+              href="https://github.com/mckinsey/quantumblack-design-system"
+              className="text-fg-accent underline-offset-2 hover:underline"
+              target="_blank"
+              rel="noopener noreferrer">
+              GitHub
+            </a>
+            .
+          </p>
         </div>
       </div>
     </main>
