@@ -1,16 +1,14 @@
 # QuantumBlack Design System
 
-**Open source** under the [Apache License 2.0](LICENSE.txt). Copyright McKinsey & Company.
+QuantumBlack Design System is a set of accessible components built with [Radix UI](https://www.radix-ui.com/) and styled with design tokens. Components are distributed through a [shadcn](https://ui.shadcn.com/) registry as source files—not as an NPM package.
 
-QuantumBlack Design System is a set of accessible components built with [Radix UI](https://www.radix-ui.com/) and styled with design tokens.
+Most component libraries are installed as NPM packages — you import what the package exports and customize through wrappers or style overrides when you need something different. Here, components are added to your project as source files through a [shadcn](https://ui.shadcn.com/) registry. You own the code, install only what you need, and can use components as-is or modify them directly.
 
-Most component libraries are installed as NPM packages — you import what the package exports and customize through wrappers or style overrides when you need something different. Here, components are added to your project as source files through a [shadcn](https://ui.shadcn.com/) registry. You can read and edit the code directly, and install only the components you need.
+**Open sourced** under the [Apache License 2.0](LICENSE.txt). Copyright McKinsey & Company.
 
-This repository hosts the registry site and the component source. **This README** is for cloning and running that site locally. The **documentation site** is for using components in your own project (installation, API reference, tokens).
+## Install components in your project
 
-## Documentation
-
-Browse components, install them in your app, and read the design tokens reference:
+Use the hosted documentation site to browse the registry, follow installation steps, and reference design tokens:
 
 <p align="center">
   <a href="https://designsystem.quantumblack.com">
@@ -23,30 +21,32 @@ Browse components, install them in your app, and read the design tokens referenc
   <a href="https://designsystem.quantumblack.com"><sub>designsystem.quantumblack.com</sub></a>
 </p>
 
-## Development
+## Run the registry locally
 
-To run the registry site locally:
+This repository contains the registry site and component source.
 
-**Prerequisites:** [Node.js](https://nodejs.org/) 22+, [npm](https://www.npmjs.com/), and [Git](https://git-scm.com/). Tested on macOS, Linux, and Windows (native or via WSL).
-
-1. **Clone** this repository.
-2. **Install dependencies:** `npm install`
-3. **Configure environment:** copy `.env.example` to `.env` and set `QBDS_REGISTRY_URL` to `http://localhost:4123`.
+1. Clone the repository.
+2. Install dependencies and start the dev server:
 
    ```bash
-   cp .env.example .env
+   npm install
+   npm run dev
    ```
 
-4. **Start the dev server:** `npm run dev`
+3. Open [http://localhost:4123](http://localhost:4123).
 
-The app runs at [http://localhost:4123](http://localhost:4123). See [CONTRIBUTING.md](CONTRIBUTING.md) for project structure, commands, and how to add components.
+`npm run dev` rebuilds the registry before starting the server. To rebuild registry files without starting the server, run:
 
-## Contributing
+```bash
+npm run registry:build
+```
 
-Contributions are welcome. Please read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) and [SECURITY.md](SECURITY.md).
+For prerequisites, environment setup, and adding components, see the [contributing guide](CONTRIBUTING.md).
+
+## Contribute
+
+Contributions welcome. Before opening an issue or pull request, read the [Code of Conduct](CODE_OF_CONDUCT.md) and [security policy](SECURITY.md).
 
 ## License
 
 Licensed under the Apache License, Version 2.0. See [LICENSE.txt](LICENSE.txt) for the full text.
-
-The McKinsey & Company name and associated marks are trademarks of McKinsey & Company and may not be used without express written permission.
