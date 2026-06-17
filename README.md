@@ -1,21 +1,21 @@
 # QuantumBlack Design System
 
-QuantumBlack Design System is a set of accessible components built with [Radix UI](https://www.radix-ui.com/) and styled with design tokens. Components are distributed through a [shadcn](https://ui.shadcn.com/) registry as source files—not as an NPM package.
+QuantumBlack Design System provides accessible components built with [Radix UI](https://www.radix-ui.com/) and styled with design tokens. You add them to your project as source files through the [shadcn](https://ui.shadcn.com/) registry, not as an NPM package.
 
-Most component libraries are installed as NPM packages — you import what the package exports and customize through wrappers or style overrides when you need something different. Here, components are added to your project as source files through a [shadcn](https://ui.shadcn.com/) registry. You own the code, install only what you need, and can use components as-is or modify them directly.
+With a typical component library, you install a package and import what it exports. Customization often means wrappers, overrides, or working around what the library gives you. QBDS copies the component files into your project instead. You can install only what you need, use components unchanged, or edit them directly.
 
 **Open sourced** under the [Apache License 2.0](LICENSE.txt). Copyright McKinsey & Company.
 
 ## Install components in your project
 
-Use the hosted documentation site to browse the registry, follow installation steps, and reference design tokens:
+Head to the documentation site to browse components, follow the installation guide, and look up design tokens:
 
 <p align="center">
   <a href="https://designsystem.quantumblack.com">
     <img
       src=".github/images/registry.png"
       alt="QuantumBlack Design System component registry"
-      width="80%" />
+      width="100%" />
   </a>
   <br />
   <a href="https://designsystem.quantumblack.com"><sub>designsystem.quantumblack.com</sub></a>
@@ -25,7 +25,7 @@ Use the hosted documentation site to browse the registry, follow installation st
 
 This repository contains the registry site and component source.
 
-1. Clone the repository.
+1. Clone the repository
 2. Install dependencies and start the dev server:
 
    ```bash
