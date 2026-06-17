@@ -12,9 +12,16 @@ This repository hosts the registry site and the component source. **This README*
 
 Browse components, install them in your app, and read the design tokens reference:
 
-### [designsystem.quantumblack.com](https://designsystem.quantumblack.com)
-
-[![QuantumBlack Design System component registry](docs/images/registry.png)](https://designsystem.quantumblack.com)
+<p align="center">
+  <a href="https://designsystem.quantumblack.com">
+    <img
+      src=".github/images/registry.png"
+      alt="QuantumBlack Design System component registry"
+      width="100%" />
+  </a>
+  <br />
+  <a href="https://designsystem.quantumblack.com"><sub>designsystem.quantumblack.com</sub></a>
+</p>
 
 ## Development
 
