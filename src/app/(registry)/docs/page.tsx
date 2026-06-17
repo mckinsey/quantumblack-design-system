@@ -43,9 +43,8 @@ export default function IntroductionPage() {
               </h2>
               <p className="paragraph-regular-primary text-fg-secondary">
                 QuantumBlack Design System gives you the component code. You can
-                see exactly how each component is built, so you have full
-                control to modify any part of a component to customize or extend
-                it as needed.
+                use components as is, or see exactly how each is built and
+                modify any part to customize or extend it as needed.
               </p>
             </div>
 
@@ -56,8 +55,17 @@ export default function IntroductionPage() {
               <p className="paragraph-regular-primary text-fg-secondary">
                 Every component shares a common, composable interface. If a
                 component does not exist, we bring it in, make it composable,
-                and adjust its style to match the rest of the design system. A
-                shared, composable interface makes the system more predictable.
+                and adjust its style to match the rest of the design system. You
+                can also{' '}
+                <a
+                  href="https://github.com/mckinsey/quantumblack-design-system/issues/new"
+                  className="text-fg-accent underline-offset-2 hover:underline"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  request a missing component on GitHub
+                </a>
+                . A shared, composable interface makes the system more
+                predictable.
               </p>
             </div>
 
@@ -68,7 +76,7 @@ export default function IntroductionPage() {
               <p className="paragraph-regular-primary text-fg-secondary">
                 QuantumBlack Design System tokens ensure consistent theming
                 across all components. These tokens provide a unified design
-                language that helps your UI look cohesive while remaining easy
+                language that helps your UI look consistent while remaining easy
                 to customize.
               </p>
             </div>
@@ -78,10 +86,10 @@ export default function IntroductionPage() {
                 AI-Ready
               </h2>
               <p className="paragraph-regular-primary text-fg-secondary">
-                The design of QuantumBlack Design System simplifies how AI tools
-                work with your code. The open code and consistent API enable AI
-                models to read, understand, and generate new components that
-                integrate with your existing design.
+                QuantumBlack Design System simplifies how AI tools work with
+                your code. The open code and consistent API enable AI models to
+                read, understand, and generate new components that integrate
+                with your existing design.
               </p>
             </div>
           </div>
@@ -96,7 +104,7 @@ export default function IntroductionPage() {
           </div>
 
           <p className="paragraph-small-primary text-fg-tertiary border-stroke-tertiary mt-8 border-t pt-6">
-            Open source under the{' '}
+            Open sourced under the{' '}
             <a
               href="https://github.com/mckinsey/quantumblack-design-system/blob/main/LICENSE.txt"
               className="text-fg-accent underline-offset-2 hover:underline"

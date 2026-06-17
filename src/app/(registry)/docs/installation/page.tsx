@@ -51,7 +51,7 @@ export default function InstallationPage() {
               <p className="paragraph-regular-primary text-fg-secondary">
                 To install a component, you run a shadcn command against this
                 registry. The CLI writes the files into your codebase alongside
-                your own components. You can add only what you need.
+                your own components. You only need to add what you want to use.
               </p>
             </div>
           </div>
@@ -219,7 +219,7 @@ export function MyComponent() {
           </div>
 
           <p className="paragraph-small-primary text-fg-tertiary border-stroke-tertiary mt-8 border-t pt-6">
-            Open source under the{' '}
+            Open sourced under the{' '}
             <a
               href="https://github.com/mckinsey/quantumblack-design-system/blob/main/LICENSE.txt"
               className="text-fg-accent underline-offset-2 hover:underline"
