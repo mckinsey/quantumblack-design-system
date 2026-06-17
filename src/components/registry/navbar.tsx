@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router';
 
+import { GitHubLink } from '@/components/registry/github-link';
 import { RegistryLogo } from '@/components/registry/registry-logo';
 import { ModeToggle } from '@/components/registry/theme-toggle';
 import { Button } from '@/components/ui/button';
@@ -96,7 +97,7 @@ export function Navbar() {
             ))}
           </nav>
 
-          {/* Right side - Search and Theme Toggle */}
+          {/* Right side - Search, Theme Toggle, GitHub */}
           <div className="ml-auto flex items-center gap-2">
             {/* Search button */}
             <Button
@@ -129,6 +130,7 @@ export function Navbar() {
             </Button>
 
             {/* Theme toggle */}
+            <GitHubLink />
             <ModeToggle />
           </div>
         </div>
