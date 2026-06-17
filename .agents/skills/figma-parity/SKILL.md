@@ -1,22 +1,21 @@
 ---
-description: Match Figma specs when implementing or reviewing QBDS UI — tokens, layout, all variants/states, demos, registry
-globs: src/components/ui/**/*.tsx,src/app/demo/**/*.tsx,registry.json,src/tests/**/*.tsx,code-connect/**/*.tsx
-alwaysApply: false
+name: figma-parity
+description: Match Figma specs when implementing or reviewing QBDS UI — tokens, layout, all variants/states, Code Connect, demos, registry. Use when implementing, updating, or reviewing a QBDS component against a Figma URL/node or the library spec. Triggers — "implement this Figma component", "match the Figma spec", "figma parity", "build this component from Figma", or a figma.com URL alongside work in src/components/ui/, demos, registry.json, or code-connect/.
 ---
 
 # Figma ↔ code parity (QBDS)
 
-**Scope:** Run this workflow only for Figma-driven implement/review of QBDS components. Skip for unrelated tasks. Trigger via `@figma-parity`, a Figma URL, or edits under the rule globs.
+**Scope:** Run this workflow only for Figma-driven implement/review of QBDS components. Skip for unrelated tasks (deps, CI, docs, refactors with no design change). Figma MCP output is reference only — still run the full workflow below.
 
 If no Figma URL/node is provided, ask for it (or use the team’s internal/shared link).
 
 ## Sources of truth (read before styling)
 
-1. **[docs/TOKENS.md](../../docs/TOKENS.md)** — semantic Tailwind utilities; design-name column maps to Figma variables.
-2. **[src/styles/globals.css](../../src/styles/globals.css)** — CSS variables and `@theme inline`; trace utilities back to semantics (e.g. `bg-fill-*` → `--color-fill-*` → `--fill-*`). Verify **light and dark** (`.dark`); use `-inverse` on dark/accent surfaces.
+1. **[docs/TOKENS.md](docs/TOKENS.md)** — semantic Tailwind utilities; design-name column maps to Figma variables.
+2. **[src/styles/globals.css](src/styles/globals.css)** — CSS variables and `@theme inline`; trace utilities back to semantics (e.g. `bg-fill-*` → `--color-fill-*` → `--fill-*`). Verify **light and dark** (`.dark`); use `-inverse` on dark/accent surfaces.
 3. **Spacing scale** — `gap-1` / `p-1` = 4px, `gap-2` / `p-2` = 8px, `gap-3` / `p-3` = 12px. No `gap-[Npx]`, `text-[#…]`, `bg-[#…]`, or primitives (`slate-*`, `mist-*`) in components.
 
-Match Figma tokens via **[docs/TOKENS.md](../../docs/TOKENS.md)** (Design name + Tailwind utility). CSS semantics in `globals.css`: `--text-*`, `--border-*`, `--fill-*`, `--surface-*`, `--status-*`, `--stateslayer-*`, `--elevations-*`, `--brand-accents-*` (each has a `-inverse` form where the spec uses inverse surfaces). In components use Tailwind utilities from TOKENS.md — e.g. `text-fg-*` (→ `--color-fg-*` → `--text-*`), `border-stroke-*` (→ `--color-stroke-*` → `--border-*`), `bg-fill-*` — not raw `--fg-*` / `--stroke-*` or primitives.
+Match Figma tokens via **[docs/TOKENS.md](docs/TOKENS.md)** (Design name + Tailwind utility). CSS semantics in `globals.css`: `--text-*`, `--border-*`, `--fill-*`, `--surface-*`, `--status-*`, `--stateslayer-*`, `--elevations-*`, `--brand-accents-*` (each has a `-inverse` form where the spec uses inverse surfaces). In components use Tailwind utilities from TOKENS.md — e.g. `text-fg-*` (→ `--color-fg-*` → `--text-*`), `border-stroke-*` (→ `--color-stroke-*` → `--border-*`), `bg-fill-*` — not raw `--fg-*` / `--stroke-*` or primitives.
 
 ## Repo patterns (match siblings, do not reinvent)
 
@@ -61,7 +60,7 @@ If **`code-connect/<name>.figma.tsx` exists**, read it before raw Figma codegen.
 
 ### 2 — Tokens (every distinct variant × state)
 
-Use `get_variable_defs` on representative nodes: at minimum **enabled**, **hover**, **focus**, **pressed**, **disabled**, plus selected/active/loading if defined. Map fill, text, stroke, elevation, radius, and state overlays per **[docs/TOKENS.md](../../docs/TOKENS.md)**. Check **light and dark**. Flag: wrong `-inverse` prefix; raw hex; primitives; right hex but wrong token name.
+Use `get_variable_defs` on representative nodes: at minimum **enabled**, **hover**, **focus**, **pressed**, **disabled**, plus selected/active/loading if defined. Map fill, text, stroke, elevation, radius, and state overlays per **[docs/TOKENS.md](docs/TOKENS.md)**. Check **light and dark**. Flag: wrong `-inverse` prefix; raw hex; primitives; right hex but wrong token name.
 
 ### 3 — Layout, spacing, typography & states
 

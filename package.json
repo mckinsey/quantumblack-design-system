@@ -28,7 +28,8 @@
     "secretscan": "scripts/secret-scan.sh",
     "precommit": "concurrently --kill-others-on-fail -n lint,test,secrets \"npm run lint\" \"npm run test:unit\" \"npm run secretscan\"",
     "start": "vite preview --host 0.0.0.0 --port 3000",
-    "prepare": "husky",
+    "prepare": "husky && npm run skills:link",
+    "skills:link": "symlink-dir .agents/skills/figma-parity .claude/skills/figma-parity && symlink-dir .agents/skills/figma-token-sync .claude/skills/figma-token-sync",
     "figma:config": "tsx scripts/generate-figma-config.ts",
     "figma:publish": "npm run figma:config && figma connect publish --skip-validation"
   },
@@ -118,6 +119,7 @@
     "prettier-plugin-tailwindcss": "^0.6.14",
     "react-docgen-typescript": "^2.4.0",
     "serve": "^14.2.0",
+    "symlink-dir": "^6.0.5",
     "tailwindcss": "^4.1.11",
     "tsx": "^4.22.4",
     "tw-animate-css": "^1.3.5",
