@@ -10,18 +10,18 @@ export default function InstallationPage() {
     <main className="bg-surface-base min-h-screen w-full p-5 md:p-10">
       <div className="mx-auto w-full max-w-[800px]">
         <div className="flex flex-col gap-8">
-          {/* Header */}
           <div className="flex flex-col gap-2">
             <h1 className="headings-h1-regular text-fg-primary">
               Installation
             </h1>
             <p className="paragraph-large-primary text-fg-secondary">
               Install and use components from the QuantumBlack Design System in
-              your project.
+              your project. Components are added via the shadcn CLI, which
+              copies source files into your codebase rather than installing an
+              NPM package.
             </p>
           </div>
 
-          {/* Prerequisites */}
           <div className="flex flex-col gap-4">
             <div>
               <h2 className="headings-h3-semibold text-fg-primary mb-2">
@@ -67,14 +67,13 @@ export default function InstallationPage() {
             </div>
           </div>
 
-          {/* Step 1: Configure components.json */}
           <div className="flex flex-col gap-4">
             <div>
               <h2 className="headings-h3-semibold text-fg-primary mb-2">
                 Step 1: Configure components.json
               </h2>
               <p className="paragraph-regular-primary text-fg-secondary">
-                Add the QB Design System registry to your{' '}
+                Add the QuantumBlack Design System registry to your{' '}
                 <code className="paragraph-code-text bg-fill-subtle px-1.5 py-0.5">
                   components.json
                 </code>
@@ -101,7 +100,6 @@ export default function InstallationPage() {
             </p>
           </div>
 
-          {/* Step 2: Install a component */}
           <div className="flex flex-col gap-4">
             <div>
               <h2 className="headings-h3-semibold text-fg-primary mb-2">
@@ -139,7 +137,6 @@ import '../styles/globals.css'`}
             />
           </div>
 
-          {/* Step 3: Import and use */}
           <div className="flex flex-col gap-4">
             <div>
               <h2 className="headings-h3-semibold text-fg-primary mb-2">
@@ -165,7 +162,6 @@ export function MyComponent() {
             />
           </div>
 
-          {/* Manual Installation */}
           <div>
             <h2 className="headings-h3-semibold text-fg-primary mb-2">
               Manual Installation
@@ -182,7 +178,6 @@ export function MyComponent() {
             </p>
           </div>
 
-          {/* CTA */}
           <div className="flex flex-col gap-3 pt-4 sm:flex-row">
             <Button size="lg" asChild>
               <Link to="/components">Browse Components</Link>
