@@ -100,7 +100,7 @@ function DropdownMenuItem({
       data-variant={variant}
       className={cn(
         'paragraph-regular-primary text-fg-secondary data-[highlighted]:bg-stateslayer-overlay-hover data-[highlighted]:text-fg-primary active:bg-stateslayer-overlay-pressed [&_svg:not([class*="text-"])]:text-fg-tertiary data-[disabled]:text-fg-disabled relative flex cursor-default items-center gap-2 py-2 pr-2 pl-2 outline-none select-none data-[disabled]:pointer-events-none data-[inset]:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0',
-        'data-[variant=destructive]:text-destructive data-[variant=destructive]:data-[highlighted]:bg-destructive/10 data-[variant=destructive]:data-[highlighted]:text-destructive dark:data-[variant=destructive]:data-[highlighted]:bg-destructive/20 data-[variant=destructive]:[&_svg:not([class*="text-"])]:!text-destructive cursor-pointer',
+        'data-[variant=destructive]:text-destructive data-[variant=destructive]:data-[highlighted]:text-destructive data-[variant=destructive]:[&_svg:not([class*="text-"])]:!text-destructive cursor-pointer',
         className,
       )}
       {...props}
