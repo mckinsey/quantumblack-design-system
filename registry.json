@@ -302,7 +302,8 @@
         "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/button.json",
         "__REGISTRY_URL__/r/toggle.json",
-        "__REGISTRY_URL__/r/icon.json"
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
       ],
       "files": [
         {
