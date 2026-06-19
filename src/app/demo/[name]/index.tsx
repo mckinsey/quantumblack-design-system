@@ -104,6 +104,17 @@ import {
   examples as comboboxExamples,
 } from '@/app/demo/[name]/ui/combobox';
 import {
+  ContextMenuDemo,
+  ContextMenuDestructive,
+  ContextMenuWithCheckboxes,
+  ContextMenuWithIcons,
+  ContextMenuWithRadioGroup,
+  ContextMenuWithShortcuts,
+  ContextMenuWithSubmenu,
+  contextMenu,
+  examples as contextMenuExamples,
+} from '@/app/demo/[name]/ui/context-menu';
+import {
   DatePickerDemo,
   DatePickerDisabled,
   DatePickerInlineSizes,
@@ -481,6 +492,15 @@ export const exampleComponentMaps: Record<
     DialogConfirmation,
     DialogCustomContent,
   },
+  'context-menu': {
+    ContextMenuDemo,
+    ContextMenuWithShortcuts,
+    ContextMenuWithIcons,
+    ContextMenuWithSubmenu,
+    ContextMenuWithCheckboxes,
+    ContextMenuWithRadioGroup,
+    ContextMenuDestructive,
+  },
   'dropdown-menu': {
     DropdownMenuDemo,
     DropdownMenuWithShortcuts,
@@ -701,6 +721,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   'data-table': dataTableExamples,
   'date-picker': datePickerExamples,
   dialog: dialogExamples,
+  'context-menu': contextMenuExamples,
   'dropdown-menu': dropdownMenuExamples,
   empty: emptyExamples,
   form: formExamples,
@@ -791,6 +812,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...dialog,
     examples: dialogExamples,
     exampleComponents: exampleComponentMaps.dialog,
+  },
+  'context-menu': {
+    ...contextMenu,
+    examples: contextMenuExamples,
+    exampleComponents: exampleComponentMaps['context-menu'],
   },
   'dropdown-menu': {
     ...dropdownMenu,

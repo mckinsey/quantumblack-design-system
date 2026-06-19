@@ -290,6 +290,32 @@
       ]
     },
     {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "A menu triggered by a right-click (or long-press) on a target element. Supports items, checkboxes, radio groups, submenus, shortcuts, and destructive actions.",
+      "dependencies": [
+        "@radix-ui/react-context-menu"
+      ],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/context-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/app/demo/[name]/ui/context-menu.tsx",
+          "type": "registry:example",
+          "target": ""
+        }
+      ]
+    },
+    {
       "name": "dropdown-menu",
       "type": "registry:ui",
       "title": "Dropdown Menu",
