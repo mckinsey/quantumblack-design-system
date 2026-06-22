@@ -246,7 +246,7 @@ export function ContextMenuWithRadioGroup() {
 }
 
 /**
- * Large size for higher-density touch targets
+ * Larger touch targets and typography
  */
 export function ContextMenuLarge() {
   return (
@@ -352,7 +352,7 @@ export const examples = [
   {
     name: 'ContextMenuLarge',
     title: 'Large',
-    description: 'Size variant for higher-density touch targets.',
+    description: 'Larger touch targets and typography.',
   },
   {
     name: 'ContextMenuDestructive',

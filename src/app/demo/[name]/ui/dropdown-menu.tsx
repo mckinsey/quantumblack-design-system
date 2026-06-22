@@ -259,7 +259,7 @@ export function DropdownMenuWithRadioGroup() {
 }
 
 /**
- * Large size for higher-density touch targets
+ * Larger touch targets and typography
  */
 export function DropdownMenuLarge() {
   return (
@@ -368,7 +368,7 @@ export const examples = [
   {
     name: 'DropdownMenuLarge',
     title: 'Large',
-    description: 'Size variant for higher-density touch targets.',
+    description: 'Larger touch targets and typography.',
   },
   {
     name: 'DropdownMenuDestructive',
