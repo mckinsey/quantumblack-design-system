@@ -246,6 +246,43 @@ export function ContextMenuWithRadioGroup() {
 }
 
 /**
+ * Large size for higher-density touch targets
+ */
+export function ContextMenuLarge() {
+  return (
+    <ContextMenuTriggerArea>
+      <ContextMenuContent size="lg" className={CONTEXT_MENU_PANEL_CLASS}>
+        <ContextMenuGroup>
+          <ContextMenuItem>
+            <Icon icon="person" className="size-6" />
+            Profile
+          </ContextMenuItem>
+
+          <ContextMenuItem>
+            <Icon icon="attach_money" className="size-6" />
+            Billing
+            <ContextMenuShortcut>⌘B</ContextMenuShortcut>
+          </ContextMenuItem>
+
+          <ContextMenuSub>
+            <ContextMenuSubTrigger inset>Invite users</ContextMenuSubTrigger>
+
+            <ContextMenuPortal>
+              <ContextMenuSubContent
+                size="lg"
+                className={CONTEXT_MENU_PANEL_CLASS}>
+                <ContextMenuItem>Email</ContextMenuItem>
+                <ContextMenuItem>Message</ContextMenuItem>
+              </ContextMenuSubContent>
+            </ContextMenuPortal>
+          </ContextMenuSub>
+        </ContextMenuGroup>
+      </ContextMenuContent>
+    </ContextMenuTriggerArea>
+  );
+}
+
+/**
  * Destructive variant for irreversible actions
  */
 export function ContextMenuDestructive() {
@@ -313,6 +350,11 @@ export const examples = [
     description: 'Radio group for exclusive choices.',
   },
   {
+    name: 'ContextMenuLarge',
+    title: 'Large',
+    description: 'Size variant for higher-density touch targets.',
+  },
+  {
     name: 'ContextMenuDestructive',
     title: 'Destructive',
     description: 'Destructive variant for irreversible actions.',
@@ -332,6 +374,7 @@ export const contextMenu = {
     Submenu: <ContextMenuWithSubmenu />,
     Checkboxes: <ContextMenuWithCheckboxes />,
     'Radio Group': <ContextMenuWithRadioGroup />,
+    Large: <ContextMenuLarge />,
     Destructive: <ContextMenuDestructive />,
   },
 };
