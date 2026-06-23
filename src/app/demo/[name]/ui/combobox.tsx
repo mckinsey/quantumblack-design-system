@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/combobox';
 import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import {
   InputGroup,
   InputGroupAddon,
@@ -122,13 +123,23 @@ export function ComboboxDemo() {
           <InputGroup size="default" className="w-full">
             <InputGroupAddon align="inline-start">
               <InputGroupText>
-                <Icon icon="search" className="icon text-[16px]" />
+                <IconShell
+                  size="sm"
+                  variant="secondary"
+                  className="text-fill-active">
+                  <Icon icon="search" />
+                </IconShell>
               </InputGroupText>
             </InputGroupAddon>
             <ComboboxInput size="default" placeholder="Placeholder" />
             <InputGroupAddon align="inline-end">
               <InputGroupText>
-                <Icon icon="layers" className="icon text-[16px]" />
+                <IconShell
+                  size="sm"
+                  variant="secondary"
+                  className="text-fill-active">
+                  <Icon icon="layers" />
+                </IconShell>
               </InputGroupText>
               <InputGroupButton
                 size="icon-xs"
@@ -322,7 +333,12 @@ export function ComboboxCustomToggle() {
                   <span
                     className="text-fg-secondary [&_svg]:size-4"
                     aria-hidden>
-                    <Icon icon="search" className="icon" />
+                    <IconShell
+                      size="sm"
+                      variant="secondary"
+                      className="text-fill-active">
+                      <Icon icon="search" />
+                    </IconShell>
                   </span>
                   <span className="flex-1">{item.label}</span>
                   <span className="text-fg-secondary">{item.subLabel}</span>

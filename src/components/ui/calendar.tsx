@@ -305,7 +305,7 @@ function Calendar({
                 size={size === 'lg' ? 'icon-lg' : 'icon-sm'}
                 className={cn('z-20', btnClassName)}
                 {...restProps}>
-                <IconShell>
+                <IconShell size={size === 'lg' ? 'default' : 'sm'}>
                   <Icon icon="chevron_right" />
                 </IconShell>
               </Button>
@@ -321,7 +321,7 @@ function Calendar({
                 size={size === 'lg' ? 'icon-lg' : 'icon-sm'}
                 className={cn('z-20', btnClassName)}
                 {...restProps}>
-                <IconShell>
+                <IconShell size={size === 'lg' ? 'default' : 'sm'}>
                   <Icon icon="chevron_left" />
                 </IconShell>
               </Button>

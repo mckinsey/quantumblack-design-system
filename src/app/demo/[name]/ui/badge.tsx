@@ -1,5 +1,6 @@
 import { Badge, NumericBadge, StatusBadge } from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 import { cn } from '@/lib/utils';
 
@@ -173,11 +174,15 @@ export function BadgeIconLabel() {
         return (
           <div key={v} className="flex flex-wrap items-center gap-3">
             <Badge size="sm" variant={v} withIcon>
-              <Icon icon={icon} className="size-4" />
+              <IconShell size="sm">
+                <Icon icon={icon} />
+              </IconShell>
               Label
             </Badge>
             <Badge size="default" variant={v} withIcon>
-              <Icon icon={icon} className="size-4" />
+              <IconShell size="sm">
+                <Icon icon={icon} />
+              </IconShell>
               Label
             </Badge>
             <Badge outline size="sm" variant={v} withIcon>

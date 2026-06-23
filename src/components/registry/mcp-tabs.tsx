@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { AddToCursor } from '@/components/registry/add-to-cursor';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export async function copyToClipboard(value: string) {
@@ -77,7 +78,15 @@ export function MCPTabs({ rootUrl }: { rootUrl: string }) {
               setHasCopied(true);
             }}
             className="shadow-none">
-            {hasCopied ? <Icon icon="check" /> : <Icon icon="content_paste" />}
+            {hasCopied ? (
+              <IconShell size="sm" variant="primary">
+                <Icon icon="check" className="text-status-success" />
+              </IconShell>
+            ) : (
+              <IconShell size="sm">
+                <Icon icon="content_paste" />
+              </IconShell>
+            )}
             Copy
           </Button>
         </div>

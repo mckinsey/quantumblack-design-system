@@ -4,6 +4,7 @@ import * as DialogPrimitive from '@radix-ui/react-dialog';
 import * as React from 'react';
 
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import { cn } from '@/lib/utils';
 
 function Dialog({
@@ -69,7 +70,9 @@ function DialogContent({
           <DialogPrimitive.Close
             data-slot="dialog-close"
             className="text-fg-secondary ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none">
-            <Icon icon="close" className="size-4" />
+            <IconShell size="sm" variant="secondary">
+              <Icon icon="close" />
+            </IconShell>
             <span className="sr-only">Close</span>
           </DialogPrimitive.Close>
         )}

@@ -2,6 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import { Tag } from '@/components/ui/tag';
 import { TagToggle } from '@/components/ui/tag-toggle';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
@@ -41,7 +42,9 @@ export function TagGroupDismissable() {
                   pill={pill}
                   variant={variant}
                   onRemove={() => {}}>
-                  <Icon icon="style" className="size-4" />
+                  <IconShell size="sm">
+                    <Icon icon="style" />
+                  </IconShell>
                   {text}
                 </Tag>
               ))}
@@ -137,7 +140,9 @@ export function TagToggleGroup() {
             <div key={`${variant}-${pill}`} className="flex flex-wrap gap-2">
               {labels.map((text, i) => (
                 <TagToggle key={i} size={size} pill={pill} variant={variant}>
-                  <Icon icon="style" className="size-4" />
+                  <IconShell size="sm">
+                    <Icon icon="style" />
+                  </IconShell>
                   {text}
                 </TagToggle>
               ))}

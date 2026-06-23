@@ -8,12 +8,14 @@ import { cn } from '@/lib/utils';
 // Example Components
 // ============================================================================
 
-/** Default icon inside IconShell */
+/** Default icon inside IconShell — neutral, 24px, secondary (Figma default). */
 export function IconShellDemo() {
   return (
-    <IconShell className="text-fg-primary">
-      <Icon icon="crop_free" />
-    </IconShell>
+    <div className="text-fg-primary">
+      <IconShell>
+        <Icon icon="crop_free" />
+      </IconShell>
+    </div>
   );
 }
 
@@ -82,6 +84,12 @@ export function IconShellTypes() {
           <Icon icon="mail" />
         </IconShell>
         <span className="text-fg-secondary text-xs">accent</span>
+      </div>
+      <div className="bg-brand-accents-qb-accent flex flex-col items-center gap-2 rounded-lg px-6 py-4">
+        <IconShell size="default" type="accent-inverse">
+          <Icon icon="mail" />
+        </IconShell>
+        <span className="text-fg-primary-inverse text-xs">accent-inverse</span>
       </div>
     </div>
   );
@@ -346,7 +354,8 @@ export const examples: DemoExample[] = [
   {
     name: 'IconShellDemo',
     title: 'Default',
-    description: 'Basic IconShell wrapping a Material Symbol ligature.',
+    description:
+      'Neutral type, default (24px) size, secondary state — matches Figma defaults.',
   },
   {
     name: 'IconShellSizes',
@@ -363,7 +372,7 @@ export const examples: DemoExample[] = [
     name: 'IconShellTypes',
     title: 'Types',
     description:
-      'neutral, neutral-inverse (on dark), and accent colour tokens.',
+      'neutral, neutral-inverse, accent, and accent-inverse colour tokens.',
   },
   {
     name: 'IconShellAll',

@@ -11,6 +11,7 @@ import {
 
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import { cn } from '@/lib/utils';
 
 type ToastType = NonNullable<ToastT['type']>;
@@ -69,7 +70,9 @@ const getToastConfig = (type: ToastType) => {
 };
 
 const getDefaultIcon = (config: ReturnType<typeof getToastConfig>) => (
-  <Icon icon={config.iconName} className={cn('size-6', config.iconClass)} />
+  <IconShell size="default" variant="primary">
+    <Icon icon={config.iconName} className={config.iconClass} />
+  </IconShell>
 );
 
 function getCancelComponent(
@@ -86,7 +89,9 @@ function getCancelComponent(
       size="icon-xs"
       onClick={() => sonnerToast.dismiss(id)}
       aria-label="Close toast">
-      <Icon icon="close" size="sm" className="text-fill-active" />
+      <IconShell size="sm" variant="secondary" className="text-fill-active">
+        <Icon icon="close" />
+      </IconShell>
     </Button>
   );
 }

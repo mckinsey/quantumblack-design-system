@@ -63,7 +63,7 @@ describe(`${componentName} — structure`, () => {
     },
   );
 
-  it.each(['neutral', 'neutral-inverse', 'accent'] as const)(
+  it.each(['neutral', 'neutral-inverse', 'accent', 'accent-inverse'] as const)(
     'renders type="%s" without crashing',
     type => {
       expect(() =>

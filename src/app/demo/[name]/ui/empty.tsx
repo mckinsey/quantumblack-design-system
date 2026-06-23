@@ -8,6 +8,7 @@ import {
   EmptyTitle,
 } from '@/components/ui/empty';
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 
 // ============================================================================
 // Shared Helpers
@@ -47,7 +48,12 @@ export function EmptyDemo() {
       <EmptyIconHeader
         mediaVariant="default"
         icon={
-          <Icon icon="crop_free" className="text-fg-secondary text-[48px]" />
+          <IconShell
+            size="lg"
+            variant="secondary"
+            className="text-fg-secondary">
+            <Icon icon="crop_free" />
+          </IconShell>
         }
         title="No results found"
         description="We couldn't find any items matching your search."
@@ -63,7 +69,14 @@ export function EmptyWithIcon() {
   return (
     <Empty className="border-stroke-tertiary border">
       <EmptyIconHeader
-        icon={<Icon icon="mail" className="text-fg-secondary" />}
+        icon={
+          <IconShell
+            size="default"
+            variant="secondary"
+            className="text-fg-secondary">
+            <Icon icon="mail" />
+          </IconShell>
+        }
         title="No messages"
         description="You don't have any messages yet. Start a conversation to get going."
       />
@@ -78,7 +91,14 @@ export function EmptyWithAction() {
   return (
     <Empty>
       <EmptyIconHeader
-        icon={<Icon icon="layers" className="text-fg-secondary" />}
+        icon={
+          <IconShell
+            size="default"
+            variant="secondary"
+            className="text-fg-secondary">
+            <Icon icon="layers" />
+          </IconShell>
+        }
         title="No projects yet"
         description="Get started by creating your first project."
       />
@@ -96,7 +116,14 @@ export function EmptyWithMultipleActions() {
   return (
     <Empty className="border-stroke-tertiary border border-dashed">
       <EmptyIconHeader
-        icon={<Icon icon="key" className="text-fg-secondary" />}
+        icon={
+          <IconShell
+            size="default"
+            variant="secondary"
+            className="text-fg-secondary">
+            <Icon icon="key" />
+          </IconShell>
+        }
         title="No API keys"
         description="Create an API key to start integrating with our platform."
       />
@@ -117,7 +144,11 @@ export function EmptyError() {
   return (
     <Empty>
       <EmptyIconHeader
-        icon={<Icon icon="error" className="text-status-error" />}
+        icon={
+          <IconShell size="default" variant="primary">
+            <Icon icon="error" className="text-status-error" />
+          </IconShell>
+        }
         title="Something went wrong"
         description="We encountered an error loading your content. Please try again."
       />

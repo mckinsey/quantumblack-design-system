@@ -97,7 +97,7 @@ function AlertClose({ ...props }: React.ComponentProps<typeof Button>) {
       data-slot="alert-close"
       size="icon"
       variant="ghost">
-      <IconShell variant="secondary">
+      <IconShell size="sm" variant="secondary">
         <Icon icon="close" />
         <span className="sr-only">Close</span>
       </IconShell>

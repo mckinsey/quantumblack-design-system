@@ -10,6 +10,7 @@ import {
 import { NumericBadge, StatusBadge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import {
   Select,
   SelectContent,
@@ -447,7 +448,12 @@ export function AvatarPickerSingle() {
             <SelectItemText>{user.name}</SelectItemText>
 
             <SelectItemIndicator>
-              <Icon icon="check" className="size-4" />
+              <IconShell
+                size="sm"
+                variant="primary"
+                className="text-fill-active">
+                <Icon icon="check" />
+              </IconShell>
             </SelectItemIndicator>
           </SelectItem>
         ))}

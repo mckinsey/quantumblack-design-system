@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 
 // ============================================================================
 // Shared Helpers
@@ -38,7 +39,9 @@ export function AlertDemo() {
   return (
     <Alert layout="modal">
       <AlertIcon>
-        <Icon icon="info" className="text-[25px]" />
+        <IconShell size="lg" variant="primary">
+          <Icon icon="info" />
+        </IconShell>
       </AlertIcon>
       <AlertContent>
         <AlertTitle>Alert Title</AlertTitle>
@@ -56,7 +59,9 @@ export function AlertWithButtons() {
   return (
     <Alert layout="modal">
       <AlertIcon>
-        <Icon icon="info" className="text-[25px]" />
+        <IconShell size="lg" variant="primary">
+          <Icon icon="info" />
+        </IconShell>
       </AlertIcon>
       <AlertContent>
         <AlertTitle>Alert Title</AlertTitle>
@@ -75,7 +80,9 @@ export function AlertLongLayout() {
   return (
     <Alert layout="long">
       <AlertIcon>
-        <Icon icon="info" className="text-[25px]" />
+        <IconShell size="lg" variant="primary">
+          <Icon icon="info" />
+        </IconShell>
       </AlertIcon>
       <AlertContent className="flex-row items-center gap-3 pt-0">
         <AlertTitle className="shrink-0">Alert Title</AlertTitle>
@@ -95,7 +102,9 @@ export function AlertLongWithButtons() {
   return (
     <Alert layout="long">
       <AlertIcon>
-        <Icon icon="info" className="text-[25px]" />
+        <IconShell size="lg" variant="primary">
+          <Icon icon="info" />
+        </IconShell>
       </AlertIcon>
       <AlertContent className="flex-row items-center gap-3 pt-0">
         <AlertTitle className="shrink-0">Alert Title</AlertTitle>
@@ -119,19 +128,31 @@ export function AlertVariants() {
   const variants = [
     {
       color: 'text-status-success',
-      icon: <Icon icon="check_circle" className="text-[25px]" />,
+      icon: (
+        <IconShell size="lg" variant="primary">
+          <Icon icon="check_circle" />
+        </IconShell>
+      ),
       title: 'Success!',
       description: 'Your changes have been saved successfully.',
     },
     {
       color: 'text-status-warning',
-      icon: <Icon icon="warning" className="text-[25px]" />,
+      icon: (
+        <IconShell size="lg" variant="primary">
+          <Icon icon="warning" />
+        </IconShell>
+      ),
       title: 'Warning',
       description: 'Please review your changes before proceeding.',
     },
     {
       color: 'text-status-error',
-      icon: <Icon icon="error" className="text-[25px]" />,
+      icon: (
+        <IconShell size="lg" variant="primary">
+          <Icon icon="error" />
+        </IconShell>
+      ),
       title: 'Error',
       description: 'Something went wrong. Please try again.',
     },

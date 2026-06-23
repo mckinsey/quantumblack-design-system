@@ -1,4 +1,5 @@
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import {
   type Component,
   getComponentFileTarget,
@@ -28,7 +29,9 @@ export function InstallationGuide({ component }: InstallationGuideProps) {
       {/* CLI Installation */}
       <div className="space-y-3">
         <div className="flex items-center gap-2">
-          <Icon icon="terminal" className="text-fg-primary size-4" />
+          <IconShell size="sm" variant="primary">
+            <Icon icon="terminal" />
+          </IconShell>
           <h3 className="headings-h4-semibold text-fg-primary">
             CLI Installation
           </h3>
@@ -46,7 +49,9 @@ export function InstallationGuide({ component }: InstallationGuideProps) {
       {/* Manual Installation */}
       <div className="space-y-3">
         <div className="flex items-center gap-2">
-          <Icon icon="code" className="text-fg-primary size-4" />
+          <IconShell size="sm" variant="primary">
+            <Icon icon="code" />
+          </IconShell>
           <h3 className="headings-h4-semibold text-fg-primary">
             Manual Installation
           </h3>
@@ -82,7 +87,9 @@ export function InstallationGuide({ component }: InstallationGuideProps) {
       {includedFiles.length > 0 && (
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <Icon icon="package_2" className="text-fg-primary size-4" />
+            <IconShell size="sm" variant="primary">
+              <Icon icon="package_2" />
+            </IconShell>
             <h3 className="headings-h4-semibold text-fg-primary">
               Files Included
             </h3>

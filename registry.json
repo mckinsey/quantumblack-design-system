@@ -280,7 +280,8 @@
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/icon.json"
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
       ],
       "files": [
         {
@@ -454,14 +455,15 @@
       "name": "icon-shell",
       "type": "registry:ui",
       "title": "Icon Shell",
-      "description": "An icon component.",
+      "description": "Wraps Material Symbols with QBDS sizing (sm/default/lg), type (neutral, neutral-inverse, accent, accent-inverse), and state (primary, secondary, disabled). Defaults to neutral, 24px, secondary.",
       "dependencies": [
         "@radix-ui/react-slot"
       ],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/icon.json"
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
       ],
       "files": [
         {
@@ -519,7 +521,8 @@
         "__REGISTRY_URL__/r/input-group.json",
         "__REGISTRY_URL__/r/input.json",
         "__REGISTRY_URL__/r/button.json",
-        "__REGISTRY_URL__/r/icon.json"
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
       ],
       "files": [
         {
@@ -615,7 +618,8 @@
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/icon.json"
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
       ],
       "files": [
         {
@@ -691,7 +695,8 @@
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/button.json",
         "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/icon.json"
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
       ],
       "dependencies": [
         "sonner",
@@ -732,7 +737,8 @@
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/icon.json"
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
       ],
       "files": [
         {
@@ -841,7 +847,8 @@
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/icon.json"
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
       ],
       "files": [
         {

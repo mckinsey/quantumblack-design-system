@@ -18,6 +18,7 @@ import {
   ContextMenuTrigger,
 } from '@/components/ui/context-menu';
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 
 /** Pass on `ContextMenuContent` / `ContextMenuSubContent` via `className`. */
 const CONTEXT_MENU_PANEL_CLASS = 'w-[256px] max-w-[256px] min-w-[256px]';
@@ -114,24 +115,32 @@ export function ContextMenuWithIcons() {
     <ContextMenuTriggerArea>
       <ContextMenuContent className={CONTEXT_MENU_PANEL_CLASS}>
         <ContextMenuItem>
-          <Icon icon="person" className="size-4" />
+          <IconShell size="sm" variant="secondary">
+            <Icon icon="person" />
+          </IconShell>
           Profile
         </ContextMenuItem>
 
         <ContextMenuItem>
-          <Icon icon="attach_money" className="size-4" />
+          <IconShell size="sm" variant="secondary">
+            <Icon icon="attach_money" />
+          </IconShell>
           Billing
         </ContextMenuItem>
 
         <ContextMenuItem>
-          <Icon icon="key" className="size-4" />
+          <IconShell size="sm" variant="secondary">
+            <Icon icon="key" />
+          </IconShell>
           Settings
         </ContextMenuItem>
 
         <ContextMenuSeparator />
 
         <ContextMenuItem variant="destructive">
-          <Icon icon="close" className="size-4" />
+          <IconShell size="sm" variant="secondary">
+            <Icon icon="close" />
+          </IconShell>
           Log out
         </ContextMenuItem>
       </ContextMenuContent>
@@ -148,20 +157,26 @@ export function ContextMenuWithSubmenu() {
       <ContextMenuContent className={CONTEXT_MENU_PANEL_CLASS}>
         <ContextMenuGroup>
           <ContextMenuItem>
-            <Icon icon="person" className="size-4" />
+            <IconShell size="sm" variant="secondary">
+              <Icon icon="person" />
+            </IconShell>
             Team
           </ContextMenuItem>
 
           <ContextMenuSub>
             <ContextMenuSubTrigger>
-              <Icon icon="send" className="size-4" />
+              <IconShell size="sm" variant="secondary">
+                <Icon icon="send" />
+              </IconShell>
               Invite users
             </ContextMenuSubTrigger>
 
             <ContextMenuPortal>
               <ContextMenuSubContent className={CONTEXT_MENU_PANEL_CLASS}>
                 <ContextMenuItem>
-                  <Icon icon="mail" className="size-4" />
+                  <IconShell size="sm" variant="secondary">
+                    <Icon icon="mail" />
+                  </IconShell>
                   Email
                 </ContextMenuItem>
 
@@ -254,12 +269,16 @@ export function ContextMenuDestructive() {
       <ContextMenuContent className={CONTEXT_MENU_PANEL_CLASS}>
         <ContextMenuGroup>
           <ContextMenuItem>
-            <Icon icon="edit" className="size-4" />
+            <IconShell size="sm" variant="secondary">
+              <Icon icon="edit" />
+            </IconShell>
             Edit
           </ContextMenuItem>
 
           <ContextMenuItem>
-            <Icon icon="send" className="size-4" />
+            <IconShell size="sm" variant="secondary">
+              <Icon icon="send" />
+            </IconShell>
             Share
           </ContextMenuItem>
         </ContextMenuGroup>
@@ -268,7 +287,9 @@ export function ContextMenuDestructive() {
 
         <ContextMenuGroup>
           <ContextMenuItem variant="destructive">
-            <Icon icon="delete" className="size-4" />
+            <IconShell size="sm" variant="secondary">
+              <Icon icon="delete" />
+            </IconShell>
             Delete
           </ContextMenuItem>
         </ContextMenuGroup>

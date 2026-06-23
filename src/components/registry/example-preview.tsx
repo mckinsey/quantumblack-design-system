@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import { cn } from '@/lib/utils';
 
 interface ExamplePreviewProps {
@@ -117,15 +118,16 @@ export function ExamplePreview({
               className="h-7 px-2 text-xs">
               {copied ? (
                 <>
-                  <Icon
-                    icon="check"
-                    className="text-status-success mr-1 size-4"
-                  />
+                  <IconShell size="sm" variant="primary">
+                    <Icon icon="check" className="text-status-success" />
+                  </IconShell>
                   Copied
                 </>
               ) : (
                 <>
-                  <Icon icon="content_copy" className="mr-1 size-4" />
+                  <IconShell size="sm" className="mr-1">
+                    <Icon icon="content_copy" />
+                  </IconShell>
                   Copy
                 </>
               )}

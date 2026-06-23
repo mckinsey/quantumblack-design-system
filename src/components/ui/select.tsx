@@ -4,6 +4,7 @@ import { Select as SelectPrimitive } from '@base-ui/react/select';
 import * as React from 'react';
 
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import { cn } from '@/lib/utils';
 
 export type SelectSize = 'sm' | 'default' | 'lg';
@@ -69,8 +70,7 @@ function SelectIcon({ className, ...props }: SelectPrimitive.Icon.Props) {
     <SelectPrimitive.Icon
       data-slot="select-icon"
       className={cn(
-        'text-fill-active shrink-0 opacity-60',
-        '[[data-disabled]>&]:opacity-30',
+        'text-fill-active shrink-0',
         size === 'lg' ? 'size-6' : 'size-4',
         className,
       )}
@@ -121,7 +121,12 @@ function SelectTrigger({
       {...props}>
       {children}
       <SelectIcon className="transition-transform duration-200 [[data-popup-open]>&]:rotate-180">
-        <Icon icon="keyboard_arrow_down" size="sm" />
+        <IconShell
+          size={size === 'lg' ? 'default' : 'sm'}
+          variant="secondary"
+          className="text-fill-active">
+          <Icon icon="keyboard_arrow_down" />
+        </IconShell>
       </SelectIcon>
     </SelectPrimitive.Trigger>
   );
@@ -286,7 +291,9 @@ function SelectScrollUpArrow({
         className,
       )}
       {...props}>
-      <Icon icon="keyboard_arrow_down" size="sm" className="rotate-180" />
+      <IconShell size="sm" variant="primary" className="text-fill-active">
+        <Icon icon="keyboard_arrow_down" className="rotate-180" />
+      </IconShell>
     </SelectPrimitive.ScrollUpArrow>
   );
 }
@@ -303,7 +310,9 @@ function SelectScrollDownArrow({
         className,
       )}
       {...props}>
-      <Icon icon="keyboard_arrow_down" size="sm" />
+      <IconShell size="sm" variant="primary" className="text-fill-active">
+        <Icon icon="keyboard_arrow_down" />
+      </IconShell>
     </SelectPrimitive.ScrollDownArrow>
   );
 }

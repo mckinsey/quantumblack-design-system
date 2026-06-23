@@ -1,5 +1,6 @@
 import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import {
   InputGroup,
   InputGroupAddon,
@@ -46,7 +47,12 @@ export function InputGroupDemo() {
       <FieldTitle className={label}>Label</FieldTitle>
       <InputGroup>
         <LeadingIcon>
-          <Icon icon="search" size={iconSize} className="icon" />
+          <IconShell
+            size={iconSize}
+            variant="secondary"
+            className="text-fill-active">
+            <Icon icon="search" />
+          </IconShell>
         </LeadingIcon>
         <InputGroupInput placeholder="Placeholder" />
       </InputGroup>
@@ -65,7 +71,12 @@ export function InputGroupLeadingIcon() {
         <FieldTitle className={label}>Label</FieldTitle>
         <InputGroup>
           <LeadingIcon>
-            <Icon icon="mail" size={iconSize} className="icon" />
+            <IconShell
+              size={iconSize}
+              variant="secondary"
+              className="text-fill-active">
+              <Icon icon="mail" />
+            </IconShell>
           </LeadingIcon>
           <InputGroupInput type="email" placeholder="Placeholder" />
         </InputGroup>
@@ -76,7 +87,12 @@ export function InputGroupLeadingIcon() {
         <FieldTitle className={label}>Label</FieldTitle>
         <InputGroup>
           <LeadingIcon>
-            <Icon icon="person" size={iconSize} className="icon" />
+            <IconShell
+              size={iconSize}
+              variant="secondary"
+              className="text-fill-active">
+              <Icon icon="person" />
+            </IconShell>
           </LeadingIcon>
           <InputGroupInput placeholder="Placeholder" />
         </InputGroup>
@@ -109,7 +125,12 @@ export function InputGroupTrailing() {
           <InputGroupInput placeholder="Placeholder" />
           <InputGroupAddon align="inline-end">
             <InputGroupButton size="icon-xs" variant="ghost">
-              <Icon icon="send" size={iconSize} className="icon" />
+              <IconShell
+                size={iconSize}
+                variant="secondary"
+                className="text-fill-active">
+                <Icon icon="send" />
+              </IconShell>
             </InputGroupButton>
           </InputGroupAddon>
         </InputGroup>
@@ -128,7 +149,12 @@ export function InputGroupBothSides() {
       <FieldTitle className={label}>Label</FieldTitle>
       <InputGroup>
         <LeadingIcon>
-          <Icon icon="attach_money" size={iconSize} className="icon" />
+          <IconShell
+            size={iconSize}
+            variant="secondary"
+            className="text-fill-active">
+            <Icon icon="attach_money" />
+          </IconShell>
         </LeadingIcon>
         <InputGroupInput type="number" placeholder="Placeholder" />
         <InputGroupAddon align="inline-end">
@@ -165,7 +191,12 @@ export function InputGroupSizes() {
               <FieldTitle className={labelClass}>Label</FieldTitle>
               <InputGroup size={size}>
                 <LeadingIcon>
-                  <Icon icon="search" size={iconSize} className="icon" />
+                  <IconShell
+                    size={iconSize}
+                    variant="secondary"
+                    className="text-fill-active">
+                    <Icon icon="search" />
+                  </IconShell>
                 </LeadingIcon>
                 <InputGroupInput size={size} placeholder="Placeholder" />
               </InputGroup>
@@ -178,7 +209,12 @@ export function InputGroupSizes() {
               <FieldTitle className={inlineLabelClass}>Label</FieldTitle>
               <InputGroup variant="inline" size={size}>
                 <LeadingIcon>
-                  <Icon icon="search" size={iconSize} className="icon" />
+                  <IconShell
+                    size={iconSize}
+                    variant="secondary"
+                    className="text-fill-active">
+                    <Icon icon="search" />
+                  </IconShell>
                 </LeadingIcon>
                 <InputGroupInput
                   variant="inline"

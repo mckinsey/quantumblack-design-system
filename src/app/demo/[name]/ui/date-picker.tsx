@@ -230,11 +230,11 @@ export function DatePickerDemo() {
             />
             <InputGroupAddon align="inline-end">
               <span className="flex size-5 cursor-pointer items-center justify-center">
-                <IconShell size="sm">
-                  <Icon
-                    icon="calendar_month"
-                    className="text-[length:inherit]"
-                  />
+                <IconShell
+                  size="sm"
+                  variant="secondary"
+                  className="text-fill-active">
+                  <Icon icon="calendar_month" />
                 </IconShell>
               </span>
             </InputGroupAddon>
@@ -298,7 +298,12 @@ export function DatePickerRange() {
             />
             <InputGroupAddon className="order-none">
               <InputGroupText>
-                <Icon icon="arrow_forward" className="text-[length:inherit]" />
+                <IconShell
+                  size="sm"
+                  variant="secondary"
+                  className="text-fill-active">
+                  <Icon icon="arrow_forward" />
+                </IconShell>
               </InputGroupText>
             </InputGroupAddon>
             <InputGroupInput
@@ -312,11 +317,11 @@ export function DatePickerRange() {
             />
             <InputGroupAddon align="inline-end">
               <span className="flex size-5 cursor-pointer items-center justify-center">
-                <IconShell size="sm">
-                  <Icon
-                    icon="calendar_month"
-                    className="text-[length:inherit]"
-                  />
+                <IconShell
+                  size="sm"
+                  variant="secondary"
+                  className="text-fill-active">
+                  <Icon icon="calendar_month" />
                 </IconShell>
               </span>
             </InputGroupAddon>
@@ -368,8 +373,11 @@ export function DatePickerDisabled() {
         />
         <InputGroupAddon align="inline-end">
           <span className="flex size-5 cursor-not-allowed items-center justify-center">
-            <IconShell size="sm">
-              <Icon icon="calendar_month" className="text-[length:inherit]" />
+            <IconShell
+              size="sm"
+              variant="secondary"
+              className="text-fill-active">
+              <Icon icon="calendar_month" />
             </IconShell>
           </span>
         </InputGroupAddon>
@@ -440,11 +448,11 @@ function DatePickerSized({
                 className={cn(
                   'flex cursor-pointer items-center justify-center',
                 )}>
-                <IconShell size={size === 'lg' ? 'default' : 'sm'}>
-                  <Icon
-                    icon="calendar_month"
-                    className="text-[length:inherit]"
-                  />
+                <IconShell
+                  size={size === 'lg' ? 'default' : 'sm'}
+                  variant="secondary"
+                  className="text-fill-active">
+                  <Icon icon="calendar_month" />
                 </IconShell>
               </span>
             </InputGroupAddon>
@@ -586,11 +594,11 @@ function DatePickerValidationItem({
             />
             <InputGroupAddon align="inline-end">
               <span className="flex size-5 cursor-pointer items-center justify-center">
-                <IconShell size="sm">
-                  <Icon
-                    icon="calendar_month"
-                    className="text-[length:inherit]"
-                  />
+                <IconShell
+                  size="sm"
+                  variant="secondary"
+                  className="text-fill-active">
+                  <Icon icon="calendar_month" />
                 </IconShell>
               </span>
             </InputGroupAddon>
@@ -694,7 +702,12 @@ export function DatePickerRangeInline() {
             />
             <InputGroupAddon className="order-none">
               <InputGroupText>
-                <Icon icon="arrow_forward" className="text-[length:inherit]" />
+                <IconShell
+                  size="sm"
+                  variant="secondary"
+                  className="text-fill-active">
+                  <Icon icon="arrow_forward" />
+                </IconShell>
               </InputGroupText>
             </InputGroupAddon>
             <InputGroupInput
@@ -709,11 +722,11 @@ export function DatePickerRangeInline() {
             />
             <InputGroupAddon align="inline-end">
               <span className="flex size-5 cursor-pointer items-center justify-center">
-                <IconShell size="sm">
-                  <Icon
-                    icon="calendar_month"
-                    className="text-[length:inherit]"
-                  />
+                <IconShell
+                  size="sm"
+                  variant="secondary"
+                  className="text-fill-active">
+                  <Icon icon="calendar_month" />
                 </IconShell>
               </span>
             </InputGroupAddon>

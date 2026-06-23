@@ -6,6 +6,7 @@ import { RegistryLogo } from '@/components/registry/registry-logo';
 import { ModeToggle } from '@/components/registry/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import {
   InputGroup,
   InputGroupAddon,
@@ -104,7 +105,9 @@ export function Navbar() {
               variant="outline"
               className="text-fg-secondary hover:text-fg-primary hidden h-9 items-center gap-2 px-3 md:flex"
               onClick={() => setIsSearchOpen(true)}>
-              <Icon icon="search" className="size-4" />
+              <IconShell size="sm" variant="secondary">
+                <Icon icon="search" />
+              </IconShell>
               <span className="paragraph-small-primary">Search...</span>
               <kbd className="border-stroke-tertiary bg-fill-subtle paragraph-code-text text-fg-tertiary pointer-events-none hidden h-5 items-center gap-1 border px-1.5 select-none sm:flex">
                 <span className="text-xs">⌘</span>K
@@ -117,16 +120,9 @@ export function Navbar() {
               size="icon"
               className="md:hidden"
               onClick={() => setIsSearchOpen(true)}>
-              <Icon
-                icon="search"
-                className="size-5"
-                style={{
-                  fontSize: 20,
-                  width: 20,
-                  height: 20,
-                  lineHeight: '20px',
-                }}
-              />
+              <IconShell size="sm">
+                <Icon icon="search" />
+              </IconShell>
             </Button>
 
             {/* Theme toggle */}
@@ -159,7 +155,9 @@ export function Navbar() {
             <div className="border-stroke-tertiary border-b">
               <InputGroup className="border-0 bg-transparent">
                 <InputGroupAddon align="inline-start">
-                  <Icon icon="search" className="size-4" />
+                  <IconShell size="sm" variant="secondary">
+                    <Icon icon="search" />
+                  </IconShell>
                 </InputGroupAddon>
                 <InputGroupInput
                   ref={searchInputRef}

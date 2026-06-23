@@ -11,6 +11,7 @@ import {
   FieldTitle,
 } from '@/components/ui/field';
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import {
   Select,
   SelectContent,
@@ -109,7 +110,12 @@ function SelectItemWithIcon({
       <SelectItemText>{children}</SelectItemText>
 
       <SelectItemIndicator>
-        <Icon icon="check" size={iconSize} />
+        <IconShell
+          size={iconSize}
+          variant="primary"
+          className="text-fill-active">
+          <Icon icon="check" />
+        </IconShell>
       </SelectItemIndicator>
     </SelectItem>
   );

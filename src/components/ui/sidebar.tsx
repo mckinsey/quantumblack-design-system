@@ -6,6 +6,7 @@ import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -234,7 +235,9 @@ function SidebarTrigger({
         toggleSidebar();
       }}
       {...props}>
-      <Icon icon="left_panel_open" size="sm" />
+      <IconShell size="sm">
+        <Icon icon="left_panel_open" />
+      </IconShell>
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );

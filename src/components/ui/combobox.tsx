@@ -5,6 +5,7 @@ import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import { inputVariantStyles } from '@/components/ui/input';
 import { InputGroupButton, InputGroupInput } from '@/components/ui/input-group';
 import { cn } from '@/lib/utils';
@@ -219,7 +220,9 @@ function ComboboxItem({
       <ComboboxPrimitive.ItemIndicator
         data-slot="combobox-item-indicator"
         render={<span className="flex size-4 items-center justify-center" />}>
-        <Icon icon="check" size="sm" />
+        <IconShell size="sm" variant="primary" className="text-fill-active">
+          <Icon icon="check" />
+        </IconShell>
       </ComboboxPrimitive.ItemIndicator>
     </ComboboxPrimitive.Item>
   );

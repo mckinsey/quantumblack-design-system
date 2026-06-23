@@ -22,6 +22,7 @@ const iconVariants = cva(
         neutral: '',
         'neutral-inverse': 'text-fg-primary-inverse',
         accent: 'text-brand-accents-qb-accent',
+        'accent-inverse': 'text-brand-accents-mckinsey-electric-blue',
       },
       variant: {
         primary: 'opacity-88',
@@ -32,7 +33,7 @@ const iconVariants = cva(
     defaultVariants: {
       size: 'default',
       type: 'neutral',
-      variant: 'primary',
+      variant: 'secondary',
     },
   },
 );
