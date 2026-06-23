@@ -44,7 +44,7 @@ function AlertIcon({ className, ...props }: React.ComponentProps<'div'>) {
     <div
       data-slot="alert-icon"
       className={cn(
-        'text-status-information flex size-8 shrink-0 items-center justify-center self-start',
+        'flex size-8 shrink-0 items-center justify-center self-start',
         className,
       )}
       {...props}

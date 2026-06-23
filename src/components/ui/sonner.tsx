@@ -34,28 +34,28 @@ interface ToastProps {
 const toastTypeConfig = {
   success: {
     borderClass: 'border-l-[var(--border-status-success)]',
+    icon: 'check_circle',
     iconClass: 'text-status-success',
-    iconName: 'check_circle',
   },
   error: {
     borderClass: 'border-l-[var(--border-status-error)]',
+    icon: 'cancel',
     iconClass: 'text-status-error',
-    iconName: 'cancel',
   },
   warning: {
     borderClass: 'border-l-[var(--border-status-warning)]',
+    icon: 'error',
     iconClass: 'text-status-warning',
-    iconName: 'error',
   },
   info: {
     borderClass: 'border-l-[var(--border-status-focus)]',
+    icon: 'info',
     iconClass: 'text-status-information',
-    iconName: 'info',
   },
   default: {
     borderClass: 'border-l-[var(--border-primary)]',
+    icon: 'playlist_add_check',
     iconClass: 'text-fill-active',
-    iconName: 'playlist_add_check',
   },
 } as const;
 
@@ -71,7 +71,7 @@ const getToastConfig = (type: ToastType) => {
 
 const getDefaultIcon = (config: ReturnType<typeof getToastConfig>) => (
   <IconShell size="default" variant="primary">
-    <Icon icon={config.iconName} className={config.iconClass} />
+    <Icon icon={config.icon} className={config.iconClass} />
   </IconShell>
 );
 

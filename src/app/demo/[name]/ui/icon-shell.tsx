@@ -207,23 +207,23 @@ export function IconNavigation() {
   );
 }
 
-/** Status and feedback glyphs — colour on Icon (not overridden by IconShell) */
+/** Status and feedback glyphs — semantic colour on Icon, primary emphasis on shell */
 export function IconStatus() {
   const icons = [
-    { icon: 'check_circle', tone: 'text-status-success' },
-    { icon: 'error', tone: 'text-status-error' },
-    { icon: 'warning', tone: 'text-status-warning' },
-    { icon: 'info', tone: 'text-status-information' },
-    { icon: 'cancel', tone: 'text-fg-secondary' },
-    { icon: 'playlist_add_check', tone: 'text-status-success' },
+    { icon: 'check_circle', className: 'text-status-success' },
+    { icon: 'error', className: 'text-status-error' },
+    { icon: 'warning', className: 'text-status-warning' },
+    { icon: 'info', className: 'text-status-information' },
+    { icon: 'cancel', className: 'text-fg-secondary' },
+    { icon: 'playlist_add_check', className: 'text-status-success' },
   ] as const;
 
   return (
     <div className="flex flex-wrap items-center gap-8">
-      {icons.map(({ icon, tone }) => (
+      {icons.map(({ icon, className }) => (
         <div key={icon} className="flex flex-col items-center gap-2">
           <IconShell size="default" variant="primary">
-            <Icon icon={icon} className={tone} />
+            <Icon icon={icon} className={className} />
           </IconShell>
           <span className="text-fg-secondary font-mono text-[10px]">
             {icon}
@@ -398,7 +398,8 @@ export const examples: DemoExample[] = [
   {
     name: 'IconStatus',
     title: 'Status',
-    description: 'Success, error, warning, info, and related feedback glyphs.',
+    description:
+      'Success, error, warning, and info status colours on the glyph.',
   },
   {
     name: 'IconInButtons',

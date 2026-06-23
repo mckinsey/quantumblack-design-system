@@ -10,14 +10,16 @@ import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 
-// ============================================================================
-// Shared Helpers
-// ============================================================================
-
 const MODAL_DESCRIPTION =
   'Make your message concise and straightforward. Strive for a two-line alert that clearly conveys your message.';
 const LONG_DESCRIPTION =
   'Make your message brief; target a one-line alert that conveys clearly your point.';
+
+const INFO_ICON = (
+  <IconShell size="lg" variant="primary">
+    <Icon icon="info" className="text-status-information" />
+  </IconShell>
+);
 
 function ActionButtons() {
   return (
@@ -28,21 +30,10 @@ function ActionButtons() {
   );
 }
 
-// ============================================================================
-// Example Components (New Format)
-// ============================================================================
-
-/**
- * Basic modal alert with icon and close button
- */
 export function AlertDemo() {
   return (
     <Alert layout="modal">
-      <AlertIcon>
-        <IconShell size="lg" variant="primary">
-          <Icon icon="info" />
-        </IconShell>
-      </AlertIcon>
+      <AlertIcon>{INFO_ICON}</AlertIcon>
       <AlertContent>
         <AlertTitle>Alert Title</AlertTitle>
         <AlertDescription>{MODAL_DESCRIPTION}</AlertDescription>
@@ -52,17 +43,10 @@ export function AlertDemo() {
   );
 }
 
-/**
- * Modal alert with action buttons
- */
 export function AlertWithButtons() {
   return (
     <Alert layout="modal">
-      <AlertIcon>
-        <IconShell size="lg" variant="primary">
-          <Icon icon="info" />
-        </IconShell>
-      </AlertIcon>
+      <AlertIcon>{INFO_ICON}</AlertIcon>
       <AlertContent>
         <AlertTitle>Alert Title</AlertTitle>
         <AlertDescription>{MODAL_DESCRIPTION}</AlertDescription>
@@ -73,17 +57,10 @@ export function AlertWithButtons() {
   );
 }
 
-/**
- * Long layout banner alert
- */
 export function AlertLongLayout() {
   return (
     <Alert layout="long">
-      <AlertIcon>
-        <IconShell size="lg" variant="primary">
-          <Icon icon="info" />
-        </IconShell>
-      </AlertIcon>
+      <AlertIcon>{INFO_ICON}</AlertIcon>
       <AlertContent className="flex-row items-center gap-3 pt-0">
         <AlertTitle className="shrink-0">Alert Title</AlertTitle>
         <AlertDescription className="line-clamp-1">
@@ -95,17 +72,10 @@ export function AlertLongLayout() {
   );
 }
 
-/**
- * Long layout with action buttons
- */
 export function AlertLongWithButtons() {
   return (
     <Alert layout="long">
-      <AlertIcon>
-        <IconShell size="lg" variant="primary">
-          <Icon icon="info" />
-        </IconShell>
-      </AlertIcon>
+      <AlertIcon>{INFO_ICON}</AlertIcon>
       <AlertContent className="flex-row items-center gap-3 pt-0">
         <AlertTitle className="shrink-0">Alert Title</AlertTitle>
         <AlertDescription className="line-clamp-1">
@@ -121,48 +91,37 @@ export function AlertLongWithButtons() {
   );
 }
 
-/**
- * Different alert variants with custom icons
- */
-export function AlertVariants() {
-  const variants = [
-    {
-      color: 'text-status-success',
-      icon: (
-        <IconShell size="lg" variant="primary">
-          <Icon icon="check_circle" />
-        </IconShell>
-      ),
-      title: 'Success!',
-      description: 'Your changes have been saved successfully.',
-    },
-    {
-      color: 'text-status-warning',
-      icon: (
-        <IconShell size="lg" variant="primary">
-          <Icon icon="warning" />
-        </IconShell>
-      ),
-      title: 'Warning',
-      description: 'Please review your changes before proceeding.',
-    },
-    {
-      color: 'text-status-error',
-      icon: (
-        <IconShell size="lg" variant="primary">
-          <Icon icon="error" />
-        </IconShell>
-      ),
-      title: 'Error',
-      description: 'Something went wrong. Please try again.',
-    },
-  ];
+const ALERT_STATUS_VARIANTS = [
+  {
+    icon: 'check_circle',
+    iconClass: 'text-status-success',
+    title: 'Success!',
+    description: 'Your changes have been saved successfully.',
+  },
+  {
+    icon: 'warning',
+    iconClass: 'text-status-warning',
+    title: 'Warning',
+    description: 'Please review your changes before proceeding.',
+  },
+  {
+    icon: 'error',
+    iconClass: 'text-status-error',
+    title: 'Error',
+    description: 'Something went wrong. Please try again.',
+  },
+] as const;
 
+export function AlertVariants() {
   return (
     <div className="flex flex-col gap-3">
-      {variants.map(v => (
+      {ALERT_STATUS_VARIANTS.map(v => (
         <Alert key={v.title} layout="modal">
-          <AlertIcon className={v.color}>{v.icon}</AlertIcon>
+          <AlertIcon>
+            <IconShell size="lg" variant="primary">
+              <Icon icon={v.icon} className={v.iconClass} />
+            </IconShell>
+          </AlertIcon>
           <AlertContent>
             <AlertTitle>{v.title}</AlertTitle>
             <AlertDescription>{v.description}</AlertDescription>
@@ -174,9 +133,6 @@ export function AlertVariants() {
   );
 }
 
-/**
- * Alert without icon
- */
 export function AlertWithoutIcon() {
   return (
     <Alert layout="modal">
@@ -191,10 +147,6 @@ export function AlertWithoutIcon() {
     </Alert>
   );
 }
-
-// ============================================================================
-// Example Metadata
-// ============================================================================
 
 export const examples = [
   {
@@ -228,10 +180,6 @@ export const examples = [
     description: 'Alert without a leading icon.',
   },
 ];
-
-// ============================================================================
-// Legacy Format (for backwards compatibility)
-// ============================================================================
 
 export const alert = {
   name: 'alert',

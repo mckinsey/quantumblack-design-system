@@ -2,7 +2,6 @@ import { Badge, NumericBadge, StatusBadge } from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
-import { cn } from '@/lib/utils';
 
 export function BadgeDemo() {
   return (
@@ -186,17 +185,15 @@ export function BadgeIconLabel() {
               Label
             </Badge>
             <Badge outline size="sm" variant={v} withIcon>
-              <Icon
-                icon={icon}
-                className={cn('size-4', iconOutlineColorByVariant[v])}
-              />
+              <IconShell size="sm" variant="primary">
+                <Icon icon={icon} className={iconOutlineColorByVariant[v]} />
+              </IconShell>
               Label
             </Badge>
             <Badge outline size="default" variant={v} withIcon>
-              <Icon
-                icon={icon}
-                className={cn('size-4', iconOutlineColorByVariant[v])}
-              />
+              <IconShell size="sm" variant="primary">
+                <Icon icon={icon} className={iconOutlineColorByVariant[v]} />
+              </IconShell>
               Label
             </Badge>
           </div>
