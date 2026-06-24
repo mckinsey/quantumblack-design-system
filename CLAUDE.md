@@ -16,7 +16,8 @@ npm run dev             # rebuild registry + dev server (port 4123)
 npm run build           # rebuild registry + Vite production build → dist/
 npm run preview         # preview production build (port 4123)
 npm run registry:build  # rebuild registry only
-npm run lint            # ESLint
+npm run lint            # ESLint + Prettier (check)
+npm run prettier:fix    # apply Prettier formatting
 ```
 
 ## Adding a new component

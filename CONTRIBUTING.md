@@ -23,7 +23,10 @@ Contributions of all experience levels are welcome! Please read [CODE_OF_CONDUCT
 | `npm run build`          | Rebuild registry + Vite production build → `dist/` |
 | `npm run preview`        | Preview production build (port 4123)               |
 | `npm run registry:build` | Rebuild registry files only (`public/r/`)          |
-| `npm run lint`           | Run ESLint                                         |
+| `npm run lint`           | Run ESLint and Prettier (check)                    |
+| `npm run lint:eslint`    | Run ESLint only                                    |
+| `npm run prettier`       | Check formatting with Prettier                     |
+| `npm run prettier:fix`   | Apply Prettier formatting                          |
 | `npm run test:unit`      | Run Vitest unit tests                              |
 | `npm run test:watch`     | Run Vitest in watch mode                           |
 | `npm run test`           | Run unit tests + build + lint (used in CI)         |
