@@ -7,9 +7,9 @@ import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import { cn } from '@/lib/utils';
 
-type ContextMenuSize = 'reg' | 'lg';
+type ContextMenuSize = 'default' | 'lg';
 
-const ContextMenuSizeContext = React.createContext<ContextMenuSize>('reg');
+const ContextMenuSizeContext = React.createContext<ContextMenuSize>('default');
 
 function useContextMenuSize() {
   return React.useContext(ContextMenuSizeContext);
@@ -64,7 +64,7 @@ interface ContextMenuContentProps extends React.ComponentProps<
 
 function ContextMenuContent({
   className,
-  size = 'reg',
+  size = 'default',
   ...props
 }: ContextMenuContentProps) {
   return (
@@ -223,7 +223,7 @@ function ContextMenuLabel({
       data-inset={inset}
       data-size={size}
       className={cn(
-        'text-fg-secondary paragraph-small-primary px-2 py-1.5 uppercase data-[inset]:pl-8',
+        'text-fg-secondary label-regular-primary flex h-9 items-center p-2 data-[inset]:pl-8',
         className,
       )}
       {...props}
@@ -284,13 +284,11 @@ function ContextMenuSubTrigger({
 }) {
   const size = useContextMenuSize();
   const isLg = size === 'lg';
-  const padding = inset
-    ? isLg
-      ? 'pl-9 pr-2 py-2'
-      : 'pl-7 pr-1 py-2'
-    : isLg
-      ? 'pl-3 pr-2 py-2'
-      : 'pl-2 pr-1 py-2';
+  const paddingBySize = {
+    default: { inset: 'pl-7 pr-1 py-2', default: 'pl-2 pr-1 py-2' },
+    lg: { inset: 'pl-9 pr-2 py-2', default: 'pl-3 pr-2 py-2' },
+  } as const;
+  const padding = paddingBySize[size][inset ? 'inset' : 'default'];
 
   return (
     <ContextMenuPrimitive.SubTrigger

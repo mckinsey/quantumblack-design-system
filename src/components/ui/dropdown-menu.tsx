@@ -7,9 +7,10 @@ import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import { cn } from '@/lib/utils';
 
-type DropdownMenuSize = 'reg' | 'lg';
+type DropdownMenuSize = 'default' | 'lg';
 
-const DropdownMenuSizeContext = React.createContext<DropdownMenuSize>('reg');
+const DropdownMenuSizeContext =
+  React.createContext<DropdownMenuSize>('default');
 
 function useDropdownMenuSize() {
   return React.useContext(DropdownMenuSizeContext);
@@ -68,7 +69,7 @@ interface DropdownMenuContentProps extends React.ComponentProps<
 function DropdownMenuContent({
   className,
   sideOffset = 4,
-  size = 'reg',
+  size = 'default',
   ...props
 }: DropdownMenuContentProps) {
   return (
@@ -228,7 +229,7 @@ function DropdownMenuLabel({
       data-inset={inset}
       data-size={size}
       className={cn(
-        'text-fg-secondary paragraph-small-primary px-2 py-1.5 uppercase data-[inset]:pl-8',
+        'text-fg-secondary label-regular-primary flex h-9 items-center p-2 data-[inset]:pl-8',
         className,
       )}
       {...props}
@@ -289,13 +290,11 @@ function DropdownMenuSubTrigger({
 }) {
   const size = useDropdownMenuSize();
   const isLg = size === 'lg';
-  const padding = inset
-    ? isLg
-      ? 'py-2 pr-2 pl-9'
-      : 'py-2 pr-1 pl-7'
-    : isLg
-      ? 'py-2 pr-2 pl-3'
-      : 'py-2 pr-1 pl-2';
+  const paddingBySize = {
+    default: { inset: 'py-2 pr-1 pl-7', default: 'py-2 pr-1 pl-2' },
+    lg: { inset: 'py-2 pr-2 pl-9', default: 'py-2 pr-2 pl-3' },
+  } as const;
+  const padding = paddingBySize[size][inset ? 'inset' : 'default'];
 
   return (
     <DropdownMenuPrimitive.SubTrigger

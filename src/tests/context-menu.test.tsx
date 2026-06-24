@@ -33,7 +33,7 @@ describe(`${componentName} — all examples render`, () => {
 });
 
 describe(`${componentName} — behaviour`, () => {
-  function BasicMenu({ size }: { size?: 'reg' | 'lg' }) {
+  function BasicMenu({ size }: { size?: 'default' | 'lg' }) {
     return (
       <ContextMenu>
         <ContextMenuTrigger>Target</ContextMenuTrigger>
@@ -83,7 +83,7 @@ describe(`${componentName} — behaviour`, () => {
     ).toBeInTheDocument();
   });
 
-  it('default content carries data-size="reg"', async () => {
+  it('default content carries data-size="default"', async () => {
     const user = userEvent.setup();
 
     render(<BasicMenu />);
@@ -92,7 +92,7 @@ describe(`${componentName} — behaviour`, () => {
       target: screen.getByText('Target'),
     });
 
-    expect(screen.getByRole('menu')).toHaveAttribute('data-size', 'reg');
+    expect(screen.getByRole('menu')).toHaveAttribute('data-size', 'default');
   });
 
   it('size="lg" propagates to content and items', async () => {

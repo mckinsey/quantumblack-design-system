@@ -10,7 +10,7 @@ import {
 figma.connect(ContextMenuContent, '<QBDS_MENU_CONTEXT>', {
   props: {
     size: figma.enum('size', {
-      reg: 'reg',
+      reg: 'default',
       lg: 'lg',
     }),
     children: figma.children('*'),
