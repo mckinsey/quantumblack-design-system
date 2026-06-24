@@ -31,8 +31,8 @@ Contributions of all experience levels are welcome! Please read [CODE_OF_CONDUCT
 
 ## Environment variables
 
-| Variable            | Description                                                                                                                                                                                                 |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Variable            | Description                                                                                                                                                                                                                                            |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `QBDS_REGISTRY_URL` | Public URL of this site — **no trailing slash** (e.g. `https://designsystem.quantumblack.com` or `http://localhost:4123`). Used for registry builds and install commands in the docs. If unset locally, install commands use your current browser URL. |
 
 `.env` is gitignored — never commit it.
@@ -41,10 +41,10 @@ Contributions of all experience levels are welcome! Please read [CODE_OF_CONDUCT
 
 Mappings live in [`code-connect/`](code-connect/) (flat `*.figma.tsx` files). [`figma.config.template.json`](figma.config.template.json) is committed; `figma.config.json` is generated from the template + `.env` and gitignored.
 
-| Variable | Description |
-| -------- | ----------- |
-| `FIGMA_ACCESS_TOKEN` | Figma personal access token — Code Connect publish and reading design system variables (see [Tokens](#tokens)) |
-| `FIGMA_URL_<PLACEHOLDER>` | Full Figma URL for each placeholder used in mappings |
+| Variable                  | Description                                                                                                    |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `FIGMA_ACCESS_TOKEN`      | Figma personal access token — Code Connect publish and reading design system variables (see [Tokens](#tokens)) |
+| `FIGMA_URL_<PLACEHOLDER>` | Full Figma URL for each placeholder used in mappings                                                           |
 
 Local publish (from repo root):
 

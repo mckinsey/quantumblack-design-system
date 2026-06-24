@@ -43,14 +43,14 @@ If **`code-connect/<name>.figma.tsx` exists**, read it before raw Figma codegen.
 3. Read `src/components/ui/<name>.tsx` — `cva` keys, props, `data-slot`, exports.
 4. Build an alignment table; flag **asymmetric** coverage (Figma-only or code-only values):
 
-| Axis | Figma values | React values | Aligned? | Notes |
-|------|--------------|--------------|---------|-------|
-| Variant / type | … | … | | |
-| Size | … | … | | |
-| Other layout axes | … | … | | |
-| State (if on set) | … | … | | |
-| SLOT props | … | children / sub-components | | |
-| Sub-components | … | exports | | |
+| Axis              | Figma values | React values              | Aligned? | Notes |
+| ----------------- | ------------ | ------------------------- | -------- | ----- |
+| Variant / type    | …            | …                         |          |       |
+| Size              | …            | …                         |          |       |
+| Other layout axes | …            | …                         |          |       |
+| State (if on set) | …            | …                         |          |       |
+| SLOT props        | …            | children / sub-components |          |       |
+| Sub-components    | …            | exports                   |          |       |
 
 5. **Defaults (all must agree):**
    - Figma **component description** (step 1) + **default variant** property values on the set
@@ -66,25 +66,25 @@ Use `get_variable_defs` on representative nodes: at minimum **enabled**, **hover
 
 For **each matrix cell** (every meaningful variant combination), use `get_design_context` or Dev Mode — not only the root frame.
 
-| Property | Figma | Code |
-|----------|-------|------|
-| Height / min size | auto-layout | `size-*`, `min-h`, padding + line-height |
-| Padding / gap | spacing variables | `p-*`, `gap-*` on the scale above |
-| Icon box | icon frame size | `IconShell` + parent `icon-*` size |
-| Separators / attached spacers | layout on group | avoid double gap; only between items |
-| Typography | text style name | matching `cta-*` / `paragraph-*` utility |
+| Property                      | Figma             | Code                                     |
+| ----------------------------- | ----------------- | ---------------------------------------- |
+| Height / min size             | auto-layout       | `size-*`, `min-h`, padding + line-height |
+| Padding / gap                 | spacing variables | `p-*`, `gap-*` on the scale above        |
+| Icon box                      | icon frame size   | `IconShell` + parent `icon-*` size       |
+| Separators / attached spacers | layout on group   | avoid double gap; only between items     |
+| Typography                    | text style name   | matching `cta-*` / `paragraph-*` utility |
 
 **Compound spacing:** Derive spacing from Figma **per variant cell**, not from a single axis (e.g. “if boxed, always gap-2”). Size and shape often change gap/padding independently — document or test non-default cells when logic is non-obvious.
 
 **Interactive states** (on controls inside the component):
 
-| State | Verify |
-|-------|--------|
-| Hover / pressed | overlay tokens (+ `-inverse` where spec uses inverse surfaces) |
-| Focus | ring token, width, offset |
-| Disabled | muted fill, disabled text, overlay |
-| Selected / expanded | `data-[state=*]` / `aria-*` branches |
-| Loading | if defined in Figma |
+| State               | Verify                                                         |
+| ------------------- | -------------------------------------------------------------- |
+| Hover / pressed     | overlay tokens (+ `-inverse` where spec uses inverse surfaces) |
+| Focus               | ring token, width, offset                                      |
+| Disabled            | muted fill, disabled text, overlay                             |
+| Selected / expanded | `data-[state=*]` / `aria-*` branches                           |
+| Loading             | if defined in Figma                                            |
 
 **Visual pass (required):** `npm run dev` on the demo vs Figma / `get_screenshot` per matrix cell. Fix or document any **≥2px** mismatch.
 
