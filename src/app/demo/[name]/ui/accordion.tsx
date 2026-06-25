@@ -132,7 +132,7 @@ export const examples: DemoExample[] = [
   },
   {
     name: 'AccordionDemo',
-    title: 'Accordian With Badge',
+    title: 'Accordion With Badge',
     description:
       'Regular size with chevron on the right. One row expanded at a time.',
   },
