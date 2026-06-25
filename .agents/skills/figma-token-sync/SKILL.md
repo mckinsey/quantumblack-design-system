@@ -17,10 +17,10 @@ Use Figma MCP (`get_variable_defs` or variable export via the Figma plugin) to r
 
 ## Code targets (read before editing)
 
-| File | Role |
-|------|------|
-| [`docs/TOKENS.md`](docs/TOKENS.md) | **Figma ↔ CSS mapping** — the **Design name** column is the canonical Figma variable path for each `--*` token; read this before syncing |
-| [`src/styles/globals.css`](src/styles/globals.css) | **CSS source of truth** — primitive + semantic variable definitions and `var()` bindings |
+| File                                               | Role                                                                                                                                     |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| [`docs/TOKENS.md`](docs/TOKENS.md)                 | **Figma ↔ CSS mapping** — the **Design name** column is the canonical Figma variable path for each `--*` token; read this before syncing |
+| [`src/styles/globals.css`](src/styles/globals.css) | **CSS source of truth** — primitive + semantic variable definitions and `var()` bindings                                                 |
 
 ### `globals.css` structure (preserve layout)
 
