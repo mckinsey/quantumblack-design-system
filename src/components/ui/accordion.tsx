@@ -44,15 +44,15 @@ const accordionTriggerVariants = cva([
 const accordionTriggerIconVariants = cva(['pointer-events-none']);
 
 const accordionContentPanelVariants = cva([
-  'overflow-hidden',
-  'data-open:animate-accordion-down data-closed:animate-accordion-up',
+  'h-(--accordion-panel-height) overflow-hidden',
+  'transition-[height] duration-(--accordion-panel-duration) ease-out',
+  'data-starting-style:h-0 data-ending-style:h-0',
 ]);
 
 const accordionContentInnerVariants = cva([
   'flex flex-col text-fg-secondary',
-  'h-(--accordion-panel-height) pb-4',
+  'pb-4',
   'group-data-[size=default]/accordion:pt-3 group-data-[size=lg]/accordion:pt-0',
-  'data-ending-style:h-0 data-starting-style:h-0',
   '[&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-fg-primary',
   '[&_p:not(:last-child)]:mb-4',
   'group-data-[size=default]/accordion:paragraph-regular-primary group-data-[size=default]/accordion:gap-3',

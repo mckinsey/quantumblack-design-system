@@ -72,7 +72,9 @@ function AccordionItems({
 
 export function AccordionDemo() {
   return (
-    <Accordion className="max-w-[392px]" defaultValue={['overview']}>
+    <Accordion
+      className="min-h-[400px] max-w-[392px]"
+      defaultValue={['overview']}>
       <AccordionItems badgeSize="sm" />
     </Accordion>
   );
@@ -81,7 +83,7 @@ export function AccordionDemo() {
 export function AccordionExpandLeft() {
   return (
     <Accordion
-      className="max-w-[392px]"
+      className="min-h-[400px] max-w-[392px]"
       defaultValue={['overview']}
       expandAlign="left">
       <AccordionItems badgeSize="sm" />
@@ -91,7 +93,10 @@ export function AccordionExpandLeft() {
 
 export function AccordionLarge() {
   return (
-    <Accordion className="max-w-[392px]" defaultValue={['overview']} size="lg">
+    <Accordion
+      className="min-h-[400px] max-w-[392px]"
+      defaultValue={['overview']}
+      size="lg">
       <AccordionItems badgeSize="default" />
     </Accordion>
   );
@@ -100,7 +105,7 @@ export function AccordionLarge() {
 export function AccordionLargeExpandLeft() {
   return (
     <Accordion
-      className="max-w-[392px]"
+      className="min-h-[400px] max-w-[392px]"
       defaultValue={['overview']}
       expandAlign="left"
       size="lg">
@@ -111,7 +116,9 @@ export function AccordionLargeExpandLeft() {
 
 export function AccordionWithoutTrailing() {
   return (
-    <Accordion className="max-w-[392px]" defaultValue={['overview']}>
+    <Accordion
+      className="min-h-[400px] max-w-[392px]"
+      defaultValue={['overview']}>
       <AccordionItems showBadge={false} />
     </Accordion>
   );
