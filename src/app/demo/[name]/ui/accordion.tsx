@@ -38,6 +38,8 @@ function AccordionItems({
   badgeSize?: 'sm' | 'default';
   showBadge?: boolean;
 }) {
+  const contentGap = badgeSize === 'sm' ? 'gap-3' : 'gap-4';
+
   return (
     <>
       {ITEMS.map(item => (
@@ -55,7 +57,7 @@ function AccordionItems({
               ) : null}
             </span>
           </AccordionTrigger>
-          <AccordionContent>
+          <AccordionContent className={contentGap}>
             {DESCRIPTION}
             <div className="border-stroke-status-error flex min-h-[38px] items-center justify-center border border-dashed p-2">
               <span className="paragraph-regular-primary text-status-error">
