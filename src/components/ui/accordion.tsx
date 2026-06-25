@@ -2,6 +2,7 @@
 
 import { Accordion as AccordionPrimitive } from '@base-ui/react/accordion';
 import { cva } from 'class-variance-authority';
+import * as React from 'react';
 
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
@@ -9,6 +10,15 @@ import { cn } from '@/lib/utils';
 
 type AccordionSize = 'default' | 'lg';
 type AccordionExpandAlign = 'left' | 'right';
+
+// Two contexts bridge values to consumer-composed descendants (the trigger/icon)
+// that a prop can't reach: root-level config (size) and per-item state (disabled).
+// IconShell owns the size→dimensions and disabled→opacity mappings; the accordion
+// just says which. Layout it owns (padding, gap, typography) stays in CSS.
+const AccordionSizeContext = React.createContext<AccordionSize>('default');
+const AccordionItemContext = React.createContext<{ disabled: boolean }>({
+  disabled: false,
+});
 
 const accordionItemVariants = cva(['group/accordion-item flex flex-col']);
 
@@ -31,10 +41,7 @@ const accordionTriggerVariants = cva([
   'group-data-[expand-align=left]/accordion:**:data-[slot=accordion-trigger-icon]:order-first',
 ]);
 
-const accordionTriggerIconVariants = cva([
-  'pointer-events-none text-[24px] size-6',
-  'group-data-[size=lg]/accordion:text-[32px] group-data-[size=lg]/accordion:size-8',
-]);
+const accordionTriggerIconVariants = cva(['pointer-events-none']);
 
 const accordionContentPanelVariants = cva([
   'overflow-hidden',
@@ -68,23 +75,32 @@ function Accordion({
   expandAlign?: AccordionExpandAlign;
 }) {
   return (
-    <AccordionPrimitive.Root
-      data-slot="accordion"
-      data-size={size}
-      data-expand-align={expandAlign}
-      className={cn('group/accordion flex w-full flex-col', className)}
-      {...props}
-    />
+    <AccordionSizeContext.Provider value={size}>
+      <AccordionPrimitive.Root
+        data-slot="accordion"
+        data-size={size}
+        data-expand-align={expandAlign}
+        className={cn('group/accordion flex w-full flex-col', className)}
+        {...props}
+      />
+    </AccordionSizeContext.Provider>
   );
 }
 
-function AccordionItem({ className, ...props }: AccordionPrimitive.Item.Props) {
+function AccordionItem({
+  className,
+  disabled,
+  ...props
+}: AccordionPrimitive.Item.Props) {
   return (
-    <AccordionPrimitive.Item
-      data-slot="accordion-item"
-      className={cn(accordionItemVariants(), className)}
-      {...props}
-    />
+    <AccordionItemContext.Provider value={{ disabled: disabled ?? false }}>
+      <AccordionPrimitive.Item
+        data-slot="accordion-item"
+        disabled={disabled}
+        className={cn(accordionItemVariants(), className)}
+        {...props}
+      />
+    </AccordionItemContext.Provider>
   );
 }
 
@@ -106,6 +122,10 @@ function AccordionTrigger({
   children,
   ...props
 }: AccordionPrimitive.Trigger.Props) {
+  const size = React.useContext(AccordionSizeContext);
+  const { disabled } = React.useContext(AccordionItemContext);
+  const iconVariant = disabled ? 'disabled' : 'secondary';
+
   return (
     <AccordionPrimitive.Header className="flex">
       <AccordionPrimitive.Trigger
@@ -115,7 +135,8 @@ function AccordionTrigger({
         {children}
         <IconShell
           data-slot="accordion-trigger-icon"
-          variant="secondary"
+          size={size}
+          variant={iconVariant}
           className={cn(
             accordionTriggerIconVariants(),
             'inline-flex group-aria-expanded/accordion-trigger:hidden',
@@ -124,7 +145,8 @@ function AccordionTrigger({
         </IconShell>
         <IconShell
           data-slot="accordion-trigger-icon"
-          variant="secondary"
+          size={size}
+          variant={iconVariant}
           className={cn(
             accordionTriggerIconVariants(),
             'hidden group-aria-expanded/accordion-trigger:inline-flex',
