@@ -127,7 +127,7 @@ export function AccordionWithoutTrailing() {
 export const examples: DemoExample[] = [
   {
     name: 'AccordionWithoutTrailing',
-    title: 'Accordian',
+    title: 'Accordion',
     description: 'Header row with label only.',
   },
   {
