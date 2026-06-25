@@ -107,8 +107,13 @@ describe(`${componentName} — structure`, () => {
     );
     const trigger = screen.getByRole('button', { name: /title/i });
     expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    // keepMounted keeps the panel in the DOM while collapsed, so assert it
+    // starts hidden — this proves the click drives a hidden→visible transition
+    // rather than just confirming an already-visible end state.
+    const panel = screen.getByText('Hidden body');
+    expect(panel).not.toBeVisible();
     await user.click(trigger);
     expect(trigger).toHaveAttribute('aria-expanded', 'true');
-    expect(screen.getByText('Hidden body')).toBeVisible();
+    expect(panel).toBeVisible();
   });
 });
