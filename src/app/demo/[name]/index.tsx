@@ -106,6 +106,7 @@ import {
 import {
   ContextMenuDemo,
   ContextMenuDestructive,
+  ContextMenuLarge,
   ContextMenuWithCheckboxes,
   ContextMenuWithIcons,
   ContextMenuWithRadioGroup,
@@ -135,6 +136,7 @@ import {
 import {
   DropdownMenuDemo,
   DropdownMenuDestructive,
+  DropdownMenuLarge,
   DropdownMenuWithCheckboxes,
   DropdownMenuWithIcons,
   DropdownMenuWithRadioGroup,
@@ -499,6 +501,7 @@ export const exampleComponentMaps: Record<
     ContextMenuWithSubmenu,
     ContextMenuWithCheckboxes,
     ContextMenuWithRadioGroup,
+    ContextMenuLarge,
     ContextMenuDestructive,
   },
   'dropdown-menu': {
@@ -508,6 +511,7 @@ export const exampleComponentMaps: Record<
     DropdownMenuWithSubmenu,
     DropdownMenuWithCheckboxes,
     DropdownMenuWithRadioGroup,
+    DropdownMenuLarge,
     DropdownMenuDestructive,
   },
   empty: {

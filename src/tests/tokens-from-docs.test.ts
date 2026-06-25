@@ -141,14 +141,18 @@ describe('tokens from TOKENS.md + globals.css', () => {
   });
 
   it('defines Tailwind color bridges for all documented brand accents', () => {
-    expect(globalsCss).toContain(
-      '--color-brand-accents-mckinsey-deep-blue: var(--brand-accents-mckinsey-deep-blue)',
-    );
-    expect(globalsCss).toContain(
-      '--color-brand-accents-mckinsey-electric-blue: var(--brand-accents-mckinsey-electric-blue)',
-    );
-    expect(globalsCss).toContain(
-      '--color-brand-accents-mckinsey-cyan: var(--brand-accents-mckinsey-cyan)',
-    );
+    const accents = [
+      'mckinsey-deep-blue',
+      'mckinsey-electric-blue',
+      'mckinsey-cyan',
+    ] as const;
+
+    for (const name of accents) {
+      expect(globalsCss).toMatch(
+        new RegExp(
+          `--color-brand-accents-${name}:\\s*var\\(\\s*--brand-accents-${name}\\s*\\)`,
+        ),
+      );
+    }
   });
 });
