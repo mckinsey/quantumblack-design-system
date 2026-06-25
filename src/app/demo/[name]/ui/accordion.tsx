@@ -56,7 +56,7 @@ function AccordionItems({
             </span>
           </AccordionTrigger>
           <AccordionContent>
-            <p>{DESCRIPTION}</p>
+            {DESCRIPTION}
             <div className="border-stroke-status-error flex min-h-[38px] items-center justify-center border border-dashed p-2">
               <span className="paragraph-regular-primary text-status-error">
                 Content Slot
@@ -119,8 +119,13 @@ export function AccordionWithoutTrailing() {
 
 export const examples: DemoExample[] = [
   {
+    name: 'AccordionWithoutTrailing',
+    title: 'Accordian',
+    description: 'Header row with label only.',
+  },
+  {
     name: 'AccordionDemo',
-    title: 'Default',
+    title: 'Accordian With Badge',
     description:
       'Regular size with chevron on the right. One row expanded at a time.',
   },
@@ -139,11 +144,6 @@ export const examples: DemoExample[] = [
     name: 'AccordionLargeExpandLeft',
     title: 'Large Chevron Left',
     description: 'Large size with left-aligned chevron.',
-  },
-  {
-    name: 'AccordionWithoutTrailing',
-    title: 'Without Badge',
-    description: 'Header row with label only.',
   },
 ];
 

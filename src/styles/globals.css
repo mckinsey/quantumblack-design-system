@@ -728,121 +728,124 @@
   input[type='number']::-webkit-outer-spin-button {
     @apply appearance-none;
   }
+}
 
-  /* Text Styles  */
-  .display-d1-regular {
-    @apply font-sans text-[56px] leading-[60px] font-light tracking-[-0.28px];
-  }
+/* Text Styles
+ * Declared as `@utility` (not plain `@layer utilities` rules) so they remain
+ * variant-capable in Tailwind v4 — e.g. `group-data-[size=lg]/accordion:headings-h3-regular`.
+ */
+@utility display-d1-regular {
+  @apply font-sans text-[56px] leading-[60px] font-light tracking-[-0.28px];
+}
 
-  .display-d2-regular {
-    @apply font-sans text-[48px] leading-[56px] font-light tracking-[-0.96px];
-  }
+@utility display-d2-regular {
+  @apply font-sans text-[48px] leading-[56px] font-light tracking-[-0.96px];
+}
 
-  .display-d3-regular {
-    @apply font-sans text-[40px] leading-[48px] font-light tracking-[-0.8px];
-  }
+@utility display-d3-regular {
+  @apply font-sans text-[40px] leading-[48px] font-light tracking-[-0.8px];
+}
 
-  .headings-h1-regular {
-    @apply font-sans text-3xl leading-10 font-normal tracking-[-0.128px];
-  }
+@utility headings-h1-regular {
+  @apply font-sans text-3xl leading-10 font-normal tracking-[-0.128px];
+}
 
-  .headings-h2-semibold {
-    @apply font-sans text-2xl leading-8 font-semibold tracking-[-0.096px];
-  }
+@utility headings-h2-semibold {
+  @apply font-sans text-2xl leading-8 font-semibold tracking-[-0.096px];
+}
 
-  .headings-h2-regular {
-    @apply font-sans text-2xl leading-8 font-normal tracking-[-0.096px];
-  }
+@utility headings-h2-regular {
+  @apply font-sans text-2xl leading-8 font-normal tracking-[-0.096px];
+}
 
-  .headings-h3-regular {
-    @apply font-sans text-xl leading-7 font-normal tracking-[0px];
-  }
+@utility headings-h3-regular {
+  @apply font-sans text-xl leading-7 font-normal tracking-[0px];
+}
 
-  .headings-h3-semibold {
-    @apply font-sans text-xl leading-7 font-semibold tracking-[0px];
-  }
+@utility headings-h3-semibold {
+  @apply font-sans text-xl leading-7 font-semibold tracking-[0px];
+}
 
-  .headings-h4-regular {
-    @apply font-sans text-base leading-6 font-normal tracking-[-0.016px];
-  }
+@utility headings-h4-regular {
+  @apply font-sans text-base leading-6 font-normal tracking-[-0.016px];
+}
 
-  .headings-h4-semibold {
-    @apply font-sans text-base leading-6 font-semibold tracking-[-0.016px];
-  }
+@utility headings-h4-semibold {
+  @apply font-sans text-base leading-6 font-semibold tracking-[-0.016px];
+}
 
-  .label-large-primary {
-    @apply font-sans text-base leading-6 font-normal tracking-[-0.128px];
-  }
+@utility label-large-primary {
+  @apply font-sans text-base leading-6 font-normal tracking-[-0.128px];
+}
 
-  .label-regular-primary {
-    @apply font-sans text-sm leading-5 font-normal tracking-[-0.112px];
-  }
+@utility label-regular-primary {
+  @apply font-sans text-sm leading-5 font-normal tracking-[-0.112px];
+}
 
-  .label-small-primary {
-    @apply font-sans text-xs leading-4 font-normal tracking-[0px];
-  }
+@utility label-small-primary {
+  @apply font-sans text-xs leading-4 font-normal tracking-[0px];
+}
 
-  .paragraph-large-primary {
-    @apply font-sans text-base leading-6 font-normal tracking-[-0.032px];
-  }
+@utility paragraph-large-primary {
+  @apply font-sans text-base leading-6 font-normal tracking-[-0.032px];
+}
 
-  .paragraph-large-primary-link {
-    @apply font-sans text-base leading-6 font-normal tracking-[-0.032px] underline;
-  }
+@utility paragraph-large-primary-link {
+  @apply font-sans text-base leading-6 font-normal tracking-[-0.032px] underline;
+}
 
-  .paragraph-large-emphasised {
-    @apply font-sans text-base leading-6 font-semibold tracking-[-0.032px];
-  }
+@utility paragraph-large-emphasised {
+  @apply font-sans text-base leading-6 font-semibold tracking-[-0.032px];
+}
 
-  .paragraph-regular-primary {
-    @apply font-sans text-sm leading-5 font-normal tracking-[-0.028px];
-  }
+@utility paragraph-regular-primary {
+  @apply font-sans text-sm leading-5 font-normal tracking-[-0.028px];
+}
 
-  .paragraph-regular-primary-link {
-    @apply font-sans text-sm leading-5 font-normal tracking-[-0.028px] underline;
-  }
+@utility paragraph-regular-primary-link {
+  @apply font-sans text-sm leading-5 font-normal tracking-[-0.028px] underline;
+}
 
-  .paragraph-regular-emphasised-600 {
-    @apply font-sans text-sm leading-5 font-semibold tracking-[-0.028px];
-  }
+@utility paragraph-regular-emphasised-600 {
+  @apply font-sans text-sm leading-5 font-semibold tracking-[-0.028px];
+}
 
-  .paragraph-small-primary {
-    @apply font-sans text-xs leading-4 font-normal tracking-[0.024px];
-  }
+@utility paragraph-small-primary {
+  @apply font-sans text-xs leading-4 font-normal tracking-[0.024px];
+}
 
-  .paragraph-small-primary-link {
-    @apply font-sans text-xs leading-4 font-normal tracking-[0.024px] underline;
-  }
+@utility paragraph-small-primary-link {
+  @apply font-sans text-xs leading-4 font-normal tracking-[0.024px] underline;
+}
 
-  .paragraph-small-emphasised {
-    @apply font-sans text-xs leading-4 font-semibold tracking-[0.024px];
-  }
+@utility paragraph-small-emphasised {
+  @apply font-sans text-xs leading-4 font-semibold tracking-[0.024px];
+}
 
-  .paragraph-code-text {
-    @apply font-mono text-xs leading-4 font-normal tracking-[0px];
-  }
+@utility paragraph-code-text {
+  @apply font-mono text-xs leading-4 font-normal tracking-[0px];
+}
 
-  .cta-button-01 {
-    @apply font-sans text-base leading-6 font-semibold tracking-[-0.064px];
-  }
+@utility cta-button-01 {
+  @apply font-sans text-base leading-6 font-semibold tracking-[-0.064px];
+}
 
-  .cta-button-link-01 {
-    @apply font-sans text-base leading-6 font-semibold tracking-[-0.064px] underline;
-  }
+@utility cta-button-link-01 {
+  @apply font-sans text-base leading-6 font-semibold tracking-[-0.064px] underline;
+}
 
-  .cta-button-02 {
-    @apply font-sans text-sm leading-5 font-semibold tracking-[-0.056px];
-  }
+@utility cta-button-02 {
+  @apply font-sans text-sm leading-5 font-semibold tracking-[-0.056px];
+}
 
-  .cta-button-link-02 {
-    @apply font-sans text-sm leading-5 font-semibold tracking-[-0.056px] underline;
-  }
+@utility cta-button-link-02 {
+  @apply font-sans text-sm leading-5 font-semibold tracking-[-0.056px] underline;
+}
 
-  .cta-button-03 {
-    @apply font-sans text-xs leading-4 font-semibold tracking-[-0.012px];
-  }
+@utility cta-button-03 {
+  @apply font-sans text-xs leading-4 font-semibold tracking-[-0.012px];
+}
 
-  .cta-button-link-03 {
-    @apply font-sans text-xs leading-4 font-semibold tracking-[-0.012px] underline;
-  }
+@utility cta-button-link-03 {
+  @apply font-sans text-xs leading-4 font-semibold tracking-[-0.012px] underline;
 }
