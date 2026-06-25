@@ -112,7 +112,6 @@
     "concurrently": "^10.0.3",
     "eslint": "^9.37.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-unused-imports": "^4.4.1",
     "globals": "^16.4.0",
