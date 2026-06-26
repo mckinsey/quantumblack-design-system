@@ -52,11 +52,9 @@ If **`code-connect/<name>.figma.tsx` exists**, read it before raw Figma codegen.
 | SLOT props        | …            | children / sub-components |          |       |
 | Sub-components    | …            | exports                   |          |       |
 
-5. **Defaults (all must agree):**
-   - Figma **component description** (step 1) + **default variant** property values on the set
-   - React / `cva` default props (omit props that match defaults)
-   - `examples[0]` — first demo shows the default combination; example title/description reflects the Figma description where useful
-   - `registry.json` **description** — summarize capabilities and call out the default (aligned with Figma description, not invented)
+5. **Defaults & demos:**
+   - **Defaults:** Figma description, `cva` defaults, and `registry.json` must agree.
+   - **Demos:** Start `examples[0]` simple — developer's choice, not necessarily the Figma default. Cover every alignment-table row across `examples[]`.
 
 ### 2 — Tokens (every distinct variant × state)
 
@@ -98,7 +96,7 @@ Report a **variant × state** matrix: pass / drift (note ≥2px or wrong token).
 - [ ] Alignment table: all Figma axes ↔ `cva`/props (both directions); SLOT seams covered
 - [ ] Variant × state matrix: tokens + geometry per cell
 - [ ] Light and dark where the component appears on both
-- [ ] Figma component description read; defaults match description + default variant props + `examples[0]` + registry description
+- [ ] Defaults aligned (Figma, `cva`, registry); demos start simple and cover the full alignment table
 - [ ] Compound spacing from per-cell Figma values (no undocumented single-axis shortcuts)
 - [ ] Exported sub-components: demo + test, or not exported
 - [ ] Composed primitives: correct `asChild` direction; keyboard nav verified
