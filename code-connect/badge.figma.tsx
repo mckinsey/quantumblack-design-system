@@ -70,21 +70,33 @@ figma.connect(Badge, '<QBDS_BADGE_DOT_LABEL>', {
       warning: 'warning',
       success: 'success',
     }),
+    // The leading dot is a StatusBadge (the Hint-Dot connected below): its
+    // status tracks the badge type and its size tracks the badge size, mirroring
+    // the BadgeDotLabel demo. Composed explicitly rather than via figma.children
+    // so the snippet shows the real StatusBadge usage.
+    dotVariant: figma.enum('type', {
+      'high-emphasis': 'neutral',
+      'brand-accent': 'neutral-brand',
+      alternative: 'neutral',
+      error: 'error',
+      warning: 'warning',
+      success: 'success',
+    }),
     size: figma.enum('size', {
       sm: 'sm',
       reg: 'default',
       lg: 'lg',
     }),
-    withDot: figma.boolean('showLeadingIcon'),
-    dot: figma.boolean('showLeadingIcon', {
-      true: figma.children('Leading-Icon*'),
-      false: undefined,
+    dotSize: figma.enum('size', {
+      sm: 'sm',
+      reg: 'sm',
+      lg: 'default',
     }),
     label: figma.textContent('value'),
   },
-  example: ({ variant, size, withDot, dot, label }) => (
-    <Badge outline={true} size={size} variant={variant} withDot={withDot}>
-      {dot}
+  example: ({ variant, dotVariant, size, dotSize, label }) => (
+    <Badge outline={true} size={size} variant={variant} withDot>
+      <StatusBadge className="shrink-0" size={dotSize} variant={dotVariant} />
       {label}
     </Badge>
   ),
