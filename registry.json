@@ -36,6 +36,25 @@
       ]
     },
     {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Vertical stack of expand/collapse rows for progressively disclosing grouped content. Defaults to regular size with chevron on the right.",
+      "dependencies": ["@base-ui/react/accordion"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/accordion.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "aspect-ratio",
       "type": "registry:ui",
       "title": "Aspect Ratio",
