@@ -50,7 +50,8 @@ const buttonVariants = cva(
         sm: ['px-2 py-1 gap-1', 'cta-button-02', 'focus-visible:ring-1'],
         default: ['p-2 gap-2', 'cta-button-02', 'focus-visible:ring-2'],
         lg: ['px-3 py-3 gap-2', 'cta-button-01', 'focus-visible:ring-2'],
-        'icon-xs': ['size-5 p-0', 'focus-visible:ring-1'],
+        'icon-xxs': ['size-5 p-0', 'focus-visible:ring-1'],
+        'icon-xs': ['size-6 p-0', 'focus-visible:ring-1'],
         'icon-sm': ['size-7 p-0', 'focus-visible:ring-1'],
         icon: ['size-9 p-0', 'focus-visible:ring-2'],
         'icon-lg': ['size-12 p-0', 'focus-visible:ring-2'],
@@ -172,3 +173,4 @@ function Button({
 }
 
 export { Button, buttonVariants, wrapTextNodes };
+// test

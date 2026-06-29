@@ -56,6 +56,7 @@ import {
 import {
   ButtonDemo,
   ButtonDisabled,
+  ButtonDropdown,
   ButtonIconOnly,
   ButtonIconRounded,
   ButtonLoading,
@@ -464,6 +465,7 @@ export const exampleComponentMaps: Record<
     ButtonLoading,
     ButtonIconOnly,
     ButtonIconRounded,
+    ButtonDropdown,
   },
   'button-group': {
     ButtonGroupDemo,

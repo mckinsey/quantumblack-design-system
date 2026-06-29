@@ -319,7 +319,7 @@ function ComboboxChip({
       {...props}>
       {children}
       <ComboboxPrimitive.ChipRemove
-        render={<Button variant="ghost" size="icon-xs" />}
+        render={<Button variant="ghost" size="icon-xxs" />}
         className="-ml-1 opacity-50 hover:opacity-100"
         data-slot="combobox-chip-remove">
         <Icon
