@@ -29,6 +29,7 @@ const disabled = instance.getEnum('state', {
   disabled: true,
   loading: false,
   'toggle-on': false,
+  'dropdown-open': false,
 });
 
 const className = instance.getEnum('shape', {
@@ -37,7 +38,7 @@ const className = instance.getEnum('shape', {
 });
 
 const icon = instance.findInstance('IconShell');
-let iconCode: figma.ResultSection[];
+let iconCode: figma.ResultSection[] = [];
 
 if (icon && icon.type === 'INSTANCE') {
   iconCode = icon.executeTemplate().example;

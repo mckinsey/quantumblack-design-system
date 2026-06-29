@@ -295,7 +295,7 @@ export const examples: DemoExample[] = [
     name: 'ButtonDropdown',
     title: 'Dropdown',
     description:
-      'Button triggering a dropdown menu; the trigger shows the selected option and defaults to one.',
+      'Button triggering a dropdown menu; the selected option is marked in the menu.',
   },
 ];
 

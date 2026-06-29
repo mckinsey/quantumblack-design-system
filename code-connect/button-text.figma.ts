@@ -36,7 +36,7 @@ const label = instance.getString('label');
 
 const showLeading = instance.getBoolean('showLeadingIcon');
 const leading = showLeading ? instance.findInstance('Leading-Icon') : null;
-let leadingCode: figma.ResultSection[];
+let leadingCode: figma.ResultSection[] = [];
 
 if (leading && leading.type === 'INSTANCE') {
   leadingCode = leading.executeTemplate().example;
@@ -44,7 +44,7 @@ if (leading && leading.type === 'INSTANCE') {
 
 const showTrailing = instance.getBoolean('showTrailingIcon');
 const trailing = showTrailing ? instance.findInstance('Trailing-Icon') : null;
-let trailingCode: figma.ResultSection[];
+let trailingCode: figma.ResultSection[] = [];
 
 if (trailing && trailing.type === 'INSTANCE') {
   trailingCode = trailing.executeTemplate().example;
