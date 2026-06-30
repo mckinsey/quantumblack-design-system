@@ -17,13 +17,17 @@ export function ButtonDemo() {
     <div className="flex flex-wrap items-center gap-4">
       <Button>Click me</Button>
 
-      <Button size="icon" variant="default">
+      <Button size="icon" variant="default" aria-label="Expand">
         <IconShell type="neutral-inverse" variant="primary">
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
 
-      <Button size="icon" variant="default" className="rounded-full">
+      <Button
+        size="icon"
+        variant="default"
+        className="rounded-full"
+        aria-label="Expand">
         <IconShell type="neutral-inverse" variant="primary">
           <Icon icon="crop_free" />
         </IconShell>
@@ -129,27 +133,27 @@ export function ButtonLoading() {
 export function ButtonIconOnly() {
   return (
     <div className="flex flex-wrap items-center gap-4">
-      <Button size="icon-lg">
+      <Button size="icon-lg" aria-label="Expand">
         <IconShell size="default">
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
-      <Button size="icon">
+      <Button size="icon" aria-label="Expand">
         <IconShell size="sm">
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
-      <Button size="icon-sm">
+      <Button size="icon-sm" aria-label="Expand">
         <IconShell size="sm">
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
-      <Button size="icon-xs">
+      <Button size="icon-xs" aria-label="Expand">
         <IconShell size="sm">
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
-      <Button size="icon-xxs">
+      <Button size="icon-xxs" aria-label="Expand">
         <IconShell size="sm">
           <Icon icon="crop_free" />
         </IconShell>
@@ -162,27 +166,27 @@ export function ButtonIconOnly() {
 export function ButtonIconRounded() {
   return (
     <div className="flex flex-wrap items-center gap-4">
-      <Button size="icon-lg" className="rounded-full">
+      <Button size="icon-lg" className="rounded-full" aria-label="Expand">
         <IconShell size="default">
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
-      <Button size="icon" className="rounded-full">
+      <Button size="icon" className="rounded-full" aria-label="Expand">
         <IconShell size="sm">
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
-      <Button size="icon-sm" className="rounded-full">
+      <Button size="icon-sm" className="rounded-full" aria-label="Expand">
         <IconShell size="sm">
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
-      <Button size="icon-xs" className="rounded-full">
+      <Button size="icon-xs" className="rounded-full" aria-label="Expand">
         <IconShell size="sm">
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
-      <Button size="icon-xxs" className="rounded-full">
+      <Button size="icon-xxs" className="rounded-full" aria-label="Expand">
         <IconShell size="sm">
           <Icon icon="crop_free" />
         </IconShell>
@@ -226,7 +230,7 @@ export function ButtonDropdown() {
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon">
+          <Button variant="outline" size="icon" aria-label="Open menu">
             <IconShell size="sm">
               <Icon icon="keyboard_arrow_down" />
             </IconShell>
@@ -237,7 +241,11 @@ export function ButtonDropdown() {
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon" className="rounded-full">
+          <Button
+            variant="outline"
+            size="icon"
+            className="rounded-full"
+            aria-label="Open menu">
             <IconShell size="sm">
               <Icon icon="keyboard_arrow_down" />
             </IconShell>

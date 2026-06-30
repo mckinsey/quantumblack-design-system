@@ -4,7 +4,6 @@
     "include": [
       "code-connect/*.figma.ts",
       "code-connect/*.figma.tsx",
-      "code-connect/*.figma.ts",
       "src/components/**/*.tsx",
       "src/lib/**/*.ts"
     ],

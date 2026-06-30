@@ -298,12 +298,12 @@ export function TableRich() {
             </TableCell>
             <TableCell className="text-right">
               <div className="flex items-center justify-end gap-1">
-                <Button variant="ghost" size="icon-xxs">
+                <Button variant="ghost" size="icon-xxs" aria-label="Edit row">
                   <IconShell size="sm">
                     <Icon icon="edit" />
                   </IconShell>
                 </Button>
-                <Button variant="ghost" size="icon-xxs">
+                <Button variant="ghost" size="icon-xxs" aria-label="Delete row">
                   <IconShell size="sm">
                     <Icon icon="delete" />
                   </IconShell>
