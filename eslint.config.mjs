@@ -1,4 +1,4 @@
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import eslintConfigPrettier from 'eslint-config-prettier';
 import unusedImports from 'eslint-plugin-unused-imports';
 import { globalIgnores } from 'eslint/config';
 import tseslint from 'typescript-eslint';
@@ -97,7 +97,7 @@ const eslintConfig = [
       curly: 'error',
     },
   },
-  eslintPluginPrettierRecommended,
+  eslintConfigPrettier,
 ];
 
 export default eslintConfig;

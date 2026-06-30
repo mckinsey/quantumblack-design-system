@@ -1,5 +1,14 @@
 import type { ReactElement, ReactNode } from 'react';
 
+import {
+  AccordionDemo,
+  AccordionExpandLeft,
+  AccordionLarge,
+  AccordionLargeExpandLeft,
+  AccordionWithoutTrailing,
+  accordion,
+  examples as accordionExamples,
+} from '@/app/demo/[name]/ui/accordion';
 // New format imports - all components migrated to new format
 import {
   AlertDemo,
@@ -106,6 +115,7 @@ import {
 import {
   ContextMenuDemo,
   ContextMenuDestructive,
+  ContextMenuLarge,
   ContextMenuWithCheckboxes,
   ContextMenuWithIcons,
   ContextMenuWithRadioGroup,
@@ -135,6 +145,7 @@ import {
 import {
   DropdownMenuDemo,
   DropdownMenuDestructive,
+  DropdownMenuLarge,
   DropdownMenuWithCheckboxes,
   DropdownMenuWithIcons,
   DropdownMenuWithRadioGroup,
@@ -410,6 +421,13 @@ export const exampleComponentMaps: Record<
     AlertVariants,
     AlertWithoutIcon,
   },
+  accordion: {
+    AccordionDemo,
+    AccordionExpandLeft,
+    AccordionLarge,
+    AccordionLargeExpandLeft,
+    AccordionWithoutTrailing,
+  },
   'aspect-ratio': {
     AspectRatioDemo,
     AspectRatioLandscapeRatios,
@@ -499,6 +517,7 @@ export const exampleComponentMaps: Record<
     ContextMenuWithSubmenu,
     ContextMenuWithCheckboxes,
     ContextMenuWithRadioGroup,
+    ContextMenuLarge,
     ContextMenuDestructive,
   },
   'dropdown-menu': {
@@ -508,6 +527,7 @@ export const exampleComponentMaps: Record<
     DropdownMenuWithSubmenu,
     DropdownMenuWithCheckboxes,
     DropdownMenuWithRadioGroup,
+    DropdownMenuLarge,
     DropdownMenuDestructive,
   },
   empty: {
@@ -710,6 +730,7 @@ export const exampleComponentMaps: Record<
 // Example metadata for new format demos
 export const examplesMeta: Record<string, ExampleMeta[]> = {
   alert: alertExamples,
+  accordion: accordionExamples,
   'aspect-ratio': aspectRatioExamples,
   avatar: avatarExamples,
   badge: badgeExamples,
@@ -757,6 +778,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...alert,
     examples: alertExamples,
     exampleComponents: exampleComponentMaps.alert,
+  },
+  accordion: {
+    ...accordion,
+    examples: accordionExamples,
+    exampleComponents: exampleComponentMaps.accordion,
   },
   'aspect-ratio': {
     ...aspectRatio,

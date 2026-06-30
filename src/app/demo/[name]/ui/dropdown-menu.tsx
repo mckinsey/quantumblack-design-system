@@ -274,6 +274,46 @@ export function DropdownMenuWithRadioGroup() {
 }
 
 /**
+ * Larger touch targets and typography
+ */
+export function DropdownMenuLarge() {
+  return (
+    <DropdownMenuWithToggleTrigger triggerLabel="Open">
+      <DropdownMenuContent
+        align="start"
+        size="lg"
+        className={DROPDOWN_MENU_PANEL_CLASS}>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <Icon icon="person" className="size-6" />
+            Profile
+          </DropdownMenuItem>
+
+          <DropdownMenuItem>
+            <Icon icon="attach_money" className="size-6" />
+            Billing
+            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+          </DropdownMenuItem>
+
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger inset>Invite users</DropdownMenuSubTrigger>
+
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent
+                size="lg"
+                className={DROPDOWN_MENU_PANEL_CLASS}>
+                <DropdownMenuItem>Email</DropdownMenuItem>
+                <DropdownMenuItem>Message</DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenuWithToggleTrigger>
+  );
+}
+
+/**
  * Destructive variant for irreversible actions
  */
 export function DropdownMenuDestructive() {
@@ -347,6 +387,11 @@ export const examples = [
     description: 'Radio group for exclusive choices.',
   },
   {
+    name: 'DropdownMenuLarge',
+    title: 'Large',
+    description: 'Larger touch targets and typography.',
+  },
+  {
     name: 'DropdownMenuDestructive',
     title: 'Destructive',
     description: 'Destructive variant for irreversible actions.',
@@ -366,6 +411,7 @@ export const dropdownMenu = {
     Submenu: <DropdownMenuWithSubmenu />,
     Checkboxes: <DropdownMenuWithCheckboxes />,
     'Radio Group': <DropdownMenuWithRadioGroup />,
+    Large: <DropdownMenuLarge />,
     Destructive: <DropdownMenuDestructive />,
   },
 };
