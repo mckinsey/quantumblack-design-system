@@ -98,6 +98,7 @@ export function ToggleIconsRound() {
 /** Icon toggle sizes */
 export function ToggleIconSizes() {
   const sizes = [
+    { size: 'icon-xxs', iconSize: 'sm' },
     { size: 'icon-xs', iconSize: 'sm' },
     { size: 'icon-sm', iconSize: 'sm' },
     { size: 'icon', iconSize: 'sm' },

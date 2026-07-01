@@ -1,11 +1,39 @@
+import * as React from 'react';
+
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 
 /** Default button - the primary call to action style */
 export function ButtonDemo() {
-  return <Button>Click me</Button>;
+  return (
+    <div className="flex flex-wrap items-center gap-4">
+      <Button>Click me</Button>
+
+      <Button size="icon" variant="default" aria-label="Expand">
+        <IconShell type="neutral-inverse" variant="primary">
+          <Icon icon="crop_free" />
+        </IconShell>
+      </Button>
+
+      <Button
+        size="icon"
+        variant="default"
+        className="rounded-full"
+        aria-label="Expand">
+        <IconShell type="neutral-inverse" variant="primary">
+          <Icon icon="crop_free" />
+        </IconShell>
+      </Button>
+    </div>
+  );
 }
 
 /** All button variants displayed side by side */
@@ -105,22 +133,27 @@ export function ButtonLoading() {
 export function ButtonIconOnly() {
   return (
     <div className="flex flex-wrap items-center gap-4">
-      <Button size="icon-lg">
+      <Button size="icon-lg" aria-label="Expand">
         <IconShell size="default">
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
-      <Button size="icon">
+      <Button size="icon" aria-label="Expand">
         <IconShell size="sm">
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
-      <Button size="icon-sm">
+      <Button size="icon-sm" aria-label="Expand">
         <IconShell size="sm">
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
-      <Button size="icon-xs">
+      <Button size="icon-xs" aria-label="Expand">
+        <IconShell size="sm">
+          <Icon icon="crop_free" />
+        </IconShell>
+      </Button>
+      <Button size="icon-xxs" aria-label="Expand">
         <IconShell size="sm">
           <Icon icon="crop_free" />
         </IconShell>
@@ -133,26 +166,93 @@ export function ButtonIconOnly() {
 export function ButtonIconRounded() {
   return (
     <div className="flex flex-wrap items-center gap-4">
-      <Button size="icon-lg" className="rounded-full">
+      <Button size="icon-lg" className="rounded-full" aria-label="Expand">
         <IconShell size="default">
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
-      <Button size="icon" className="rounded-full">
+      <Button size="icon" className="rounded-full" aria-label="Expand">
         <IconShell size="sm">
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
-      <Button size="icon-sm" className="rounded-full" variant="outline">
+      <Button size="icon-sm" className="rounded-full" aria-label="Expand">
         <IconShell size="sm">
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
-      <Button size="icon-xs" className="rounded-full" variant="ghost">
+      <Button size="icon-xs" className="rounded-full" aria-label="Expand">
         <IconShell size="sm">
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
+      <Button size="icon-xxs" className="rounded-full" aria-label="Expand">
+        <IconShell size="sm">
+          <Icon icon="crop_free" />
+        </IconShell>
+      </Button>
+    </div>
+  );
+}
+
+/** Buttons triggering a dropdown menu */
+export function ButtonDropdown() {
+  const options = ['Option 1', 'Option 2', 'Option 3'] as const;
+  const [selected, setSelected] =
+    React.useState<(typeof options)[number]>('Option 1');
+
+  const menu = (
+    <DropdownMenuContent align="start" className="w-[180px]">
+      {options.map(option => (
+        <DropdownMenuItem
+          key={option}
+          onSelect={() => setSelected(option)}
+          className="justify-between">
+          {option}
+          {selected === option ? (
+            <IconShell className="text-fill-active" size="sm" variant="primary">
+              <Icon icon="check" />
+            </IconShell>
+          ) : null}
+        </DropdownMenuItem>
+      ))}
+    </DropdownMenuContent>
+  );
+
+  return (
+    <div className="flex flex-wrap items-center gap-4">
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline">Button</Button>
+        </DropdownMenuTrigger>
+        {menu}
+      </DropdownMenu>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="icon" aria-label="Open menu">
+            <IconShell size="sm">
+              <Icon icon="keyboard_arrow_down" />
+            </IconShell>
+          </Button>
+        </DropdownMenuTrigger>
+        {menu}
+      </DropdownMenu>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="outline"
+            size="icon"
+            className="rounded-full"
+            aria-label="Open menu">
+            <IconShell size="sm">
+              <Icon icon="keyboard_arrow_down" />
+            </IconShell>
+          </Button>
+        </DropdownMenuTrigger>
+        {menu}
+      </DropdownMenu>
     </div>
   );
 }
@@ -199,6 +299,12 @@ export const examples: DemoExample[] = [
     title: 'Rounded Icons',
     description: 'Circular icon buttons using rounded-full class.',
   },
+  {
+    name: 'ButtonDropdown',
+    title: 'Dropdown',
+    description:
+      'Button triggering a dropdown menu; the selected option is marked in the menu.',
+  },
 ];
 
 export const button = createLegacyDemo('button', examples, {
@@ -210,4 +316,5 @@ export const button = createLegacyDemo('button', examples, {
   ButtonLoading: <ButtonLoading />,
   ButtonIconOnly: <ButtonIconOnly />,
   ButtonIconRounded: <ButtonIconRounded />,
+  ButtonDropdown: <ButtonDropdown />,
 });

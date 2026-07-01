@@ -335,22 +335,6 @@
       ]
     },
     {
-      "name": "empty",
-      "type": "registry:ui",
-      "title": "Empty",
-      "description": "Displays empty states with support for icons, titles, descriptions, and custom content. Compose with EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, and EmptyContent.",
-      "registryDependencies": [
-        "__REGISTRY_URL__/r/theme.json",
-        "__REGISTRY_URL__/r/utils.json"
-      ],
-      "files": [
-        {
-          "path": "src/components/ui/empty.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "field",
       "type": "registry:ui",
       "title": "Field",
