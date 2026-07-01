@@ -60,6 +60,7 @@ import {
   ButtonIconOnly,
   ButtonIconRounded,
   ButtonLoading,
+  ButtonRadiusMode,
   ButtonSizes,
   ButtonVariants,
   ButtonWithIcons,
@@ -456,6 +457,7 @@ export const exampleComponentMaps: Record<
     ButtonIconOnly,
     ButtonIconRounded,
     ButtonDropdown,
+    ButtonRadiusMode,
   },
   'button-group': {
     ButtonGroupDemo,
