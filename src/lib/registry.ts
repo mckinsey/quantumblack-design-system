@@ -146,7 +146,7 @@ export function getUIPrimitivesByCategory() {
       'pagination',
       'toolbar',
     ],
-    Feedback: ['alert', 'progress', 'skeleton', 'badge', 'tag', 'empty'],
+    Feedback: ['alert', 'progress', 'skeleton', 'badge', 'tag'],
     Display: [
       'avatar',
       'table',
