@@ -3,32 +3,14 @@
 // component=ButtonGroup
 import figma from 'figma';
 
-const instance = figma.selectedInstance;
-
-const buttons = instance.findConnectedInstances(
-  node => node.codeConnectId?.() === 'button-text',
-  { traverseInstances: true },
-);
-
-let firstCode: figma.ResultSection[] = [];
-let secondCode: figma.ResultSection[] = [];
-
-const first = buttons[0];
-const second = buttons[1];
-
-if (first && first.type === 'INSTANCE') {
-  firstCode = first.executeTemplate().example;
-}
-
-if (second && second.type === 'INSTANCE') {
-  secondCode = second.executeTemplate().example;
-}
+// ButtonsGroup/CTAs is a 2-button CTA pair in Figma (primary + alternate).
+// Nested Button instances resolve via their own Code Connect (button-text).
+const buttons = figma.properties.children(['Button']);
 
 export default {
   example: figma.code`
     <ButtonGroup>
-      ${firstCode}
-      ${secondCode}
+      ${figma.helpers.react.renderChildren(buttons)}
     </ButtonGroup>
   `,
   imports: [
