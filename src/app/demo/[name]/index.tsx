@@ -60,6 +60,7 @@ import {
   ButtonIconOnly,
   ButtonIconRounded,
   ButtonLoading,
+  ButtonRadiusMode,
   ButtonSizes,
   ButtonVariants,
   ButtonWithIcons,
@@ -155,16 +156,6 @@ import {
   dropdownMenu,
   examples as dropdownMenuExamples,
 } from '@/app/demo/[name]/ui/dropdown-menu';
-import {
-  EmptyCompact,
-  EmptyDemo,
-  EmptyError,
-  EmptyWithAction,
-  EmptyWithIcon,
-  EmptyWithMultipleActions,
-  empty,
-  examples as emptyExamples,
-} from '@/app/demo/[name]/ui/empty';
 import {
   ReactHookForm,
   TanStackForm,
@@ -466,6 +457,7 @@ export const exampleComponentMaps: Record<
     ButtonIconOnly,
     ButtonIconRounded,
     ButtonDropdown,
+    ButtonRadiusMode,
   },
   'button-group': {
     ButtonGroupDemo,
@@ -531,14 +523,6 @@ export const exampleComponentMaps: Record<
     DropdownMenuWithRadioGroup,
     DropdownMenuLarge,
     DropdownMenuDestructive,
-  },
-  empty: {
-    EmptyDemo,
-    EmptyWithIcon,
-    EmptyWithAction,
-    EmptyWithMultipleActions,
-    EmptyError,
-    EmptyCompact,
   },
   form: {
     ReactHookForm,
@@ -746,7 +730,6 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   dialog: dialogExamples,
   'context-menu': contextMenuExamples,
   'dropdown-menu': dropdownMenuExamples,
-  empty: emptyExamples,
   form: formExamples,
   icon: iconExamples,
   'icon-shell': iconShellExamples,
@@ -850,11 +833,6 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...dropdownMenu,
     examples: dropdownMenuExamples,
     exampleComponents: exampleComponentMaps['dropdown-menu'],
-  },
-  empty: {
-    ...empty,
-    examples: emptyExamples,
-    exampleComponents: exampleComponentMaps.empty,
   },
   form: {
     ...form,

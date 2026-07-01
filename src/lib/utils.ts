@@ -6,6 +6,9 @@ import { extendTailwindMerge } from 'tailwind-merge';
 const twMerge = extendTailwindMerge<'typography'>({
   extend: {
     classGroups: {
+      // Custom radius theme key (--radius-reg) so it conflicts with standard
+      // rounded-* utilities and className overrides win.
+      rounded: ['rounded-reg'],
       typography: [
         // Display
         'display-d1-regular',

@@ -45,16 +45,41 @@ const buttonVariants = cva(
   {
     variants: {
       size: {
-        xxs: ['px-1 py-0.5 gap-0.5', 'cta-button-03', 'focus-visible:ring-1'],
-        xs: ['px-1 py-1 gap-0.5', 'cta-button-03', 'focus-visible:ring-1'],
-        sm: ['px-2 py-1 gap-1', 'cta-button-02', 'focus-visible:ring-1'],
-        default: ['p-2 gap-2', 'cta-button-02', 'focus-visible:ring-2'],
-        lg: ['px-3 py-3 gap-2', 'cta-button-01', 'focus-visible:ring-2'],
-        'icon-xxs': ['size-5 p-0', 'focus-visible:ring-1'],
-        'icon-xs': ['size-6 p-0', 'focus-visible:ring-1'],
-        'icon-sm': ['size-7 p-0', 'focus-visible:ring-1'],
-        icon: ['size-9 p-0', 'focus-visible:ring-2'],
-        'icon-lg': ['size-12 p-0', 'focus-visible:ring-2'],
+        xxs: [
+          'px-1 py-0.5 gap-0.5',
+          'cta-button-03',
+          'rounded-sm',
+          'focus-visible:ring-1',
+        ],
+        xs: [
+          'px-1 py-1 gap-0.5',
+          'cta-button-03',
+          'rounded-sm',
+          'focus-visible:ring-1',
+        ],
+        sm: [
+          'px-2 py-1 gap-1',
+          'cta-button-02',
+          'rounded-sm',
+          'focus-visible:ring-1',
+        ],
+        default: [
+          'p-2 gap-2',
+          'cta-button-02',
+          'rounded-reg',
+          'focus-visible:ring-2',
+        ],
+        lg: [
+          'px-3 py-3 gap-2',
+          'cta-button-01',
+          'rounded-reg',
+          'focus-visible:ring-2',
+        ],
+        'icon-xxs': ['size-5 p-0', 'rounded-sm', 'focus-visible:ring-1'],
+        'icon-xs': ['size-6 p-0', 'rounded-sm', 'focus-visible:ring-1'],
+        'icon-sm': ['size-7 p-0', 'rounded-sm', 'focus-visible:ring-1'],
+        icon: ['size-9 p-0', 'rounded-reg', 'focus-visible:ring-2'],
+        'icon-lg': ['size-12 p-0', 'rounded-reg', 'focus-visible:ring-2'],
       },
       variant: {
         default: [
@@ -78,7 +103,6 @@ const buttonVariants = cva(
           'bg-fill-muted text-fg-primary',
           hoverGradient.normal,
           activeGradient.normal,
-          'focus-visible:ring-1',
           'focus-visible:ring-offset-1 focus-visible:ring-offset-stroke-active-inverse',
           commonDisabled,
           disabledOverlayGradient,
@@ -86,7 +110,6 @@ const buttonVariants = cva(
         outline: [
           'border border-stroke-secondary bg-fill-muted-inverse text-fg-primary',
           'focus-visible:border-stroke-active',
-          'focus-visible:ring-1',
           hoverGradient.normal,
           activeGradient.normal,
           'focus-visible:bg-stateslayer-overlay-active-inverse',
@@ -96,7 +119,7 @@ const buttonVariants = cva(
         ghost: [
           'bg-transparent text-fg-primary',
           'hover:bg-stateslayer-overlay-hover active:bg-stateslayer-overlay-pressed',
-          'focus-visible:bg-stateslayer-overlay-active-inverse focus-visible:ring-1',
+          'focus-visible:bg-stateslayer-overlay-active-inverse',
           'disabled:bg-transparent disabled:hover:bg-transparent disabled:active:bg-transparent',
         ],
       },
