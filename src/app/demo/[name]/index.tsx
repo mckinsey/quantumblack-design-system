@@ -1,5 +1,14 @@
 import type { ReactElement, ReactNode } from 'react';
 
+import {
+  AccordionDemo,
+  AccordionExpandLeft,
+  AccordionLarge,
+  AccordionLargeExpandLeft,
+  AccordionWithoutTrailing,
+  accordion,
+  examples as accordionExamples,
+} from '@/app/demo/[name]/ui/accordion';
 // New format imports - all components migrated to new format
 import {
   AlertDemo,
@@ -47,9 +56,11 @@ import {
 import {
   ButtonDemo,
   ButtonDisabled,
+  ButtonDropdown,
   ButtonIconOnly,
   ButtonIconRounded,
   ButtonLoading,
+  ButtonRadiusMode,
   ButtonSizes,
   ButtonVariants,
   ButtonWithIcons,
@@ -145,16 +156,6 @@ import {
   dropdownMenu,
   examples as dropdownMenuExamples,
 } from '@/app/demo/[name]/ui/dropdown-menu';
-import {
-  EmptyCompact,
-  EmptyDemo,
-  EmptyError,
-  EmptyWithAction,
-  EmptyWithIcon,
-  EmptyWithMultipleActions,
-  empty,
-  examples as emptyExamples,
-} from '@/app/demo/[name]/ui/empty';
 import {
   ReactHookForm,
   TanStackForm,
@@ -412,6 +413,13 @@ export const exampleComponentMaps: Record<
     AlertVariants,
     AlertWithoutIcon,
   },
+  accordion: {
+    AccordionDemo,
+    AccordionExpandLeft,
+    AccordionLarge,
+    AccordionLargeExpandLeft,
+    AccordionWithoutTrailing,
+  },
   'aspect-ratio': {
     AspectRatioDemo,
     AspectRatioLandscapeRatios,
@@ -448,6 +456,8 @@ export const exampleComponentMaps: Record<
     ButtonLoading,
     ButtonIconOnly,
     ButtonIconRounded,
+    ButtonDropdown,
+    ButtonRadiusMode,
   },
   'button-group': {
     ButtonGroupDemo,
@@ -513,14 +523,6 @@ export const exampleComponentMaps: Record<
     DropdownMenuWithRadioGroup,
     DropdownMenuLarge,
     DropdownMenuDestructive,
-  },
-  empty: {
-    EmptyDemo,
-    EmptyWithIcon,
-    EmptyWithAction,
-    EmptyWithMultipleActions,
-    EmptyError,
-    EmptyCompact,
   },
   form: {
     ReactHookForm,
@@ -714,6 +716,7 @@ export const exampleComponentMaps: Record<
 // Example metadata for new format demos
 export const examplesMeta: Record<string, ExampleMeta[]> = {
   alert: alertExamples,
+  accordion: accordionExamples,
   'aspect-ratio': aspectRatioExamples,
   avatar: avatarExamples,
   badge: badgeExamples,
@@ -727,7 +730,6 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   dialog: dialogExamples,
   'context-menu': contextMenuExamples,
   'dropdown-menu': dropdownMenuExamples,
-  empty: emptyExamples,
   form: formExamples,
   icon: iconExamples,
   'icon-shell': iconShellExamples,
@@ -761,6 +763,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...alert,
     examples: alertExamples,
     exampleComponents: exampleComponentMaps.alert,
+  },
+  accordion: {
+    ...accordion,
+    examples: accordionExamples,
+    exampleComponents: exampleComponentMaps.accordion,
   },
   'aspect-ratio': {
     ...aspectRatio,
@@ -826,11 +833,6 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...dropdownMenu,
     examples: dropdownMenuExamples,
     exampleComponents: exampleComponentMaps['dropdown-menu'],
-  },
-  empty: {
-    ...empty,
-    examples: emptyExamples,
-    exampleComponents: exampleComponentMaps.empty,
   },
   form: {
     ...form,

@@ -16,6 +16,7 @@ function getBadgePadding(
   withDot: boolean,
 ) {
   const mode = withIcon ? 'icon' : withDot ? 'dot' : 'label';
+
   return badgePadding[mode][size];
 }
 
@@ -39,6 +40,10 @@ const badgeVariants = cva(
       outline: {
         true: 'bg-fill-active-inverse text-fg-primary outline outline-solid outline-1',
       },
+      // Declared so compoundVariants can match on them; they add no classes on
+      // their own (icon/dot-derived spacing is handled in the Badge function).
+      withIcon: { true: '', false: '' },
+      withDot: { true: '', false: '' },
     },
     compoundVariants: [
       {
@@ -46,10 +51,24 @@ const badgeVariants = cva(
         outline: true,
         className: 'outline-stroke-primary',
       },
+      // A leading icon/dot softens the high-emphasis outline from
+      // Border/Primary to Border/Secondary (Figma Icon+Label / Dot+Label).
+      {
+        variant: 'high-emphasis',
+        outline: true,
+        withIcon: true,
+        className: 'outline-stroke-secondary',
+      },
+      {
+        variant: 'high-emphasis',
+        outline: true,
+        withDot: true,
+        className: 'outline-stroke-secondary',
+      },
       {
         variant: 'brand-accent',
         outline: true,
-        className: 'outline-brand-accents-qb-accent',
+        className: 'outline-stroke-status-focus',
       },
       {
         variant: 'alternative',
@@ -89,7 +108,7 @@ export type BadgeProps = Omit<
   React.ComponentProps<'span'>,
   keyof VariantProps<typeof badgeVariants>
 > &
-  VariantProps<typeof badgeVariants> & {
+  Omit<VariantProps<typeof badgeVariants>, 'withIcon' | 'withDot'> & {
     asChild?: boolean;
     withIcon?: boolean;
     withDot?: boolean;
@@ -113,7 +132,13 @@ function Badge({
     <Comp
       data-slot="badge"
       className={cn(
-        badgeVariants({ variant, size: resolvedSize, outline }),
+        badgeVariants({
+          variant,
+          size: resolvedSize,
+          outline,
+          withIcon,
+          withDot,
+        }),
         getBadgePadding(resolvedSize, withIcon, withDot),
         withIcon && resolvedSize === 'sm' && !outline && 'gap-0.5',
         className,

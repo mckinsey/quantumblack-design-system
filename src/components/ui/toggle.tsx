@@ -14,6 +14,7 @@ type ToggleSize =
   | 'sm'
   | 'default'
   | 'lg'
+  | 'icon-xxs'
   | 'icon-xs'
   | 'icon-sm'
   | 'icon'

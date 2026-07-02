@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
-    "types": ["vite/client"],
+    "types": ["vite/client", "@figma/code-connect/figma-types"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
