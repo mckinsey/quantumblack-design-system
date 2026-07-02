@@ -27,7 +27,7 @@ import { getUIPrimitives } from '@/lib/registry';
 const uiItems = getUIPrimitives();
 
 const COMPONENT_GROUPS: { label: string; names: string[] }[] = [
-  { label: 'Layout', names: ['aspect-ratio'] },
+  { label: 'Layout', names: ['aspect-ratio', 'sidebar'] },
   {
     label: 'Buttons & Toggle',
     names: ['button', 'button-group', 'segmented-controls', 'toggle'],
