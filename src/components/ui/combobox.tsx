@@ -10,10 +10,11 @@ import { inputVariantStyles } from '@/components/ui/input';
 import { InputGroupButton, InputGroupInput } from '@/components/ui/input-group';
 import { cn } from '@/lib/utils';
 
-// Defer border/bg/focus-ring/rounding/padding to the InputGroup wrapper
+// Defer border/bg/focus-ring/rounding/padding/shadow to the InputGroup wrapper
 const inputGroupChildOverrides = [
   '[[data-slot=input-group]_&]:rounded-none [[data-slot=input-group]_&]:border-0 [[data-slot=input-group]_&]:bg-transparent',
   '[[data-slot=input-group]_&]:px-0! [[data-slot=input-group]_&]:py-0! [[data-slot=input-group]_&]:min-h-0',
+  '[[data-slot=input-group]_&]:!shadow-none [[data-slot=input-group]_&]:[box-shadow:none]',
   '[[data-slot=input-group]_&]:focus-within:bg-transparent [[data-slot=input-group]_&]:focus-within:shadow-none [[data-slot=input-group]_&]:focus-within:ring-0',
 ];
 
