@@ -257,6 +257,34 @@ export function ButtonDropdown() {
   );
 }
 
+/** Buttons under radius-mode - corners resolve to rounded radius tokens */
+export function ButtonRadiusMode() {
+  return (
+    <div className="radius-mode flex flex-col gap-4">
+      <div className="flex flex-wrap items-center gap-4">
+        <Button size="lg">Large</Button>
+        <Button size="default">Default</Button>
+        <Button size="sm">Small</Button>
+        <Button size="xs">Extra Small</Button>
+        <Button size="xxs">XXS</Button>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-4">
+        <Button variant="accent">Accent</Button>
+        <Button variant="secondary">Secondary</Button>
+        <Button variant="outline">Outline</Button>
+        <Button variant="ghost">Ghost</Button>
+
+        <Button size="icon" aria-label="Expand">
+          <IconShell size="sm">
+            <Icon icon="crop_free" />
+          </IconShell>
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 export const examples: DemoExample[] = [
   {
     name: 'ButtonDemo',
@@ -305,6 +333,12 @@ export const examples: DemoExample[] = [
     description:
       'Button triggering a dropdown menu; the selected option is marked in the menu.',
   },
+  {
+    name: 'ButtonRadiusMode',
+    title: 'Radius Mode',
+    description:
+      'Under radius-mode, corners resolve to rounded radius tokens: radius-sm (xxs/xs/sm) and radius-reg (default/lg).',
+  },
 ];
 
 export const button = createLegacyDemo('button', examples, {
@@ -317,4 +351,5 @@ export const button = createLegacyDemo('button', examples, {
   ButtonIconOnly: <ButtonIconOnly />,
   ButtonIconRounded: <ButtonIconRounded />,
   ButtonDropdown: <ButtonDropdown />,
+  ButtonRadiusMode: <ButtonRadiusMode />,
 });
