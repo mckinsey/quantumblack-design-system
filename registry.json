@@ -623,7 +623,7 @@
       "type": "registry:ui",
       "title": "Sheet",
       "description": "Slide-over panel built on Radix Dialog. Used by Sidebar on mobile.",
-      "dependencies": ["@radix-ui/react-dialog", "class-variance-authority"],
+      "dependencies": ["@radix-ui/react-dialog"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
