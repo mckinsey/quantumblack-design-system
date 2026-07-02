@@ -521,6 +521,81 @@ function SidebarMenuItem({ className, ...props }: React.ComponentProps<'li'>) {
 }
 
 const sidebarMenuButtonVariants = cva(
+  'peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-none p-2 text-left text-sm outline-hidden ring-stroke-status-focus transition-[width,height,padding] text-fg-secondary hover:bg-stateslayer-overlay-hover hover:text-fg-primary focus-visible:ring-2 active:bg-stateslayer-overlay-pressed active:text-fg-primary disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-fill-onsurface-ui-3 data-[active=true]:font-semibold data-[active=true]:text-fg-primary data-[active=true]:rounded-none data-[state=open]:hover:bg-stateslayer-overlay-hover data-[state=open]:hover:text-fg-primary group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0',
+  {
+    variants: {
+      variant: {
+        default: 'hover:bg-stateslayer-overlay-hover hover:text-fg-primary',
+        outline:
+          'bg-surface-base border border-stroke-tertiary hover:bg-stateslayer-overlay-hover hover:text-fg-primary hover:border-stroke-tertiary-hover',
+      },
+      size: {
+        default: 'h-8 text-sm',
+        sm: 'h-7 text-xs',
+        lg: 'h-12 text-sm group-data-[collapsible=icon]:p-0!',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      size: 'default',
+    },
+  },
+);
+
+function SidebarMenuButton({
+  asChild = false,
+  isActive = false,
+  variant = 'default',
+  size = 'default',
+  tooltip,
+  className,
+  ...props
+}: React.ComponentProps<'button'> & {
+  asChild?: boolean;
+  isActive?: boolean;
+  tooltip?: string | React.ComponentProps<typeof TooltipContent>;
+} & VariantProps<typeof sidebarMenuButtonVariants>) {
+  const Comp = asChild ? Slot.Root : 'button';
+  const { isMobile, state } = useSidebar();
+
+  const button = (
+    <Comp
+      data-slot="sidebar-menu-button"
+      data-sidebar="menu-button"
+      data-size={size}
+      data-active={isActive}
+      aria-current={isActive ? 'page' : undefined}
+      className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
+      {...props}
+    />
+  );
+
+  if (!tooltip) {
+    return button;
+  }
+
+  if (typeof tooltip === 'string') {
+    tooltip = {
+      children: tooltip,
+    };
+  }
+
+  const { hidden: tooltipHidden, ...tooltipProps } = tooltip;
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>{button}</TooltipTrigger>
+      <TooltipContent
+        side="right"
+        align="center"
+        hidden={tooltipHidden ?? (state !== 'collapsed' || isMobile)}
+        {...tooltipProps}
+      />
+    </Tooltip>
+  );
+}
+
+const sidebarMenuIconButtonVariants = cva(
   [
     'peer/menu-button flex w-full items-center justify-center gap-2 overflow-hidden rounded-none p-0',
     'ring-sidebar-ring outline-hidden transition-[width,height,padding,background-color]',
@@ -546,7 +621,7 @@ const sidebarMenuButtonVariants = cva(
   },
 );
 
-function SidebarMenuButton({
+function SidebarMenuIconButton({
   asChild = false,
   isActive = false,
   size: sizeProp,
@@ -557,19 +632,19 @@ function SidebarMenuButton({
   asChild?: boolean;
   isActive?: boolean;
   tooltip?: string | React.ComponentProps<typeof TooltipContent>;
-} & VariantProps<typeof sidebarMenuButtonVariants>) {
+} & VariantProps<typeof sidebarMenuIconButtonVariants>) {
   const Comp = asChild ? Slot.Root : 'button';
   const { isMobile, state, size: ctxSize } = useSidebar();
   const size = sizeProp ?? ctxSize;
 
   const button = (
     <Comp
-      data-slot="sidebar-menu-button"
+      data-slot="sidebar-menu-icon-button"
       data-sidebar="menu-button"
       data-size={size}
       data-active={isActive}
       aria-current={isActive ? 'page' : undefined}
-      className={cn(sidebarMenuButtonVariants({ size }), className)}
+      className={cn(sidebarMenuIconButtonVariants({ size }), className)}
       {...props}
     />
   );
@@ -823,6 +898,7 @@ export {
   SidebarMenuAction,
   SidebarMenuBadge,
   SidebarMenuButton,
+  SidebarMenuIconButton,
   SidebarMenuItem,
   SidebarMenuSkeleton,
   SidebarMenuSub,

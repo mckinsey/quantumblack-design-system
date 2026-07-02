@@ -67,7 +67,7 @@ const tooltip =
 export default {
   example: figma.code`
     <SidebarMenuItem>
-      <SidebarMenuButton${figma.helpers.react.renderProp(
+      <SidebarMenuIconButton${figma.helpers.react.renderProp(
         'isActive',
         isActive || undefined,
       )}${figma.helpers.react.renderProp(
@@ -75,13 +75,13 @@ export default {
         disabled || undefined,
       )}${tooltip ? figma.helpers.react.renderProp('tooltip', tooltip) : ''}>
         ${icon}
-      </SidebarMenuButton>
+      </SidebarMenuIconButton>
     </SidebarMenuItem>
   `,
   imports: [
     'import { Icon } from "@/components/ui/icon"',
     'import { IconShell } from "@/components/ui/icon-shell"',
-    'import { SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar"',
+    'import { SidebarMenuItem, SidebarMenuIconButton } from "@/components/ui/sidebar"',
   ],
   id: 'sidebar-menu-item',
   metadata: { nestable: true },

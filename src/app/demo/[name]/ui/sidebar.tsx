@@ -16,7 +16,7 @@ import {
   SidebarHeader,
   SidebarInset,
   SidebarMenu,
-  SidebarMenuButton,
+  SidebarMenuIconButton,
   SidebarMenuItem,
   SidebarProvider,
   SidebarSeparator,
@@ -92,7 +92,7 @@ function NavRail({
 
             return (
               <SidebarMenuItem key={item.id}>
-                <SidebarMenuButton
+                <SidebarMenuIconButton
                   isActive={isActive}
                   tooltip={itemTooltip(item.label)}
                   onClick={() => onActive(item.id)}>
@@ -103,7 +103,7 @@ function NavRail({
                     }>
                     <Icon icon={item.icon} />
                   </IconShell>
-                </SidebarMenuButton>
+                </SidebarMenuIconButton>
               </SidebarMenuItem>
             );
           })}

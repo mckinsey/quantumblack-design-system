@@ -63,7 +63,7 @@ export default {
     'import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"',
     'import { Icon } from "@/components/ui/icon"',
     'import { IconShell } from "@/components/ui/icon-shell"',
-    'import { Sidebar, SidebarFooter, SidebarFooterButton, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarSeparator } from "@/components/ui/sidebar"',
+    'import { Sidebar, SidebarFooter, SidebarFooterButton, SidebarHeader, SidebarMenu, SidebarMenuIconButton, SidebarMenuItem, SidebarProvider, SidebarSeparator } from "@/components/ui/sidebar"',
   ],
   id: 'sidebar-nav',
   metadata: { nestable: true },
