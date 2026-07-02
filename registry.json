@@ -124,7 +124,7 @@
       "name": "button-group",
       "type": "registry:ui",
       "title": "Button Group",
-      "description": "Groups related buttons together with consistent QBDS spacing. Supports horizontal and vertical orientation and size-driven gaps (sm, default, lg).",
+      "description": "Groups related buttons together with a constant 12px QBDS gap. Supports horizontal and vertical orientation.",
       "dependencies": ["class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",

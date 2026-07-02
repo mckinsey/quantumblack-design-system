@@ -69,17 +69,13 @@ describe(`${componentName} — structure`, () => {
     expect(screen.getByRole('group')).toHaveClass('flex-col');
   });
 
-  it.each([
-    ['sm', 'gap-2'],
-    ['default', 'gap-3'],
-    ['lg', 'gap-4'],
-  ] as const)('maps size="%s" to %s', (size, gapClass) => {
+  it('applies a constant 12px gap regardless of orientation', () => {
     render(
-      <ButtonGroup size={size}>
+      <ButtonGroup orientation="vertical">
         <Button>One</Button>
       </ButtonGroup>,
     );
-    expect(screen.getByRole('group')).toHaveClass(gapClass);
+    expect(screen.getByRole('group')).toHaveClass('gap-3');
   });
 
   it('merges a custom className', () => {

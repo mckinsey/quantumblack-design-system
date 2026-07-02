@@ -83,11 +83,11 @@ export function ButtonGroupConfigs() {
   );
 }
 
-/** Gap sizes — sm (8px), default (12px), lg (16px) */
+/** Child button sizes — group keeps a constant 12px gap */
 export function ButtonGroupSizes() {
   return (
     <div className="flex flex-col items-start gap-4">
-      <ButtonGroup size="sm">
+      <ButtonGroup>
         <Button size="sm" variant="default">
           Button
         </Button>
@@ -96,12 +96,12 @@ export function ButtonGroupSizes() {
         </Button>
       </ButtonGroup>
 
-      <ButtonGroup size="default">
+      <ButtonGroup>
         <Button variant="default">Button</Button>
         <Button variant="secondary">Button</Button>
       </ButtonGroup>
 
-      <ButtonGroup size="lg">
+      <ButtonGroup>
         <Button size="lg" variant="default">
           Button
         </Button>
@@ -177,7 +177,8 @@ export const examples: DemoExample[] = [
   {
     name: 'ButtonGroupSizes',
     title: 'Sizes',
-    description: 'Inter-button gap scales with size: sm, default, and lg.',
+    description:
+      'Child buttons at sm, default, and lg; the group keeps a constant 12px gap.',
   },
   {
     name: 'ButtonGroupVertical',
