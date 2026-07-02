@@ -57,7 +57,7 @@ const toastTypeConfig = {
   default: {
     borderClass: 'border-l-[var(--border-primary)]',
     icon: 'playlist_add_check',
-    iconClassName: undefined,
+    iconClassName: 'text-fill-active',
   },
 } as const satisfies Record<
   ToastConfigKey,

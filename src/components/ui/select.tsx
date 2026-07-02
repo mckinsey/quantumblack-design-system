@@ -121,7 +121,9 @@ function SelectTrigger({
       {...props}>
       {children}
       <SelectIcon className="transition-transform duration-200 [[data-popup-open]>&]:rotate-180">
-        <IconShell size={size === 'lg' ? 'default' : 'sm'}>
+        <IconShell
+          size={size === 'lg' ? 'default' : 'sm'}
+          className="text-inherit">
           <Icon icon="keyboard_arrow_down" />
         </IconShell>
       </SelectIcon>
