@@ -16,7 +16,7 @@ const DESCRIPTION =
 function TrailingBadge({ size }: { size?: 'sm' | 'default' }) {
   return (
     <Badge size={size} variant="high-emphasis" withIcon>
-      <IconShell size="sm" type="neutral-inverse" variant="primary">
+      <IconShell size="sm" variant="primary">
         <Icon icon="new_releases" />
       </IconShell>
       Label

@@ -18,7 +18,7 @@ export function ButtonDemo() {
       <Button>Click me</Button>
 
       <Button size="icon" variant="default" aria-label="Expand">
-        <IconShell type="neutral-inverse" variant="primary">
+        <IconShell variant="primary">
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
@@ -28,7 +28,7 @@ export function ButtonDemo() {
         variant="default"
         className="rounded-full"
         aria-label="Expand">
-        <IconShell type="neutral-inverse" variant="primary">
+        <IconShell variant="primary">
           <Icon icon="crop_free" />
         </IconShell>
       </Button>

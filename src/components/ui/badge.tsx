@@ -72,6 +72,12 @@ const badgeVariants = cva(
         className: 'outline-stroke-status-focus',
       },
       {
+        variant: 'brand-accent',
+        outline: true,
+        withIcon: true,
+        className: '[&_[data-slot=icon]]:!text-brand-accents-qb-accent',
+      },
+      {
         variant: 'alternative',
         outline: true,
         className: 'outline-stroke-secondary text-fg-secondary bg-fill-muted',
@@ -365,43 +371,24 @@ export type BadgeVariant = NonNullable<
 >;
 
 /**
- * IconShell type + emphasis for a badge leading icon.
- * Filled badges: icon matches label colour (inverse on emphasis/status fills).
- * Outline badges: icon matches stroke semantics (status types on error/warning/success).
+ * IconShell emphasis (+ status type when outline icon colour ≠ label text).
+ * Content types inherit badge text colour via currentColor; only outline
+ * error/warning/success need an explicit status type.
  */
 function badgeIconShellProps(
   variant: BadgeVariant,
   outline = false,
-): { type: IconShellType; variant: 'primary' | 'secondary' } {
-  if (outline) {
-    const outlineMap = {
-      'high-emphasis': { type: 'neutral', variant: 'primary' },
-      'brand-accent': { type: 'accent', variant: 'primary' },
-      alternative: { type: 'neutral', variant: 'secondary' },
-      error: { type: 'error', variant: 'primary' },
-      warning: { type: 'warning', variant: 'primary' },
-      success: { type: 'success', variant: 'primary' },
-    } as const satisfies Record<
-      BadgeVariant,
-      { type: IconShellType; variant: 'primary' | 'secondary' }
-    >;
-
-    return outlineMap[variant];
+): { type?: IconShellType; variant: 'primary' | 'secondary' } {
+  if (
+    outline &&
+    (variant === 'error' || variant === 'warning' || variant === 'success')
+  ) {
+    return { type: variant, variant: 'primary' };
   }
 
-  const filledMap = {
-    'high-emphasis': { type: 'neutral-inverse', variant: 'primary' },
-    'brand-accent': { type: 'neutral-inverse', variant: 'primary' },
-    alternative: { type: 'neutral', variant: 'secondary' },
-    error: { type: 'neutral-inverse', variant: 'primary' },
-    warning: { type: 'neutral-inverse', variant: 'primary' },
-    success: { type: 'neutral-inverse', variant: 'primary' },
-  } as const satisfies Record<
-    BadgeVariant,
-    { type: IconShellType; variant: 'primary' | 'secondary' }
-  >;
-
-  return filledMap[variant];
+  return {
+    variant: variant === 'alternative' ? 'secondary' : 'primary',
+  };
 }
 
 export {

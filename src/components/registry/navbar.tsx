@@ -105,7 +105,7 @@ export function Navbar() {
               variant="outline"
               className="text-fg-secondary hover:text-fg-primary hidden h-9 items-center gap-2 px-3 md:flex"
               onClick={() => setIsSearchOpen(true)}>
-              <IconShell size="sm" variant="secondary">
+              <IconShell size="sm">
                 <Icon icon="search" />
               </IconShell>
               <span className="paragraph-small-primary">Search...</span>
@@ -155,7 +155,7 @@ export function Navbar() {
             <div className="border-stroke-tertiary border-b">
               <InputGroup className="border-0 bg-transparent">
                 <InputGroupAddon align="inline-start">
-                  <IconShell size="sm" variant="secondary">
+                  <IconShell size="sm">
                     <Icon icon="search" />
                   </IconShell>
                 </InputGroupAddon>

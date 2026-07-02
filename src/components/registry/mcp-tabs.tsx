@@ -79,7 +79,7 @@ export function MCPTabs({ rootUrl }: { rootUrl: string }) {
             }}
             className="shadow-none">
             {hasCopied ? (
-              <IconShell size="sm" variant="primary">
+              <IconShell size="sm" type="success" variant="primary">
                 <Icon icon="check" />
               </IconShell>
             ) : (

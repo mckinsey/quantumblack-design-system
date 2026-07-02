@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 /** Default icon inside IconShell — neutral, 24px, secondary (Figma default). */
 export function IconShellDemo() {
   return (
-    <div className="text-fg-primary">
+    <div className="text-fg-secondary">
       <IconShell>
         <Icon icon="crop_free" />
       </IconShell>
@@ -41,24 +41,65 @@ export function IconShellSizes() {
   );
 }
 
-/** Primary, secondary, and disabled opacity */
+/** Primary, secondary, and disabled — content vs status colour strategies */
 export function IconShellVariants() {
   return (
-    <div className="text-fg-primary flex items-center gap-8">
-      {(
-        [
-          ['primary', 'Primary (88%)'],
-          ['secondary', 'Secondary (60%)'],
-          ['disabled', 'Disabled (30%)'],
-        ] as const
-      ).map(([variant, label]) => (
-        <div key={variant} className="flex flex-col items-center gap-2">
-          <IconShell size="default" variant={variant}>
-            <Icon icon="info" />
-          </IconShell>
-          <span className="text-fg-secondary text-xs">{label}</span>
+    <div className="space-y-8">
+      <div>
+        <p className="text-fg-secondary mb-3 text-xs font-medium">
+          Content type (neutral) — copy type + variant from Figma; set parent
+          text token for emphasis
+        </p>
+        <div className="flex items-center gap-8">
+          <div className="text-fg-primary flex flex-col items-center gap-2">
+            <IconShell size="default" variant="primary">
+              <Icon icon="info" />
+            </IconShell>
+            <span className="text-fg-secondary text-xs">
+              primary · text-fg-primary
+            </span>
+          </div>
+          <div className="text-fg-secondary flex flex-col items-center gap-2">
+            <IconShell size="default" variant="secondary">
+              <Icon icon="info" />
+            </IconShell>
+            <span className="text-fg-secondary text-xs">
+              secondary · text-fg-secondary
+            </span>
+          </div>
+          <div className="text-fg-primary flex flex-col items-center gap-2">
+            <IconShell size="default" variant="disabled">
+              <Icon icon="info" />
+            </IconShell>
+            <span className="text-fg-secondary text-xs">
+              disabled · opacity 30%
+            </span>
+          </div>
         </div>
-      ))}
+      </div>
+      <div>
+        <p className="text-fg-secondary mb-3 text-xs font-medium">
+          Status type (info) — variant opacity on the shell
+        </p>
+        <div className="flex items-center gap-8">
+          {(
+            [
+              ['primary', '88%'],
+              ['secondary', '60%'],
+              ['disabled', '30%'],
+            ] as const
+          ).map(([variant, label]) => (
+            <div key={variant} className="flex flex-col items-center gap-2">
+              <IconShell size="default" type="info" variant={variant}>
+                <Icon icon="info" />
+              </IconShell>
+              <span className="text-fg-secondary text-xs">
+                {variant} · {label}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
@@ -68,33 +109,29 @@ export function IconShellTypes() {
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-wrap items-center gap-6">
-        <div className="flex flex-col items-center gap-2">
+        <div className="text-fg-primary flex flex-col items-center gap-2">
           <IconShell size="default" type="neutral">
             <Icon icon="mail" />
           </IconShell>
           <span className="text-fg-secondary text-xs">neutral</span>
         </div>
-        <div className="bg-fill-active flex flex-col items-center gap-2 rounded-lg px-6 py-4">
+        <div className="bg-fill-active text-fg-primary-inverse flex flex-col items-center gap-2 rounded-lg px-6 py-4">
           <IconShell size="default" type="neutral-inverse">
             <Icon icon="mail" />
           </IconShell>
-          <span className="text-fg-primary-inverse text-xs">
-            neutral-inverse
-          </span>
+          <span className="text-xs opacity-80">neutral-inverse</span>
         </div>
-        <div className="flex flex-col items-center gap-2">
+        <div className="text-brand-accents-qb-accent flex flex-col items-center gap-2">
           <IconShell size="default" type="accent">
             <Icon icon="mail" />
           </IconShell>
           <span className="text-fg-secondary text-xs">accent</span>
         </div>
-        <div className="bg-brand-accents-qb-accent flex flex-col items-center gap-2 rounded-lg px-6 py-4">
+        <div className="bg-brand-accents-qb-accent text-fg-primary-inverse flex flex-col items-center gap-2 rounded-lg px-6 py-4">
           <IconShell size="default" type="accent-inverse">
             <Icon icon="mail" />
           </IconShell>
-          <span className="text-fg-primary-inverse text-xs">
-            accent-inverse
-          </span>
+          <span className="text-xs opacity-80">accent-inverse</span>
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-6">
@@ -118,23 +155,29 @@ export function IconShellTypes() {
   );
 }
 
-/** Full size × variant matrix */
+/** Full size × variant matrix (content type — parent text per column) */
 export function IconShellAll() {
   const sizes = ['sm', 'default', 'lg'] as const;
-  const variants = ['primary', 'secondary', 'disabled'] as const;
+  const columns = [
+    { variant: 'primary' as const, parentClass: 'text-fg-primary' },
+    { variant: 'secondary' as const, parentClass: 'text-fg-secondary' },
+    { variant: 'disabled' as const, parentClass: 'text-fg-primary' },
+  ];
 
   return (
-    <div className="text-fg-primary space-y-6">
+    <div className="space-y-6">
       {sizes.map(size => (
         <div key={size} className="space-y-2">
           <span className="text-fg-secondary text-xs font-medium capitalize">
             {size}
           </span>
           <div className="flex items-center gap-4">
-            {variants.map(variant => (
-              <IconShell key={variant} size={size} variant={variant}>
-                <Icon icon="crop_free" />
-              </IconShell>
+            {columns.map(({ variant, parentClass }) => (
+              <div key={variant} className={parentClass}>
+                <IconShell size={size} variant={variant}>
+                  <Icon icon="crop_free" />
+                </IconShell>
+              </div>
             ))}
           </div>
         </div>
@@ -389,13 +432,14 @@ export const examples: DemoExample[] = [
   {
     name: 'IconShellVariants',
     title: 'Variants',
-    description: 'Primary, secondary, and disabled opacity on the shell.',
+    description:
+      'Content types: primary/secondary via parent text token. Status types: opacity on the shell.',
   },
   {
     name: 'IconShellTypes',
     title: 'Types',
     description:
-      'neutral, neutral-inverse, accent, accent-inverse, and status types (success, error, warning, info).',
+      'neutral, neutral-inverse, accent, and accent-inverse inherit parent text colour (currentColor); status types use fixed semantic tokens.',
   },
   {
     name: 'IconShellAll',

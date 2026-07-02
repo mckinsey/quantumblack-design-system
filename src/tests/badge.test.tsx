@@ -78,9 +78,20 @@ describe(`${componentName} — badgeIconShellProps`, () => {
     });
   });
 
-  it('uses inverse neutral on filled status badges', () => {
+  it('uses variant emphasis only on filled badges', () => {
     expect(badgeIconShellProps('error', false)).toEqual({
-      type: 'neutral-inverse',
+      variant: 'primary',
+    });
+    expect(badgeIconShellProps('alternative', false)).toEqual({
+      variant: 'secondary',
+    });
+  });
+
+  it('uses variant emphasis on outline badges when icon matches label', () => {
+    expect(badgeIconShellProps('high-emphasis', true)).toEqual({
+      variant: 'primary',
+    });
+    expect(badgeIconShellProps('brand-accent', true)).toEqual({
       variant: 'primary',
     });
   });

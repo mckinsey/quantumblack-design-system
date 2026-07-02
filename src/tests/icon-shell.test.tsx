@@ -82,14 +82,61 @@ describe(`${componentName} — structure`, () => {
     ).not.toThrow();
   });
 
-  it('applies built-in colour for neutral type', () => {
+  it('uses currentColor for neutral type', () => {
     render(
       <IconShell type="neutral">
         <Icon icon="info" />
       </IconShell>,
     );
     expect(document.querySelector('[data-slot="icon"]')).toHaveClass(
-      'text-fg-primary',
+      'text-current',
+    );
+  });
+
+  it('inherits parent text colour for neutral type', () => {
+    render(
+      <button type="button" className="text-fg-secondary hover:text-fg-primary">
+        <IconShell type="neutral" variant="secondary">
+          <Icon icon="search" />
+        </IconShell>
+      </button>,
+    );
+    expect(document.querySelector('[data-slot="icon"]')).toHaveClass(
+      'text-current',
+    );
+  });
+
+  it('does not apply variant opacity on content types', () => {
+    render(
+      <IconShell type="neutral" variant="secondary">
+        <Icon icon="info" />
+      </IconShell>,
+    );
+    const shell = document.querySelector('[data-slot="icon"]');
+    expect(shell).toHaveClass('text-current');
+    expect(shell).not.toHaveClass('opacity-60');
+    expect(shell).not.toHaveClass('opacity-88');
+  });
+
+  it('applies variant opacity on status types', () => {
+    render(
+      <IconShell type="success" variant="secondary">
+        <Icon icon="check_circle" />
+      </IconShell>,
+    );
+    expect(document.querySelector('[data-slot="icon"]')).toHaveClass(
+      'opacity-60',
+    );
+  });
+
+  it('applies disabled opacity on content types', () => {
+    render(
+      <IconShell type="neutral" variant="disabled">
+        <Icon icon="info" />
+      </IconShell>,
+    );
+    expect(document.querySelector('[data-slot="icon"]')).toHaveClass(
+      'opacity-30',
     );
   });
 

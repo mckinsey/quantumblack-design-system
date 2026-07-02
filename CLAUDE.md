@@ -32,13 +32,28 @@ npm run prettier:fix    # apply Prettier formatting
 
 Icons use the **Material Symbols Sharp** variable font via `<Icon icon="search" />`. Ligature names are Google's snake_case (e.g. `keyboard_arrow_down`, `check_circle`). No per-icon files or codegen — any icon in the font catalog works.
 
-Wrap icons in `<IconShell>` for QBDS sizing (`sm`/`default`/`lg`), type (`neutral` / `neutral-inverse` / `accent` / `accent-inverse` / `success` / `error` / `warning` / `info`), and emphasis (`primary`/`secondary`/`disabled`). `IconShell` provides size context and colour to `<Icon>` automatically — use `type` and `variant` in library code; custom apps may still pass a colour class on `<Icon>` when needed.
+Wrap icons in `<IconShell>` for QBDS sizing (`sm`/`default`/`lg`), **type**, and **variant** — same props as Figma/Code Connect. `IconShell` provides size context to `<Icon>` automatically.
+
+| Figma `type`                                             | Colour in code                                                                                               | Figma `variant` (primary / secondary)                                   |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| `neutral`, `neutral-inverse`, `accent`, `accent-inverse` | Parent/slot text colour (`currentColor`) — e.g. `text-fg-primary`, `text-fg-secondary`, hover on the control | Use **parent text token** for emphasis (`fg-primary` vs `fg-secondary`) |
+| `success`, `error`, `warning`, `info`                    | Fixed status token on the shell                                                                              | Opacity on the shell (`88%` / `60%` / `30%`)                            |
 
 ```tsx
-<IconShell size="sm" variant="secondary">
-  <Icon icon="search" />
+// Menu / button — copy type + variant from Figma; colour from parent
+<Button className="text-fg-secondary hover:text-fg-primary">
+  <IconShell size="sm" type="neutral" variant="secondary">
+    <Icon icon="search" />
+  </IconShell>
+</Button>
+
+// Alert — status type; no parent colour needed
+<IconShell size="lg" type="info" variant="primary">
+  <Icon icon="info" />
 </IconShell>
 ```
+
+Do not pass colour `className` on `IconShell` or `<Icon>` in library code. Custom apps may still colour `<Icon>` directly when needed.
 
 Optical-size contract (same as Figma): `sm` → 20dp@wght400, `default` → 24dp@wght300, `lg` → 40dp@wght300 via `fontVariationSettings`. Set `size` on `<Icon>` directly when not using `IconShell`.
 

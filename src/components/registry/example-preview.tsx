@@ -118,7 +118,7 @@ export function ExamplePreview({
               className="h-7 px-2 text-xs">
               {copied ? (
                 <>
-                  <IconShell size="sm" variant="primary">
+                  <IconShell size="sm" type="success" variant="primary">
                     <Icon icon="check" />
                   </IconShell>
                   Copied

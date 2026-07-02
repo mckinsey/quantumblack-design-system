@@ -28,7 +28,7 @@ export function InstallationGuide({ component }: InstallationGuideProps) {
     <div className="space-y-5">
       {/* CLI Installation */}
       <div className="space-y-3">
-        <div className="flex items-center gap-2">
+        <div className="text-fg-primary flex items-center gap-2">
           <IconShell size="sm" variant="primary">
             <Icon icon="terminal" />
           </IconShell>
@@ -48,7 +48,7 @@ export function InstallationGuide({ component }: InstallationGuideProps) {
 
       {/* Manual Installation */}
       <div className="space-y-3">
-        <div className="flex items-center gap-2">
+        <div className="text-fg-primary flex items-center gap-2">
           <IconShell size="sm" variant="primary">
             <Icon icon="code" />
           </IconShell>
@@ -86,7 +86,7 @@ export function InstallationGuide({ component }: InstallationGuideProps) {
       {/* Files Included */}
       {includedFiles.length > 0 && (
         <div className="space-y-3">
-          <div className="flex items-center gap-2">
+          <div className="text-fg-primary flex items-center gap-2">
             <IconShell size="sm" variant="primary">
               <Icon icon="package_2" />
             </IconShell>
