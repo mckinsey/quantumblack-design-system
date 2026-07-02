@@ -364,15 +364,13 @@ export type BadgeVariant = NonNullable<
   VariantProps<typeof badgeVariants>['variant']
 >;
 
-type BadgeIconShellVariant = BadgeVariant;
-
 /**
  * IconShell type + emphasis for a badge leading icon.
  * Filled badges: icon matches label colour (inverse on emphasis/status fills).
  * Outline badges: icon matches stroke semantics (status types on error/warning/success).
  */
 function badgeIconShellProps(
-  variant: BadgeIconShellVariant,
+  variant: BadgeVariant,
   outline = false,
 ): { type: IconShellType; variant: 'primary' | 'secondary' } {
   if (outline) {
@@ -384,7 +382,7 @@ function badgeIconShellProps(
       warning: { type: 'warning', variant: 'primary' },
       success: { type: 'success', variant: 'primary' },
     } as const satisfies Record<
-      BadgeIconShellVariant,
+      BadgeVariant,
       { type: IconShellType; variant: 'primary' | 'secondary' }
     >;
 
@@ -399,7 +397,7 @@ function badgeIconShellProps(
     warning: { type: 'neutral-inverse', variant: 'primary' },
     success: { type: 'neutral-inverse', variant: 'primary' },
   } as const satisfies Record<
-    BadgeIconShellVariant,
+    BadgeVariant,
     { type: IconShellType; variant: 'primary' | 'secondary' }
   >;
 

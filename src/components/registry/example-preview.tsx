@@ -132,17 +132,17 @@ export function ExamplePreview({
                 </>
               )}
             </Button>
-            <Icon
-              icon="keyboard_arrow_down"
-              className="text-fg-secondary"
+            <IconShell
+              size="sm"
+              variant="secondary"
               style={{
-                fontSize: 14,
                 transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
                 transition: prefersReducedMotion
                   ? undefined
                   : `transform ${isExpanded ? '220ms' : '160ms'} cubic-bezier(0.23, 1, 0.32, 1)`,
-              }}
-            />
+              }}>
+              <Icon icon="keyboard_arrow_down" />
+            </IconShell>
           </div>
         </button>
 

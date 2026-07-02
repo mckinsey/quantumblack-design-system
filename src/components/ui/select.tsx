@@ -69,11 +69,7 @@ function SelectIcon({ className, ...props }: SelectPrimitive.Icon.Props) {
   return (
     <SelectPrimitive.Icon
       data-slot="select-icon"
-      className={cn(
-        'text-fill-active shrink-0',
-        size === 'lg' ? 'size-6' : 'size-4',
-        className,
-      )}
+      className={cn('shrink-0', size === 'lg' ? 'size-6' : 'size-4', className)}
       {...props}
     />
   );

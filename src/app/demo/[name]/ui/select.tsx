@@ -100,12 +100,9 @@ function SelectItemWithIcon({
 
   return (
     <SelectItem value={value} disabled={disabled}>
-      <Icon
-        icon="crop_free"
-        size={iconSize}
-        className="text-fg-secondary"
-        aria-hidden
-      />
+      <IconShell size={iconSize} variant="secondary">
+        <Icon icon="crop_free" aria-hidden />
+      </IconShell>
 
       <SelectItemText>{children}</SelectItemText>
 

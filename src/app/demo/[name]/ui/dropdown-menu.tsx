@@ -285,12 +285,16 @@ export function DropdownMenuLarge() {
         className={DROPDOWN_MENU_PANEL_CLASS}>
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <Icon icon="person" className="size-6" />
+            <IconShell size="default" variant="secondary">
+              <Icon icon="person" />
+            </IconShell>
             Profile
           </DropdownMenuItem>
 
           <DropdownMenuItem>
-            <Icon icon="attach_money" className="size-6" />
+            <IconShell size="default" variant="secondary">
+              <Icon icon="attach_money" />
+            </IconShell>
             Billing
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>

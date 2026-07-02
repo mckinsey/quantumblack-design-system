@@ -269,12 +269,16 @@ export function ContextMenuLarge() {
       <ContextMenuContent size="lg" className={CONTEXT_MENU_PANEL_CLASS}>
         <ContextMenuGroup>
           <ContextMenuItem>
-            <Icon icon="person" className="size-6" />
+            <IconShell size="default" variant="secondary">
+              <Icon icon="person" />
+            </IconShell>
             Profile
           </ContextMenuItem>
 
           <ContextMenuItem>
-            <Icon icon="attach_money" className="size-6" />
+            <IconShell size="default" variant="secondary">
+              <Icon icon="attach_money" />
+            </IconShell>
             Billing
             <ContextMenuShortcut>⌘B</ContextMenuShortcut>
           </ContextMenuItem>

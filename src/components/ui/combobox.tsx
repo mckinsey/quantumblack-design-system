@@ -50,12 +50,9 @@ function ComboboxTrigger({
       className={cn("[&_svg:not([class*='size-'])]:size-4", className)}
       {...props}>
       {children}
-      <Icon
-        icon="keyboard_arrow_down"
-        size="sm"
-        data-slot="combobox-trigger-icon"
-        className="text-fg-secondary pointer-events-none"
-      />
+      <IconShell size="sm" variant="secondary" className="pointer-events-none">
+        <Icon icon="keyboard_arrow_down" data-slot="combobox-trigger-icon" />
+      </IconShell>
     </ComboboxPrimitive.Trigger>
   );
 }
