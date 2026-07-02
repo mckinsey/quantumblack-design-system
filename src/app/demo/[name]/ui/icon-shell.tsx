@@ -63,33 +63,56 @@ export function IconShellVariants() {
   );
 }
 
-/** Colour tokens: neutral (inherits parent), neutral-inverse, accent */
+/** Colour tokens: neutral, accent, and status types */
 export function IconShellTypes() {
   return (
-    <div className="flex flex-wrap items-center gap-6">
-      <div className="flex flex-col items-center gap-2">
-        <IconShell size="default" type="neutral" className="text-fg-primary">
-          <Icon icon="mail" />
-        </IconShell>
-        <span className="text-fg-secondary text-xs">neutral</span>
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-wrap items-center gap-6">
+        <div className="flex flex-col items-center gap-2">
+          <IconShell size="default" type="neutral">
+            <Icon icon="mail" />
+          </IconShell>
+          <span className="text-fg-secondary text-xs">neutral</span>
+        </div>
+        <div className="bg-fill-active flex flex-col items-center gap-2 rounded-lg px-6 py-4">
+          <IconShell size="default" type="neutral-inverse">
+            <Icon icon="mail" />
+          </IconShell>
+          <span className="text-fg-primary-inverse text-xs">
+            neutral-inverse
+          </span>
+        </div>
+        <div className="flex flex-col items-center gap-2">
+          <IconShell size="default" type="accent">
+            <Icon icon="mail" />
+          </IconShell>
+          <span className="text-fg-secondary text-xs">accent</span>
+        </div>
+        <div className="bg-brand-accents-qb-accent flex flex-col items-center gap-2 rounded-lg px-6 py-4">
+          <IconShell size="default" type="accent-inverse">
+            <Icon icon="mail" />
+          </IconShell>
+          <span className="text-fg-primary-inverse text-xs">
+            accent-inverse
+          </span>
+        </div>
       </div>
-      <div className="bg-fill-active flex flex-col items-center gap-2 rounded-lg px-6 py-4">
-        <IconShell size="default" type="neutral-inverse">
-          <Icon icon="mail" />
-        </IconShell>
-        <span className="text-fg-primary-inverse text-xs">neutral-inverse</span>
-      </div>
-      <div className="flex flex-col items-center gap-2">
-        <IconShell size="default" type="accent">
-          <Icon icon="mail" />
-        </IconShell>
-        <span className="text-fg-secondary text-xs">accent</span>
-      </div>
-      <div className="bg-brand-accents-qb-accent flex flex-col items-center gap-2 rounded-lg px-6 py-4">
-        <IconShell size="default" type="accent-inverse">
-          <Icon icon="mail" />
-        </IconShell>
-        <span className="text-fg-primary-inverse text-xs">accent-inverse</span>
+      <div className="flex flex-wrap items-center gap-6">
+        {(
+          [
+            ['success', 'check_circle'],
+            ['error', 'error'],
+            ['warning', 'warning'],
+            ['info', 'info'],
+          ] as const
+        ).map(([type, icon]) => (
+          <div key={type} className="flex flex-col items-center gap-2">
+            <IconShell size="default" type={type} variant="primary">
+              <Icon icon={icon} />
+            </IconShell>
+            <span className="text-fg-secondary text-xs">{type}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -207,23 +230,23 @@ export function IconNavigation() {
   );
 }
 
-/** Status and feedback glyphs — semantic colour on Icon, primary emphasis on shell */
+/** Status and feedback glyphs — status colour via IconShell type */
 export function IconStatus() {
   const icons = [
-    { icon: 'check_circle', className: 'text-status-success' },
-    { icon: 'error', className: 'text-status-error' },
-    { icon: 'warning', className: 'text-status-warning' },
-    { icon: 'info', className: 'text-status-information' },
-    { icon: 'cancel', className: 'text-fg-secondary' },
-    { icon: 'playlist_add_check', className: 'text-status-success' },
+    { icon: 'check_circle', type: 'success' },
+    { icon: 'error', type: 'error' },
+    { icon: 'warning', type: 'warning' },
+    { icon: 'info', type: 'info' },
+    { icon: 'cancel', type: 'neutral' },
+    { icon: 'playlist_add_check', type: 'neutral' },
   ] as const;
 
   return (
     <div className="flex flex-wrap items-center gap-8">
-      {icons.map(({ icon, className }) => (
+      {icons.map(({ icon, type }) => (
         <div key={icon} className="flex flex-col items-center gap-2">
-          <IconShell size="default" variant="primary">
-            <Icon icon={icon} className={className} />
+          <IconShell size="default" type={type} variant="primary">
+            <Icon icon={icon} />
           </IconShell>
           <span className="text-fg-secondary font-mono text-[10px]">
             {icon}
@@ -372,7 +395,7 @@ export const examples: DemoExample[] = [
     name: 'IconShellTypes',
     title: 'Types',
     description:
-      'neutral, neutral-inverse, accent, and accent-inverse colour tokens.',
+      'neutral, neutral-inverse, accent, accent-inverse, and status types (success, error, warning, info).',
   },
   {
     name: 'IconShellAll',
@@ -398,8 +421,7 @@ export const examples: DemoExample[] = [
   {
     name: 'IconStatus',
     title: 'Status',
-    description:
-      'Success, error, warning, and info status colours on the glyph.',
+    description: 'Alert and feedback glyphs using status IconShell types.',
   },
   {
     name: 'IconInButtons',

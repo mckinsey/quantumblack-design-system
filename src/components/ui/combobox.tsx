@@ -214,13 +214,13 @@ function ComboboxItem({
         className,
       )}
       {...props}>
-      <span className="flex-1 overflow-hidden overflow-ellipsis whitespace-nowrap">
+      <span className="flex min-w-0 flex-1 items-center overflow-hidden">
         {children}
       </span>
       <ComboboxPrimitive.ItemIndicator
         data-slot="combobox-item-indicator"
         render={<span className="flex size-4 items-center justify-center" />}>
-        <IconShell size="sm" variant="primary" className="text-fill-active">
+        <IconShell size="sm" variant="primary">
           <Icon icon="check" />
         </IconShell>
       </ComboboxPrimitive.ItemIndicator>

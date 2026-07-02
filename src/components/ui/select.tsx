@@ -121,10 +121,7 @@ function SelectTrigger({
       {...props}>
       {children}
       <SelectIcon className="transition-transform duration-200 [[data-popup-open]>&]:rotate-180">
-        <IconShell
-          size={size === 'lg' ? 'default' : 'sm'}
-          variant="secondary"
-          className="text-fill-active">
+        <IconShell size={size === 'lg' ? 'default' : 'sm'} variant="secondary">
           <Icon icon="keyboard_arrow_down" />
         </IconShell>
       </SelectIcon>
@@ -291,7 +288,7 @@ function SelectScrollUpArrow({
         className,
       )}
       {...props}>
-      <IconShell size="sm" variant="primary" className="text-fill-active">
+      <IconShell size="sm" variant="primary">
         <Icon icon="keyboard_arrow_down" className="rotate-180" />
       </IconShell>
     </SelectPrimitive.ScrollUpArrow>
@@ -310,7 +307,7 @@ function SelectScrollDownArrow({
         className,
       )}
       {...props}>
-      <IconShell size="sm" variant="primary" className="text-fill-active">
+      <IconShell size="sm" variant="primary">
         <Icon icon="keyboard_arrow_down" />
       </IconShell>
     </SelectPrimitive.ScrollDownArrow>

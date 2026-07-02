@@ -19,10 +19,14 @@ const iconVariants = cva(
         lg: 'text-[32px] size-8',
       },
       type: {
-        neutral: '',
+        neutral: 'text-fg-primary',
         'neutral-inverse': 'text-fg-primary-inverse',
         accent: 'text-brand-accents-qb-accent',
         'accent-inverse': 'text-brand-accents-mckinsey-electric-blue',
+        success: 'text-status-success',
+        error: 'text-status-error',
+        warning: 'text-status-warning',
+        info: 'text-status-information',
       },
       variant: {
         primary: 'opacity-88',
@@ -66,3 +70,7 @@ function IconShell({
 }
 
 export { IconShell, iconVariants };
+
+export type IconShellType = NonNullable<
+  VariantProps<typeof iconVariants>['type']
+>;

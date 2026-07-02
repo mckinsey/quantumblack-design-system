@@ -448,10 +448,7 @@ export function AvatarPickerSingle() {
             <SelectItemText>{user.name}</SelectItemText>
 
             <SelectItemIndicator>
-              <IconShell
-                size="sm"
-                variant="primary"
-                className="text-fill-active">
+              <IconShell size="sm" variant="primary">
                 <Icon icon="check" />
               </IconShell>
             </SelectItemIndicator>

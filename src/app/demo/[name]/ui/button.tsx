@@ -210,7 +210,7 @@ export function ButtonDropdown() {
           className="justify-between">
           {option}
           {selected === option ? (
-            <IconShell className="text-fill-active" size="sm" variant="primary">
+            <IconShell size="sm" variant="primary">
               <Icon icon="check" />
             </IconShell>
           ) : null}

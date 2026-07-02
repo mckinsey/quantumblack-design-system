@@ -3,7 +3,11 @@ import { afterEach, describe, expect, it } from 'vitest';
 
 import { exampleComponentMaps } from '@/app/demo/[name]/index';
 import { Renderer } from '@/app/demo/[name]/renderer';
-import { Badge, NumericBadge } from '@/components/ui/badge';
+import {
+  Badge,
+  NumericBadge,
+  badgeIconShellProps,
+} from '@/components/ui/badge';
 
 const componentName = 'badge';
 
@@ -55,5 +59,29 @@ describe(`${componentName} — structure`, () => {
   it('renders pill badge with rounded-full', () => {
     render(<Badge>Pill</Badge>);
     expect(screen.getByText('Pill')).toHaveClass('rounded-full');
+  });
+});
+
+describe(`${componentName} — badgeIconShellProps`, () => {
+  it('uses status types on outline error/warning/success badges', () => {
+    expect(badgeIconShellProps('error', true)).toEqual({
+      type: 'error',
+      variant: 'primary',
+    });
+    expect(badgeIconShellProps('warning', true)).toEqual({
+      type: 'warning',
+      variant: 'primary',
+    });
+    expect(badgeIconShellProps('success', true)).toEqual({
+      type: 'success',
+      variant: 'primary',
+    });
+  });
+
+  it('uses inverse neutral on filled status badges', () => {
+    expect(badgeIconShellProps('error', false)).toEqual({
+      type: 'neutral-inverse',
+      variant: 'primary',
+    });
   });
 });

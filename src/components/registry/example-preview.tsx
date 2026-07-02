@@ -119,7 +119,7 @@ export function ExamplePreview({
               {copied ? (
                 <>
                   <IconShell size="sm" variant="primary">
-                    <Icon icon="check" className="text-status-success" />
+                    <Icon icon="check" />
                   </IconShell>
                   Copied
                 </>

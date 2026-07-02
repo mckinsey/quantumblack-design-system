@@ -11,7 +11,7 @@ import {
 
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
-import { IconShell } from '@/components/ui/icon-shell';
+import { IconShell, type IconShellType } from '@/components/ui/icon-shell';
 import { cn } from '@/lib/utils';
 
 type ToastType = NonNullable<ToastT['type']>;
@@ -31,35 +31,42 @@ interface ToastProps {
   readonly options?: ToastOptions;
 }
 
+type ToastConfigKey = 'success' | 'error' | 'warning' | 'info' | 'default';
+
 const toastTypeConfig = {
   success: {
     borderClass: 'border-l-[var(--border-status-success)]',
     icon: 'check_circle',
-    iconClass: 'text-status-success',
+    iconType: 'success',
   },
   error: {
     borderClass: 'border-l-[var(--border-status-error)]',
     icon: 'cancel',
-    iconClass: 'text-status-error',
+    iconType: 'error',
   },
   warning: {
     borderClass: 'border-l-[var(--border-status-warning)]',
     icon: 'error',
-    iconClass: 'text-status-warning',
+    iconType: 'warning',
   },
   info: {
     borderClass: 'border-l-[var(--border-status-focus)]',
     icon: 'info',
-    iconClass: 'text-status-information',
+    iconType: 'info',
   },
   default: {
     borderClass: 'border-l-[var(--border-primary)]',
     icon: 'playlist_add_check',
-    iconClass: 'text-fill-active',
+    iconType: 'neutral',
   },
-} as const;
-
-type ToastConfigKey = keyof typeof toastTypeConfig;
+} as const satisfies Record<
+  ToastConfigKey,
+  {
+    borderClass: string;
+    icon: string;
+    iconType: IconShellType;
+  }
+>;
 
 const getToastConfig = (type: ToastType) => {
   if (type in toastTypeConfig) {
@@ -70,8 +77,8 @@ const getToastConfig = (type: ToastType) => {
 };
 
 const getDefaultIcon = (config: ReturnType<typeof getToastConfig>) => (
-  <IconShell size="default" variant="primary">
-    <Icon icon={config.icon} className={config.iconClass} />
+  <IconShell size="default" type={config.iconType} variant="primary">
+    <Icon icon={config.icon} />
   </IconShell>
 );
 
@@ -89,7 +96,7 @@ function getCancelComponent(
       size="icon-xxs"
       onClick={() => sonnerToast.dismiss(id)}
       aria-label="Close toast">
-      <IconShell size="sm" variant="secondary" className="text-fill-active">
+      <IconShell size="sm" variant="secondary">
         <Icon icon="close" />
       </IconShell>
     </Button>

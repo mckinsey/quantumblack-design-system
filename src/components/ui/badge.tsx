@@ -2,6 +2,7 @@ import { Slot } from '@radix-ui/react-slot';
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
+import type { IconShellType } from '@/components/ui/icon-shell';
 import { cn } from '@/lib/utils';
 
 const badgePadding = {
@@ -359,10 +360,57 @@ function StatusBadge({
   );
 }
 
+export type BadgeVariant = NonNullable<
+  VariantProps<typeof badgeVariants>['variant']
+>;
+
+type BadgeIconShellVariant = BadgeVariant;
+
+/**
+ * IconShell type + emphasis for a badge leading icon.
+ * Filled badges: icon matches label colour (inverse on emphasis/status fills).
+ * Outline badges: icon matches stroke semantics (status types on error/warning/success).
+ */
+function badgeIconShellProps(
+  variant: BadgeIconShellVariant,
+  outline = false,
+): { type: IconShellType; variant: 'primary' | 'secondary' } {
+  if (outline) {
+    const outlineMap = {
+      'high-emphasis': { type: 'neutral', variant: 'primary' },
+      'brand-accent': { type: 'accent', variant: 'primary' },
+      alternative: { type: 'neutral', variant: 'secondary' },
+      error: { type: 'error', variant: 'primary' },
+      warning: { type: 'warning', variant: 'primary' },
+      success: { type: 'success', variant: 'primary' },
+    } as const satisfies Record<
+      BadgeIconShellVariant,
+      { type: IconShellType; variant: 'primary' | 'secondary' }
+    >;
+
+    return outlineMap[variant];
+  }
+
+  const filledMap = {
+    'high-emphasis': { type: 'neutral-inverse', variant: 'primary' },
+    'brand-accent': { type: 'neutral-inverse', variant: 'primary' },
+    alternative: { type: 'neutral', variant: 'secondary' },
+    error: { type: 'neutral-inverse', variant: 'primary' },
+    warning: { type: 'neutral-inverse', variant: 'primary' },
+    success: { type: 'neutral-inverse', variant: 'primary' },
+  } as const satisfies Record<
+    BadgeIconShellVariant,
+    { type: IconShellType; variant: 'primary' | 'secondary' }
+  >;
+
+  return filledMap[variant];
+}
+
 export {
   Badge,
   NumericBadge,
   StatusBadge,
+  badgeIconShellProps,
   badgeVariants,
   numericBadgeVariants,
   statusBadgeCoreVariants,

@@ -78,7 +78,7 @@ export function CodeBlock({
           {copied ? (
             <>
               <IconShell size="sm" variant="primary">
-                <Icon icon="check" className="text-status-success" />
+                <Icon icon="check" />
               </IconShell>
               <span className="paragraph-small-primary text-fg-primary">
                 Copied

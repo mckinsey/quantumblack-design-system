@@ -110,10 +110,7 @@ function SelectItemWithIcon({
       <SelectItemText>{children}</SelectItemText>
 
       <SelectItemIndicator>
-        <IconShell
-          size={iconSize}
-          variant="primary"
-          className="text-fill-active">
+        <IconShell size={iconSize} variant="primary">
           <Icon icon="check" />
         </IconShell>
       </SelectItemIndicator>

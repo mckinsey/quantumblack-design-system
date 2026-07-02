@@ -123,10 +123,7 @@ export function ComboboxDemo() {
           <InputGroup size="default" className="w-full">
             <InputGroupAddon align="inline-start">
               <InputGroupText>
-                <IconShell
-                  size="sm"
-                  variant="secondary"
-                  className="text-fill-active">
+                <IconShell size="sm" variant="secondary">
                   <Icon icon="search" />
                 </IconShell>
               </InputGroupText>
@@ -134,10 +131,7 @@ export function ComboboxDemo() {
             <ComboboxInput size="default" placeholder="Placeholder" />
             <InputGroupAddon align="inline-end">
               <InputGroupText>
-                <IconShell
-                  size="sm"
-                  variant="secondary"
-                  className="text-fill-active">
+                <IconShell size="sm" variant="secondary">
                   <Icon icon="layers" />
                 </IconShell>
               </InputGroupText>
@@ -158,11 +152,9 @@ export function ComboboxDemo() {
             {item => (
               <ComboboxItem key={item} value={item}>
                 <span className="flex items-center gap-2">
-                  <Icon
-                    icon="description"
-                    className="text-fg-secondary size-4 shrink-0"
-                    aria-hidden
-                  />
+                  <IconShell size="sm" variant="secondary" className="shrink-0">
+                    <Icon icon="description" />
+                  </IconShell>
                   {item}
                 </span>
               </ComboboxItem>
@@ -287,7 +279,7 @@ export function ComboboxCustomCheckbox() {
             {item => (
               <ComboboxItem key={item.id} value={item}>
                 <span
-                  className="flex w-full cursor-default items-center gap-2"
+                  className="flex min-w-0 flex-1 items-center gap-2"
                   {...stopPropagationHandlers}>
                   <Checkbox id={`cb-${item.id}`} size="default" />
                   <span className="flex-1">{item.label}</span>
@@ -328,18 +320,11 @@ export function ComboboxCustomToggle() {
             {item => (
               <ComboboxItem key={item.id} value={item}>
                 <span
-                  className="flex w-full cursor-default items-center gap-2"
+                  className="flex min-w-0 flex-1 items-center gap-2"
                   {...stopPropagationHandlers}>
-                  <span
-                    className="text-fg-secondary [&_svg]:size-4"
-                    aria-hidden>
-                    <IconShell
-                      size="sm"
-                      variant="secondary"
-                      className="text-fill-active">
-                      <Icon icon="search" />
-                    </IconShell>
-                  </span>
+                  <IconShell size="sm" variant="secondary" className="shrink-0">
+                    <Icon icon="search" />
+                  </IconShell>
                   <span className="flex-1">{item.label}</span>
                   <span className="text-fg-secondary">{item.subLabel}</span>
                   <Switch id={`sw-${item.id}`} size="sm" className="shrink-0" />

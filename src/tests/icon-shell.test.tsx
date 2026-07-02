@@ -63,18 +63,46 @@ describe(`${componentName} — structure`, () => {
     },
   );
 
-  it.each(['neutral', 'neutral-inverse', 'accent', 'accent-inverse'] as const)(
-    'renders type="%s" without crashing',
-    type => {
-      expect(() =>
-        render(
-          <IconShell type={type}>
-            <Icon icon="info" />
-          </IconShell>,
-        ),
-      ).not.toThrow();
-    },
-  );
+  it.each([
+    'neutral',
+    'neutral-inverse',
+    'accent',
+    'accent-inverse',
+    'success',
+    'error',
+    'warning',
+    'info',
+  ] as const)('renders type="%s" without crashing', type => {
+    expect(() =>
+      render(
+        <IconShell type={type}>
+          <Icon icon="info" />
+        </IconShell>,
+      ),
+    ).not.toThrow();
+  });
+
+  it('applies built-in colour for neutral type', () => {
+    render(
+      <IconShell type="neutral">
+        <Icon icon="info" />
+      </IconShell>,
+    );
+    expect(document.querySelector('[data-slot="icon"]')).toHaveClass(
+      'text-fg-primary',
+    );
+  });
+
+  it('applies built-in colour for success type', () => {
+    render(
+      <IconShell type="success">
+        <Icon icon="check_circle" />
+      </IconShell>,
+    );
+    expect(document.querySelector('[data-slot="icon"]')).toHaveClass(
+      'text-status-success',
+    );
+  });
 
   it('renders children inside the shell', () => {
     render(

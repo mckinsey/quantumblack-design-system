@@ -1,4 +1,9 @@
-import { Badge, NumericBadge, StatusBadge } from '@/components/ui/badge';
+import {
+  Badge,
+  NumericBadge,
+  StatusBadge,
+  badgeIconShellProps,
+} from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
@@ -152,18 +157,6 @@ const iconByVariant = {
   success: 'check_circle',
 } as const;
 
-const iconOutlineColorByVariant: Record<
-  (typeof iconLabelVariants)[number],
-  string
-> = {
-  'high-emphasis': 'text-fg-primary',
-  'brand-accent': 'text-brand-accents-qb-accent',
-  alternative: 'text-fg-secondary',
-  error: 'text-status-error',
-  warning: 'text-status-warning',
-  success: 'text-status-success',
-};
-
 export function BadgeIconLabel() {
   return (
     <div className="flex flex-col gap-3">
@@ -173,26 +166,26 @@ export function BadgeIconLabel() {
         return (
           <div key={v} className="flex flex-wrap items-center gap-3">
             <Badge size="sm" variant={v} withIcon>
-              <IconShell size="sm">
+              <IconShell size="sm" {...badgeIconShellProps(v, false)}>
                 <Icon icon={icon} />
               </IconShell>
               Label
             </Badge>
             <Badge size="default" variant={v} withIcon>
-              <IconShell size="sm">
+              <IconShell size="sm" {...badgeIconShellProps(v, false)}>
                 <Icon icon={icon} />
               </IconShell>
               Label
             </Badge>
             <Badge outline size="sm" variant={v} withIcon>
-              <IconShell size="sm" variant="primary">
-                <Icon icon={icon} className={iconOutlineColorByVariant[v]} />
+              <IconShell size="sm" {...badgeIconShellProps(v, true)}>
+                <Icon icon={icon} />
               </IconShell>
               Label
             </Badge>
             <Badge outline size="default" variant={v} withIcon>
-              <IconShell size="sm" variant="primary">
-                <Icon icon={icon} className={iconOutlineColorByVariant[v]} />
+              <IconShell size="sm" {...badgeIconShellProps(v, true)}>
+                <Icon icon={icon} />
               </IconShell>
               Label
             </Badge>

@@ -47,10 +47,7 @@ export function InputGroupDemo() {
       <FieldTitle className={label}>Label</FieldTitle>
       <InputGroup>
         <LeadingIcon>
-          <IconShell
-            size={iconSize}
-            variant="secondary"
-            className="text-fill-active">
+          <IconShell size={iconSize} variant="secondary">
             <Icon icon="search" />
           </IconShell>
         </LeadingIcon>
@@ -71,10 +68,7 @@ export function InputGroupLeadingIcon() {
         <FieldTitle className={label}>Label</FieldTitle>
         <InputGroup>
           <LeadingIcon>
-            <IconShell
-              size={iconSize}
-              variant="secondary"
-              className="text-fill-active">
+            <IconShell size={iconSize} variant="secondary">
               <Icon icon="mail" />
             </IconShell>
           </LeadingIcon>
@@ -87,10 +81,7 @@ export function InputGroupLeadingIcon() {
         <FieldTitle className={label}>Label</FieldTitle>
         <InputGroup>
           <LeadingIcon>
-            <IconShell
-              size={iconSize}
-              variant="secondary"
-              className="text-fill-active">
+            <IconShell size={iconSize} variant="secondary">
               <Icon icon="person" />
             </IconShell>
           </LeadingIcon>
@@ -125,10 +116,7 @@ export function InputGroupTrailing() {
           <InputGroupInput placeholder="Placeholder" />
           <InputGroupAddon align="inline-end">
             <InputGroupButton size="icon-xs" variant="ghost">
-              <IconShell
-                size={iconSize}
-                variant="secondary"
-                className="text-fill-active">
+              <IconShell size={iconSize} variant="secondary">
                 <Icon icon="send" />
               </IconShell>
             </InputGroupButton>
@@ -149,10 +137,7 @@ export function InputGroupBothSides() {
       <FieldTitle className={label}>Label</FieldTitle>
       <InputGroup>
         <LeadingIcon>
-          <IconShell
-            size={iconSize}
-            variant="secondary"
-            className="text-fill-active">
+          <IconShell size={iconSize} variant="secondary">
             <Icon icon="attach_money" />
           </IconShell>
         </LeadingIcon>
@@ -191,10 +176,7 @@ export function InputGroupSizes() {
               <FieldTitle className={labelClass}>Label</FieldTitle>
               <InputGroup size={size}>
                 <LeadingIcon>
-                  <IconShell
-                    size={iconSize}
-                    variant="secondary"
-                    className="text-fill-active">
+                  <IconShell size={iconSize} variant="secondary">
                     <Icon icon="search" />
                   </IconShell>
                 </LeadingIcon>
@@ -209,10 +191,7 @@ export function InputGroupSizes() {
               <FieldTitle className={inlineLabelClass}>Label</FieldTitle>
               <InputGroup variant="inline" size={size}>
                 <LeadingIcon>
-                  <IconShell
-                    size={iconSize}
-                    variant="secondary"
-                    className="text-fill-active">
+                  <IconShell size={iconSize} variant="secondary">
                     <Icon icon="search" />
                   </IconShell>
                 </LeadingIcon>
