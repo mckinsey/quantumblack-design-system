@@ -205,7 +205,8 @@ function Sidebar({
 
   if (collapsible === 'none') {
     return (
-      <div
+      <nav
+        aria-label="Primary"
         data-slot="sidebar"
         data-size={size}
         style={
@@ -220,7 +221,7 @@ function Sidebar({
         )}
         {...props}>
         {children}
-      </div>
+      </nav>
     );
   }
 
@@ -529,7 +530,7 @@ const sidebarMenuButtonVariants = cva(
     'focus-visible:ring-1',
     'active:bg-stateslayer-overlay-active-inverse active:text-sidebar-accent-foreground',
     'data-[active=true]:bg-stateslayer-overlay-active-inverse data-[active=true]:text-sidebar-accent-foreground',
-    'disabled:pointer-events-none aria-disabled:pointer-events-none',
+    'disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50',
     'data-[state=open]:hover:bg-stateslayer-hover data-[state=open]:hover:text-sidebar-accent-foreground',
   ],
   {
@@ -567,6 +568,7 @@ function SidebarMenuButton({
       data-sidebar="menu-button"
       data-size={size}
       data-active={isActive}
+      aria-current={isActive ? 'page' : undefined}
       className={cn(sidebarMenuButtonVariants({ size }), className)}
       {...props}
     />

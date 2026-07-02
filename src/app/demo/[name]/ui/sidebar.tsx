@@ -20,6 +20,7 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarSeparator,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 import { cn } from '@/lib/utils';
@@ -79,22 +80,33 @@ function NavRail({
   active: NavId;
   onActive: (id: NavId) => void;
 }) {
+  const { size } = useSidebar();
+  const iconSize = size === 'lg' ? 'lg' : 'default';
+
   return (
     <Sidebar collapsible="none">
       <SidebarHeader>
         <SidebarMenu>
-          {primaryNav.map(item => (
-            <SidebarMenuItem key={item.id}>
-              <SidebarMenuButton
-                isActive={active === item.id}
-                tooltip={itemTooltip(item.label)}
-                onClick={() => onActive(item.id)}>
-                <IconShell variant="primary">
-                  <Icon icon={item.icon} />
-                </IconShell>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+          {primaryNav.map(item => {
+            const isActive = active === item.id;
+
+            return (
+              <SidebarMenuItem key={item.id}>
+                <SidebarMenuButton
+                  isActive={isActive}
+                  tooltip={itemTooltip(item.label)}
+                  onClick={() => onActive(item.id)}>
+                  <IconShell
+                    size={iconSize}
+                    variant={
+                      isActive && size === 'lg' ? 'primary' : 'secondary'
+                    }>
+                    <Icon icon={item.icon} />
+                  </IconShell>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            );
+          })}
         </SidebarMenu>
       </SidebarHeader>
       <SidebarFooter>
@@ -103,7 +115,7 @@ function NavRail({
           {utilityNav.map(item => (
             <SidebarMenuItem key={item.label}>
               <SidebarFooterButton tooltip={itemTooltip(item.label)}>
-                <IconShell variant="secondary">
+                <IconShell size="default" variant="secondary">
                   <Icon icon={item.icon} />
                 </IconShell>
               </SidebarFooterButton>
