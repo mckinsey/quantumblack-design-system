@@ -170,8 +170,9 @@ function CustomToast({ id }: { id: string | number }) {
         Dismiss
       </Button>
       <button
+        type="button"
         onClick={() => sonnerToast.dismiss(id)}
-        className="hover:bg-fill-onsurface-ui-2 shrink-0 rounded p-1"
+        className="group hover:bg-fill-onsurface-ui-2 shrink-0 rounded p-1"
         aria-label="Close">
         <IconShell size="sm" variant="secondary">
           <Icon icon="close" />

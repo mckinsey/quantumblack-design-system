@@ -69,7 +69,11 @@ function SelectIcon({ className, ...props }: SelectPrimitive.Icon.Props) {
   return (
     <SelectPrimitive.Icon
       data-slot="select-icon"
-      className={cn('shrink-0', size === 'lg' ? 'size-6' : 'size-4', className)}
+      className={cn(
+        'text-fill-active shrink-0 opacity-60 [[data-disabled]>&]:opacity-30',
+        size === 'lg' ? 'size-6' : 'size-4',
+        className,
+      )}
       {...props}
     />
   );
@@ -117,7 +121,7 @@ function SelectTrigger({
       {...props}>
       {children}
       <SelectIcon className="transition-transform duration-200 [[data-popup-open]>&]:rotate-180">
-        <IconShell size={size === 'lg' ? 'default' : 'sm'} variant="secondary">
+        <IconShell size={size === 'lg' ? 'default' : 'sm'}>
           <Icon icon="keyboard_arrow_down" />
         </IconShell>
       </SelectIcon>

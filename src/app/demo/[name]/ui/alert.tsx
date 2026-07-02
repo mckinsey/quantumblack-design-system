@@ -16,7 +16,7 @@ const LONG_DESCRIPTION =
   'Make your message brief; target a one-line alert that conveys clearly your point.';
 
 const INFO_ICON = (
-  <IconShell size="lg" type="info" variant="primary">
+  <IconShell size="lg" variant="primary" className="text-status-information">
     <Icon icon="info" />
   </IconShell>
 );
@@ -94,19 +94,19 @@ export function AlertLongWithButtons() {
 const ALERT_STATUS_VARIANTS = [
   {
     icon: 'check_circle',
-    type: 'success',
+    iconClassName: 'text-status-success',
     title: 'Success!',
     description: 'Your changes have been saved successfully.',
   },
   {
     icon: 'warning',
-    type: 'warning',
+    iconClassName: 'text-status-warning',
     title: 'Warning',
     description: 'Please review your changes before proceeding.',
   },
   {
     icon: 'error',
-    type: 'error',
+    iconClassName: 'text-status-error',
     title: 'Error',
     description: 'Something went wrong. Please try again.',
   },
@@ -118,7 +118,7 @@ export function AlertVariants() {
       {ALERT_STATUS_VARIANTS.map(v => (
         <Alert key={v.title} layout="modal">
           <AlertIcon>
-            <IconShell size="lg" type={v.type} variant="primary">
+            <IconShell size="lg" variant="primary" className={v.iconClassName}>
               <Icon icon={v.icon} />
             </IconShell>
           </AlertIcon>

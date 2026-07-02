@@ -51,7 +51,7 @@ function ComboboxTrigger({
       className={cn("[&_svg:not([class*='size-'])]:size-4", className)}
       {...props}>
       {children}
-      <IconShell size="sm" variant="secondary" className="pointer-events-none">
+      <IconShell size="sm" className="pointer-events-none">
         <Icon icon="keyboard_arrow_down" data-slot="combobox-trigger-icon" />
       </IconShell>
     </ComboboxPrimitive.Trigger>
@@ -65,11 +65,9 @@ function ComboboxClear({ className, ...props }: ComboboxPrimitive.Clear.Props) {
       render={<InputGroupButton variant="ghost" size="icon-xs" />}
       className={cn(className)}
       {...props}>
-      <Icon
-        icon="close"
-        className="pointer-events-none text-xs"
-        style={{ fontSize: 12 }}
-      />
+      <IconShell size="sm" className="pointer-events-none">
+        <Icon icon="close" />
+      </IconShell>
     </ComboboxPrimitive.Clear>
   );
 }
@@ -323,11 +321,9 @@ function ComboboxChip({
         render={<Button variant="ghost" size="icon-xxs" aria-label="Remove" />}
         className="-ml-1 opacity-50 hover:opacity-100"
         data-slot="combobox-chip-remove">
-        <Icon
-          icon="close"
-          className="pointer-events-none text-xs"
-          style={{ fontSize: 12 }}
-        />
+        <IconShell size="sm" className="pointer-events-none">
+          <Icon icon="close" />
+        </IconShell>
       </ComboboxPrimitive.ChipRemove>
     </ComboboxPrimitive.Chip>
   );

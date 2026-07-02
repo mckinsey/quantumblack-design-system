@@ -34,26 +34,32 @@ Icons use the **Material Symbols Sharp** variable font via `<Icon icon="search" 
 
 Wrap icons in `<IconShell>` for QBDS sizing (`sm`/`default`/`lg`), **type**, and **variant** — same props as Figma/Code Connect. `IconShell` provides size context to `<Icon>` automatically.
 
-| Figma `type`                                             | Colour in code                                                                                               | Figma `variant` (primary / secondary)                                   |
-| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
-| `neutral`, `neutral-inverse`, `accent`, `accent-inverse` | Parent/slot text colour (`currentColor`) — e.g. `text-fg-primary`, `text-fg-secondary`, hover on the control | Use **parent text token** for emphasis (`fg-primary` vs `fg-secondary`) |
-| `success`, `error`, `warning`, `info`                    | Fixed status token on the shell                                                                              | Opacity on the shell (`88%` / `60%` / `30%`)                            |
+| Figma `type`      | Colour in code                                                                       |
+| ----------------- | ------------------------------------------------------------------------------------ |
+| `neutral`         | `text-fg-primary` / `text-fg-secondary` / `text-fg-disabled` via **variant**         |
+| `neutral-inverse` | `text-fg-primary-inverse` / `text-fg-secondary-inverse` / `text-fg-disabled-inverse` |
+| `accent`          | `text-brand-accents-qb-accent` + variant opacity                                     |
+| `accent-inverse`  | inverse text tokens + variant                                                        |
+
+**Variant** (default `secondary`): `primary` = stronger emphasis, `secondary` = muted. On hover, secondary icons lift to primary via `group-hover/btn` (buttons use `group/btn`) or `group-hover` on the parent.
+
+Status icons (`success`, `error`, etc.) are not `IconShell` types — pass a colour `className`:
 
 ```tsx
-// Menu / button — copy type + variant from Figma; colour from parent
-<Button className="text-fg-secondary hover:text-fg-primary">
-  <IconShell size="sm" type="neutral" variant="secondary">
+// Button icon — type + variant from Figma; hover lifts secondary → primary
+<Button>
+  <IconShell size="sm">
     <Icon icon="search" />
   </IconShell>
 </Button>
 
-// Alert — status type; no parent colour needed
-<IconShell size="lg" type="info" variant="primary">
+// Alert status icon — className for colour
+<IconShell size="lg" variant="primary" className="text-status-information">
   <Icon icon="info" />
 </IconShell>
 ```
 
-Do not pass colour `className` on `IconShell` or `<Icon>` in library code. Custom apps may still colour `<Icon>` directly when needed.
+Do not pass colour `className` on `IconShell` for content types — type + variant handle it. Custom apps may colour `<Icon>` directly when needed.
 
 Optical-size contract (same as Figma): `sm` → 20dp@wght400, `default` → 24dp@wght300, `lg` → 40dp@wght300 via `fontVariationSettings`. Set `size` on `<Icon>` directly when not using `IconShell`.
 

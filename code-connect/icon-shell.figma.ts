@@ -15,7 +15,7 @@ const type = instance.getEnum('Type', {
   neutral: 'neutral',
   'neutral-inverse': 'neutral-inverse',
   accent: 'accent',
-  'accent-inverse': 'accent',
+  'accent-inverse': 'accent-inverse',
 });
 
 const variant = instance.getEnum('State', {

@@ -103,12 +103,14 @@ export function Navbar() {
             {/* Search button */}
             <Button
               variant="outline"
-              className="text-fg-secondary hover:text-fg-primary hidden h-9 items-center gap-2 px-3 md:flex"
+              className="hidden h-9 items-center gap-2 px-3 md:flex"
               onClick={() => setIsSearchOpen(true)}>
               <IconShell size="sm">
                 <Icon icon="search" />
               </IconShell>
-              <span className="paragraph-small-primary">Search...</span>
+              <span className="paragraph-small-primary text-fg-secondary group-hover/btn:text-fg-primary">
+                Search...
+              </span>
               <kbd className="border-stroke-tertiary bg-fill-subtle paragraph-code-text text-fg-tertiary pointer-events-none hidden h-5 items-center gap-1 border px-1.5 select-none sm:flex">
                 <span className="text-xs">⌘</span>K
               </kbd>

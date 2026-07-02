@@ -118,7 +118,7 @@ export function ExamplePreview({
               className="h-7 px-2 text-xs">
               {copied ? (
                 <>
-                  <IconShell size="sm" type="success" variant="primary">
+                  <IconShell size="sm" className="text-status-success mr-1">
                     <Icon icon="check" />
                   </IconShell>
                   Copied
@@ -134,7 +134,6 @@ export function ExamplePreview({
             </Button>
             <IconShell
               size="sm"
-              variant="secondary"
               style={{
                 transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
                 transition: prefersReducedMotion

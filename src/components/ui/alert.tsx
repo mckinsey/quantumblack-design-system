@@ -89,15 +89,18 @@ function AlertDescription({ className, ...props }: React.ComponentProps<'p'>) {
   );
 }
 
-function AlertClose({ ...props }: React.ComponentProps<typeof Button>) {
+function AlertClose({
+  className,
+  ...props
+}: React.ComponentProps<typeof Button>) {
   return (
     <Button
       {...props}
-      className="self-start"
+      className={cn('self-start', className)}
       data-slot="alert-close"
       size="icon"
       variant="ghost">
-      <IconShell size="sm" variant="secondary">
+      <IconShell size="sm">
         <Icon icon="close" />
         <span className="sr-only">Close</span>
       </IconShell>

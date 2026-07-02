@@ -77,7 +77,7 @@ export function CodeBlock({
           className="ml-auto h-8 px-2 transition-colors">
           {copied ? (
             <>
-              <IconShell size="sm" type="success" variant="primary">
+              <IconShell size="sm" className="text-status-success mr-1">
                 <Icon icon="check" />
               </IconShell>
               <span className="paragraph-small-primary text-fg-primary">

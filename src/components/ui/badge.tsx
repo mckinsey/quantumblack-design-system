@@ -2,7 +2,6 @@ import { Slot } from '@radix-ui/react-slot';
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
-import type { IconShellType } from '@/components/ui/icon-shell';
 import { cn } from '@/lib/utils';
 
 const badgePadding = {
@@ -370,20 +369,24 @@ export type BadgeVariant = NonNullable<
   VariantProps<typeof badgeVariants>['variant']
 >;
 
+const statusIconClassName = {
+  error: 'text-status-error',
+  warning: 'text-status-warning',
+  success: 'text-status-success',
+} as const;
+
 /**
- * IconShell emphasis (+ status type when outline icon colour ≠ label text).
- * Content types inherit badge text colour via currentColor; only outline
- * error/warning/success need an explicit status type.
+ * IconShell emphasis; status outline badges pass icon colour via className.
  */
 function badgeIconShellProps(
   variant: BadgeVariant,
   outline = false,
-): { type?: IconShellType; variant: 'primary' | 'secondary' } {
+): { className?: string; variant: 'primary' | 'secondary' } {
   if (
     outline &&
     (variant === 'error' || variant === 'warning' || variant === 'success')
   ) {
-    return { type: variant, variant: 'primary' };
+    return { className: statusIconClassName[variant], variant: 'primary' };
   }
 
   return {

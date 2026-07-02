@@ -11,7 +11,7 @@ import {
 
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
-import { IconShell, type IconShellType } from '@/components/ui/icon-shell';
+import { IconShell } from '@/components/ui/icon-shell';
 import { cn } from '@/lib/utils';
 
 type ToastType = NonNullable<ToastT['type']>;
@@ -37,34 +37,34 @@ const toastTypeConfig = {
   success: {
     borderClass: 'border-l-[var(--border-status-success)]',
     icon: 'check_circle',
-    iconType: 'success',
+    iconClassName: 'text-status-success',
   },
   error: {
     borderClass: 'border-l-[var(--border-status-error)]',
     icon: 'cancel',
-    iconType: 'error',
+    iconClassName: 'text-status-error',
   },
   warning: {
     borderClass: 'border-l-[var(--border-status-warning)]',
     icon: 'error',
-    iconType: 'warning',
+    iconClassName: 'text-status-warning',
   },
   info: {
     borderClass: 'border-l-[var(--border-status-focus)]',
     icon: 'info',
-    iconType: 'info',
+    iconClassName: 'text-status-information',
   },
   default: {
     borderClass: 'border-l-[var(--border-primary)]',
     icon: 'playlist_add_check',
-    iconType: 'neutral',
+    iconClassName: undefined,
   },
 } as const satisfies Record<
   ToastConfigKey,
   {
     borderClass: string;
     icon: string;
-    iconType: IconShellType;
+    iconClassName?: string;
   }
 >;
 
@@ -77,7 +77,7 @@ const getToastConfig = (type: ToastType) => {
 };
 
 const getDefaultIcon = (config: ReturnType<typeof getToastConfig>) => (
-  <IconShell size="default" type={config.iconType} variant="primary">
+  <IconShell size="default" variant="primary" className={config.iconClassName}>
     <Icon icon={config.icon} />
   </IconShell>
 );
@@ -94,10 +94,9 @@ function getCancelComponent(
     <Button
       variant="ghost"
       size="icon-xxs"
-      className="text-fg-secondary"
       onClick={() => sonnerToast.dismiss(id)}
       aria-label="Close toast">
-      <IconShell size="sm" variant="secondary">
+      <IconShell size="sm">
         <Icon icon="close" />
       </IconShell>
     </Button>

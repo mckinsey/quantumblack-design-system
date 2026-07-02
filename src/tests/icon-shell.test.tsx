@@ -63,86 +63,68 @@ describe(`${componentName} — structure`, () => {
     },
   );
 
-  it.each([
-    'neutral',
-    'neutral-inverse',
-    'accent',
-    'accent-inverse',
-    'success',
-    'error',
-    'warning',
-    'info',
-  ] as const)('renders type="%s" without crashing', type => {
-    expect(() =>
-      render(
-        <IconShell type={type}>
-          <Icon icon="info" />
-        </IconShell>,
-      ),
-    ).not.toThrow();
-  });
+  it.each(['neutral', 'neutral-inverse', 'accent', 'accent-inverse'] as const)(
+    'renders type="%s" without crashing',
+    type => {
+      expect(() =>
+        render(
+          <IconShell type={type}>
+            <Icon icon="info" />
+          </IconShell>,
+        ),
+      ).not.toThrow();
+    },
+  );
 
-  it('uses currentColor for neutral type', () => {
+  it('encodes primary neutral colour', () => {
     render(
-      <IconShell type="neutral">
+      <IconShell type="neutral" variant="primary">
         <Icon icon="info" />
       </IconShell>,
     );
     expect(document.querySelector('[data-slot="icon"]')).toHaveClass(
-      'text-current',
+      'text-fg-primary',
     );
   });
 
-  it('inherits parent text colour for neutral type', () => {
+  it('encodes secondary neutral colour', () => {
     render(
-      <button type="button" className="text-fg-secondary hover:text-fg-primary">
+      <IconShell type="neutral" variant="secondary">
+        <Icon icon="info" />
+      </IconShell>,
+    );
+    expect(document.querySelector('[data-slot="icon"]')).toHaveClass(
+      'text-fg-secondary',
+    );
+  });
+
+  it('lifts to primary on button hover via group/btn', () => {
+    render(
+      <button type="button" className="group/btn">
         <IconShell type="neutral" variant="secondary">
           <Icon icon="search" />
         </IconShell>
       </button>,
     );
     expect(document.querySelector('[data-slot="icon"]')).toHaveClass(
-      'text-current',
+      'group-hover/btn:text-fg-primary',
     );
   });
 
-  it('does not apply variant opacity on content types', () => {
-    render(
-      <IconShell type="neutral" variant="secondary">
-        <Icon icon="info" />
-      </IconShell>,
-    );
-    const shell = document.querySelector('[data-slot="icon"]');
-    expect(shell).toHaveClass('text-current');
-    expect(shell).not.toHaveClass('opacity-60');
-    expect(shell).not.toHaveClass('opacity-88');
-  });
-
-  it('applies variant opacity on status types', () => {
-    render(
-      <IconShell type="success" variant="secondary">
-        <Icon icon="check_circle" />
-      </IconShell>,
-    );
-    expect(document.querySelector('[data-slot="icon"]')).toHaveClass(
-      'opacity-60',
-    );
-  });
-
-  it('applies disabled opacity on content types', () => {
+  it('applies disabled colour on neutral type', () => {
     render(
       <IconShell type="neutral" variant="disabled">
         <Icon icon="info" />
       </IconShell>,
     );
     expect(document.querySelector('[data-slot="icon"]')).toHaveClass(
-      'opacity-30',
+      'text-fg-disabled',
     );
   });
 
-  it('applies built-in colour for success type', () => {
+  it('allows status colour via className', () => {
     render(
-      <IconShell type="success">
+      <IconShell variant="primary" className="text-status-success">
         <Icon icon="check_circle" />
       </IconShell>,
     );

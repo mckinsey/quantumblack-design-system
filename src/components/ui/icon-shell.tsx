@@ -6,20 +6,28 @@ import { cn } from '@/lib/utils';
 
 import { type IconSize, IconSizeContext } from './icon';
 
-/** Content types: colour from parent context (currentColor). Matches Figma variable bindings. */
-const ICON_SHELL_CONTENT_TYPES = [
-  'neutral',
-  'neutral-inverse',
-  'accent',
-  'accent-inverse',
+/** Secondary → primary on hover/highlight (variant switch via group state). */
+const iconShellHoverPrimary = [
+  'group-hover/btn:text-fg-primary',
+  'group-hover:text-fg-primary',
+  'group-data-[highlighted]:text-fg-primary',
+  'group-data-[state=open]:text-fg-primary',
+  'group-data-open/accordion-item:text-fg-primary',
 ] as const;
 
-/** Status types: fixed semantic tokens on the shell. Opacity from variant. */
-const ICON_SHELL_STATUS_TYPES = [
-  'success',
-  'error',
-  'warning',
-  'info',
+const iconShellHoverPrimaryInverse = [
+  'group-hover/btn:text-fg-primary-inverse',
+  'group-hover:text-fg-primary-inverse',
+  'group-data-[highlighted]:text-fg-primary-inverse',
+  'group-data-[state=open]:text-fg-primary-inverse',
+  'group-data-open/accordion-item:text-fg-primary-inverse',
+] as const;
+
+const iconShellHoverAccentPrimary = [
+  'group-hover/btn:opacity-88',
+  'group-hover:opacity-88',
+  'group-data-[highlighted]:opacity-88',
+  'group-data-[state=open]:opacity-88',
 ] as const;
 
 const iconVariants = cva(
@@ -35,17 +43,11 @@ const iconVariants = cva(
         lg: 'text-[32px] size-8',
       },
       type: {
-        neutral: 'text-current',
-        'neutral-inverse': 'text-current',
-        accent: 'text-current',
-        'accent-inverse': 'text-current',
-        success: 'text-status-success',
-        error: 'text-status-error',
-        warning: 'text-status-warning',
-        info: 'text-status-information',
+        neutral: '',
+        'neutral-inverse': '',
+        accent: '',
+        'accent-inverse': '',
       },
-      // Figma State prop — opacity applies to status types only; content types
-      // inherit emphasis from the parent text token (fg-primary vs fg-secondary).
       variant: {
         primary: '',
         secondary: '',
@@ -53,25 +55,66 @@ const iconVariants = cva(
       },
     },
     compoundVariants: [
+      { type: 'neutral', variant: 'primary', className: 'text-fg-primary' },
       {
-        type: [...ICON_SHELL_CONTENT_TYPES],
-        variant: 'disabled',
-        className: 'opacity-30',
-      },
-      {
-        type: [...ICON_SHELL_STATUS_TYPES],
-        variant: 'primary',
-        className: 'opacity-88',
-      },
-      {
-        type: [...ICON_SHELL_STATUS_TYPES],
+        type: 'neutral',
         variant: 'secondary',
-        className: 'opacity-60',
+        className: ['text-fg-secondary', ...iconShellHoverPrimary],
+      },
+      { type: 'neutral', variant: 'disabled', className: 'text-fg-disabled' },
+      {
+        type: 'neutral-inverse',
+        variant: 'primary',
+        className: 'text-fg-primary-inverse',
       },
       {
-        type: [...ICON_SHELL_STATUS_TYPES],
+        type: 'neutral-inverse',
+        variant: 'secondary',
+        className: [
+          'text-fg-secondary-inverse',
+          ...iconShellHoverPrimaryInverse,
+        ],
+      },
+      {
+        type: 'neutral-inverse',
         variant: 'disabled',
-        className: 'opacity-30',
+        className: 'text-fg-disabled-inverse',
+      },
+      {
+        type: 'accent',
+        variant: 'primary',
+        className: 'text-brand-accents-qb-accent opacity-88',
+      },
+      {
+        type: 'accent',
+        variant: 'secondary',
+        className: [
+          'text-brand-accents-qb-accent opacity-60',
+          ...iconShellHoverAccentPrimary,
+        ],
+      },
+      {
+        type: 'accent',
+        variant: 'disabled',
+        className: 'text-brand-accents-qb-accent opacity-30',
+      },
+      {
+        type: 'accent-inverse',
+        variant: 'primary',
+        className: 'text-fg-primary-inverse',
+      },
+      {
+        type: 'accent-inverse',
+        variant: 'secondary',
+        className: [
+          'text-fg-secondary-inverse',
+          ...iconShellHoverPrimaryInverse,
+        ],
+      },
+      {
+        type: 'accent-inverse',
+        variant: 'disabled',
+        className: 'text-fg-disabled-inverse',
       },
     ],
     defaultVariants: {
@@ -109,12 +152,7 @@ function IconShell({
   );
 }
 
-export {
-  IconShell,
-  ICON_SHELL_CONTENT_TYPES,
-  ICON_SHELL_STATUS_TYPES,
-  iconVariants,
-};
+export { IconShell, iconVariants };
 
 export type IconShellType = NonNullable<
   VariantProps<typeof iconVariants>['type']

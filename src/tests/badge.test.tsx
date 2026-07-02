@@ -63,17 +63,17 @@ describe(`${componentName} — structure`, () => {
 });
 
 describe(`${componentName} — badgeIconShellProps`, () => {
-  it('uses status types on outline error/warning/success badges', () => {
+  it('uses status className on outline error/warning/success badges', () => {
     expect(badgeIconShellProps('error', true)).toEqual({
-      type: 'error',
+      className: 'text-status-error',
       variant: 'primary',
     });
     expect(badgeIconShellProps('warning', true)).toEqual({
-      type: 'warning',
+      className: 'text-status-warning',
       variant: 'primary',
     });
     expect(badgeIconShellProps('success', true)).toEqual({
-      type: 'success',
+      className: 'text-status-success',
       variant: 'primary',
     });
   });

@@ -11,18 +11,16 @@ import { cn } from '@/lib/utils';
 /** Default icon inside IconShell — neutral, 24px, secondary (Figma default). */
 export function IconShellDemo() {
   return (
-    <div className="text-fg-secondary">
-      <IconShell>
-        <Icon icon="crop_free" />
-      </IconShell>
-    </div>
+    <IconShell>
+      <Icon icon="crop_free" />
+    </IconShell>
   );
 }
 
 /** sm (16px), default (24px), and lg (32px) — optical-size-matched via font axes */
 export function IconShellSizes() {
   return (
-    <div className="text-fg-primary flex items-end gap-8">
+    <div className="flex items-end gap-8">
       {(
         [
           ['sm', '16px · 20dp@400'],
@@ -41,113 +39,107 @@ export function IconShellSizes() {
   );
 }
 
-/** Primary, secondary, and disabled — content vs status colour strategies */
+/** Primary, secondary, and disabled — encoded on the shell via variant */
 export function IconShellVariants() {
   return (
     <div className="space-y-8">
       <div>
         <p className="text-fg-secondary mb-3 text-xs font-medium">
-          Content type (neutral) — copy type + variant from Figma; set parent
-          text token for emphasis
+          Neutral type — variant sets emphasis (default secondary)
         </p>
         <div className="flex items-center gap-8">
-          <div className="text-fg-primary flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-2">
             <IconShell size="default" variant="primary">
               <Icon icon="info" />
             </IconShell>
-            <span className="text-fg-secondary text-xs">
-              primary · text-fg-primary
-            </span>
+            <span className="text-fg-secondary text-xs">primary</span>
           </div>
-          <div className="text-fg-secondary flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-2">
             <IconShell size="default" variant="secondary">
               <Icon icon="info" />
             </IconShell>
-            <span className="text-fg-secondary text-xs">
-              secondary · text-fg-secondary
-            </span>
+            <span className="text-fg-secondary text-xs">secondary</span>
           </div>
-          <div className="text-fg-primary flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-2">
             <IconShell size="default" variant="disabled">
               <Icon icon="info" />
             </IconShell>
-            <span className="text-fg-secondary text-xs">
-              disabled · opacity 30%
-            </span>
+            <span className="text-fg-secondary text-xs">disabled</span>
           </div>
         </div>
       </div>
       <div>
         <p className="text-fg-secondary mb-3 text-xs font-medium">
-          Status type (info) — variant opacity on the shell
+          Status colour — pass className (not a type)
         </p>
         <div className="flex items-center gap-8">
-          {(
-            [
-              ['primary', '88%'],
-              ['secondary', '60%'],
-              ['disabled', '30%'],
-            ] as const
-          ).map(([variant, label]) => (
-            <div key={variant} className="flex flex-col items-center gap-2">
-              <IconShell size="default" type="info" variant={variant}>
-                <Icon icon="info" />
-              </IconShell>
-              <span className="text-fg-secondary text-xs">
-                {variant} · {label}
-              </span>
-            </div>
-          ))}
+          <div className="flex flex-col items-center gap-2">
+            <IconShell
+              size="default"
+              variant="primary"
+              className="text-status-information">
+              <Icon icon="info" />
+            </IconShell>
+            <span className="text-fg-secondary text-xs">info</span>
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-/** Colour tokens: neutral, accent, and status types */
+/** Colour tokens: content types + status via className */
 export function IconShellTypes() {
+  const statusIcons = [
+    {
+      label: 'success',
+      icon: 'check_circle',
+      className: 'text-status-success',
+    },
+    { label: 'error', icon: 'error', className: 'text-status-error' },
+    { label: 'warning', icon: 'warning', className: 'text-status-warning' },
+    { label: 'info', icon: 'info', className: 'text-status-information' },
+  ] as const;
+
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-wrap items-center gap-6">
-        <div className="text-fg-primary flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center gap-2">
           <IconShell size="default" type="neutral">
             <Icon icon="mail" />
           </IconShell>
           <span className="text-fg-secondary text-xs">neutral</span>
         </div>
-        <div className="bg-fill-active text-fg-primary-inverse flex flex-col items-center gap-2 rounded-lg px-6 py-4">
+        <div className="bg-fill-active flex flex-col items-center gap-2 rounded-lg px-6 py-4">
           <IconShell size="default" type="neutral-inverse">
             <Icon icon="mail" />
           </IconShell>
-          <span className="text-xs opacity-80">neutral-inverse</span>
+          <span className="text-fg-primary-inverse text-xs opacity-80">
+            neutral-inverse
+          </span>
         </div>
-        <div className="text-brand-accents-qb-accent flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center gap-2">
           <IconShell size="default" type="accent">
             <Icon icon="mail" />
           </IconShell>
           <span className="text-fg-secondary text-xs">accent</span>
         </div>
-        <div className="bg-brand-accents-qb-accent text-fg-primary-inverse flex flex-col items-center gap-2 rounded-lg px-6 py-4">
+        <div className="bg-brand-accents-qb-accent flex flex-col items-center gap-2 rounded-lg px-6 py-4">
           <IconShell size="default" type="accent-inverse">
             <Icon icon="mail" />
           </IconShell>
-          <span className="text-xs opacity-80">accent-inverse</span>
+          <span className="text-fg-primary-inverse text-xs opacity-80">
+            accent-inverse
+          </span>
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-6">
-        {(
-          [
-            ['success', 'check_circle'],
-            ['error', 'error'],
-            ['warning', 'warning'],
-            ['info', 'info'],
-          ] as const
-        ).map(([type, icon]) => (
-          <div key={type} className="flex flex-col items-center gap-2">
-            <IconShell size="default" type={type} variant="primary">
+        {statusIcons.map(({ label, icon, className }) => (
+          <div key={label} className="flex flex-col items-center gap-2">
+            <IconShell size="default" variant="primary" className={className}>
               <Icon icon={icon} />
             </IconShell>
-            <span className="text-fg-secondary text-xs">{type}</span>
+            <span className="text-fg-secondary text-xs">{label}</span>
           </div>
         ))}
       </div>
@@ -155,14 +147,10 @@ export function IconShellTypes() {
   );
 }
 
-/** Full size × variant matrix (content type — parent text per column) */
+/** Full size × variant matrix (neutral type) */
 export function IconShellAll() {
   const sizes = ['sm', 'default', 'lg'] as const;
-  const columns = [
-    { variant: 'primary' as const, parentClass: 'text-fg-primary' },
-    { variant: 'secondary' as const, parentClass: 'text-fg-secondary' },
-    { variant: 'disabled' as const, parentClass: 'text-fg-primary' },
-  ];
+  const variants = ['primary', 'secondary', 'disabled'] as const;
 
   return (
     <div className="space-y-6">
@@ -172,12 +160,10 @@ export function IconShellAll() {
             {size}
           </span>
           <div className="flex items-center gap-4">
-            {columns.map(({ variant, parentClass }) => (
-              <div key={variant} className={parentClass}>
-                <IconShell size={size} variant={variant}>
-                  <Icon icon="crop_free" />
-                </IconShell>
-              </div>
+            {variants.map(variant => (
+              <IconShell key={variant} size={size} variant={variant}>
+                <Icon icon="crop_free" />
+              </IconShell>
             ))}
           </div>
         </div>
@@ -258,7 +244,7 @@ export function IconNavigation() {
   ] as const;
 
   return (
-    <div className="text-fg-primary flex flex-wrap items-center gap-6">
+    <div className="flex flex-wrap items-center gap-6">
       {icons.map(icon => (
         <div key={icon} className="flex flex-col items-center gap-2">
           <IconShell size="default">
@@ -273,22 +259,22 @@ export function IconNavigation() {
   );
 }
 
-/** Status and feedback glyphs — status colour via IconShell type */
+/** Status and feedback glyphs — status colour via className */
 export function IconStatus() {
-  const icons = [
-    { icon: 'check_circle', type: 'success' },
-    { icon: 'error', type: 'error' },
-    { icon: 'warning', type: 'warning' },
-    { icon: 'info', type: 'info' },
-    { icon: 'cancel', type: 'neutral' },
-    { icon: 'playlist_add_check', type: 'neutral' },
-  ] as const;
+  const icons: { icon: string; className?: string }[] = [
+    { icon: 'check_circle', className: 'text-status-success' },
+    { icon: 'error', className: 'text-status-error' },
+    { icon: 'warning', className: 'text-status-warning' },
+    { icon: 'info', className: 'text-status-information' },
+    { icon: 'cancel' },
+    { icon: 'playlist_add_check' },
+  ];
 
   return (
     <div className="flex flex-wrap items-center gap-8">
-      {icons.map(({ icon, type }) => (
+      {icons.map(({ icon, className }) => (
         <div key={icon} className="flex flex-col items-center gap-2">
-          <IconShell size="default" type={type} variant="primary">
+          <IconShell size="default" variant="primary" className={className}>
             <Icon icon={icon} />
           </IconShell>
           <span className="text-fg-secondary font-mono text-[10px]">
@@ -339,7 +325,7 @@ export function IconInButtons() {
 /** Loading spinner via progress_activity ligature */
 export function IconLoading() {
   return (
-    <div className="text-fg-primary flex flex-wrap items-center gap-6">
+    <div className="flex flex-wrap items-center gap-6">
       {(['sm', 'default', 'lg'] as const).map(size => (
         <div key={size} className="flex flex-col items-center gap-2">
           <IconShell size={size}>
@@ -361,7 +347,7 @@ export function IconLoading() {
 /** Same glyph at three sizes — stroke weight stays visually consistent (optical sizing) */
 export function IconOpticalSizing() {
   return (
-    <div className="text-fg-primary flex items-end gap-10">
+    <div className="flex items-end gap-10">
       {(['sm', 'default', 'lg'] as const).map(size => (
         <div key={size} className="flex flex-col items-center gap-3">
           <IconShell size={size} variant="primary">
@@ -395,7 +381,7 @@ export function IconInputAffordances() {
   ] as const;
 
   return (
-    <div className="text-fg-primary flex flex-wrap items-center gap-4">
+    <div className="flex flex-wrap items-center gap-4">
       {icons.map(icon => (
         <div
           key={icon}
@@ -433,13 +419,13 @@ export const examples: DemoExample[] = [
     name: 'IconShellVariants',
     title: 'Variants',
     description:
-      'Content types: primary/secondary via parent text token. Status types: opacity on the shell.',
+      'Primary, secondary, and disabled emphasis — encoded on the shell via variant.',
   },
   {
     name: 'IconShellTypes',
     title: 'Types',
     description:
-      'neutral, neutral-inverse, accent, and accent-inverse inherit parent text colour (currentColor); status types use fixed semantic tokens.',
+      'Content types (neutral, accent, …) encode colour; status icons use className.',
   },
   {
     name: 'IconShellAll',
@@ -465,7 +451,7 @@ export const examples: DemoExample[] = [
   {
     name: 'IconStatus',
     title: 'Status',
-    description: 'Alert and feedback glyphs using status IconShell types.',
+    description: 'Alert and feedback glyphs — status colour via className.',
   },
   {
     name: 'IconInButtons',
