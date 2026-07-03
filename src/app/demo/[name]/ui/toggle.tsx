@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import { Toggle } from '@/components/ui/toggle';
@@ -26,6 +28,7 @@ export function ToggleVariants() {
 /** Toggle sizes */
 export function ToggleSizes() {
   const sizes = [
+    { size: 'xxs', label: 'XXS' },
     { size: 'xs', label: 'Extra Small' },
     { size: 'sm', label: 'Small' },
     { size: 'default', label: 'Default' },
@@ -42,6 +45,20 @@ export function ToggleSizes() {
   );
 }
 
+function ToggleOnRow({
+  variant,
+}: {
+  variant: (typeof toggleVariants)[number];
+}) {
+  const [on, setOn] = useState(true);
+
+  return (
+    <Toggle variant={variant} pressed={on} onPressedChange={setOn}>
+      On
+    </Toggle>
+  );
+}
+
 /** Toggle pressed states */
 export function TogglePressed() {
   return (
@@ -55,9 +72,7 @@ export function TogglePressed() {
       </div>
       <div className="flex flex-wrap items-center gap-3">
         {toggleVariants.map(v => (
-          <Toggle key={v} variant={v} defaultPressed>
-            On
-          </Toggle>
+          <ToggleOnRow key={v} variant={v} />
         ))}
       </div>
     </div>

@@ -1,13 +1,15 @@
-// url=<QBDS_BUTTON_TEXT>
-// source=src/components/ui/button.tsx
-// component=Button
+// url=<QBDS_TOGGLE_TEXT>
+// source=src/components/ui/toggle.tsx
+// component=Toggle
+//
+// Figma models toggle-on as a Button state variant (secondary-filled, secondary-outline,
+// ghost only). Code uses a separate Toggle component (Radix) — wire pressed={on} from
+// your boolean state. For non-toggle Button states, use button-text.figma.ts instead.
 import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
 const variant = instance.getEnum('type', {
-  primary: 'default',
-  'primary-accent': 'accent',
   'secondary-filled': 'secondary',
   'secondary-outline': 'outline',
   ghost: 'ghost',
@@ -22,13 +24,8 @@ const size = instance.getEnum('size', {
 });
 
 const disabled = instance.getEnum('state', {
-  enabled: false,
-  hover: false,
-  focused: false,
-  pressed: false,
+  'toggle-on': false,
   disabled: true,
-  loading: false,
-  'dropdown-open': false,
 });
 
 const label = instance.getString('label');
@@ -51,13 +48,13 @@ if (trailing && trailing.type === 'INSTANCE') {
 
 export default {
   example: figma.code`
-    <Button variant="${variant}" size="${size}"${disabled ? ' disabled' : ''}>
+    <Toggle variant="${variant}" size="${size}" pressed={on}${disabled ? ' disabled' : ''}>
       ${leadingCode}
       ${label}
       ${trailingCode}
-    </Button>
+    </Toggle>
   `,
-  imports: ['import { Button } from "@/components/ui/button"'],
-  id: 'button-text',
+  imports: ['import { Toggle } from "@/components/ui/toggle"'],
+  id: 'toggle-text',
   metadata: { nestable: true },
 };
