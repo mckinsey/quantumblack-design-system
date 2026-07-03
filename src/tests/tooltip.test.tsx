@@ -1,4 +1,4 @@
-import { cleanup, render } from '@testing-library/react';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { exampleComponentMaps } from '@/app/demo/[name]/index';
@@ -32,31 +32,32 @@ describe(`${componentName} — all examples render`, () => {
 
 describe(`${componentName} — compound API`, () => {
   it('renders trigger + content when open', () => {
-    expect(() =>
-      render(
-        <Tooltip open>
-          <TooltipTrigger>Trigger</TooltipTrigger>
-          <TooltipContent>Help text</TooltipContent>
-        </Tooltip>,
-      ),
-    ).not.toThrow();
+    render(
+      <Tooltip open>
+        <TooltipTrigger>Trigger</TooltipTrigger>
+        <TooltipContent>Help text</TooltipContent>
+      </Tooltip>,
+    );
+
+    expect(screen.getByText('Trigger')).toBeInTheDocument();
+    expect(screen.getByRole('tooltip')).toHaveTextContent('Help text');
   });
 
-  it.each([
-    { side: 'top', align: 'start' },
-    { side: 'bottom', align: 'center' },
-    { side: 'left', align: 'end' },
-    { side: 'right', align: 'center' },
-  ] as const)('accepts side="$side" align="$align"', ({ side, align }) => {
-    expect(() =>
-      render(
-        <Tooltip open>
-          <TooltipTrigger>Trigger</TooltipTrigger>
-          <TooltipContent side={side} align={align}>
-            Help text
-          </TooltipContent>
-        </Tooltip>,
-      ),
-    ).not.toThrow();
+  it('applies side and align to TooltipContent', async () => {
+    render(
+      <Tooltip open>
+        <TooltipTrigger>Trigger</TooltipTrigger>
+        <TooltipContent side="bottom" align="center">
+          Help text
+        </TooltipContent>
+      </Tooltip>,
+    );
+
+    await waitFor(() => {
+      const content = document.querySelector('[data-slot="tooltip-content"]');
+
+      expect(content).toHaveAttribute('data-side', 'bottom');
+      expect(content).toHaveAttribute('data-align', 'center');
+    });
   });
 });
