@@ -625,6 +625,14 @@ const sidebarMenuIconButtonVariants = cva(
   },
 );
 
+/**
+ * This is the offset for the tooltip of the icon button.
+ */
+const tooltipOffsetForIconButton: Record<SidebarSize, number> = {
+  default: -20,
+  lg: -24,
+};
+
 function SidebarMenuIconButton({
   asChild = false,
   isActive = false,
@@ -671,6 +679,7 @@ function SidebarMenuIconButton({
       <TooltipContent
         side="right"
         align="center"
+        sideOffset={tooltipOffsetForIconButton[size]}
         hidden={tooltipHidden ?? (state !== 'collapsed' || isMobile)}
         {...tooltipProps}
       />

@@ -98,9 +98,7 @@ function NavRail({
                   onClick={() => onActive(item.id)}>
                   <IconShell
                     size={iconSize}
-                    variant={
-                      isActive && size === 'lg' ? 'primary' : 'secondary'
-                    }>
+                    variant={isActive ? 'primary' : 'secondary'}>
                     <Icon icon={item.icon} />
                   </IconShell>
                 </SidebarMenuIconButton>
@@ -173,7 +171,7 @@ function AppShell({
         fullscreen={fullscreen}
         onToggleFullscreen={onToggleFullscreen}
       />
-      <SidebarProvider size="default" className="flex min-h-0 flex-1">
+      <SidebarProvider className="flex min-h-0 flex-1">
         <NavRail active={active} onActive={setActive} />
         <AppMain title={page.title} body={page.body} />
       </SidebarProvider>
@@ -232,7 +230,7 @@ function NavRailFrame({ size }: { size: RailSize }) {
   );
 }
 
-export function SidebarNav() {
+export function SidebarSizes() {
   return (
     <SidebarFrame>
       <div className="bg-surface-secondary flex h-full items-start justify-center gap-8 p-6">
@@ -246,17 +244,17 @@ export function SidebarNav() {
 export const examples: DemoExample[] = [
   {
     name: 'SidebarApp',
-    title: 'App shell',
-    description: '72px header with fixed icon rail and scrollable main.',
+    title: 'Sidebar in an App Shell',
+    description: 'Sidebar example with a header and a main content area.',
   },
   {
-    name: 'SidebarNav',
-    title: 'Nav rail',
-    description: 'Icon rail at default (64px) and lg (80px) side by side.',
+    name: 'SidebarSizes',
+    title: 'Sidebar (different sizes)',
+    description: 'Icon rail at default and lg side by side.',
   },
 ];
 
 export const sidebar = createLegacyDemo('sidebar', examples, {
   SidebarApp: <SidebarApp />,
-  SidebarNav: <SidebarNav />,
+  SidebarSizes: <SidebarSizes />,
 });
