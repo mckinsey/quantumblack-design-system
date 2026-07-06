@@ -6,8 +6,6 @@ import * as React from 'react';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-// Toggle reuses button variants (secondary, outline, ghost) and sizes
-// with the addition of data-[state=on]:bg-fill-active for the on state
 type ToggleVariant = 'secondary' | 'outline' | 'ghost';
 type ToggleSize =
   | 'xs'
@@ -20,7 +18,6 @@ type ToggleSize =
   | 'icon'
   | 'icon-lg';
 
-// Helper function to get toggle classes - reuses buttonVariants and adds on state
 function toggleVariants({
   variant = 'secondary',
   size = 'default',
