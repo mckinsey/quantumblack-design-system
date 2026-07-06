@@ -760,28 +760,6 @@
       ]
     },
     {
-      "name": "data-table",
-      "type": "registry:example",
-      "title": "Data Table",
-      "description": "A fully-featured data table component built with TanStack Table. Includes sorting, filtering, pagination, column visibility, and row selection.",
-      "dependencies": ["@tanstack/react-table"],
-      "registryDependencies": [
-        "__REGISTRY_URL__/r/theme.json",
-        "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/table.json",
-        "__REGISTRY_URL__/r/checkbox.json",
-        "__REGISTRY_URL__/r/select.json",
-        "__REGISTRY_URL__/r/icon-shell.json"
-      ],
-      "files": [
-        {
-          "path": "src/app/demo/[name]/ui/table.tsx",
-          "type": "registry:example",
-          "target": ""
-        }
-      ]
-    },
-    {
       "name": "tabs",
       "type": "registry:ui",
       "title": "Tabs",
