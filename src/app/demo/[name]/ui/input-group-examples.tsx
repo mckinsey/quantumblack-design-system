@@ -69,7 +69,8 @@ export function InputGroupStepperSizes() {
               <IconShell
                 size={iconShellSize}
                 type="neutral"
-                variant={isDecrementDisabled ? 'disabled' : 'secondary'}>
+                variant="secondary"
+                disabled={isDecrementDisabled}>
                 <Icon icon="remove" />
               </IconShell>
             </InputGroupButton>
@@ -195,8 +196,8 @@ export function InputGroupStepperStates() {
               aria-label="Decrease">
               <IconShell
                 size={iconShellSize}
-                variant={isDecrementDisabled ? 'disabled' : 'secondary'}
-                hoverable>
+                hoverable
+                disabled={isDecrementDisabled}>
                 <Icon icon="remove" />
               </IconShell>
             </InputGroupButton>

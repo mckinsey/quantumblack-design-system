@@ -31,7 +31,7 @@ const ELEVATION_SURFACE_ON_LIGHT_CANVAS = DARK_CANVAS;
 const ELEVATION_SURFACE_ON_DARK_CANVAS = '#e5e5e5';
 
 /** Light-mode elevation shades (from `:root` in globals.css). */
-const LIGHT_ELEVATION_THEME: CSSProperties = {
+const LIGHT_ELEVATION_THEME = {
   '--elevations-shade-t': 'var(--slate-900-opacity-8)',
   '--elevations-shade': 'var(--slate-900-opacity-38)',
   '--elevations-shade-t-01': 'var(--slate-900-opacity-12)',
