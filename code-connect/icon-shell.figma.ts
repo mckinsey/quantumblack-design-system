@@ -11,11 +11,11 @@ const size = instance.getEnum('Size', {
   '32': 'lg',
 });
 
-const type = instance.getEnum('Type', {
+const figmaType = instance.getEnum('Type', {
   neutral: 'neutral',
   'neutral-inverse': 'neutral-inverse',
   accent: 'accent',
-  'accent-inverse': 'accent',
+  'accent-inverse': 'accent-inverse',
 });
 
 const variant = instance.getEnum('State', {
@@ -24,6 +24,18 @@ const variant = instance.getEnum('State', {
   disabled: 'disabled',
 });
 
+const customClassByType: Record<string, string | undefined> = {
+  accent: 'text-status-success',
+  'accent-inverse': 'text-status-success-inverse',
+};
+
+const type =
+  figmaType === 'accent' || figmaType === 'accent-inverse'
+    ? 'custom'
+    : figmaType;
+
+const customClass = customClassByType[figmaType ?? ''];
+
 const swapBySize = instance.getEnum('Size', {
   '16': 'IconSwap-16',
   '24': 'IconSwap-24',
@@ -31,22 +43,21 @@ const swapBySize = instance.getEnum('Size', {
 });
 
 const swaps = [swapBySize, 'IconSwap-16', 'IconSwap-24', 'IconSwap-32'];
-let icon: string | undefined;
+let icon = 'crop_free';
 
 for (const name of swaps) {
   const glyph = name ? instance.getInstanceSwap(name) : null;
 
-  if (glyph && glyph.type === 'INSTANCE') {
-    icon = glyph.name;
+  if (glyph && glyph.type === 'INSTANCE' && glyph.name) {
+    icon = glyph.name.replace(/\s+/g, '_').toLowerCase();
     break;
   }
 }
 
 export default {
   example: figma.code`
-    <IconShell size="${size}" type="${type}" variant="${variant}">
-      ${icon ? figma.code`<Icon icon="${icon}" />` : ''}
-      {/* Replace with the real icon, e.g. <Icon icon="home" /> */}
+    <IconShell size="${size}" type="${type}" variant="${variant}"${customClass ? ` className="${customClass}"` : ''}>
+      <Icon icon="${icon}" />
     </IconShell>
   `,
   imports: [

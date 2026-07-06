@@ -6,6 +6,9 @@ import { cn } from '@/lib/utils';
 
 import { type IconSize, IconSizeContext } from './icon';
 
+const hoverableClasses =
+  'opacity-60 hover:opacity-88 active:opacity-88 group-hover/btn:opacity-88 group-active/btn:opacity-88';
+
 const iconVariants = cva(
   [
     'inline-flex items-center justify-center',
@@ -19,9 +22,9 @@ const iconVariants = cva(
         lg: 'text-[32px] size-8',
       },
       type: {
-        neutral: '',
-        'neutral-inverse': 'text-fg-primary-inverse',
-        accent: 'text-brand-accents-qb-accent',
+        neutral: 'text-fill-active',
+        'neutral-inverse': 'text-fill-active-inverse',
+        custom: '',
       },
       variant: {
         primary: 'opacity-88',
@@ -32,7 +35,7 @@ const iconVariants = cva(
     defaultVariants: {
       size: 'default',
       type: 'neutral',
-      variant: 'primary',
+      variant: 'secondary',
     },
   },
 );
@@ -42,21 +45,34 @@ function IconShell({
   size,
   type,
   variant,
+  hoverable = false,
   asChild = false,
   children,
   ...props
 }: React.ComponentProps<'span'> &
   VariantProps<typeof iconVariants> & {
     asChild?: boolean;
+    hoverable?: boolean;
   }) {
   const Comp = asChild ? Slot : 'span';
   const resolvedSize: IconSize = size ?? 'default';
+  const disabled = variant === 'disabled' || props.disabled;
+  const useHoverable = hoverable && !disabled;
+  const resolvedVariant = disabled
+    ? 'disabled'
+    : useHoverable
+      ? undefined
+      : variant;
 
   return (
     <IconSizeContext.Provider value={resolvedSize}>
       <Comp
         data-slot="icon"
-        className={cn(iconVariants({ size, type, variant }), className)}
+        className={cn(
+          iconVariants({ size, type, variant: resolvedVariant }),
+          useHoverable && hoverableClasses,
+          className,
+        )}
         {...props}>
         {children}
       </Comp>

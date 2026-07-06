@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 /** Default icon inside IconShell */
 export function IconShellDemo() {
   return (
-    <IconShell className="text-fg-primary">
+    <IconShell>
       <Icon icon="crop_free" />
     </IconShell>
   );
@@ -20,7 +20,7 @@ export function IconShellDemo() {
 /** sm (16px), default (24px), and lg (32px) — optical-size-matched via font axes */
 export function IconShellSizes() {
   return (
-    <div className="text-fg-primary flex items-end gap-8">
+    <div className="flex items-end gap-8">
       {(
         [
           ['sm', '16px · 20dp@400'],
@@ -42,7 +42,7 @@ export function IconShellSizes() {
 /** Primary, secondary, and disabled opacity */
 export function IconShellVariants() {
   return (
-    <div className="text-fg-primary flex items-center gap-8">
+    <div className="flex items-center gap-8">
       {(
         [
           ['primary', 'Primary (88%)'],
@@ -61,12 +61,12 @@ export function IconShellVariants() {
   );
 }
 
-/** Colour tokens: neutral (inherits parent), neutral-inverse, accent */
+/** fill-active base + opacity per type */
 export function IconShellTypes() {
   return (
     <div className="flex flex-wrap items-center gap-6">
       <div className="flex flex-col items-center gap-2">
-        <IconShell size="default" type="neutral" className="text-fg-primary">
+        <IconShell size="default" type="neutral">
           <Icon icon="mail" />
         </IconShell>
         <span className="text-fg-secondary text-xs">neutral</span>
@@ -78,36 +78,143 @@ export function IconShellTypes() {
         <span className="text-fg-primary-inverse text-xs">neutral-inverse</span>
       </div>
       <div className="flex flex-col items-center gap-2">
-        <IconShell size="default" type="accent">
+        <IconShell
+          size="default"
+          type="custom"
+          className="text-status-success"
+          variant="primary">
           <Icon icon="mail" />
         </IconShell>
-        <span className="text-fg-secondary text-xs">accent</span>
+        <span className="text-fg-secondary text-xs">custom</span>
       </div>
     </div>
   );
 }
 
-/** Full size × variant matrix */
+type MatrixType = {
+  label: string;
+  type: 'neutral' | 'neutral-inverse' | 'custom';
+  className?: string;
+  dark?: boolean;
+};
+
+const MATRIX_TYPES: MatrixType[] = [
+  { label: 'neutral', type: 'neutral' },
+  {
+    label: 'custom',
+    type: 'custom',
+    className: 'text-status-success',
+  },
+  { label: 'neutral-inverse', type: 'neutral-inverse', dark: true },
+  {
+    label: 'custom (inverse)',
+    type: 'custom',
+    className: 'text-status-success-inverse',
+    dark: true,
+  },
+];
+
+/** Full type × size × variant matrix */
 export function IconShellAll() {
   const sizes = ['sm', 'default', 'lg'] as const;
-  const variants = ['primary', 'secondary', 'disabled'] as const;
+  const variants = ['secondary', 'primary', 'disabled'] as const;
 
   return (
-    <div className="text-fg-primary space-y-6">
-      {sizes.map(size => (
-        <div key={size} className="space-y-2">
-          <span className="text-fg-secondary text-xs font-medium capitalize">
-            {size}
+    <div className="space-y-8">
+      {MATRIX_TYPES.map(({ label, type, className, dark }) => (
+        <div
+          key={label}
+          className={cn('space-y-4 rounded-lg p-4', dark && 'bg-fill-active')}>
+          <span
+            className={cn(
+              'text-xs font-medium',
+              dark ? 'text-fg-primary-inverse' : 'text-fg-secondary',
+            )}>
+            {label}
           </span>
-          <div className="flex items-center gap-4">
-            {variants.map(variant => (
-              <IconShell key={variant} size={size} variant={variant}>
-                <Icon icon="crop_free" />
-              </IconShell>
-            ))}
-          </div>
+          {sizes.map(size => (
+            <div key={size} className="space-y-2">
+              <span
+                className={cn(
+                  'text-xs capitalize',
+                  dark ? 'text-fg-secondary-inverse' : 'text-fg-secondary',
+                )}>
+                {size}
+              </span>
+              <div className="flex items-center gap-4">
+                {variants.map(variant => (
+                  <IconShell
+                    key={variant}
+                    size={size}
+                    type={type}
+                    variant={variant}
+                    className={className}>
+                    <Icon icon="crop_free" />
+                  </IconShell>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       ))}
+    </div>
+  );
+}
+
+/** Override base colour via type custom or directly on Icon */
+export function IconShellCustomColor() {
+  return (
+    <div className="flex flex-wrap items-center gap-8">
+      <div className="flex flex-col items-center gap-2">
+        <IconShell
+          type="custom"
+          className="text-brand-accents-qb-accent"
+          variant="primary">
+          <Icon icon="favorite" />
+        </IconShell>
+        <span className="text-fg-secondary text-xs">custom shell class</span>
+      </div>
+      <div className="flex flex-col items-center gap-2">
+        <IconShell variant="primary">
+          <Icon icon="error" className="text-status-error" />
+        </IconShell>
+        <span className="text-fg-secondary text-xs">class on Icon</span>
+      </div>
+      <div className="bg-fill-active flex flex-col items-center gap-2 rounded-lg px-6 py-4">
+        <IconShell
+          type="custom"
+          className="text-status-success-inverse"
+          variant="secondary">
+          <Icon icon="check_circle" />
+        </IconShell>
+        <span className="text-fg-primary-inverse text-xs">custom on dark</span>
+      </div>
+    </div>
+  );
+}
+
+/** Secondary at rest, primary on hover and active */
+export function IconShellHoverable() {
+  return (
+    <div className="flex flex-wrap items-center gap-8">
+      <button
+        type="button"
+        className="inline-flex cursor-pointer items-center rounded-md p-2">
+        <IconShell hoverable>
+          <Icon icon="edit" />
+        </IconShell>
+      </button>
+      <Button variant="ghost">
+        <IconShell size="sm" hoverable>
+          <Icon icon="more_vert" />
+        </IconShell>
+      </Button>
+      <Button variant="secondary">
+        <IconShell size="sm" hoverable>
+          <Icon icon="delete" />
+        </IconShell>
+        Delete
+      </Button>
     </div>
   );
 }
@@ -363,12 +470,24 @@ export const examples: DemoExample[] = [
     name: 'IconShellTypes',
     title: 'Types',
     description:
-      'neutral, neutral-inverse (on dark), and accent colour tokens.',
+      'neutral (fill-active), neutral-inverse, and custom with user className.',
   },
   {
     name: 'IconShellAll',
-    title: 'Size × variant matrix',
-    description: 'All size and variant combinations in one view.',
+    title: 'Type × size × variant matrix',
+    description:
+      'All type, size, and variant combinations on light and dark surfaces.',
+  },
+  {
+    name: 'IconShellCustomColor',
+    title: 'Custom colour',
+    description:
+      'Override via type custom + className, or set colour directly on Icon.',
+  },
+  {
+    name: 'IconShellHoverable',
+    title: 'Hoverable',
+    description: 'Secondary at rest, primary on hover and active.',
   },
   {
     name: 'IconStandalone',
@@ -424,6 +543,8 @@ export const iconShell = createLegacyDemo('icon-shell', examples, {
   IconShellVariants: <IconShellVariants />,
   IconShellTypes: <IconShellTypes />,
   IconShellAll: <IconShellAll />,
+  IconShellCustomColor: <IconShellCustomColor />,
+  IconShellHoverable: <IconShellHoverable />,
   IconStandalone: <IconStandalone />,
   IconCatalog: <IconCatalog />,
   IconNavigation: <IconNavigation />,

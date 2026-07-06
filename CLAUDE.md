@@ -32,11 +32,19 @@ npm run prettier:fix    # apply Prettier formatting
 
 Icons use the **Material Symbols Sharp** variable font via `<Icon icon="search" />`. Ligature names are Google's snake_case (e.g. `keyboard_arrow_down`, `check_circle`). No per-icon files or codegen — any icon in the font catalog works.
 
-Wrap icons in `<IconShell>` for QBDS sizing (`sm`/`default`/`lg`), tone (`neutral`/`neutral-inverse`/`accent`), and opacity (`primary`/`secondary`/`disabled`). `IconShell` provides size context to `<Icon>` automatically:
+Wrap icons in `<IconShell>` for QBDS sizing (`sm`/`default`/`lg`), tone (`neutral`/`neutral-inverse`/`custom`), and opacity (`primary`/`secondary`/`disabled`). Base colour is `text-fill-active` / `text-fill-active-inverse`; state applies opacity. Set `hoverable` for secondary → primary on hover/active. `IconShell` provides size context to `<Icon>` automatically:
 
 ```tsx
 <IconShell size="sm" variant="secondary">
   <Icon icon="search" />
+</IconShell>
+
+<IconShell hoverable>
+  <Icon icon="edit" />
+</IconShell>
+
+<IconShell type="custom" className="text-status-success" variant="primary">
+  <Icon icon="check" />
 </IconShell>
 ```
 
