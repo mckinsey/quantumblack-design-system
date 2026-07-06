@@ -28,20 +28,25 @@ const uiItems = getUIPrimitives();
 
 const COMPONENT_GROUPS: { label: string; names: string[] }[] = [
   {
-    label: 'Buttons & Toggle',
-    names: ['button', 'button-group', 'segmented-controls', 'toggle'],
-  },
-  {
     label: 'Date & Time',
     names: ['calendar', 'date-picker', 'time-input', 'time-picker'],
   },
   {
-    label: 'Input Elements',
-    names: ['input', 'input-group', 'combobox', 'form', 'textarea'],
+    label: 'Form Controls',
+    names: [
+      'checkbox',
+      'combobox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'slider',
+      'switch',
+      'textarea',
+    ],
   },
-  { label: 'Overlay', names: ['dialog', 'popover', 'sonner'] },
-  { label: 'Table', names: ['table', 'data-table'] },
-  { label: 'Tag', names: ['tag', 'tag-group', 'tag-toggle'] },
+  { label: 'Overlay', names: ['dialog', 'sheet', 'sonner'] },
 ];
 
 const groupedNames = new Set(COMPONENT_GROUPS.flatMap(g => g.names));
