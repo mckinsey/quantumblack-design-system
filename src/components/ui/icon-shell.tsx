@@ -48,22 +48,40 @@ const iconVariants = cva(
   },
 );
 
-type IconShellVariant = NonNullable<
-  VariantProps<typeof iconVariants>['variant']
->;
+type IconShellSize = NonNullable<VariantProps<typeof iconVariants>['size']>;
+type IconShellType = NonNullable<VariantProps<typeof iconVariants>['type']>;
+type IconShellOpacity = 'primary' | 'secondary';
+type ResolvedVariant = IconShellOpacity | 'disabled';
 
-type IconShellProps = Omit<React.ComponentProps<'span'>, 'disabled'> &
-  VariantProps<typeof iconVariants> & {
-    asChild?: boolean;
-    hoverable?: boolean;
-    disabled?: boolean;
-  };
+type IconShellBaseProps = Omit<React.ComponentProps<'span'>, 'disabled'> & {
+  asChild?: boolean;
+  /** sm (16px), default (24px), lg (32px). Provides size context to Icon. */
+  size?: IconShellSize;
+  /** Colour tone. Use type="custom" + className for brand/status colours. */
+  type?: IconShellType;
+  /** Disabled opacity (30%). Works in static and hoverable modes. */
+  disabled?: boolean;
+};
+
+type IconShellStaticProps = IconShellBaseProps & {
+  hoverable?: false;
+  /** Static opacity: primary (88%) or secondary (60%). Not used with hoverable. */
+  variant?: IconShellOpacity;
+};
+
+type IconShellHoverableProps = IconShellBaseProps & {
+  /** Icon-only button: secondary rest, primary on hover/active. Do not pass variant. */
+  hoverable: true;
+  variant?: never;
+};
+
+type IconShellProps = IconShellStaticProps | IconShellHoverableProps;
 
 function resolveVariant(
-  variant: IconShellVariant | null | undefined,
+  variant: IconShellOpacity | undefined,
   hoverable: boolean,
   isDisabled: boolean,
-): IconShellVariant {
+): ResolvedVariant {
   if (isDisabled) {
     return 'disabled';
   }
@@ -75,6 +93,20 @@ function resolveVariant(
   return variant ?? 'secondary';
 }
 
+/**
+ * QBDS wrapper for Icon — size, tone, and opacity.
+ *
+ * Static icons: variant (primary/secondary).
+ * Icon-only buttons: hoverable (variant not accepted).
+ * disabled overrides opacity in either mode.
+ *
+ * @example
+ * ```tsx
+ * <IconShell><Icon icon="search" /></IconShell>
+ * <IconShell variant="primary"><Icon icon="info" /></IconShell>
+ * <IconShell hoverable><Icon icon="edit" /></IconShell>
+ * ```
+ */
 function IconShell({
   className,
   size,
@@ -86,9 +118,8 @@ function IconShell({
   children,
   ...props
 }: IconShellProps) {
-  const isDisabled = variant === 'disabled' || disabled;
-  const isHoverable = hoverable && !isDisabled;
-  const resolvedVariant = resolveVariant(variant, isHoverable, isDisabled);
+  const isHoverable = hoverable && !disabled;
+  const resolvedVariant = resolveVariant(variant, isHoverable, disabled);
   const Comp = asChild ? Slot : 'span';
 
   return (
@@ -112,3 +143,4 @@ function IconShell({
 }
 
 export { IconShell, iconVariants };
+export type { IconShellProps, IconShellOpacity };

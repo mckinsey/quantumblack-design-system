@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 // Example Components
 // ============================================================================
 
-/** Default icon inside IconShell */
+/** Default shell — secondary opacity, neutral tone */
 export function IconShellDemo() {
   return (
     <IconShell>
@@ -38,19 +38,19 @@ export function IconShellSizes() {
   );
 }
 
-/** Primary, secondary, and disabled opacity */
+/** Static opacity — primary (88%), secondary (60%), disabled (30%) */
 export function IconShellVariants() {
+  const items = [
+    { label: 'Primary (88%)', variant: 'primary' as const },
+    { label: 'Secondary (60%)', variant: 'secondary' as const },
+    { label: 'Disabled (30%)', disabled: true },
+  ];
+
   return (
     <div className="flex items-center gap-8">
-      {(
-        [
-          ['primary', 'Primary (88%)'],
-          ['secondary', 'Secondary (60%)'],
-          ['disabled', 'Disabled (30%)'],
-        ] as const
-      ).map(([variant, label]) => (
-        <div key={variant} className="flex flex-col items-center gap-2">
-          <IconShell size="default" variant={variant}>
+      {items.map(({ label, variant, disabled }) => (
+        <div key={label} className="flex flex-col items-center gap-2">
+          <IconShell size="default" variant={variant} disabled={disabled}>
             <Icon icon="info" />
           </IconShell>
           <span className="text-fg-secondary text-xs">{label}</span>
@@ -60,7 +60,7 @@ export function IconShellVariants() {
   );
 }
 
-/** fill-active base + opacity per type */
+/** Colour tone — neutral, neutral-inverse, custom + className */
 export function IconShellTypes() {
   return (
     <div className="flex flex-wrap items-center gap-6">
@@ -116,7 +116,11 @@ const MATRIX_TYPES: MatrixType[] = [
 /** Full type × size × variant matrix */
 export function IconShellAll() {
   const sizes = ['sm', 'default', 'lg'] as const;
-  const variants = ['secondary', 'primary', 'disabled'] as const;
+  const states = [
+    { key: 'secondary', variant: 'secondary' as const },
+    { key: 'primary', variant: 'primary' as const },
+    { key: 'disabled', disabled: true },
+  ];
 
   return (
     <div className="space-y-8">
@@ -141,12 +145,13 @@ export function IconShellAll() {
                 {size}
               </span>
               <div className="flex items-center gap-4">
-                {variants.map(variant => (
+                {states.map(state => (
                   <IconShell
-                    key={variant}
+                    key={state.key}
                     size={size}
                     type={type}
-                    variant={variant}
+                    variant={state.variant}
+                    disabled={state.disabled}
                     className={className}>
                     <Icon icon="crop_free" />
                   </IconShell>
@@ -192,17 +197,17 @@ export function IconShellCustomColor() {
   );
 }
 
-/** variant sets rest opacity; hover/active lift to primary */
+/** Icon-only buttons — secondary rest, primary on hover/active */
 export function IconShellHoverable() {
   return (
     <div className="flex flex-wrap items-center gap-8">
       <IconShell hoverable>
         <Icon icon="edit" />
       </IconShell>
-      <IconShell size="sm" hoverable variant="secondary">
+      <IconShell size="sm" hoverable>
         <Icon icon="more_vert" />
       </IconShell>
-      <IconShell size="sm" hoverable variant="secondary">
+      <IconShell size="sm" hoverable disabled>
         <Icon icon="delete" />
       </IconShell>
     </div>
@@ -217,41 +222,40 @@ export const examples: DemoExample[] = [
   {
     name: 'IconShellDemo',
     title: 'Default',
-    description: 'Basic IconShell wrapping a Material Symbol ligature.',
+    description: 'Secondary opacity on neutral tone.',
   },
   {
     name: 'IconShellSizes',
     title: 'Sizes',
-    description:
-      'sm (16px), default (24px), and lg (32px) with matching optical-size sources.',
+    description: 'sm (16px), default (24px), lg (32px).',
   },
   {
     name: 'IconShellVariants',
     title: 'Variants',
-    description: 'Primary, secondary, and disabled opacity on the shell.',
+    description:
+      'Static opacity via variant. Use disabled prop for disabled state.',
   },
   {
     name: 'IconShellTypes',
     title: 'Types',
-    description:
-      'neutral (fill-active), neutral-inverse, and custom with user className.',
+    description: 'neutral, neutral-inverse, or custom with className.',
   },
   {
     name: 'IconShellAll',
     title: 'Type × size × variant matrix',
     description:
-      'All type, size, and variant combinations on light and dark surfaces.',
+      'All type, size, and opacity combinations on light and dark surfaces.',
   },
   {
     name: 'IconShellCustomColor',
     title: 'Custom colour',
-    description:
-      'Override via type custom + className, or set colour directly on Icon.',
+    description: 'type="custom" + className, or colour on Icon directly.',
   },
   {
     name: 'IconShellHoverable',
     title: 'Hoverable',
-    description: 'variant sets rest opacity; hover/active lift to primary.',
+    description:
+      'Icon-only buttons. No variant — fixed secondary rest, primary on hover/active.',
   },
 ];
 

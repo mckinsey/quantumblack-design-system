@@ -37,7 +37,7 @@ describe(`${componentName} — structure`, () => {
     expect(document.querySelector('[data-slot="icon"]')).toBeInTheDocument();
   });
 
-  it.each(['primary', 'secondary', 'disabled'] as const)(
+  it.each(['primary', 'secondary'] as const)(
     'renders variant="%s" without crashing',
     variant => {
       expect(() =>
@@ -79,7 +79,7 @@ describe(`${componentName} — structure`, () => {
   it('renders hoverable without crashing', () => {
     expect(() =>
       render(
-        <IconShell hoverable variant="secondary">
+        <IconShell hoverable>
           <Icon icon="info" />
         </IconShell>,
       ),

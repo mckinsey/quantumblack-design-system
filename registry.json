@@ -429,7 +429,7 @@
       "name": "icon-shell",
       "type": "registry:ui",
       "title": "Icon Shell",
-      "description": "An icon component.",
+      "description": "Wraps Icon with QBDS size, tone, and opacity. variant for static icons; hoverable for icon-only buttons. disabled overrides styling.",
       "dependencies": ["@radix-ui/react-slot"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",

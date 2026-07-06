@@ -110,7 +110,7 @@ export function ButtonLoading() {
   return (
     <div className="flex flex-wrap items-center gap-4">
       <Button className="w-[100px]">
-        <IconShell type="neutral-inverse" variant="primary" size="sm" hoverable>
+        <IconShell type="neutral-inverse" variant="primary" size="sm">
           <Icon icon="progress_activity" className="animate-spin" />
         </IconShell>
       </Button>

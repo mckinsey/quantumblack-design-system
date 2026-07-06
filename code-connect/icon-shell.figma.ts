@@ -18,11 +18,14 @@ const figmaType = instance.getEnum('Type', {
   'accent-inverse': 'accent-inverse',
 });
 
-const variant = instance.getEnum('State', {
+const state = instance.getEnum('State', {
   primary: 'primary',
   secondary: 'secondary',
   disabled: 'disabled',
 });
+
+const disabled = state === 'disabled';
+const variant = disabled ? undefined : state;
 
 const customClassByType: Record<string, string | undefined> = {
   accent: 'text-status-success',
@@ -56,7 +59,7 @@ for (const name of swaps) {
 
 export default {
   example: figma.code`
-    <IconShell size="${size}" type="${type}" variant="${variant}"${customClass ? ` className="${customClass}"` : ''}>
+    <IconShell size="${size}" type="${type}"${variant ? ` variant="${variant}"` : ''}${disabled ? ' disabled' : ''}${customClass ? ` className="${customClass}"` : ''}>
       <Icon icon="${icon}" />
     </IconShell>
   `,

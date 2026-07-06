@@ -122,8 +122,6 @@ function AccordionTrigger({
 }: AccordionPrimitive.Trigger.Props) {
   const size = React.useContext(AccordionSizeContext);
   const { disabled } = React.useContext(AccordionItemContext);
-  const iconVariant = disabled ? 'disabled' : 'secondary';
-
   return (
     <AccordionPrimitive.Header className="flex">
       <AccordionPrimitive.Trigger
@@ -134,7 +132,7 @@ function AccordionTrigger({
         <IconShell
           data-slot="accordion-trigger-icon"
           size={size}
-          variant={iconVariant}
+          disabled={disabled}
           className={cn(
             accordionTriggerIconVariants(),
             'inline-flex group-aria-expanded/accordion-trigger:hidden',
@@ -144,7 +142,7 @@ function AccordionTrigger({
         <IconShell
           data-slot="accordion-trigger-icon"
           size={size}
-          variant={iconVariant}
+          disabled={disabled}
           className={cn(
             accordionTriggerIconVariants(),
             'hidden group-aria-expanded/accordion-trigger:inline-flex',
