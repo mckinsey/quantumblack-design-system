@@ -3,8 +3,8 @@
 // component=Toggle
 //
 // Figma models toggle-on as a Button state variant (secondary-filled, secondary-outline,
-// ghost only). Code uses a separate Toggle component (Radix) — wire pressed={on} from
-// your boolean state. For non-toggle Button states, use button-text.figma.ts instead.
+// ghost only). Code uses a separate Toggle component (Radix) — map state=toggle-on to
+// pressed={true}. For non-toggle Button states, use button-text.figma.ts instead.
 import figma from 'figma';
 
 const instance = figma.selectedInstance;
@@ -48,7 +48,7 @@ if (trailing && trailing.type === 'INSTANCE') {
 
 export default {
   example: figma.code`
-    <Toggle variant="${variant}" size="${size}" pressed={on}${disabled ? ' disabled' : ''}>
+    <Toggle variant="${variant}" size="${size}" pressed={true}${disabled ? ' disabled' : ''}>
       ${leadingCode}
       ${label}
       ${trailingCode}

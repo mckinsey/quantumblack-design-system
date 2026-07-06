@@ -18,11 +18,7 @@ describe('Toggle', () => {
   });
 
   it('renders pressed state with aria-pressed true', () => {
-    render(
-      <Toggle pressed onPressedChange={() => {}}>
-        On
-      </Toggle>,
-    );
+    render(<Toggle pressed={true}>On</Toggle>);
 
     expect(screen.getByRole('button', { name: 'On' })).toHaveAttribute(
       'aria-pressed',
