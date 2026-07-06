@@ -24,7 +24,7 @@ function RegistryLayout() {
   return (
     <div className="flex min-h-screen w-full flex-col">
       <Navbar />
-      <SidebarProvider>
+      <SidebarProvider defaultOpen>
         <MobileSidebarTrigger />
         <RegistrySidebar />
         <main className="bg-surface-base flex-1 overflow-auto">

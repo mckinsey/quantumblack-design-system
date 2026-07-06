@@ -252,6 +252,12 @@ import {
   examples as selectExamples,
 } from '@/app/demo/[name]/ui/select';
 import {
+  SidebarApp,
+  SidebarSizes,
+  sidebar,
+  examples as sidebarExamples,
+} from '@/app/demo/[name]/ui/sidebar';
+import {
   SliderDemo,
   SliderLabeled,
   SliderRange,
@@ -608,6 +614,10 @@ export const exampleComponentMaps: Record<
     SelectWithGroups,
     SelectMultipleDemo,
   },
+  sidebar: {
+    SidebarApp,
+    SidebarSizes,
+  },
   slider: {
     SliderDemo,
     SliderRanges,
@@ -741,6 +751,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   'radio-group': radioGroupExamples,
   'segmented-controls': segmentedControlsExamples,
   select: selectExamples,
+  sidebar: sidebarExamples,
   slider: sliderExamples,
   sonner: sonnerExamples,
   switch: switchExamples,
@@ -888,6 +899,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...select,
     examples: selectExamples,
     exampleComponents: exampleComponentMaps.select,
+  },
+  sidebar: {
+    ...sidebar,
+    examples: sidebarExamples,
+    exampleComponents: exampleComponentMaps.sidebar,
   },
   slider: {
     ...slider,

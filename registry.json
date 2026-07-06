@@ -619,6 +619,73 @@
       ]
     },
     {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Slide-over panel built on Radix Dialog. Used by Sidebar on mobile.",
+      "dependencies": ["@radix-ui/react-dialog"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/sheet.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Placeholder loading state. Used by Sidebar.",
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "Composable sidebar with collapsible sections, mobile sheet, and icon mode. shadcn API.",
+      "dependencies": [
+        "@radix-ui/react-dialog",
+        "@radix-ui/react-slot",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/button.json",
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/separator.json",
+        "__REGISTRY_URL__/r/tooltip.json",
+        "__REGISTRY_URL__/r/input.json",
+        "__REGISTRY_URL__/r/sheet.json",
+        "__REGISTRY_URL__/r/skeleton.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/sidebar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/hooks/use-mobile.ts",
+          "type": "registry:file",
+          "target": "hooks/use-mobile.ts"
+        }
+      ]
+    },
+    {
       "name": "slider",
       "type": "registry:ui",
       "title": "Slider",
