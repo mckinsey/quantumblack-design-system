@@ -291,11 +291,8 @@ import {
   examples as switchExamples,
 } from '@/app/demo/[name]/ui/switch';
 import {
-  DataTableDemo,
   TableRich,
   TableSizes,
-  dataTable,
-  dataTableExamples,
   table,
   examples as tableExamples,
 } from '@/app/demo/[name]/ui/table';
@@ -493,9 +490,6 @@ export const exampleComponentMaps: Record<
     CheckboxItemGroup,
     CheckboxItemGroupSection,
   },
-  'data-table': {
-    DataTableDemo,
-  },
   'date-picker': {
     DatePickerDemo,
     DatePickerRange,
@@ -648,7 +642,6 @@ export const exampleComponentMaps: Record<
   table: {
     TableSizes,
     TableRich,
-    DataTableDemo,
   },
   tabs: {
     TabsDemo,
@@ -735,7 +728,6 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   calendar: calendarExamples,
   card: cardExamples,
   checkbox: checkboxExamples,
-  'data-table': dataTableExamples,
   'date-picker': datePickerExamples,
   dialog: dialogExamples,
   'context-menu': contextMenuExamples,
@@ -819,11 +811,6 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...checkbox,
     examples: checkboxExamples,
     exampleComponents: exampleComponentMaps.checkbox,
-  },
-  'data-table': {
-    ...dataTable,
-    examples: dataTableExamples,
-    exampleComponents: exampleComponentMaps['data-table'],
   },
   'date-picker': {
     ...datePicker,
