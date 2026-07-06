@@ -37,6 +37,9 @@ const type =
     ? 'custom'
     : figmaType;
 
+const resolvedSize = size ?? 'default';
+const resolvedType = type ?? 'neutral';
+
 const customClass = customClassByType[figmaType ?? ''];
 
 const swapBySize = instance.getEnum('Size', {
@@ -59,7 +62,7 @@ for (const name of swaps) {
 
 export default {
   example: figma.code`
-    <IconShell size="${size}" type="${type}"${variant ? ` variant="${variant}"` : ''}${disabled ? ' disabled' : ''}${customClass ? ` className="${customClass}"` : ''}>
+    <IconShell size="${resolvedSize}" type="${resolvedType}"${variant ? ` variant="${variant}"` : ''}${disabled ? ' disabled' : ''}${customClass ? ` className="${customClass}"` : ''}>
       <Icon icon="${icon}" />
     </IconShell>
   `,

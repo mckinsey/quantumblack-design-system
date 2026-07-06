@@ -367,8 +367,12 @@ export function DatePickerDisabled() {
         />
         <InputGroupAddon align="inline-end">
           <span className="flex size-5 cursor-not-allowed items-center justify-center">
-            <Button size="icon-xxs" variant="ghost" aria-label="Expand">
-              <IconShell size="sm" type="neutral" hoverable>
+            <Button
+              size="icon-xxs"
+              variant="ghost"
+              aria-label="Expand"
+              disabled>
+              <IconShell size="sm" type="neutral" disabled>
                 <Icon icon="calendar_month" />
               </IconShell>
             </Button>

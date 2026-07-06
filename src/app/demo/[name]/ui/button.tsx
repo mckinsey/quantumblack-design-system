@@ -109,12 +109,12 @@ export function ButtonWithIcons() {
 export function ButtonLoading() {
   return (
     <div className="flex flex-wrap items-center gap-4">
-      <Button className="w-[100px]">
+      <Button className="w-[100px]" aria-label="Loading">
         <IconShell type="neutral-inverse" variant="primary" size="sm">
           <Icon icon="progress_activity" className="animate-spin" />
         </IconShell>
       </Button>
-      <Button variant="outline" className="w-[100px]">
+      <Button variant="outline" className="w-[100px]" aria-label="Loading">
         <IconShell size="sm" hoverable>
           <Icon icon="progress_activity" className="animate-spin" />
         </IconShell>
