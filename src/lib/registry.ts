@@ -52,8 +52,8 @@ export interface ExampleMeta {
 
 /** Registry item names to hide from the UI (still available for install/deps). */
 const HIDDEN_IN_UI = new Set([
-  'field',
   'label',
+  'scroll-area',
   'separator',
   'sheet',
   'skeleton',
