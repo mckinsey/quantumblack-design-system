@@ -32,7 +32,7 @@ npm run prettier:fix    # apply Prettier formatting
 
 Icons use the **Material Symbols Sharp** variable font via `<Icon icon="search" />`. Ligature names are Google's snake_case (e.g. `keyboard_arrow_down`, `check_circle`). No per-icon files or codegen — any icon in the font catalog works.
 
-Wrap icons in `<IconShell>` for QBDS sizing (`sm`/`default`/`lg`), tone (`neutral`/`neutral-inverse`/`custom`), and opacity (`primary`/`secondary`/`disabled`). Base colour is `text-fill-active` / `text-fill-active-inverse`; state applies opacity. Set `hoverable` for secondary → primary on hover/active. `IconShell` provides size context to `<Icon>` automatically:
+Wrap icons in `<IconShell>` for QBDS sizing (`sm`/`default`/`lg`), tone (`neutral`/`neutral-inverse`/`custom`), and opacity (`primary`/`secondary`/`disabled`). Base colour is `text-fill-active` / `text-fill-active-inverse`; state applies opacity. Set `hoverable` so `variant` sets rest opacity and hover/active lift to primary. `IconShell` provides size context to `<Icon>` automatically:
 
 ```tsx
 <IconShell size="sm" variant="secondary">
@@ -51,6 +51,8 @@ Wrap icons in `<IconShell>` for QBDS sizing (`sm`/`default`/`lg`), tone (`neutra
 Optical-size contract (same as Figma): `sm` → 20dp@wght400, `default` → 24dp@wght300, `lg` → 40dp@wght300 via `fontVariationSettings`. Set `size` on `<Icon>` directly when not using `IconShell`.
 
 Registry: `npx shadcn add icon` ships `icon.tsx` and appends the Google Fonts `@import` to the consumer's CSS.
+
+**Tests (`src/tests/icon-shell.test.tsx`):** functional only — demos render, `data-slot`, children, prop combos don't crash. Do not assert Tailwind classes, opacity tokens, or `cva` output.
 
 ## Before raising a PR
 
@@ -82,6 +84,14 @@ Read and follow the **figma-parity** skill ([.agents/skills/figma-parity/SKILL.m
 ### Syncing tokens with Figma
 
 When updating tokens from design, follow the **figma-token-sync** skill ([.agents/skills/figma-token-sync/SKILL.md](.agents/skills/figma-token-sync/SKILL.md)). See also [README — Syncing from Figma](README.md#syncing-from-figma) for the post-sync verification commands.
+
+### Component tests
+
+Keep tests **functional**, not visual.
+
+- Assert structure and behavior: renders without crash, `data-slot` / roles, children present, interaction where meaningful.
+- Do **not** assert specific CSS classes, opacity values, colours, or `cva()` / `iconVariants()` output — styling is covered by Figma parity and manual/visual review.
+- Cover prop combinations with smoke renders (`variant`, `size`, `type`, `hoverable`, `disabled`, etc.) rather than snapshotting class strings.
 
 ### 1. Think Before Coding
 

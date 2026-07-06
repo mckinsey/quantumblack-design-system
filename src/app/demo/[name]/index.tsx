@@ -171,12 +171,6 @@ import {
   examples as iconExamples,
 } from '@/app/demo/[name]/ui/icon';
 import {
-  IconCatalog,
-  IconInButtons,
-  IconInputAffordances,
-  IconLoading,
-  IconNavigation,
-  IconOpticalSizing,
   IconShellAll,
   IconShellCustomColor,
   IconShellDemo,
@@ -184,8 +178,6 @@ import {
   IconShellSizes,
   IconShellTypes,
   IconShellVariants,
-  IconStandalone,
-  IconStatus,
   iconShell,
   examples as iconShellExamples,
 } from '@/app/demo/[name]/ui/icon-shell';
@@ -550,14 +542,6 @@ export const exampleComponentMaps: Record<
     IconShellAll,
     IconShellCustomColor,
     IconShellHoverable,
-    IconStandalone,
-    IconCatalog,
-    IconNavigation,
-    IconStatus,
-    IconInButtons,
-    IconLoading,
-    IconOpticalSizing,
-    IconInputAffordances,
   },
   input: {
     InputDemo,
