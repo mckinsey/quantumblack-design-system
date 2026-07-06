@@ -585,23 +585,6 @@
       ]
     },
     {
-      "name": "scroll-area",
-      "type": "registry:ui",
-      "title": "Scroll Area",
-      "description": "A scrollable viewport with custom scrollbars, built on Radix Scroll Area primitives.",
-      "dependencies": ["@radix-ui/react-scroll-area"],
-      "registryDependencies": [
-        "__REGISTRY_URL__/r/theme.json",
-        "__REGISTRY_URL__/r/utils.json"
-      ],
-      "files": [
-        {
-          "path": "src/components/ui/scroll-area.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "separator",
       "type": "registry:ui",
       "title": "Separator",
@@ -614,40 +597,6 @@
       "files": [
         {
           "path": "src/components/ui/separator.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "name": "sheet",
-      "type": "registry:ui",
-      "title": "Sheet",
-      "description": "Slide-over panel built on Radix Dialog. Used by Sidebar on mobile.",
-      "dependencies": ["@radix-ui/react-dialog"],
-      "registryDependencies": [
-        "__REGISTRY_URL__/r/theme.json",
-        "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/icon.json"
-      ],
-      "files": [
-        {
-          "path": "src/components/ui/sheet.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "name": "skeleton",
-      "type": "registry:ui",
-      "title": "Skeleton",
-      "description": "Placeholder loading state. Used by Sidebar.",
-      "registryDependencies": [
-        "__REGISTRY_URL__/r/theme.json",
-        "__REGISTRY_URL__/r/utils.json"
-      ],
-      "files": [
-        {
-          "path": "src/components/ui/skeleton.tsx",
           "type": "registry:ui"
         }
       ]

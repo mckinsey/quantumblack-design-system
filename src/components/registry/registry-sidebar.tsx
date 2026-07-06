@@ -46,7 +46,7 @@ const COMPONENT_GROUPS: { label: string; names: string[] }[] = [
       'textarea',
     ],
   },
-  { label: 'Overlay', names: ['dialog', 'sheet', 'sonner'] },
+  { label: 'Overlay', names: ['dialog', 'popover', 'sonner', 'tooltip'] },
 ];
 
 const groupedNames = new Set(COMPONENT_GROUPS.flatMap(g => g.names));
@@ -140,9 +140,7 @@ export function RegistrySidebar() {
                   entry.type === 'group' ? (
                     <SidebarMenuItem key={entry.group.label}>
                       <Collapsible
-                        defaultOpen={entry.groupItems.some(
-                          item => pathname === `/registry/${item.name}`,
-                        )}
+                        defaultOpen={true}
                         className="group/subgroup w-full">
                         <CollapsibleTrigger asChild className="cursor-pointer">
                           <SidebarMenuButton className="flex w-full items-center justify-between">
