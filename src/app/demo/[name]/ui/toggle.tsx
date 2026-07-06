@@ -76,7 +76,7 @@ function IconToggleRow({ className }: { className?: string }) {
           variant={variant}
           size="icon"
           className={className}>
-          <IconShell size="sm">
+          <IconShell size="sm" hoverable>
             <Icon icon="crop_free" />
           </IconShell>
         </Toggle>

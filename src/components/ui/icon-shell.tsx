@@ -1,23 +1,10 @@
 import { Slot } from '@radix-ui/react-slot';
 import { type VariantProps, cva } from 'class-variance-authority';
-import * as React from 'react';
+import type * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-import { type IconSize, IconSizeContext } from './icon';
-
-const iconOpacity = {
-  primary: 'opacity-88',
-  secondary: 'opacity-60',
-  disabled: 'opacity-30',
-} as const;
-
-const iconHoverToPrimary = [
-  'hover:opacity-88',
-  'active:opacity-88',
-  'group-hover/btn:opacity-88',
-  'group-active/btn:opacity-88',
-] as const;
+import { IconSizeContext } from './icon';
 
 const iconVariants = cva(
   [
@@ -37,22 +24,21 @@ const iconVariants = cva(
         custom: '',
       },
       variant: {
-        primary: iconOpacity.primary,
-        secondary: iconOpacity.secondary,
-        disabled: `${iconOpacity.disabled} cursor-not-allowed`,
+        primary: 'opacity-88',
+        secondary: 'opacity-60',
+        disabled: 'opacity-30 cursor-not-allowed',
       },
       hoverable: {
-        true: 'cursor-pointer',
+        true: [
+          'cursor-pointer',
+          'hover:opacity-88',
+          'active:opacity-88',
+          'group-hover/btn:opacity-88',
+          'group-active/btn:opacity-88',
+        ],
         false: '',
       },
     },
-    compoundVariants: [
-      {
-        hoverable: true,
-        variant: 'secondary',
-        class: [...iconHoverToPrimary],
-      },
-    ],
     defaultVariants: {
       size: 'default',
       type: 'neutral',
@@ -62,6 +48,33 @@ const iconVariants = cva(
   },
 );
 
+type IconShellVariant = NonNullable<
+  VariantProps<typeof iconVariants>['variant']
+>;
+
+type IconShellProps = Omit<React.ComponentProps<'span'>, 'disabled'> &
+  VariantProps<typeof iconVariants> & {
+    asChild?: boolean;
+    hoverable?: boolean;
+    disabled?: boolean;
+  };
+
+function resolveVariant(
+  variant: IconShellVariant | null | undefined,
+  hoverable: boolean,
+  isDisabled: boolean,
+): IconShellVariant {
+  if (isDisabled) {
+    return 'disabled';
+  }
+
+  if (hoverable) {
+    return 'secondary';
+  }
+
+  return variant ?? 'secondary';
+}
+
 function IconShell({
   className,
   size,
@@ -69,23 +82,17 @@ function IconShell({
   variant,
   hoverable = false,
   asChild = false,
-  disabled: disabledProp,
+  disabled = false,
   children,
   ...props
-}: Omit<React.ComponentProps<'span'>, 'disabled'> &
-  VariantProps<typeof iconVariants> & {
-    asChild?: boolean;
-    hoverable?: boolean;
-    disabled?: boolean;
-  }) {
-  const resolvedSize: IconSize = size ?? 'default';
-  const disabled = variant === 'disabled' || disabledProp;
-  const resolvedVariant = disabled ? 'disabled' : variant;
-  const useHoverable = hoverable && !disabled;
+}: IconShellProps) {
+  const isDisabled = variant === 'disabled' || disabled;
+  const isHoverable = hoverable && !isDisabled;
+  const resolvedVariant = resolveVariant(variant, isHoverable, isDisabled);
   const Comp = asChild ? Slot : 'span';
 
   return (
-    <IconSizeContext.Provider value={resolvedSize}>
+    <IconSizeContext.Provider value={size ?? 'default'}>
       <Comp
         data-slot="icon"
         className={cn(
@@ -93,7 +100,7 @@ function IconShell({
             size,
             type,
             variant: resolvedVariant,
-            hoverable: useHoverable,
+            hoverable: isHoverable,
           }),
           className,
         )}
@@ -104,4 +111,4 @@ function IconShell({
   );
 }
 
-export { IconShell, iconHoverToPrimary, iconOpacity, iconVariants };
+export { IconShell, iconVariants };

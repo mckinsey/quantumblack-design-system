@@ -167,6 +167,7 @@
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/button.json",
         "__REGISTRY_URL__/r/calendar.json",
         "__REGISTRY_URL__/r/field.json",
         "__REGISTRY_URL__/r/icon-shell.json",
@@ -667,6 +668,7 @@
         "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/button.json",
         "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json",
         "__REGISTRY_URL__/r/separator.json",
         "__REGISTRY_URL__/r/tooltip.json",
         "__REGISTRY_URL__/r/input.json",
@@ -712,7 +714,8 @@
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/button.json",
         "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/icon.json"
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
       ],
       "dependencies": ["sonner", "next-themes"],
       "files": [

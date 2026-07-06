@@ -491,7 +491,9 @@ function TimeInputTrigger({
       {children ?? (
         <IconShell
           size={triggerIconSizeMap[size]}
-          variant={disabled ? 'disabled' : 'secondary'}>
+          variant={disabled ? 'disabled' : 'secondary'}
+          type="neutral"
+          hoverable>
           <Icon icon="schedule" />
         </IconShell>
       )}

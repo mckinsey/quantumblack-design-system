@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 
 export function ModeToggle() {
   const [isDark, setIsDark] = useState(false);
@@ -60,14 +61,15 @@ export function ModeToggle() {
 
   return (
     <Button variant="outline" size="icon" onClick={toggleTheme}>
-      <Icon
-        icon="light_mode"
-        className="size-4 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"
-      />
-      <Icon
-        icon="dark_mode"
-        className="absolute size-4 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
-      />
+      {isDark ? (
+        <IconShell type="neutral" hoverable size="sm">
+          <Icon icon="light_mode" />
+        </IconShell>
+      ) : (
+        <IconShell type="neutral" hoverable size="sm">
+          <Icon icon="dark_mode" />
+        </IconShell>
+      )}
       <span className="sr-only">Toggle theme</span>
     </Button>
   );
