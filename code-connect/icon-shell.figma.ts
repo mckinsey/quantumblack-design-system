@@ -46,6 +46,7 @@ export default {
   example: figma.code`
     <IconShell size="${size}" type="${type}" variant="${variant}">
       ${icon ? figma.code`<Icon icon="${icon}" />` : ''}
+      {/* Replace with the real icon, e.g. <Icon icon="home" /> */}
     </IconShell>
   `,
   imports: [

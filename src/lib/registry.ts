@@ -51,7 +51,13 @@ export interface ExampleMeta {
 }
 
 /** Registry item names to hide from the UI (still available for install/deps). */
-const HIDDEN_IN_UI = new Set(['field', 'label', 'separator']);
+const HIDDEN_IN_UI = new Set([
+  'field',
+  'label',
+  'separator',
+  'sheet',
+  'skeleton',
+]);
 
 export function getRegistryItems(): Component[] {
   // exclude style item and any hidden-by-name items from the ui
@@ -146,7 +152,7 @@ export function getUIPrimitivesByCategory() {
       'pagination',
       'toolbar',
     ],
-    Feedback: ['alert', 'progress', 'skeleton', 'badge', 'tag'],
+    Feedback: ['alert', 'progress', 'badge', 'tag'],
     Display: [
       'avatar',
       'table',
@@ -162,7 +168,6 @@ export function getUIPrimitivesByCategory() {
       'drawer',
       'popover',
       'tooltip',
-      'sheet',
       'hover',
       'sonner',
       'toast',
