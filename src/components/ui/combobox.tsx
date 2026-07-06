@@ -291,6 +291,8 @@ function ComboboxChips({ className, ...props }: ComboboxPrimitive.Chips.Props) {
         // Shared base + error styles from Input for visual consistency
         inputVariantStyles.default.base,
         inputVariantStyles.default.error,
+        // Remove the elevation shadow from the base input styles — not appropriate on a chips container
+        'shadow-none',
         // focus-within (container focus) mirrors InputGroup focus-visible behaviour
         'focus-within:bg-stateslayer-overlay-enabled focus-within:ring-stroke-status-focus focus-within:shadow-elevation-1 focus-within:ring-[1px]',
         // Layout
