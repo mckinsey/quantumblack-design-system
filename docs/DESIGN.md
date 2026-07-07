@@ -3,252 +3,253 @@ version: alpha
 name: QuantumBlack Design System
 description: Dark-capable, geometry-first interface language for QuantumBlack analytical tools.
 colors:
-  primary: "#10121B"
-  secondary: "#141721"
-  tertiary: "#00A9F4"
-  neutral: "#FAFAFB"
-  surface: "#FFFFFF"
-  on-surface: "#141721"
-  on-primary: "#FFFFFF"
-  accent: "#00A9F4"
-  focus: "#38BDF8"
-  success: "#16A34A"
-  error: "#DC2626"
-  warning: "#D97706"
-  information: "#0891B2"
+  primary: '#10121B'
+  secondary: '#141721'
+  tertiary: '#00A9F4'
+  neutral: '#FAFAFB'
+  surface: '#FFFFFF'
+  on-surface: '#141721'
+  on-primary: '#FFFFFF'
+  accent: '#00A9F4'
+  focus-dark: '#38BDF8'
+  focus-light: '#0EA5E9'
+  success: '#16A34A'
+  error: '#DC2626'
+  warning: '#D97706'
+  information: '#0284C7'
 typography:
   display-d1:
-    fontFamily: "Inter, sans-serif"
-    fontSize: "56px"
+    fontFamily: 'Inter, sans-serif'
+    fontSize: '56px'
     fontWeight: 300
     lineHeight: 1.07
-    letterSpacing: "-0.28px"
+    letterSpacing: '-0.28px'
   display-d2:
-    fontFamily: "Inter, sans-serif"
-    fontSize: "48px"
+    fontFamily: 'Inter, sans-serif'
+    fontSize: '48px'
     fontWeight: 300
     lineHeight: 1.17
-    letterSpacing: "-0.96px"
+    letterSpacing: '-0.96px'
   display-d3:
-    fontFamily: "Inter, sans-serif"
-    fontSize: "40px"
+    fontFamily: 'Inter, sans-serif'
+    fontSize: '40px'
     fontWeight: 300
     lineHeight: 1.2
-    letterSpacing: "-0.8px"
+    letterSpacing: '-0.8px'
   heading-h1:
-    fontFamily: "Inter, sans-serif"
-    fontSize: "32px"
+    fontFamily: 'Inter, sans-serif'
+    fontSize: '32px'
     fontWeight: 400
     lineHeight: 1.25
-    letterSpacing: "-0.128px"
+    letterSpacing: '-0.128px'
   heading-h2:
-    fontFamily: "Inter, sans-serif"
-    fontSize: "24px"
+    fontFamily: 'Inter, sans-serif'
+    fontSize: '24px'
     fontWeight: 400
     lineHeight: 1.33
-    letterSpacing: "-0.096px"
+    letterSpacing: '-0.096px'
   heading-h3:
-    fontFamily: "Inter, sans-serif"
-    fontSize: "20px"
+    fontFamily: 'Inter, sans-serif'
+    fontSize: '20px'
     fontWeight: 400
     lineHeight: 1.4
-    letterSpacing: "0px"
+    letterSpacing: '0px'
   heading-h4:
-    fontFamily: "Inter, sans-serif"
-    fontSize: "16px"
+    fontFamily: 'Inter, sans-serif'
+    fontSize: '16px'
     fontWeight: 400
     lineHeight: 1.5
-    letterSpacing: "-0.016px"
+    letterSpacing: '-0.016px'
   body:
-    fontFamily: "Inter, sans-serif"
-    fontSize: "14px"
+    fontFamily: 'Inter, sans-serif'
+    fontSize: '14px'
     fontWeight: 400
     lineHeight: 1.43
-    letterSpacing: "-0.028px"
+    letterSpacing: '-0.028px'
   body-large:
-    fontFamily: "Inter, sans-serif"
-    fontSize: "16px"
+    fontFamily: 'Inter, sans-serif'
+    fontSize: '16px'
     fontWeight: 400
     lineHeight: 1.5
-    letterSpacing: "-0.032px"
+    letterSpacing: '-0.032px'
   body-small:
-    fontFamily: "Inter, sans-serif"
-    fontSize: "12px"
+    fontFamily: 'Inter, sans-serif'
+    fontSize: '12px'
     fontWeight: 400
     lineHeight: 1.33
-    letterSpacing: "0.024px"
+    letterSpacing: '0.024px'
   label:
-    fontFamily: "Inter, sans-serif"
-    fontSize: "14px"
+    fontFamily: 'Inter, sans-serif'
+    fontSize: '14px'
     fontWeight: 400
     lineHeight: 1.43
-    letterSpacing: "-0.112px"
+    letterSpacing: '-0.112px'
   label-small:
-    fontFamily: "Inter, sans-serif"
-    fontSize: "12px"
+    fontFamily: 'Inter, sans-serif'
+    fontSize: '12px'
     fontWeight: 400
     lineHeight: 1.33
   button:
-    fontFamily: "Inter, sans-serif"
-    fontSize: "14px"
+    fontFamily: 'Inter, sans-serif'
+    fontSize: '14px'
     fontWeight: 600
     lineHeight: 1.43
-    letterSpacing: "-0.056px"
+    letterSpacing: '-0.056px'
   code:
-    fontFamily: "Roboto Mono, monospace"
-    fontSize: "12px"
+    fontFamily: 'Roboto Mono, monospace'
+    fontSize: '12px'
     fontWeight: 400
     lineHeight: 1.33
 rounded:
-  reg: "0px"
-  sm: "0px"
-  md: "0px"
-  lg: "0px"
-  full: "9999px"
+  reg: '0px'
+  sm: '0px'
+  md: '0px'
+  lg: '0px'
+  full: '9999px'
 spacing:
-  xs: "4px"
-  sm: "8px"
-  md: "16px"
-  lg: "24px"
-  xl: "32px"
-  2xl: "48px"
-  3xl: "96px"
-  gutter: "24px"
-  margin: "32px"
+  xs: '4px'
+  sm: '8px'
+  md: '16px'
+  lg: '24px'
+  xl: '32px'
+  2xl: '48px'
+  3xl: '96px'
+  gutter: '24px'
+  margin: '32px'
 components:
   button-primary:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.on-primary}"
-    rounded: "{rounded.sm}"
-    padding: "8px"
-    height: "36px"
-    typography: "{typography.button}"
+    backgroundColor: '{colors.primary}'
+    textColor: '{colors.on-primary}'
+    rounded: '{rounded.sm}'
+    padding: '8px'
+    height: '36px'
+    typography: '{typography.button}'
   button-primary-hover:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.on-primary}"
-    rounded: "{rounded.sm}"
-    padding: "8px"
-    height: "36px"
-    typography: "{typography.button}"
+    backgroundColor: '{colors.primary}'
+    textColor: '{colors.on-primary}'
+    rounded: '{rounded.sm}'
+    padding: '8px'
+    height: '36px'
+    typography: '{typography.button}'
   button-primary-active:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.on-primary}"
-    rounded: "{rounded.sm}"
-    padding: "8px"
-    height: "36px"
-    typography: "{typography.button}"
+    backgroundColor: '{colors.primary}'
+    textColor: '{colors.on-primary}'
+    rounded: '{rounded.sm}'
+    padding: '8px'
+    height: '36px'
+    typography: '{typography.button}'
   button-accent:
-    backgroundColor: "{colors.accent}"
-    textColor: "{colors.primary}"
-    rounded: "{rounded.sm}"
-    padding: "8px"
-    height: "36px"
-    typography: "{typography.button}"
+    backgroundColor: '{colors.accent}'
+    textColor: '{colors.primary}'
+    rounded: '{rounded.sm}'
+    padding: '8px'
+    height: '36px'
+    typography: '{typography.button}'
   button-accent-hover:
-    backgroundColor: "{colors.accent}"
-    textColor: "{colors.primary}"
-    rounded: "{rounded.sm}"
-    padding: "8px"
-    height: "36px"
-    typography: "{typography.button}"
+    backgroundColor: '{colors.accent}'
+    textColor: '{colors.primary}'
+    rounded: '{rounded.sm}'
+    padding: '8px'
+    height: '36px'
+    typography: '{typography.button}'
   button-secondary:
-    backgroundColor: "{colors.neutral}"
-    textColor: "{colors.on-surface}"
-    rounded: "{rounded.sm}"
-    padding: "8px"
-    height: "36px"
-    typography: "{typography.button}"
+    backgroundColor: '{colors.neutral}'
+    textColor: '{colors.on-surface}'
+    rounded: '{rounded.sm}'
+    padding: '8px'
+    height: '36px'
+    typography: '{typography.button}'
   card:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.on-surface}"
-    rounded: "{rounded.md}"
-    padding: "{spacing.gutter}"
+    backgroundColor: '{colors.surface}'
+    textColor: '{colors.on-surface}'
+    rounded: '{rounded.md}'
+    padding: '{spacing.gutter}'
   input:
-    backgroundColor: "{colors.neutral}"
-    textColor: "{colors.on-surface}"
-    rounded: "{rounded.sm}"
-    padding: "8px"
-    height: "36px"
-    typography: "{typography.body}"
+    backgroundColor: '{colors.neutral}'
+    textColor: '{colors.on-surface}'
+    rounded: '{rounded.sm}'
+    padding: '8px'
+    height: '36px'
+    typography: '{typography.body}'
   input-focus:
-    backgroundColor: "{colors.neutral}"
-    textColor: "{colors.on-surface}"
-    rounded: "{rounded.sm}"
-    padding: "8px"
-    height: "36px"
-    typography: "{typography.body}"
+    backgroundColor: '{colors.neutral}'
+    textColor: '{colors.on-surface}'
+    rounded: '{rounded.sm}'
+    padding: '8px'
+    height: '36px'
+    typography: '{typography.body}'
   input-error:
-    backgroundColor: "{colors.neutral}"
-    textColor: "{colors.error}"
-    rounded: "{rounded.sm}"
-    padding: "8px"
-    height: "36px"
-    typography: "{typography.body}"
+    backgroundColor: '{colors.neutral}'
+    textColor: '{colors.error}'
+    rounded: '{rounded.sm}'
+    padding: '8px'
+    height: '36px'
+    typography: '{typography.body}'
   checkbox:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.on-surface}"
-    rounded: "{rounded.sm}"
-    size: "16px"
+    backgroundColor: '{colors.surface}'
+    textColor: '{colors.on-surface}'
+    rounded: '{rounded.sm}'
+    size: '16px'
   checkbox-checked:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.on-primary}"
-    rounded: "{rounded.sm}"
-    size: "16px"
+    backgroundColor: '{colors.primary}'
+    textColor: '{colors.on-primary}'
+    rounded: '{rounded.sm}'
+    size: '16px'
   radio:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.on-surface}"
-    rounded: "{rounded.full}"
-    size: "16px"
+    backgroundColor: '{colors.surface}'
+    textColor: '{colors.on-surface}'
+    rounded: '{rounded.full}'
+    size: '16px'
   radio-selected:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.on-primary}"
-    rounded: "{rounded.full}"
-    size: "8px"
+    backgroundColor: '{colors.primary}'
+    textColor: '{colors.on-primary}'
+    rounded: '{rounded.full}'
+    size: '8px'
   tooltip:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.on-primary}"
-    rounded: "{rounded.sm}"
-    padding: "8px"
-    typography: "{typography.body-small}"
+    backgroundColor: '{colors.primary}'
+    textColor: '{colors.on-primary}'
+    rounded: '{rounded.sm}'
+    padding: '8px'
+    typography: '{typography.body-small}'
   tag:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.on-surface}"
-    rounded: "{rounded.sm}"
-    padding: "4px 8px"
-    height: "28px"
-    typography: "{typography.label-small}"
+    backgroundColor: '{colors.surface}'
+    textColor: '{colors.on-surface}'
+    rounded: '{rounded.sm}'
+    padding: '4px 8px'
+    height: '28px'
+    typography: '{typography.label-small}'
   tag-selected:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.on-primary}"
-    rounded: "{rounded.sm}"
-    padding: "4px 8px"
-    height: "28px"
-    typography: "{typography.label-small}"
+    backgroundColor: '{colors.primary}'
+    textColor: '{colors.on-primary}'
+    rounded: '{rounded.sm}'
+    padding: '4px 8px'
+    height: '28px'
+    typography: '{typography.label-small}'
   alert-error:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.error}"
-    rounded: "{rounded.md}"
-    padding: "{spacing.md}"
+    backgroundColor: '{colors.surface}'
+    textColor: '{colors.error}'
+    rounded: '{rounded.md}'
+    padding: '{spacing.md}'
   alert-information:
-    backgroundColor: "{colors.information}"
-    textColor: "{colors.primary}"
-    rounded: "{rounded.md}"
-    padding: "{spacing.md}"
+    backgroundColor: '{colors.information}'
+    textColor: '{colors.primary}'
+    rounded: '{rounded.md}'
+    padding: '{spacing.md}'
   badge-success:
-    backgroundColor: "{colors.success}"
-    textColor: "{colors.primary}"
-    rounded: "{rounded.full}"
-    padding: "4px 8px"
-    typography: "{typography.label-small}"
+    backgroundColor: '{colors.success}'
+    textColor: '{colors.primary}'
+    rounded: '{rounded.full}'
+    padding: '4px 8px'
+    typography: '{typography.label-small}'
   badge-warning:
-    backgroundColor: "{colors.warning}"
-    textColor: "{colors.primary}"
-    rounded: "{rounded.full}"
-    padding: "4px 8px"
-    typography: "{typography.label-small}"
+    backgroundColor: '{colors.warning}'
+    textColor: '{colors.primary}'
+    rounded: '{rounded.full}'
+    padding: '4px 8px'
+    typography: '{typography.label-small}'
   focus-ring:
-    backgroundColor: "{colors.focus}"
-    size: "2px"
+    backgroundColor: '{colors.focus}'
+    size: '2px'
 ---
 
 # Design System: QuantumBlack Design System
@@ -287,16 +288,16 @@ Do not generate UI until these assets exist. Surface missing assets as blockers.
 
 **Theme switches** (independent, compose on `<html>`):
 
-| Mode | Class | Default | Effect |
-| ---- | ----- | ------- | ------ |
-| Light / dark | `.dark` | **Dark** | Remaps semantic colour tokens and chart plot tokens |
-| Sharp / rounded | `.radius-mode` | Sharp (0 px radii) | Sets sm/reg/md/lg to 4/8/12/16 px |
+| Mode            | Class          | Default            | Effect                                              |
+| --------------- | -------------- | ------------------ | --------------------------------------------------- |
+| Light / dark    | `.dark`        | **Dark**           | Remaps semantic colour tokens and chart plot tokens |
+| Sharp / rounded | `.radius-mode` | Sharp (0 px radii) | Sets sm/reg/md/lg to 4/8/12/16 px                   |
 
 **Theme toggle (required).** Every generated app, dashboard, and demo must expose a visible light/dark toggle. Do not ship a single-theme UI.
 
 - **Default:** dark mode on first visit — add `.dark` to `<html>` when no saved preference exists.
 - **Persistence:** store the choice in `localStorage` under the key `theme` (`"dark"` | `"light"`).
-- **Implementation:** prefer the registry `ModeToggle` (`npx shadcn add theme-toggle` or `@/components/registry/theme-toggle`). Place it in the app chrome (header, navbar, or settings).
+- **Implementation:** there is no `@qbds/theme-toggle` registry item. The file at `src/components/registry/theme-toggle.tsx` is the registry site's own toggle — reference only. Hand-build from `Button` (ghost, icon size) + Material Symbols Sharp icons (`light_mode` / `dark_mode`) and place it in the app chrome (header, navbar, or settings).
 - **Sync:** toggling must add/remove `.dark` on `<html>` and re-apply chart plot tokens for any embedded visualizations.
 
 ## Colors
@@ -318,70 +319,84 @@ The palette is rooted in high-contrast slate neutrals with a single brand accent
 - **Success (#16A34A):** Confirmations, positive states. Readable text: `text-success`. Fills/borders: `status-success`.
 - **Error (#DC2626):** Destructive actions, validation failures. Readable text: `text-error`. Fills/borders: `status-error`.
 - **Warning (#D97706):** Caution, non-blocking alerts. Readable text: `text-warning`. Fills/borders: `status-warning`.
-- **Information (#0891B2):** Info banners, tips. Readable text: `text-information`. Fills/borders: `status-information`.
-- **Focus (#38BDF8):** Focus rings — identical in light and dark. Never remove focus outlines.
+- **Information (#0284C7 light / sky-400 dark):** Info banners, tips. Readable text: `text-information`. Fills/borders: `status-information`.
+- **Focus (sky-500 light / sky-400 dark):** Focus rings — `--border-status-focus` remaps between themes: `#0EA5E9` in light mode, `#38BDF8` in dark mode. Never remove focus outlines.
 
 Dark mode remaps the same semantic roles: surfaces shift to slate-800/900, foreground to mist-50 opacity ramps, status colours lighten one step. See [TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md) for the full light/dark utility table.
 
 ### Chart colours
 
-QBDS chart palettes for **Chart.js, D3, Vega-Lite, Recharts**, and other non-ECharts libraries. For **Apache ECharts**, register the bundled theme JSON — the hex values below are the same palettes that theme encodes.
+QBDS chart palettes for ECharts (default), Chart.js, D3, Vega-Lite, and other libraries. Apply these values **directly in chart configuration** — do not use `echarts.registerTheme()` or pass a theme name to `echarts.init()`. Set `color`, axis options, and `backgroundColor` explicitly on each chart instance so dark/light toggling works correctly.
 
 Never invent chart hex. Qualitative and continuous palettes are identical in dark and light mode; only plot/axis tokens swap on theme toggle. Chart labels, legends, tooltips, and titles use **Inter**.
 
 **Qualitative (discrete / categorical series)** — default for bar, line, and pie series with distinct categories. Order matches `theme.color` in the bundled ECharts themes.
 
-| # | Hex |
-|---|-----|
-| 1 | `#097DFE` |
-| 2 | `#6F39E3` |
-| 3 | `#05D0F0` |
-| 4 | `#0F766E` |
-| 5 | `#8C8DE9` |
-| 6 | `#11B883` |
-| 7 | `#E77EC2` |
-| 8 | `#C84189` |
-| 9 | `#C0CA33` |
-| 10 | `#3E495B` |
+| #   | Hex       |
+| --- | --------- |
+| 1   | `#097DFE` |
+| 2   | `#6F39E3` |
+| 3   | `#05D0F0` |
+| 4   | `#0F766E` |
+| 5   | `#8C8DE9` |
+| 6   | `#11B883` |
+| 7   | `#E77EC2` |
+| 8   | `#C84189` |
+| 9   | `#C0CA33` |
+| 10  | `#3E495B` |
 
 **Continuous — default scales.** Stops run **light (low) → dark (high)** unless noted.
 
-| Key | Use | Stops |
-|-----|-----|-------|
-| **sequential** | Default continuous / heatmap | `#DBEBFE` → `#BDDCFE` → `#8CC6FF` → `#4BA5FF` → `#097DFE` → `#0063F6` → `#004DE0` → `#0B40B4` → `#163B8B` |
-| **sequential_plus** | Positive / "good" sentiment | `#D0FAF3` → `#A1F4E8` → `#64E9D9` → `#1BD0C1` → `#00B5A9` → `#00918A` → `#0F766E` → `#0F5B59` → `#144B49` |
-| **sequential_minus** | Reversed negative scale | `#782921` → `#922A20` → `#B22F20` → `#D63A28` → `#EA5748` → `#F1766C` → `#F7AAA3` → `#FACDC9` → `#FBE4E2` |
-| **diverging** | Data with a midpoint | `#782921` → `#B22F20` → `#EA5748` → `#F7AAA3` → `#C9D0D9` → `#8CC6FF` → `#097DFE` → `#004DE0` → `#163B8B` |
+| Key                  | Use                          | Stops                                                                                                     |
+| -------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------- |
+| **sequential**       | Default continuous / heatmap | `#DBEBFE` → `#BDDCFE` → `#8CC6FF` → `#4BA5FF` → `#097DFE` → `#0063F6` → `#004DE0` → `#0B40B4` → `#163B8B` |
+| **sequential_plus**  | Positive / "good" sentiment  | `#D0FAF3` → `#A1F4E8` → `#64E9D9` → `#1BD0C1` → `#00B5A9` → `#00918A` → `#0F766E` → `#0F5B59` → `#144B49` |
+| **sequential_minus** | Reversed negative scale      | `#782921` → `#922A20` → `#B22F20` → `#D63A28` → `#EA5748` → `#F1766C` → `#F7AAA3` → `#FACDC9` → `#FBE4E2` |
+| **diverging**        | Data with a midpoint         | `#782921` → `#B22F20` → `#EA5748` → `#F7AAA3` → `#C9D0D9` → `#8CC6FF` → `#097DFE` → `#004DE0` → `#163B8B` |
 
 Anchor the diverging centre stop (`#C9D0D9`) at the data's neutral value (often zero).
 
 **Semantic chart colours** — single-value tokens for KPIs, status badges, candlesticks, and annotations. Same in dark and light.
 
-| Role | Hex |
-|------|-----|
+| Role                                | Hex       |
+| ----------------------------------- | --------- |
 | Positive / success / candlestick up | `#00B5A9` |
 | Negative / error / candlestick down | `#EA5748` |
-| Neutral | `#3E495B` |
+| Neutral                             | `#3E495B` |
 
 **Mode-specific plot tokens** — swap when the theme toggle changes.
 
-| Token | Dark | Light |
-|-------|------|-------|
-| Plot background | `#141721` | `#FAFAFB` |
-| Title | `rgba(255,255,255,0.878)` | `rgba(20,23,33,0.878)` |
-| Subtitle | `rgba(255,255,255,0.6)` | `rgba(20,23,33,0.6)` |
-| Axis line / tick | `rgba(255,255,255,0.380)` | `rgba(20,23,33,0.380)` |
-| Axis labels / legend | `rgba(255,255,255,0.5)` | `rgba(20,23,33,0.5)` |
-| Grid lines | `rgba(255,255,255,0.078)` | `rgba(20,23,33,0.078)` |
-| Crosshair / hover line | `rgba(255,255,255,0.380)` | `rgba(20,23,33,0.380)` |
+| Token                      | Dark                      | Light                  |
+| -------------------------- | ------------------------- | ---------------------- |
+| Plot background            | `#141721`                 | `#FAFAFB`              |
+| Title                      | `rgba(255,255,255,0.878)` | `rgba(20,23,33,0.878)` |
+| Subtitle                   | `rgba(255,255,255,0.6)`   | `rgba(20,23,33,0.6)`   |
+| Axis line / tick           | `rgba(255,255,255,0.380)` | `rgba(20,23,33,0.380)` |
+| Axis labels / legend       | `rgba(255,255,255,0.5)`   | `rgba(20,23,33,0.5)`   |
+| Grid lines                 | `rgba(255,255,255,0.078)` | `rgba(20,23,33,0.078)` |
+| Crosshair / hover line     | `rgba(255,255,255,0.380)` | `rgba(20,23,33,0.380)` |
+| Split area (striped bands) | `rgba(255,255,255,0.04)`  | `rgba(20,23,33,0.04)`  |
+| Graph / network edge       | `rgba(255,255,255,0.5)`   | `rgba(20,23,33,0.5)`   |
 
 **Axis behaviour:**
 
-| Axis type | Axis line | Ticks | Grid lines |
-|-----------|-----------|-------|------------|
-| **Category** | show + ticks | same as axis (38% ink) | **no** grid lines |
-| **Value / log** | hide | — | **show** (8% ink) |
-| **Time** | show + ticks | same as axis (38% ink) | **no** grid lines |
+| Axis type       | Axis line    | Ticks                  | Grid lines        |
+| --------------- | ------------ | ---------------------- | ----------------- |
+| **Category**    | show + ticks | same as axis (38% ink) | **no** grid lines |
+| **Value / log** | hide         | —                      | **show** (8% ink) |
+| **Time**        | show + ticks | same as axis (38% ink) | **no** grid lines |
+
+**Compact 3-stop gradient** (for `visualMap.inRange.color` in ECharts or equivalent colour-range API): `#163B8B` → `#097DFE` → `#DBEBFE`.
+
+**Line series defaults** (apply across all charting libraries):
+
+| Property      | Value                                        |
+| ------------- | -------------------------------------------- |
+| Stroke width  | 2px                                          |
+| Point markers | Small open circles — size 4, border 1px      |
+| Smoothing     | None — straight segments between data points |
+
+For extended palette scales (alternative sequential/diverging, map/geo tokens), ECharts inline JS constants, and chart type / title guidance, see the skill reference files bundled with this project.
 
 ## Typography
 
@@ -389,23 +404,25 @@ The typography strategy uses **Inter** for all UI text and **Roboto Mono** for c
 
 ### Hierarchy
 
-| Level | Spec | Use for |
-| ----- | ---- | ------- |
-| Display D1 | 56px / Light 300 | KPI numerals, hero stats |
-| Display D2 | 48px / Light 300 | Secondary display numbers |
-| Display D3 | 40px / Light 300 | Smallest display tier |
-| H1 | 32px / Regular 400 | Page title — one per page |
-| H2 | 24px / Regular or Semibold | Major section headers |
-| H3 | 20px / Regular or Semibold | Card titles, form sections |
-| H4 | 16px / Regular or Semibold | Sub-section headings |
-| Body | 14px / Regular 400 | Default paragraph and table text |
-| Body Large | 16px / Regular 400 | Intro copy, chat content |
-| Body Small | 12px / Regular 400 | Tooltips, helper text, captions |
-| Label | 14px / Regular 400 | Form labels, list captions |
-| Button | 14px / Semibold 600 | Default CTA text (32–36 px controls) |
-| Code | 12px / Roboto Mono | Inline code |
+| Level           | Spec                       | Use for                            |
+| --------------- | -------------------------- | ---------------------------------- |
+| Display D1      | 56px / Light 300           | KPI numerals, hero stats           |
+| Display D2      | 48px / Light 300           | Secondary display numbers          |
+| Display D3      | 40px / Light 300           | Smallest display tier              |
+| H1              | 32px / Regular 400         | Page title — one per page          |
+| H2              | 24px / Regular or Semibold | Major section headers              |
+| H3              | 20px / Regular or Semibold | Card titles, form sections         |
+| H4              | 16px / Regular or Semibold | Sub-section headings               |
+| Body            | 14px / Regular 400         | Default paragraph and table text   |
+| Body Large      | 16px / Regular 400         | Intro copy, chat content           |
+| Body Small      | 12px / Regular 400         | Tooltips, helper text, captions    |
+| Label           | 14px / Regular 400         | Form labels, list captions         |
+| CTA / Button 01 | 16px / Semibold 600        | ≤40 px button controls             |
+| CTA / Button 02 | 14px / Semibold 600        | 32–36 px button controls (default) |
+| CTA / Button 03 | 12px / Semibold 600        | Smallest button controls           |
+| Code            | 12px / Roboto Mono         | Inline code                        |
 
-Utility classes: `display-d1-regular`, `headings-h1-regular`, `paragraph-regular-primary`, `label-regular-primary`, `cta-button-02`, `paragraph-small-primary`, `paragraph-code-text`. Link variants append `-link`.
+Utility classes (representative — full list in [TOKENS.md](TOKENS.md)): `display-d1-regular`, `headings-h2-semibold`, `headings-h3-regular`, `paragraph-regular-primary`, `label-regular-primary`, `cta-button-01`, `cta-button-02`, `cta-button-03`, `paragraph-small-primary`, `paragraph-code-text`. Link variants append `-link`.
 
 ## Layout
 
@@ -415,30 +432,48 @@ Related items group inside cards or panels with **24 px internal padding** (`p-6
 
 ### Spacing scale
 
-| Token / Tailwind | px | Typical use |
-| ---------------- | -- | ----------- |
-| xs / `gap-1` | 4 | Tight inline gaps |
-| sm / `gap-2` | 8 | Button padding, compact gaps |
-| md / `gap-4` | 16 | Form spacing, small table cells |
-| gutter / `gap-6`, `p-6` | 24 | Card padding, section gaps |
-| margin / `gap-8`, `p-8` | 32 | Major section separation |
-| 2xl / `gap-12` | 48 | Page-level breathing room |
+| Token / Tailwind        | px  | Typical use                     |
+| ----------------------- | --- | ------------------------------- |
+| xs / `gap-1`            | 4   | Tight inline gaps               |
+| sm / `gap-2`            | 8   | Button padding, compact gaps    |
+| md / `gap-4`            | 16  | Form spacing, small table cells |
+| gutter / `gap-6`, `p-6` | 24  | Card padding, section gaps      |
+| margin / `gap-8`, `p-8` | 32  | Major section separation        |
+| 2xl / `gap-12`          | 48  | Page-level breathing room       |
 
 ### Responsive behaviour
 
 Tailwind v4 defaults apply. On narrow viewports, **simplify rather than squeeze** — collapse sidebars to off-canvas, stack columns, hide secondary content. Minimum touch target: **36 × 36 px**; prefer **48 × 48 px** for primary mobile actions. Do not drop body text below 12 px on mobile.
 
+### Dashboard layout rules
+
+- **Page sections:** wrap scrollable main content in `flex flex-col gap-8` — use gap on the flex wrapper between page header, KPI banner, chart grid, and table. Do not use isolated `mb-*` on each block.
+- **KPI cards:** `min-w-[240px]` on every card so label + value + trend delta stay readable on one unit. Row: `overflow-x-auto` wrapper with `flex flex-nowrap gap-4`; at `sm` and above use `grid grid-cols-2 xl:grid-cols-4`.
+- **Chart containers:** explicit height is required — **320 px recommended**, 280 px minimum. Use 480 px for dense time series or scatter. Chart grid: `grid grid-cols-1 xl:grid-cols-2 gap-6`.
+- **Filter placement:** use sidebar **or** main toolbar — never both on the same dashboard. Sidebar filters go as the last nav group (vertical fields, `w-full` selects). Toolbar filters are a surfaced horizontal strip (`bg-surface-primary border border-stroke-tertiary p-4`, actions right).
+
+### App layout archetypes
+
+| Archetype                     | Primary content                                                    | Typical filter location                               |
+| ----------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------- |
+| **A — Doc / multi-section**   | Long-form reading or config spread across `Card` + `Tabs` sections | Main toolbar                                          |
+| **B — Analytics / dashboard** | KPI banner + chart grid + table in `flex flex-col gap-8`           | Sidebar (last nav group) or main toolbar — never both |
+| **C — Form-centric**          | Dense `Field` / `Form` flow — single column or grouped settings    | N/A                                                   |
+| **D — Table-centric**         | Full-width `DataTable` with toolbar (search, density, export)      | Main toolbar                                          |
+
+Shell structure: Navbar `<header>` sits **outside** `SidebarProvider`, which wraps the sidebar and `SidebarInset` (scrollable main).
+
 ## Elevation & Depth
 
 Depth is structural, not decorative. Most surfaces are **flat at rest**. Five elevation levels exist for floating UI only:
 
-| Level | Use for |
-| ----- | ------- |
-| 0 | Input resting state, hairline lift |
-| 1 | Elevated cards, tooltips |
-| 2 | Popovers, dropdowns, toasts |
-| 3 | Dialogs, modals |
-| 4 | Full-screen overlays, drawers |
+| Level | Use for                            |
+| ----- | ---------------------------------- |
+| 0     | Input resting state, hairline lift |
+| 1     | Elevated cards, tooltips           |
+| 2     | Popovers, dropdowns, toasts        |
+| 3     | Dialogs, modals                    |
+| 4     | Full-screen overlays, drawers      |
 
 Light-mode shadows use slate-tinted opacity (8–38%). Dark-mode shadows deepen (60–88%) to read against slate backgrounds. No coloured shadows. Static cards, page regions, and headers carry no shadow — separation comes from `surface-primary` contrast and optional tertiary borders.
 
@@ -446,19 +481,69 @@ Light-mode shadows use slate-tinted opacity (8–38%). Dark-mode shadows deepen 
 
 The shape language is defined by **architectural precision**. Sharp corners (0 px) are the brand default — reflected in the YAML `rounded` tokens above. When `.radius-mode` is enabled on an ancestor, radii become:
 
-| Scale | Sharp (default) | Rounded mode | Use for |
-| ----- | --------------- | ------------ | ------- |
-| sm | 0 px | 4 px | Buttons, inputs |
-| reg | 0 px | 8 px | Default components |
-| md | 0 px | 12 px | Cards, panels |
-| lg | 0 px | 16 px | Modals, dialogs |
-| full | 9999 px | 9999 px | Pills, avatars, radio dots |
+| Scale | Sharp (default) | Rounded mode | Use for                    |
+| ----- | --------------- | ------------ | -------------------------- |
+| sm    | 0 px            | 4 px         | Buttons, inputs            |
+| reg   | 0 px            | 8 px         | Default components         |
+| md    | 0 px            | 12 px        | Cards, panels              |
+| lg    | 0 px            | 16 px        | Modals, dialogs            |
+| full  | 9999 px         | 9999 px      | Pills, avatars, radio dots |
 
 Set `.radius-mode` on `<html>` or not at all. Never mix sharp and rounded within one surface. Buttons are sharp (or 4 px in rounded mode). Full rounding is for tags, badges, avatars, and radio indicators only.
 
 ## Components
 
 Style guidance for common atoms. Install implementations from the [registry](https://github.com/mckinsey/quantumblack-design-system/blob/main/registry.json) — do not rebuild primitives that already exist.
+
+### Component selection quick-picker
+
+The most common selection confusions resolved:
+
+**Actions**
+
+| Need                           | Use                                      | Not                                |
+| ------------------------------ | ---------------------------------------- | ---------------------------------- |
+| Text-labeled action            | `Button`                                 | —                                  |
+| Glyph-only, tight space        | `Button-Icon` + `aria-label` + `Tooltip` | `Button` without a label           |
+| Primary + related alternatives | `Button-Split`                           | Multiple `Button`s side by side    |
+| Related actions together       | `ButtonsGroup`                           | More than one `primary` in a group |
+| Exclusive view-mode toggle     | `SegmentedControls`                      | `Tab-Group`                        |
+
+**Selection controls**
+
+| Need                                  | Use                  | Not                  |
+| ------------------------------------- | -------------------- | -------------------- |
+| Independent on/off, applied on submit | `Checkbox`           | `Switch`             |
+| Instant on/off setting                | `Switch`             | `Checkbox`           |
+| One-of-many, always visible           | `RadioGroup`         | `Field/SingleSelect` |
+| One-of-many, long list / space-tight  | `Field/SingleSelect` | `RadioGroup`         |
+| Many-of-many, searchable              | `Field/MultiSelect`  | `CheckboxGroup`      |
+
+**Tags vs badges**
+
+| Need                              | Use               | Not                             |
+| --------------------------------- | ----------------- | ------------------------------- |
+| User-applied, removable label     | `Tag-Dismissable` | `Badge`                         |
+| User-toggled filter chip          | `Tag-Toggle`      | `Checkbox` or `Tag-Dismissable` |
+| System status / count (read-only) | `Badge`           | `Tag`                           |
+
+**Feedback and overlays**
+
+| Need                                      | Use           | Not                   |
+| ----------------------------------------- | ------------- | --------------------- |
+| Transient "done" (auto-dismisses)         | `Snackbars`   | `AlertBanner`         |
+| Persistent message until resolved         | `AlertBanner` | `Snackbars`           |
+| Blocking task / decision                  | `Modal`       | In-page `AlertBanner` |
+| Short hover / focus hint                  | `Tooltip`     | Popover               |
+| Interactive / persistent floating content | Popover       | `Tooltip`             |
+
+**Navigation**
+
+| Need                                       | Use                                 | Not            |
+| ------------------------------------------ | ----------------------------------- | -------------- |
+| Persistent app-level left nav              | `LeftNav` (rail + expandable panel) | Custom `<nav>` |
+| Switch between sibling content panels      | `Tab-Group`                         | `Accordion`    |
+| Progressive disclosure of stacked sections | `Accordion`                         | `Tab-Group`    |
 
 ### Buttons
 
@@ -526,11 +611,11 @@ Always wrap inputs in a `Field` with an associated `Label`.
 
 Material Symbols **sharp** via `<IconShell>` + `<Icon>`:
 
-| Size | Optical spec | Use for |
-| ---- | ------------ | ------- |
-| sm | 20 dp @ wght 400 | Inline, compact controls |
-| default | 24 dp @ wght 300 | Standard UI |
-| lg | 40 dp @ wght 300 | Feature callouts |
+| Size    | Optical spec     | Use for                  |
+| ------- | ---------------- | ------------------------ |
+| sm      | 20 dp @ wght 400 | Inline, compact controls |
+| default | 24 dp @ wght 300 | Standard UI              |
+| lg      | 40 dp @ wght 300 | Feature callouts         |
 
 - **Set:** Material Symbols **sharp** variable font — never rounded, outlined, or filled variants.
 - **Pattern:** `<IconShell size="default" variant="secondary"><Icon icon="search" /></IconShell>`
