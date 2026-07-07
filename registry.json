@@ -8,10 +8,7 @@
       "type": "registry:lib",
       "title": "QBDS Utilities",
       "description": "Tailwind class merge with QBDS typography class-group support.",
-      "dependencies": [
-        "clsx",
-        "tailwind-merge"
-      ],
+      "dependencies": ["clsx", "tailwind-merge"],
       "files": [
         {
           "path": "src/lib/utils.ts",
@@ -39,16 +36,31 @@
       ]
     },
     {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Vertical stack of expand/collapse rows for progressively disclosing grouped content. Defaults to regular size with chevron on the right.",
+      "dependencies": ["@base-ui/react/accordion"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/accordion.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "aspect-ratio",
       "type": "registry:ui",
       "title": "Aspect Ratio",
       "description": "Constrains content to a fixed width-to-height ratio — ideal for images, video placeholders, and media cards.",
-      "dependencies": [
-        "@radix-ui/react-aspect-ratio"
-      ],
-      "registryDependencies": [
-        "__REGISTRY_URL__/r/theme.json"
-      ],
+      "dependencies": ["@radix-ui/react-aspect-ratio"],
+      "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
       "files": [
         {
           "path": "src/components/ui/aspect-ratio.tsx",
@@ -62,9 +74,7 @@
       "type": "registry:ui",
       "title": "Avatar",
       "description": "An avatar component with support for images and tooltips.",
-      "dependencies": [
-        "@radix-ui/react-avatar"
-      ],
+      "dependencies": ["@radix-ui/react-avatar"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -81,9 +91,7 @@
       "type": "registry:ui",
       "title": "Badge",
       "description": "A badge component.",
-      "dependencies": [
-        "@radix-ui/react-slot"
-      ],
+      "dependencies": ["@radix-ui/react-slot"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -100,9 +108,7 @@
       "type": "registry:ui",
       "title": "Button",
       "description": "Allows users to take actions with a single click or tap.",
-      "dependencies": [
-        "@radix-ui/react-slot"
-      ],
+      "dependencies": ["@radix-ui/react-slot"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -118,10 +124,8 @@
       "name": "button-group",
       "type": "registry:ui",
       "title": "Button Group",
-      "description": "Groups related buttons together with consistent QBDS spacing. Supports horizontal and vertical orientation and size-driven gaps (sm, default, lg).",
-      "dependencies": [
-        "class-variance-authority"
-      ],
+      "description": "Groups related buttons together with a constant 12px QBDS gap. Supports horizontal and vertical orientation.",
+      "dependencies": ["class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -138,10 +142,7 @@
       "type": "registry:ui",
       "title": "Calendar",
       "description": "A date picker component built with react-day-picker.",
-      "dependencies": [
-        "react-day-picker",
-        "date-fns"
-      ],
+      "dependencies": ["react-day-picker", "date-fns"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -162,10 +163,7 @@
       "type": "registry:ui",
       "title": "Date Picker",
       "description": "Date picker examples with input integration for single date and date range selection. The Date Picker is built using a composition of the <Popover />, <Input /> and the <Calendar /> components.",
-      "dependencies": [
-        "react-day-picker",
-        "date-fns"
-      ],
+      "dependencies": ["react-day-picker", "date-fns"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -255,9 +253,7 @@
       "type": "registry:ui",
       "title": "Checkbox",
       "description": "Allows users to select multiple items from a list of options.",
-      "dependencies": [
-        "@radix-ui/react-checkbox"
-      ],
+      "dependencies": ["@radix-ui/react-checkbox"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -274,9 +270,7 @@
       "type": "registry:ui",
       "title": "Dialog",
       "description": "A dialog component.",
-      "dependencies": [
-        "@radix-ui/react-dialog"
-      ],
+      "dependencies": ["@radix-ui/react-dialog"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -290,19 +284,42 @@
       ]
     },
     {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "A menu triggered by a right-click (or long-press) on a target element. Supports items, checkboxes, radio groups, submenus, shortcuts, and destructive actions.",
+      "dependencies": ["@radix-ui/react-context-menu"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/context-menu.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/app/demo/[name]/ui/context-menu.tsx",
+          "type": "registry:example",
+          "target": ""
+        }
+      ]
+    },
+    {
       "name": "dropdown-menu",
       "type": "registry:ui",
       "title": "Dropdown Menu",
       "description": "A contextual menu triggered by a button. Supports items, checkboxes, radio groups, submenus, shortcuts, and destructive actions.",
-      "dependencies": [
-        "@radix-ui/react-dropdown-menu"
-      ],
+      "dependencies": ["@radix-ui/react-dropdown-menu"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/button.json",
         "__REGISTRY_URL__/r/toggle.json",
-        "__REGISTRY_URL__/r/icon.json"
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
       ],
       "files": [
         {
@@ -313,22 +330,6 @@
           "path": "src/app/demo/[name]/ui/dropdown-menu.tsx",
           "type": "registry:example",
           "target": ""
-        }
-      ]
-    },
-    {
-      "name": "empty",
-      "type": "registry:ui",
-      "title": "Empty",
-      "description": "Displays empty states with support for icons, titles, descriptions, and custom content. Compose with EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, and EmptyContent.",
-      "registryDependencies": [
-        "__REGISTRY_URL__/r/theme.json",
-        "__REGISTRY_URL__/r/utils.json"
-      ],
-      "files": [
-        {
-          "path": "src/components/ui/empty.tsx",
-          "type": "registry:ui"
         }
       ]
     },
@@ -428,9 +429,7 @@
       "type": "registry:ui",
       "title": "Icon Shell",
       "description": "An icon component.",
-      "dependencies": [
-        "@radix-ui/react-slot"
-      ],
+      "dependencies": ["@radix-ui/react-slot"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -483,9 +482,7 @@
       "type": "registry:ui",
       "title": "Combobox",
       "description": "Autocomplete input with a list of suggestions. Supports sizes (sm, default, lg), inline variant, and input group addons.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -506,9 +503,7 @@
       "type": "registry:ui",
       "title": "Label",
       "description": "A component that displays a label for form elements.",
-      "dependencies": [
-        "@radix-ui/react-label"
-      ],
+      "dependencies": ["@radix-ui/react-label"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -525,9 +520,7 @@
       "type": "registry:ui",
       "title": "Popover",
       "description": "A popover component.",
-      "dependencies": [
-        "@radix-ui/react-popover"
-      ],
+      "dependencies": ["@radix-ui/react-popover"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -544,9 +537,7 @@
       "type": "registry:ui",
       "title": "Radio Group",
       "description": "A radio group component.",
-      "dependencies": [
-        "@radix-ui/react-radio-group"
-      ],
+      "dependencies": ["@radix-ui/react-radio-group"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -563,9 +554,7 @@
       "type": "registry:ui",
       "title": "Segmented Controls",
       "description": "Single-select segmented control with secondary-filled and ghost variants across four sizes.",
-      "dependencies": [
-        "@radix-ui/react-toggle-group"
-      ],
+      "dependencies": ["@radix-ui/react-toggle-group"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -582,9 +571,7 @@
       "type": "registry:ui",
       "title": "Select",
       "description": "A select component with single and multiple selection support.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -602,9 +589,7 @@
       "type": "registry:ui",
       "title": "Scroll Area",
       "description": "A scrollable viewport with custom scrollbars, built on Radix Scroll Area primitives.",
-      "dependencies": [
-        "@radix-ui/react-scroll-area"
-      ],
+      "dependencies": ["@radix-ui/react-scroll-area"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -621,9 +606,7 @@
       "type": "registry:ui",
       "title": "Separator",
       "description": "A visual divider that separates content. Supports horizontal and vertical orientation.",
-      "dependencies": [
-        "@radix-ui/react-separator"
-      ],
+      "dependencies": ["@radix-ui/react-separator"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -636,13 +619,78 @@
       ]
     },
     {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Slide-over panel built on Radix Dialog. Used by Sidebar on mobile.",
+      "dependencies": ["@radix-ui/react-dialog"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/sheet.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Placeholder loading state. Used by Sidebar.",
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "Composable sidebar with collapsible sections, mobile sheet, and icon mode. shadcn API.",
+      "dependencies": [
+        "@radix-ui/react-dialog",
+        "@radix-ui/react-slot",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/button.json",
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/separator.json",
+        "__REGISTRY_URL__/r/tooltip.json",
+        "__REGISTRY_URL__/r/input.json",
+        "__REGISTRY_URL__/r/sheet.json",
+        "__REGISTRY_URL__/r/skeleton.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/sidebar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "src/hooks/use-mobile.ts",
+          "type": "registry:file",
+          "target": "hooks/use-mobile.ts"
+        }
+      ]
+    },
+    {
       "name": "slider",
       "type": "registry:ui",
       "title": "Slider",
       "description": "An input where the user selects a value from within a given range.",
-      "dependencies": [
-        "@radix-ui/react-slider"
-      ],
+      "dependencies": ["@radix-ui/react-slider"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -666,10 +714,7 @@
         "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/icon.json"
       ],
-      "dependencies": [
-        "sonner",
-        "next-themes"
-      ],
+      "dependencies": ["sonner", "next-themes"],
       "files": [
         {
           "path": "src/components/ui/sonner.tsx",
@@ -682,10 +727,7 @@
       "type": "registry:ui",
       "title": "Switch",
       "description": "A switch component.",
-      "dependencies": [
-        "@radix-ui/react-switch",
-        "class-variance-authority"
-      ],
+      "dependencies": ["@radix-ui/react-switch", "class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -715,37 +757,11 @@
       ]
     },
     {
-      "name": "data-table",
-      "type": "registry:example",
-      "title": "Data Table",
-      "description": "A fully-featured data table component built with TanStack Table. Includes sorting, filtering, pagination, column visibility, and row selection.",
-      "dependencies": [
-        "@tanstack/react-table"
-      ],
-      "registryDependencies": [
-        "__REGISTRY_URL__/r/theme.json",
-        "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/table.json",
-        "__REGISTRY_URL__/r/checkbox.json",
-        "__REGISTRY_URL__/r/select.json",
-        "__REGISTRY_URL__/r/icon-shell.json"
-      ],
-      "files": [
-        {
-          "path": "src/app/demo/[name]/ui/table.tsx",
-          "type": "registry:example",
-          "target": ""
-        }
-      ]
-    },
-    {
       "name": "tabs",
       "type": "registry:ui",
       "title": "Tabs",
       "description": "A responsive tabs component.",
-      "dependencies": [
-        "@radix-ui/react-tabs"
-      ],
+      "dependencies": ["@radix-ui/react-tabs"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -792,9 +808,7 @@
       "type": "registry:ui",
       "title": "Tooltip",
       "description": "A component that displays informative text when users hover over an element.",
-      "dependencies": [
-        "@radix-ui/react-tooltip"
-      ],
+      "dependencies": ["@radix-ui/react-tooltip"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -848,9 +862,7 @@
       "type": "registry:ui",
       "title": "Tag Toggle",
       "description": "A toggleable tag component with support for icons, pill shape, and sizes. Built on Radix Toggle primitive with tag styling.",
-      "dependencies": [
-        "@radix-ui/react-toggle"
-      ],
+      "dependencies": ["@radix-ui/react-toggle"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -869,9 +881,7 @@
       "type": "registry:ui",
       "title": "Toggle",
       "description": "A toggle component.",
-      "dependencies": [
-        "@radix-ui/react-toggle"
-      ],
+      "dependencies": ["@radix-ui/react-toggle"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -889,9 +899,7 @@
       "type": "registry:ui",
       "title": "Toolbar",
       "description": "Groups icon-only controls with keyboard navigation. Defaults to an unboxed horizontal layout; also supports optional boxed containers, vertical orientation, circle and square shapes, and sm, reg, and lg sizes.",
-      "dependencies": [
-        "@radix-ui/react-toolbar"
-      ],
+      "dependencies": ["@radix-ui/react-toolbar"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",

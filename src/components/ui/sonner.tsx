@@ -83,7 +83,7 @@ function getCancelComponent(
   return (
     <Button
       variant="ghost"
-      size="icon-xs"
+      size="icon-xxs"
       onClick={() => sonnerToast.dismiss(id)}
       aria-label="Close toast">
       <Icon icon="close" size="sm" className="text-fill-active" />

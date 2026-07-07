@@ -27,22 +27,26 @@ import { getUIPrimitives } from '@/lib/registry';
 const uiItems = getUIPrimitives();
 
 const COMPONENT_GROUPS: { label: string; names: string[] }[] = [
-  { label: 'Layout', names: ['aspect-ratio'] },
-  {
-    label: 'Buttons & Toggle',
-    names: ['button', 'button-group', 'segmented-controls', 'toggle'],
-  },
   {
     label: 'Date & Time',
     names: ['calendar', 'date-picker', 'time-input', 'time-picker'],
   },
   {
-    label: 'Input Elements',
-    names: ['input', 'input-group', 'combobox', 'form', 'textarea'],
+    label: 'Form Controls',
+    names: [
+      'checkbox',
+      'combobox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'slider',
+      'switch',
+      'textarea',
+    ],
   },
-  { label: 'Overlay', names: ['dialog', 'popover', 'sonner'] },
-  { label: 'Table', names: ['table', 'data-table'] },
-  { label: 'Tag', names: ['tag', 'tag-group', 'tag-toggle'] },
+  { label: 'Overlay', names: ['dialog', 'popover', 'sonner', 'tooltip'] },
 ];
 
 const groupedNames = new Set(COMPONENT_GROUPS.flatMap(g => g.names));
@@ -136,9 +140,7 @@ export function RegistrySidebar() {
                   entry.type === 'group' ? (
                     <SidebarMenuItem key={entry.group.label}>
                       <Collapsible
-                        defaultOpen={entry.groupItems.some(
-                          item => pathname === `/registry/${item.name}`,
-                        )}
+                        defaultOpen={true}
                         className="group/subgroup w-full">
                         <CollapsibleTrigger asChild className="cursor-pointer">
                           <SidebarMenuButton className="flex w-full items-center justify-between">

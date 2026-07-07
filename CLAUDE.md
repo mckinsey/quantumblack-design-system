@@ -16,7 +16,8 @@ npm run dev             # rebuild registry + dev server (port 4123)
 npm run build           # rebuild registry + Vite production build → dist/
 npm run preview         # preview production build (port 4123)
 npm run registry:build  # rebuild registry only
-npm run lint            # ESLint
+npm run lint            # ESLint + Prettier (check)
+npm run prettier:fix    # apply Prettier formatting
 ```
 
 ## Adding a new component
@@ -25,7 +26,7 @@ npm run lint            # ESLint
 2. Add a demo in `src/app/demo/[name]/index.tsx` and `src/app/demo/[name]/ui/`
 3. Register it in `registry.json` (follow the `alert` / `alert-demo` pattern)
 4. Run `npm run registry:build` to regenerate registry files
-5. When implementing or updating a component **from a Figma spec** (URL, Dev Mode node, or QBDS library component set): read and follow [figma-parity](.cursor/rules/figma-parity.mdc). In Cursor, attach with `@figma-parity`; in Claude Code, share the Figma URL or ask to follow the figma-parity workflow. Skip for code-only fixes with no design change.
+5. When implementing or updating a component **from a Figma spec** (URL, Dev Mode node, or QBDS library component set): read and follow the **figma-parity** skill ([.agents/skills/figma-parity/SKILL.md](.agents/skills/figma-parity/SKILL.md)). It is available to both Cursor and Claude Code — describe the task or share the Figma URL and the agent loads it automatically. Skip for code-only fixes with no design change.
 
 ## Icons
 
@@ -48,7 +49,7 @@ Registry: `npx shadcn add icon` ships `icon.tsx` and appends the Google Fonts `@
 - [ ] `npm run build` passes
 - [ ] `npm run lint` passes
 - [ ] `registry.json` updated and `npm run registry:build` run (if component added/changed)
-- [ ] Component matched to Figma (new or updated from spec): completed [figma-parity](.cursor/rules/figma-parity.mdc) checklist
+- [ ] Component matched to Figma (new or updated from spec): completed [figma-parity](.agents/skills/figma-parity/SKILL.md) checklist
 
 ## LLM Guidelines
 
@@ -62,23 +63,24 @@ When choosing a color, border, surface, fill, text, or radius token, read [docs/
 
 ### Figma → code token sync
 
-When designers update Figma variables and tokens need to flow into code, read and follow [figma-token-sync](.cursor/rules/figma-token-sync.mdc). In **Cursor**, attach `@figma-token-sync`. In **Claude Code**, share the Figma variables URL and ask to follow the figma-token-sync workflow. Skip for component-only changes with no token updates.
+When designers update Figma variables and tokens need to flow into code, read and follow the **figma-token-sync** skill ([.agents/skills/figma-token-sync/SKILL.md](.agents/skills/figma-token-sync/SKILL.md)). Skip for component-only changes with no token updates.
 
 ### Figma ↔ code parity
 
-Read and follow [.cursor/rules/figma-parity.mdc](.cursor/rules/figma-parity.mdc) when you **implement, update, or review** a QBDS component against Figma (user gave a Figma URL/node, or the task is to match the library spec). **Figma MCP output is reference only** — still run the full parity workflow (Code Connect, component description, variant matrix, TOKENS.md, demos/registry). **Do not** use for unrelated work (deps, CI, docs, refactors with no design change).
+Read and follow the **figma-parity** skill ([.agents/skills/figma-parity/SKILL.md](.agents/skills/figma-parity/SKILL.md)) when you **implement, update, or review** a QBDS component against Figma (user gave a Figma URL/node, or the task is to match the library spec). **Figma MCP output is reference only** — still run the full parity workflow (Code Connect, component description, variant matrix, TOKENS.md, demos/registry). **Do not** use for unrelated work (deps, CI, docs, refactors with no design change).
 
-**How to invoke:** In **Cursor**, attach the rule with `@figma-parity`, or it auto-attaches when editing `src/components/ui/`, demos, `registry.json`, or `code-connect/` (rule globs). In **Claude Code**, share a Figma URL or ask to follow the figma-parity workflow — read the `.mdc` file directly; `@figma-parity` is not available there.
+**How to invoke:** Both skills are committed under `.agents/skills/` (Cursor reads them there directly; Claude Code gets symlinks in `.claude/skills/` on `npm install`), so **Cursor and Claude Code both discover them automatically** by description — just describe the task or share a Figma URL. No `@mention` or rule glob is required.
 
 ### Syncing tokens with Figma
 
-When updating tokens from design, follow [figma-token-sync](.cursor/rules/figma-token-sync.mdc). See also [README — Syncing from Figma](README.md#syncing-from-figma) for the post-sync verification commands.
+When updating tokens from design, follow the **figma-token-sync** skill ([.agents/skills/figma-token-sync/SKILL.md](.agents/skills/figma-token-sync/SKILL.md)). See also [README — Syncing from Figma](README.md#syncing-from-figma) for the post-sync verification commands.
 
 ### 1. Think Before Coding
 
 **Don't assume. Don't hide confusion. Surface tradeoffs.**
 
 Before implementing:
+
 - State your assumptions explicitly. If uncertain, ask.
 - If multiple interpretations exist, present them - don't pick silently.
 - If a simpler approach exists, say so. Push back when warranted.
@@ -101,12 +103,14 @@ Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, sim
 **Touch only what you must. Clean up only your own mess.**
 
 When editing existing code:
+
 - Don't "improve" adjacent code, comments, or formatting.
 - Don't refactor things that aren't broken.
 - Match existing style, even if you'd do it differently.
 - If you notice unrelated dead code, mention it - don't delete it.
 
 When your changes create orphans:
+
 - Remove imports/variables/functions that YOUR changes made unused.
 - Don't remove pre-existing dead code unless asked.
 
@@ -117,11 +121,13 @@ The test: Every changed line should trace directly to the user's request.
 **Define success criteria. Loop until verified.**
 
 Transform tasks into verifiable goals:
+
 - "Add validation" → "Write tests for invalid inputs, then make them pass"
 - "Fix the bug" → "Write a test that reproduces it, then make it pass"
 - "Refactor X" → "Ensure tests pass before and after"
 
 For multi-step tasks, state a brief plan:
+
 ```
 1. [Step] → verify: [check]
 2. [Step] → verify: [check]

@@ -1,5 +1,14 @@
 import type { ReactElement, ReactNode } from 'react';
 
+import {
+  AccordionDemo,
+  AccordionExpandLeft,
+  AccordionLarge,
+  AccordionLargeExpandLeft,
+  AccordionWithoutTrailing,
+  accordion,
+  examples as accordionExamples,
+} from '@/app/demo/[name]/ui/accordion';
 // New format imports - all components migrated to new format
 import {
   AlertDemo,
@@ -47,9 +56,11 @@ import {
 import {
   ButtonDemo,
   ButtonDisabled,
+  ButtonDropdown,
   ButtonIconOnly,
   ButtonIconRounded,
   ButtonLoading,
+  ButtonRadiusMode,
   ButtonSizes,
   ButtonVariants,
   ButtonWithIcons,
@@ -104,6 +115,18 @@ import {
   examples as comboboxExamples,
 } from '@/app/demo/[name]/ui/combobox';
 import {
+  ContextMenuDemo,
+  ContextMenuDestructive,
+  ContextMenuLarge,
+  ContextMenuWithCheckboxes,
+  ContextMenuWithIcons,
+  ContextMenuWithRadioGroup,
+  ContextMenuWithShortcuts,
+  ContextMenuWithSubmenu,
+  contextMenu,
+  examples as contextMenuExamples,
+} from '@/app/demo/[name]/ui/context-menu';
+import {
   DatePickerDemo,
   DatePickerDisabled,
   DatePickerInlineSizes,
@@ -124,6 +147,7 @@ import {
 import {
   DropdownMenuDemo,
   DropdownMenuDestructive,
+  DropdownMenuLarge,
   DropdownMenuWithCheckboxes,
   DropdownMenuWithIcons,
   DropdownMenuWithRadioGroup,
@@ -132,16 +156,6 @@ import {
   dropdownMenu,
   examples as dropdownMenuExamples,
 } from '@/app/demo/[name]/ui/dropdown-menu';
-import {
-  EmptyCompact,
-  EmptyDemo,
-  EmptyError,
-  EmptyWithAction,
-  EmptyWithIcon,
-  EmptyWithMultipleActions,
-  empty,
-  examples as emptyExamples,
-} from '@/app/demo/[name]/ui/empty';
 import {
   ReactHookForm,
   TanStackForm,
@@ -238,6 +252,12 @@ import {
   examples as selectExamples,
 } from '@/app/demo/[name]/ui/select';
 import {
+  SidebarApp,
+  SidebarSizes,
+  sidebar,
+  examples as sidebarExamples,
+} from '@/app/demo/[name]/ui/sidebar';
+import {
   SliderDemo,
   SliderLabeled,
   SliderRange,
@@ -271,11 +291,8 @@ import {
   examples as switchExamples,
 } from '@/app/demo/[name]/ui/switch';
 import {
-  DataTableDemo,
   TableRich,
   TableSizes,
-  dataTable,
-  dataTableExamples,
   table,
   examples as tableExamples,
 } from '@/app/demo/[name]/ui/table';
@@ -399,6 +416,13 @@ export const exampleComponentMaps: Record<
     AlertVariants,
     AlertWithoutIcon,
   },
+  accordion: {
+    AccordionDemo,
+    AccordionExpandLeft,
+    AccordionLarge,
+    AccordionLargeExpandLeft,
+    AccordionWithoutTrailing,
+  },
   'aspect-ratio': {
     AspectRatioDemo,
     AspectRatioLandscapeRatios,
@@ -435,6 +459,8 @@ export const exampleComponentMaps: Record<
     ButtonLoading,
     ButtonIconOnly,
     ButtonIconRounded,
+    ButtonDropdown,
+    ButtonRadiusMode,
   },
   'button-group': {
     ButtonGroupDemo,
@@ -464,9 +490,6 @@ export const exampleComponentMaps: Record<
     CheckboxItemGroup,
     CheckboxItemGroupSection,
   },
-  'data-table': {
-    DataTableDemo,
-  },
   'date-picker': {
     DatePickerDemo,
     DatePickerRange,
@@ -481,6 +504,16 @@ export const exampleComponentMaps: Record<
     DialogConfirmation,
     DialogCustomContent,
   },
+  'context-menu': {
+    ContextMenuDemo,
+    ContextMenuWithShortcuts,
+    ContextMenuWithIcons,
+    ContextMenuWithSubmenu,
+    ContextMenuWithCheckboxes,
+    ContextMenuWithRadioGroup,
+    ContextMenuLarge,
+    ContextMenuDestructive,
+  },
   'dropdown-menu': {
     DropdownMenuDemo,
     DropdownMenuWithShortcuts,
@@ -488,15 +521,8 @@ export const exampleComponentMaps: Record<
     DropdownMenuWithSubmenu,
     DropdownMenuWithCheckboxes,
     DropdownMenuWithRadioGroup,
+    DropdownMenuLarge,
     DropdownMenuDestructive,
-  },
-  empty: {
-    EmptyDemo,
-    EmptyWithIcon,
-    EmptyWithAction,
-    EmptyWithMultipleActions,
-    EmptyError,
-    EmptyCompact,
   },
   form: {
     ReactHookForm,
@@ -582,6 +608,10 @@ export const exampleComponentMaps: Record<
     SelectWithGroups,
     SelectMultipleDemo,
   },
+  sidebar: {
+    SidebarApp,
+    SidebarSizes,
+  },
   slider: {
     SliderDemo,
     SliderRanges,
@@ -612,7 +642,6 @@ export const exampleComponentMaps: Record<
   table: {
     TableSizes,
     TableRich,
-    DataTableDemo,
   },
   tabs: {
     TabsDemo,
@@ -690,6 +719,7 @@ export const exampleComponentMaps: Record<
 // Example metadata for new format demos
 export const examplesMeta: Record<string, ExampleMeta[]> = {
   alert: alertExamples,
+  accordion: accordionExamples,
   'aspect-ratio': aspectRatioExamples,
   avatar: avatarExamples,
   badge: badgeExamples,
@@ -698,11 +728,10 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   calendar: calendarExamples,
   card: cardExamples,
   checkbox: checkboxExamples,
-  'data-table': dataTableExamples,
   'date-picker': datePickerExamples,
   dialog: dialogExamples,
+  'context-menu': contextMenuExamples,
   'dropdown-menu': dropdownMenuExamples,
-  empty: emptyExamples,
   form: formExamples,
   icon: iconExamples,
   'icon-shell': iconShellExamples,
@@ -714,6 +743,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   'radio-group': radioGroupExamples,
   'segmented-controls': segmentedControlsExamples,
   select: selectExamples,
+  sidebar: sidebarExamples,
   slider: sliderExamples,
   sonner: sonnerExamples,
   switch: switchExamples,
@@ -736,6 +766,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...alert,
     examples: alertExamples,
     exampleComponents: exampleComponentMaps.alert,
+  },
+  accordion: {
+    ...accordion,
+    examples: accordionExamples,
+    exampleComponents: exampleComponentMaps.accordion,
   },
   'aspect-ratio': {
     ...aspectRatio,
@@ -777,11 +812,6 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     examples: checkboxExamples,
     exampleComponents: exampleComponentMaps.checkbox,
   },
-  'data-table': {
-    ...dataTable,
-    examples: dataTableExamples,
-    exampleComponents: exampleComponentMaps['data-table'],
-  },
   'date-picker': {
     ...datePicker,
     examples: datePickerExamples,
@@ -792,15 +822,15 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     examples: dialogExamples,
     exampleComponents: exampleComponentMaps.dialog,
   },
+  'context-menu': {
+    ...contextMenu,
+    examples: contextMenuExamples,
+    exampleComponents: exampleComponentMaps['context-menu'],
+  },
   'dropdown-menu': {
     ...dropdownMenu,
     examples: dropdownMenuExamples,
     exampleComponents: exampleComponentMaps['dropdown-menu'],
-  },
-  empty: {
-    ...empty,
-    examples: emptyExamples,
-    exampleComponents: exampleComponentMaps.empty,
   },
   form: {
     ...form,
@@ -856,6 +886,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...select,
     examples: selectExamples,
     exampleComponents: exampleComponentMaps.select,
+  },
+  sidebar: {
+    ...sidebar,
+    examples: sidebarExamples,
+    exampleComponents: exampleComponentMaps.sidebar,
   },
   slider: {
     ...slider,

@@ -26,6 +26,7 @@ export function ToggleVariants() {
 /** Toggle sizes */
 export function ToggleSizes() {
   const sizes = [
+    { size: 'xxs', label: 'XXS' },
     { size: 'xs', label: 'Extra Small' },
     { size: 'sm', label: 'Small' },
     { size: 'default', label: 'Default' },
@@ -55,7 +56,7 @@ export function TogglePressed() {
       </div>
       <div className="flex flex-wrap items-center gap-3">
         {toggleVariants.map(v => (
-          <Toggle key={v} variant={v} defaultPressed>
+          <Toggle key={v} variant={v} pressed={true}>
             On
           </Toggle>
         ))}
@@ -98,6 +99,7 @@ export function ToggleIconsRound() {
 /** Icon toggle sizes */
 export function ToggleIconSizes() {
   const sizes = [
+    { size: 'icon-xxs', iconSize: 'sm' },
     { size: 'icon-xs', iconSize: 'sm' },
     { size: 'icon-sm', iconSize: 'sm' },
     { size: 'icon', iconSize: 'sm' },

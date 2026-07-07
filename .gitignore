@@ -2,6 +2,7 @@
 .idea
 .vscode
 .claude
+.cursor
 
 # dependencies
 /node_modules
@@ -44,5 +45,5 @@ figma.config.json
 
 # cache
 .eslintcache
+.prettiercache
 .vite/
-.cursor/skills/*

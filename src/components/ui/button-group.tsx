@@ -1,25 +1,17 @@
 import { type VariantProps, cva } from 'class-variance-authority';
-import * as React from 'react';
+import type * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-// Gap between grouped buttons scales with the size variant to match the Figma
-// spacing tokens (sm = 8px, default = 12px, lg = 16px).
-const buttonGroupVariants = cva('flex w-fit', {
+const buttonGroupVariants = cva('flex w-fit gap-3', {
   variants: {
     orientation: {
       horizontal: 'flex-row items-center',
       vertical: 'flex-col items-stretch',
     },
-    size: {
-      sm: 'gap-2',
-      default: 'gap-3',
-      lg: 'gap-4',
-    },
   },
   defaultVariants: {
     orientation: 'horizontal',
-    size: 'default',
   },
 });
 
@@ -33,7 +25,8 @@ interface ButtonGroupProps
  *
  * Place `Button` children inside and choose their variants (e.g. a primary
  * action paired with a secondary or ghost action). The group only controls
- * layout: `orientation` for direction and `size` for the inter-button gap.
+ * layout: `orientation` for direction with a constant 12px gap. Size the
+ * child `Button`s directly.
  *
  * @example
  * ```tsx
@@ -43,17 +36,12 @@ interface ButtonGroupProps
  * </ButtonGroup>
  * ```
  */
-function ButtonGroup({
-  className,
-  orientation,
-  size,
-  ...props
-}: ButtonGroupProps) {
+function ButtonGroup({ className, orientation, ...props }: ButtonGroupProps) {
   return (
     <div
       data-slot="button-group"
       role="group"
-      className={cn(buttonGroupVariants({ orientation, size }), className)}
+      className={cn(buttonGroupVariants({ orientation }), className)}
       {...props}
     />
   );

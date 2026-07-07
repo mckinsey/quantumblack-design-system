@@ -40,8 +40,6 @@ function TooltipContent({
   children,
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Content>) {
-  // Estimate if content will be multi-line based on text length
-  // With max-w-[220px] and text-xs, roughly 30-35 chars per line
   const getTextContent = (node: React.ReactNode): string => {
     if (typeof node === 'string') return node;
     if (typeof node === 'number') return String(node);

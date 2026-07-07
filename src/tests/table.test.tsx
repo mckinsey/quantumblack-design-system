@@ -12,7 +12,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-const componentName = 'data-table';
+const componentName = 'table';
 
 afterEach(() => {
   cleanup();
