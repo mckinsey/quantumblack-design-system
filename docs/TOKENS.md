@@ -42,7 +42,7 @@ Content-bearing fills: button bodies, tooltip backgrounds, icons, sliders, tags,
 | `--fill-secondary`    | `bg-fill-secondary`    | Medium contrast accent backgrounds.                                                                                    | `Fill/Content/Secondary`         |
 | `--fill-tertiary`     | `bg-fill-tertiary`     | Medium colour contrast overlay on high contrast items, UI shells / panels, tiles.                                      | `Fill/Content/Tertiary`          |
 | `--fill-active`       | `bg-fill-active`       | Active state fill for icons, button backgrounds, tags, switches, toggle items, sliders.                                | `Fill/Content/Active`            |
-| `--fill-active-alpha` | `bg-fill-active-alpha` | Opacity-based active fill — same hue as `fill-active` but semi-transparent; use where a solid fill would be too harsh. | `Fill/Active`                    |
+| `--fill-active-alpha` | `bg-fill-active-alpha` | Semi-transparent active/highlight fill (Figma: `Fill/Active`). | `Fill/Active` |
 | `--fill-disabled`     | `bg-fill-disabled`     | Any fill for disabled elements that sit on `fill-muted` or surface tokens.                                             | `Fill/Content/Disabled`          |
 | `--slider-track`      | `bg-slider-track`      | Slider track, step markers, stepper track fills.                                                                       | `Fill/Content/StepMarkers-Track` |
 | `--fill-*-inverse`    | `bg-fill-*-inverse`    | Same usage as the non-inverse token, tuned for high-contrast / theme-switch contexts.                                  | `Fill/Content/*-Inverse`         |
