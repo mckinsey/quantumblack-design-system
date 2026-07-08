@@ -657,7 +657,7 @@
       "name": "sidebar",
       "type": "registry:ui",
       "title": "Sidebar",
-      "description": "Composable sidebar with collapsible sections, mobile sheet, and icon mode. shadcn API.",
+      "description": "Composable sidebar with icon rail, NavMenu panel, collapsible sections, mobile sheet, and icon mode. shadcn API.",
       "dependencies": [
         "@radix-ui/react-dialog",
         "@radix-ui/react-slot",

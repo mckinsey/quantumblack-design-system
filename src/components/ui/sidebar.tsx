@@ -61,6 +61,23 @@ type SidebarContextProps = {
 
 const SidebarContext = React.createContext<SidebarContextProps | null>(null);
 
+type SidebarShell = {
+  side: 'left' | 'right';
+  size: SidebarSize;
+};
+
+const SidebarShellContext = React.createContext<SidebarShell | null>(null);
+
+type SidebarNavMenuContextValue = {
+  withIcons: boolean;
+  size: SidebarSize;
+};
+
+const SidebarNavMenuContext = React.createContext<SidebarNavMenuContextValue>({
+  withIcons: false,
+  size: 'default',
+});
+
 function useSidebar() {
   const context = React.useContext(SidebarContext);
   if (!context) {
@@ -68,6 +85,13 @@ function useSidebar() {
   }
 
   return context;
+}
+
+function useSidebarShell(): SidebarShell {
+  const shell = React.useContext(SidebarShellContext);
+  const { size } = useSidebar();
+
+  return shell ?? { side: 'left', size };
 }
 
 function SidebarProvider({
@@ -205,24 +229,29 @@ function Sidebar({
   const sizeVars = sidebarSizeStyle(size);
 
   if (collapsible === 'none') {
+    const shellValue = React.useMemo(() => ({ side, size }), [side, size]);
+
     return (
-      <nav
-        aria-label="Primary"
-        data-slot="sidebar"
-        data-size={size}
-        style={
-          {
-            ...sidebarSizeStyle(size, true),
-            ...style,
-          } as React.CSSProperties
-        }
-        className={cn(
-          'bg-surface-primary text-fg-primary flex h-full w-(--sidebar-width) flex-col pb-7',
-          className,
-        )}
-        {...props}>
-        {children}
-      </nav>
+      <SidebarShellContext.Provider value={shellValue}>
+        <nav
+          aria-label="Primary"
+          data-slot="sidebar"
+          data-side={side}
+          data-size={size}
+          style={
+            {
+              ...sidebarSizeStyle(size, true),
+              ...style,
+            } as React.CSSProperties
+          }
+          className={cn(
+            'bg-surface-primary text-fg-primary relative flex h-full w-auto flex-row gap-0.5',
+            className,
+          )}
+          {...props}>
+          {children}
+        </nav>
+      </SidebarShellContext.Provider>
     );
   }
 
@@ -330,13 +359,16 @@ function SidebarTrigger({
   );
 }
 
-function SidebarRail({ className, ...props }: React.ComponentProps<'button'>) {
+function SidebarResizeRail({
+  className,
+  ...props
+}: React.ComponentProps<'button'>) {
   const { toggleSidebar } = useSidebar();
 
   return (
     <button
       data-sidebar="rail"
-      data-slot="sidebar-rail"
+      data-slot="sidebar-resize-rail"
       aria-label="Toggle Sidebar"
       tabIndex={-1}
       onClick={toggleSidebar}
@@ -354,6 +386,8 @@ function SidebarRail({ className, ...props }: React.ComponentProps<'button'>) {
     />
   );
 }
+
+const SidebarRail = SidebarResizeRail;
 
 function SidebarInset({ className, ...props }: React.ComponentProps<'main'>) {
   return (
@@ -898,6 +932,316 @@ function SidebarMenuSubButton({
   );
 }
 
+function SidebarNavRail({ className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div
+      data-slot="sidebar-nav-rail"
+      data-sidebar="nav-rail"
+      className={cn(
+        'flex w-(--sidebar-width-icon) shrink-0 flex-col pb-7',
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+const sidebarNavMenuPanelWidth: Record<SidebarSize, string> = {
+  default: 'w-60',
+  lg: 'w-70',
+};
+
+function SidebarNavMenu({
+  mode = 'inline',
+  open: openProp,
+  defaultOpen = false,
+  onOpenChange,
+  withIcons = false,
+  className,
+  children,
+  ...props
+}: Omit<React.ComponentProps<'nav'>, 'children'> & {
+  mode?: 'inline' | 'overlay';
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  withIcons?: boolean;
+  children?: React.ReactNode;
+}) {
+  const { isMobile } = useSidebar();
+  const shell = useSidebarShell();
+  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);
+  const open = openProp ?? uncontrolledOpen;
+
+  const setOpen = React.useCallback(
+    (value: boolean | ((prev: boolean) => boolean)) => {
+      const next = typeof value === 'function' ? value(open) : value;
+      onOpenChange?.(next);
+      if (openProp === undefined) {
+        setUncontrolledOpen(next);
+      }
+    },
+    [onOpenChange, open, openProp],
+  );
+
+  React.useEffect(() => {
+    if (mode !== 'overlay' || !open) {
+      return;
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [mode, open, setOpen]);
+
+  const menuCtx = React.useMemo(
+    () => ({ withIcons, size: shell.size }),
+    [withIcons, shell.size],
+  );
+
+  const panelWidth = sidebarNavMenuPanelWidth[shell.size];
+
+  const panel = (
+    <SidebarNavMenuContext.Provider value={menuCtx}>
+      <nav
+        aria-label="Navigation menu"
+        data-slot="sidebar-nav-menu"
+        data-mode={mode}
+        data-state={mode === 'overlay' ? (open ? 'open' : 'closed') : undefined}
+        className={cn(
+          'bg-surface-primary flex flex-col overflow-y-auto pt-4',
+          panelWidth,
+          mode === 'inline' && 'shrink-0',
+          mode === 'overlay' &&
+            !isMobile && [
+              'absolute top-0 bottom-0 z-20 transition-[transform,opacity] duration-200 ease-linear',
+              shell.side === 'left' ? 'left-full' : 'right-full',
+              open
+                ? 'translate-x-0 opacity-100'
+                : shell.side === 'left'
+                  ? 'pointer-events-none -translate-x-2 opacity-0'
+                  : 'pointer-events-none translate-x-2 opacity-0',
+            ],
+          className,
+        )}
+        {...props}>
+        {children}
+      </nav>
+    </SidebarNavMenuContext.Provider>
+  );
+
+  if (mode === 'overlay' && isMobile) {
+    return (
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetContent
+          side={shell.side}
+          className={cn(
+            'bg-surface-primary w-(--sidebar-width) p-0',
+            panelWidth,
+          )}
+          data-slot="sidebar-nav-menu-overlay">
+          <SheetHeader className="sr-only">
+            <SheetTitle>Navigation menu</SheetTitle>
+            <SheetDescription>Expanded navigation panel.</SheetDescription>
+          </SheetHeader>
+          {panel}
+        </SheetContent>
+      </Sheet>
+    );
+  }
+
+  return panel;
+}
+
+function SidebarNavMenuHeader({
+  className,
+  ...props
+}: React.ComponentProps<'div'>) {
+  const { size } = useSidebarShell();
+
+  return (
+    <div
+      role="heading"
+      aria-level={2}
+      data-slot="sidebar-nav-menu-header"
+      className={cn(
+        'text-fg-tertiary uppercase',
+        size === 'lg'
+          ? 'paragraph-large-primary pt-3 pr-3 pb-2 pl-2'
+          : 'paragraph-regular-primary px-2 pt-3 pb-2',
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function SidebarNavMenuItem({
+  className,
+  ...props
+}: React.ComponentProps<'li'>) {
+  return (
+    <li
+      data-slot="sidebar-nav-menu-item"
+      className={cn('group/nav-menu-item flex w-full flex-col', className)}
+      {...props}
+    />
+  );
+}
+
+const sidebarNavMenuButtonVariants = cva(
+  [
+    'flex w-full min-w-0 items-center gap-2 text-left outline-hidden ring-stroke-status-focus transition-colors',
+    'text-fg-tertiary hover:bg-stateslayer-overlay-hover active:bg-stateslayer-overlay-pressed',
+    'focus-visible:ring-2',
+    'disabled:pointer-events-none disabled:text-fg-disabled aria-disabled:pointer-events-none aria-disabled:text-fg-disabled',
+    'data-[active=true]:text-fg-primary',
+  ],
+  {
+    variants: {
+      size: {
+        default: 'paragraph-regular-primary px-2 py-3',
+        lg: 'paragraph-large-primary p-3',
+      },
+    },
+    defaultVariants: {
+      size: 'default',
+    },
+  },
+);
+
+function SidebarNavMenuButton({
+  asChild = false,
+  isActive = false,
+  icon,
+  badge,
+  showChevron = false,
+  className,
+  children,
+  ...props
+}: React.ComponentProps<'button'> & {
+  asChild?: boolean;
+  isActive?: boolean;
+  icon?: string;
+  badge?: React.ReactNode;
+  showChevron?: boolean;
+}) {
+  const { withIcons } = React.useContext(SidebarNavMenuContext);
+  const { size } = useSidebarShell();
+  const Comp = asChild ? Slot : 'button';
+  const shellVariant = isActive ? 'primary' : 'secondary';
+
+  return (
+    <Comp
+      data-slot="sidebar-nav-menu-button"
+      data-active={isActive}
+      aria-current={isActive ? 'page' : undefined}
+      className={cn(sidebarNavMenuButtonVariants({ size }), className)}
+      {...props}>
+      {showChevron ? (
+        <>
+          <IconShell
+            data-slot="nav-menu-chevron"
+            size="sm"
+            type="neutral"
+            variant={shellVariant}
+            className="group-data-[state=open]/collapsible:hidden">
+            <Icon icon="chevron_right" />
+          </IconShell>
+          <IconShell
+            data-slot="nav-menu-chevron"
+            size="sm"
+            type="neutral"
+            variant={shellVariant}
+            className="hidden group-data-[state=open]/collapsible:inline-flex">
+            <Icon icon="expand_more" />
+          </IconShell>
+        </>
+      ) : null}
+      {withIcons && icon ? (
+        <IconShell size="sm" type="neutral" variant={shellVariant}>
+          <Icon icon={icon} />
+        </IconShell>
+      ) : null}
+      <span className="min-w-0 flex-1 truncate">{children}</span>
+      {badge ? <span className="shrink-0">{badge}</span> : null}
+    </Comp>
+  );
+}
+
+function SidebarNavMenuSub({
+  className,
+  ...props
+}: React.ComponentProps<'ul'>) {
+  return (
+    <ul
+      data-slot="sidebar-nav-menu-sub"
+      className={cn('flex flex-col', className)}
+      {...props}
+    />
+  );
+}
+
+const sidebarNavMenuSubButtonVariants = cva(
+  [
+    'flex w-full min-w-0 items-center gap-2 text-left outline-hidden ring-stroke-status-focus transition-colors',
+    'text-fg-tertiary hover:bg-stateslayer-overlay-hover active:bg-stateslayer-overlay-pressed',
+    'focus-visible:ring-2',
+    'disabled:pointer-events-none disabled:text-fg-disabled aria-disabled:pointer-events-none aria-disabled:text-fg-disabled',
+    'data-[active=true]:text-fg-primary',
+  ],
+  {
+    variants: {
+      size: {
+        default: 'paragraph-regular-primary pl-8 pr-2 py-2',
+        lg: 'paragraph-large-primary pl-11 pr-3 py-2',
+      },
+    },
+    defaultVariants: {
+      size: 'default',
+    },
+  },
+);
+
+function SidebarNavMenuSubButton({
+  asChild = false,
+  isActive = false,
+  icon,
+  className,
+  children,
+  ...props
+}: React.ComponentProps<'button'> & {
+  asChild?: boolean;
+  isActive?: boolean;
+  icon?: string;
+}) {
+  const { withIcons } = React.useContext(SidebarNavMenuContext);
+  const { size } = useSidebarShell();
+  const Comp = asChild ? Slot : 'button';
+  const shellVariant = isActive ? 'primary' : 'secondary';
+
+  return (
+    <Comp
+      data-slot="sidebar-nav-menu-sub-button"
+      data-active={isActive}
+      aria-current={isActive ? 'page' : undefined}
+      className={cn(sidebarNavMenuSubButtonVariants({ size }), className)}
+      {...props}>
+      {withIcons && icon ? (
+        <IconShell size="sm" type="neutral" variant={shellVariant}>
+          <Icon icon={icon} />
+        </IconShell>
+      ) : null}
+      <span className="min-w-0 flex-1 truncate">{children}</span>
+    </Comp>
+  );
+}
+
 export {
   Sidebar,
   SidebarContent,
@@ -920,6 +1264,13 @@ export {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  SidebarNavMenu,
+  SidebarNavMenuButton,
+  SidebarNavMenuHeader,
+  SidebarNavMenuItem,
+  SidebarNavMenuSub,
+  SidebarNavMenuSubButton,
+  SidebarNavRail,
   SidebarProvider,
   SidebarRail,
   SidebarSeparator,
