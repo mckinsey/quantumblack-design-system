@@ -17,7 +17,7 @@ Two paths to read variables — pick the first that applies:
 
 | #   | Condition                                                   | Method                                                                                                             |
 | --- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| 1   | `.env` exists and contains a non-empty `FIGMA_ACCESS_TOKEN` | **Figma REST API** (fastest — see step 1 below)                                                                    |
+| 1   | `.env` exists and contains a non-empty `FIGMA_ACCESS_TOKEN` | **Figma REST API** (fastest — see Path A below)                                                                    |
 | 2   | No token available                                          | **Figma MCP** `get_variable_defs` — ask the user to open the QBDS Figma file, select any layer, then call the tool |
 
 Note: `search_design_system` returns metadata only (no values) — do not use it for syncing.
