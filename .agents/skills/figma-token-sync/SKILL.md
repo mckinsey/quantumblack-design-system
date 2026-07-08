@@ -9,11 +9,18 @@ description: Sync QBDS Figma variables (DS_THEMES, Radius, DS-Primitives) into g
 
 ## Figma source
 
-- **File:** [QBDS v2.0.0](https://www.figma.com/design/iuMWqCsIohoKAUB0tBS0xr/QBDS-v2.0.0?node-id=1878-17156&view=variables&var-set-id=26698-8497&m=dev)
+- **File:** [QBDS v2.0.0](https://www.figma.com/design/iuMWqCsIohoKAUB0tBS0xr/QBDS-v2.0.0?node-id=1878-17156&view=variables&p=f&t=z4NTULUiQsv5yiJM-0)
 - **Variable sets to read:** `DS_THEMES`, `Radius`, `DS-Primitives`
 - **Modes:** light and dark (both must be synced)
 
-Use Figma MCP (`get_variable_defs` or variable export via the Figma plugin) to read resolved values. Load the **figma-use** skill before `use_figma` calls if needed.
+Two paths to read variables — pick the first that applies:
+
+| #   | Condition                                                   | Method                                                                                                             |
+| --- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| 1   | `.env` exists and contains a non-empty `FIGMA_ACCESS_TOKEN` | **Figma REST API** (fastest — see step 1 below)                                                                    |
+| 2   | No token available                                          | **Figma MCP** `get_variable_defs` — ask the user to open the QBDS Figma file, select any layer, then call the tool |
+
+Note: `search_design_system` returns metadata only (no values) — do not use it for syncing.
 
 ## Code targets (read before editing)
 
@@ -36,10 +43,68 @@ Use Figma MCP (`get_variable_defs` or variable export via the Figma plugin) to r
 
 ### 1 — Read Figma variables
 
-1. Confirm designers have published changes in the QBDS v2.0.0 file.
-2. Read [`docs/TOKENS.md`](docs/TOKENS.md) — for each semantic token you will sync, note its **Design name** (e.g. `--fill-active` → `Fill/Content/Active`). Use that exact Figma path when reading `DS_THEMES`; do not match by similar names in the Figma file.
-3. Read all variables from `DS-Primitives`, `DS_THEMES`, and `Radius` for **light** and **dark** modes.
-4. Build a diff table: Design name (from TOKENS.md) → CSS variable → old `var()` binding → new binding. Flag **renames** and **removed** tokens.
+1. Read [`docs/TOKENS.md`](docs/TOKENS.md) — note each token's **Design name** column (e.g. `--fill-active` → `Fill/Content/Active`). These are the canonical Figma paths to match against.
+
+2. **Path A — REST API (preferred when `.env` has `FIGMA_ACCESS_TOKEN`):**
+
+```bash
+source .env
+curl -s -H "X-Figma-Token: $FIGMA_ACCESS_TOKEN" \
+  "https://api.figma.com/v1/files/iuMWqCsIohoKAUB0tBS0xr/variables/local" \
+  -o /tmp/figma_vars.json
+```
+
+Then proceed to steps 3–7 below.
+
+**Path B — Figma MCP (no token available):**
+
+Ask the user to open the [QBDS v2.0.0 variables page](https://www.figma.com/design/iuMWqCsIohoKAUB0tBS0xr/QBDS-v2.0.0?node-id=1878-17156&view=variables&p=f&t=z4NTULUiQsv5yiJM-0) in the Figma desktop app and select any layer. Then use the Figma MCP `get_variable_defs` tool, pointing it at the QBDS v2.0.0 file and node `1878:17156`. The tool returns resolved variable values for the whole file. Extract DS_Themes (light + dark), DS-Primitives, and Radius values from the response and build the diff table manually — skip steps 3–5 and go straight to step 6.
+
+3. The three local collections and their known stable IDs are:
+
+| Collection      | ID                                 | Modes                                |
+| --------------- | ---------------------------------- | ------------------------------------ |
+| `DS_Themes`     | `VariableCollectionId:26698:8497`  | Dark = `32620:0`, Light = `26698:0`  |
+| `DS-Primitives` | `VariableCollectionId:33946:8988`  | Value = `33946:1`                    |
+| `Radius`        | `VariableCollectionId:35241:30757` | Sharp = `35241:0`, Round = `35241:1` |
+
+If collection IDs look wrong (file was recreated), discover them with:
+
+```bash
+jq '.meta.variableCollections | to_entries[] | {id: .key, name: .value.name, modes: (.value.modes | map(.name))}' /tmp/figma_vars.json
+```
+
+4. Resolve the DS_Themes alias chain to primitive names in one `jq` pass:
+
+```bash
+jq -r '
+  (.meta.variables | to_entries | map({key: .key, value: .value.name}) | from_entries) as $idToName |
+  .meta.variables | to_entries[] |
+  select(.value.variableCollectionId == "VariableCollectionId:26698:8497") |
+  .value as $v |
+  {
+    name: $v.name,
+    light: (if ($v.valuesByMode["26698:0"] | type) == "object" and $v.valuesByMode["26698:0"].type == "VARIABLE_ALIAS"
+            then $idToName[$v.valuesByMode["26698:0"].id] else ($v.valuesByMode["26698:0"] | tostring) end),
+    dark:  (if ($v.valuesByMode["32620:0"] | type) == "object" and $v.valuesByMode["32620:0"].type == "VARIABLE_ALIAS"
+            then $idToName[$v.valuesByMode["32620:0"].id] else ($v.valuesByMode["32620:0"] | tostring) end)
+  }
+' /tmp/figma_vars.json
+```
+
+5. Extract Radius values:
+
+```bash
+jq -r '
+  .meta.variables | to_entries[] |
+  select(.value.variableCollectionId == "VariableCollectionId:35241:30757") |
+  {name: .value.name, sharp: .value.valuesByMode["35241:0"], round: .value.valuesByMode["35241:1"]}
+' /tmp/figma_vars.json
+```
+
+6. Build a diff table: Design name (from TOKENS.md) → CSS variable → current `var()` binding → new binding. Flag **renames** and **removed** tokens.
+
+7. Remove the temp file when done: `rm /tmp/figma_vars.json`
 
 ### 2 — Update `globals.css`
 
@@ -90,10 +155,3 @@ Report a summary: tokens added/changed/removed, files touched, grep hits fixed, 
 - [ ] `docs/TOKENS.md` matches `globals.css` (including Design name column)
 - [ ] Renamed/removed tokens grepped and fixed in `src/`
 - [ ] `npm run build` and `npm run lint` pass
-
-## Minimal trigger prompt
-
-```
-Designers updated Figma variables. Sync tokens into code.
-Variable sets: DS_THEMES, Radius, DS-Primitives
-```
