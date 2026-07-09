@@ -63,6 +63,15 @@ if (
   badgeCode = badge.executeTemplate().example;
 }
 
+const iconTag = iconName
+  ? `<IconShell size="sm" type="neutral" variant="${
+      isActive ? 'primary' : 'secondary'
+    }">
+      <Icon icon="${iconName}" />
+    </IconShell>
+    `
+  : '';
+
 const button = figma.code`
   <SidebarNavMenuButton${figma.helpers.react.renderProp(
     'isActive',
@@ -73,10 +82,10 @@ const button = figma.code`
   )}${figma.helpers.react.renderProp(
     'showChevron',
     withChildren || undefined,
-  )}${iconName ? figma.helpers.react.renderProp('icon', iconName) : ''}${
+  )}${
     badgeCode.length ? figma.helpers.react.renderProp('badge', badgeCode) : ''
   }>
-    ${label}
+    ${iconTag}${label}
   </SidebarNavMenuButton>
 `;
 
@@ -105,6 +114,8 @@ export default {
   imports: [
     'import { Badge } from "@/components/ui/badge"',
     'import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"',
+    'import { Icon } from "@/components/ui/icon"',
+    'import { IconShell } from "@/components/ui/icon-shell"',
     'import { SidebarNavMenuButton, SidebarNavMenuItem, SidebarNavMenuSub, SidebarNavMenuSubButton } from "@/components/ui/sidebar"',
   ],
   id: 'nav-menu-item',
