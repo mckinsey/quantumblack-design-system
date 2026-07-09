@@ -276,7 +276,7 @@ function AppHeader({
   onToggleFullscreen: () => void;
 }) {
   return (
-    <header className="border-stroke-divider bg-surface-primary flex h-[72px] shrink-0 items-center gap-3 border-b px-6">
+    <header className="border-stroke-divider bg-surface-primary flex h-[64px] shrink-0 items-center gap-3 border-b px-6">
       <RegistryLogo className="h-6 w-6" />
       <span className="headings-h3-regular text-fg-primary">QuantumBlack</span>
       <Button size="sm" className="ml-auto" onClick={onToggleFullscreen}>
