@@ -74,7 +74,7 @@ function SidebarProvider({
   defaultOpen = true,
   open: openProp,
   onOpenChange: setOpenProp,
-  size = 'lg',
+  size = 'default',
   className,
   style,
   children,

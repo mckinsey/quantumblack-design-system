@@ -36,15 +36,16 @@ Page and panel backgrounds. The chrome.
 
 Content-bearing fills: button bodies, tooltip backgrounds, icons, sliders, tags, switches.
 
-| CSS variable       | Tailwind            | Use for                                                                                 | Design name                      |
-| ------------------ | ------------------- | --------------------------------------------------------------------------------------- | -------------------------------- |
-| `--fill-primary`   | `bg-fill-primary`   | Buttons and tooltip backgrounds; high contrast / emphasised items; accents.             | `Fill/Content/Primary`           |
-| `--fill-secondary` | `bg-fill-secondary` | Medium contrast accent backgrounds.                                                     | `Fill/Content/Secondary`         |
-| `--fill-tertiary`  | `bg-fill-tertiary`  | Medium colour contrast overlay on high contrast items, UI shells / panels, tiles.       | `Fill/Content/Tertiary`          |
-| `--fill-active`    | `bg-fill-active`    | Active state fill for icons, button backgrounds, tags, switches, toggle items, sliders. | `Fill/Content/Active`            |
-| `--fill-disabled`  | `bg-fill-disabled`  | Any fill for disabled elements that sit on `fill-muted` or surface tokens.              | `Fill/Content/Disabled`          |
-| `--slider-track`   | `bg-slider-track`   | Slider track, step markers, stepper track fills.                                        | `Fill/Content/StepMarkers-Track` |
-| `--fill-*-inverse` | `bg-fill-*-inverse` | Same usage as the non-inverse token, tuned for high-contrast / theme-switch contexts.   | `Fill/Content/*-Inverse`         |
+| CSS variable          | Tailwind               | Use for                                                                                                                | Design name                      |
+| --------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| `--fill-primary`      | `bg-fill-primary`      | Buttons and tooltip backgrounds; high contrast / emphasised items; accents.                                            | `Fill/Content/Primary`           |
+| `--fill-secondary`    | `bg-fill-secondary`    | Medium contrast accent backgrounds.                                                                                    | `Fill/Content/Secondary`         |
+| `--fill-tertiary`     | `bg-fill-tertiary`     | Medium colour contrast overlay on high contrast items, UI shells / panels, tiles.                                      | `Fill/Content/Tertiary`          |
+| `--fill-active`       | `bg-fill-active`       | Active state fill for icons, button backgrounds, tags, switches, toggle items, sliders.                                | `Fill/Content/Active`            |
+| `--fill-active-alpha` | `bg-fill-active-alpha` | Opacity-based active fill — same hue as `fill-active` but semi-transparent; use where a solid fill would be too harsh. | `Fill/Active`                    |
+| `--fill-disabled`     | `bg-fill-disabled`     | Any fill for disabled elements that sit on `fill-muted` or surface tokens.                                             | `Fill/Content/Disabled`          |
+| `--slider-track`      | `bg-slider-track`      | Slider track, step markers, stepper track fills.                                                                       | `Fill/Content/StepMarkers-Track` |
+| `--fill-*-inverse`    | `bg-fill-*-inverse`    | Same usage as the non-inverse token, tuned for high-contrast / theme-switch contexts.                                  | `Fill/Content/*-Inverse`         |
 
 ## Fill — onSurface
 
@@ -58,7 +59,6 @@ UI containers that sit **on top of** surface tokens: tiles, input field backgrou
 | `--fill-onsurface-ui-2`                         | `bg-fill-onsurface-ui-2`                          | Solid avatar (mono) backgrounds, medium contrast tiles, UI containers that sit on surface tokens.                                                     | `Fill/onSurface/bg-ui2`                                         |
 | `--fill-onsurface-ui-3`                         | `bg-fill-onsurface-ui-3`                          | Solid UI backgrounds — field inputs, notification/toast/sonner panels that sit on surface tokens.                                                     | `Fill/onSurface/bg-ui3`                                         |
 | `--fill-subtle-inverse`, `--fill-muted-inverse` | `bg-fill-subtle-inverse`, `bg-fill-muted-inverse` | High-contrast / theme-switch variants of the above.                                                                                                   | `Fill/onSurface/Subtle-Inverse`, `Fill/onSurface/Muted-Inverse` |
-| `--fill-selected-range`                         | `bg-fill-selected-range`                          | Selected range highlight in calendars, sliders, charts.                                                                                               | `Fill/selected-range`                                           |
 
 ## Text
 
