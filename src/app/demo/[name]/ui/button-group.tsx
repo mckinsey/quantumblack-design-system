@@ -130,17 +130,17 @@ export function ButtonGroupIconOnly() {
     <div className="flex items-start gap-8">
       <ButtonGroup>
         <Button aria-label="Bold" size="icon" variant="outline">
-          <IconShell size="sm">
+          <IconShell size="sm" hoverable>
             <Icon icon="format_bold" />
           </IconShell>
         </Button>
         <Button aria-label="Italic" size="icon" variant="outline">
-          <IconShell size="sm">
+          <IconShell size="sm" hoverable>
             <Icon icon="format_italic" />
           </IconShell>
         </Button>
         <Button aria-label="Underline" size="icon" variant="outline">
-          <IconShell size="sm">
+          <IconShell size="sm" hoverable>
             <Icon icon="format_underlined" />
           </IconShell>
         </Button>
@@ -148,12 +148,12 @@ export function ButtonGroupIconOnly() {
 
       <ButtonGroup orientation="vertical">
         <Button aria-label="Zoom in" size="icon" variant="outline">
-          <IconShell size="sm">
+          <IconShell size="sm" hoverable>
             <Icon icon="add" />
           </IconShell>
         </Button>
         <Button aria-label="Zoom out" size="icon" variant="outline">
-          <IconShell size="sm">
+          <IconShell size="sm" hoverable>
             <Icon icon="remove" />
           </IconShell>
         </Button>

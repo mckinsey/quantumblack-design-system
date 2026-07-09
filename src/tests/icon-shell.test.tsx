@@ -37,7 +37,7 @@ describe(`${componentName} — structure`, () => {
     expect(document.querySelector('[data-slot="icon"]')).toBeInTheDocument();
   });
 
-  it.each(['primary', 'secondary', 'disabled'] as const)(
+  it.each(['primary', 'secondary'] as const)(
     'renders variant="%s" without crashing',
     variant => {
       expect(() =>
@@ -63,7 +63,7 @@ describe(`${componentName} — structure`, () => {
     },
   );
 
-  it.each(['neutral', 'neutral-inverse', 'accent'] as const)(
+  it.each(['neutral', 'neutral-inverse', 'custom'] as const)(
     'renders type="%s" without crashing',
     type => {
       expect(() =>
@@ -75,6 +75,26 @@ describe(`${componentName} — structure`, () => {
       ).not.toThrow();
     },
   );
+
+  it('renders hoverable without crashing', () => {
+    expect(() =>
+      render(
+        <IconShell hoverable>
+          <Icon icon="info" />
+        </IconShell>,
+      ),
+    ).not.toThrow();
+  });
+
+  it('renders with disabled prop without crashing', () => {
+    expect(() =>
+      render(
+        <IconShell disabled hoverable>
+          <Icon icon="info" />
+        </IconShell>,
+      ),
+    ).not.toThrow();
+  });
 
   it('renders children inside the shell', () => {
     render(

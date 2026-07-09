@@ -68,7 +68,9 @@ export function InputGroupStepperSizes() {
               aria-label="Decrease">
               <IconShell
                 size={iconShellSize}
-                variant={isDecrementDisabled ? 'disabled' : 'secondary'}>
+                type="neutral"
+                variant="secondary"
+                disabled={isDecrementDisabled}>
                 <Icon icon="remove" />
               </IconShell>
             </InputGroupButton>
@@ -88,7 +90,7 @@ export function InputGroupStepperSizes() {
               variant="ghost"
               onClick={increment}
               aria-label="Increase">
-              <IconShell size={iconShellSize} variant="secondary">
+              <IconShell size={iconShellSize} type="neutral" hoverable>
                 <Icon icon="add" />
               </IconShell>
             </InputGroupButton>
@@ -194,7 +196,8 @@ export function InputGroupStepperStates() {
               aria-label="Decrease">
               <IconShell
                 size={iconShellSize}
-                variant={isDecrementDisabled ? 'disabled' : 'secondary'}>
+                hoverable
+                disabled={isDecrementDisabled}>
                 <Icon icon="remove" />
               </IconShell>
             </InputGroupButton>
@@ -215,7 +218,7 @@ export function InputGroupStepperStates() {
               variant="ghost"
               onClick={increment}
               aria-label="Increase">
-              <IconShell size={iconShellSize} variant="secondary">
+              <IconShell size={iconShellSize} hoverable>
                 <Icon icon="add" />
               </IconShell>
             </InputGroupButton>
@@ -298,12 +301,13 @@ export function InputGroupDeleteOnFocus() {
           <InputGroup variant={variant}>
             <InputGroupAddon align="inline-start">
               <InputGroupText>
-                <Icon
-                  icon="search"
+                <IconShell
                   size={iconSize}
-                  className="icon"
-                  aria-hidden
-                />
+                  type="neutral"
+                  variant="secondary"
+                  aria-hidden>
+                  <Icon icon="search" />
+                </IconShell>
               </InputGroupText>
             </InputGroupAddon>
             <InputGroupInput
@@ -326,8 +330,8 @@ export function InputGroupDeleteOnFocus() {
                   setValue('');
                   focusControl();
                 }}>
-                <IconShell size="sm" variant="secondary">
-                  <Icon icon="backspace" aria-hidden />
+                <IconShell size="sm" type="neutral" hoverable>
+                  <Icon icon="backspace" />
                 </IconShell>
               </InputGroupButton>
             </InputGroupAddon>

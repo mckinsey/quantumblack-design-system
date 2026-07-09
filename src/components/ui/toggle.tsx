@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 
 type ToggleVariant = 'secondary' | 'outline' | 'ghost';
 type ToggleSize =
+  | 'xxs'
   | 'xs'
   | 'sm'
   | 'default'
