@@ -638,7 +638,7 @@ function SidebarMenuButton({
 
 const sidebarMenuIconButtonVariants = cva(
   [
-    'peer/menu-button flex w-full items-center justify-center gap-2 overflow-hidden rounded-none p-0',
+    'peer/menu-button relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-none p-0',
     'ring-stroke-status-focus outline-hidden transition-[width,height,padding,background-color]',
     'group-has-data-[sidebar=menu-action]/menu-item:pr-8',
     'group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2!',
@@ -646,14 +646,16 @@ const sidebarMenuIconButtonVariants = cva(
     'focus-visible:ring-1',
     'active:bg-stateslayer-overlay-active-inverse active:text-fg-primary',
     'data-[active=true]:bg-stateslayer-overlay-active-inverse data-[active=true]:text-fg-primary',
+    'data-[active=true]:before:bg-fill-active-inverse data-[active=true]:before:absolute data-[active=true]:before:left-0 data-[active=true]:before:w-1 data-[active=true]:before:content-[""]',
     'disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50',
     'data-[state=open]:hover:bg-stateslayer-hover data-[state=open]:hover:text-fg-primary',
   ],
   {
     variants: {
       size: {
-        default: 'size-16',
-        lg: 'size-20 group-data-[collapsible=icon]:p-0!',
+        default:
+          'size-16 data-[active=true]:before:top-3 data-[active=true]:before:h-10',
+        lg: 'size-20 group-data-[collapsible=icon]:p-0! data-[active=true]:before:top-4 data-[active=true]:before:h-12',
       },
     },
     defaultVariants: {
@@ -938,7 +940,7 @@ function SidebarNavRail({ className, ...props }: React.ComponentProps<'div'>) {
       data-slot="sidebar-nav-rail"
       data-sidebar="nav-rail"
       className={cn(
-        'flex w-(--sidebar-width-icon) shrink-0 flex-col pb-7',
+        'bg-surface-primary relative z-30 flex w-(--sidebar-width-icon) shrink-0 flex-col pb-7',
         className,
       )}
       {...props}
@@ -1014,18 +1016,16 @@ function SidebarNavMenu({
         data-mode={mode}
         data-state={mode === 'overlay' ? (open ? 'open' : 'closed') : undefined}
         className={cn(
-          'bg-surface-primary flex flex-col overflow-y-auto pt-4',
-          panelWidth,
-          mode === 'inline' && 'shrink-0',
+          'bg-surface-primary flex flex-col pt-4',
+          mode === 'inline' && ['shrink-0 overflow-y-auto', panelWidth],
           mode === 'overlay' &&
             !isMobile && [
-              'absolute top-0 bottom-0 z-20 transition-[transform,opacity] duration-200 ease-linear',
-              shell.side === 'left' ? 'left-full' : 'right-full',
-              open
-                ? 'translate-x-0 opacity-100'
-                : shell.side === 'left'
-                  ? 'pointer-events-none -translate-x-2 opacity-0'
-                  : 'pointer-events-none translate-x-2 opacity-0',
+              'absolute top-0 bottom-0 z-20 overflow-hidden transition-[width] duration-250 ease-out',
+              shell.side === 'left'
+                ? 'left-(--sidebar-width-icon) ml-0.5'
+                : 'right-(--sidebar-width-icon) mr-0.5',
+              open ? [panelWidth, 'overflow-y-auto'] : 'w-0',
+              !open && 'pointer-events-none',
             ],
           className,
         )}
