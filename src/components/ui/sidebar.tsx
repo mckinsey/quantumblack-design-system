@@ -61,13 +61,6 @@ type SidebarContextProps = {
 
 const SidebarContext = React.createContext<SidebarContextProps | null>(null);
 
-type SidebarShell = {
-  side: 'left' | 'right';
-  size: SidebarSize;
-};
-
-const SidebarShellContext = React.createContext<SidebarShell | null>(null);
-
 function useSidebar() {
   const context = React.useContext(SidebarContext);
   if (!context) {
@@ -75,13 +68,6 @@ function useSidebar() {
   }
 
   return context;
-}
-
-function useSidebarShell(): SidebarShell {
-  const shell = React.useContext(SidebarShellContext);
-  const { size } = useSidebar();
-
-  return shell ?? { side: 'left', size };
 }
 
 function SidebarProvider({
@@ -219,29 +205,25 @@ function Sidebar({
   const sizeVars = sidebarSizeStyle(size);
 
   if (collapsible === 'none') {
-    const shellValue = React.useMemo(() => ({ side, size }), [side, size]);
-
     return (
-      <SidebarShellContext.Provider value={shellValue}>
-        <nav
-          aria-label="Primary"
-          data-slot="sidebar"
-          data-side={side}
-          data-size={size}
-          style={
-            {
-              ...sidebarSizeStyle(size, true),
-              ...style,
-            } as React.CSSProperties
-          }
-          className={cn(
-            'bg-surface-primary text-fg-primary relative flex h-full w-auto flex-row gap-0.5',
-            className,
-          )}
-          {...props}>
-          {children}
-        </nav>
-      </SidebarShellContext.Provider>
+      <nav
+        aria-label="Primary"
+        data-slot="sidebar"
+        data-side={side}
+        data-size={size}
+        style={
+          {
+            ...sidebarSizeStyle(size, true),
+            ...style,
+          } as React.CSSProperties
+        }
+        className={cn(
+          'bg-surface-primary text-fg-primary relative flex h-full w-auto flex-row gap-0.5',
+          className,
+        )}
+        {...props}>
+        {children}
+      </nav>
     );
   }
 
@@ -945,6 +927,7 @@ const sidebarNavMenuPanelWidth: Record<SidebarSize, string> = {
 
 function SidebarNavMenu({
   mode = 'inline',
+  side = 'left',
   open: openProp,
   defaultOpen = false,
   onOpenChange,
@@ -953,12 +936,13 @@ function SidebarNavMenu({
   ...props
 }: Omit<React.ComponentProps<'nav'>, 'children'> & {
   mode?: 'inline' | 'overlay';
+  side?: 'left' | 'right';
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   children?: React.ReactNode;
 }) {
-  const shell = useSidebarShell();
+  const { size } = useSidebar();
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);
   const open = openProp ?? uncontrolledOpen;
 
@@ -988,7 +972,7 @@ function SidebarNavMenu({
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [mode, open, setOpen]);
 
-  const panelWidth = sidebarNavMenuPanelWidth[shell.size];
+  const panelWidth = sidebarNavMenuPanelWidth[size];
 
   return (
     <nav
@@ -1001,7 +985,7 @@ function SidebarNavMenu({
         mode === 'inline' && ['shrink-0 overflow-y-auto', panelWidth],
         mode === 'overlay' && [
           'absolute top-0 bottom-0 z-20 overflow-hidden transition-[width] duration-250 ease-out',
-          shell.side === 'left'
+          side === 'left'
             ? 'left-(--sidebar-width-icon) ml-0.5'
             : 'right-(--sidebar-width-icon) mr-0.5',
           open ? [panelWidth, 'overflow-y-auto'] : 'w-0',
@@ -1019,7 +1003,7 @@ function SidebarNavMenuHeader({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
-  const { size } = useSidebarShell();
+  const { size } = useSidebar();
 
   return (
     <div
@@ -1086,7 +1070,7 @@ function SidebarNavMenuButton({
   badge?: React.ReactNode;
   showChevron?: boolean;
 }) {
-  const { size } = useSidebarShell();
+  const { size } = useSidebar();
   const Comp = asChild ? Slot : 'button';
   const shellVariant = isActive ? 'primary' : 'secondary';
 
@@ -1167,7 +1151,7 @@ function SidebarNavMenuSubButton({
   asChild?: boolean;
   isActive?: boolean;
 }) {
-  const { size } = useSidebarShell();
+  const { size } = useSidebar();
   const Comp = asChild ? Slot : 'button';
 
   return (
