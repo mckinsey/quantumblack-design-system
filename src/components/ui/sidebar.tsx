@@ -331,16 +331,13 @@ function SidebarTrigger({
   );
 }
 
-function SidebarResizeRail({
-  className,
-  ...props
-}: React.ComponentProps<'button'>) {
+function SidebarRail({ className, ...props }: React.ComponentProps<'button'>) {
   const { toggleSidebar } = useSidebar();
 
   return (
     <button
       data-sidebar="rail"
-      data-slot="sidebar-resize-rail"
+      data-slot="sidebar-rail"
       aria-label="Toggle Sidebar"
       tabIndex={-1}
       onClick={toggleSidebar}
@@ -358,8 +355,6 @@ function SidebarResizeRail({
     />
   );
 }
-
-const SidebarRail = SidebarResizeRail;
 
 function SidebarInset({ className, ...props }: React.ComponentProps<'main'>) {
   return (
