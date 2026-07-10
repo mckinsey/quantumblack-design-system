@@ -11,9 +11,9 @@ const labelVariants = cva(
   {
     variants: {
       size: {
-        sm: 'text-xs leading-4',
-        default: 'text-sm leading-5 tracking-[-0.112px]',
-        lg: 'text-base leading-6 tracking-[-0.128px]',
+        sm: 'label-small-primary',
+        default: 'label-regular-primary',
+        lg: 'label-large-primary',
       },
       disabled: {
         false: 'text-fg-secondary',

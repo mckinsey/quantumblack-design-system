@@ -1,91 +1,54 @@
 'use client';
 
-import * as SwitchPrimitive from '@radix-ui/react-switch';
-import { type VariantProps, cva } from 'class-variance-authority';
-import * as React from 'react';
+import { Switch as SwitchPrimitive } from '@base-ui/react/switch';
 
 import { cn } from '@/lib/utils';
 
-const switchVariants = cva(
-  [
-    'group inline-flex shrink-0 items-center relative',
-    'border border-stroke-secondary data-[state=checked]:border-stroke-primary-inverse',
-    'transition-all',
-    'bg-fill-muted data-[state=checked]:bg-fill-primary',
-    'focus-visible:outline-[2px] focus-visible:outline-stroke-status-focus',
-    'focus-visible:border-stroke-active',
-    'data-[state=checked]:focus-visible:border-stroke-active-inverse data-[state=checked]:focus-visible:bg-fill-active',
-    'disabled:cursor-not-allowed',
-    'disabled:border-stroke-tertiary disabled:data-[state=checked]:border-stroke-tertiary',
-    'disabled:data-[state=checked]:bg-fill-muted',
-  ].join(' '),
-  {
-    variants: {
-      size: {
-        sm: 'w-6 h-3 rounded-full border-[0.5px]',
-        default: 'w-8 h-4 rounded-full border',
-        lg: 'w-10 h-5 rounded-full border',
-      },
-    },
-    defaultVariants: {
-      size: 'default',
-    },
-  },
-);
-
-const switchThumbVariants = cva(
-  [
-    'block pointer-events-none rounded-full',
-    'bg-fill-secondary data-[state=checked]:bg-fill-active-inverse',
-    'data-[state=unchecked]:translate-x-0.5',
-    'ring-0 transition-transform',
-    'data-disabled:bg-fill-disabled data-disabled:cursor-not-allowed data-disabled:data-[state=checked]:bg-fill-disabled',
-  ].join(' '),
-  {
-    variants: {
-      size: {
-        sm: 'size-2 data-[state=checked]:translate-x-3.5',
-        default: 'size-2.5 data-[state=checked]:translate-x-4.75',
-        lg: 'size-3.5 data-[state=checked]:translate-x-5.75',
-      },
-    },
-    defaultVariants: {
-      size: 'default',
-    },
-  },
-);
-
-/**
- * Component to render a switch
- * @param className - The class name to apply to the switch
- * @param size - The size of the switch: 'sm', 'default', or 'lg'
- * @param props - Additional props to pass to the switch
- * @returns A React component
- */
 function Switch({
   className,
-  size,
+  size = 'default',
   ...props
-}: React.ComponentProps<typeof SwitchPrimitive.Root> &
-  VariantProps<typeof switchVariants>) {
+}: SwitchPrimitive.Root.Props & {
+  size?: 'sm' | 'default' | 'lg';
+}) {
   return (
     <SwitchPrimitive.Root
       data-slot="switch"
-      className={cn(switchVariants({ size }), className)}
+      data-size={size}
+      className={cn(
+        'peer group/switch relative inline-flex shrink-0 items-center rounded-full transition-all outline-none',
+        "after:absolute after:-inset-x-3 after:-inset-y-2 after:content-['']",
+        'border-stroke-secondary data-checked:border-stroke-primary-inverse border',
+        'bg-fill-muted data-checked:bg-fill-active',
+        'focus-visible:outline-stroke-status-focus focus-visible:border-stroke-active focus-visible:outline-[2px]',
+        'data-checked:focus-visible:border-stroke-active-inverse data-checked:focus-visible:bg-fill-active',
+        'data-disabled:border-stroke-tertiary data-disabled:data-checked:border-stroke-tertiary data-disabled:cursor-not-allowed',
+        'data-disabled:data-checked:bg-fill-muted',
+        'data-[size=sm]:h-3 data-[size=sm]:w-6 data-[size=sm]:border-[0.5px]',
+        'data-[size=default]:h-4 data-[size=default]:w-8',
+        'data-[size=lg]:h-5 data-[size=lg]:w-10',
+        className,
+      )}
       {...props}>
       <SwitchPrimitive.Thumb
         data-slot="switch-thumb"
-        className={cn(switchThumbVariants({ size }))}
+        className={cn(
+          'pointer-events-none block rounded-full ring-0 transition-transform',
+          'bg-fill-secondary data-checked:bg-fill-active-inverse',
+          'group-data-[size=default]/switch:size-2.5 group-data-[size=lg]/switch:size-3.5 group-data-[size=sm]/switch:size-2',
+          'group-data-[size=default]/switch:data-unchecked:translate-x-0.5 group-data-[size=lg]/switch:data-unchecked:translate-x-0.5 group-data-[size=sm]/switch:data-unchecked:translate-x-0.5',
+          'group-data-[size=default]/switch:data-checked:translate-x-4.75 group-data-[size=lg]/switch:data-checked:translate-x-5.75 group-data-[size=sm]/switch:data-checked:translate-x-3.5',
+          'data-disabled:bg-fill-disabled data-disabled:data-checked:bg-fill-disabled',
+        )}
       />
       {size === 'lg' && (
         <span
           className={cn(
-            'block size-1 rounded-full',
-            'absolute top-1/2 right-1 -translate-y-1/2',
+            'absolute top-1/2 right-1 block size-1 -translate-y-1/2 rounded-full',
             'border-stroke-secondary border-[0.5px]',
-            'group-data-[state=checked]:hidden',
-            'group-focus-visible:border-stroke-active',
-            'group-disabled:border-stroke-tertiary',
+            'group-data-checked/switch:hidden',
+            'group-focus-visible/switch:border-stroke-active',
+            'group-data-disabled/switch:border-stroke-tertiary',
           )}
         />
       )}
@@ -93,4 +56,4 @@ function Switch({
   );
 }
 
-export { Switch, switchVariants };
+export { Switch };
