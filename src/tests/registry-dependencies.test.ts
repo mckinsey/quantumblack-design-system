@@ -157,6 +157,15 @@ describe('registry.json dependency coverage', () => {
       }
 
       const declaredDeps = registryDepNames(item.registryDependencies);
+      const bundledUiBasenames = new Set(
+        (item.files ?? [])
+          .filter(
+            f =>
+              f.type === 'registry:ui' &&
+              f.path.replace(/\\/g, '/').startsWith('src/components/ui/'),
+          )
+          .map(f => path.basename(f.path, path.extname(f.path))),
+      );
 
       const uiDepFiles =
         item.files?.filter(
@@ -203,7 +212,7 @@ describe('registry.json dependency coverage', () => {
 
           const base = path.basename(resolved, path.extname(resolved));
 
-          if (base === item.name) {
+          if (base === item.name || bundledUiBasenames.has(base)) {
             continue;
           }
 

@@ -34,6 +34,13 @@ const SIDEBAR_WIDTH_ICON = '4rem';
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b';
 
 type SidebarSide = 'left' | 'right';
+type SidebarSize = 'default' | 'lg';
+type SidebarLayout = 'sidebar' | 'nav';
+
+const sidebarNavIconWidth: Record<SidebarSize, string> = {
+  default: '4rem',
+  lg: '5rem',
+};
 
 type SidebarContextProps = {
   state: 'expanded' | 'collapsed';
@@ -43,6 +50,9 @@ type SidebarContextProps = {
   setOpenMobile: (open: boolean) => void;
   isMobile: boolean;
   toggleSidebar: () => void;
+  size: SidebarSize;
+  side: SidebarSide;
+  layout: SidebarLayout;
 };
 
 const SidebarContext = React.createContext<SidebarContextProps | null>(null);
@@ -60,6 +70,9 @@ function SidebarProvider({
   defaultOpen = true,
   open: openProp,
   onOpenChange: setOpenProp,
+  size = 'default',
+  side = 'left',
+  layout = 'sidebar',
   className,
   style,
   children,
@@ -68,6 +81,9 @@ function SidebarProvider({
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  size?: SidebarSize;
+  side?: SidebarSide;
+  layout?: SidebarLayout;
 }) {
   const isMobile = useIsMobile();
   const [openMobile, setOpenMobile] = React.useState(false);
@@ -115,6 +131,10 @@ function SidebarProvider({
   // We add a state so that we can do data-state="expanded" or "collapsed".
   // This makes it easier to style the sidebar with Tailwind classes.
   const state = open ? 'expanded' : 'collapsed';
+  const sidebarWidth =
+    layout === 'nav' ? sidebarNavIconWidth[size] : SIDEBAR_WIDTH;
+  const iconWidth =
+    layout === 'nav' ? sidebarNavIconWidth[size] : SIDEBAR_WIDTH_ICON;
 
   const contextValue = React.useMemo<SidebarContextProps>(
     () => ({
@@ -125,8 +145,22 @@ function SidebarProvider({
       openMobile,
       setOpenMobile,
       toggleSidebar,
+      size,
+      side,
+      layout,
     }),
-    [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar],
+    [
+      state,
+      open,
+      setOpen,
+      isMobile,
+      openMobile,
+      setOpenMobile,
+      toggleSidebar,
+      size,
+      side,
+      layout,
+    ],
   );
 
   return (
@@ -136,8 +170,8 @@ function SidebarProvider({
           data-slot="sidebar-wrapper"
           style={
             {
-              '--sidebar-width': SIDEBAR_WIDTH,
-              '--sidebar-width-icon': SIDEBAR_WIDTH_ICON,
+              '--sidebar-width': sidebarWidth,
+              '--sidebar-width-icon': iconWidth,
               ...style,
             } as React.CSSProperties
           }
@@ -735,3 +769,12 @@ export {
   SidebarTrigger,
   useSidebar,
 };
+
+export {
+  SidebarFooterButton,
+  SidebarMenuIconButton,
+  SidebarNav,
+  SidebarNavMenu,
+  SidebarNavRail,
+  useSidebarNavMenuOverlay,
+} from './sidebar-nav';

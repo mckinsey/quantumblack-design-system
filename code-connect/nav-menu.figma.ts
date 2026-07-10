@@ -1,5 +1,5 @@
 // url=<QBDS_NAV_MENU>
-// source=src/components/ui/sidebar.tsx
+// source=src/components/ui/sidebar-nav.tsx
 // component=SidebarNavMenu
 import figma from 'figma';
 
@@ -14,16 +14,16 @@ const items = figma.properties.children(['NavMenu/Item', 'NavMenu/Header']);
 
 export default {
   example: figma.code`
-    <SidebarProvider size="${size}">
-      <Sidebar collapsible="none">
+    <SidebarProvider layout="nav" size="${size}">
+      <SidebarNav>
         <SidebarNavMenu>
           ${figma.helpers.react.renderChildren(items)}
         </SidebarNavMenu>
-      </Sidebar>
+      </SidebarNav>
     </SidebarProvider>
   `,
   imports: [
-    'import { Sidebar, SidebarNavMenu, SidebarProvider } from "@/components/ui/sidebar"',
+    'import { SidebarNav, SidebarNavMenu, SidebarProvider } from "@/components/ui/sidebar"',
   ],
   id: 'nav-menu',
   metadata: { nestable: true },

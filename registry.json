@@ -657,7 +657,7 @@
       "name": "sidebar",
       "type": "registry:ui",
       "title": "Sidebar",
-      "description": "Composable sidebar with collapsible sections, mobile sheet, and icon mode. shadcn API.",
+      "description": "Composable sidebar with collapsible sections, mobile sheet, and icon mode, plus the QB LeftNav layer (icon rail + slide-out NavMenu). shadcn API.",
       "dependencies": [
         "@radix-ui/react-dialog",
         "@radix-ui/react-slot",
@@ -680,28 +680,6 @@
           "path": "src/components/ui/sidebar.tsx",
           "type": "registry:ui"
         },
-        {
-          "path": "src/hooks/use-mobile.ts",
-          "type": "registry:file",
-          "target": "hooks/use-mobile.ts"
-        }
-      ]
-    },
-    {
-      "name": "sidebar-nav",
-      "type": "registry:ui",
-      "title": "Sidebar Nav",
-      "description": "QB LeftNav layer for the sidebar: icon rail, slide-out NavMenu panel, and size variants. Composes the sidebar primitives.",
-      "dependencies": ["@radix-ui/react-slot", "class-variance-authority"],
-      "registryDependencies": [
-        "__REGISTRY_URL__/r/theme.json",
-        "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/sidebar.json",
-        "__REGISTRY_URL__/r/icon.json",
-        "__REGISTRY_URL__/r/icon-shell.json",
-        "__REGISTRY_URL__/r/tooltip.json"
-      ],
-      "files": [
         {
           "path": "src/components/ui/sidebar-nav.tsx",
           "type": "registry:ui"

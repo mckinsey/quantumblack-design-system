@@ -6,6 +6,7 @@ import {
   screen,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import type { ReactNode } from 'react';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { exampleComponentMaps } from '@/app/demo/[name]/index';
@@ -16,18 +17,36 @@ import {
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 import {
+  SidebarGroupLabel,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  SidebarProvider,
+} from '@/components/ui/sidebar';
+import {
   SidebarNav,
   SidebarNavMenu,
-  SidebarNavMenuButton,
-  SidebarNavMenuHeader,
-  SidebarNavMenuItem,
-  SidebarNavMenuSub,
-  SidebarNavMenuSubButton,
   SidebarNavRail,
   useSidebarNavMenuOverlay,
 } from '@/components/ui/sidebar-nav';
 
 const componentName = 'sidebar';
+
+function NavShell({
+  side = 'left',
+  children,
+}: {
+  side?: 'left' | 'right';
+  children: ReactNode;
+}) {
+  return (
+    <SidebarProvider layout="nav" side={side}>
+      <SidebarNav>{children}</SidebarNav>
+    </SidebarProvider>
+  );
+}
 
 afterEach(() => {
   cleanup();
@@ -51,48 +70,50 @@ describe(`${componentName} — nav menu examples render`, () => {
 describe('SidebarNavMenu — structure', () => {
   it('exposes data-slot on nav menu parts', () => {
     render(
-      <SidebarNav>
+      <NavShell>
         <SidebarNavMenu>
-          <SidebarNavMenuHeader>SECTION</SidebarNavMenuHeader>
-          <SidebarNavMenuItem>
-            <SidebarNavMenuButton>Group</SidebarNavMenuButton>
-          </SidebarNavMenuItem>
-          <SidebarNavMenuSub>
-            <SidebarNavMenuSubButton>Sub</SidebarNavMenuSubButton>
-          </SidebarNavMenuSub>
+          <SidebarGroupLabel>SECTION</SidebarGroupLabel>
+          <SidebarMenuItem>
+            <SidebarMenuButton>Group</SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuSub>
+            <SidebarMenuSubItem>
+              <SidebarMenuSubButton>Sub</SidebarMenuSubButton>
+            </SidebarMenuSubItem>
+          </SidebarMenuSub>
         </SidebarNavMenu>
-      </SidebarNav>,
+      </NavShell>,
     );
 
     expect(
       document.querySelector('[data-slot="sidebar-nav-menu"]'),
     ).toBeInTheDocument();
     expect(
-      document.querySelector('[data-slot="sidebar-nav-menu-header"]'),
+      document.querySelector('[data-slot="sidebar-group-label"]'),
     ).toBeInTheDocument();
     expect(
-      document.querySelector('[data-slot="sidebar-nav-menu-item"]'),
+      document.querySelector('[data-slot="sidebar-menu-item"]'),
     ).toBeInTheDocument();
     expect(
-      document.querySelector('[data-slot="sidebar-nav-menu-button"]'),
+      document.querySelector('[data-slot="sidebar-menu-button"]'),
     ).toBeInTheDocument();
     expect(
-      document.querySelector('[data-slot="sidebar-nav-menu-sub"]'),
+      document.querySelector('[data-slot="sidebar-menu-sub"]'),
     ).toBeInTheDocument();
     expect(
-      document.querySelector('[data-slot="sidebar-nav-menu-sub-button"]'),
+      document.querySelector('[data-slot="sidebar-menu-sub-button"]'),
     ).toBeInTheDocument();
   });
 
   it('sets aria-current on active row', () => {
     render(
-      <SidebarNav>
+      <NavShell>
         <SidebarNavMenu>
-          <SidebarNavMenuItem>
-            <SidebarNavMenuButton isActive>Active</SidebarNavMenuButton>
-          </SidebarNavMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton isActive>Active</SidebarMenuButton>
+          </SidebarMenuItem>
         </SidebarNavMenu>
-      </SidebarNav>,
+      </NavShell>,
     );
 
     expect(screen.getByRole('button', { name: 'Active' })).toHaveAttribute(
@@ -107,22 +128,24 @@ describe('SidebarNavMenu — collapsible group', () => {
     const user = userEvent.setup();
 
     render(
-      <SidebarNav>
+      <NavShell>
         <SidebarNavMenu>
           <Collapsible className="group/collapsible">
-            <SidebarNavMenuItem>
+            <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarNavMenuButton showChevron>Group</SidebarNavMenuButton>
+                <SidebarMenuButton>Group</SidebarMenuButton>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <SidebarNavMenuSub>
-                  <SidebarNavMenuSubButton>Sub-item</SidebarNavMenuSubButton>
-                </SidebarNavMenuSub>
+                <SidebarMenuSub>
+                  <SidebarMenuSubItem>
+                    <SidebarMenuSubButton>Sub-item</SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                </SidebarMenuSub>
               </CollapsibleContent>
-            </SidebarNavMenuItem>
+            </SidebarMenuItem>
           </Collapsible>
         </SidebarNavMenu>
-      </SidebarNav>,
+      </NavShell>,
     );
 
     const trigger = screen.getByRole('button', { name: 'Group' });
@@ -137,12 +160,12 @@ describe('SidebarNavMenu — collapsible group', () => {
 describe('SidebarNavMenu — overlay mode', () => {
   it('reflects open state via data-state', () => {
     const { rerender } = render(
-      <SidebarNav>
+      <NavShell>
         <SidebarNavRail />
         <SidebarNavMenu mode="overlay" open={false}>
-          <SidebarNavMenuHeader>SECTION</SidebarNavMenuHeader>
+          <SidebarGroupLabel>SECTION</SidebarGroupLabel>
         </SidebarNavMenu>
-      </SidebarNav>,
+      </NavShell>,
     );
 
     const menu = document.querySelector('[data-slot="sidebar-nav-menu"]');
@@ -150,12 +173,12 @@ describe('SidebarNavMenu — overlay mode', () => {
     expect(menu).toHaveAttribute('data-state', 'closed');
 
     rerender(
-      <SidebarNav>
+      <NavShell>
         <SidebarNavRail />
         <SidebarNavMenu mode="overlay" open>
-          <SidebarNavMenuHeader>SECTION</SidebarNavMenuHeader>
+          <SidebarGroupLabel>SECTION</SidebarGroupLabel>
         </SidebarNavMenu>
-      </SidebarNav>,
+      </NavShell>,
     );
 
     expect(menu).toHaveAttribute('data-state', 'open');
@@ -163,12 +186,12 @@ describe('SidebarNavMenu — overlay mode', () => {
 
   it('anchors overlay from Sidebar side=right', () => {
     render(
-      <SidebarNav side="right">
+      <NavShell side="right">
         <SidebarNavRail />
         <SidebarNavMenu mode="overlay" open>
-          <SidebarNavMenuHeader>SECTION</SidebarNavMenuHeader>
+          <SidebarGroupLabel>SECTION</SidebarGroupLabel>
         </SidebarNavMenu>
-      </SidebarNav>,
+      </NavShell>,
     );
 
     const menu = document.querySelector('[data-slot="sidebar-nav-menu"]');

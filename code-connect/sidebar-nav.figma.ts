@@ -39,32 +39,33 @@ if (avatarNode && avatarNode.type === 'INSTANCE') {
 
 export default {
   example: figma.code`
-    <SidebarNav size="${size}">
-      <SidebarNavRail>
-        <SidebarHeader>
-          <SidebarMenu>
-            ${figma.helpers.react.renderChildren(navItems)}
-          </SidebarMenu>
-        </SidebarHeader>
-        <SidebarFooter>
-          <SidebarSeparator className="mb-4" />
-          <SidebarMenu className="items-center gap-4">
-            ${figma.helpers.react.renderChildren(utilityItems)}
-          </SidebarMenu>
-          <SidebarSeparator className="mt-4 mb-6" />
-          <div className="flex justify-center">
-            ${avatarBlock}
-          </div>
-        </SidebarFooter>
-      </SidebarNavRail>
-    </SidebarNav>
+    <SidebarProvider layout="nav" size="${size}">
+      <SidebarNav>
+        <SidebarNavRail>
+          <SidebarHeader>
+            <SidebarMenu>
+              ${figma.helpers.react.renderChildren(navItems)}
+            </SidebarMenu>
+          </SidebarHeader>
+          <SidebarFooter>
+            <SidebarSeparator className="mb-4" />
+            <SidebarMenu className="items-center gap-4">
+              ${figma.helpers.react.renderChildren(utilityItems)}
+            </SidebarMenu>
+            <SidebarSeparator className="mt-4 mb-6" />
+            <div className="flex justify-center">
+              ${avatarBlock}
+            </div>
+          </SidebarFooter>
+        </SidebarNavRail>
+      </SidebarNav>
+    </SidebarProvider>
   `,
   imports: [
     'import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"',
     'import { Icon } from "@/components/ui/icon"',
     'import { IconShell } from "@/components/ui/icon-shell"',
-    'import { SidebarFooter, SidebarHeader, SidebarMenu, SidebarSeparator } from "@/components/ui/sidebar"',
-    'import { SidebarFooterButton, SidebarMenuIconButton, SidebarNav, SidebarNavRail } from "@/components/ui/sidebar-nav"',
+    'import { SidebarFooter, SidebarFooterButton, SidebarHeader, SidebarMenu, SidebarMenuIconButton, SidebarMenuItem, SidebarNav, SidebarNavRail, SidebarProvider, SidebarSeparator } from "@/components/ui/sidebar"',
   ],
   id: 'sidebar-nav',
   metadata: { nestable: true },

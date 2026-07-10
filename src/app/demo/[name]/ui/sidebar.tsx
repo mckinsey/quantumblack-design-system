@@ -17,26 +17,26 @@ import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import {
   SidebarFooter,
+  SidebarFooterButton,
+  SidebarGroup,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarInset,
   SidebarMenu,
-  SidebarMenuItem,
-  SidebarSeparator,
-} from '@/components/ui/sidebar';
-import {
-  SidebarFooterButton,
+  SidebarMenuButton,
   SidebarMenuIconButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
   SidebarNav,
   SidebarNavMenu,
-  SidebarNavMenuButton,
-  SidebarNavMenuHeader,
-  SidebarNavMenuItem,
-  SidebarNavMenuSub,
-  SidebarNavMenuSubButton,
   SidebarNavRail,
-  useSidebarNav,
+  SidebarProvider,
+  SidebarSeparator,
+  useSidebar,
   useSidebarNavMenuOverlay,
-} from '@/components/ui/sidebar-nav';
+} from '@/components/ui/sidebar';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 import { cn } from '@/lib/utils';
 
@@ -207,6 +207,18 @@ function navIcon(icon: string, active = false) {
   );
 }
 
+function navChevron() {
+  return (
+    <IconShell
+      size="sm"
+      type="neutral"
+      variant="secondary"
+      className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180">
+      <Icon icon="expand_more" />
+    </IconShell>
+  );
+}
+
 function NavMenuShowcaseContent({
   withIcons = false,
 }: {
@@ -214,86 +226,100 @@ function NavMenuShowcaseContent({
 }) {
   return (
     <>
-      {withIcons ? (
-        <SidebarNavMenuHeader>Workspace</SidebarNavMenuHeader>
-      ) : null}
+      <SidebarGroup>
+        {withIcons ? <SidebarGroupLabel>Workspace</SidebarGroupLabel> : null}
 
-      <SidebarNavMenuItem>
-        <SidebarNavMenuButton>
-          {withIcons ? navIcon('folder') : null}
-          Client programs
-        </SidebarNavMenuButton>
-      </SidebarNavMenuItem>
-
-      <SidebarNavMenuItem>
-        <SidebarNavMenuButton>
-          {withIcons ? navIcon('folder') : null}
-          Delivery pipeline
-        </SidebarNavMenuButton>
-      </SidebarNavMenuItem>
-
-      <Collapsible defaultOpen className="group/collapsible bg-fill-muted">
-        <SidebarNavMenuItem>
-          <CollapsibleTrigger asChild>
-            <SidebarNavMenuButton
-              showChevron
-              badge={
-                <Badge size="sm" variant="high-emphasis" outline>
-                  Live
-                </Badge>
-              }>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
               {withIcons ? navIcon('folder') : null}
-              Shared infrastructure
-            </SidebarNavMenuButton>
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <SidebarNavMenuSub>
-              <SidebarNavMenuSubButton isActive>
-                {withIcons ? navIcon('crop_free', true) : null}
-                API gateway
-              </SidebarNavMenuSubButton>
-              <SidebarNavMenuSubButton>
-                {withIcons ? navIcon('crop_free') : null}
-                Auth service
-              </SidebarNavMenuSubButton>
-              <SidebarNavMenuSubButton>
-                {withIcons ? navIcon('crop_free') : null}
-                Data sync
-              </SidebarNavMenuSubButton>
-            </SidebarNavMenuSub>
-          </CollapsibleContent>
-        </SidebarNavMenuItem>
-      </Collapsible>
+              <span>Client programs</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
 
-      <SidebarNavMenuItem>
-        <SidebarNavMenuButton>
-          {withIcons ? navIcon('folder') : null}
-          Archived projects
-        </SidebarNavMenuButton>
-      </SidebarNavMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              {withIcons ? navIcon('folder') : null}
+              <span>Delivery pipeline</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
 
-      <SidebarNavMenuHeader>Administration</SidebarNavMenuHeader>
+          <Collapsible defaultOpen className="group/collapsible">
+            <SidebarMenuItem>
+              <CollapsibleTrigger asChild>
+                <SidebarMenuButton>
+                  {withIcons ? navIcon('folder') : null}
+                  <span>Shared infrastructure</span>
+                  <Badge
+                    size="sm"
+                    variant="high-emphasis"
+                    outline
+                    className="ml-auto">
+                    Live
+                  </Badge>
+                  {navChevron()}
+                </SidebarMenuButton>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <SidebarMenuSub>
+                  <SidebarMenuSubItem>
+                    <SidebarMenuSubButton isActive>
+                      {withIcons ? navIcon('crop_free', true) : null}
+                      <span>API gateway</span>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                  <SidebarMenuSubItem>
+                    <SidebarMenuSubButton>
+                      {withIcons ? navIcon('crop_free') : null}
+                      <span>Auth service</span>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                  <SidebarMenuSubItem>
+                    <SidebarMenuSubButton>
+                      {withIcons ? navIcon('crop_free') : null}
+                      <span>Data sync</span>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                </SidebarMenuSub>
+              </CollapsibleContent>
+            </SidebarMenuItem>
+          </Collapsible>
 
-      <SidebarNavMenuItem>
-        <SidebarNavMenuButton>
-          {withIcons ? navIcon('folder') : null}
-          Team access
-        </SidebarNavMenuButton>
-      </SidebarNavMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              {withIcons ? navIcon('folder') : null}
+              <span>Archived projects</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarGroup>
 
-      <SidebarNavMenuItem>
-        <SidebarNavMenuButton>
-          {withIcons ? navIcon('folder') : null}
-          Integrations
-        </SidebarNavMenuButton>
-      </SidebarNavMenuItem>
+      <SidebarGroup>
+        <SidebarGroupLabel>Administration</SidebarGroupLabel>
 
-      <SidebarNavMenuItem>
-        <SidebarNavMenuButton>
-          {withIcons ? navIcon('folder') : null}
-          Audit log
-        </SidebarNavMenuButton>
-      </SidebarNavMenuItem>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              {withIcons ? navIcon('folder') : null}
+              <span>Team access</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              {withIcons ? navIcon('folder') : null}
+              <span>Integrations</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              {withIcons ? navIcon('folder') : null}
+              <span>Audit log</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarGroup>
     </>
   );
 }
@@ -310,53 +336,55 @@ function NavMenuContent({
   return (
     <>
       {sections.map(section => (
-        <div key={section.header}>
-          <SidebarNavMenuHeader>{section.header}</SidebarNavMenuHeader>
+        <SidebarGroup key={section.header}>
+          <SidebarGroupLabel>{section.header}</SidebarGroupLabel>
 
-          {section.links?.map(link => (
-            <SidebarNavMenuItem key={link.label}>
-              <SidebarNavMenuButton isActive={link.active}>
-                {withIcons ? navIcon(link.icon, link.active) : null}
-                {link.label}
-              </SidebarNavMenuButton>
-            </SidebarNavMenuItem>
-          ))}
+          <SidebarMenu>
+            {section.links?.map(link => (
+              <SidebarMenuItem key={link.label}>
+                <SidebarMenuButton isActive={link.active}>
+                  {withIcons ? navIcon(link.icon, link.active) : null}
+                  <span>{link.label}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
 
-          {section.group ? (
-            <Collapsible
-              defaultOpen
-              className="group/collapsible bg-fill-muted">
-              <SidebarNavMenuItem>
-                <CollapsibleTrigger asChild>
-                  <SidebarNavMenuButton
-                    showChevron
-                    badge={
-                      section.group.badge ? (
-                        <Badge size="sm" variant="high-emphasis" outline>
+            {section.group ? (
+              <Collapsible defaultOpen className="group/collapsible">
+                <SidebarMenuItem>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuButton>
+                      {withIcons ? navIcon(section.group.icon) : null}
+                      <span>{section.group.label}</span>
+                      {section.group.badge ? (
+                        <Badge
+                          size="sm"
+                          variant="high-emphasis"
+                          outline
+                          className="ml-auto">
                           {section.group.badge}
                         </Badge>
-                      ) : undefined
-                    }>
-                    {withIcons ? navIcon(section.group.icon) : null}
-                    {section.group.label}
-                  </SidebarNavMenuButton>
-                </CollapsibleTrigger>
-                <CollapsibleContent>
-                  <SidebarNavMenuSub>
-                    {section.group.items.map(item => (
-                      <SidebarNavMenuSubButton
-                        key={item.label}
-                        isActive={item.active}>
-                        {withIcons ? navIcon(item.icon, item.active) : null}
-                        {item.label}
-                      </SidebarNavMenuSubButton>
-                    ))}
-                  </SidebarNavMenuSub>
-                </CollapsibleContent>
-              </SidebarNavMenuItem>
-            </Collapsible>
-          ) : null}
-        </div>
+                      ) : null}
+                      {navChevron()}
+                    </SidebarMenuButton>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <SidebarMenuSub>
+                      {section.group.items.map(item => (
+                        <SidebarMenuSubItem key={item.label}>
+                          <SidebarMenuSubButton isActive={item.active}>
+                            {withIcons ? navIcon(item.icon, item.active) : null}
+                            <span>{item.label}</span>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
+                    </SidebarMenuSub>
+                  </CollapsibleContent>
+                </SidebarMenuItem>
+              </Collapsible>
+            ) : null}
+          </SidebarMenu>
+        </SidebarGroup>
       ))}
     </>
   );
@@ -369,7 +397,7 @@ function NavRailContent({
   active: NavId;
   onActive: (id: NavId) => void;
 }) {
-  const { size } = useSidebarNav();
+  const { size } = useSidebar();
   const iconSize = size === 'lg' ? 'lg' : 'default';
 
   return (
@@ -471,30 +499,36 @@ function LeftNavShell({
           'flex min-h-0 flex-1',
           sidebarSide === 'right' && 'flex-row-reverse',
         )}>
-        <SidebarNav size={size} side={sidebarSide}>
-          {showRail ? (
-            <NavRailContent
-              active={navOverlay.active}
-              onActive={handleRailActive}
-            />
-          ) : null}
-          {showNavMenu ? (
-            <SidebarNavMenu
-              mode={overlay ? 'overlay' : 'inline'}
-              open={overlay ? navOverlay.open : undefined}
-              onOpenChange={overlay ? navOverlay.setOpen : undefined}>
-              {showcaseMenu ? (
-                <NavMenuShowcaseContent withIcons={withIcons} />
-              ) : (
-                <NavMenuContent
-                  key={navOverlay.active}
-                  active={navOverlay.active}
-                  withIcons={withIcons}
-                />
-              )}
-            </SidebarNavMenu>
-          ) : null}
-        </SidebarNav>
+        <SidebarProvider
+          layout="nav"
+          size={size}
+          side={sidebarSide}
+          className="h-full min-h-0 w-auto">
+          <SidebarNav>
+            {showRail ? (
+              <NavRailContent
+                active={navOverlay.active}
+                onActive={handleRailActive}
+              />
+            ) : null}
+            {showNavMenu ? (
+              <SidebarNavMenu
+                mode={overlay ? 'overlay' : 'inline'}
+                open={overlay ? navOverlay.open : undefined}
+                onOpenChange={overlay ? navOverlay.setOpen : undefined}>
+                {showcaseMenu ? (
+                  <NavMenuShowcaseContent withIcons={withIcons} />
+                ) : (
+                  <NavMenuContent
+                    key={navOverlay.active}
+                    active={navOverlay.active}
+                    withIcons={withIcons}
+                  />
+                )}
+              </SidebarNavMenu>
+            ) : null}
+          </SidebarNav>
+        </SidebarProvider>
         <AppMain title={page.title} subtitle={page.subtitle} body={page.body} />
       </div>
     </div>
@@ -627,9 +661,14 @@ function NavRailFrame({ size }: { size: RailSize }) {
   const [active, setActive] = useState<NavId>('home');
 
   return (
-    <SidebarNav size={size} className="h-[840px] min-h-0 w-auto">
-      <NavRailContent active={active} onActive={setActive} />
-    </SidebarNav>
+    <SidebarProvider
+      layout="nav"
+      size={size}
+      className="h-[840px] min-h-0 w-auto">
+      <SidebarNav className="h-full min-h-0 w-auto">
+        <NavRailContent active={active} onActive={setActive} />
+      </SidebarNav>
+    </SidebarProvider>
   );
 }
 
@@ -679,11 +718,16 @@ function NavMenuStandalone({
 }) {
   return (
     <div className="h-[520px]">
-      <SidebarNav size={size} className="h-full min-h-0 w-auto">
-        <SidebarNavMenu className="h-full">
-          <NavMenuShowcaseContent withIcons={withIcons} />
-        </SidebarNavMenu>
-      </SidebarNav>
+      <SidebarProvider
+        layout="nav"
+        size={size}
+        className="h-full min-h-0 w-auto">
+        <SidebarNav className="h-full min-h-0 w-auto">
+          <SidebarNavMenu className="h-full">
+            <NavMenuShowcaseContent withIcons={withIcons} />
+          </SidebarNavMenu>
+        </SidebarNav>
+      </SidebarProvider>
     </div>
   );
 }
@@ -760,19 +804,13 @@ export function SidebarNavMenuSizes() {
 export const examples: DemoExample[] = [
   {
     name: 'SidebarApp',
-    title: 'LeftNav',
+    title: 'Sidebar',
     description:
       'Icon rail where each icon opens its own NavMenu from behind the rail. Open fullscreen for the full app shell.',
   },
   {
-    name: 'SidebarAppRight',
-    title: 'LeftNav · right side',
-    description:
-      'Same overlay NavMenu pattern with Sidebar on the right; overlay anchors from the rail inward.',
-  },
-  {
     name: 'SidebarSizes',
-    title: 'Icon rail sizes',
+    title: 'Sidebar sizes',
     description:
       'SidebarNavRail at default and lg, side by side. Open fullscreen for the rail in an app shell.',
   },
@@ -786,7 +824,6 @@ export const examples: DemoExample[] = [
 
 export const sidebar = createLegacyDemo('sidebar', examples, {
   SidebarApp: <SidebarApp />,
-  SidebarAppRight: <SidebarAppRight />,
   SidebarSizes: <SidebarSizes />,
   SidebarNavMenuSizes: <SidebarNavMenuSizes />,
 });

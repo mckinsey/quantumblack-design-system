@@ -1,6 +1,6 @@
 // url=<QBDS_NAV_MENU_ITEM>
 // source=src/components/ui/sidebar.tsx
-// component=SidebarNavMenuButton
+// component=SidebarMenuButton
 import figma from 'figma';
 
 const instance = figma.selectedInstance;
@@ -72,51 +72,51 @@ const iconTag = iconName
     `
   : '';
 
+const chevronTag = withChildren
+  ? `<IconShell size="sm" className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180">
+      <Icon icon="expand_more" />
+    </IconShell>`
+  : '';
+
 const button = figma.code`
-  <SidebarNavMenuButton${figma.helpers.react.renderProp(
+  <SidebarMenuButton${figma.helpers.react.renderProp(
     'isActive',
     isActive || undefined,
-  )}${figma.helpers.react.renderProp(
-    'disabled',
-    disabled || undefined,
-  )}${figma.helpers.react.renderProp(
-    'showChevron',
-    withChildren || undefined,
-  )}${
-    badgeCode.length ? figma.helpers.react.renderProp('badge', badgeCode) : ''
-  }>
-    ${iconTag}${label}
-  </SidebarNavMenuButton>
+  )}${figma.helpers.react.renderProp('disabled', disabled || undefined)}>
+    ${iconTag}<span>${label}</span>${
+      badgeCode.length ? badgeCode : ''
+    }${chevronTag}
+  </SidebarMenuButton>
 `;
 
 export default {
   example:
     withChildren && subItems.length
       ? figma.code`
-          <Collapsible defaultOpen className="group/collapsible bg-fill-muted">
-            <SidebarNavMenuItem>
+          <Collapsible defaultOpen className="group/collapsible">
+            <SidebarMenuItem>
               <CollapsibleTrigger asChild>
                 ${button}
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <SidebarNavMenuSub>
+                <SidebarMenuSub>
                   ${figma.helpers.react.renderChildren(subItems)}
-                </SidebarNavMenuSub>
+                </SidebarMenuSub>
               </CollapsibleContent>
-            </SidebarNavMenuItem>
+            </SidebarMenuItem>
           </Collapsible>
         `
       : figma.code`
-          <SidebarNavMenuItem>
+          <SidebarMenuItem>
             ${button}
-          </SidebarNavMenuItem>
+          </SidebarMenuItem>
         `,
   imports: [
     'import { Badge } from "@/components/ui/badge"',
     'import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"',
     'import { Icon } from "@/components/ui/icon"',
     'import { IconShell } from "@/components/ui/icon-shell"',
-    'import { SidebarNavMenuButton, SidebarNavMenuItem, SidebarNavMenuSub, SidebarNavMenuSubButton } from "@/components/ui/sidebar"',
+    'import { SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem } from "@/components/ui/sidebar"',
   ],
   id: 'nav-menu-item',
   metadata: { nestable: true },
