@@ -430,28 +430,48 @@ function SidebarGroup({ className, ...props }: React.ComponentProps<'div'>) {
     <div
       data-slot="sidebar-group"
       data-sidebar="group"
-      className={cn('relative flex w-full min-w-0 flex-col p-2', className)}
+      className={cn('relative flex w-full min-w-0 flex-col', className)}
       {...props}
     />
   );
 }
 
+const sidebarGroupLabelVariants = cva(
+  [
+    'text-fg-tertiary uppercase ring-stroke-status-focus flex shrink-0 items-center outline-hidden focus-visible:ring-2',
+  ],
+  {
+    variants: {
+      size: {
+        default: 'paragraph-regular-primary px-2 pt-3 pb-2',
+        lg: 'paragraph-large-primary pt-3 pr-3 pb-2 pl-2',
+      },
+    },
+    defaultVariants: {
+      size: 'default',
+    },
+  },
+);
+
 function SidebarGroupLabel({
   className,
   asChild = false,
+  size: sizeProp,
   ...props
-}: React.ComponentProps<'div'> & { asChild?: boolean }) {
+}: React.ComponentProps<'div'> & {
+  asChild?: boolean;
+  size?: SidebarSize;
+}) {
   const Comp = asChild ? Slot : 'div';
+  const { size: ctxSize } = useSidebar();
+  const size = sizeProp ?? ctxSize;
 
   return (
     <Comp
       data-slot="sidebar-group-label"
       data-sidebar="group-label"
-      className={cn(
-        'text-fg-primary/70 ring-stroke-status-focus flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium outline-hidden transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0',
-        'group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0',
-        className,
-      )}
+      data-size={size}
+      className={cn(sidebarGroupLabelVariants({ size }), className)}
       {...props}
     />
   );
@@ -517,13 +537,28 @@ function SidebarMenuItem({ className, ...props }: React.ComponentProps<'li'>) {
 }
 
 const sidebarMenuButtonVariants = cva(
-  'peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-none p-2 text-left text-sm outline-hidden ring-stroke-status-focus transition-[width,height,padding] text-fg-secondary hover:bg-stateslayer-overlay-hover hover:text-fg-primary focus-visible:ring-2 active:bg-stateslayer-overlay-pressed active:text-fg-primary disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-fill-onsurface-ui-3 data-[active=true]:font-semibold data-[active=true]:text-fg-primary data-[active=true]:rounded-none data-[state=open]:hover:bg-stateslayer-overlay-hover data-[state=open]:hover:text-fg-primary group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0',
+  [
+    'peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-none p-2 text-left text-sm',
+    'outline-hidden ring-stroke-status-focus transition-[width,height,padding]',
+    '[&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0',
+    'text-fg-secondary hover:bg-stateslayer-overlay-hover hover:text-fg-primary',
+    'focus-visible:ring-2',
+    'active:bg-stateslayer-overlay-pressed active:text-fg-primary',
+    'disabled:pointer-events-none disabled:opacity-50',
+    'aria-disabled:pointer-events-none aria-disabled:opacity-50',
+    'group-has-data-[sidebar=menu-action]/menu-item:pr-8',
+    'data-[active=true]:rounded-none data-[active=true]:bg-fill-onsurface-ui-3 data-[active=true]:font-semibold data-[active=true]:text-fg-primary',
+    'data-[state=open]:hover:bg-stateslayer-overlay-hover data-[state=open]:hover:text-fg-primary',
+    'group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2!',
+  ],
   {
     variants: {
       variant: {
         default: 'hover:bg-stateslayer-overlay-hover hover:text-fg-primary',
-        outline:
-          'bg-surface-base border border-stroke-tertiary hover:bg-stateslayer-overlay-hover hover:text-fg-primary hover:border-stroke-tertiary-hover',
+        outline: [
+          'bg-surface-base border border-stroke-tertiary',
+          'hover:bg-stateslayer-overlay-hover hover:text-fg-primary hover:border-stroke-tertiary-hover',
+        ],
       },
       size: {
         default: 'h-8 text-sm',
@@ -775,6 +810,10 @@ export {
   SidebarMenuIconButton,
   SidebarNav,
   SidebarNavMenu,
+  SidebarNavMenuButton,
   SidebarNavRail,
   useSidebarNavMenuOverlay,
+  SidebarNavMenuItem,
+  SidebarNavMenuSub,
+  SidebarNavMenuSubButton,
 } from './sidebar-nav';

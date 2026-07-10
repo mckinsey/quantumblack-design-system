@@ -18,16 +18,16 @@ import {
 } from '@/components/ui/collapsible';
 import {
   SidebarGroupLabel,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarProvider,
 } from '@/components/ui/sidebar';
 import {
   SidebarNav,
   SidebarNavMenu,
+  SidebarNavMenuButton,
+  SidebarNavMenuItem,
+  SidebarNavMenuSub,
+  SidebarNavMenuSubButton,
   SidebarNavRail,
   useSidebarNavMenuOverlay,
 } from '@/components/ui/sidebar-nav';
@@ -36,13 +36,15 @@ const componentName = 'sidebar';
 
 function NavShell({
   side = 'left',
+  size,
   children,
 }: {
   side?: 'left' | 'right';
+  size?: 'default' | 'lg';
   children: ReactNode;
 }) {
   return (
-    <SidebarProvider layout="nav" side={side}>
+    <SidebarProvider layout="nav" side={side} size={size}>
       <SidebarNav>{children}</SidebarNav>
     </SidebarProvider>
   );
@@ -73,14 +75,14 @@ describe('SidebarNavMenu — structure', () => {
       <NavShell>
         <SidebarNavMenu>
           <SidebarGroupLabel>SECTION</SidebarGroupLabel>
-          <SidebarMenuItem>
-            <SidebarMenuButton>Group</SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuSub>
+          <SidebarNavMenuItem>
+            <SidebarNavMenuButton>Group</SidebarNavMenuButton>
+          </SidebarNavMenuItem>
+          <SidebarNavMenuSub>
             <SidebarMenuSubItem>
-              <SidebarMenuSubButton>Sub</SidebarMenuSubButton>
+              <SidebarNavMenuSubButton>Sub</SidebarNavMenuSubButton>
             </SidebarMenuSubItem>
-          </SidebarMenuSub>
+          </SidebarNavMenuSub>
         </SidebarNavMenu>
       </NavShell>,
     );
@@ -95,23 +97,37 @@ describe('SidebarNavMenu — structure', () => {
       document.querySelector('[data-slot="sidebar-menu-item"]'),
     ).toBeInTheDocument();
     expect(
-      document.querySelector('[data-slot="sidebar-menu-button"]'),
+      document.querySelector('[data-slot="sidebar-nav-menu-button"]'),
     ).toBeInTheDocument();
     expect(
       document.querySelector('[data-slot="sidebar-menu-sub"]'),
     ).toBeInTheDocument();
     expect(
-      document.querySelector('[data-slot="sidebar-menu-sub-button"]'),
+      document.querySelector('[data-slot="sidebar-nav-menu-sub-button"]'),
     ).toBeInTheDocument();
+  });
+
+  it('reflects provider size on group label via data-size', () => {
+    render(
+      <NavShell size="lg">
+        <SidebarNavMenu>
+          <SidebarGroupLabel>SECTION</SidebarGroupLabel>
+        </SidebarNavMenu>
+      </NavShell>,
+    );
+
+    expect(
+      document.querySelector('[data-slot="sidebar-group-label"]'),
+    ).toHaveAttribute('data-size', 'lg');
   });
 
   it('sets aria-current on active row', () => {
     render(
       <NavShell>
         <SidebarNavMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton isActive>Active</SidebarMenuButton>
-          </SidebarMenuItem>
+          <SidebarNavMenuItem>
+            <SidebarNavMenuButton isActive>Active</SidebarNavMenuButton>
+          </SidebarNavMenuItem>
         </SidebarNavMenu>
       </NavShell>,
     );
@@ -131,18 +147,18 @@ describe('SidebarNavMenu — collapsible group', () => {
       <NavShell>
         <SidebarNavMenu>
           <Collapsible className="group/collapsible">
-            <SidebarMenuItem>
+            <SidebarNavMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton>Group</SidebarMenuButton>
+                <SidebarNavMenuButton>Group</SidebarNavMenuButton>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <SidebarMenuSub>
+                <SidebarNavMenuSub>
                   <SidebarMenuSubItem>
-                    <SidebarMenuSubButton>Sub-item</SidebarMenuSubButton>
+                    <SidebarNavMenuSubButton>Sub-item</SidebarNavMenuSubButton>
                   </SidebarMenuSubItem>
-                </SidebarMenuSub>
+                </SidebarNavMenuSub>
               </CollapsibleContent>
-            </SidebarMenuItem>
+            </SidebarNavMenuItem>
           </Collapsible>
         </SidebarNavMenu>
       </NavShell>,
@@ -153,6 +169,7 @@ describe('SidebarNavMenu — collapsible group', () => {
 
     await user.click(trigger);
     expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    expect(trigger).toHaveAttribute('data-state', 'open');
     expect(screen.getByText('Sub-item')).toBeInTheDocument();
   });
 });

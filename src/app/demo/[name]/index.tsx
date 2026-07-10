@@ -248,6 +248,7 @@ import {
 import {
   SidebarApp,
   SidebarAppRight,
+  SidebarNavMenuIcons,
   SidebarNavMenuSizes,
   SidebarSizes,
   sidebar,
@@ -603,6 +604,7 @@ export const exampleComponentMaps: Record<
     SidebarAppRight,
     SidebarSizes,
     SidebarNavMenuSizes,
+    SidebarNavMenuIcons,
   },
   slider: {
     SliderDemo,

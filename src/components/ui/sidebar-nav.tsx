@@ -4,7 +4,13 @@ import { Slot } from '@radix-ui/react-slot';
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
-import { useSidebar } from '@/components/ui/sidebar';
+import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
+import {
+  SidebarMenuItem,
+  SidebarMenuSub,
+  useSidebar,
+} from '@/components/ui/sidebar';
 import {
   Tooltip,
   TooltipContent,
@@ -195,6 +201,89 @@ function SidebarNavRail({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
+const sidebarNavMenuButtonVariants = cva(
+  [
+    'flex w-full min-w-0 items-center gap-2 text-left outline-hidden ring-stroke-status-focus transition-colors',
+    'cursor-pointer',
+    'text-fg-tertiary hover:bg-stateslayer-overlay-hover hover:text-fg-primary',
+    'active:bg-stateslayer-overlay-pressed active:text-fg-primary',
+    'focus-visible:ring-2',
+    'disabled:pointer-events-none disabled:text-fg-disabled',
+    'aria-disabled:pointer-events-none aria-disabled:text-fg-disabled',
+    'data-[active=true]:text-fg-primary',
+    'data-[state=open]:bg-fill-muted data-[state=open]:text-fg-primary data-[state=open]:hover:bg-fill-muted',
+  ],
+  {
+    variants: {
+      size: {
+        default: 'paragraph-regular-primary px-2 py-3',
+        lg: 'paragraph-large-primary p-3',
+      },
+    },
+    defaultVariants: {
+      size: 'default',
+    },
+  },
+);
+
+function SidebarNavMenuButton({
+  asChild = false,
+  isActive = false,
+  showChevron = false,
+  className,
+  children,
+  ...props
+}: React.ComponentProps<'button'> & {
+  asChild?: boolean;
+  isActive?: boolean;
+  showChevron?: boolean;
+}) {
+  const { size } = useSidebar();
+  const Comp = asChild ? Slot : 'button';
+  const shellVariant = isActive ? 'primary' : 'secondary';
+  const chevronShellSize = size === 'lg' ? 'default' : 'sm';
+  const chevronSlotClass = chevronShellSize === 'default' ? 'size-6' : 'size-4';
+
+  return (
+    <Comp
+      data-slot="sidebar-nav-menu-button"
+      data-active={isActive}
+      aria-current={isActive ? 'page' : undefined}
+      className={cn(sidebarNavMenuButtonVariants({ size }), className)}
+      {...props}>
+      <span
+        data-slot="nav-menu-chevron-slot"
+        className={cn(
+          'inline-flex shrink-0 items-center justify-center',
+          chevronSlotClass,
+        )}
+        aria-hidden={!showChevron}>
+        {showChevron ? (
+          <>
+            <IconShell
+              data-slot="nav-menu-chevron"
+              size={chevronShellSize}
+              type="neutral"
+              variant={shellVariant}
+              className="group-data-[state=open]/collapsible:hidden">
+              <Icon icon="chevron_right" />
+            </IconShell>
+            <IconShell
+              data-slot="nav-menu-chevron"
+              size={chevronShellSize}
+              type="neutral"
+              variant={shellVariant}
+              className="hidden group-data-[state=open]/collapsible:inline-flex">
+              <Icon icon="expand_more" />
+            </IconShell>
+          </>
+        ) : null}
+      </span>
+      <span className="flex min-w-0 flex-1 items-center gap-2">{children}</span>
+    </Comp>
+  );
+}
+
 const sidebarNavMenuPanelWidth: Record<SidebarNavSize, string> = {
   default: 'w-60',
   lg: 'w-70',
@@ -254,7 +343,7 @@ function SidebarNavMenu({
       data-mode={mode}
       data-state={mode === 'overlay' ? (open ? 'open' : 'closed') : undefined}
       className={cn(
-        'bg-surface-primary flex flex-col pt-4',
+        'bg-surface-primary flex flex-col',
         mode === 'inline' && ['shrink-0 overflow-y-auto', panelWidth],
         mode === 'overlay' && [
           'absolute top-0 bottom-0 z-20 overflow-hidden transition-[width] duration-250 ease-out',
@@ -269,6 +358,38 @@ function SidebarNavMenu({
       {...props}>
       {children}
     </nav>
+  );
+}
+
+function SidebarNavMenuItem(
+  props: React.ComponentProps<typeof SidebarMenuItem>,
+) {
+  return <SidebarMenuItem {...props} />;
+}
+
+function SidebarNavMenuSub(props: React.ComponentProps<typeof SidebarMenuSub>) {
+  const { className, ...rest } = props;
+
+  return (
+    <SidebarMenuSub
+      className={cn('mx-0 gap-0 border-none p-0', className)}
+      {...rest}
+    />
+  );
+}
+
+function SidebarNavMenuSubButton({
+  className,
+  ...props
+}: React.ComponentProps<typeof SidebarNavMenuButton>) {
+  const { size } = useSidebar();
+
+  return (
+    <SidebarNavMenuButton
+      data-slot="sidebar-nav-menu-sub-button"
+      className={cn('p-2', size === 'lg' && 'px-3 py-2', className)}
+      {...props}
+    />
   );
 }
 
@@ -313,6 +434,10 @@ export {
   SidebarMenuIconButton,
   SidebarNav,
   SidebarNavMenu,
+  SidebarNavMenuButton,
+  SidebarNavMenuItem,
+  SidebarNavMenuSub,
+  SidebarNavMenuSubButton,
   SidebarNavRail,
   useSidebarNavMenuOverlay,
 };
