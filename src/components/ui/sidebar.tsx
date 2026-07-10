@@ -613,7 +613,7 @@ const sidebarMenuIconButtonVariants = cva(
     'focus-visible:ring-1',
     'active:bg-stateslayer-overlay-active-inverse active:text-fg-primary',
     'data-[active=true]:bg-stateslayer-overlay-active-inverse data-[active=true]:text-fg-primary',
-    'data-[active=true]:before:bg-fill-active-inverse data-[active=true]:before:absolute data-[active=true]:before:left-0 data-[active=true]:before:w-1 data-[active=true]:before:content-[""]',
+    'data-[active=true]:before:bg-slate-950 data-[active=true]:before:absolute data-[active=true]:before:left-0 data-[active=true]:before:w-1 data-[active=true]:before:content-[""]',
     'disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50',
     'data-[state=open]:hover:bg-stateslayer-hover data-[state=open]:hover:text-fg-primary',
   ],
