@@ -611,10 +611,10 @@ function itemTooltip(label: string) {
   return { children: label, hidden: false };
 }
 
-function navIcon(icon: string, active = false) {
+function navIcon(icon: string, active = false, size: 'sm' | 'default' = 'sm') {
   return (
     <IconShell
-      size="sm"
+      size={size}
       type="neutral"
       variant={active ? 'primary' : 'secondary'}>
       <Icon icon={icon} />
@@ -635,6 +635,9 @@ function NavMenuGroupRow({
   selectedId?: string;
   onSelect?: (id: string) => void;
 }) {
+  const { size } = useSidebar();
+  const iconSize = size === 'lg' ? 'default' : 'sm';
+
   return (
     <Collapsible
       defaultOpen={defaultOpen}
@@ -642,7 +645,7 @@ function NavMenuGroupRow({
       <SidebarNavMenuItem>
         <CollapsibleTrigger asChild>
           <SidebarNavMenuButton showChevron>
-            {withIcons ? navIcon(group.icon) : null}
+            {withIcons ? navIcon(group.icon, false, iconSize) : null}
             <span>{group.label}</span>
             {group.badge ? (
               <Badge
@@ -665,7 +668,7 @@ function NavMenuGroupRow({
                   <SidebarNavMenuSubButton
                     isActive={isActive}
                     onClick={() => onSelect?.(item.id)}>
-                    {withIcons ? navIcon(item.icon, isActive) : null}
+                    {withIcons ? navIcon(item.icon, isActive, iconSize) : null}
                     <span>{item.label}</span>
                   </SidebarNavMenuSubButton>
                 </SidebarMenuSubItem>
