@@ -5,6 +5,12 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
+const hierarchy = instance.getEnum('hierarchy', {
+  primary: 'primary',
+  secondary: 'secondary',
+  tertiary: 'tertiary',
+});
+
 const isActive = instance.getEnum('state', {
   enabled: false,
   hover: false,
@@ -21,96 +27,95 @@ const disabled = instance.getEnum('state', {
   disabled: true,
 });
 
-const withIcon = instance.getBoolean('withIcon');
-const withChildren = instance.getBoolean('withChildren');
-const label = instance.getString('label');
-const showTrailing = instance.getBoolean('showTrailingSlot');
-
-const shell = instance.findInstance('IconShell', { traverseInstances: true });
-const badge = instance.findInstance('Badge/Label-Only', {
-  traverseInstances: true,
+const isExpanded = instance.getEnum('state', {
+  'active-expanded': true,
+  enabled: false,
+  hover: false,
+  active: false,
+  disabled: false,
 });
+
+const withIcon =
+  instance.getEnum('withIcon', {
+    true: true,
+    false: false,
+  }) ?? false;
+
+const withChildren =
+  instance.getEnum('withChildren', {
+    true: true,
+    false: false,
+  }) ?? false;
+
+const label =
+  hierarchy === 'primary'
+    ? instance.getString('Header')
+    : instance.getString('label');
+
+const showTrailing = instance.getBoolean('showTrailingSlot');
+const trailing = showTrailing
+  ? figma.properties.children(['trailingSlot'])
+  : [];
+
+const leading = withIcon ? instance.findInstance('Leading-Icon') : null;
+
+let iconCode: figma.ResultSection[] = [];
+
+if (leading && leading.type === 'INSTANCE' && leading.hasCodeConnect()) {
+  iconCode = leading.executeTemplate().example;
+}
+
 const subItems = figma.properties.children(['subItemsSlot']);
+const buttonProps = `${figma.helpers.react.renderProp(
+  'isActive',
+  isActive || undefined,
+)}${figma.helpers.react.renderProp('disabled', disabled || undefined)}`;
 
-let iconName: string | undefined;
-
-if (withIcon && shell && shell.type === 'INSTANCE') {
-  const swapBySize = shell.getEnum('Size', {
-    '16': 'IconSwap-16',
-    '24': 'IconSwap-24',
-    '32': 'IconSwap-32',
-  });
-  const swaps = [swapBySize, 'IconSwap-16', 'IconSwap-24', 'IconSwap-32'];
-
-  for (const name of swaps) {
-    const glyph = name ? shell.getInstanceSwap(name) : null;
-
-    if (glyph && glyph.type === 'INSTANCE' && glyph.name) {
-      iconName = glyph.name.replace(/\s+/g, '_').toLowerCase();
-      break;
-    }
-  }
-}
-
-let badgeCode: figma.ResultSection[] = [];
-
-if (
-  showTrailing &&
-  badge &&
-  badge.type === 'INSTANCE' &&
-  badge.hasCodeConnect()
-) {
-  badgeCode = badge.executeTemplate().example;
-}
-
-const iconTag = iconName
-  ? `<IconShell size="sm" type="neutral" variant="${
-      isActive ? 'primary' : 'secondary'
-    }">
-      <Icon icon="${iconName}" />
-    </IconShell>
-    `
-  : '';
-
-const button = figma.code`
-  <SidebarNavMenuButton${figma.helpers.react.renderProp(
-    'isActive',
-    isActive || undefined,
-  )}${figma.helpers.react.renderProp(
-    'disabled',
-    disabled || undefined,
-  )}${figma.helpers.react.renderProp('showChevron', withChildren || undefined)}>
-    ${iconTag}<span>${label}</span>${badgeCode.length ? badgeCode : ''}
+const groupButton = figma.code`
+  <SidebarNavMenuButton${buttonProps}${figma.helpers.react.renderProp(
+    'showChevron',
+    withChildren || undefined,
+  )}>
+    ${iconCode}<span>${label}</span>${figma.helpers.react.renderChildren(trailing)}
   </SidebarNavMenuButton>
+`;
+
+const subButton = figma.code`
+  <SidebarNavMenuSubButton${buttonProps}>
+    ${iconCode}<span>${label}</span>
+  </SidebarNavMenuSubButton>
 `;
 
 export default {
   example:
-    withChildren && subItems.length
-      ? figma.code`
-          <Collapsible defaultOpen className="group/collapsible">
+    hierarchy === 'primary'
+      ? withChildren && subItems.length
+        ? figma.code`
+            <Collapsible${isExpanded ? ' defaultOpen' : ''} className="group/collapsible">
+              <SidebarNavMenuItem>
+                <CollapsibleTrigger asChild>
+                  ${groupButton}
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <SidebarNavMenuSub>
+                    ${figma.helpers.react.renderChildren(subItems)}
+                  </SidebarNavMenuSub>
+                </CollapsibleContent>
+              </SidebarNavMenuItem>
+            </Collapsible>
+          `
+        : figma.code`
             <SidebarNavMenuItem>
-              <CollapsibleTrigger asChild>
-                ${button}
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <SidebarNavMenuSub>
-                  ${figma.helpers.react.renderChildren(subItems)}
-                </SidebarNavMenuSub>
-              </CollapsibleContent>
+              ${groupButton}
             </SidebarNavMenuItem>
-          </Collapsible>
-        `
+          `
       : figma.code`
-          <SidebarNavMenuItem>
-            ${button}
-          </SidebarNavMenuItem>
+          <SidebarMenuSubItem>
+            ${subButton}
+          </SidebarMenuSubItem>
         `,
   imports: [
-    'import { Badge } from "@/components/ui/badge"',
     'import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"',
-    'import { Icon } from "@/components/ui/icon"',
-    'import { IconShell } from "@/components/ui/icon-shell"',
     'import { SidebarMenuSubItem, SidebarNavMenuButton, SidebarNavMenuItem, SidebarNavMenuSub, SidebarNavMenuSubButton } from "@/components/ui/sidebar"',
   ],
   id: 'nav-menu-item',

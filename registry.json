@@ -656,7 +656,7 @@
     {
       "name": "sidebar",
       "type": "registry:ui",
-      "title": "Sidebar (beta)",
+      "title": "Sidebar",
       "description": "Composable sidebar with collapsible sections, mobile sheet, and icon mode, plus the QB LeftNav layer (icon rail + slide-out NavMenu). shadcn API.",
       "dependencies": [
         "@radix-ui/react-dialog",

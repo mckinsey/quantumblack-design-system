@@ -312,6 +312,7 @@ function SidebarNavMenu({
     (value: boolean | ((prev: boolean) => boolean)) => {
       const next = typeof value === 'function' ? value(open) : value;
       onOpenChange?.(next);
+
       if (openProp === undefined) {
         setUncontrolledOpen(next);
       }
@@ -343,14 +344,15 @@ function SidebarNavMenu({
       data-mode={mode}
       data-state={mode === 'overlay' ? (open ? 'open' : 'closed') : undefined}
       className={cn(
-        'bg-surface-primary flex flex-col',
+        'bg-surface-primary flex flex-col p-3',
+        size === 'lg' && 'px-3 py-4',
         mode === 'inline' && ['shrink-0 overflow-y-auto', panelWidth],
         mode === 'overlay' && [
           'absolute top-0 bottom-0 z-20 overflow-hidden transition-[width] duration-250 ease-out',
           side === 'left'
-            ? 'left-(--sidebar-width-icon) ml-0.5'
-            : 'right-(--sidebar-width-icon) mr-0.5',
-          open ? [panelWidth, 'overflow-y-auto'] : 'w-0',
+            ? 'left-(--sidebar-width-icon) ml-[2px]'
+            : 'right-(--sidebar-width-icon) mr-[2px]',
+          open ? [panelWidth, 'overflow-y-auto'] : 'size-0',
           !open && 'pointer-events-none',
         ],
         className,
