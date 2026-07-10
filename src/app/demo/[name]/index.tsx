@@ -247,6 +247,7 @@ import {
 } from '@/app/demo/[name]/ui/select';
 import {
   SidebarApp,
+  SidebarAppRight,
   SidebarNavMenuSizes,
   SidebarSizes,
   sidebar,
@@ -599,6 +600,7 @@ export const exampleComponentMaps: Record<
   },
   sidebar: {
     SidebarApp,
+    SidebarAppRight,
     SidebarSizes,
     SidebarNavMenuSizes,
   },

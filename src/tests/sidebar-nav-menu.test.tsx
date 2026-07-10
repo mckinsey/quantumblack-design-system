@@ -164,4 +164,21 @@ describe('SidebarNavMenu — overlay mode', () => {
 
     expect(menu).toHaveAttribute('data-state', 'open');
   });
+
+  it('anchors overlay from Sidebar side=right', () => {
+    render(
+      <SidebarProvider>
+        <Sidebar collapsible="none" side="right">
+          <SidebarNavRail />
+          <SidebarNavMenu mode="overlay" open>
+            <SidebarNavMenuHeader>SECTION</SidebarNavMenuHeader>
+          </SidebarNavMenu>
+        </Sidebar>
+      </SidebarProvider>,
+    );
+
+    const menu = document.querySelector('[data-slot="sidebar-nav-menu"]');
+    expect(menu).toHaveClass('right-(--sidebar-width-icon)');
+    expect(menu).not.toHaveClass('left-(--sidebar-width-icon)');
+  });
 });

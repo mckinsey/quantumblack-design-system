@@ -426,6 +426,7 @@ function LeftNavShell({
   showNavMenu = true,
   showcaseMenu = false,
   size = 'lg',
+  sidebarSide = 'left',
   fullscreen,
   onToggleFullscreen,
 }: {
@@ -435,6 +436,7 @@ function LeftNavShell({
   showNavMenu?: boolean;
   showcaseMenu?: boolean;
   size?: RailSize;
+  sidebarSide?: 'left' | 'right';
   fullscreen: boolean;
   onToggleFullscreen: () => void;
 }) {
@@ -466,8 +468,13 @@ function LeftNavShell({
         fullscreen={fullscreen}
         onToggleFullscreen={onToggleFullscreen}
       />
-      <SidebarProvider size={size} className="flex min-h-0 flex-1">
-        <Sidebar collapsible="none" side="left">
+      <SidebarProvider
+        size={size}
+        className={cn(
+          'flex min-h-0 flex-1',
+          sidebarSide === 'right' && 'flex-row-reverse',
+        )}>
+        <Sidebar collapsible="none" side={sidebarSide}>
           {showRail ? (
             <NavRailContent active={active} onActive={handleRailActive} />
           ) : null}
@@ -592,6 +599,22 @@ export function SidebarApp() {
         <LeftNavShell
           mode="overlay"
           withIcons
+          fullscreen={fullscreen}
+          onToggleFullscreen={onToggleFullscreen}
+        />
+      )}
+    </FullscreenShell>
+  );
+}
+
+export function SidebarAppRight() {
+  return (
+    <FullscreenShell>
+      {({ fullscreen, onToggleFullscreen }) => (
+        <LeftNavShell
+          mode="overlay"
+          withIcons
+          sidebarSide="right"
           fullscreen={fullscreen}
           onToggleFullscreen={onToggleFullscreen}
         />
@@ -746,6 +769,12 @@ export const examples: DemoExample[] = [
       'Icon rail where each icon opens its own NavMenu from behind the rail. Open fullscreen for the full app shell.',
   },
   {
+    name: 'SidebarAppRight',
+    title: 'LeftNav · right side',
+    description:
+      'Same overlay NavMenu pattern with Sidebar on the right; overlay anchors from the rail inward.',
+  },
+  {
     name: 'SidebarSizes',
     title: 'Icon rail sizes',
     description:
@@ -761,6 +790,7 @@ export const examples: DemoExample[] = [
 
 export const sidebar = createLegacyDemo('sidebar', examples, {
   SidebarApp: <SidebarApp />,
+  SidebarAppRight: <SidebarAppRight />,
   SidebarSizes: <SidebarSizes />,
   SidebarNavMenuSizes: <SidebarNavMenuSizes />,
 });
