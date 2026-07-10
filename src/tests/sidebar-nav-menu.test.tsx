@@ -1,4 +1,10 @@
-import { cleanup, render, screen } from '@testing-library/react';
+import {
+  act,
+  cleanup,
+  render,
+  renderHook,
+  screen,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 
@@ -10,7 +16,7 @@ import {
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 import {
-  Sidebar,
+  SidebarNav,
   SidebarNavMenu,
   SidebarNavMenuButton,
   SidebarNavMenuHeader,
@@ -18,8 +24,8 @@ import {
   SidebarNavMenuSub,
   SidebarNavMenuSubButton,
   SidebarNavRail,
-  SidebarProvider,
-} from '@/components/ui/sidebar';
+  useSidebarNavMenuOverlay,
+} from '@/components/ui/sidebar-nav';
 
 const componentName = 'sidebar';
 
@@ -45,19 +51,17 @@ describe(`${componentName} — nav menu examples render`, () => {
 describe('SidebarNavMenu — structure', () => {
   it('exposes data-slot on nav menu parts', () => {
     render(
-      <SidebarProvider>
-        <Sidebar collapsible="none">
-          <SidebarNavMenu>
-            <SidebarNavMenuHeader>SECTION</SidebarNavMenuHeader>
-            <SidebarNavMenuItem>
-              <SidebarNavMenuButton>Group</SidebarNavMenuButton>
-            </SidebarNavMenuItem>
-            <SidebarNavMenuSub>
-              <SidebarNavMenuSubButton>Sub</SidebarNavMenuSubButton>
-            </SidebarNavMenuSub>
-          </SidebarNavMenu>
-        </Sidebar>
-      </SidebarProvider>,
+      <SidebarNav>
+        <SidebarNavMenu>
+          <SidebarNavMenuHeader>SECTION</SidebarNavMenuHeader>
+          <SidebarNavMenuItem>
+            <SidebarNavMenuButton>Group</SidebarNavMenuButton>
+          </SidebarNavMenuItem>
+          <SidebarNavMenuSub>
+            <SidebarNavMenuSubButton>Sub</SidebarNavMenuSubButton>
+          </SidebarNavMenuSub>
+        </SidebarNavMenu>
+      </SidebarNav>,
     );
 
     expect(
@@ -82,15 +86,13 @@ describe('SidebarNavMenu — structure', () => {
 
   it('sets aria-current on active row', () => {
     render(
-      <SidebarProvider>
-        <Sidebar collapsible="none">
-          <SidebarNavMenu>
-            <SidebarNavMenuItem>
-              <SidebarNavMenuButton isActive>Active</SidebarNavMenuButton>
-            </SidebarNavMenuItem>
-          </SidebarNavMenu>
-        </Sidebar>
-      </SidebarProvider>,
+      <SidebarNav>
+        <SidebarNavMenu>
+          <SidebarNavMenuItem>
+            <SidebarNavMenuButton isActive>Active</SidebarNavMenuButton>
+          </SidebarNavMenuItem>
+        </SidebarNavMenu>
+      </SidebarNav>,
     );
 
     expect(screen.getByRole('button', { name: 'Active' })).toHaveAttribute(
@@ -105,24 +107,22 @@ describe('SidebarNavMenu — collapsible group', () => {
     const user = userEvent.setup();
 
     render(
-      <SidebarProvider>
-        <Sidebar collapsible="none">
-          <SidebarNavMenu>
-            <Collapsible className="group/collapsible">
-              <SidebarNavMenuItem>
-                <CollapsibleTrigger asChild>
-                  <SidebarNavMenuButton showChevron>Group</SidebarNavMenuButton>
-                </CollapsibleTrigger>
-                <CollapsibleContent>
-                  <SidebarNavMenuSub>
-                    <SidebarNavMenuSubButton>Sub-item</SidebarNavMenuSubButton>
-                  </SidebarNavMenuSub>
-                </CollapsibleContent>
-              </SidebarNavMenuItem>
-            </Collapsible>
-          </SidebarNavMenu>
-        </Sidebar>
-      </SidebarProvider>,
+      <SidebarNav>
+        <SidebarNavMenu>
+          <Collapsible className="group/collapsible">
+            <SidebarNavMenuItem>
+              <CollapsibleTrigger asChild>
+                <SidebarNavMenuButton showChevron>Group</SidebarNavMenuButton>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <SidebarNavMenuSub>
+                  <SidebarNavMenuSubButton>Sub-item</SidebarNavMenuSubButton>
+                </SidebarNavMenuSub>
+              </CollapsibleContent>
+            </SidebarNavMenuItem>
+          </Collapsible>
+        </SidebarNavMenu>
+      </SidebarNav>,
     );
 
     const trigger = screen.getByRole('button', { name: 'Group' });
@@ -137,14 +137,12 @@ describe('SidebarNavMenu — collapsible group', () => {
 describe('SidebarNavMenu — overlay mode', () => {
   it('reflects open state via data-state', () => {
     const { rerender } = render(
-      <SidebarProvider>
-        <Sidebar collapsible="none">
-          <SidebarNavRail />
-          <SidebarNavMenu mode="overlay" open={false}>
-            <SidebarNavMenuHeader>SECTION</SidebarNavMenuHeader>
-          </SidebarNavMenu>
-        </Sidebar>
-      </SidebarProvider>,
+      <SidebarNav>
+        <SidebarNavRail />
+        <SidebarNavMenu mode="overlay" open={false}>
+          <SidebarNavMenuHeader>SECTION</SidebarNavMenuHeader>
+        </SidebarNavMenu>
+      </SidebarNav>,
     );
 
     const menu = document.querySelector('[data-slot="sidebar-nav-menu"]');
@@ -152,14 +150,12 @@ describe('SidebarNavMenu — overlay mode', () => {
     expect(menu).toHaveAttribute('data-state', 'closed');
 
     rerender(
-      <SidebarProvider>
-        <Sidebar collapsible="none">
-          <SidebarNavRail />
-          <SidebarNavMenu mode="overlay" open>
-            <SidebarNavMenuHeader>SECTION</SidebarNavMenuHeader>
-          </SidebarNavMenu>
-        </Sidebar>
-      </SidebarProvider>,
+      <SidebarNav>
+        <SidebarNavRail />
+        <SidebarNavMenu mode="overlay" open>
+          <SidebarNavMenuHeader>SECTION</SidebarNavMenuHeader>
+        </SidebarNavMenu>
+      </SidebarNav>,
     );
 
     expect(menu).toHaveAttribute('data-state', 'open');
@@ -167,18 +163,54 @@ describe('SidebarNavMenu — overlay mode', () => {
 
   it('anchors overlay from Sidebar side=right', () => {
     render(
-      <SidebarProvider>
-        <Sidebar collapsible="none" side="right">
-          <SidebarNavRail />
-          <SidebarNavMenu mode="overlay" open>
-            <SidebarNavMenuHeader>SECTION</SidebarNavMenuHeader>
-          </SidebarNavMenu>
-        </Sidebar>
-      </SidebarProvider>,
+      <SidebarNav side="right">
+        <SidebarNavRail />
+        <SidebarNavMenu mode="overlay" open>
+          <SidebarNavMenuHeader>SECTION</SidebarNavMenuHeader>
+        </SidebarNavMenu>
+      </SidebarNav>,
     );
 
     const menu = document.querySelector('[data-slot="sidebar-nav-menu"]');
     expect(menu).toHaveClass('right-(--sidebar-width-icon)');
     expect(menu).not.toHaveClass('left-(--sidebar-width-icon)');
+  });
+});
+
+describe('useSidebarNavMenuOverlay', () => {
+  it('opens on selectActive and closes when the same item is selected again', () => {
+    const { result } = renderHook(() => useSidebarNavMenuOverlay('home'));
+
+    expect(result.current.open).toBe(false);
+    expect(result.current.active).toBe('home');
+
+    act(() => {
+      result.current.selectActive('dashboard');
+    });
+
+    expect(result.current.active).toBe('dashboard');
+    expect(result.current.open).toBe(true);
+
+    act(() => {
+      result.current.selectActive('dashboard');
+    });
+
+    expect(result.current.open).toBe(false);
+  });
+
+  it('exposes close and openMenu', () => {
+    const { result } = renderHook(() => useSidebarNavMenuOverlay('home'));
+
+    act(() => {
+      result.current.openMenu();
+    });
+
+    expect(result.current.open).toBe(true);
+
+    act(() => {
+      result.current.close();
+    });
+
+    expect(result.current.open).toBe(false);
   });
 });

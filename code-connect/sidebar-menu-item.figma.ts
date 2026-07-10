@@ -81,7 +81,8 @@ export default {
   imports: [
     'import { Icon } from "@/components/ui/icon"',
     'import { IconShell } from "@/components/ui/icon-shell"',
-    'import { SidebarMenuItem, SidebarMenuIconButton } from "@/components/ui/sidebar"',
+    'import { SidebarMenuItem } from "@/components/ui/sidebar"',
+    'import { SidebarMenuIconButton } from "@/components/ui/sidebar-nav"',
   ],
   id: 'sidebar-menu-item',
   metadata: { nestable: true },

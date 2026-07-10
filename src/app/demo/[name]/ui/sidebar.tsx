@@ -16,14 +16,17 @@ import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import {
-  Sidebar,
   SidebarFooter,
-  SidebarFooterButton,
   SidebarHeader,
   SidebarInset,
   SidebarMenu,
-  SidebarMenuIconButton,
   SidebarMenuItem,
+  SidebarSeparator,
+} from '@/components/ui/sidebar';
+import {
+  SidebarFooterButton,
+  SidebarMenuIconButton,
+  SidebarNav,
   SidebarNavMenu,
   SidebarNavMenuButton,
   SidebarNavMenuHeader,
@@ -31,10 +34,9 @@ import {
   SidebarNavMenuSub,
   SidebarNavMenuSubButton,
   SidebarNavRail,
-  SidebarProvider,
-  SidebarSeparator,
-  useSidebar,
-} from '@/components/ui/sidebar';
+  useSidebarNav,
+  useSidebarNavMenuOverlay,
+} from '@/components/ui/sidebar-nav';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 import { cn } from '@/lib/utils';
 
@@ -367,7 +369,7 @@ function NavRailContent({
   active: NavId;
   onActive: (id: NavId) => void;
 }) {
-  const { size } = useSidebar();
+  const { size } = useSidebarNav();
   const iconSize = size === 'lg' ? 'lg' : 'default';
 
   return (
@@ -440,22 +442,18 @@ function LeftNavShell({
   fullscreen: boolean;
   onToggleFullscreen: () => void;
 }) {
-  const [active, setActive] = useState<NavId>('home');
-  const [navOpen, setNavOpen] = useState(false);
-  const page = primaryNav.find(item => item.id === active) ?? primaryNav[0];
+  const navOverlay = useSidebarNavMenuOverlay<NavId>('home');
+  const page =
+    primaryNav.find(item => item.id === navOverlay.active) ?? primaryNav[0];
   const overlay = showRail && mode === 'overlay';
 
   function handleRailActive(id: NavId) {
-    if (overlay && active === id && navOpen) {
-      setNavOpen(false);
+    if (overlay) {
+      navOverlay.selectActive(id);
       return;
     }
 
-    setActive(id);
-
-    if (overlay) {
-      setNavOpen(true);
-    }
+    navOverlay.setActive(id);
   }
 
   return (
@@ -468,35 +466,37 @@ function LeftNavShell({
         fullscreen={fullscreen}
         onToggleFullscreen={onToggleFullscreen}
       />
-      <SidebarProvider
-        size={size}
+      <div
         className={cn(
           'flex min-h-0 flex-1',
           sidebarSide === 'right' && 'flex-row-reverse',
         )}>
-        <Sidebar collapsible="none" side={sidebarSide}>
+        <SidebarNav size={size} side={sidebarSide}>
           {showRail ? (
-            <NavRailContent active={active} onActive={handleRailActive} />
+            <NavRailContent
+              active={navOverlay.active}
+              onActive={handleRailActive}
+            />
           ) : null}
           {showNavMenu ? (
             <SidebarNavMenu
               mode={overlay ? 'overlay' : 'inline'}
-              open={overlay ? navOpen : undefined}
-              onOpenChange={overlay ? setNavOpen : undefined}>
+              open={overlay ? navOverlay.open : undefined}
+              onOpenChange={overlay ? navOverlay.setOpen : undefined}>
               {showcaseMenu ? (
                 <NavMenuShowcaseContent withIcons={withIcons} />
               ) : (
                 <NavMenuContent
-                  key={active}
-                  active={active}
+                  key={navOverlay.active}
+                  active={navOverlay.active}
                   withIcons={withIcons}
                 />
               )}
             </SidebarNavMenu>
           ) : null}
-        </Sidebar>
+        </SidebarNav>
         <AppMain title={page.title} subtitle={page.subtitle} body={page.body} />
-      </SidebarProvider>
+      </div>
     </div>
   );
 }
@@ -627,11 +627,9 @@ function NavRailFrame({ size }: { size: RailSize }) {
   const [active, setActive] = useState<NavId>('home');
 
   return (
-    <SidebarProvider size={size} className="flex h-[840px] min-h-0 w-auto">
-      <Sidebar collapsible="none" className="h-full">
-        <NavRailContent active={active} onActive={setActive} />
-      </Sidebar>
-    </SidebarProvider>
+    <SidebarNav size={size} className="h-[840px] min-h-0 w-auto">
+      <NavRailContent active={active} onActive={setActive} />
+    </SidebarNav>
   );
 }
 
@@ -681,13 +679,11 @@ function NavMenuStandalone({
 }) {
   return (
     <div className="h-[520px]">
-      <SidebarProvider size={size} className="flex h-full min-h-0 w-auto">
-        <Sidebar collapsible="none" className="h-full">
-          <SidebarNavMenu className="h-full">
-            <NavMenuShowcaseContent withIcons={withIcons} />
-          </SidebarNavMenu>
-        </Sidebar>
-      </SidebarProvider>
+      <SidebarNav size={size} className="h-full min-h-0 w-auto">
+        <SidebarNavMenu className="h-full">
+          <NavMenuShowcaseContent withIcons={withIcons} />
+        </SidebarNavMenu>
+      </SidebarNav>
     </div>
   );
 }

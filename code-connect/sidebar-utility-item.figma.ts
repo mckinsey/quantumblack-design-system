@@ -1,5 +1,5 @@
 // url=<QBDS_SIDEBAR_UTILITY_ITEM>
-// source=src/components/ui/sidebar.tsx
+// source=src/components/ui/sidebar-nav.tsx
 // component=SidebarFooterButton
 import figma from 'figma';
 
@@ -57,7 +57,8 @@ export default {
   imports: [
     'import { Icon } from "@/components/ui/icon"',
     'import { IconShell } from "@/components/ui/icon-shell"',
-    'import { SidebarMenuItem, SidebarFooterButton } from "@/components/ui/sidebar"',
+    'import { SidebarMenuItem } from "@/components/ui/sidebar"',
+    'import { SidebarFooterButton } from "@/components/ui/sidebar-nav"',
   ],
   id: 'sidebar-utility-item',
   metadata: { nestable: true },

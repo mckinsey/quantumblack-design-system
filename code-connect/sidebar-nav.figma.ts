@@ -1,6 +1,6 @@
 // url=<QBDS_SIDEBAR_NAV>
-// source=src/components/ui/sidebar.tsx
-// component=Sidebar
+// source=src/components/ui/sidebar-nav.tsx
+// component=SidebarNav
 import figma from 'figma';
 
 const instance = figma.selectedInstance;
@@ -39,8 +39,8 @@ if (avatarNode && avatarNode.type === 'INSTANCE') {
 
 export default {
   example: figma.code`
-    <SidebarProvider size="${size}">
-      <Sidebar collapsible="none">
+    <SidebarNav size="${size}">
+      <SidebarNavRail>
         <SidebarHeader>
           <SidebarMenu>
             ${figma.helpers.react.renderChildren(navItems)}
@@ -56,14 +56,15 @@ export default {
             ${avatarBlock}
           </div>
         </SidebarFooter>
-      </Sidebar>
-    </SidebarProvider>
+      </SidebarNavRail>
+    </SidebarNav>
   `,
   imports: [
     'import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"',
     'import { Icon } from "@/components/ui/icon"',
     'import { IconShell } from "@/components/ui/icon-shell"',
-    'import { Sidebar, SidebarFooter, SidebarFooterButton, SidebarHeader, SidebarMenu, SidebarMenuIconButton, SidebarMenuItem, SidebarProvider, SidebarSeparator } from "@/components/ui/sidebar"',
+    'import { SidebarFooter, SidebarHeader, SidebarMenu, SidebarSeparator } from "@/components/ui/sidebar"',
+    'import { SidebarFooterButton, SidebarMenuIconButton, SidebarNav, SidebarNavRail } from "@/components/ui/sidebar-nav"',
   ],
   id: 'sidebar-nav',
   metadata: { nestable: true },
