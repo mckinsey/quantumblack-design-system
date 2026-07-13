@@ -140,6 +140,7 @@ function createToast(type: ToastType) {
     const {
       action: _action,
       cancel: _cancel,
+      testId: _testId,
       ...sonnerOptions
     } = options || {};
 
