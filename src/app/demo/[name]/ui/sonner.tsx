@@ -1,5 +1,6 @@
 'use client';
 
+import { Fragment } from 'react';
 import { toast as sonnerToast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
@@ -16,13 +17,18 @@ function ToastTrigger({
   type,
   message,
   label,
+  className,
 }: {
   type: 'default' | 'success' | 'error' | 'warning' | 'info';
   message: string;
   label: string;
+  className?: string;
 }) {
   return (
-    <Button variant="outline" onClick={() => toast[type](message)}>
+    <Button
+      variant="outline"
+      className={className}
+      onClick={() => toast[type](message)}>
       {label}
     </Button>
   );
@@ -41,79 +47,29 @@ export function SonnerDemo() {
   );
 }
 
-/**
- * Success toast notification
- */
-export function SonnerSuccess() {
-  return (
-    <ToastTrigger
-      type="success"
-      message="Event has been created successfully"
-      label="Show Success Toast"
-    />
-  );
-}
-
-/**
- * Error toast notification
- */
-export function SonnerError() {
-  return (
-    <ToastTrigger
-      type="error"
-      message="Something went wrong. Please try again."
-      label="Show Error Toast"
-    />
-  );
-}
-
-/**
- * Warning toast notification
- */
-export function SonnerWarning() {
-  return (
-    <ToastTrigger
-      type="warning"
-      message="Please review your changes before proceeding"
-      label="Show Warning Toast"
-    />
-  );
-}
-
-/**
- * Info toast notification
- */
-export function SonnerInfo() {
-  return (
-    <ToastTrigger
-      type="info"
-      message="A new version is available"
-      label="Show Info Toast"
-    />
-  );
-}
-
 const toastVariants = [
-  { type: 'default', message: 'Default notification', label: 'Default' },
-  { type: 'success', message: 'Success notification', label: 'Success' },
-  { type: 'error', message: 'Error notification', label: 'Error' },
-  { type: 'warning', message: 'Warning notification', label: 'Warning' },
-  { type: 'info', message: 'Info notification', label: 'Info' },
+  { type: 'default', message: 'Short message goes here', label: 'Default' },
+  { type: 'error', message: 'Short message goes here', label: 'Error' },
+  { type: 'success', message: 'Short message goes here', label: 'Success' },
+  { type: 'info', message: 'Short message goes here', label: 'Info' },
+  { type: 'warning', message: 'Short message goes here', label: 'Warning' },
 ] as const;
 
 /**
- * All toast variants side by side
+ * All toast variants rendered in the page
  */
 export function SonnerVariants() {
   return (
-    <div className="flex flex-wrap gap-3">
+    <div className="flex flex-row items-center gap-x-4 gap-y-3">
       {toastVariants.map(v => (
-        <ToastTrigger
-          key={v.type}
-          type={v.type}
-          message={v.message}
-          label={v.label}
-        />
+        <Fragment key={v.type}>
+          <ToastTrigger
+            type={v.type}
+            message={v.message}
+            label={v.label}
+            className="w-full"
+          />
+        </Fragment>
       ))}
     </div>
   );
@@ -223,29 +179,9 @@ export const examples = [
     description: 'Basic toast notification.',
   },
   {
-    name: 'SonnerSuccess',
-    title: 'Success',
-    description: 'Success toast with green styling.',
-  },
-  {
-    name: 'SonnerError',
-    title: 'Error',
-    description: 'Error toast with red styling.',
-  },
-  {
-    name: 'SonnerWarning',
-    title: 'Warning',
-    description: 'Warning toast with yellow styling.',
-  },
-  {
-    name: 'SonnerInfo',
-    title: 'Info',
-    description: 'Informational toast with blue styling.',
-  },
-  {
     name: 'SonnerVariants',
     title: 'All Variants',
-    description: 'All toast variants side by side.',
+    description: 'Each variant with its trigger button side by side.',
   },
   {
     name: 'SonnerWithAction',
@@ -272,10 +208,6 @@ export const sonner = {
   name: 'sonner',
   components: {
     Default: <SonnerDemo />,
-    Success: <SonnerSuccess />,
-    Error: <SonnerError />,
-    Warning: <SonnerWarning />,
-    Info: <SonnerInfo />,
     'All Variants': <SonnerVariants />,
     'With Action': <SonnerWithAction />,
     'Custom Styled': <SonnerCustom />,

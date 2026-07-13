@@ -17,10 +17,7 @@ import { cn } from '@/lib/utils';
 type ToastType = NonNullable<ToastT['type']>;
 
 export interface ToastOptions extends Omit<ExternalToast, 'action' | 'cancel'> {
-  // Action button - user provides JSX component
   readonly action?: React.ReactNode;
-  // Cancel button - user provides JSX component
-  // If not provided, default close button is used
   readonly cancel?: React.ReactNode;
 }
 
@@ -33,28 +30,28 @@ interface ToastProps {
 
 const toastTypeConfig = {
   success: {
-    borderClass: 'border-l-[var(--border-status-success)]',
+    borderClass: 'border-l-stroke-status-success',
     iconClass: 'text-status-success',
     iconName: 'check_circle',
   },
   error: {
-    borderClass: 'border-l-[var(--border-status-error)]',
+    borderClass: 'border-l-stroke-status-error',
     iconClass: 'text-status-error',
     iconName: 'cancel',
   },
   warning: {
-    borderClass: 'border-l-[var(--border-status-warning)]',
+    borderClass: 'border-l-stroke-status-warning',
     iconClass: 'text-status-warning',
     iconName: 'error',
   },
   info: {
-    borderClass: 'border-l-[var(--border-status-focus)]',
+    borderClass: 'border-l-stroke-status-focus',
     iconClass: 'text-status-information',
     iconName: 'info',
   },
   default: {
-    borderClass: 'border-l-[var(--border-primary)]',
-    iconClass: 'text-fill-active',
+    borderClass: 'border-l-stroke-primary',
+    iconClass: 'text-fg-secondary',
     iconName: 'playlist_add_check',
   },
 } as const;
@@ -70,7 +67,9 @@ const getToastConfig = (type: ToastType) => {
 };
 
 const getDefaultIcon = (config: ReturnType<typeof getToastConfig>) => (
-  <Icon icon={config.iconName} className={cn('size-6', config.iconClass)} />
+  <IconShell type="custom" className={config.iconClass}>
+    <Icon icon={config.iconName} />
+  </IconShell>
 );
 
 function getCancelComponent(
@@ -95,41 +94,49 @@ function getCancelComponent(
 }
 
 const Toast = memo(function Toast({ id, message, type, options }: ToastProps) {
-  const { action, cancel, className, icon, ...restOptions } = options || {};
+  const { action, cancel, className, icon, testId } = options || {};
 
   const config = getToastConfig(type);
-  const defaultIcon = getDefaultIcon(config);
-  const displayIcon = icon || defaultIcon;
-
+  const displayIcon = icon ?? getDefaultIcon(config);
   const cancelComponent = getCancelComponent(cancel, id);
 
   return (
     <div
+      role={type === 'error' ? 'alert' : 'status'}
+      aria-live="polite"
+      data-slot="toast"
       className={cn(
         'bg-fill-onsurface-ui-3 shadow-elevation-2 flex h-[44px] items-center gap-2 border-l-4 py-2 pr-3 pl-4',
         config.borderClass,
         className,
       )}
-      {...(restOptions.testId && { 'data-testid': restOptions.testId })}>
-      <div className="flex items-center gap-2">
-        <div className="flex shrink-0 items-center">{displayIcon}</div>
+      {...(testId && { 'data-testid': testId })}>
+      <div className="flex min-w-0 flex-1 items-center gap-2">
+        <div data-slot="toast-icon" className="flex shrink-0 items-center">
+          {displayIcon}
+        </div>
 
-        <div className="flex flex-1 items-center">
-          <p className="paragraph-regular-primary text-fg-secondary">
+        <div className="flex min-w-0 flex-1 items-center">
+          <p
+            data-slot="toast-message"
+            className="paragraph-regular-primary text-fg-secondary">
             {message}
           </p>
           {action}
         </div>
       </div>
 
-      {cancelComponent}
+      <div
+        data-slot="toast-dismiss"
+        className="flex shrink-0 items-center self-stretch">
+        {cancelComponent}
+      </div>
     </div>
   );
 });
 
 function createToast(type: ToastType) {
   return (message: string, options?: ToastOptions) => {
-    // Extract action and cancel from options to prevent Sonner from rendering them separately
     const {
       action: _action,
       cancel: _cancel,
@@ -143,7 +150,6 @@ function createToast(type: ToastType) {
   };
 }
 
-// Extend sonnerToast with custom toast methods
 const toast = Object.assign(sonnerToast, {
   success: createToast('success'),
   error: createToast('error'),

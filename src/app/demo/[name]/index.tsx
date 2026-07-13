@@ -265,12 +265,8 @@ import {
 import {
   SonnerCustom,
   SonnerDemo,
-  SonnerError,
-  SonnerInfo,
   SonnerPersistent,
-  SonnerSuccess,
   SonnerVariants,
-  SonnerWarning,
   SonnerWithAction,
   sonner,
   examples as sonnerExamples,
@@ -611,10 +607,6 @@ export const exampleComponentMaps: Record<
   },
   sonner: {
     SonnerDemo,
-    SonnerSuccess,
-    SonnerError,
-    SonnerWarning,
-    SonnerInfo,
     SonnerVariants,
     SonnerWithAction,
     SonnerCustom,
