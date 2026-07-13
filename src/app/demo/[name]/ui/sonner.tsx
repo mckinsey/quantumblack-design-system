@@ -1,6 +1,5 @@
 'use client';
 
-import { Fragment } from 'react';
 import { toast as sonnerToast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
@@ -17,18 +16,13 @@ function ToastTrigger({
   type,
   message,
   label,
-  className,
 }: {
   type: 'default' | 'success' | 'error' | 'warning' | 'info';
   message: string;
   label: string;
-  className?: string;
 }) {
   return (
-    <Button
-      variant="outline"
-      className={className}
-      onClick={() => toast[type](message)}>
+    <Button variant="outline" onClick={() => toast[type](message)}>
       {label}
     </Button>
   );
@@ -60,16 +54,14 @@ const toastVariants = [
  */
 export function SonnerVariants() {
   return (
-    <div className="flex flex-row items-center gap-x-4 gap-y-3">
+    <div className="flex flex-wrap gap-3">
       {toastVariants.map(v => (
-        <Fragment key={v.type}>
-          <ToastTrigger
-            type={v.type}
-            message={v.message}
-            label={v.label}
-            className="w-full"
-          />
-        </Fragment>
+        <ToastTrigger
+          key={v.type}
+          type={v.type}
+          message={v.message}
+          label={v.label}
+        />
       ))}
     </div>
   );

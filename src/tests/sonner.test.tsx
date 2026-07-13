@@ -76,6 +76,10 @@ describe(`${componentName} — toast API`, () => {
       'role',
       'alert',
     );
+    expect(document.querySelector('[data-slot="toast"]')).toHaveAttribute(
+      'aria-live',
+      'assertive',
+    );
   });
 
   it('applies testId when provided', async () => {

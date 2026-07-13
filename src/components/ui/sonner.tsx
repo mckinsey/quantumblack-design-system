@@ -103,7 +103,7 @@ const Toast = memo(function Toast({ id, message, type, options }: ToastProps) {
   return (
     <div
       role={type === 'error' ? 'alert' : 'status'}
-      aria-live="polite"
+      aria-live={type === 'error' ? 'assertive' : 'polite'}
       data-slot="toast"
       className={cn(
         'bg-fill-onsurface-ui-3 shadow-elevation-2 flex h-[44px] items-center gap-2 border-l-4 py-2 pr-3 pl-4',

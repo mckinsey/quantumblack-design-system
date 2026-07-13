@@ -13,7 +13,7 @@ const type = instance.getEnum('type', {
   warning: 'warning',
 });
 
-const message = instance.getString('primaryMessage');
+const message = JSON.stringify(instance.getString('primaryMessage'));
 const isDismissable = instance.getBoolean('isDismissable');
 const showIcon = instance.getBoolean('showNotificationIcon');
 
@@ -34,26 +34,24 @@ const setup = figma.code`
   // 3. Call toast from an event handler, effect, or async callback:
 `;
 
-let call;
+let call = figma.code`toast.${type}(${message})`;
 
 if (showIcon && isDismissable && iconCode.length) {
-  call = figma.code`toast.${type}("${message}", { icon: ${iconCode} })`;
-} else if (showIcon && isDismissable) {
-  call = figma.code`toast.${type}("${message}")`;
+  call = figma.code`toast.${type}(${message}, { icon: ${iconCode} })`;
 } else if (showIcon && !isDismissable && iconCode.length) {
-  call = figma.code`toast.${type}("${message}", { icon: ${iconCode}, cancel: <></> })`;
+  call = figma.code`toast.${type}(${message}, { icon: ${iconCode}, cancel: <></> })`;
 } else if (showIcon && !isDismissable) {
-  call = figma.code`toast.${type}("${message}", { cancel: <></> })`;
+  call = figma.code`toast.${type}(${message}, { cancel: <></> })`;
 } else if (!showIcon && isDismissable) {
-  call = figma.code`toast.${type}("${message}", { icon: <></> })`;
-} else {
-  call = figma.code`toast.${type}("${message}", { icon: <></>, cancel: <></> })`;
+  call = figma.code`toast.${type}(${message}, { icon: <></> })`;
+} else if (!showIcon && !isDismissable) {
+  call = figma.code`toast.${type}(${message}, { icon: <></>, cancel: <></> })`;
 }
 
 const trigger = figma.code`
   //
   // Example trigger (optional — wire your own UI):
-  // <Button variant="outline" onClick={() => toast.${type}("${message}")}>
+  // <Button variant="outline" onClick={() => toast.${type}(${message})}>
   //   Show Toast
   // </Button>
 `;
