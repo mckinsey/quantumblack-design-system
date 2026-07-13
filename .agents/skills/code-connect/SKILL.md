@@ -23,6 +23,7 @@ The `// url=` header references a substitution token, not a raw URL:
 
 - Add the node URL to **`.env`** and **`.env.example`** as `FIGMA_URL_QBDS_<NAME>=...`, then run `npm run figma:config`.
 - The script turns each `FIGMA_URL_<NAME>` into `<<NAME>>` and writes `documentUrlSubstitutions` into `figma.config.json` (git-ignored). The CLI substitutes `<QBDS_<NAME>>` → URL at publish.
+- URL must target the **COMPONENT_SET** node, not a variant inside it. Dev Mode only surfaces Code Connect at the set level. Copy link from the set name in Figma (e.g. `Tags-Dismissable` → `38573-15379`, not variant `38573-15380`).
 
 ### 2 — Files, imports
 
@@ -39,14 +40,35 @@ The component `Props` in `src/components/ui/<name>.tsx` is the source of truth. 
 
 If nothing represents it, omit it and tell the user. Keep `example` close to the demo (`src/app/demo/[name]/ui/<name>.tsx`).
 
+### 4 — Slot children (repeated same-type instances)
+
+When a SLOT holds multiple instances of the same component (tag groups, button groups, sidebar items), use `figma.properties.children()` + `renderChildren()` — not `getSlot()` or `findConnectedInstances()` (both render empty for this pattern).
+
+```ts
+const tags = figma.properties.children(['Tag-Dismissable']);
+
+export default {
+  example: figma.code`
+    <div className="flex flex-wrap gap-2">
+      ${figma.helpers.react.renderChildren(tags)}
+    </div>
+  `,
+};
+```
+
+Use the child layer's **main component name** as the filter string. See `button-group.figma.ts`, `sidebar-nav.figma.ts`, `tag-group-dismissable.figma.ts`.
+
 ## Reference examples
 
-Read existing templates in `code-connect/` before writing a new one — `button-text.figma.ts` and `button-icon.figma.ts` cover the token header, separate-file split, and showing Figma-only props through the component. Match their shape.
+Read existing templates in `code-connect/` before writing a new one:
+
+- `button-text.figma.ts`, `button-icon.figma.ts` — token header, variant split, Figma-only props
+- `button-group.figma.ts`, `tag-group-dismissable.figma.ts` — dynamic slot children via `properties.children`
 
 ## Validate & publish
 
 ```bash
 npm run figma:config        # regenerate substitutions
-npx figma connect parse     # exit 0
+npm run figma:parse         # local template validation (exit 0)
 npm run figma:publish       # only when the user asks (needs FIGMA_ACCESS_TOKEN)
 ```

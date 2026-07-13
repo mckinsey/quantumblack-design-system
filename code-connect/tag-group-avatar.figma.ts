@@ -3,22 +3,12 @@
 // component=TagGroupAvatarDismissable
 import figma from 'figma';
 
+const tags = figma.properties.children(['Tag-Avatar-Dismissable']);
+
 export default {
   example: figma.code`
     <div className="flex flex-wrap gap-2">
-      <Tag className="pl-1 pr-2" onRemove={() => {}}>
-        <Avatar size="xs" className="size-5 shadow-none before:hidden hover:shadow-none">
-          <AvatarFallback>AB</AvatarFallback>
-        </Avatar>
-        Label
-      </Tag>
-
-      <Tag variant="outline" pill className="pl-1 pr-2" onRemove={() => {}}>
-        <Avatar size="xs" className="size-5 shadow-none before:hidden hover:shadow-none">
-          <AvatarFallback>CD</AvatarFallback>
-        </Avatar>
-        Label
-      </Tag>
+      ${figma.helpers.react.renderChildren(tags)}
     </div>
   `,
   imports: [

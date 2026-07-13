@@ -3,7 +3,6 @@
     "parser": "react",
     "include": [
       "code-connect/*.figma.ts",
-      "code-connect/*.figma.tsx",
       "src/components/**/*.tsx",
       "src/lib/**/*.ts"
     ],

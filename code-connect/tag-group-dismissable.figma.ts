@@ -3,29 +3,12 @@
 // component=TagGroupDismissable
 import figma from 'figma';
 
+const tags = figma.properties.children(['Tag-Dismissable']);
+
 export default {
   example: figma.code`
     <div className="flex flex-wrap gap-2">
-      <Tag onRemove={() => {}}>
-        <IconShell size="sm" type="neutral" variant="primary">
-          <Icon icon="style" />
-        </IconShell>
-        Label
-      </Tag>
-
-      <Tag variant="outline" pill onRemove={() => {}}>
-        <IconShell size="sm" type="neutral" variant="primary">
-          <Icon icon="style" />
-        </IconShell>
-        Label
-      </Tag>
-
-      <Tag size="sm" onRemove={() => {}}>
-        <IconShell size="sm" type="neutral" variant="primary">
-          <Icon icon="style" />
-        </IconShell>
-        Label
-      </Tag>
+      ${figma.helpers.react.renderChildren(tags)}
     </div>
   `,
   imports: [

@@ -3,29 +3,12 @@
 // component=TagToggleGroup
 import figma from 'figma';
 
+const tags = figma.properties.children(['Tag-Toggle']);
+
 export default {
   example: figma.code`
     <div className="flex flex-wrap gap-2">
-      <TagToggle>
-        <IconShell size="sm" type="neutral" variant="primary">
-          <Icon icon="style" />
-        </IconShell>
-        Label
-      </TagToggle>
-
-      <TagToggle pill>
-        <IconShell size="sm" type="neutral" variant="primary">
-          <Icon icon="style" />
-        </IconShell>
-        Label
-      </TagToggle>
-
-      <TagToggle variant="outline">
-        <IconShell size="sm" type="neutral" variant="primary">
-          <Icon icon="style" />
-        </IconShell>
-        Label
-      </TagToggle>
+      ${figma.helpers.react.renderChildren(tags)}
     </div>
   `,
   imports: [
