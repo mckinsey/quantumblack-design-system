@@ -182,6 +182,10 @@ function Tag({
   ...props
 }: TagProps) {
   const isInteractive = !!onClick;
+  const label =
+    React.Children.toArray(children).find(
+      child => typeof child === 'string' || typeof child === 'number',
+    ) ?? 'tag';
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     onKeyDown?.(e);
@@ -231,7 +235,7 @@ function Tag({
             'disabled:cursor-not-allowed',
             dismissIconColor[variant ?? 'primary'],
           )}
-          aria-label="Remove tag">
+          aria-label={`Remove ${label}`}>
           <Icon
             icon="close"
             size="sm"
