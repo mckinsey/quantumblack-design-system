@@ -24,7 +24,9 @@ export function SwitchDemo() {
   return (
     <div className={`flex items-center ${switchLabelGap.default}`}>
       <Switch id="airplane-mode" />
-      <Label htmlFor="airplane-mode">Airplane Mode</Label>
+      <Label htmlFor="airplane-mode" className={switchLabelClass.default}>
+        Airplane Mode
+      </Label>
     </div>
   );
 }
