@@ -1,6 +1,6 @@
 'use client';
 
-import * as TogglePrimitive from '@radix-ui/react-toggle';
+import { Toggle } from '@base-ui/react/toggle';
 import type { VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 
@@ -58,8 +58,8 @@ function tagToggleClasses({
       pressedOverlay,
       disabledOverlay,
       'focus-visible:bg-fill-muted',
-      'data-[state=on]:bg-fill-active data-[state=on]:text-fg-primary-inverse',
-      'data-[state=on]:focus-visible:bg-fill-active',
+      'data-pressed:bg-fill-active data-pressed:text-fg-primary-inverse',
+      'data-pressed:focus-visible:bg-fill-active',
     ],
 
     variant === 'outline' && [
@@ -67,7 +67,7 @@ function tagToggleClasses({
       hoverOverlay,
       pressedOverlay,
       disabledOverlay,
-      'data-[state=on]:border-stroke-active!',
+      'data-pressed:border-stroke-active!',
     ],
 
     className,
@@ -81,18 +81,19 @@ function TagToggle({
   pill,
   children,
   ...props
-}: React.ComponentProps<typeof TogglePrimitive.Root> & {
+}: Omit<Toggle.Props, 'className'> & {
+  className?: string;
   variant?: TagToggleVariant;
   size?: TagToggleSize;
   pill?: VariantProps<typeof tagSizeVariants>['pill'];
 }) {
   return (
-    <TogglePrimitive.Root
+    <Toggle
       data-slot="tag-toggle"
       className={tagToggleClasses({ variant, size, pill, className })}
       {...props}>
       {wrapTagText(children, 'disabled')}
-    </TogglePrimitive.Root>
+    </Toggle>
   );
 }
 

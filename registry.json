@@ -864,12 +864,11 @@
       "name": "tag-toggle",
       "type": "registry:ui",
       "title": "Tag Toggle",
-      "description": "A toggleable tag component with support for icons, pill shape, and sizes. Built on Radix Toggle primitive with tag styling.",
-      "dependencies": ["@radix-ui/react-toggle"],
+      "description": "A toggleable tag with icons, pill shape, and sizes. Built on Base UI Toggle.",
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/button.json",
         "__REGISTRY_URL__/r/tag.json"
       ],
       "files": [
