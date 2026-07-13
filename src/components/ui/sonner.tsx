@@ -19,6 +19,7 @@ type ToastType = NonNullable<ToastT['type']>;
 export interface ToastOptions extends Omit<ExternalToast, 'action' | 'cancel'> {
   readonly action?: React.ReactNode;
   readonly cancel?: React.ReactNode;
+  readonly testId?: string;
 }
 
 interface ToastProps {
