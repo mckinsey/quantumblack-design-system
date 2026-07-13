@@ -22,9 +22,17 @@ describe('Tag', () => {
 
   it('calls onRemove without bubbling', () => {
     const onRemove = vi.fn();
-    render(<Tag onRemove={onRemove}>Label</Tag>);
+    const onClick = vi.fn();
+
+    render(
+      <Tag onRemove={onRemove} onClick={onClick}>
+        Label
+      </Tag>,
+    );
+
     fireEvent.click(screen.getByRole('button', { name: 'Remove tag' }));
     expect(onRemove).toHaveBeenCalledOnce();
+    expect(onClick).not.toHaveBeenCalled();
   });
 
   it.each([
