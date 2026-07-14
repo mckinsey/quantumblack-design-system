@@ -1,6 +1,6 @@
 ---
 name: figma-parity
-description: Match Figma specs when implementing or reviewing QBDS UI — tokens, layout, all variants/states, Code Connect, demos, registry. Use when implementing, updating, or reviewing a QBDS component against a Figma URL/node or the library spec. Triggers — "implement this Figma component", "match the Figma spec", "figma parity", "build this component from Figma", or a figma.com URL alongside work in src/components/ui/, demos, registry.json, or code-connect/.
+description: Match Figma specs when implementing or reviewing QBDS UI — tokens, layout, all variants/states, demos, registry. Use when implementing, updating, or reviewing a QBDS component against a Figma URL/node or the library spec. Triggers — "implement this Figma component", "match the Figma spec", "figma parity", "build this component from Figma", or a figma.com URL alongside work in src/components/ui/, demos, or registry.json.
 ---
 
 # Figma ↔ code parity (QBDS)
@@ -31,10 +31,6 @@ Match Figma tokens via **[docs/TOKENS.md](docs/TOKENS.md)** (Design name + Tailw
 - **Public API**: Every exported sub-component needs a demo example and at least one test, or remove it from the public API.
 
 ## Workflow (run in order)
-
-### 0 — Code Connect (if present)
-
-If **`code-connect/<name>.figma.ts` (or `.figma.tsx`) exists**, read it before raw Figma codegen. Use it for props, enums, slots, and `example` snippets; still verify tokens, spacing, geometry, and states in code. Map every Figma variant property; use the real public API (no invented props). Update the mapping when the React API changes. New mappings: follow `code-connect/button-text.figma.ts` / `button-icon.figma.ts` and use `get_code_connect_map` when available. Code Connect confirms props/API; spacing still requires per-cell autolayout inspection.
 
 ### 1 — Structure & variants
 
@@ -79,7 +75,7 @@ For **each matrix cell** (every meaningful variant combination), use `get_design
 
 - Record **pl and pr separately** in the spacing table — never assume symmetric padding.
 - Do **not** infer padding from symbol bounding-box width or total component width.
-- Code Connect snippets replace raw autolayout — still verify padding on the inner **State-Overlays** frame (Dev Mode or raw MCP codegen on a cell without Code Connect).
+- Verify padding on the inner **State-Overlays** frame (Dev Mode or MCP codegen on the variant cell).
 - When `Spacing/N` tokens appear together (e.g. `Spacing/8` + `Spacing/12`), map each to its side; do not dismiss larger tokens as "internal only" without checking the overlay frame.
 - **Shared `cva` ≠ shared spacing** — if a sibling component (e.g. Tag vs TagToggle) diverges, document and fix per component file.
 
@@ -97,11 +93,10 @@ For **each matrix cell** (every meaningful variant combination), use `get_design
 
 Report a **variant × state** matrix: pass / drift (note ≥2px or wrong token).
 
-**Figma MCP (when available):** `get_design_context` (primary — layout, description, screenshot), `get_metadata`, `get_variable_defs`, `get_screenshot`, `get_code_connect_map`.
+**Figma MCP (when available):** `get_design_context` (primary — layout, description, screenshot), `get_metadata`, `get_variable_defs`, `get_screenshot`.
 
 ## Acceptance checklist
 
-- [ ] Code Connect read/updated if `code-connect/<name>.figma.tsx` exists
 - [ ] Alignment table: all Figma axes ↔ `cva`/props (both directions); SLOT seams covered
 - [ ] Variant × state matrix: tokens + geometry per cell
 - [ ] Light and dark where the component appears on both
