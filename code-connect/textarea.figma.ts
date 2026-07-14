@@ -58,10 +58,11 @@ const statusMessage =
 const counterInst = instance.findInstance('Elements/Characters-Counter', {
   traverseInstances: true,
 });
-const maxChars =
+const rawMax =
   counterInst && counterInst.type === 'INSTANCE'
-    ? counterInst.getString('Max')
-    : '150';
+    ? counterInst.getString('Max') || counterInst.getString('Max+1')
+    : '';
+const maxChars = rawMax || '150';
 
 const disabled = state === 'disabled';
 const invalid = state === 'error';
