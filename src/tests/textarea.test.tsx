@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 
@@ -73,23 +73,32 @@ describe(`${componentName} — structure & interaction`, () => {
 });
 
 describe(`${componentName} — TextareaRoot & TextareaCounter`, () => {
-  it('renders counter when maxCharacters is set', () => {
+  it('renders counter when maxCharacters is set', async () => {
     render(
       <TextareaRoot maxCharacters={150}>
         <TextareaCounter />
         <Textarea aria-label="with-counter" defaultValue="hello" />
       </TextareaRoot>,
     );
-    expect(screen.getByText('5')).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.getByText('5')).toBeInTheDocument();
+    });
     expect(screen.getByText('150')).toBeInTheDocument();
   });
 
-  it('sets aria-invalid when count exceeds maxCharacters', () => {
+  it('sets aria-invalid when count exceeds maxCharacters', async () => {
     render(
       <TextareaRoot maxCharacters={5}>
         <Textarea aria-label="over-limit" defaultValue="too long" />
       </TextareaRoot>,
     );
-    expect(screen.getByRole('textbox')).toHaveAttribute('aria-invalid', 'true');
+
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).toHaveAttribute(
+        'aria-invalid',
+        'true',
+      );
+    });
   });
 });

@@ -65,7 +65,7 @@ const rawMax =
 
 const disabled = state === 'disabled';
 const invalid = state === 'error';
-const hasContent = state !== 'enabled';
+const hasContent = state === 'filled' || state === 'error';
 
 const labelTypography =
   size === 'sm'
