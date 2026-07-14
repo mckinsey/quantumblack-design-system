@@ -24,15 +24,6 @@ export function TabsDemo() {
 export function TabsSizes() {
   return (
     <div className="flex flex-col gap-8">
-      <Tabs defaultValue="account" className="w-[400px]" size="sm" hideBaseline>
-        <TabsList>
-          <TabsTrigger value="account">Account</TabsTrigger>
-          <TabsTrigger value="password">Password</TabsTrigger>
-        </TabsList>
-        <TabsContent value="account">Small tabs content.</TabsContent>
-        <TabsContent value="password">Password content.</TabsContent>
-      </Tabs>
-
       <Tabs defaultValue="account" className="w-[400px]" hideBaseline>
         <TabsList>
           <TabsTrigger value="account">Account</TabsTrigger>
@@ -48,6 +39,15 @@ export function TabsSizes() {
           <TabsTrigger value="password">Password</TabsTrigger>
         </TabsList>
         <TabsContent value="account">Large tabs content.</TabsContent>
+        <TabsContent value="password">Password content.</TabsContent>
+      </Tabs>
+
+      <Tabs defaultValue="account" className="w-[400px]" size="xl" hideBaseline>
+        <TabsList>
+          <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="password">Password</TabsTrigger>
+        </TabsList>
+        <TabsContent value="account">Extra large tabs content.</TabsContent>
         <TabsContent value="password">Password content.</TabsContent>
       </Tabs>
     </div>
@@ -109,21 +109,6 @@ export function TabsCentered() {
 export function TabsCompact() {
   return (
     <div className="flex flex-col gap-8">
-      <Tabs
-        defaultValue="account"
-        className="w-[400px]"
-        size="sm"
-        padded={false}>
-        <TabsList>
-          <TabsTrigger value="account">Account</TabsTrigger>
-          <TabsTrigger value="password">Password</TabsTrigger>
-          <TabsTrigger value="settings">Settings</TabsTrigger>
-        </TabsList>
-        <TabsContent value="account">Small compact tabs.</TabsContent>
-        <TabsContent value="password">Password content.</TabsContent>
-        <TabsContent value="settings">Settings content.</TabsContent>
-      </Tabs>
-
       <Tabs defaultValue="account" className="w-[400px]" padded={false}>
         <TabsList>
           <TabsTrigger value="account">Account</TabsTrigger>
@@ -146,6 +131,21 @@ export function TabsCompact() {
           <TabsTrigger value="settings">Settings</TabsTrigger>
         </TabsList>
         <TabsContent value="account">Large compact tabs.</TabsContent>
+        <TabsContent value="password">Password content.</TabsContent>
+        <TabsContent value="settings">Settings content.</TabsContent>
+      </Tabs>
+
+      <Tabs
+        defaultValue="account"
+        className="w-[400px]"
+        size="xl"
+        padded={false}>
+        <TabsList>
+          <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="password">Password</TabsTrigger>
+          <TabsTrigger value="settings">Settings</TabsTrigger>
+        </TabsList>
+        <TabsContent value="account">Extra large compact tabs.</TabsContent>
         <TabsContent value="password">Password content.</TabsContent>
         <TabsContent value="settings">Settings content.</TabsContent>
       </Tabs>
@@ -186,7 +186,7 @@ export const examples = [
   {
     name: 'TabsSizes',
     title: 'Sizes',
-    description: 'Small, default, and large tab sizes.',
+    description: 'Default, large, and extra large tab sizes.',
   },
   {
     name: 'TabsBaseline',

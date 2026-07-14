@@ -1,22 +1,19 @@
 'use client';
 
-import * as TabsPrimitive from '@radix-ui/react-tabs';
+import { Tabs as TabsPrimitive } from '@base-ui/react/tabs';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-// Types
-export type TabSize = 'sm' | 'default' | 'lg';
+export type TabSize = 'default' | 'lg' | 'xl';
 
 export interface TabsTriggerProps extends React.ComponentProps<
-  typeof TabsPrimitive.Trigger
+  typeof TabsPrimitive.Tab
 > {
   size?: TabSize;
 }
 
-export type TabsContentProps = React.ComponentProps<
-  typeof TabsPrimitive.Content
->;
+export type TabsContentProps = React.ComponentProps<typeof TabsPrimitive.Panel>;
 
 export interface TabsProps extends React.ComponentProps<
   typeof TabsPrimitive.Root
@@ -28,7 +25,6 @@ export interface TabsProps extends React.ComponentProps<
 
 export type TabsListProps = React.ComponentProps<typeof TabsPrimitive.List>;
 
-// Size context for passing size to triggers
 interface TabsSizeContextValue {
   size?: TabSize;
 }
@@ -43,7 +39,6 @@ const useTabsSizeContext = () => {
   return context;
 };
 
-// Layout context for passing hideBaseline and padded to list and triggers
 interface TabsLayoutContextValue {
   hideBaseline?: boolean;
   padded?: boolean;
@@ -59,7 +54,6 @@ const useTabsLayoutContext = () => {
   return context;
 };
 
-// Default styles based on design spec
 const defaultStyles = {
   tabs: 'w-full',
   tabList: {
@@ -68,9 +62,9 @@ const defaultStyles = {
       "before:absolute before:bottom-0 before:left-0 before:w-full before:h-px before:bg-stroke-tertiary before:content-['']",
     hideBaseline: 'before:content-none',
     compact: {
-      sm: 'gap-3',
       default: 'gap-3',
-      lg: 'gap-5',
+      lg: 'gap-3',
+      xl: 'gap-5',
     },
     scrollbar:
       'scrollbar-none [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0',
@@ -78,52 +72,44 @@ const defaultStyles = {
   tab: {
     base: 'box-border relative align-top text-center text-ellipsis overflow-visible inline-flex items-center justify-center gap-1 select-none outline-none transition-all duration-200',
     padding: {
-      sm: 'px-3 py-2',
-      default: 'px-4 pt-2 pb-3',
-      lg: 'px-6 py-3',
+      default: 'px-3 py-2',
+      lg: 'px-4 pt-2 pb-3',
+      xl: 'px-6 py-3',
     },
     paddingCompact: {
-      sm: 'py-2',
-      default: 'pt-2 pb-3',
-      lg: 'py-3',
+      default: 'py-2',
+      lg: 'pt-2 pb-3',
+      xl: 'py-3',
     },
-    // Typography per size
     font: {
-      sm: 'paragraph-regular-primary',
-      default: 'label-large-primary',
-      lg: 'headings-h4-regular',
+      default: 'paragraph-regular-primary',
+      lg: 'label-large-primary',
+      xl: 'headings-h4-regular',
     },
-    // Animated hover border (expands from center)
     animatedHoverBorder:
-      "after:absolute after:bottom-[-1px] after:left-0 after:h-px after:w-full after:bg-stroke-tertiary-hover after:content-[''] after:scale-x-0 after:origin-center after:transition-transform after:duration-200 data-[state=inactive]:hover:after:scale-x-100",
-    // State: Inactive (1px bottom border)
+      "after:absolute after:bottom-[-1px] after:left-0 after:h-px after:w-full after:bg-stroke-tertiary-hover after:content-[''] after:scale-x-0 after:origin-center after:transition-transform after:duration-200 [&:not([data-active])]:hover:after:scale-x-100",
     inactive: {
       border:
-        'data-[state=inactive]:border-b data-[state=inactive]:border-b-stroke-tertiary',
-      text: 'data-[state=inactive]:text-fg-secondary',
-      cursor: 'data-[state=inactive]:cursor-pointer',
+        '[&:not([data-active])]:border-b [&:not([data-active])]:border-b-stroke-tertiary',
+      text: '[&:not([data-active])]:text-fg-secondary',
+      cursor: '[&:not([data-active])]:cursor-pointer',
     },
-    // State: Active/Selected (1px bottom border)
     active: {
-      border:
-        'data-[state=active]:border-b data-[state=active]:border-b-stroke-active',
-      text: 'data-[state=active]:text-fg-primary',
-      cursor: 'data-[state=active]:cursor-default',
+      border: 'data-active:border-b data-active:border-b-stroke-active',
+      text: 'data-active:text-fg-primary',
+      cursor: 'data-active:cursor-default',
     },
-    // State: Focused (bottom-only border per design spec — NOT a ring/outline)
     focused: {
       color:
-        'focus-visible:data-[state=inactive]:border-b-stroke-status-focus focus-visible:data-[state=active]:border-b-stroke-status-focus',
+        'focus-visible:[&:not([data-active])]:border-b-stroke-status-focus focus-visible:data-active:border-b-stroke-status-focus',
       widthLarge:
-        'focus-visible:data-[state=inactive]:border-b-2 focus-visible:data-[state=active]:border-b-2',
+        'focus-visible:[&:not([data-active])]:border-b-2 focus-visible:data-active:border-b-2',
       text: 'focus-visible:text-fg-primary',
     },
-    // State: Disabled (1px bottom border)
     disabled: {
-      border:
-        'data-[disabled]:border-b data-[disabled]:border-b-stroke-tertiary',
-      text: 'data-[disabled]:text-fg-disabled',
-      cursor: 'data-[disabled]:cursor-not-allowed',
+      border: 'data-disabled:border-b data-disabled:border-b-stroke-tertiary',
+      text: 'data-disabled:text-fg-disabled',
+      cursor: 'data-disabled:cursor-not-allowed',
     },
   },
   tabPanel: {
@@ -131,7 +117,6 @@ const defaultStyles = {
   },
 };
 
-// Components
 function TabsRoot({
   children,
   className,
@@ -191,49 +176,41 @@ function TabsTrigger({
   const padded = layoutContext?.padded ?? true;
 
   return (
-    <TabsPrimitive.Trigger
+    <TabsPrimitive.Tab
       data-slot="tabs-trigger"
       disabled={disabled}
-      data-disabled={disabled ? '' : undefined}
       className={cn(
         defaultStyles.tab.base,
         padded
           ? defaultStyles.tab.padding[size]
           : defaultStyles.tab.paddingCompact[size],
         defaultStyles.tab.font[size],
-        // Disabled state (applied first to ensure it overrides)
         defaultStyles.tab.disabled.border,
         defaultStyles.tab.disabled.text,
         defaultStyles.tab.disabled.cursor,
-        // Inactive state (only when not disabled)
         !disabled && defaultStyles.tab.inactive.border,
         !disabled && defaultStyles.tab.inactive.text,
         !disabled && defaultStyles.tab.inactive.cursor,
-        // Active state (only when not disabled)
         !disabled && defaultStyles.tab.active.border,
         !disabled && defaultStyles.tab.active.text,
         !disabled && defaultStyles.tab.active.cursor,
-        // Focus state (bottom-only border, 2px width for lg)
         defaultStyles.tab.focused.color,
-        size === 'lg' && defaultStyles.tab.focused.widthLarge,
+        size === 'xl' && defaultStyles.tab.focused.widthLarge,
         defaultStyles.tab.focused.text,
-        // Hide trigger borders when baseline is shown (hideBaseline === false)
-        // Disable hover border and add animated hover border that expands from center
         !hideBaseline &&
-          'data-[state=inactive]:border-b-transparent data-[state=inactive]:hover:border-b-transparent',
-        // Enable animated hover border for all inactive tabs on hover
+          '[&:not([data-active])]:border-b-transparent [&:not([data-active])]:hover:border-b-transparent',
         !disabled && defaultStyles.tab.animatedHoverBorder,
         className,
       )}
       {...props}>
       {children}
-    </TabsPrimitive.Trigger>
+    </TabsPrimitive.Tab>
   );
 }
 
 function TabsContent({ className, ...props }: TabsContentProps) {
   return (
-    <TabsPrimitive.Content
+    <TabsPrimitive.Panel
       data-slot="tabs-content"
       className={cn(defaultStyles.tabPanel.base, className)}
       {...props}
