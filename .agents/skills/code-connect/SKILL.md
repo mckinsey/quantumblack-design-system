@@ -9,6 +9,46 @@ Use the **`/figma-code-connect`** skill to create the template mappings — it o
 
 QBDS authors **template** files (`code-connect/<name>.figma.ts`, MCP `figma` API). The old parser style (`figma.connect(...)` in `.figma.tsx`) is **deprecated** — do not author new `.figma.tsx` files.
 
+## Env vars (before templates)
+
+Every `// url=<QBDS_*>` token needs a matching env var. Derive the name from the header:
+
+| Template header             | Env var                      |
+| --------------------------- | ---------------------------- |
+| `// url=<QBDS_TAG>`         | `FIGMA_URL_QBDS_TAG`         |
+| `// url=<QBDS_BUTTON_TEXT>` | `FIGMA_URL_QBDS_BUTTON_TEXT` |
+
+Rule: `<QBDS_X>` → `FIGMA_URL_QBDS_X`.
+
+### Missing var — add to repo files
+
+When creating or wiring a template, check both files:
+
+| File           | Action                                                                                                  |
+| -------------- | ------------------------------------------------------------------------------------------------------- |
+| `.env.example` | add empty placeholder if key missing: `FIGMA_URL_QBDS_<NAME>=`                                          |
+| `.env`         | add key if missing — paste URL when user provided it in chat; otherwise empty: `FIGMA_URL_QBDS_<NAME>=` |
+
+Then tell the user:
+
+- If `.env` has the full URL → run `npm run figma:config`
+- If `.env` value is empty → ask user to paste the Figma URL into `.env`, then run `npm run figma:config`
+
+Never commit real URLs or tokens — only empty placeholders in `.env.example`.
+
+### Cannot write `.env`
+
+`.env` is local and may be missing or blocked. If you cannot create or edit it:
+
+1. Still add the empty key to `.env.example` (committed).
+2. Stop and give the user an exact block to paste into their local `.env`:
+
+```bash
+FIGMA_URL_QBDS_<NAME>=<full figma component-set url>
+```
+
+Do not run `npm run figma:config` / `figma:parse` until the user confirms the URL is in `.env` (empty values are skipped by `generate-figma-config.ts`).
+
 ## QBDS conventions
 
 ### 1 — Figma URL is a token, never inlined
@@ -21,7 +61,7 @@ The `// url=` header references a substitution token, not a raw URL:
 // component=Button
 ```
 
-- Add the node URL to **`.env`** and **`.env.example`** as `FIGMA_URL_QBDS_<NAME>=...`, then run `npm run figma:config`.
+- Add the node URL via env vars (see **Env vars** above) — never inline the URL in the template.
 - The script turns each `FIGMA_URL_<NAME>` into `<<NAME>>` and writes `documentUrlSubstitutions` into `figma.config.json` (git-ignored). The CLI substitutes `<QBDS_<NAME>>` → URL at publish.
 - URL must target the **COMPONENT_SET** node, not a variant inside it. Dev Mode only surfaces Code Connect at the set level. Copy link from the set name in Figma (e.g. `Tags-Dismissable` → `38573-15379`, not variant `38573-15380`).
 
