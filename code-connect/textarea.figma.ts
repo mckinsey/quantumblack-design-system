@@ -106,8 +106,13 @@ const fieldBody = figma.code`
   <FieldSet className="gap-2">
     ${labelRow}
     <Textarea ${textareaProps} />
-    ${showHelpText ? figma.code`<FieldDescription className="${descClass}">${helperText}</FieldDescription>` : figma.code``}
-    ${showFeedback && invalid ? figma.code`<FieldError>${statusMessage}</FieldError>` : figma.code``}
+    ${
+      invalid && showFeedback
+        ? figma.code`<FieldError>${statusMessage}</FieldError>`
+        : showHelpText
+          ? figma.code`<FieldDescription className="${descClass}">${helperText}</FieldDescription>`
+          : figma.code``
+    }
   </FieldSet>
 `;
 
