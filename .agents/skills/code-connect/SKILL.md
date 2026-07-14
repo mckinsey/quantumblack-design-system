@@ -80,6 +80,25 @@ The component `Props` in `src/components/ui/<name>.tsx` is the source of truth. 
 
 If nothing represents it, omit it and tell the user. Keep `example` close to the demo (`src/app/demo/[name]/ui/<name>.tsx`).
 
+### 3b — Field footer: helper XOR feedback
+
+Figma inputs often expose `showHelpText` and `showFeedbackMessage` as separate booleans. React composes **one** footer message:
+
+| State           | Render                                                                                                 |
+| --------------- | ------------------------------------------------------------------------------------------------------ |
+| valid / neutral | `<FieldDescription>` when `showHelpText`                                                               |
+| error / invalid | `<FieldError>` when `showFeedbackMessage` — **replaces** helper, do not also render `FieldDescription` |
+
+Demos follow this (see `TextareaStates` error example). Code Connect templates must match — not both in the same snippet.
+
+```ts
+${invalid && showFeedback
+  ? figma.code`<FieldError>${statusMessage}</FieldError>`
+  : showHelpText
+    ? figma.code`<FieldDescription className="${descClass}">${helperText}</FieldDescription>`
+    : figma.code``}
+```
+
 ### 4 — Slot children (repeated same-type instances)
 
 When a SLOT holds multiple instances of the same component (tag groups, button groups, sidebar items), use `figma.properties.children()` + `renderChildren()` — not `getSlot()` or `findConnectedInstances()` (both render empty for this pattern).
