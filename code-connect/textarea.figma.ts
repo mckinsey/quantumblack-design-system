@@ -62,7 +62,6 @@ const rawMax =
   counterInst && counterInst.type === 'INSTANCE'
     ? counterInst.getString('Max') || counterInst.getString('Max+1')
     : '';
-const maxChars = rawMax || '150';
 
 const disabled = state === 'disabled';
 const invalid = state === 'error';
@@ -115,7 +114,7 @@ const fieldBody = figma.code`
 export default {
   example: showCounter
     ? figma.code`
-        <TextareaRoot maxCharacters={${maxChars}} size="${size}">
+        <TextareaRoot maxCharacters={${Number(rawMax) || 150}} size="${size}">
           ${fieldBody}
         </TextareaRoot>
       `
