@@ -31,6 +31,13 @@ const nonPillPadding = {
   lg: '!px-2',
 } as const;
 
+const pillPadding = {
+  xs: '!pl-1 !pr-2',
+  sm: '!pl-2 !pr-3',
+  default: '!pl-2 !pr-3',
+  lg: '!pl-2 !pr-3',
+} as const;
+
 function tagToggleClasses({
   variant = 'default',
   size = 'default',
@@ -47,6 +54,7 @@ function tagToggleClasses({
 
     'gap-1',
     pill !== true && nonPillPadding[size],
+    pill === true && pillPadding[size],
 
     ...tagBaseStyles('disabled'),
     'cursor-pointer group',
@@ -59,6 +67,7 @@ function tagToggleClasses({
       disabledOverlay,
       'focus-visible:bg-fill-muted',
       'data-pressed:bg-fill-active data-pressed:text-fg-primary-inverse',
+      'data-pressed:**:data-[slot=icon]:text-fill-active-inverse',
       'data-pressed:focus-visible:bg-fill-active',
     ],
 

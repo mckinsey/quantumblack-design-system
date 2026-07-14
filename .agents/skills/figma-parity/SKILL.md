@@ -34,7 +34,7 @@ Match Figma tokens via **[docs/TOKENS.md](docs/TOKENS.md)** (Design name + Tailw
 
 ### 0 — Code Connect (if present)
 
-If **`code-connect/<name>.figma.tsx` exists**, read it before raw Figma codegen. Use it for props, enums, slots, and `example` snippets; still verify tokens, spacing, geometry, and states in code. Map every Figma variant property; use the real public API (no invented props). Update the mapping when the React API changes. New mappings: follow `code-connect/button.figma.tsx` and use `get_code_connect_map` when available.
+If **`code-connect/<name>.figma.tsx` exists**, read it before raw Figma codegen. Use it for props, enums, slots, and `example` snippets; still verify tokens, spacing, geometry, and states in code. Map every Figma variant property; use the real public API (no invented props). Update the mapping when the React API changes. New mappings: follow `code-connect/button.figma.tsx` and use `get_code_connect_map` when available. Code Connect confirms props/API; spacing still requires per-cell autolayout inspection.
 
 ### 1 — Structure & variants
 
@@ -67,12 +67,21 @@ For **each matrix cell** (every meaningful variant combination), use `get_design
 | Property                      | Figma             | Code                                     |
 | ----------------------------- | ----------------- | ---------------------------------------- |
 | Height / min size             | auto-layout       | `size-*`, `min-h`, padding + line-height |
-| Padding / gap                 | spacing variables | `p-*`, `gap-*` on the scale above        |
+| pl / pr (record separately)   | spacing variables | `pl-*`, `pr-*` on the scale above        |
+| gap                           | spacing variables | `gap-*` on the scale above               |
 | Icon box                      | icon frame size   | `IconShell` + parent `icon-*` size       |
 | Separators / attached spacers | layout on group   | avoid double gap; only between items     |
 | Typography                    | text style name   | matching `cta-*` / `paragraph-*` utility |
 
 **Compound spacing:** Derive spacing from Figma **per variant cell**, not from a single axis (e.g. “if boxed, always gap-2”). Size and shape often change gap/padding independently — document or test non-default cells when logic is non-obvious.
+
+**Spacing verification rules**
+
+- Record **pl and pr separately** in the spacing table — never assume symmetric padding.
+- Do **not** infer padding from symbol bounding-box width or total component width.
+- Code Connect snippets replace raw autolayout — still verify padding on the inner **State-Overlays** frame (Dev Mode or raw MCP codegen on a cell without Code Connect).
+- When `Spacing/N` tokens appear together (e.g. `Spacing/8` + `Spacing/12`), map each to its side; do not dismiss larger tokens as "internal only" without checking the overlay frame.
+- **Shared `cva` ≠ shared spacing** — if a sibling component (e.g. Tag vs TagToggle) diverges, document and fix per component file.
 
 **Interactive states** (on controls inside the component):
 
@@ -98,6 +107,8 @@ Report a **variant × state** matrix: pass / drift (note ≥2px or wrong token).
 - [ ] Light and dark where the component appears on both
 - [ ] Defaults aligned (Figma, `cva`, registry); demos start simple and cover the full alignment table
 - [ ] Compound spacing from per-cell Figma values (no undocumented single-axis shortcuts)
+- [ ] Horizontal padding verified as pl + pr per matrix cell (not width-inferred, not assumed symmetric)
+- [ ] Shared styling helpers checked per component when spacing differs
 - [ ] Exported sub-components: demo + test, or not exported
 - [ ] Composed primitives: correct `asChild` direction; keyboard nav verified
 - [ ] Visual pass: no undocumented ≥2px gaps
