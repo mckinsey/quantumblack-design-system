@@ -16,7 +16,7 @@ describe('Tag', () => {
   it('renders remove button with aria-label', () => {
     render(<Tag onRemove={() => {}}>Label</Tag>);
     expect(
-      screen.getByRole('button', { name: 'Remove Label' }),
+      screen.getByRole('button', { name: 'Remove tag' }),
     ).toBeInTheDocument();
   });
 
@@ -30,7 +30,7 @@ describe('Tag', () => {
       </Tag>,
     );
 
-    fireEvent.click(screen.getByRole('button', { name: 'Remove Label' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Remove tag' }));
     expect(onRemove).toHaveBeenCalledOnce();
     expect(onClick).not.toHaveBeenCalled();
   });
