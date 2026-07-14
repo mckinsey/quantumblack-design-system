@@ -6,13 +6,6 @@ import {
 } from '@/components/ui/field';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
-// ============================================================================
-// Example Components (New Format)
-// ============================================================================
-
-/**
- * Default radio group
- */
 export function RadioGroupDemo() {
   return (
     <FieldSet className="w-full max-w-xs">
@@ -22,19 +15,25 @@ export function RadioGroupDemo() {
       <RadioGroup defaultValue="option-one" className="pt-3 pb-3">
         <Field orientation="horizontal">
           <RadioGroupItem value="option-one" id="r1" />
-          <FieldLabel htmlFor="r1" className="font-normal">
+          <FieldLabel
+            htmlFor="r1"
+            className="text-fg-secondary label-regular-primary">
             Option One
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="option-two" id="r2" />
-          <FieldLabel htmlFor="r2" className="font-normal">
+          <FieldLabel
+            htmlFor="r2"
+            className="text-fg-secondary label-regular-primary">
             Option Two
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="option-three" id="r3" />
-          <FieldLabel htmlFor="r3" className="font-normal">
+          <FieldLabel
+            htmlFor="r3"
+            className="text-fg-secondary label-regular-primary">
             Option Three
           </FieldLabel>
         </Field>
@@ -43,9 +42,6 @@ export function RadioGroupDemo() {
   );
 }
 
-/**
- * Radio group states
- */
 export function RadioGroupStates() {
   return (
     <FieldSet className="w-full max-w-xs">
@@ -55,19 +51,26 @@ export function RadioGroupStates() {
       <RadioGroup defaultValue="state-one" className="pt-3 pb-3">
         <Field orientation="horizontal">
           <RadioGroupItem value="state-one" id="s1" />
-          <FieldLabel htmlFor="s1" className="font-normal">
+          <FieldLabel
+            htmlFor="s1"
+            className="text-fg-secondary label-regular-primary">
             Checked (default)
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="state-two" id="s2" />
-          <FieldLabel htmlFor="s2" className="font-normal">
+          <FieldLabel
+            htmlFor="s2"
+            className="text-fg-secondary label-regular-primary">
             Unchecked
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="state-three" id="s3" disabled />
-          <FieldLabel htmlFor="s3" className="font-normal" disabled>
+          <FieldLabel
+            htmlFor="s3"
+            className="text-fg-secondary label-regular-primary"
+            disabled>
             Disabled (unchecked)
           </FieldLabel>
         </Field>
@@ -76,9 +79,6 @@ export function RadioGroupStates() {
   );
 }
 
-/**
- * Fully disabled radio group
- */
 export function RadioGroupDisabled() {
   return (
     <FieldSet className="w-full max-w-xs">
@@ -88,19 +88,28 @@ export function RadioGroupDisabled() {
       <RadioGroup defaultValue="disabled-one" disabled className="pt-3 pb-3">
         <Field orientation="horizontal">
           <RadioGroupItem value="disabled-one" id="d1" />
-          <FieldLabel htmlFor="d1" className="font-normal" disabled>
+          <FieldLabel
+            htmlFor="d1"
+            className="text-fg-secondary label-regular-primary"
+            disabled>
             Option One (Selected)
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="disabled-two" id="d2" />
-          <FieldLabel htmlFor="d2" className="font-normal" disabled>
+          <FieldLabel
+            htmlFor="d2"
+            className="text-fg-secondary label-regular-primary"
+            disabled>
             Option Two
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="disabled-three" id="d3" />
-          <FieldLabel htmlFor="d3" className="font-normal" disabled>
+          <FieldLabel
+            htmlFor="d3"
+            className="text-fg-secondary label-regular-primary"
+            disabled>
             Option Three
           </FieldLabel>
         </Field>
@@ -109,9 +118,6 @@ export function RadioGroupDisabled() {
   );
 }
 
-/**
- * Partially disabled options
- */
 export function RadioGroupPartialDisabled() {
   return (
     <FieldSet className="w-full max-w-xs">
@@ -121,19 +127,26 @@ export function RadioGroupPartialDisabled() {
       <RadioGroup defaultValue="partial-one" className="pt-3 pb-3">
         <Field orientation="horizontal">
           <RadioGroupItem value="partial-one" id="p1" />
-          <FieldLabel htmlFor="p1" className="font-normal">
+          <FieldLabel
+            htmlFor="p1"
+            className="text-fg-secondary label-regular-primary">
             Option One
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="partial-two" id="p2" disabled />
-          <FieldLabel htmlFor="p2" className="font-normal" disabled>
+          <FieldLabel
+            htmlFor="p2"
+            className="text-fg-secondary label-regular-primary"
+            disabled>
             Option Two (Disabled)
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="partial-three" id="p3" />
-          <FieldLabel htmlFor="p3" className="font-normal">
+          <FieldLabel
+            htmlFor="p3"
+            className="text-fg-secondary label-regular-primary">
             Option Three
           </FieldLabel>
         </Field>
@@ -141,10 +154,6 @@ export function RadioGroupPartialDisabled() {
     </FieldSet>
   );
 }
-
-/**
- * Density variants — default and comfortable, showing all sizes in one row each
- */
 
 const sizeVariants = [
   {
@@ -162,8 +171,8 @@ const sizeVariants = [
     radioSize: undefined as 'lg' | undefined,
     labelClass: 'text-fg-secondary label-small-primary',
     legendClass: 'label-regular-primary',
-    default: { groupGap: 'gap-2', legendGap: 'mb-1' },
-    comfortable: { groupGap: 'gap-3', legendGap: 'mb-1' },
+    default: { groupGap: 'gap-3', legendGap: 'mb-1' },
+    comfortable: { groupGap: 'gap-4', legendGap: 'mb-1' },
   },
   {
     label: 'Large',
@@ -172,7 +181,7 @@ const sizeVariants = [
     labelClass: 'text-fg-secondary label-large-primary',
     legendClass: 'label-large-primary',
     default: { groupGap: 'gap-3', legendGap: 'mb-1' },
-    comfortable: { groupGap: 'gap-4', legendGap: 'mb-2' },
+    comfortable: { groupGap: 'gap-4', legendGap: 'mb-1' },
   },
 ];
 
@@ -234,9 +243,81 @@ export function RadioGroupDensity() {
   );
 }
 
-// ============================================================================
-// Example Metadata
-// ============================================================================
+export function RadioGroupHorizontal() {
+  return (
+    <div className="flex flex-wrap gap-8">
+      <FieldSet className="w-auto">
+        <FieldLegend variant="label" className="label-regular-primary mb-1">
+          Options (default)
+        </FieldLegend>
+        <RadioGroup
+          orientation="horizontal"
+          defaultValue="h1"
+          className="gap-3">
+          <Field orientation="horizontal">
+            <RadioGroupItem value="h1" id="h1" />
+            <FieldLabel
+              htmlFor="h1"
+              className="text-fg-secondary label-regular-primary">
+              Option 1
+            </FieldLabel>
+          </Field>
+          <Field orientation="horizontal">
+            <RadioGroupItem value="h2" id="h2" />
+            <FieldLabel
+              htmlFor="h2"
+              className="text-fg-secondary label-regular-primary">
+              Option 2
+            </FieldLabel>
+          </Field>
+          <Field orientation="horizontal">
+            <RadioGroupItem value="h3" id="h3" />
+            <FieldLabel
+              htmlFor="h3"
+              className="text-fg-secondary label-regular-primary">
+              Option 3
+            </FieldLabel>
+          </Field>
+        </RadioGroup>
+      </FieldSet>
+
+      <FieldSet className="w-auto">
+        <FieldLegend variant="label" className="label-large-primary mb-1">
+          Options (large, comfortable)
+        </FieldLegend>
+        <RadioGroup
+          orientation="horizontal"
+          defaultValue="hl1"
+          className="gap-4">
+          <Field orientation="horizontal">
+            <RadioGroupItem value="hl1" id="hl1" size="lg" />
+            <FieldLabel
+              htmlFor="hl1"
+              className="text-fg-secondary label-large-primary">
+              Option 1
+            </FieldLabel>
+          </Field>
+          <Field orientation="horizontal">
+            <RadioGroupItem value="hl2" id="hl2" size="lg" />
+            <FieldLabel
+              htmlFor="hl2"
+              className="text-fg-secondary label-large-primary">
+              Option 2
+            </FieldLabel>
+          </Field>
+          <Field orientation="horizontal">
+            <RadioGroupItem value="hl3" id="hl3" size="lg" />
+            <FieldLabel
+              htmlFor="hl3"
+              className="text-fg-secondary label-large-primary">
+              Option 3
+            </FieldLabel>
+          </Field>
+        </RadioGroup>
+      </FieldSet>
+    </div>
+  );
+}
 
 export const examples = [
   {
@@ -249,6 +330,11 @@ export const examples = [
     title: 'Sizes & Density',
     description:
       'Regular, small label, and large sizes in default and comfortable density.',
+  },
+  {
+    name: 'RadioGroupHorizontal',
+    title: 'Horizontal',
+    description: 'Inline radio groups for compact horizontal selection.',
   },
   {
     name: 'RadioGroupStates',
@@ -267,15 +353,12 @@ export const examples = [
   },
 ];
 
-// ============================================================================
-// Legacy Format (for backwards compatibility)
-// ============================================================================
-
 export const radioGroup = {
   name: 'radio-group',
   components: {
     Default: <RadioGroupDemo />,
     'Sizes & Density': <RadioGroupDensity />,
+    Horizontal: <RadioGroupHorizontal />,
     States: <RadioGroupStates />,
     'Disabled Group': <RadioGroupDisabled />,
     'Partial Disabled': <RadioGroupPartialDisabled />,

@@ -221,6 +221,7 @@ import {
   RadioGroupDemo,
   RadioGroupDensity,
   RadioGroupDisabled,
+  RadioGroupHorizontal,
   RadioGroupPartialDisabled,
   RadioGroupStates,
   radioGroup,
@@ -577,6 +578,7 @@ export const exampleComponentMaps: Record<
   'radio-group': {
     RadioGroupDemo,
     RadioGroupDensity,
+    RadioGroupHorizontal,
     RadioGroupStates,
     RadioGroupDisabled,
     RadioGroupPartialDisabled,
