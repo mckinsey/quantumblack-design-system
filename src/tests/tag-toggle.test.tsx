@@ -13,6 +13,7 @@ describe('TagToggle', () => {
     const el = screen.getByRole('button', { name: 'Label' });
     expect(el).toHaveAttribute('data-slot', 'tag-toggle');
     expect(el).toHaveAttribute('aria-pressed', 'false');
+    expect(el).not.toHaveAttribute('data-pressed');
   });
 
   it('toggles on click', () => {
@@ -20,10 +21,13 @@ describe('TagToggle', () => {
     const el = screen.getByRole('button', { name: 'Label' });
     fireEvent.click(el);
     expect(el).toHaveAttribute('aria-pressed', 'true');
+    expect(el).toHaveAttribute('data-pressed');
   });
 
   it('renders pressed when controlled', () => {
     render(<TagToggle pressed>Label</TagToggle>);
-    expect(screen.getByRole('button')).toHaveAttribute('aria-pressed', 'true');
+    const el = screen.getByRole('button');
+    expect(el).toHaveAttribute('aria-pressed', 'true');
+    expect(el).toHaveAttribute('data-pressed');
   });
 });

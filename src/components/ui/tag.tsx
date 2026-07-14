@@ -182,10 +182,15 @@ function Tag({
   ...props
 }: TagProps) {
   const isInteractive = !!onClick;
-  const label =
-    React.Children.toArray(children).find(
-      child => typeof child === 'string' || typeof child === 'number',
-    ) ?? 'tag';
+  const label = (() => {
+    for (const child of React.Children.toArray(children)) {
+      if (typeof child === 'number') return String(child);
+
+      if (typeof child === 'string' && child.trim()) return child.trim();
+    }
+
+    return 'tag';
+  })();
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     onKeyDown?.(e);
