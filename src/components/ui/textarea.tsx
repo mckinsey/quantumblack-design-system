@@ -3,7 +3,7 @@
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
-import { inputVariantStyles } from '@/components/ui/input';
+import { inputFocusRingWidth, inputVariantStyles } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
 const textareaVariants = cva(
@@ -15,18 +15,27 @@ const textareaVariants = cva(
           inputVariantStyles.default.base,
           inputVariantStyles.default.text,
           inputVariantStyles.default.hover,
-          'focus-visible:bg-stateslayer-overlay-active-inverse focus-visible:ring-stroke-status-focus',
+          inputVariantStyles.default.focus,
           inputVariantStyles.default.error,
           inputVariantStyles.default.disabled,
           'disabled:bg-stateslayer-overlay-disabled',
         ],
       },
       size: {
-        sm: 'paragraph-small-primary p-3 focus-visible:ring-[1px]',
-        default: 'paragraph-regular-primary p-3 focus-visible:ring-[1px]',
-        lg: 'paragraph-large-primary p-3 focus-visible:ring-[2px]',
+        sm: 'paragraph-small-primary p-3',
+        default: 'paragraph-regular-primary p-3',
+        lg: 'paragraph-large-primary p-3',
       },
     },
+    compoundVariants: [
+      { variant: 'default', size: 'sm', className: inputFocusRingWidth.sm },
+      {
+        variant: 'default',
+        size: 'default',
+        className: inputFocusRingWidth.default,
+      },
+      { variant: 'default', size: 'lg', className: inputFocusRingWidth.lg },
+    ],
     defaultVariants: {
       variant: 'default',
       size: 'default',
