@@ -191,7 +191,8 @@ export const examples = [
   {
     name: 'TabsBaseline',
     title: 'Baseline',
-    description: 'Tabs with and without bottom baseline.',
+    description:
+      'hideBaseline=false shows the full-width divider under the tab row; hideBaseline=true removes it.',
   },
   {
     name: 'TabsCentered',
@@ -201,7 +202,8 @@ export const examples = [
   {
     name: 'TabsCompact',
     title: 'Compact (No Padding)',
-    description: 'Tabs without horizontal padding and gap between triggers.',
+    description:
+      'padded={false}: no horizontal padding on triggers and gap between tabs. padded={true} (default) adds px on each trigger with no inter-tab gap.',
   },
   {
     name: 'TabsDisabled',

@@ -19,7 +19,9 @@ export interface TabsProps extends React.ComponentProps<
   typeof TabsPrimitive.Root
 > {
   size?: TabSize;
+  /** Hides the full-width divider under the tab row. Default shows the tertiary baseline from Tab-Group. */
   hideBaseline?: boolean;
+  /** When true, triggers use horizontal padding and sit flush with no gap. When false, compact triggers with gap between tabs. */
   padded?: boolean;
 }
 
