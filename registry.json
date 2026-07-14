@@ -692,7 +692,7 @@
       "type": "registry:ui",
       "title": "Slider",
       "description": "An input where the user selects a value from within a given range.",
-      "dependencies": ["@radix-ui/react-slider"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",

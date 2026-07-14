@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
+import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 
@@ -115,6 +116,76 @@ export function SliderStepsLabeled() {
   );
 }
 
+/** SingleValueSlider composed (inline-input=false) */
+export function SliderComposed() {
+  const [value, setValue] = useState([46]);
+
+  return (
+    <div className="w-full max-w-sm space-y-2">
+      <div className="flex items-center justify-between">
+        <label className="text-fg-primary text-sm">Label entry</label>
+        <span className="text-fg-primary text-sm">{value[0]}</span>
+      </div>
+      <div className="flex items-center gap-2">
+        <IconShell size="sm" variant="secondary">
+          <Icon icon="volume_mute" />
+        </IconShell>
+        <Slider
+          value={value}
+          onValueChange={setValue}
+          max={100}
+          step={1}
+          className="flex-1"
+          showStepLabels={false}
+        />
+        <IconShell size="sm" variant="secondary">
+          <Icon icon="volume_up" />
+        </IconShell>
+      </div>
+    </div>
+  );
+}
+
+/** Slider with label, icons, and inline value input (SingleValueSlider inline-input=true) */
+export function SliderInlineInput() {
+  const [value, setValue] = useState([46]);
+
+  return (
+    <div className="w-full max-w-sm space-y-2">
+      <label className="text-fg-primary text-sm">Label entry</label>
+      <div className="flex items-center gap-2">
+        <IconShell size="sm" variant="secondary">
+          <Icon icon="volume_mute" />
+        </IconShell>
+        <Slider
+          value={value}
+          onValueChange={setValue}
+          max={100}
+          step={1}
+          className="flex-1"
+          showStepLabels={false}
+        />
+        <IconShell size="sm" variant="secondary">
+          <Icon icon="volume_up" />
+        </IconShell>
+        <Input
+          variant="inline"
+          size="sm"
+          className="w-10 shrink-0 text-center"
+          value={String(value[0])}
+          onChange={e => {
+            const next = Number(e.target.value);
+
+            if (!Number.isNaN(next)) {
+              setValue([Math.min(100, Math.max(0, next))]);
+            }
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
 /** Slider with label and value display */
 export function SliderLabeled() {
   const [value, setValue] = useState([50]);
@@ -205,6 +276,16 @@ export const examples: DemoExample[] = [
     description: 'Sliders with step markers and value labels.',
   },
   {
+    name: 'SliderComposed',
+    title: 'Composed Single Value',
+    description: 'Label, value display, icons, and slider (SingleValueSlider).',
+  },
+  {
+    name: 'SliderInlineInput',
+    title: 'Inline Input',
+    description: 'Slider with leading/trailing icons and inline numeric input.',
+  },
+  {
     name: 'SliderLabeled',
     title: 'With Label',
     description: 'Slider with label and value display.',
@@ -226,6 +307,8 @@ export const slider = createLegacyDemo('slider', examples, {
   SliderRanges: <SliderRanges />,
   SliderSteps: <SliderSteps />,
   SliderStepsLabeled: <SliderStepsLabeled />,
+  SliderComposed: <SliderComposed />,
+  SliderInlineInput: <SliderInlineInput />,
   SliderLabeled: <SliderLabeled />,
   SliderRange: <SliderRange />,
   SliderVolume: <SliderVolume />,

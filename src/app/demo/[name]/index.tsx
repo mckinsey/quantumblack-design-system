@@ -252,7 +252,9 @@ import {
   examples as sidebarExamples,
 } from '@/app/demo/[name]/ui/sidebar';
 import {
+  SliderComposed,
   SliderDemo,
+  SliderInlineInput,
   SliderLabeled,
   SliderRange,
   SliderRanges,
@@ -605,6 +607,8 @@ export const exampleComponentMaps: Record<
     SliderRanges,
     SliderSteps,
     SliderStepsLabeled,
+    SliderComposed,
+    SliderInlineInput,
     SliderLabeled,
     SliderRange,
     SliderVolume,
