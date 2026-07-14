@@ -1,9 +1,23 @@
 'use client';
 
-import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
+import { Checkbox as CheckboxPrimitive } from '@base-ui/react/checkbox';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
+
+type TriState = boolean | 'indeterminate';
+
+function fromTriState(value: TriState | undefined) {
+  if (value === undefined) {
+    return undefined;
+  }
+
+  if (value === 'indeterminate') {
+    return { checked: false as const, indeterminate: true };
+  }
+
+  return { checked: value, indeterminate: false };
+}
 
 function CheckmarkIcon({ size }: { size: 'default' | 'lg' }) {
   const isRegular = size === 'default';
@@ -13,7 +27,7 @@ function CheckmarkIcon({ size }: { size: 'default' | 'lg' }) {
       xmlns="http://www.w3.org/2000/svg"
       className={cn(
         isRegular ? 'h-[7px] w-2' : 'h-[9px] w-[11px]',
-        'group-data-[state=indeterminate]:hidden',
+        'group-data-indeterminate:hidden',
       )}
       viewBox={isRegular ? '0 0 8 7' : '0 0 11 9'}
       fill="none">
@@ -31,54 +45,30 @@ function CheckmarkIcon({ size }: { size: 'default' | 'lg' }) {
   );
 }
 
-/**
- * Checkbox props with JSDoc for auto-generated documentation
- */
-interface CheckboxProps extends React.ComponentProps<
-  typeof CheckboxPrimitive.Root
+interface CheckboxProps extends Omit<
+  React.ComponentProps<typeof CheckboxPrimitive.Root>,
+  'checked' | 'defaultChecked' | 'indeterminate' | 'onCheckedChange'
 > {
-  /**
-   * The size of the checkbox.
-   * - `default`: 16px visible box (20px bounding box)
-   * - `lg`: 20px visible box (24px bounding box)
-   * @default "default"
-   */
   size?: 'default' | 'lg';
-  /**
-   * The controlled checked state. Can be true, false, or "indeterminate".
-   */
-  checked?: boolean | 'indeterminate';
-  /**
-   * The default checked state for uncontrolled usage.
-   */
-  defaultChecked?: boolean | 'indeterminate';
+  checked?: TriState;
+  defaultChecked?: TriState;
+  onCheckedChange?: (checked: TriState) => void;
 }
 
-/**
- * Checkbox component for binary or tri-state selection.
- *
- * Supports checked, unchecked, and indeterminate states.
- * Built on Radix UI Checkbox primitive for accessibility.
- *
- * @example
- * ```tsx
- * <Checkbox />
- * <Checkbox checked={true} />
- * <Checkbox checked="indeterminate" />
- * <Checkbox size="lg" />
- * ```
- */
 function Checkbox({
   className,
   size = 'default',
   checked,
   defaultChecked,
+  onCheckedChange,
   ...props
 }: CheckboxProps) {
   const isRegular = size === 'default';
   const boundingBoxClass = isRegular ? 'size-5' : 'size-6';
   const visibleBoxClass = isRegular ? 'size-4' : 'size-5';
   const indicatorWidth = isRegular ? '8px' : '10px';
+  const controlled = fromTriState(checked);
+  const uncontrolled = fromTriState(defaultChecked);
 
   return (
     <CheckboxPrimitive.Root
@@ -86,11 +76,23 @@ function Checkbox({
       className={cn(
         boundingBoxClass,
         'group peer relative flex shrink-0 items-center justify-center outline-none',
-        'disabled:cursor-not-allowed',
+        'data-disabled:cursor-not-allowed',
         className,
       )}
-      checked={checked}
-      defaultChecked={defaultChecked}
+      {...(controlled !== undefined
+        ? {
+            checked: controlled.checked,
+            indeterminate: controlled.indeterminate,
+          }
+        : uncontrolled !== undefined
+          ? {
+              defaultChecked: uncontrolled.checked,
+              indeterminate: uncontrolled.indeterminate,
+            }
+          : {})}
+      onCheckedChange={nextChecked => {
+        onCheckedChange?.(nextChecked);
+      }}
       {...props}>
       <span
         data-slot="checkbox-visual"
@@ -102,18 +104,18 @@ function Checkbox({
           'group-focus-visible:ring-stroke-status-focus group-focus-visible:ring-2',
           'group-focus-visible:border-stroke-active',
 
-          'group-disabled:border-stroke-tertiary',
-          'group-disabled:group-data-[state=checked]:border-stroke-tertiary',
-          'group-disabled:group-data-[state=indeterminate]:border-stroke-tertiary',
+          'group-data-disabled:border-stroke-tertiary',
+          'group-data-disabled:group-data-checked:border-stroke-tertiary',
+          'group-data-disabled:group-data-indeterminate:border-stroke-tertiary',
         )}>
         <CheckboxPrimitive.Indicator
           data-slot="checkbox-indicator"
-          className="text-fill-active group-disabled:text-fill-disabled absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-none">
+          className="text-fill-active group-data-disabled:text-fill-disabled absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-none">
           <CheckmarkIcon size={size} />
 
           <div
             className={cn(
-              'bg-fill-active group-disabled:bg-fill-disabled h-0.5 group-data-[state=checked]:hidden',
+              'bg-fill-active group-data-disabled:bg-fill-disabled h-0.5 group-data-checked:hidden',
             )}
             style={{ width: indicatorWidth }}
           />

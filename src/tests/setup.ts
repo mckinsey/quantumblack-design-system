@@ -24,3 +24,19 @@ if (typeof window !== 'undefined' && !window.matchMedia) {
     }),
   });
 }
+
+if (
+  typeof globalThis.PointerEvent === 'undefined' &&
+  typeof globalThis.MouseEvent !== 'undefined'
+) {
+  class MockPointerEvent extends MouseEvent {
+    pointerId: number;
+
+    constructor(type: string, params: PointerEventInit = {}) {
+      super(type, params);
+      this.pointerId = params.pointerId ?? 0;
+    }
+  }
+
+  globalThis.PointerEvent = MockPointerEvent as unknown as typeof PointerEvent;
+}

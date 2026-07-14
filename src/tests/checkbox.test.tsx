@@ -54,7 +54,10 @@ describe(`${componentName} — state`, () => {
 
   it('is disabled when disabled prop is set', () => {
     render(<Checkbox aria-label="test" disabled />);
-    expect(screen.getByRole('checkbox')).toBeDisabled();
+    expect(screen.getByRole('checkbox')).toHaveAttribute(
+      'aria-disabled',
+      'true',
+    );
   });
 
   it('can be toggled by the user', async () => {
