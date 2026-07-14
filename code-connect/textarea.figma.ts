@@ -67,17 +67,26 @@ const disabled = state === 'disabled';
 const invalid = state === 'error';
 const hasContent = state !== 'enabled';
 
-const labelClass =
+const labelTypography =
   size === 'sm'
-    ? 'label-small-primary text-fg-secondary'
+    ? 'label-small-primary'
     : size === 'lg'
-      ? 'label-large-primary text-fg-secondary'
-      : 'label-regular-primary text-fg-secondary';
+      ? 'label-large-primary'
+      : 'label-regular-primary';
 
-const descClass =
+const descTypography =
+  size === 'sm' ? 'paragraph-small-primary' : 'paragraph-regular-primary';
+
+const labelClass = `${labelTypography} ${disabled ? 'text-fg-disabled' : 'text-fg-secondary'}`;
+
+const descClass = `${descTypography} ${disabled ? 'text-fg-disabled' : 'text-fg-tertiary'}`;
+
+const counterClass = disabled ? 'text-fg-disabled' : '';
+
+const errorClass =
   size === 'sm'
-    ? 'paragraph-small-primary text-fg-tertiary'
-    : 'paragraph-regular-primary text-fg-tertiary';
+    ? 'paragraph-small-primary text-error'
+    : 'paragraph-large-primary text-error';
 
 const textareaProps = [
   `size="${size}"`,
@@ -94,12 +103,12 @@ const labelRow = showLabel
     ? figma.code`
         <div className="flex items-center justify-between">
           <FieldTitle className="${labelClass}">${labelField}</FieldTitle>
-          <TextareaCounter />
+          <TextareaCounter className="${counterClass}" />
         </div>
       `
     : figma.code`<FieldTitle className="${labelClass}">${labelField}</FieldTitle>`
   : showCounter
-    ? figma.code`<div className="flex justify-end"><TextareaCounter /></div>`
+    ? figma.code`<div className="flex justify-end"><TextareaCounter className="${counterClass}" /></div>`
     : figma.code``;
 
 const fieldBody = figma.code`
@@ -108,7 +117,7 @@ const fieldBody = figma.code`
     <Textarea ${textareaProps} />
     ${
       invalid && showFeedback
-        ? figma.code`<FieldError>${statusMessage}</FieldError>`
+        ? figma.code`<FieldError className="${errorClass}">${statusMessage}</FieldError>`
         : showHelpText
           ? figma.code`<FieldDescription className="${descClass}">${helperText}</FieldDescription>`
           : figma.code``
