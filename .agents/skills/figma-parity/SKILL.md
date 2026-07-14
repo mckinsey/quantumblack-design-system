@@ -34,7 +34,7 @@ Match Figma tokens via **[docs/TOKENS.md](docs/TOKENS.md)** (Design name + Tailw
 
 ### 0 — Code Connect (if present)
 
-If **`code-connect/<name>.figma.tsx` exists**, read it before raw Figma codegen. Use it for props, enums, slots, and `example` snippets; still verify tokens, spacing, geometry, and states in code. Map every Figma variant property; use the real public API (no invented props). Update the mapping when the React API changes. New mappings: follow `code-connect/button.figma.tsx` and use `get_code_connect_map` when available. Code Connect confirms props/API; spacing still requires per-cell autolayout inspection.
+If **`code-connect/<name>.figma.ts` (or `.figma.tsx`) exists**, read it before raw Figma codegen. Use it for props, enums, slots, and `example` snippets; still verify tokens, spacing, geometry, and states in code. Map every Figma variant property; use the real public API (no invented props). Update the mapping when the React API changes. New mappings: follow `code-connect/button-text.figma.ts` / `button-icon.figma.ts` and use `get_code_connect_map` when available. Code Connect confirms props/API; spacing still requires per-cell autolayout inspection.
 
 ### 1 — Structure & variants
 
