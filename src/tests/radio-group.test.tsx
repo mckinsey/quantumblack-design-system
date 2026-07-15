@@ -78,4 +78,17 @@ describe(`${componentName} — state`, () => {
       'radio-group-item',
     );
   });
+
+  it('renders density and orientation attrs', () => {
+    const { container } = render(
+      <RadioGroup density="comfortable" orientation="horizontal">
+        <RadioGroupItem value="a" aria-label="a" />
+      </RadioGroup>,
+    );
+
+    const group = container.querySelector('[data-slot="radio-group"]');
+
+    expect(group).toHaveAttribute('data-density', 'comfortable');
+    expect(group).toHaveAttribute('data-orientation', 'horizontal');
+  });
 });

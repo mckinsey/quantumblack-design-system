@@ -5,14 +5,15 @@ import {
   FieldSet,
 } from '@/components/ui/field';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { listFieldSetGap } from '@/lib/radio-group-list';
 
 export function RadioGroupDemo() {
   return (
-    <FieldSet className="w-full max-w-xs">
-      <FieldLegend variant="label" className="label-regular-primary mb-1">
+    <FieldSet className="w-full max-w-xs gap-3">
+      <FieldLegend variant="label" className="label-regular-primary">
         Options
       </FieldLegend>
-      <RadioGroup defaultValue="option-one" className="pt-3 pb-3">
+      <RadioGroup defaultValue="option-one">
         <Field orientation="horizontal">
           <RadioGroupItem value="option-one" id="r1" />
           <FieldLabel
@@ -44,11 +45,11 @@ export function RadioGroupDemo() {
 
 export function RadioGroupStates() {
   return (
-    <FieldSet className="w-full max-w-xs">
-      <FieldLegend variant="label" className="label-regular-primary mb-1">
+    <FieldSet className="w-full max-w-xs gap-3">
+      <FieldLegend variant="label" className="label-regular-primary">
         States
       </FieldLegend>
-      <RadioGroup defaultValue="state-one" className="pt-3 pb-3">
+      <RadioGroup defaultValue="state-one">
         <Field orientation="horizontal">
           <RadioGroupItem value="state-one" id="s1" />
           <FieldLabel
@@ -81,11 +82,11 @@ export function RadioGroupStates() {
 
 export function RadioGroupDisabled() {
   return (
-    <FieldSet className="w-full max-w-xs">
-      <FieldLegend variant="label" className="label-regular-primary mb-1">
+    <FieldSet className="w-full max-w-xs gap-3">
+      <FieldLegend variant="label" className="label-regular-primary">
         Disabled Group
       </FieldLegend>
-      <RadioGroup defaultValue="disabled-one" disabled className="pt-3 pb-3">
+      <RadioGroup defaultValue="disabled-one" disabled>
         <Field orientation="horizontal">
           <RadioGroupItem value="disabled-one" id="d1" />
           <FieldLabel
@@ -120,11 +121,11 @@ export function RadioGroupDisabled() {
 
 export function RadioGroupPartialDisabled() {
   return (
-    <FieldSet className="w-full max-w-xs">
-      <FieldLegend variant="label" className="label-regular-primary mb-1">
+    <FieldSet className="w-full max-w-xs gap-3">
+      <FieldLegend variant="label" className="label-regular-primary">
         Partial Disabled
       </FieldLegend>
-      <RadioGroup defaultValue="partial-one" className="pt-3 pb-3">
+      <RadioGroup defaultValue="partial-one">
         <Field orientation="horizontal">
           <RadioGroupItem value="partial-one" id="p1" />
           <FieldLabel
@@ -158,30 +159,27 @@ export function RadioGroupPartialDisabled() {
 const sizeVariants = [
   {
     label: 'Regular',
+    key: 'reg' as const,
     prefix: 'r',
     radioSize: undefined as 'lg' | undefined,
     labelClass: 'text-fg-secondary label-regular-primary',
     legendClass: 'label-regular-primary',
-    default: { groupGap: 'gap-3', legendGap: 'mb-1' },
-    comfortable: { groupGap: 'gap-4', legendGap: 'mb-1' },
   },
   {
     label: 'Small',
+    key: 'sm' as const,
     prefix: 's',
     radioSize: undefined as 'lg' | undefined,
     labelClass: 'text-fg-secondary label-small-primary',
     legendClass: 'label-regular-primary',
-    default: { groupGap: 'gap-3', legendGap: 'mb-1' },
-    comfortable: { groupGap: 'gap-4', legendGap: 'mb-1' },
   },
   {
     label: 'Large',
+    key: 'lg' as const,
     prefix: 'l',
     radioSize: 'lg' as const,
     labelClass: 'text-fg-secondary label-large-primary',
     legendClass: 'label-large-primary',
-    default: { groupGap: 'gap-3', legendGap: 'mb-1' },
-    comfortable: { groupGap: 'gap-4', legendGap: 'mb-1' },
   },
 ];
 
@@ -190,37 +188,32 @@ const densityVariants = [
     key: 'default' as const,
     label: 'default',
     prefix: 'd',
-    padding: 'pt-3 pb-3',
   },
   {
     key: 'comfortable' as const,
     label: 'comfortable',
     prefix: 'c',
-    padding: 'pt-4 pb-4',
   },
 ];
 
 export function RadioGroupDensity() {
   return (
-    <div className="space-y-10">
+    <div className="flex flex-col gap-10">
       {densityVariants.map(density => (
-        <div key={density.key} className="flex flex-wrap gap-3">
+        <div key={density.key} className="flex flex-wrap gap-8">
           {sizeVariants.map(size => {
             const prefix = `${density.prefix}${size.prefix}`;
-            const { groupGap, legendGap } = size[density.key];
             const ids = [1, 2, 3, 4, 5].map(i => `${prefix}-${i}`);
 
             return (
-              <FieldSet key={prefix} className="w-60">
-                <FieldLegend
-                  variant="label"
-                  className={`${size.legendClass} ${legendGap}`}>
+              <FieldSet
+                key={prefix}
+                className={`w-60 ${listFieldSetGap(size.key, density.key, 'vertical')}`}>
+                <FieldLegend variant="label" className={size.legendClass}>
                   {size.label} ({density.label})
                 </FieldLegend>
 
-                <RadioGroup
-                  defaultValue={ids[0]}
-                  className={`${groupGap} ${density.padding}`}>
+                <RadioGroup defaultValue={ids[0]} density={density.key}>
                   {ids.map(id => (
                     <Field key={id} orientation="horizontal">
                       <RadioGroupItem
@@ -229,7 +222,7 @@ export function RadioGroupDensity() {
                         size={size.radioSize}
                       />
                       <FieldLabel htmlFor={id} className={size.labelClass}>
-                        Label
+                        Radio label
                       </FieldLabel>
                     </Field>
                   ))}
@@ -245,76 +238,43 @@ export function RadioGroupDensity() {
 
 export function RadioGroupHorizontal() {
   return (
-    <div className="flex flex-wrap gap-8">
-      <FieldSet className="w-auto">
-        <FieldLegend variant="label" className="label-regular-primary mb-1">
-          Options (default)
-        </FieldLegend>
-        <RadioGroup
-          orientation="horizontal"
-          defaultValue="h1"
-          className="gap-3">
-          <Field orientation="horizontal">
-            <RadioGroupItem value="h1" id="h1" />
-            <FieldLabel
-              htmlFor="h1"
-              className="text-fg-secondary label-regular-primary">
-              Option 1
-            </FieldLabel>
-          </Field>
-          <Field orientation="horizontal">
-            <RadioGroupItem value="h2" id="h2" />
-            <FieldLabel
-              htmlFor="h2"
-              className="text-fg-secondary label-regular-primary">
-              Option 2
-            </FieldLabel>
-          </Field>
-          <Field orientation="horizontal">
-            <RadioGroupItem value="h3" id="h3" />
-            <FieldLabel
-              htmlFor="h3"
-              className="text-fg-secondary label-regular-primary">
-              Option 3
-            </FieldLabel>
-          </Field>
-        </RadioGroup>
-      </FieldSet>
+    <div className="flex flex-col gap-10">
+      {densityVariants.map(density => (
+        <div key={density.key} className="flex flex-col gap-8">
+          {sizeVariants.map(size => {
+            const prefix = `${density.prefix}h${size.prefix}`;
+            const ids = [1, 2, 3].map(i => `${prefix}-${i}`);
 
-      <FieldSet className="w-auto">
-        <FieldLegend variant="label" className="label-large-primary mb-1">
-          Options (large, comfortable)
-        </FieldLegend>
-        <RadioGroup
-          orientation="horizontal"
-          defaultValue="hl1"
-          className="gap-4">
-          <Field orientation="horizontal">
-            <RadioGroupItem value="hl1" id="hl1" size="lg" />
-            <FieldLabel
-              htmlFor="hl1"
-              className="text-fg-secondary label-large-primary">
-              Option 1
-            </FieldLabel>
-          </Field>
-          <Field orientation="horizontal">
-            <RadioGroupItem value="hl2" id="hl2" size="lg" />
-            <FieldLabel
-              htmlFor="hl2"
-              className="text-fg-secondary label-large-primary">
-              Option 2
-            </FieldLabel>
-          </Field>
-          <Field orientation="horizontal">
-            <RadioGroupItem value="hl3" id="hl3" size="lg" />
-            <FieldLabel
-              htmlFor="hl3"
-              className="text-fg-secondary label-large-primary">
-              Option 3
-            </FieldLabel>
-          </Field>
-        </RadioGroup>
-      </FieldSet>
+            return (
+              <FieldSet
+                key={prefix}
+                className={`w-auto ${listFieldSetGap(size.key, density.key, 'horizontal')}`}>
+                <FieldLegend variant="label" className={size.legendClass}>
+                  Options ({size.label}, {density.label})
+                </FieldLegend>
+
+                <RadioGroup
+                  orientation="horizontal"
+                  defaultValue={ids[0]}
+                  density={density.key}>
+                  {ids.map(id => (
+                    <Field key={id} orientation="horizontal">
+                      <RadioGroupItem
+                        value={id}
+                        id={id}
+                        size={size.radioSize}
+                      />
+                      <FieldLabel htmlFor={id} className={size.labelClass}>
+                        Radio label
+                      </FieldLabel>
+                    </Field>
+                  ))}
+                </RadioGroup>
+              </FieldSet>
+            );
+          })}
+        </div>
+      ))}
     </div>
   );
 }
@@ -334,7 +294,8 @@ export const examples = [
   {
     name: 'RadioGroupHorizontal',
     title: 'Horizontal',
-    description: 'Inline radio groups for compact horizontal selection.',
+    description:
+      'Inline radio groups by size (sm, reg, lg) and density (default, comfortable).',
   },
   {
     name: 'RadioGroupStates',

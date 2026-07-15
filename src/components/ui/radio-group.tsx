@@ -2,25 +2,40 @@
 
 import { Radio as RadioPrimitive } from '@base-ui/react/radio';
 import { RadioGroup as RadioGroupPrimitive } from '@base-ui/react/radio-group';
+import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+const radioGroupVariants = cva('', {
+  variants: {
+    orientation: {
+      vertical: 'grid',
+      horizontal: 'flex flex-row',
+    },
+    density: {
+      default: 'gap-3',
+      comfortable: 'gap-4',
+    },
+  },
+  defaultVariants: {
+    orientation: 'vertical',
+    density: 'default',
+  },
+});
+
 function RadioGroup({
   className,
   orientation = 'vertical',
+  density = 'default',
   ...props
-}: RadioGroupPrimitive.Props & {
-  orientation?: 'vertical' | 'horizontal';
-}) {
+}: RadioGroupPrimitive.Props & VariantProps<typeof radioGroupVariants>) {
   return (
     <RadioGroupPrimitive
       data-slot="radio-group"
       data-orientation={orientation}
-      className={cn(
-        orientation === 'horizontal' ? 'flex flex-row gap-3' : 'grid gap-3',
-        className,
-      )}
+      data-density={density}
+      className={cn(radioGroupVariants({ orientation, density }), className)}
       {...props}
     />
   );
@@ -44,7 +59,7 @@ function RadioGroupItem({
       data-size={size}
       className={cn(
         bboxSize,
-        'group relative shrink-0 rounded-full outline-none',
+        'group relative shrink-0 cursor-pointer rounded-full outline-none',
         'flex items-center justify-center',
         'data-disabled:cursor-not-allowed',
         className,
@@ -75,4 +90,4 @@ function RadioGroupItem({
   );
 }
 
-export { RadioGroup, RadioGroupItem };
+export { RadioGroup, RadioGroupItem, radioGroupVariants };
