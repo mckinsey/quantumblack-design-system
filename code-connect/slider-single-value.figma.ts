@@ -15,19 +15,22 @@ const showValue = instance.getBoolean('showValue');
 const markActiveEntry = instance.getString('markActiveEntry');
 
 const showLeading = instance.getBoolean('showLeadingIcon');
-const leading = showLeading ? instance.findInstance('Leading-Icon') : null;
-let leadingCode: figma.ResultSection[] = [];
-
-if (leading && leading.type === 'INSTANCE') {
-  leadingCode = leading.executeTemplate().example;
-}
-
 const showTrailing = instance.getBoolean('showTrailingIcon');
-const trailing = showTrailing ? instance.findInstance('Trailing-Icon') : null;
+
+const shells = instance.findConnectedInstances(
+  n => n.type === 'INSTANCE' && n.codeConnectId() === 'icon-shell',
+  { traverseInstances: true },
+);
+
+let leadingCode: figma.ResultSection[] = [];
 let trailingCode: figma.ResultSection[] = [];
 
-if (trailing && trailing.type === 'INSTANCE') {
-  trailingCode = trailing.executeTemplate().example;
+if (showLeading && shells[0]?.type === 'INSTANCE') {
+  leadingCode = shells[0].executeTemplate().example;
+}
+
+if (showTrailing && shells[1]?.type === 'INSTANCE') {
+  trailingCode = shells[1].executeTemplate().example;
 }
 
 const sliderValue = Number.parseInt(markActiveEntry, 10);

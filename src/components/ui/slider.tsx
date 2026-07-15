@@ -10,9 +10,11 @@ import {
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
+type SliderRootProps = React.ComponentProps<typeof SliderPrimitive.Root>;
+
 type SliderProps = Omit<
-  React.ComponentProps<typeof SliderPrimitive.Root>,
-  'onValueChange'
+  SliderRootProps,
+  'onValueChange' | 'onValueCommitted'
 > & {
   showStepMarkers?: boolean;
   showValueTooltip?: boolean;
@@ -22,6 +24,14 @@ type SliderProps = Omit<
 };
 
 type Marker = { value: number; percentage: number };
+
+const thumbClasses = cn(
+  'relative flex h-4 w-4 cursor-pointer items-center justify-center rounded-full',
+  'bg-fill-active shadow-none',
+  'transition-[box-shadow,outline-color,background-color] duration-200',
+  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-stroke-primary',
+  'data-disabled:pointer-events-none data-disabled:bg-fill-onsurface-ui-2 data-disabled:shadow-elevation-0',
+);
 
 const isValueInRange = (value: number, currentValues: number[]): boolean => {
   if (currentValues.length === 1) {
@@ -92,7 +102,7 @@ const StepMarker = React.memo(
         <div
           className={cn(
             'h-1 w-1 rounded-full transition-colors',
-            isActive ? 'bg-fill-active' : 'bg-slider-track',
+            isActive ? 'bg-fill-active' : 'bg-fill-stepmarkers-track',
           )}
         />
 
@@ -150,6 +160,18 @@ function Slider({
   const [isInteracting, setIsInteracting] = React.useState(false);
   const [isHovering, setIsHovering] = React.useState(false);
 
+  const startInteraction = React.useCallback(() => {
+    if (disabled) {
+      return;
+    }
+
+    setIsInteracting(true);
+  }, [disabled]);
+
+  const stopInteraction = React.useCallback(() => {
+    setIsInteracting(false);
+  }, []);
+
   const currentValue = React.useMemo(() => {
     if (value !== undefined) {
       return Array.isArray(value) ? [...value] : [value];
@@ -160,29 +182,34 @@ function Slider({
 
   const isVertical = orientation === 'vertical';
 
-  const handleValueChange = React.useCallback(
-    (newValue: number | readonly number[]) => {
+  const handleValueChange = React.useCallback<
+    NonNullable<SliderRootProps['onValueChange']>
+  >(
+    (newValue, details) => {
       const values = Array.isArray(newValue) ? [...newValue] : [newValue];
 
       setInternalValue(values);
       onValueChange?.(values);
+
+      if (details.reason === 'drag' || details.reason === 'track-press') {
+        startInteraction();
+      }
     },
-    [onValueChange],
+    [onValueChange, startInteraction],
   );
+
+  const handleValueCommitted = React.useCallback<
+    NonNullable<SliderRootProps['onValueCommitted']>
+  >(() => {
+    stopInteraction();
+  }, [stopInteraction]);
 
   const markers = React.useMemo(
     () => generateMarkers(min, max, step, showStepMarkers),
     [min, max, step, showStepMarkers],
   );
 
-  const thumbClasses = cn(
-    'relative flex h-4 w-4 cursor-pointer items-center justify-center rounded-full transition-all duration-200',
-    'bg-fill-active shadow-none',
-    'hover:outline hover:outline-2 hover:outline-stroke-primary',
-    'focus:outline focus:outline-2 focus:outline-stroke-primary focus:shadow-elevation-1',
-    'active:shadow-elevation-1',
-    'data-disabled:pointer-events-none data-disabled:bg-fill-onsurface-ui-2 data-disabled:shadow-elevation-0',
-  );
+  const thumbCount = currentValue.length;
 
   return (
     <SliderPrimitive.Root
@@ -198,23 +225,28 @@ function Slider({
       minStepsBetweenValues={1}
       thumbAlignment="edge"
       onValueChange={handleValueChange}
-      className={cn('data-horizontal:w-full data-vertical:h-full', className)}>
+      onValueCommitted={handleValueCommitted}
+      className={cn(
+        'data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full',
+        className,
+      )}>
       <SliderPrimitive.Control
+        onPointerDown={startInteraction}
         className={cn(
           'relative flex w-full touch-none items-center select-none',
-          'data-horizontal:px-2',
-          'data-vertical:h-full data-vertical:min-h-22 data-vertical:w-auto data-vertical:flex-col data-vertical:py-2',
+          'data-[orientation=horizontal]:px-2',
+          'data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-22 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col data-[orientation=vertical]:py-2',
         )}>
         <SliderPrimitive.Track
           data-slot="slider-track"
           className={cn(
-            'bg-slider-track relative grow',
-            'data-horizontal:h-px data-horizontal:w-full',
-            'data-vertical:h-full data-vertical:w-px',
+            'bg-fill-stepmarkers-track relative grow',
+            'data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full',
+            'data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px',
           )}>
           <SliderPrimitive.Indicator
             data-slot="slider-range"
-            className="bg-fill-active data-horizontal:h-full data-vertical:w-full"
+            className="bg-fill-active data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full"
           />
 
           {markers.map((marker, i) => (
@@ -229,7 +261,7 @@ function Slider({
           ))}
         </SliderPrimitive.Track>
 
-        {currentValue.map((val, i) => (
+        {Array.from({ length: thumbCount }, (_, i) => (
           <Tooltip
             key={i}
             open={showValueTooltip && (isInteracting || isHovering)}>
@@ -237,23 +269,24 @@ function Slider({
               <SliderPrimitive.Thumb
                 index={i}
                 data-slot="slider-thumb"
-                className={thumbClasses}
-                onPointerDown={() => setIsInteracting(true)}
-                onPointerUp={() => setIsInteracting(false)}
+                className={cn(
+                  thumbClasses,
+                  (isHovering || isInteracting) &&
+                    'outline-stroke-primary outline outline-2 outline-offset-0',
+                  isInteracting && 'shadow-elevation-1 transition-none',
+                )}
                 onPointerEnter={() => setIsHovering(true)}
-                onPointerLeave={() => {
-                  setIsInteracting(false);
-                  setIsHovering(false);
-                }}>
+                onPointerLeave={() => setIsHovering(false)}>
                 <div className="bg-fill-active-inverse h-1 w-1 rounded-full" />
               </SliderPrimitive.Thumb>
             </TooltipTrigger>
 
             <TooltipContent
               side={isVertical ? 'left' : 'top'}
-              sideOffset={6}
-              className="max-w-[140px] min-w-[36px] !animate-none truncate text-center leading-4 tracking-[0.024px]">
-              {formatValue(val)}
+              sideOffset={10}
+              align="center"
+              className="!animate-none text-center">
+              {formatValue(currentValue[i])}
             </TooltipContent>
           </Tooltip>
         ))}

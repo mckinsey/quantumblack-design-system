@@ -218,6 +218,21 @@ export function SliderRange() {
   );
 }
 
+/** Disabled slider */
+export function SliderDisabled() {
+  return (
+    <div className="w-full max-w-sm space-y-4">
+      <div className="flex items-center justify-between">
+        <label className="text-fg-disabled label-regular-primary">
+          Brightness
+        </label>
+        <span className="text-fg-disabled label-regular-primary">50</span>
+      </div>
+      <Slider defaultValue={[50]} max={100} step={1} disabled />
+    </div>
+  );
+}
+
 /** Volume control slider with buttons */
 export function SliderVolume() {
   const [volume, setVolume] = useState([50]);
@@ -296,6 +311,11 @@ export const examples: DemoExample[] = [
     description: 'Dual-handle range slider.',
   },
   {
+    name: 'SliderDisabled',
+    title: 'Disabled',
+    description: 'Non-interactive slider with muted track and thumb.',
+  },
+  {
     name: 'SliderVolume',
     title: 'Volume Control',
     description: 'Slider with increment/decrement buttons.',
@@ -311,5 +331,6 @@ export const slider = createLegacyDemo('slider', examples, {
   SliderInlineInput: <SliderInlineInput />,
   SliderLabeled: <SliderLabeled />,
   SliderRange: <SliderRange />,
+  SliderDisabled: <SliderDisabled />,
   SliderVolume: <SliderVolume />,
 });

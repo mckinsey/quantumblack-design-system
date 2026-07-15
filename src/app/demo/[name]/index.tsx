@@ -254,6 +254,7 @@ import {
 import {
   SliderComposed,
   SliderDemo,
+  SliderDisabled,
   SliderInlineInput,
   SliderLabeled,
   SliderRange,
@@ -611,6 +612,7 @@ export const exampleComponentMaps: Record<
     SliderInlineInput,
     SliderLabeled,
     SliderRange,
+    SliderDisabled,
     SliderVolume,
   },
   sonner: {
