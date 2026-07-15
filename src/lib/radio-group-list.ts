@@ -2,15 +2,9 @@ type ListSize = 'sm' | 'reg' | 'lg';
 type ListDensity = 'default' | 'comfortable';
 
 const verticalFieldSetGap: Record<ListSize, Record<ListDensity, string>> = {
-  sm: { default: 'gap-2', comfortable: 'gap-3' },
+  sm: { default: 'gap-3', comfortable: 'gap-4' },
   reg: { default: 'gap-3', comfortable: 'gap-4' },
   lg: { default: 'gap-4', comfortable: 'gap-5' },
-};
-
-const horizontalFieldSetGap: Record<ListSize, string> = {
-  sm: 'gap-2',
-  reg: 'gap-3',
-  lg: 'gap-3',
 };
 
 function listFieldSetGap(
@@ -19,7 +13,7 @@ function listFieldSetGap(
   orientation: 'vertical' | 'horizontal',
 ) {
   if (orientation === 'horizontal') {
-    return horizontalFieldSetGap[size];
+    return 'gap-3';
   }
 
   return verticalFieldSetGap[size][density];
