@@ -5,12 +5,12 @@ import {
   FieldSet,
 } from '@/components/ui/field';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { listFieldSetGap } from '@/lib/radio-group-list';
+import { listLegendMb } from '@/lib/radio-group-list';
 
 export function RadioGroupDemo() {
   return (
-    <FieldSet className="w-full max-w-xs gap-3">
-      <FieldLegend variant="label" className="label-regular-primary">
+    <FieldSet className="w-full max-w-xs">
+      <FieldLegend variant="label" className="label-regular-primary mb-3">
         Options
       </FieldLegend>
       <RadioGroup defaultValue="option-one">
@@ -45,8 +45,8 @@ export function RadioGroupDemo() {
 
 export function RadioGroupStates() {
   return (
-    <FieldSet className="w-full max-w-xs gap-3">
-      <FieldLegend variant="label" className="label-regular-primary">
+    <FieldSet className="w-full max-w-xs">
+      <FieldLegend variant="label" className="label-regular-primary mb-3">
         States
       </FieldLegend>
       <RadioGroup defaultValue="state-one">
@@ -82,8 +82,8 @@ export function RadioGroupStates() {
 
 export function RadioGroupDisabled() {
   return (
-    <FieldSet className="w-full max-w-xs gap-3">
-      <FieldLegend variant="label" className="label-regular-primary">
+    <FieldSet className="w-full max-w-xs">
+      <FieldLegend variant="label" className="label-regular-primary mb-3">
         Disabled Group
       </FieldLegend>
       <RadioGroup defaultValue="disabled-one" disabled>
@@ -121,8 +121,8 @@ export function RadioGroupDisabled() {
 
 export function RadioGroupPartialDisabled() {
   return (
-    <FieldSet className="w-full max-w-xs gap-3">
-      <FieldLegend variant="label" className="label-regular-primary">
+    <FieldSet className="w-full max-w-xs">
+      <FieldLegend variant="label" className="label-regular-primary mb-3">
         Partial Disabled
       </FieldLegend>
       <RadioGroup defaultValue="partial-one">
@@ -206,10 +206,10 @@ export function RadioGroupDensity() {
             const ids = [1, 2, 3, 4, 5].map(i => `${prefix}-${i}`);
 
             return (
-              <FieldSet
-                key={prefix}
-                className={`w-60 ${listFieldSetGap(size.key, density.key, 'vertical')}`}>
-                <FieldLegend variant="label" className={size.legendClass}>
+              <FieldSet key={prefix} className="w-60">
+                <FieldLegend
+                  variant="label"
+                  className={`${size.legendClass} ${listLegendMb(size.key, density.key, 'vertical')}`}>
                   {size.label} ({density.label})
                 </FieldLegend>
 
@@ -246,10 +246,10 @@ export function RadioGroupHorizontal() {
             const ids = [1, 2, 3].map(i => `${prefix}-${i}`);
 
             return (
-              <FieldSet
-                key={prefix}
-                className={`w-auto ${listFieldSetGap(size.key, density.key, 'horizontal')}`}>
-                <FieldLegend variant="label" className={size.legendClass}>
+              <FieldSet key={prefix} className="w-auto">
+                <FieldLegend
+                  variant="label"
+                  className={`${size.legendClass} ${listLegendMb(size.key, density.key, 'horizontal')}`}>
                   Options ({size.label}, {density.label})
                 </FieldLegend>
 
