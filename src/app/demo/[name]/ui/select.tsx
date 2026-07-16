@@ -5,12 +5,15 @@ import type { ReactNode } from 'react';
 
 import { Checkbox } from '@/components/ui/checkbox';
 import {
+  Field,
   FieldDescription,
+  FieldError,
   FieldLabel,
   FieldSet,
   FieldTitle,
 } from '@/components/ui/field';
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import {
   Select,
   SelectContent,
@@ -85,7 +88,7 @@ const languageItems = [
   { label: 'Ruby', value: 'ruby' },
 ];
 
-function SelectItemWithIcon({
+function SelectOptionItem({
   value,
   children,
   disabled,
@@ -99,25 +102,16 @@ function SelectItemWithIcon({
 
   return (
     <SelectItem value={value} disabled={disabled}>
-      <Icon
-        icon="crop_free"
-        size={iconSize}
-        className="text-fg-secondary"
-        aria-hidden
-      />
-
       <SelectItemText>{children}</SelectItemText>
 
       <SelectItemIndicator>
-        <Icon icon="check" size={iconSize} />
+        <IconShell size={iconSize} variant="primary">
+          <Icon icon="check" />
+        </IconShell>
       </SelectItemIndicator>
     </SelectItem>
   );
 }
-
-// ============================================================================
-// Example Components
-// ============================================================================
 
 export function SelectDemo() {
   return (
@@ -126,13 +120,13 @@ export function SelectDemo() {
 
       <Select items={themeItems}>
         <SelectTrigger className="w-[240px]">
-          <SelectValue placeholder="Select a theme" />
+          <SelectValue placeholder="Choose option" />
         </SelectTrigger>
         <SelectContent>
           {themeItems.map(item => (
-            <SelectItemWithIcon key={item.value} value={item.value}>
+            <SelectOptionItem key={item.value} value={item.value}>
               {item.label}
-            </SelectItemWithIcon>
+            </SelectOptionItem>
           ))}
         </SelectContent>
       </Select>
@@ -152,13 +146,13 @@ export function SelectSizes() {
 
         <Select size="sm" items={optionItems}>
           <SelectTrigger className="w-[240px]">
-            <SelectValue placeholder="Select option" />
+            <SelectValue placeholder="Choose option" />
           </SelectTrigger>
           <SelectContent>
             {optionItems.map(item => (
-              <SelectItemWithIcon key={item.value} value={item.value}>
+              <SelectOptionItem key={item.value} value={item.value}>
                 {item.label}
-              </SelectItemWithIcon>
+              </SelectOptionItem>
             ))}
           </SelectContent>
         </Select>
@@ -175,13 +169,13 @@ export function SelectSizes() {
 
         <Select items={optionItems}>
           <SelectTrigger className="w-[240px]">
-            <SelectValue placeholder="Select option" />
+            <SelectValue placeholder="Choose option" />
           </SelectTrigger>
           <SelectContent>
             {optionItems.map(item => (
-              <SelectItemWithIcon key={item.value} value={item.value}>
+              <SelectOptionItem key={item.value} value={item.value}>
                 {item.label}
-              </SelectItemWithIcon>
+              </SelectOptionItem>
             ))}
           </SelectContent>
         </Select>
@@ -196,13 +190,13 @@ export function SelectSizes() {
 
         <Select size="lg" items={optionItems}>
           <SelectTrigger className="w-[240px]">
-            <SelectValue placeholder="Select option" />
+            <SelectValue placeholder="Choose option" />
           </SelectTrigger>
           <SelectContent>
             {optionItems.map(item => (
-              <SelectItemWithIcon key={item.value} value={item.value}>
+              <SelectOptionItem key={item.value} value={item.value}>
                 {item.label}
-              </SelectItemWithIcon>
+              </SelectOptionItem>
             ))}
           </SelectContent>
         </Select>
@@ -215,23 +209,20 @@ export function SelectSizes() {
   );
 }
 
-export function SelectWithDisabled() {
+export function SelectInline() {
   return (
     <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
       <FieldTitle className={fieldConfig.default.label}>Label</FieldTitle>
 
-      <Select items={themeItemsWithDisabled}>
-        <SelectTrigger className="w-[240px]">
-          <SelectValue placeholder="Select a theme" />
+      <Select items={optionItems}>
+        <SelectTrigger variant="inline" className="w-[240px]">
+          <SelectValue placeholder="Choose option" />
         </SelectTrigger>
         <SelectContent>
-          {themeItemsWithDisabled.map(item => (
-            <SelectItemWithIcon
-              key={item.value}
-              value={item.value}
-              disabled={item.value === 'disabled'}>
+          {optionItems.map(item => (
+            <SelectOptionItem key={item.value} value={item.value}>
               {item.label}
-            </SelectItemWithIcon>
+            </SelectOptionItem>
           ))}
         </SelectContent>
       </Select>
@@ -243,6 +234,124 @@ export function SelectWithDisabled() {
   );
 }
 
+export function SelectHorizontal() {
+  return (
+    <Field
+      orientation="horizontal"
+      className="w-full max-w-md items-center gap-2">
+      <FieldTitle className={fieldConfig.default.label}>Field label</FieldTitle>
+
+      <Select items={optionItems}>
+        <SelectTrigger variant="inline" className="w-[240px]">
+          <SelectValue placeholder="Choose option" />
+        </SelectTrigger>
+        <SelectContent>
+          {optionItems.map(item => (
+            <SelectOptionItem key={item.value} value={item.value}>
+              {item.label}
+            </SelectOptionItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </Field>
+  );
+}
+
+export function SelectWithDisabled() {
+  return (
+    <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
+      <FieldTitle className={fieldConfig.default.label}>Label</FieldTitle>
+
+      <Select items={themeItemsWithDisabled}>
+        <SelectTrigger className="w-[240px]">
+          <SelectValue placeholder="Choose option" />
+        </SelectTrigger>
+        <SelectContent>
+          {themeItemsWithDisabled.map(item => (
+            <SelectOptionItem
+              key={item.value}
+              value={item.value}
+              disabled={item.value === 'disabled'}>
+              {item.label}
+            </SelectOptionItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      <FieldDescription className={fieldConfig.default.description}>
+        Helper text
+      </FieldDescription>
+    </FieldSet>
+  );
+}
+
+export function SelectValidation() {
+  return (
+    <div className="w-full max-w-sm space-y-4">
+      <FieldSet className={fieldConfig.default.gap}>
+        <FieldTitle className={fieldConfig.default.label}>Error</FieldTitle>
+
+        <Select items={optionItems}>
+          <SelectTrigger className="w-[240px]" validationState="error">
+            <SelectValue placeholder="Choose option" />
+          </SelectTrigger>
+          <SelectContent>
+            {optionItems.map(item => (
+              <SelectOptionItem key={item.value} value={item.value}>
+                {item.label}
+              </SelectOptionItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <FieldError>Feedback message</FieldError>
+      </FieldSet>
+
+      <FieldSet className={fieldConfig.default.gap}>
+        <FieldTitle className={fieldConfig.default.label}>Warning</FieldTitle>
+
+        <Select items={optionItems}>
+          <SelectTrigger className="w-[240px]" validationState="warning">
+            <SelectValue placeholder="Choose option" />
+          </SelectTrigger>
+          <SelectContent>
+            {optionItems.map(item => (
+              <SelectOptionItem key={item.value} value={item.value}>
+                {item.label}
+              </SelectOptionItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <FieldDescription className="paragraph-regular-primary text-status-warning">
+          Feedback message
+        </FieldDescription>
+      </FieldSet>
+
+      <FieldSet className={fieldConfig.default.gap}>
+        <FieldTitle className={fieldConfig.default.label}>Success</FieldTitle>
+
+        <Select items={optionItems}>
+          <SelectTrigger className="w-[240px]" validationState="success">
+            <SelectValue placeholder="Choose option" />
+          </SelectTrigger>
+          <SelectContent>
+            {optionItems.map(item => (
+              <SelectOptionItem key={item.value} value={item.value}>
+                {item.label}
+              </SelectOptionItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <FieldDescription className="paragraph-regular-primary text-status-success">
+          Feedback message
+        </FieldDescription>
+      </FieldSet>
+    </div>
+  );
+}
+
 export function SelectWithGroups() {
   return (
     <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
@@ -250,46 +359,46 @@ export function SelectWithGroups() {
 
       <Select items={timezoneItems}>
         <SelectTrigger className="w-[240px]">
-          <SelectValue placeholder="Select a timezone" />
+          <SelectValue placeholder="Choose option" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
             <SelectLabel>North America</SelectLabel>
-            <SelectItemWithIcon value="est">
+            <SelectOptionItem value="est">
               Eastern Standard Time (EST)
-            </SelectItemWithIcon>
-            <SelectItemWithIcon value="cst">
+            </SelectOptionItem>
+            <SelectOptionItem value="cst">
               Central Standard Time (CST)
-            </SelectItemWithIcon>
-            <SelectItemWithIcon value="pst">
+            </SelectOptionItem>
+            <SelectOptionItem value="pst">
               Pacific Standard Time (PST)
-            </SelectItemWithIcon>
+            </SelectOptionItem>
           </SelectGroup>
 
           <SelectGroup>
             <SelectLabel>Europe</SelectLabel>
-            <SelectItemWithIcon value="gmt">
+            <SelectOptionItem value="gmt">
               Greenwich Mean Time (GMT)
-            </SelectItemWithIcon>
-            <SelectItemWithIcon value="cet">
+            </SelectOptionItem>
+            <SelectOptionItem value="cet">
               Central European Time (CET)
-            </SelectItemWithIcon>
-            <SelectItemWithIcon value="eet">
+            </SelectOptionItem>
+            <SelectOptionItem value="eet">
               Eastern European Time (EET)
-            </SelectItemWithIcon>
+            </SelectOptionItem>
           </SelectGroup>
 
           <SelectGroup>
             <SelectLabel>Asia</SelectLabel>
-            <SelectItemWithIcon value="ist">
+            <SelectOptionItem value="ist">
               India Standard Time (IST)
-            </SelectItemWithIcon>
-            <SelectItemWithIcon value="jst">
+            </SelectOptionItem>
+            <SelectOptionItem value="jst">
               Japan Standard Time (JST)
-            </SelectItemWithIcon>
-            <SelectItemWithIcon value="cst_china">
+            </SelectOptionItem>
+            <SelectOptionItem value="cst_china">
               China Standard Time (CST)
-            </SelectItemWithIcon>
+            </SelectOptionItem>
           </SelectGroup>
         </SelectContent>
       </Select>
@@ -301,10 +410,6 @@ export function SelectWithGroups() {
   );
 }
 
-/**
- * Multi-select using the built-in `multiple` prop.
- * Items use a checkbox indicator; the trigger shows a count tag.
- */
 export function SelectMultipleDemo() {
   const [value, setValue] = React.useState<string[]>([]);
 
@@ -318,7 +423,7 @@ export function SelectMultipleDemo() {
         value={value}
         onValueChange={v => setValue(v as string[])}>
         <SelectTrigger className="w-[280px]">
-          <SelectValue placeholder="Select languages">
+          <SelectValue placeholder="Multi-select label">
             {value.length > 0 ? (
               <span className="flex items-center gap-2">
                 <Tag
@@ -363,15 +468,75 @@ export function SelectMultipleDemo() {
       </Select>
 
       <FieldDescription className={fieldConfig.default.description}>
-        Select one or more programming languages
+        Multi-select with counter — tags/wrap use Combobox
       </FieldDescription>
     </FieldSet>
   );
 }
 
-// ============================================================================
-// Example Metadata
-// ============================================================================
+export function SelectMultipleInline() {
+  const [value, setValue] = React.useState<string[]>([]);
+
+  return (
+    <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
+      <FieldTitle className={fieldConfig.default.label}>Languages</FieldTitle>
+
+      <Select
+        multiple
+        items={languageItems}
+        value={value}
+        onValueChange={v => setValue(v as string[])}>
+        <SelectTrigger variant="inline" className="w-[280px]">
+          <SelectValue placeholder="Multi-select label">
+            {value.length > 0 ? (
+              <span className="flex items-center gap-2">
+                <Tag
+                  variant="secondary"
+                  size="xs"
+                  pill
+                  onRemove={e => {
+                    e.stopPropagation();
+                    setValue([]);
+                  }}>
+                  <span className="pl-1">{value.length}</span>
+                </Tag>
+
+                <span className="truncate">items selected</span>
+              </span>
+            ) : null}
+          </SelectValue>
+        </SelectTrigger>
+
+        <SelectContent>
+          {languageItems.map(item => (
+            <SelectItem key={item.value} value={item.value}>
+              <Checkbox
+                id={`select-lang-inline-${item.value}`}
+                size="default"
+                checked={value.includes(item.value)}
+                onCheckedChange={() => {}}
+                tabIndex={-1}
+                className="pointer-events-none"
+              />
+
+              <SelectItemText>
+                <FieldLabel
+                  htmlFor={`select-lang-inline-${item.value}`}
+                  className="paragraph-regular-primary pointer-events-none">
+                  {item.label}
+                </FieldLabel>
+              </SelectItemText>
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      <FieldDescription className={fieldConfig.default.description}>
+        Ghost multi-select with counter
+      </FieldDescription>
+    </FieldSet>
+  );
+}
 
 export const examples = [
   {
@@ -385,9 +550,24 @@ export const examples = [
     description: 'Small, default, and large select sizes.',
   },
   {
+    name: 'SelectInline',
+    title: 'Inline',
+    description: 'Ghost / underline select variant.',
+  },
+  {
+    name: 'SelectHorizontal',
+    title: 'Horizontal',
+    description: 'Label and select in a horizontal Field row.',
+  },
+  {
     name: 'SelectWithDisabled',
     title: 'With Disabled Option',
     description: 'Select with a disabled option.',
+  },
+  {
+    name: 'SelectValidation',
+    title: 'Validation',
+    description: 'Error, warning, and success validation states.',
   },
   {
     name: 'SelectWithGroups',
@@ -397,8 +577,12 @@ export const examples = [
   {
     name: 'SelectMultipleDemo',
     title: 'Multiple Selection',
-    description:
-      'Multi-select with checkboxes using the built-in multiple prop.',
+    description: 'Multi-select with counter tag (not chip tags).',
+  },
+  {
+    name: 'SelectMultipleInline',
+    title: 'Multiple Inline',
+    description: 'Ghost multi-select with counter.',
   },
 ];
 
@@ -407,8 +591,12 @@ export const select = {
   components: {
     Default: <SelectDemo />,
     Sizes: <SelectSizes />,
+    Inline: <SelectInline />,
+    Horizontal: <SelectHorizontal />,
     'With Disabled': <SelectWithDisabled />,
+    Validation: <SelectValidation />,
     'Grouped Options': <SelectWithGroups />,
     'Multiple Selection': <SelectMultipleDemo />,
+    'Multiple Inline': <SelectMultipleInline />,
   },
 };

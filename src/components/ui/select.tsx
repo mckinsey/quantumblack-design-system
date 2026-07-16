@@ -1,16 +1,38 @@
 'use client';
 
 import { Select as SelectPrimitive } from '@base-ui/react/select';
+import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
+import {
+  inputFocusRingWidth,
+  inputInlineFocusBorderWidth,
+  inputSizeDefinitions,
+  inputVariantStyles,
+} from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
 export type SelectSize = 'sm' | 'default' | 'lg';
+export type SelectVariant = 'default' | 'inline';
+export type SelectValidation = 'error' | 'warning' | 'success';
 
 interface SelectSizeContextValue {
   size?: SelectSize;
 }
+
+const defaultValidationStyles = [
+  'data-[validation=error]:border data-[validation=error]:border-stroke-status-error data-[validation=error]:ring-0',
+  'data-[validation=warning]:border data-[validation=warning]:border-stroke-status-warning data-[validation=warning]:ring-0',
+  'data-[validation=success]:border data-[validation=success]:border-stroke-status-success data-[validation=success]:ring-0',
+] as const;
+
+const inlineValidationStyles = [
+  'data-[validation=error]:border-b-stroke-status-error data-[validation=error]:ring-0',
+  'data-[validation=warning]:border-b-stroke-status-warning data-[validation=warning]:ring-0',
+  'data-[validation=success]:border-b-stroke-status-success data-[validation=success]:ring-0',
+] as const;
 
 const SelectSizeContext = React.createContext<
   SelectSizeContextValue | undefined
@@ -27,6 +49,109 @@ type SelectProps = React.ComponentProps<typeof SelectPrimitive.Root> & {
    */
   size?: SelectSize;
 };
+
+const selectTriggerVariants = cva(
+  [
+    'relative flex w-fit items-center justify-between whitespace-nowrap',
+    'rounded-none outline-none transition-[border-color,box-shadow,background-color]',
+    'cursor-pointer',
+    'data-placeholder:text-fg-tertiary',
+    '*:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2',
+  ],
+  {
+    variants: {
+      variant: {
+        default: [
+          inputVariantStyles.default.base,
+          inputVariantStyles.default.text,
+          inputVariantStyles.default.hover,
+          'focus-visible:bg-stateslayer-overlay-active-inverse focus-visible:ring-stroke-status-focus',
+          'data-[popup-open]:bg-stateslayer-overlay-active-inverse data-[popup-open]:ring-stroke-status-focus data-[popup-open]:shadow-elevation-0',
+          ...defaultValidationStyles,
+          'aria-invalid:border-status-error aria-invalid:ring-0',
+          'data-invalid:border-status-error data-invalid:ring-0',
+          'data-disabled:pointer-events-none data-disabled:cursor-not-allowed data-disabled:bg-stateslayer-overlay-disabled data-disabled:text-fg-disabled',
+        ],
+        inline: [
+          inputVariantStyles.inline.base,
+          inputVariantStyles.inline.border,
+          inputVariantStyles.inline.text,
+          inputVariantStyles.inline.hover,
+          'px-0!',
+          'focus-visible:border-b-stroke-status-focus focus-visible:ring-0 focus-visible:shadow-elevation-0',
+          'data-[popup-open]:border-b-stroke-status-focus data-[popup-open]:shadow-elevation-0',
+          ...inlineValidationStyles,
+          'aria-invalid:border-b-status-error aria-invalid:ring-0',
+          'data-invalid:border-b-status-error data-invalid:ring-0',
+          'data-disabled:pointer-events-none data-disabled:cursor-not-allowed data-disabled:text-fg-disabled',
+        ],
+      },
+      size: {
+        sm: `${inputSizeDefinitions.sm} gap-1`,
+        default: `${inputSizeDefinitions.default} gap-2`,
+        lg: `${inputSizeDefinitions.lg} gap-2`,
+      },
+    },
+    compoundVariants: [
+      { variant: 'default', size: 'sm', className: inputFocusRingWidth.sm },
+      {
+        variant: 'default',
+        size: 'default',
+        className: inputFocusRingWidth.default,
+      },
+      { variant: 'default', size: 'lg', className: inputFocusRingWidth.lg },
+      {
+        variant: 'default',
+        size: 'sm',
+        className: 'data-[popup-open]:ring-[1px]',
+      },
+      {
+        variant: 'default',
+        size: 'default',
+        className: 'data-[popup-open]:ring-[1px]',
+      },
+      {
+        variant: 'default',
+        size: 'lg',
+        className: 'data-[popup-open]:ring-[2px]',
+      },
+      {
+        variant: 'inline',
+        size: 'sm',
+        className: inputInlineFocusBorderWidth.sm,
+      },
+      {
+        variant: 'inline',
+        size: 'default',
+        className: inputInlineFocusBorderWidth.default,
+      },
+      {
+        variant: 'inline',
+        size: 'lg',
+        className: inputInlineFocusBorderWidth.lg,
+      },
+      {
+        variant: 'inline',
+        size: 'sm',
+        className: 'data-[popup-open]:border-b-[1px]',
+      },
+      {
+        variant: 'inline',
+        size: 'default',
+        className: 'data-[popup-open]:border-b-[1px]',
+      },
+      {
+        variant: 'inline',
+        size: 'lg',
+        className: 'data-[popup-open]:border-b-[2px]',
+      },
+    ],
+    defaultVariants: {
+      variant: 'default',
+      size: 'default',
+    },
+  },
+);
 
 /**
  * Select component for choosing from a list of options.
@@ -62,18 +187,10 @@ function SelectValue(props: SelectPrimitive.Value.Props) {
 }
 
 function SelectIcon({ className, ...props }: SelectPrimitive.Icon.Props) {
-  const sizeContext = useSelectSizeContext();
-  const size = sizeContext?.size ?? 'default';
-
   return (
     <SelectPrimitive.Icon
       data-slot="select-icon"
-      className={cn(
-        'text-fill-active shrink-0 opacity-60',
-        '[[data-disabled]>&]:opacity-30',
-        size === 'lg' ? 'size-6' : 'size-4',
-        className,
-      )}
+      className={cn('shrink-0', className)}
       {...props}
     />
   );
@@ -82,46 +199,32 @@ function SelectIcon({ className, ...props }: SelectPrimitive.Icon.Props) {
 function SelectTrigger({
   className,
   children,
+  variant = 'default',
+  validationState,
   ...props
-}: SelectPrimitive.Trigger.Props) {
+}: SelectPrimitive.Trigger.Props &
+  VariantProps<typeof selectTriggerVariants> & {
+    validationState?: SelectValidation;
+  }) {
   const sizeContext = useSelectSizeContext();
   const size = sizeContext?.size ?? 'default';
+  const iconSize = size === 'lg' ? 'default' : 'sm';
+  const invalid =
+    props['aria-invalid'] ?? (validationState === 'error' ? true : undefined);
 
   return (
     <SelectPrimitive.Trigger
+      {...props}
       data-slot="select-trigger"
-      className={cn(
-        'relative flex w-fit items-center justify-between whitespace-nowrap',
-        'bg-fill-onsurface-ui-3 transition-all outline-none',
-        'border border-transparent',
-        'cursor-pointer data-disabled:cursor-not-allowed data-disabled:opacity-50',
-
-        'text-fg-primary',
-        'data-placeholder:text-fg-tertiary',
-
-        'hover:bg-stateslayer-overlay-hover',
-
-        'focus-visible:bg-stateslayer-overlay-active-inverse focus-visible:border-stroke-status-focus',
-        'data-[popup-open]:bg-stateslayer-overlay-active-inverse data-[popup-open]:border-stroke-status-focus',
-        'data-[popup-open]:shadow-elevation-0',
-
-        size === 'sm' && 'paragraph-regular-primary gap-1 px-2 py-1',
-        size === 'default' && 'paragraph-regular-primary gap-2 p-2',
-        size === 'lg' && 'paragraph-large-primary gap-2 p-3',
-
-        'data-invalid:border-destructive',
-
-        '[&_svg]:pointer-events-none [&_svg]:shrink-0',
-        (size === 'sm' || size === 'default') && '[&_svg]:size-4',
-        size === 'lg' && '[&_svg]:size-6',
-
-        '*:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2',
-        className,
-      )}
-      {...props}>
+      data-variant={variant}
+      data-validation={validationState || undefined}
+      aria-invalid={invalid}
+      className={cn(selectTriggerVariants({ variant, size }), className)}>
       {children}
       <SelectIcon className="transition-transform duration-200 [[data-popup-open]>&]:rotate-180">
-        <Icon icon="keyboard_arrow_down" size="sm" />
+        <IconShell size={iconSize} variant="secondary">
+          <Icon icon="expand_more" />
+        </IconShell>
       </SelectIcon>
     </SelectPrimitive.Trigger>
   );
@@ -130,7 +233,7 @@ function SelectTrigger({
 function SelectContent({
   className,
   children,
-  sideOffset = 4,
+  sideOffset = 0,
   alignItemWithTrigger = false,
   ...positionerProps
 }: SelectPrimitive.Positioner.Props & {
@@ -286,7 +389,9 @@ function SelectScrollUpArrow({
         className,
       )}
       {...props}>
-      <Icon icon="keyboard_arrow_down" size="sm" className="rotate-180" />
+      <IconShell size="sm" variant="secondary">
+        <Icon icon="expand_more" className="rotate-180" />
+      </IconShell>
     </SelectPrimitive.ScrollUpArrow>
   );
 }
@@ -303,7 +408,9 @@ function SelectScrollDownArrow({
         className,
       )}
       {...props}>
-      <Icon icon="keyboard_arrow_down" size="sm" />
+      <IconShell size="sm" variant="secondary">
+        <Icon icon="expand_more" />
+      </IconShell>
     </SelectPrimitive.ScrollDownArrow>
   );
 }
@@ -322,5 +429,6 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
+  selectTriggerVariants,
   useSelectSizeContext,
 };
