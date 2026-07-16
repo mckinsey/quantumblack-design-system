@@ -8,7 +8,7 @@ export default function InstallationPage() {
   const registryBaseUrl = getRegistryBaseUrl();
   return (
     <main className="bg-surface-base min-h-screen w-full p-5 md:p-10">
-      <div className="mx-auto w-full max-w-[800px]">
+      <div className="mx-auto w-full max-w-[960px]">
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-2">
             <h1 className="headings-h1-regular text-fg-primary">

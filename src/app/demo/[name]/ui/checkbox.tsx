@@ -15,18 +15,18 @@ import {
   groupLegendClass,
   itemCheckboxSize,
   itemLabelClass,
-  listHeaderPy,
-  listItemsPb,
+  listDensityGap,
   listLegendMb,
+  listSectionGap,
 } from '@/lib/group-list';
 import { cn } from '@/lib/utils';
 
 const GROUP_ITEMS = [
-  { value: 'item-1', label: 'Checkbox label', count: '01' },
-  { value: 'item-2', label: 'Checkbox label', count: '02' },
-  { value: 'item-3', label: 'Checkbox label', count: '03' },
-  { value: 'item-4', label: 'Checkbox label', count: '04' },
-  { value: 'item-5', label: 'Checkbox label', count: '05' },
+  { value: 'item-1', label: 'Checkbox label', count: '1' },
+  { value: 'item-2', label: 'Checkbox label', count: '1' },
+  { value: 'item-3', label: 'Checkbox label', count: '1' },
+  { value: 'item-4', label: 'Checkbox label', count: '1' },
+  { value: 'item-5', label: 'Checkbox label', count: '1' },
 ];
 
 const ALL_VALUES = GROUP_ITEMS.map(item => item.value);
@@ -110,7 +110,7 @@ export function CheckboxGroupItem() {
           <span
             className="text-fg-secondary paragraph-regular-primary"
             aria-hidden>
-            01
+            1
           </span>
         </Field>
         <Field orientation="horizontal" className="w-[220px] gap-2">
@@ -123,7 +123,7 @@ export function CheckboxGroupItem() {
           <span
             className="text-fg-secondary paragraph-regular-primary"
             aria-hidden>
-            01
+            1
           </span>
         </Field>
         <Field orientation="horizontal" className="w-[220px] gap-2">
@@ -140,7 +140,7 @@ export function CheckboxGroupItem() {
           <span
             className="text-fg-secondary paragraph-regular-primary"
             aria-hidden>
-            01
+            1
           </span>
         </Field>
       </CheckboxGroup>
@@ -171,7 +171,7 @@ export function CheckboxItemSizes() {
               Checkbox label
             </FieldLabel>
             <span className={itemLabelClass(size.key)} aria-hidden>
-              01
+              1
             </span>
           </Field>
         ))}
@@ -183,11 +183,9 @@ export function CheckboxItemSizes() {
 function CheckboxItemGroupVariant({
   density,
   size,
-  instanceId,
 }: {
   density: ListDensity;
   size: ListSize;
-  instanceId: string;
 }) {
   const [value, setValue] = useState<string[]>([
     GROUP_ITEMS[1].value,
@@ -196,11 +194,11 @@ function CheckboxItemGroupVariant({
 
   const checkboxSize = itemCheckboxSize(size);
   const labelClass = itemLabelClass(size);
-  const countLabel = `${value.length}/${ALL_VALUES.length}`;
-  const headerId = `${instanceId}-header`;
+  const densityGap = listDensityGap(size, density);
+  const sectionGap = listSectionGap(size, density);
 
   return (
-    <FieldSet className="w-[220px] shrink-0 gap-0">
+    <FieldSet className="w-[240px] shrink-0 gap-0">
       <FieldLegend
         variant="label"
         className={cn(
@@ -214,40 +212,46 @@ function CheckboxItemGroupVariant({
         value={value}
         onValueChange={setValue}
         density={density}
-        className="gap-0">
-        <Field
-          orientation="horizontal"
-          className={cn(
-            'border-stroke-divider w-full items-center gap-2 border-b',
-            listHeaderPy(density),
-          )}>
-          <Checkbox id={headerId} size={checkboxSize} parent />
-          <FieldLabel htmlFor={headerId} className={cn(labelClass, 'flex-1')}>
-            Checkbox label
-          </FieldLabel>
-          <span className={cn(labelClass, 'shrink-0')} aria-hidden>
-            {countLabel}
-          </span>
-        </Field>
-        <div
-          className={cn(
-            'flex flex-col',
-            density === 'comfortable' ? 'gap-4' : 'gap-3',
-            listItemsPb(density),
-          )}>
+        className={sectionGap}>
+        <div className={cn('flex w-full flex-col', densityGap)}>
+          <Field orientation="horizontal" className="w-full items-center gap-2">
+            <FieldLabel
+              className={cn(
+                labelClass,
+                'flex min-w-0 flex-1 cursor-pointer items-center gap-2',
+              )}>
+              <Checkbox size={checkboxSize} parent />
+              <span className="min-w-0 flex-1">Checkbox label</span>
+            </FieldLabel>
+            <span className={cn(labelClass, 'shrink-0')} aria-hidden>
+              <span className="text-fg-primary">{value.length}</span>
+              <span>/{ALL_VALUES.length}</span>
+            </span>
+          </Field>
+          <div
+            className="border-stroke-divider flex h-2 w-full flex-col"
+            role="separator"
+            aria-orientation="horizontal">
+            <div className="border-stroke-divider h-1 w-full border-b" />
+            <div className="h-1 w-full" />
+          </div>
+        </div>
+        <div className={cn('flex w-full flex-col', densityGap)}>
           {GROUP_ITEMS.map(item => {
-            const id = `${instanceId}-${item.value}`;
-
             return (
               <Field
                 key={item.value}
                 orientation="horizontal"
                 className="w-full gap-2">
-                <Checkbox id={id} size={checkboxSize} value={item.value} />
-                <FieldLabel htmlFor={id} className={labelClass}>
-                  {item.label}
+                <FieldLabel
+                  className={cn(
+                    labelClass,
+                    'flex min-w-0 flex-1 cursor-pointer items-center gap-2',
+                  )}>
+                  <Checkbox size={checkboxSize} value={item.value} />
+                  <span className="min-w-0 flex-1">{item.label}</span>
                 </FieldLabel>
-                <span className={labelClass} aria-hidden>
+                <span className={cn(labelClass, 'shrink-0')} aria-hidden>
                   {item.count}
                 </span>
               </Field>
@@ -260,28 +264,26 @@ function CheckboxItemGroupVariant({
 }
 
 export function CheckboxItemGroup() {
-  return (
-    <CheckboxItemGroupVariant
-      density="default"
-      size="reg"
-      instanceId="checkbox-item-group"
-    />
-  );
+  return <CheckboxItemGroupVariant density="default" size="reg" />;
 }
 
 export function CheckboxItemGroupSection() {
   return (
     <div className="flex flex-col gap-10">
       {densityVariants.map(density => (
-        <div key={density.key} className="flex flex-wrap gap-8">
-          {sizeVariants.map(size => (
-            <CheckboxItemGroupVariant
-              key={`${density.key}-${size.key}`}
-              density={density.key}
-              size={size.key}
-              instanceId={`${density.prefix}${size.prefix}`}
-            />
-          ))}
+        <div key={density.key} className="flex flex-col gap-4">
+          <p className="label-small-primary text-fg-secondary capitalize">
+            {density.label}
+          </p>
+          <div className="flex flex-wrap gap-8">
+            {sizeVariants.map(size => (
+              <CheckboxItemGroupVariant
+                key={`${density.key}-${size.key}`}
+                density={density.key}
+                size={size.key}
+              />
+            ))}
+          </div>
         </div>
       ))}
     </div>
@@ -292,39 +294,47 @@ export function CheckboxHorizontal() {
   return (
     <div className="flex flex-col gap-10">
       {densityVariants.map(density => (
-        <div key={density.key} className="flex flex-col gap-8">
-          {sizeVariants.map(size => {
-            const prefix = `${density.prefix}h${size.prefix}`;
-            const ids = [1, 2, 3].map(i => `${prefix}-${i}`);
-            const checkboxSize = itemCheckboxSize(size.key);
-            const labelClass = itemLabelClass(size.key);
+        <div key={density.key} className="flex flex-col gap-4">
+          <p className="label-small-primary text-fg-secondary capitalize">
+            {density.label}
+          </p>
+          <div className="flex flex-col gap-8">
+            {sizeVariants.map(size => {
+              const prefix = `${density.prefix}h${size.prefix}`;
+              const ids = [1, 2, 3].map(n => `${prefix}-${n}`);
+              const checkboxSize = itemCheckboxSize(size.key);
+              const labelClass = itemLabelClass(size.key);
 
-            return (
-              <FieldSet key={prefix} className="w-auto gap-0">
-                <FieldLegend
-                  variant="label"
-                  className={cn(
-                    groupLegendClass(size.key),
-                    listLegendMb(size.key, density.key, 'horizontal'),
-                  )}>
-                  List label
-                </FieldLegend>
-                <CheckboxGroup
-                  orientation="horizontal"
-                  density={density.key}
-                  defaultValue={[ids[1], ids[2]]}>
-                  {ids.map(id => (
-                    <Field key={id} orientation="horizontal" className="gap-2">
-                      <Checkbox id={id} size={checkboxSize} value={id} />
-                      <FieldLabel htmlFor={id} className={labelClass}>
-                        Checkbox label
-                      </FieldLabel>
-                    </Field>
-                  ))}
-                </CheckboxGroup>
-              </FieldSet>
-            );
-          })}
+              return (
+                <FieldSet key={prefix} className="w-auto gap-0">
+                  <FieldLegend
+                    variant="label"
+                    className={cn(
+                      groupLegendClass(size.key),
+                      listLegendMb(size.key, density.key, 'horizontal'),
+                    )}>
+                    List label
+                  </FieldLegend>
+                  <CheckboxGroup
+                    orientation="horizontal"
+                    density={density.key}
+                    defaultValue={[ids[1], ids[2]]}>
+                    {ids.map(id => (
+                      <Field
+                        key={id}
+                        orientation="horizontal"
+                        className="gap-2">
+                        <Checkbox id={id} size={checkboxSize} value={id} />
+                        <FieldLabel htmlFor={id} className={labelClass}>
+                          Checkbox label
+                        </FieldLabel>
+                      </Field>
+                    ))}
+                  </CheckboxGroup>
+                </FieldSet>
+              );
+            })}
+          </div>
         </div>
       ))}
     </div>
