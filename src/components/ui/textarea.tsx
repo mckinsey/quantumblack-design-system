@@ -173,7 +173,7 @@ function TextareaCounter({
       <span
         className={cn(
           count > 0 && !isOverLimit && 'text-fg-primary',
-          isOverLimit && 'text-status-error',
+          isOverLimit && 'text-fg-error',
         )}>
         {count}
       </span>

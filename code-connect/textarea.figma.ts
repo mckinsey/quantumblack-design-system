@@ -85,8 +85,8 @@ const counterClass = disabled ? 'text-fg-disabled' : '';
 
 const errorClass =
   size === 'sm'
-    ? 'paragraph-small-primary text-error'
-    : 'paragraph-large-primary text-error';
+    ? 'paragraph-small-primary text-fg-error'
+    : 'paragraph-large-primary text-fg-error';
 
 const textareaProps = [
   `size="${size}"`,
