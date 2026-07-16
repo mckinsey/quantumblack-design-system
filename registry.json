@@ -538,7 +538,7 @@
       "type": "registry:ui",
       "title": "Radio Group",
       "description": "A radio group component.",
-      "dependencies": ["@base-ui/react"],
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
