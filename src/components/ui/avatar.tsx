@@ -1,12 +1,11 @@
 'use client';
 
-import * as AvatarPrimitive from '@radix-ui/react-avatar';
+import { Avatar as AvatarPrimitive } from '@base-ui/react/avatar';
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-// Context to share size and disabled state with children
 type AvatarContextValue = {
   size?: 'xxs' | 'xs' | 'sm' | 'default' | 'lg' | 'xl';
   disabled?: boolean;
@@ -16,10 +15,8 @@ const AvatarContext = React.createContext<AvatarContextValue>({});
 
 const useAvatarContext = () => React.useContext(AvatarContext);
 
-// Avatar styles based on design spec
 const avatarVariants = cva(
   [
-    // Base layout and positioning
     'relative flex shrink-0 rounded-full shadow-elevation-0 hover:shadow-elevation-1',
     'transition-all duration-200',
   ].join(' '),
@@ -33,50 +30,45 @@ const avatarVariants = cva(
         lg: 'size-12',
         xl: 'size-16',
       },
-      // State: Enable (default)
       state: {
         default: [
           'bg-fill-onsurface-ui-2',
           'border border-stroke-active-inverse',
         ],
         disabled: [
-          'bg-stateslayer-overlay-disabled border border-stroke-active-inverse',
+          'bg-fill-onsurface-ui-2',
+          'border border-stroke-active-inverse',
+          'before:absolute before:inset-0 before:rounded-full',
+          'before:pointer-events-none before:z-10',
+          'before:bg-stateslayer-overlay-disabled before:opacity-100',
         ],
       },
     },
     compoundVariants: [
-      // Small size has 1px border, others have 2px
       {
         size: ['default', 'lg', 'xl'],
         state: ['default', 'disabled'],
         class: 'border-2',
       },
-      // Overlay pseudo-element - Only for enabled state
-      // Base setup: positioned absolutely to cover the entire avatar (including border)
       {
         state: 'default',
         class: [
           'before:absolute before:inset-0 before:rounded-full',
           'before:pointer-events-none before:z-10',
           'before:transition-opacity before:duration-200',
-          // Default state (hidden): uses hover color but opacity-0 keeps it hidden
           'before:bg-stateslayer-overlay-hover before:opacity-0',
-          // Hover state: show the hover overlay (opacity becomes 100)
           'hover:before:opacity-100',
-          // Active state: change to pressed color and show overlay
           'active:before:bg-stateslayer-overlay-pressed active:before:opacity-100',
         ].join(' '),
       },
-      // Overlay positioning to cover border - 1px border for small sizes (enabled only)
       {
         size: ['xxs', 'xs', 'sm'],
-        state: 'default',
+        state: ['default', 'disabled'],
         class: 'before:-inset-px',
       },
-      // Overlay positioning to cover border - 2px border for larger sizes (enabled only)
       {
         size: ['default', 'lg', 'xl'],
-        state: 'default',
+        state: ['default', 'disabled'],
         class: 'before:-inset-[2px]',
       },
     ],
@@ -88,16 +80,16 @@ const avatarVariants = cva(
 );
 
 const avatarFallbackVariants = cva(
-  'flex size-full items-center justify-center rounded-full font-semibold text-fg-primary',
+  'flex size-full items-center justify-center rounded-full text-fg-primary',
   {
     variants: {
       size: {
-        xxs: 'text-xs leading-4',
-        xs: 'text-xs leading-4',
-        sm: 'text-xs leading-4',
-        default: 'text-sm leading-5',
-        lg: 'text-base leading-6',
-        xl: 'text-2xl leading-7',
+        xxs: 'paragraph-small-emphasised',
+        xs: 'paragraph-small-emphasised',
+        sm: 'paragraph-small-emphasised',
+        default: 'paragraph-regular-emphasised-600',
+        lg: 'paragraph-large-emphasised',
+        xl: 'headings-h3-semibold',
       },
       disabled: {
         true: 'text-fg-disabled',
@@ -111,9 +103,7 @@ const avatarFallbackVariants = cva(
 );
 
 export interface AvatarProps
-  extends
-    React.ComponentProps<typeof AvatarPrimitive.Root>,
-    VariantProps<typeof avatarVariants> {
+  extends AvatarPrimitive.Root.Props, VariantProps<typeof avatarVariants> {
   disabled?: boolean;
 }
 
@@ -129,19 +119,16 @@ function Avatar({
       value={{ size: size ?? undefined, disabled: disabled ?? undefined }}>
       <AvatarPrimitive.Root
         data-slot="avatar"
-        tabIndex={disabled ? -1 : 0}
         className={cn(
           avatarVariants({
             size,
             state: disabled ? 'disabled' : 'default',
           }),
-          // Focus state - only enabled when not disabled; 1px for small sizes, 2px for default/lg/xl (Figma)
-          !disabled && 'ring-stroke-focus-brand',
+          !disabled && 'ring-stroke-status-focus',
           !disabled &&
             (size === 'xxs' || size === 'xs' || size === 'sm'
               ? 'focus-visible:ring-[1px]'
               : 'focus-visible:ring-2'),
-          // Disabled cursor
           disabled && 'cursor-not-allowed',
           className,
         )}
@@ -152,10 +139,7 @@ function Avatar({
   );
 }
 
-function AvatarImage({
-  className,
-  ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Image>) {
+function AvatarImage({ className, ...props }: AvatarPrimitive.Image.Props) {
   return (
     <AvatarPrimitive.Image
       className={cn(
@@ -170,7 +154,7 @@ function AvatarImage({
 
 export interface AvatarFallbackProps
   extends
-    React.ComponentProps<typeof AvatarPrimitive.Fallback>,
+    AvatarPrimitive.Fallback.Props,
     VariantProps<typeof avatarFallbackVariants> {
   disabled?: boolean;
 }
