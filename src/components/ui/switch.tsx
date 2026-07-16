@@ -36,7 +36,7 @@ function Switch({
           'pointer-events-none block rounded-full ring-0 transition-transform',
           'bg-fill-secondary data-checked:bg-fill-active-inverse',
           'group-data-[size=default]/switch:size-2.5 group-data-[size=lg]/switch:size-3.5 group-data-[size=sm]/switch:size-2',
-          'group-data-[size=default]/switch:data-unchecked:translate-x-0.5 group-data-[size=lg]/switch:data-unchecked:translate-x-0.5 group-data-[size=sm]/switch:data-unchecked:translate-x-0.5',
+          'data-unchecked:translate-x-0.5',
           'group-data-[size=default]/switch:data-checked:translate-x-4.75 group-data-[size=lg]/switch:data-checked:translate-x-5.75 group-data-[size=sm]/switch:data-checked:translate-x-3.5',
           'data-disabled:bg-fill-disabled data-disabled:data-checked:bg-fill-disabled',
         )}
