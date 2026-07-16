@@ -253,7 +253,7 @@
       "name": "checkbox",
       "type": "registry:ui",
       "title": "Checkbox",
-      "description": "Allows users to select multiple items from a list of options.",
+      "description": "Checkbox and CheckboxGroup for single and multi-select options.",
       "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",

@@ -96,6 +96,7 @@ import {
 import {
   CheckboxDemo,
   CheckboxGroupItem,
+  CheckboxHorizontal,
   CheckboxItemGroup,
   CheckboxItemGroupSection,
   CheckboxItemSizes,
@@ -483,6 +484,7 @@ export const exampleComponentMaps: Record<
     CheckboxItemSizes,
     CheckboxItemGroup,
     CheckboxItemGroupSection,
+    CheckboxHorizontal,
   },
   'date-picker': {
     DatePickerDemo,

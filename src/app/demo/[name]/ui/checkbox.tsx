@@ -1,42 +1,63 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
-import { Checkbox } from '@/components/ui/checkbox';
+import { Checkbox, CheckboxGroup } from '@/components/ui/checkbox';
 import {
   Field,
-  FieldDescription,
-  FieldGroup,
   FieldLabel,
   FieldLegend,
   FieldSet,
 } from '@/components/ui/field';
+import {
+  type ListDensity,
+  type ListSize,
+  groupLegendClass,
+  itemCheckboxSize,
+  itemLabelClass,
+  listHeaderPy,
+  listItemsPb,
+  listLegendMb,
+} from '@/lib/group-list';
 import { cn } from '@/lib/utils';
 
-const CHECKBOX_GROUP_ITEMS = [
-  { id: 'group-1', label: 'Checkbox label', suffix: '01' },
-  { id: 'group-2', label: 'Checkbox label', suffix: '01' },
-  { id: 'group-3', label: 'Checkbox label', suffix: '01' },
-  { id: 'group-4', label: 'Checkbox label', suffix: '01' },
-  { id: 'group-5', label: 'Checkbox label', suffix: '01' },
+const GROUP_ITEMS = [
+  { value: 'item-1', label: 'Checkbox label', count: '01' },
+  { value: 'item-2', label: 'Checkbox label', count: '02' },
+  { value: 'item-3', label: 'Checkbox label', count: '03' },
+  { value: 'item-4', label: 'Checkbox label', count: '04' },
+  { value: 'item-5', label: 'Checkbox label', count: '05' },
 ];
 
-type Density = 'compact' | 'relaxed';
-type ItemGroupSize = 'sm' | 'default' | 'lg';
+const ALL_VALUES = GROUP_ITEMS.map(item => item.value);
 
-// ============================================================================
-// Example Components (New Format)
-// ============================================================================
+const sizeVariants: {
+  key: ListSize;
+  label: string;
+  prefix: string;
+}[] = [
+  { key: 'reg', label: 'Regular', prefix: 'r' },
+  { key: 'sm', label: 'Small', prefix: 's' },
+  { key: 'lg', label: 'Large', prefix: 'l' },
+];
 
-/**
- * Default checkbox example – single option with Field
- */
+const densityVariants: {
+  key: ListDensity;
+  label: string;
+  prefix: string;
+}[] = [
+  { key: 'default', label: 'default', prefix: 'd' },
+  { key: 'comfortable', label: 'comfortable', prefix: 'c' },
+];
+
 export function CheckboxDemo() {
   return (
-    <FieldSet>
+    <FieldSet className="w-full max-w-xs">
       <Field orientation="horizontal" className="gap-2">
         <Checkbox id="terms-demo" />
-        <FieldLabel htmlFor="terms-demo" className="paragraph-regular-primary">
+        <FieldLabel
+          htmlFor="terms-demo"
+          className="text-fg-secondary label-regular-primary">
           Accept terms and conditions
         </FieldLabel>
       </Field>
@@ -44,505 +65,271 @@ export function CheckboxDemo() {
   );
 }
 
-/**
- * CheckboxGroup/Item – single item with label + suffix in 3 variants.
- * Shows unchecked, checked, and indeterminate states.
- */
-export function CheckboxGroupItem() {
-  return (
-    <FieldSet>
-      <FieldLegend variant="label">CheckboxGroup/Item</FieldLegend>
-      <FieldDescription>
-        Three variants: unchecked, checked, indeterminate.
-      </FieldDescription>
-      <FieldGroup data-slot="checkbox-group" className="gap-3">
-        <Field orientation="horizontal" className="w-[220px] gap-2">
-          <Checkbox id="item-unchecked" />
-          <FieldLabel
-            htmlFor="item-unchecked"
-            className="paragraph-regular-primary">
-            Checkbox label
-          </FieldLabel>
-          <span
-            className="text-fg-secondary paragraph-regular-primary"
-            aria-hidden>
-            01
-          </span>
-        </Field>
-
-        <Field orientation="horizontal" className="w-[220px] gap-2">
-          <Checkbox id="item-checked" checked />
-          <FieldLabel
-            htmlFor="item-checked"
-            className="paragraph-regular-primary">
-            Checkbox label
-          </FieldLabel>
-          <span
-            className="text-fg-primary paragraph-regular-primary"
-            aria-hidden>
-            01
-          </span>
-        </Field>
-
-        <Field orientation="horizontal" className="w-[220px] gap-2">
-          <Checkbox id="item-indeterminate" checked="indeterminate" />
-          <FieldLabel
-            htmlFor="item-indeterminate"
-            className="paragraph-regular-primary">
-            Checkbox label
-          </FieldLabel>
-          <span
-            className="text-fg-secondary paragraph-regular-primary"
-            aria-hidden>
-            01
-          </span>
-        </Field>
-      </FieldGroup>
-    </FieldSet>
-  );
-}
-
-/**
- * CheckboxGroup/Item – 3 sizes.
- * Same item pattern (label + suffix) at small, default, and large.
- */
-export function CheckboxItemSizes() {
-  return (
-    <FieldSet>
-      <FieldLegend variant="label">Checkbox item sizes</FieldLegend>
-      <FieldDescription>
-        Checkbox item with label and suffix at small, default, and large sizes.
-      </FieldDescription>
-      <FieldGroup data-slot="checkbox-group" className="gap-3">
-        <Field orientation="horizontal" className="w-[220px] gap-2">
-          <Checkbox id="item-size-sm" size="default" />
-          <FieldLabel
-            htmlFor="item-size-sm"
-            className="paragraph-small-primary">
-            Checkbox label
-          </FieldLabel>
-          <span
-            className="text-fg-secondary paragraph-small-primary"
-            aria-hidden>
-            01
-          </span>
-        </Field>
-
-        <Field orientation="horizontal" className="w-[220px] gap-2">
-          <Checkbox id="item-size-default" size="default" />
-          <FieldLabel
-            htmlFor="item-size-default"
-            className="paragraph-regular-primary">
-            Checkbox label
-          </FieldLabel>
-          <span
-            className="text-fg-secondary paragraph-regular-primary"
-            aria-hidden>
-            01
-          </span>
-        </Field>
-
-        <Field orientation="horizontal" className="w-[220px] gap-2">
-          <Checkbox id="item-size-lg" size="lg" />
-          <FieldLabel
-            htmlFor="item-size-lg"
-            className="paragraph-large-primary">
-            Checkbox label
-          </FieldLabel>
-          <span
-            className="text-fg-secondary paragraph-large-primary"
-            aria-hidden>
-            01
-          </span>
-        </Field>
-      </FieldGroup>
-    </FieldSet>
-  );
-}
-
-/**
- * Checkbox Item Group – header with underline + list of items.
- * Main header has checkbox (select-all), label, count (e.g. 2/5), and underline below.
- */
-export function CheckboxItemGroup() {
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(
-    new Set([CHECKBOX_GROUP_ITEMS[1].id, CHECKBOX_GROUP_ITEMS[2].id]),
-  );
-
-  const { checked, indeterminate } = useMemo(() => {
-    const total = CHECKBOX_GROUP_ITEMS.length;
-    const count = selectedIds.size;
-
-    if (count === 0) {
-      return { checked: false, indeterminate: false };
-    }
-
-    if (count === total) {
-      return { checked: true, indeterminate: false };
-    }
-
-    return { checked: false, indeterminate: true };
-  }, [selectedIds]);
-
-  const onHeaderChange = (checkedState: boolean | 'indeterminate') => {
-    if (checkedState === true) {
-      setSelectedIds(new Set(CHECKBOX_GROUP_ITEMS.map(item => item.id)));
-    } else {
-      setSelectedIds(new Set());
-    }
-  };
-
-  const onItemChange = (id: string, isChecked: boolean) => {
-    setSelectedIds((prev: Set<string>) => {
-      const next = new Set(prev);
-      if (isChecked) {
-        next.add(id);
-      } else {
-        next.delete(id);
-      }
-      return next;
-    });
-  };
-
-  const countLabel = `${selectedIds.size}/${CHECKBOX_GROUP_ITEMS.length}`;
-
-  return (
-    <FieldSet>
-      <Field
-        orientation="horizontal"
-        className="border-stroke-divider w-[220px] gap-2 border-b pt-2 pb-3">
-        <Checkbox
-          id="checkbox-item-group-header"
-          checked={indeterminate ? 'indeterminate' : checked}
-          onCheckedChange={onHeaderChange}
-        />
-        <span className="min-w-0 flex-1">
-          <FieldLabel
-            htmlFor="checkbox-item-group-header"
-            className="paragraph-regular-primary">
-            Checkbox label
-          </FieldLabel>
-        </span>
-        <span
-          className="text-fg-secondary paragraph-regular-primary shrink-0"
-          aria-hidden>
-          {countLabel}
-        </span>
-      </Field>
-      <FieldGroup data-slot="checkbox-group" className="gap-3">
-        {CHECKBOX_GROUP_ITEMS.map(item => {
-          const isChecked = selectedIds.has(item.id);
-
-          return (
-            <Field
-              key={item.id}
-              orientation="horizontal"
-              className="w-[220px] gap-2">
-              <Checkbox
-                id={item.id}
-                checked={isChecked}
-                onCheckedChange={(value: boolean | 'indeterminate') =>
-                  onItemChange(item.id, value === true)
-                }
-              />
-              <FieldLabel
-                htmlFor={item.id}
-                className="paragraph-regular-primary">
-                {item.label}
-              </FieldLabel>
-              <span
-                className={cn(
-                  'paragraph-regular-primary',
-                  isChecked ? 'text-fg-primary' : 'text-fg-secondary',
-                )}
-                aria-hidden>
-                {item.suffix}
-              </span>
-            </Field>
-          );
-        })}
-      </FieldGroup>
-    </FieldSet>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Checkbox Item Group Section – constants (kept here so they’re visible with
-// the example below; must be at module scope so they’re defined at runtime).
-// ---------------------------------------------------------------------------
-
-const HEADER_LABEL_CLASS_BY_SIZE_ITEM_GROUP: Record<ItemGroupSize, string> = {
-  sm: 'paragraph-small-primary',
-  default: 'paragraph-regular-primary',
-  lg: 'paragraph-large-primary',
-};
-
-const ITEM_LABEL_CLASS_BY_SIZE_ITEM_GROUP: Record<ItemGroupSize, string> = {
-  sm: 'paragraph-small-primary',
-  default: 'paragraph-regular-primary',
-  lg: 'paragraph-large-primary',
-};
-
-const SUFFIX_CLASS_BY_SIZE: Record<ItemGroupSize, string> = {
-  sm: 'paragraph-small-primary',
-  default: 'paragraph-regular-primary',
-  lg: 'paragraph-large-primary',
-};
-
-/**
- * Spacing for CheckboxItemGroup by density and size.
- *
- * Design spec uses asymmetric header padding for reg size, and the item gap
- * differs for sm vs reg/lg.
- */
-function getCheckboxItemGroupSpacing(density: Density, size: ItemGroupSize) {
-  if (density === 'compact') {
-    return {
-      headerPaddingY: size === 'default' ? 'pt-2 pb-3' : 'pt-3 pb-3',
-      gapBetweenItems: size === 'sm' ? 'gap-2' : 'gap-3',
-      itemsBottomPadding: 'pb-3',
-      gapBetweenSections: 'gap-3',
-    };
-  }
-
-  const relaxedHeaderPadding: Record<ItemGroupSize, string> = {
-    sm: 'pt-3 pb-3',
-    default: 'pt-3 pb-4',
-    lg: 'pt-4 pb-4',
-  };
-
-  return {
-    headerPaddingY: relaxedHeaderPadding[size],
-    gapBetweenItems: size === 'sm' ? 'gap-3' : 'gap-4',
-    itemsBottomPadding: size === 'sm' ? 'pb-3' : 'pb-4',
-    gapBetweenSections: size === 'sm' ? 'gap-3' : 'gap-4',
-  };
-}
-
-/**
- * Checkbox Item Group Section – 2 densities × 3 sizes in 2 rows.
- * Row 1: compact density with sm, default, lg. Row 2: relaxed with sm, default, lg.
- *
- * CHECKBOX_ITEM_GROUP_SPACING and HEADER/ITEM_LABEL_CLASS_BY_SIZE_ITEM_GROUP are
- * defined just above so the full example (constants + variant + section) stays together.
- */
-export function CheckboxItemGroupSection() {
-  /**
-   * Single Checkbox Item Group with density and size.
-   * Renders one group (header + list) using CHECKBOX_ITEM_GROUP_SPACING for padding/gaps.
-   */
-  function CheckboxItemGroupVariant({
-    density,
-    size,
-    instanceId,
-  }: {
-    density: Density;
-    size: ItemGroupSize;
-    instanceId: string;
-  }) {
-    const [selectedIds, setSelectedIds] = useState<Set<string>>(
-      new Set([CHECKBOX_GROUP_ITEMS[1].id, CHECKBOX_GROUP_ITEMS[2].id]),
-    );
-
-    const { checked, indeterminate } = useMemo(() => {
-      const total = CHECKBOX_GROUP_ITEMS.length;
-      const count = selectedIds.size;
-
-      if (count === 0) {
-        return { checked: false, indeterminate: false };
-      }
-
-      if (count === total) {
-        return { checked: true, indeterminate: false };
-      }
-
-      return { checked: false, indeterminate: true };
-    }, [selectedIds]);
-
-    const onHeaderChange = (checkedState: boolean | 'indeterminate') => {
-      if (checkedState === true) {
-        setSelectedIds(new Set(CHECKBOX_GROUP_ITEMS.map(item => item.id)));
-      } else {
-        setSelectedIds(new Set());
-      }
-    };
-
-    const onItemChange = (id: string, isChecked: boolean) => {
-      setSelectedIds((prev: Set<string>) => {
-        const next = new Set(prev);
-        if (isChecked) {
-          next.add(id);
-        } else {
-          next.delete(id);
-        }
-        return next;
-      });
-    };
-
-    const countLabel = `${selectedIds.size}/${CHECKBOX_GROUP_ITEMS.length}`;
-    const headerId = `checkbox-item-group-${instanceId}-header`;
-
-    const spacing = getCheckboxItemGroupSpacing(density, size);
-
-    const headerBorderClass = 'border-stroke-divider border-b';
-
-    const checkboxSize = size === 'lg' ? 'lg' : 'default';
-    const headerLabelClass = HEADER_LABEL_CLASS_BY_SIZE_ITEM_GROUP[size];
-    const itemLabelClass = ITEM_LABEL_CLASS_BY_SIZE_ITEM_GROUP[size];
-    const suffixClass = SUFFIX_CLASS_BY_SIZE[size];
-
-    return (
-      <div
-        className={cn(
-          'flex w-[220px] shrink-0 flex-col',
-          spacing.gapBetweenSections,
-        )}>
-        <Field
-          orientation="horizontal"
-          className={cn(
-            'w-full items-center gap-2',
-            spacing.headerPaddingY,
-            headerBorderClass,
-          )}>
-          <Checkbox
-            id={headerId}
-            size={checkboxSize}
-            checked={indeterminate ? 'indeterminate' : checked}
-            onCheckedChange={onHeaderChange}
-          />
-          <span className="min-w-0 flex-1">
-            <FieldLabel htmlFor={headerId} className={headerLabelClass}>
-              Checkbox label
-            </FieldLabel>
-          </span>
-          <span
-            className={cn('text-fg-secondary shrink-0', suffixClass)}
-            aria-hidden>
-            {countLabel}
-          </span>
-        </Field>
-        <FieldGroup
-          data-slot="checkbox-group"
-          className={cn(
-            'flex flex-col',
-            spacing.gapBetweenItems,
-            spacing.itemsBottomPadding,
-          )}>
-          {CHECKBOX_GROUP_ITEMS.map(item => {
-            const isItemChecked = selectedIds.has(item.id);
-
-            return (
-              <Field
-                key={item.id}
-                orientation="horizontal"
-                className="w-full gap-2">
-                <Checkbox
-                  id={`checkbox-item-group-${instanceId}-${item.id}`}
-                  size={checkboxSize}
-                  checked={isItemChecked}
-                  onCheckedChange={(value: boolean | 'indeterminate') =>
-                    onItemChange(item.id, value === true)
-                  }
-                />
-                <FieldLabel
-                  htmlFor={`checkbox-item-group-${instanceId}-${item.id}`}
-                  className={itemLabelClass}>
-                  {item.label}
-                </FieldLabel>
-                <span
-                  className={cn(
-                    suffixClass,
-                    isItemChecked ? 'text-fg-primary' : 'text-fg-secondary',
-                  )}
-                  aria-hidden>
-                  {item.suffix}
-                </span>
-              </Field>
-            );
-          })}
-        </FieldGroup>
-      </div>
-    );
-  }
-
-  return (
-    <FieldSet>
-      <FieldLegend variant="label">Checkbox Item Group Section</FieldLegend>
-      <FieldDescription>
-        2 densities × 3 sizes (6 variants). Row 1: compact. Row 2: relaxed.
-      </FieldDescription>
-      <div className="flex flex-col gap-10">
-        <div className="flex flex-wrap gap-8">
-          <CheckboxItemGroupVariant
-            density="compact"
-            size="sm"
-            instanceId="compact-sm"
-          />
-          <CheckboxItemGroupVariant
-            density="compact"
-            size="default"
-            instanceId="compact-default"
-          />
-          <CheckboxItemGroupVariant
-            density="compact"
-            size="lg"
-            instanceId="compact-lg"
-          />
-        </div>
-        <div className="flex flex-wrap gap-8">
-          <CheckboxItemGroupVariant
-            density="relaxed"
-            size="sm"
-            instanceId="relaxed-sm"
-          />
-          <CheckboxItemGroupVariant
-            density="relaxed"
-            size="default"
-            instanceId="relaxed-default"
-          />
-          <CheckboxItemGroupVariant
-            density="relaxed"
-            size="lg"
-            instanceId="relaxed-lg"
-          />
-        </div>
-      </div>
-    </FieldSet>
-  );
-}
-
-/**
- * Checkbox sizes – 2 variants: default and large (Field group).
- */
 export function CheckboxSizes() {
   return (
-    <FieldSet>
-      <FieldLegend variant="label">Checkbox sizes</FieldLegend>
-      <FieldDescription>Default and large.</FieldDescription>
-      <FieldGroup data-slot="checkbox-group" className="gap-3">
+    <FieldSet className="w-full max-w-xs">
+      <FieldLegend variant="label" className="label-regular-primary mb-3">
+        Checkbox sizes
+      </FieldLegend>
+      <CheckboxGroup>
         <Field orientation="horizontal" className="gap-2">
           <Checkbox id="size-default" size="default" />
           <FieldLabel
             htmlFor="size-default"
-            className="paragraph-regular-primary">
+            className="text-fg-secondary label-regular-primary">
             Default size
           </FieldLabel>
         </Field>
-
         <Field orientation="horizontal" className="gap-2">
           <Checkbox id="size-lg" size="lg" />
-          <FieldLabel htmlFor="size-lg" className="paragraph-large-primary">
+          <FieldLabel
+            htmlFor="size-lg"
+            className="text-fg-secondary label-large-primary">
             Large size
           </FieldLabel>
         </Field>
-      </FieldGroup>
+      </CheckboxGroup>
     </FieldSet>
   );
 }
 
-// ============================================================================
-// Example Metadata
-// ============================================================================
+export function CheckboxGroupItem() {
+  return (
+    <FieldSet className="w-full max-w-xs">
+      <FieldLegend variant="label" className="label-regular-primary mb-3">
+        CheckboxGroup/Item
+      </FieldLegend>
+      <CheckboxGroup defaultValue={['item-checked']}>
+        <Field orientation="horizontal" className="w-[220px] gap-2">
+          <Checkbox id="item-unchecked" value="item-unchecked" />
+          <FieldLabel
+            htmlFor="item-unchecked"
+            className="text-fg-secondary paragraph-regular-primary">
+            Checkbox label
+          </FieldLabel>
+          <span
+            className="text-fg-secondary paragraph-regular-primary"
+            aria-hidden>
+            01
+          </span>
+        </Field>
+        <Field orientation="horizontal" className="w-[220px] gap-2">
+          <Checkbox id="item-checked" value="item-checked" />
+          <FieldLabel
+            htmlFor="item-checked"
+            className="text-fg-secondary paragraph-regular-primary">
+            Checkbox label
+          </FieldLabel>
+          <span
+            className="text-fg-secondary paragraph-regular-primary"
+            aria-hidden>
+            01
+          </span>
+        </Field>
+        <Field orientation="horizontal" className="w-[220px] gap-2">
+          <Checkbox
+            id="item-indeterminate"
+            checked="indeterminate"
+            value="item-indeterminate"
+          />
+          <FieldLabel
+            htmlFor="item-indeterminate"
+            className="text-fg-secondary paragraph-regular-primary">
+            Checkbox label
+          </FieldLabel>
+          <span
+            className="text-fg-secondary paragraph-regular-primary"
+            aria-hidden>
+            01
+          </span>
+        </Field>
+      </CheckboxGroup>
+    </FieldSet>
+  );
+}
+
+export function CheckboxItemSizes() {
+  return (
+    <FieldSet className="w-full max-w-xs">
+      <FieldLegend variant="label" className="label-regular-primary mb-3">
+        Checkbox item sizes
+      </FieldLegend>
+      <CheckboxGroup>
+        {sizeVariants.map(size => (
+          <Field
+            key={size.key}
+            orientation="horizontal"
+            className="w-[220px] gap-2">
+            <Checkbox
+              id={`item-size-${size.key}`}
+              size={itemCheckboxSize(size.key)}
+              value={`item-size-${size.key}`}
+            />
+            <FieldLabel
+              htmlFor={`item-size-${size.key}`}
+              className={itemLabelClass(size.key)}>
+              Checkbox label
+            </FieldLabel>
+            <span className={itemLabelClass(size.key)} aria-hidden>
+              01
+            </span>
+          </Field>
+        ))}
+      </CheckboxGroup>
+    </FieldSet>
+  );
+}
+
+function CheckboxItemGroupVariant({
+  density,
+  size,
+  instanceId,
+}: {
+  density: ListDensity;
+  size: ListSize;
+  instanceId: string;
+}) {
+  const [value, setValue] = useState<string[]>([
+    GROUP_ITEMS[1].value,
+    GROUP_ITEMS[2].value,
+  ]);
+
+  const checkboxSize = itemCheckboxSize(size);
+  const labelClass = itemLabelClass(size);
+  const countLabel = `${value.length}/${ALL_VALUES.length}`;
+  const headerId = `${instanceId}-header`;
+
+  return (
+    <FieldSet className="w-[220px] shrink-0 gap-0">
+      <FieldLegend
+        variant="label"
+        className={cn(
+          groupLegendClass(size),
+          listLegendMb(size, density, 'vertical'),
+        )}>
+        List label
+      </FieldLegend>
+      <CheckboxGroup
+        allValues={ALL_VALUES}
+        value={value}
+        onValueChange={setValue}
+        density={density}
+        className="gap-0">
+        <Field
+          orientation="horizontal"
+          className={cn(
+            'border-stroke-divider w-full items-center gap-2 border-b',
+            listHeaderPy(density),
+          )}>
+          <Checkbox id={headerId} size={checkboxSize} parent />
+          <FieldLabel htmlFor={headerId} className={cn(labelClass, 'flex-1')}>
+            Checkbox label
+          </FieldLabel>
+          <span className={cn(labelClass, 'shrink-0')} aria-hidden>
+            {countLabel}
+          </span>
+        </Field>
+        <div
+          className={cn(
+            'flex flex-col',
+            density === 'comfortable' ? 'gap-4' : 'gap-3',
+            listItemsPb(density),
+          )}>
+          {GROUP_ITEMS.map(item => {
+            const id = `${instanceId}-${item.value}`;
+
+            return (
+              <Field
+                key={item.value}
+                orientation="horizontal"
+                className="w-full gap-2">
+                <Checkbox id={id} size={checkboxSize} value={item.value} />
+                <FieldLabel htmlFor={id} className={labelClass}>
+                  {item.label}
+                </FieldLabel>
+                <span className={labelClass} aria-hidden>
+                  {item.count}
+                </span>
+              </Field>
+            );
+          })}
+        </div>
+      </CheckboxGroup>
+    </FieldSet>
+  );
+}
+
+export function CheckboxItemGroup() {
+  return (
+    <CheckboxItemGroupVariant
+      density="default"
+      size="reg"
+      instanceId="checkbox-item-group"
+    />
+  );
+}
+
+export function CheckboxItemGroupSection() {
+  return (
+    <div className="flex flex-col gap-10">
+      {densityVariants.map(density => (
+        <div key={density.key} className="flex flex-wrap gap-8">
+          {sizeVariants.map(size => (
+            <CheckboxItemGroupVariant
+              key={`${density.key}-${size.key}`}
+              density={density.key}
+              size={size.key}
+              instanceId={`${density.prefix}${size.prefix}`}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function CheckboxHorizontal() {
+  return (
+    <div className="flex flex-col gap-10">
+      {densityVariants.map(density => (
+        <div key={density.key} className="flex flex-col gap-8">
+          {sizeVariants.map(size => {
+            const prefix = `${density.prefix}h${size.prefix}`;
+            const ids = [1, 2, 3].map(i => `${prefix}-${i}`);
+            const checkboxSize = itemCheckboxSize(size.key);
+            const labelClass = itemLabelClass(size.key);
+
+            return (
+              <FieldSet key={prefix} className="w-auto gap-0">
+                <FieldLegend
+                  variant="label"
+                  className={cn(
+                    groupLegendClass(size.key),
+                    listLegendMb(size.key, density.key, 'horizontal'),
+                  )}>
+                  List label
+                </FieldLegend>
+                <CheckboxGroup
+                  orientation="horizontal"
+                  density={density.key}
+                  defaultValue={[ids[1], ids[2]]}>
+                  {ids.map(id => (
+                    <Field key={id} orientation="horizontal" className="gap-2">
+                      <Checkbox id={id} size={checkboxSize} value={id} />
+                      <FieldLabel htmlFor={id} className={labelClass}>
+                        Checkbox label
+                      </FieldLabel>
+                    </Field>
+                  ))}
+                </CheckboxGroup>
+              </FieldSet>
+            );
+          })}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export const examples = [
   {
@@ -570,19 +357,20 @@ export const examples = [
     name: 'CheckboxItemGroup',
     title: 'Checkbox Item Group',
     description:
-      'Group with header (select-all, label, count), underline below header, and list of items.',
+      'Group with parent select-all, label, count, underline, and list of items.',
   },
   {
     name: 'CheckboxItemGroupSection',
     title: 'Checkbox Item Group Section',
+    description: '2 densities × 3 sizes (6 variants). default and comfortable.',
+  },
+  {
+    name: 'CheckboxHorizontal',
+    title: 'Checkbox Horizontal List',
     description:
-      '2 densities × 3 sizes (6 variants) in 2 rows. Row 1: compact; row 2: relaxed.',
+      '2 densities × 3 sizes. Horizontal CheckboxGroup with list labels.',
   },
 ];
-
-// ============================================================================
-// Legacy Format (for backwards compatibility)
-// ============================================================================
 
 export const checkbox = {
   name: 'checkbox',
@@ -593,5 +381,6 @@ export const checkbox = {
     'Checkbox item sizes': <CheckboxItemSizes />,
     'Checkbox Item Group': <CheckboxItemGroup />,
     'Checkbox Item Group Section': <CheckboxItemGroupSection />,
+    'Checkbox Horizontal List': <CheckboxHorizontal />,
   },
 };

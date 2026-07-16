@@ -1,6 +1,8 @@
 'use client';
 
 import { Checkbox as CheckboxPrimitive } from '@base-ui/react/checkbox';
+import { CheckboxGroup as CheckboxGroupPrimitive } from '@base-ui/react/checkbox-group';
+import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
@@ -45,6 +47,40 @@ function CheckmarkIcon({ size }: { size: 'default' | 'lg' }) {
   );
 }
 
+const checkboxGroupVariants = cva('', {
+  variants: {
+    orientation: {
+      vertical: 'grid',
+      horizontal: 'flex flex-row',
+    },
+    density: {
+      default: 'gap-3',
+      comfortable: 'gap-4',
+    },
+  },
+  defaultVariants: {
+    orientation: 'vertical',
+    density: 'default',
+  },
+});
+
+function CheckboxGroup({
+  className,
+  orientation = 'vertical',
+  density = 'default',
+  ...props
+}: CheckboxGroupPrimitive.Props & VariantProps<typeof checkboxGroupVariants>) {
+  return (
+    <CheckboxGroupPrimitive
+      data-slot="checkbox-group"
+      data-orientation={orientation}
+      data-density={density}
+      className={cn(checkboxGroupVariants({ orientation, density }), className)}
+      {...props}
+    />
+  );
+}
+
 interface CheckboxProps extends Omit<
   React.ComponentProps<typeof CheckboxPrimitive.Root>,
   'checked' | 'defaultChecked' | 'indeterminate' | 'onCheckedChange'
@@ -73,9 +109,10 @@ function Checkbox({
   return (
     <CheckboxPrimitive.Root
       data-slot="checkbox"
+      data-size={size}
       className={cn(
         boundingBoxClass,
-        'group peer relative flex shrink-0 items-center justify-center outline-none',
+        'group peer relative flex shrink-0 cursor-pointer items-center justify-center outline-none',
         'data-disabled:cursor-not-allowed',
         className,
       )}
@@ -100,10 +137,8 @@ function Checkbox({
           visibleBoxClass,
           'relative flex items-center justify-center',
           'border-stroke-primary border bg-transparent',
-
           'group-focus-visible:ring-stroke-status-focus group-focus-visible:ring-2',
           'group-focus-visible:border-stroke-active',
-
           'group-data-disabled:border-stroke-tertiary',
           'group-data-disabled:group-data-checked:border-stroke-tertiary',
           'group-data-disabled:group-data-indeterminate:border-stroke-tertiary',
@@ -125,4 +160,4 @@ function Checkbox({
   );
 }
 
-export { Checkbox };
+export { Checkbox, CheckboxGroup, checkboxGroupVariants };

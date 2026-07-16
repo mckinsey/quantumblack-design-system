@@ -1,10 +1,11 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { useState } from 'react';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { exampleComponentMaps } from '@/app/demo/[name]/index';
 import { Renderer } from '@/app/demo/[name]/renderer';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Checkbox, CheckboxGroup } from '@/components/ui/checkbox';
 
 const componentName = 'checkbox';
 
@@ -69,8 +70,66 @@ describe(`${componentName} — state`, () => {
     expect(cb).toHaveAttribute('aria-checked', 'true');
   });
 
-  it('renders in lg size', () => {
+  it('renders lg size', () => {
     render(<Checkbox aria-label="test" size="lg" />);
-    expect(screen.getByRole('checkbox')).toBeInTheDocument();
+    expect(screen.getByRole('checkbox')).toHaveAttribute(
+      'data-slot',
+      'checkbox',
+    );
+    expect(screen.getByRole('checkbox')).toHaveAttribute('data-size', 'lg');
+  });
+
+  it('renders density and orientation attrs', () => {
+    const { container } = render(
+      <CheckboxGroup density="comfortable" orientation="horizontal">
+        <Checkbox aria-label="a" value="a" />
+      </CheckboxGroup>,
+    );
+
+    const group = container.querySelector('[data-slot="checkbox-group"]');
+
+    expect(group).toHaveAttribute('data-density', 'comfortable');
+    expect(group).toHaveAttribute('data-orientation', 'horizontal');
+  });
+
+  it('parent checkbox reflects partial selection', () => {
+    function ParentGroup() {
+      const [value, setValue] = useState(['a']);
+
+      return (
+        <CheckboxGroup
+          allValues={['a', 'b']}
+          value={value}
+          onValueChange={setValue}>
+          <Checkbox aria-label="parent" parent />
+          <Checkbox aria-label="a" value="a" />
+          <Checkbox aria-label="b" value="b" />
+        </CheckboxGroup>
+      );
+    }
+
+    render(<ParentGroup />);
+
+    expect(screen.getByRole('checkbox', { name: 'parent' })).toHaveAttribute(
+      'aria-checked',
+      'mixed',
+    );
+  });
+
+  it('can toggle values in a group', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <CheckboxGroup defaultValue={['a']}>
+        <Checkbox aria-label="a" value="a" />
+        <Checkbox aria-label="b" value="b" />
+      </CheckboxGroup>,
+    );
+
+    await user.click(screen.getByRole('checkbox', { name: 'b' }));
+    expect(screen.getByRole('checkbox', { name: 'b' })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
   });
 });
