@@ -221,7 +221,16 @@ function Tag({
         <button
           type="button"
           disabled={disabled}
+          onPointerDown={e => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onMouseDown={e => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
           onClick={e => {
+            e.preventDefault();
             e.stopPropagation();
             onRemove(e);
           }}

@@ -238,8 +238,13 @@ import {
 } from '@/app/demo/[name]/ui/segmented-controls';
 import {
   SelectDemo,
-  SelectMultipleDemo,
+  SelectHorizontal,
+  SelectInline,
+  SelectMultipleExamples,
+  SelectMultipleSizes,
+  SelectMultipleWithSlots,
   SelectSizes,
+  SelectValidation,
   SelectWithDisabled,
   SelectWithGroups,
   select,
@@ -592,9 +597,14 @@ export const exampleComponentMaps: Record<
   select: {
     SelectDemo,
     SelectSizes,
+    SelectInline,
+    SelectHorizontal,
     SelectWithDisabled,
+    SelectValidation,
     SelectWithGroups,
-    SelectMultipleDemo,
+    SelectMultipleSizes,
+    SelectMultipleWithSlots,
+    SelectMultipleExamples,
   },
   sidebar: {
     SidebarApp,

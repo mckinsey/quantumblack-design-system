@@ -16,30 +16,18 @@ import { cn } from '@/lib/utils';
 
 export type SelectSize = 'sm' | 'default' | 'lg';
 export type SelectVariant = 'default' | 'inline';
-export type SelectValidation = 'error' | 'warning' | 'success';
 
-interface SelectSizeContextValue {
+interface SelectContextValue {
   size?: SelectSize;
+  disabled?: boolean;
 }
 
-const defaultValidationStyles = [
-  'data-[validation=error]:border data-[validation=error]:border-stroke-status-error data-[validation=error]:ring-0',
-  'data-[validation=warning]:border data-[validation=warning]:border-stroke-status-warning data-[validation=warning]:ring-0',
-  'data-[validation=success]:border data-[validation=success]:border-stroke-status-success data-[validation=success]:ring-0',
-] as const;
+const SelectContext = React.createContext<SelectContextValue | undefined>(
+  undefined,
+);
 
-const inlineValidationStyles = [
-  'data-[validation=error]:border-b-stroke-status-error data-[validation=error]:ring-0',
-  'data-[validation=warning]:border-b-stroke-status-warning data-[validation=warning]:ring-0',
-  'data-[validation=success]:border-b-stroke-status-success data-[validation=success]:ring-0',
-] as const;
-
-const SelectSizeContext = React.createContext<
-  SelectSizeContextValue | undefined
->(undefined);
-
-const useSelectSizeContext = () => {
-  return React.useContext(SelectSizeContext);
+const useSelectContext = () => {
+  return React.useContext(SelectContext);
 };
 
 type SelectProps = React.ComponentProps<typeof SelectPrimitive.Root> & {
@@ -52,11 +40,13 @@ type SelectProps = React.ComponentProps<typeof SelectPrimitive.Root> & {
 
 const selectTriggerVariants = cva(
   [
-    'relative flex w-fit items-center justify-between whitespace-nowrap',
+    'relative flex w-fit items-center whitespace-nowrap text-left',
     'rounded-none outline-none transition-[border-color,box-shadow,background-color]',
     'cursor-pointer',
     'data-placeholder:text-fg-tertiary',
-    '*:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2',
+    '*:data-[slot=select-value]:min-w-0 *:data-[slot=select-value]:flex-1 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2',
+    '[&_[data-slot=select-feedback-icon]]:shrink-0 [&_[data-slot=select-icon]]:shrink-0 [&_[data-slot=select-icon]]:self-center',
+    'data-disabled:cursor-not-allowed data-disabled:text-fg-disabled',
   ],
   {
     variants: {
@@ -67,10 +57,9 @@ const selectTriggerVariants = cva(
           inputVariantStyles.default.hover,
           'focus-visible:bg-stateslayer-overlay-active-inverse focus-visible:ring-stroke-status-focus',
           'data-[popup-open]:bg-stateslayer-overlay-active-inverse data-[popup-open]:ring-stroke-status-focus data-[popup-open]:shadow-elevation-0',
-          ...defaultValidationStyles,
-          'aria-invalid:border-status-error aria-invalid:ring-0',
+          inputVariantStyles.default.error,
           'data-invalid:border-status-error data-invalid:ring-0',
-          'data-disabled:pointer-events-none data-disabled:cursor-not-allowed data-disabled:bg-stateslayer-overlay-disabled data-disabled:text-fg-disabled',
+          'data-disabled:bg-stateslayer-overlay-disabled',
         ],
         inline: [
           inputVariantStyles.inline.base,
@@ -80,10 +69,8 @@ const selectTriggerVariants = cva(
           'px-0!',
           'focus-visible:border-b-stroke-status-focus focus-visible:ring-0 focus-visible:shadow-elevation-0',
           'data-[popup-open]:border-b-stroke-status-focus data-[popup-open]:shadow-elevation-0',
-          ...inlineValidationStyles,
-          'aria-invalid:border-b-status-error aria-invalid:ring-0',
+          inputVariantStyles.inline.error,
           'data-invalid:border-b-status-error data-invalid:ring-0',
-          'data-disabled:pointer-events-none data-disabled:cursor-not-allowed data-disabled:text-fg-disabled',
         ],
       },
       size: {
@@ -153,6 +140,35 @@ const selectTriggerVariants = cva(
   },
 );
 
+const selectItemVariants = cva(
+  [
+    'relative flex w-full items-center outline-none select-none',
+    'cursor-pointer',
+    'text-fg-secondary',
+    'data-highlighted:overlay-hover data-highlighted:text-fg-primary',
+    'active:overlay-pressed data-highlighted:active:overlay-pressed',
+    'data-disabled:pointer-events-none data-disabled:cursor-not-allowed data-disabled:text-fg-disabled',
+  ],
+  {
+    variants: {
+      size: {
+        sm: 'paragraph-regular-primary gap-2 py-2 pr-2 pl-1',
+        default: 'paragraph-regular-primary gap-2 py-2 pr-2 pl-1',
+        lg: 'paragraph-large-primary gap-1 p-2',
+      },
+    },
+    defaultVariants: {
+      size: 'default',
+    },
+  },
+);
+
+const selectLabelSize = {
+  sm: 'label-regular-primary px-1 py-2',
+  default: 'label-regular-primary px-1 py-2',
+  lg: 'label-large-primary p-2',
+} as const;
+
 /**
  * Select component for choosing from a list of options.
  *
@@ -172,13 +188,18 @@ const selectTriggerVariants = cva(
  * </Select>
  * ```
  */
-function Select({ size = 'default', children, ...props }: SelectProps) {
+function Select({
+  size = 'default',
+  disabled = false,
+  children,
+  ...props
+}: SelectProps) {
   return (
-    <SelectSizeContext.Provider value={{ size }}>
-      <SelectPrimitive.Root data-slot="select" {...props}>
+    <SelectContext.Provider value={{ size, disabled }}>
+      <SelectPrimitive.Root data-slot="select" disabled={disabled} {...props}>
         {children}
       </SelectPrimitive.Root>
-    </SelectSizeContext.Provider>
+    </SelectContext.Provider>
   );
 }
 
@@ -190,40 +211,39 @@ function SelectIcon({ className, ...props }: SelectPrimitive.Icon.Props) {
   return (
     <SelectPrimitive.Icon
       data-slot="select-icon"
-      className={cn('shrink-0', className)}
+      className={cn('flex shrink-0 items-center justify-center', className)}
       {...props}
     />
   );
+}
+
+function selectIconSize(size: SelectSize = 'default') {
+  return size === 'lg' ? 'default' : 'sm';
 }
 
 function SelectTrigger({
   className,
   children,
   variant = 'default',
-  validationState,
+  disabled,
   ...props
-}: SelectPrimitive.Trigger.Props &
-  VariantProps<typeof selectTriggerVariants> & {
-    validationState?: SelectValidation;
-  }) {
-  const sizeContext = useSelectSizeContext();
+}: SelectPrimitive.Trigger.Props & VariantProps<typeof selectTriggerVariants>) {
+  const sizeContext = useSelectContext();
   const size = sizeContext?.size ?? 'default';
-  const iconSize = size === 'lg' ? 'default' : 'sm';
-  const invalid =
-    props['aria-invalid'] ?? (validationState === 'error' ? true : undefined);
+  const iconSize = selectIconSize(size);
+  const isDisabled = Boolean(disabled ?? sizeContext?.disabled);
 
   return (
     <SelectPrimitive.Trigger
       {...props}
+      disabled={disabled}
       data-slot="select-trigger"
       data-variant={variant}
-      data-validation={validationState || undefined}
-      aria-invalid={invalid}
       className={cn(selectTriggerVariants({ variant, size }), className)}>
       {children}
       <SelectIcon className="transition-transform duration-200 [[data-popup-open]>&]:rotate-180">
-        <IconShell size={iconSize} variant="secondary">
-          <Icon icon="expand_more" />
+        <IconShell size={iconSize} variant="secondary" disabled={isDisabled}>
+          <Icon icon="expand_more" size={iconSize} />
         </IconShell>
       </SelectIcon>
     </SelectPrimitive.Trigger>
@@ -233,13 +253,17 @@ function SelectTrigger({
 function SelectContent({
   className,
   children,
-  sideOffset = 0,
+  sideOffset = 4,
   alignItemWithTrigger = false,
   ...positionerProps
 }: SelectPrimitive.Positioner.Props & {
   className?: string;
   children?: React.ReactNode;
 }) {
+  const sizeContext = useSelectContext();
+  const size = sizeContext?.size ?? 'default';
+  const listPad = size === 'lg' ? 'px-1 py-2' : 'p-1';
+
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Positioner
@@ -249,7 +273,7 @@ function SelectContent({
         <SelectPrimitive.Popup
           data-slot="select-content"
           className={cn(
-            'bg-stateslayer-overlay-active-inverse text-fg-primary',
+            'bg-fill-active-inverse text-fg-primary',
             'relative z-50 overflow-hidden',
             'shadow-elevation-1',
             'data-open:animate-in data-closed:animate-out',
@@ -260,7 +284,11 @@ function SelectContent({
             className,
           )}>
           <SelectScrollUpArrow />
-          <SelectPrimitive.List className="max-h-[var(--available-height)] min-w-[var(--anchor-width)] p-1">
+          <SelectPrimitive.List
+            className={cn(
+              'max-h-[var(--available-height)] min-w-[var(--anchor-width)]',
+              listPad,
+            )}>
             {children}
           </SelectPrimitive.List>
           <SelectScrollDownArrow />
@@ -284,13 +312,12 @@ function SelectLabel({
   className,
   ...props
 }: SelectPrimitive.GroupLabel.Props) {
+  const size = useSelectContext()?.size ?? 'default';
+
   return (
     <SelectPrimitive.GroupLabel
       data-slot="select-label"
-      className={cn(
-        'text-fg-tertiary paragraph-small-primary px-2 py-1.5',
-        className,
-      )}
+      className={cn('text-fg-secondary', selectLabelSize[size], className)}
       {...props}
     />
   );
@@ -301,28 +328,13 @@ function SelectItem({
   children,
   ...props
 }: SelectPrimitive.Item.Props) {
-  const sizeContext = useSelectSizeContext();
+  const sizeContext = useSelectContext();
   const size = sizeContext?.size ?? 'default';
 
   return (
     <SelectPrimitive.Item
       data-slot="select-item"
-      className={cn(
-        'relative flex w-full cursor-default items-center outline-none select-none',
-
-        (size === 'sm' || size === 'default') &&
-          'paragraph-regular-primary gap-2 py-2 pr-2 pl-1',
-        size === 'lg' && 'paragraph-large-primary gap-1 p-2',
-
-        'text-fg-secondary',
-
-        'data-highlighted:bg-stateslayer-overlay-hover data-highlighted:text-fg-primary cursor-pointer',
-        'active:bg-stateslayer-overlay-pressed',
-
-        'data-disabled:text-fg-disabled data-disabled:cursor-not-allowed',
-
-        className,
-      )}
+      className={cn(selectItemVariants({ size }), className)}
       {...props}>
       {children}
     </SelectPrimitive.Item>
@@ -381,16 +393,16 @@ function SelectScrollUpArrow({
   className,
   ...props
 }: SelectPrimitive.ScrollUpArrow.Props) {
+  const sizeContext = useSelectContext();
+  const iconSize = selectIconSize(sizeContext?.size);
+
   return (
     <SelectPrimitive.ScrollUpArrow
       data-slot="select-scroll-up-arrow"
-      className={cn(
-        'flex cursor-default items-center justify-center py-1',
-        className,
-      )}
+      className={cn('', className)}
       {...props}>
-      <IconShell size="sm" variant="secondary">
-        <Icon icon="expand_more" className="rotate-180" />
+      <IconShell size={iconSize} variant="secondary">
+        <Icon icon="expand_less" size={iconSize} />
       </IconShell>
     </SelectPrimitive.ScrollUpArrow>
   );
@@ -400,16 +412,16 @@ function SelectScrollDownArrow({
   className,
   ...props
 }: SelectPrimitive.ScrollDownArrow.Props) {
+  const sizeContext = useSelectContext();
+  const iconSize = selectIconSize(sizeContext?.size);
+
   return (
     <SelectPrimitive.ScrollDownArrow
       data-slot="select-scroll-down-arrow"
-      className={cn(
-        'flex cursor-default items-center justify-center py-1',
-        className,
-      )}
+      className={cn(className)}
       {...props}>
-      <IconShell size="sm" variant="secondary">
-        <Icon icon="expand_more" />
+      <IconShell size={iconSize} variant="secondary">
+        <Icon icon="expand_more" size={iconSize} />
       </IconShell>
     </SelectPrimitive.ScrollDownArrow>
   );
@@ -429,6 +441,7 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
+  selectItemVariants,
   selectTriggerVariants,
-  useSelectSizeContext,
+  useSelectContext,
 };

@@ -687,6 +687,55 @@
     var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
 }
 
+/**
+ * State-layer overlays as a stacked background-image on top of a solid fill.
+ * Prefer these over arbitrary linear-gradient classes. Variant-capable
+ * (hover:overlay-hover, active:overlay-pressed, disabled:overlay-disabled,
+ * before:overlay-hover, etc). Does not tint replaced children (e.g. img) —
+ * put the utility on a ::before / absolute layer when content sits above the fill.
+ */
+@utility overlay-hover {
+  background-image: linear-gradient(
+    var(--color-stateslayer-overlay-hover),
+    var(--color-stateslayer-overlay-hover)
+  );
+}
+
+@utility overlay-pressed {
+  background-image: linear-gradient(
+    var(--color-stateslayer-overlay-pressed),
+    var(--color-stateslayer-overlay-pressed)
+  );
+}
+
+@utility overlay-disabled {
+  background-image: linear-gradient(
+    var(--color-stateslayer-overlay-disabled),
+    var(--color-stateslayer-overlay-disabled)
+  );
+}
+
+@utility overlay-hover-inverse {
+  background-image: linear-gradient(
+    var(--color-stateslayer-overlay-hover-inverse),
+    var(--color-stateslayer-overlay-hover-inverse)
+  );
+}
+
+@utility overlay-pressed-inverse {
+  background-image: linear-gradient(
+    var(--color-stateslayer-overlay-pressed-inverse),
+    var(--color-stateslayer-overlay-pressed-inverse)
+  );
+}
+
+@utility overlay-disabled-inverse {
+  background-image: linear-gradient(
+    var(--color-stateslayer-overlay-disabled-inverse),
+    var(--color-stateslayer-overlay-disabled-inverse)
+  );
+}
+
 @layer utilities {
   /** Icon classes */
   .icon {

@@ -25,7 +25,7 @@ const disabled = instance.getEnum('state', {
   disabled: true,
 });
 
-const validationState = instance.getEnum('state', {
+const status = instance.getEnum('state', {
   enabled: '',
   filled: '',
   hover: '',
@@ -49,14 +49,19 @@ if (leading && leading.type === 'INSTANCE') {
   leadingCode = leading.executeTemplate().example;
 }
 
-const validationProp = validationState
-  ? ` validationState="${validationState}"`
-  : '';
+const statusClass =
+  status === 'warning'
+    ? ' !border-b-status-warning'
+    : status === 'success'
+      ? ' !border-b-status-success'
+      : '';
+
+const invalidProp = status === 'error' ? ' aria-invalid' : '';
 
 export default {
   example: figma.code`
     <Select size="${size}"${disabled ? ' disabled' : ''}>
-      <SelectTrigger variant="inline" className="w-[240px]"${validationProp}>
+      <SelectTrigger variant="inline" className="w-[240px]${statusClass}"${invalidProp}>
         ${leadingCode}
         <SelectValue placeholder="${placeholder}" />
       </SelectTrigger>

@@ -1,18 +1,21 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import * as React from 'react';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import {
   SelectDemo,
   SelectHorizontal,
   SelectInline,
-  SelectMultipleDemo,
-  SelectMultipleInline,
+  SelectMultipleExamples,
+  SelectMultipleSizes,
+  SelectMultipleWithSlots,
   SelectSizes,
   SelectValidation,
   SelectWithDisabled,
   SelectWithGroups,
 } from '@/app/demo/[name]/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Select,
   SelectContent,
@@ -38,11 +41,12 @@ describe('Select', () => {
       <SelectSizes key="sizes" />,
       <SelectInline key="inline" />,
       <SelectHorizontal key="horizontal" />,
-      <SelectWithDisabled key="disabled" />,
+      <SelectWithDisabled key="disabled-option" />,
       <SelectValidation key="validation" />,
       <SelectWithGroups key="groups" />,
-      <SelectMultipleDemo key="multi" />,
-      <SelectMultipleInline key="multi-inline" />,
+      <SelectMultipleSizes key="multi-sizes" />,
+      <SelectMultipleWithSlots key="multi-slots" />,
+      <SelectMultipleExamples key="multi-examples" />,
     ];
 
     for (const demo of demos) {
@@ -94,10 +98,10 @@ describe('Select', () => {
     ).toHaveAttribute('data-variant', 'inline');
   });
 
-  it('sets data-validation on trigger', () => {
+  it('sets aria-invalid on trigger for error', () => {
     const { container } = render(
       <Select items={items}>
-        <SelectTrigger validationState="warning">
+        <SelectTrigger aria-invalid>
           <SelectValue placeholder="Pick" />
         </SelectTrigger>
         <SelectContent>
@@ -110,7 +114,15 @@ describe('Select', () => {
 
     expect(
       container.querySelector('[data-slot="select-trigger"]'),
-    ).toHaveAttribute('data-validation', 'warning');
+    ).toHaveAttribute('aria-invalid', 'true');
+  });
+
+  it('renders feedback icons in validation demo', () => {
+    render(<SelectValidation />);
+
+    expect(
+      document.querySelectorAll('[data-slot="select-feedback-icon"]'),
+    ).toHaveLength(3);
   });
 
   it('smoke-renders size and variant combos', () => {
@@ -158,5 +170,65 @@ describe('Select', () => {
 
     await user.click(screen.getByRole('combobox'));
     expect(await screen.findByRole('option', { name: 'One' })).toBeVisible();
+  });
+
+  it('multiple select renders checkbox items', async () => {
+    const user = userEvent.setup();
+
+    render(<SelectDemo />);
+
+    const triggers = screen.getAllByRole('combobox');
+    await user.click(triggers[2]);
+
+    const options = await screen.findAllByRole('option');
+    expect(options.length).toBeGreaterThan(0);
+    expect(
+      document.querySelectorAll('[data-slot="select-item"]'),
+    ).not.toHaveLength(0);
+    expect(
+      document.querySelectorAll('[role="checkbox"]').length,
+    ).toBeGreaterThan(0);
+  });
+
+  it('multiple select toggles selection', async () => {
+    const user = userEvent.setup();
+
+    function MultiHarness() {
+      const [value, setValue] = React.useState<string[]>([]);
+
+      return (
+        <Select
+          multiple
+          items={items}
+          value={value}
+          onValueChange={v => setValue(v as string[])}>
+          <SelectTrigger>
+            <SelectValue placeholder="Pick" />
+          </SelectTrigger>
+          <SelectContent>
+            {items.map(item => (
+              <SelectItem key={item.value} value={item.value}>
+                <Checkbox
+                  checked={value.includes(item.value)}
+                  onCheckedChange={() => {}}
+                  tabIndex={-1}
+                  className="pointer-events-none"
+                />
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      );
+    }
+
+    render(<MultiHarness />);
+
+    await user.click(screen.getByRole('combobox'));
+    await user.click(await screen.findByRole('option', { name: 'One' }));
+
+    const checkbox = document.querySelector('[role="checkbox"]');
+    expect(checkbox).toHaveAttribute('data-state', 'checked');
+    expect(screen.getByRole('combobox')).toBeInTheDocument();
   });
 });
