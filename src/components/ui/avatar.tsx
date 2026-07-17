@@ -4,6 +4,7 @@ import { Avatar as AvatarPrimitive } from '@base-ui/react/avatar';
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 type AvatarContextValue = {
@@ -17,7 +18,7 @@ const useAvatarContext = () => React.useContext(AvatarContext);
 
 const avatarVariants = cva(
   [
-    'relative flex shrink-0 rounded-full shadow-elevation-0 hover:shadow-elevation-1',
+    'relative flex shrink-0 rounded-full shadow-elevation-0',
     'transition-all duration-200',
   ].join(' '),
   {
@@ -40,7 +41,7 @@ const avatarVariants = cva(
           'border border-stroke-active-inverse',
           'before:absolute before:inset-0 before:rounded-full',
           'before:pointer-events-none before:z-10',
-          'before:bg-stateslayer-overlay-disabled before:opacity-100',
+          'before:overlay-disabled',
         ],
       },
     },
@@ -53,12 +54,13 @@ const avatarVariants = cva(
       {
         state: 'default',
         class: [
+          'hover:shadow-elevation-1',
           'before:absolute before:inset-0 before:rounded-full',
           'before:pointer-events-none before:z-10',
           'before:transition-opacity before:duration-200',
-          'before:bg-stateslayer-overlay-hover before:opacity-0',
+          'before:overlay-hover before:opacity-0',
           'hover:before:opacity-100',
-          'active:before:bg-stateslayer-overlay-pressed active:before:opacity-100',
+          'active:before:overlay-pressed active:before:opacity-100',
         ].join(' '),
       },
       {
@@ -183,7 +185,8 @@ function AvatarGroup({ className, ...props }: React.ComponentProps<'div'>) {
     <div
       data-slot="avatar-group"
       className={cn(
-        '*:data-[slot=avatar]:ring-background group/avatar-group flex items-center -space-x-2',
+        'group/avatar-group flex items-center',
+        '*:data-[slot=avatar]:ring-background *:data-[slot=avatar]:not-first:-ml-2',
         className,
       )}
       {...props}
@@ -194,11 +197,12 @@ function AvatarGroup({ className, ...props }: React.ComponentProps<'div'>) {
 function AvatarGroupCount({
   className,
   ...props
-}: React.ComponentProps<'div'>) {
+}: React.ComponentProps<'button'>) {
   return (
-    <div
+    <Button
+      variant={'ghost'}
       data-slot="avatar-group-count"
-      className={cn('text-fg-primary ml-3 font-semibold underline', className)}
+      className={className}
       {...props}
     />
   );

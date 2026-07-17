@@ -67,18 +67,26 @@ const statusBlock = showStatus
     `
   : figma.code``;
 
+const needsWrap = showCounterTop || showStatus;
+
+const avatarInner = figma.code`
+  <Avatar${figma.helpers.react.renderProp('size', size)}${disabled ? ' disabled' : ''}>
+    ${photoBlock}
+    ${iconBlock}
+    ${fallbackBlock}
+  </Avatar>
+`;
+
 export default {
-  example: figma.code`
+  example: needsWrap
+    ? figma.code`
     <div className="relative w-fit">
-      <Avatar${figma.helpers.react.renderProp('size', size)}${disabled ? ' disabled' : ''}>
-        ${photoBlock}
-        ${iconBlock}
-        ${fallbackBlock}
-      </Avatar>
+      ${avatarInner}
       ${counterBlock}
       ${statusBlock}
     </div>
-  `,
+  `
+    : avatarInner,
   imports: [
     'import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"',
     'import { Icon } from "@/components/ui/icon"',

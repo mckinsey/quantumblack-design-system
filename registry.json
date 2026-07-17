@@ -77,7 +77,8 @@
       "dependencies": ["@base-ui/react/avatar"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
-        "__REGISTRY_URL__/r/utils.json"
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/button.json"
       ],
       "files": [
         {
