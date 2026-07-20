@@ -2,7 +2,7 @@
 
 import { Fieldset as FieldsetPrimitive } from '@base-ui/react/fieldset';
 import { type VariantProps, cva } from 'class-variance-authority';
-import { useMemo } from 'react';
+import * as React from 'react';
 
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
@@ -240,7 +240,7 @@ function FieldError({
   VariantProps<typeof fieldErrorVariants> & {
     errors?: Array<{ message?: string } | undefined>;
   }) {
-  const content = useMemo(() => {
+  const content = React.useMemo(() => {
     if (children) {
       return children;
     }

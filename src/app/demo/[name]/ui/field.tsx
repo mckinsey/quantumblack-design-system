@@ -44,6 +44,18 @@ function LabelRow({
   );
 }
 
+const counterSizeClass = {
+  sm: 'paragraph-small-primary',
+  default: 'paragraph-regular-primary',
+  lg: 'paragraph-large-primary',
+} as const;
+
+const counterTypeClass = {
+  empty: 'text-fg-secondary',
+  filled: 'text-fg-primary',
+  exceeded: 'text-status-error',
+} as const;
+
 function Counter({
   count,
   max,
@@ -53,26 +65,20 @@ function Counter({
 }: {
   count: number;
   max: number;
-  size?: 'sm' | 'default' | 'lg';
-  type?: 'empty' | 'filled' | 'exceeded';
+  size?: keyof typeof counterSizeClass;
+  type?: keyof typeof counterTypeClass;
   disabled?: boolean;
 }) {
-  const typeClass =
-    size === 'sm' ? 'paragraph-small-primary' : 'paragraph-regular-primary';
-  const countClass =
-    type === 'exceeded'
-      ? 'text-status-error'
-      : type === 'filled'
-        ? 'text-fg-secondary'
-        : 'text-fg-tertiary';
+  const countClass = disabled ? 'text-fg-disabled' : counterTypeClass[type];
+  const muteClass = disabled ? 'text-fg-disabled' : 'text-fg-secondary';
 
   return (
     <span
-      className={`flex items-center gap-1 ${typeClass} ${disabled ? 'opacity-50' : ''}`}
+      className={`flex items-center gap-0.5 ${counterSizeClass[size]}`}
       aria-live="polite">
       <span className={countClass}>{count}</span>
-      <span className="text-fg-tertiary">/</span>
-      <span className="text-fg-tertiary">{max}</span>
+      <span className={muteClass}>/</span>
+      <span className={muteClass}>{max}</span>
     </span>
   );
 }

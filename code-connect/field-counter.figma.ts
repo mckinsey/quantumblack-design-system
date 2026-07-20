@@ -1,6 +1,6 @@
 // url=<QBDS_FIELD_COUNTER>
-// source=src/components/ui/field.tsx
-// component=
+// source=src/app/demo/[name]/ui/field.tsx
+// component=Counter
 import figma from 'figma';
 
 const instance = figma.selectedInstance;
@@ -30,22 +30,29 @@ const count =
       : instance.getString('min') || '0';
 const max = instance.getString('max') || '150';
 
-const typeClass =
-  size === 'sm' ? 'paragraph-small-primary' : 'paragraph-regular-primary';
-const countClass =
-  type === 'exceeded'
+const sizeClass =
+  size === 'sm'
+    ? 'paragraph-small-primary'
+    : size === 'lg'
+      ? 'paragraph-large-primary'
+      : 'paragraph-regular-primary';
+
+const countClass = disabled
+  ? 'text-fg-disabled'
+  : type === 'exceeded'
     ? 'text-status-error'
     : type === 'filled'
-      ? 'text-fg-secondary'
-      : 'text-fg-tertiary';
-const disabledClass = disabled ? ' opacity-50' : '';
+      ? 'text-fg-primary'
+      : 'text-fg-secondary';
+
+const muteClass = disabled ? 'text-fg-disabled' : 'text-fg-secondary';
 
 export default {
   example: figma.code`
-    <span className="flex items-center gap-1 ${typeClass}${disabledClass}" aria-live="polite">
+    <span className="flex items-center gap-0.5 ${sizeClass}" aria-live="polite">
       <span className="${countClass}">${count}</span>
-      <span className="text-fg-tertiary">/</span>
-      <span className="text-fg-tertiary">${max}</span>
+      <span className="${muteClass}">/</span>
+      <span className="${muteClass}">${max}</span>
     </span>
   `,
   imports: [],
