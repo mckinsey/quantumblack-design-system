@@ -47,7 +47,7 @@ function FieldGroup({ className, ...props }: React.ComponentProps<'div'>) {
 }
 
 const fieldVariants = cva(
-  'group/field flex w-full gap-3 data-[invalid=true]:text-error',
+  'group/field flex w-full gap-3 data-[invalid=true]:text-status-error',
   {
     variants: {
       orientation: {
@@ -222,7 +222,7 @@ function FieldSeparator({
   );
 }
 
-const fieldErrorVariants = cva('text-error', {
+const fieldErrorVariants = cva('text-status-error', {
   variants: {
     size: {
       sm: 'paragraph-small-primary',

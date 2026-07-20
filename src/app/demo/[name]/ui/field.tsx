@@ -22,7 +22,7 @@ const counterSizeClass = {
 const counterTypeClass = {
   empty: 'text-fg-secondary',
   filled: 'text-fg-primary',
-  exceeded: 'text-error',
+  exceeded: 'text-status-error',
 } as const;
 
 type Size = keyof typeof counterSizeClass;
@@ -71,7 +71,7 @@ function LabelRow({
       className="w-full justify-between">
       <span className="flex items-center gap-1">
         Field label
-        <span className="text-error" aria-hidden>
+        <span className="text-status-error" aria-hidden>
           *
         </span>
         <IconShell size="sm" variant="secondary" disabled={disabled}>
@@ -84,8 +84,8 @@ function LabelRow({
 }
 
 const statusClass = {
-  warning: 'text-warning',
-  success: 'text-success',
+  warning: 'text-status-warning',
+  success: 'text-status-success',
 } as const;
 
 const inputStatusClass = {

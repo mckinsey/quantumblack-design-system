@@ -21,9 +21,9 @@ const statusMessage = instance.getString('statusMessage') || 'Feedback';
 
 const statusClass =
   status === 'warning'
-    ? 'text-warning'
+    ? 'text-status-warning'
     : status === 'success'
-      ? 'text-success'
+      ? 'text-status-success'
       : undefined;
 
 const example =

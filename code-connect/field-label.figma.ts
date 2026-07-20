@@ -39,7 +39,7 @@ if (showInfoLeft) {
 
 const requiredMark = isRequired
   ? figma.code`
-      <span className="text-error" aria-hidden>*</span>
+      <span className="text-status-error" aria-hidden>*</span>
     `
   : figma.code``;
 

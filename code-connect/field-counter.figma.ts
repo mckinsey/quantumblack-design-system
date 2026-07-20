@@ -40,7 +40,7 @@ const sizeClass =
 const countClass = disabled
   ? 'text-fg-disabled'
   : type === 'exceeded'
-    ? 'text-error'
+    ? 'text-status-error'
     : type === 'filled'
       ? 'text-fg-primary'
       : 'text-fg-secondary';

@@ -281,10 +281,6 @@
   --color-fg-secondary-inverse: var(--text-secondary-inverse);
   --color-fg-tertiary-inverse: var(--text-tertiary-inverse);
   --color-fg-disabled-inverse: var(--text-disabled-inverse);
-  --color-error: var(--text-error);
-  --color-warning: var(--text-warning);
-  --color-success: var(--text-success);
-  --color-information: var(--text-information);
 
   /*** Stroke (Border) Tokens */
 
