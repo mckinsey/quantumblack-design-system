@@ -1,6 +1,5 @@
 'use client';
 
-import * as LabelPrimitive from '@radix-ui/react-label';
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
@@ -11,9 +10,9 @@ const labelVariants = cva(
   {
     variants: {
       size: {
-        sm: 'text-xs leading-4',
-        default: 'text-sm leading-5 tracking-[-0.112px]',
-        lg: 'text-base leading-6 tracking-[-0.128px]',
+        sm: 'label-small-primary',
+        default: 'label-regular-primary',
+        lg: 'label-large-primary',
       },
       disabled: {
         false: 'text-fg-secondary',
@@ -29,14 +28,15 @@ const labelVariants = cva(
 
 export interface LabelProps
   extends
-    React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>,
+    React.ComponentPropsWithoutRef<'label'>,
     VariantProps<typeof labelVariants> {}
 
 function Label({ className, size, disabled, ...props }: LabelProps) {
   return (
-    <LabelPrimitive.Root
+    <label
       className={cn(labelVariants({ size, disabled }), className)}
       data-slot="label"
+      data-disabled={disabled ? true : undefined}
       {...props}
     />
   );

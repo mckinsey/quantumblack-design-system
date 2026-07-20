@@ -1,5 +1,6 @@
 'use client';
 
+import { Fieldset as FieldsetPrimitive } from '@base-ui/react/fieldset';
 import { type VariantProps, cva } from 'class-variance-authority';
 import { useMemo } from 'react';
 
@@ -7,9 +8,9 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 
-function FieldSet({ className, ...props }: React.ComponentProps<'fieldset'>) {
+function FieldSet({ className, ...props }: FieldsetPrimitive.Root.Props) {
   return (
-    <fieldset
+    <FieldsetPrimitive.Root
       data-slot="field-set"
       className={cn('flex flex-col gap-6', className)}
       {...props}
@@ -21,9 +22,9 @@ function FieldLegend({
   className,
   variant = 'legend',
   ...props
-}: React.ComponentProps<'legend'> & { variant?: 'legend' | 'label' }) {
+}: FieldsetPrimitive.Legend.Props & { variant?: 'legend' | 'label' }) {
   return (
-    <legend
+    <FieldsetPrimitive.Legend
       data-slot="field-legend"
       data-variant={variant}
       className={cn('text-fg-secondary', className)}
@@ -100,6 +101,19 @@ function FieldContent({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
+const fieldLabelVariants = cva('flex w-fit items-center gap-2', {
+  variants: {
+    size: {
+      sm: 'label-small-primary',
+      default: 'label-regular-primary',
+      lg: 'label-large-primary',
+    },
+  },
+  defaultVariants: {
+    size: 'default',
+  },
+});
+
 function FieldLabel({
   className,
   ...props
@@ -107,21 +121,23 @@ function FieldLabel({
   return (
     <Label
       data-slot="field-label"
-      className={cn(
-        'text-fg-secondary label-regular-primary flex w-fit items-center gap-2',
-        className,
-      )}
+      className={cn('flex w-fit items-center gap-2', className)}
       {...props}
     />
   );
 }
 
-function FieldTitle({ className, ...props }: React.ComponentProps<'div'>) {
+function FieldTitle({
+  className,
+  size,
+  ...props
+}: React.ComponentProps<'div'> & VariantProps<typeof fieldLabelVariants>) {
   return (
     <div
       data-slot="field-label"
       className={cn(
-        'text-fg-secondary label-regular-primary flex w-fit items-center gap-2 group-data-[disabled=true]/field:opacity-50',
+        'text-fg-secondary group-data-[disabled=true]/field:opacity-50',
+        fieldLabelVariants({ size }),
         className,
       )}
       {...props}
@@ -129,16 +145,43 @@ function FieldTitle({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
-function FieldDescription({ className, ...props }: React.ComponentProps<'p'>) {
+const fieldDescriptionVariants = cva(
+  [
+    'group-has-[[data-orientation=horizontal]]/field:text-balance',
+    'last:mt-0 nth-last-2:-mt-1 [[data-variant=legend]+&]:-mt-1.5',
+    '[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4',
+  ],
+  {
+    variants: {
+      size: {
+        sm: 'paragraph-small-primary',
+        default: 'paragraph-regular-primary',
+        lg: 'paragraph-regular-primary',
+      },
+      disabled: {
+        false: 'text-fg-tertiary',
+        true: 'text-fg-disabled',
+      },
+    },
+    defaultVariants: {
+      size: 'default',
+      disabled: false,
+    },
+  },
+);
+
+function FieldDescription({
+  className,
+  size,
+  disabled,
+  ...props
+}: React.ComponentProps<'p'> & VariantProps<typeof fieldDescriptionVariants>) {
   return (
     <p
       data-slot="field-description"
-      className={cn(
-        'text-fg-tertiary paragraph-regular-primary group-has-[[data-orientation=horizontal]]/field:text-balance',
-        'last:mt-0 nth-last-2:-mt-1 [[data-variant=legend]+&]:-mt-1.5',
-        '[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4',
-        className,
-      )}
+      data-disabled={disabled ? true : undefined}
+      aria-disabled={disabled || undefined}
+      className={cn(fieldDescriptionVariants({ size, disabled }), className)}
       {...props}
     />
   );
@@ -172,14 +215,29 @@ function FieldSeparator({
   );
 }
 
+const fieldErrorVariants = cva('text-status-error', {
+  variants: {
+    size: {
+      sm: 'paragraph-small-primary',
+      default: 'paragraph-regular-primary',
+      lg: 'paragraph-regular-primary',
+    },
+  },
+  defaultVariants: {
+    size: 'default',
+  },
+});
+
 function FieldError({
   className,
   children,
   errors,
+  size,
   ...props
-}: React.ComponentProps<'div'> & {
-  errors?: Array<{ message?: string } | undefined>;
-}) {
+}: React.ComponentProps<'div'> &
+  VariantProps<typeof fieldErrorVariants> & {
+    errors?: Array<{ message?: string } | undefined>;
+  }) {
   const content = useMemo(() => {
     if (children) {
       return children;
@@ -215,7 +273,7 @@ function FieldError({
     <div
       role="alert"
       data-slot="field-error"
-      className={cn('text-status-error text-sm font-normal', className)}
+      className={cn(fieldErrorVariants({ size }), className)}
       {...props}>
       {content}
     </div>
