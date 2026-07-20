@@ -39,7 +39,7 @@ if (showInfoLeft) {
 
 const requiredMark = isRequired
   ? figma.code`
-      <span className="text-status-error" aria-hidden>*</span>
+      <span className="text-error" aria-hidden>*</span>
     `
   : figma.code``;
 
@@ -50,11 +50,10 @@ const counterCode = showCounter
 const miscCode = showMisc ? instance.getSlot('infoMiscsSlot') : undefined;
 
 const alignClass = align === 'right' ? ' flex-row-reverse' : '';
-const disabledClass = disabled ? ' opacity-50' : '';
 
 export default {
   example: figma.code`
-    <FieldTitle size="${size}" className="w-full justify-between${alignClass}${disabledClass}">
+    <FieldTitle size="${size}"${disabled ? ' disabled' : ''} className="w-full justify-between${alignClass}">
       <span className="flex items-center gap-1">
         ${label}
         ${requiredMark}

@@ -157,15 +157,9 @@ import {
   examples as dropdownMenuExamples,
 } from '@/app/demo/[name]/ui/dropdown-menu';
 import {
-  FieldCompositionDemo,
-  FieldCompositionError,
-  FieldCounterDemo,
-  FieldErrorDemo,
-  FieldHelpTextDemo,
-  FieldHelpTextDisabled,
-  FieldLabelDemo,
-  FieldLabelDisabled,
-  FieldLabelSizes,
+  FieldDemo,
+  FieldSizes,
+  FieldStates,
   field,
   examples as fieldExamples,
 } from '@/app/demo/[name]/ui/field';
@@ -532,15 +526,9 @@ export const exampleComponentMaps: Record<
     DropdownMenuDestructive,
   },
   field: {
-    FieldLabelDemo,
-    FieldLabelSizes,
-    FieldLabelDisabled,
-    FieldHelpTextDemo,
-    FieldHelpTextDisabled,
-    FieldErrorDemo,
-    FieldCounterDemo,
-    FieldCompositionDemo,
-    FieldCompositionError,
+    FieldDemo,
+    FieldSizes,
+    FieldStates,
   },
   form: {
     ReactHookForm,

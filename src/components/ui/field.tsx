@@ -47,7 +47,7 @@ function FieldGroup({ className, ...props }: React.ComponentProps<'div'>) {
 }
 
 const fieldVariants = cva(
-  'group/field flex w-full gap-3 data-[invalid=true]:text-status-error',
+  'group/field flex w-full gap-3 data-[invalid=true]:text-error',
   {
     variants: {
       orientation: {
@@ -118,13 +118,17 @@ function FieldLabel({
 }
 
 const fieldTitleVariants = cva(
-  'text-fg-secondary flex w-fit items-center gap-2 group-data-[disabled=true]/field:opacity-50',
+  'text-fg-secondary flex w-fit items-center gap-2',
   {
     variants: {
       size: {
         sm: 'label-small-primary',
         default: 'label-regular-primary',
         lg: 'label-large-primary',
+      },
+      disabled: {
+        false: 'text-fg-secondary',
+        true: 'text-fg-disabled',
       },
     },
     defaultVariants: {
@@ -136,12 +140,13 @@ const fieldTitleVariants = cva(
 function FieldTitle({
   className,
   size,
+  disabled,
   ...props
 }: React.ComponentProps<'div'> & VariantProps<typeof fieldTitleVariants>) {
   return (
     <div
       data-slot="field-label"
-      className={cn(fieldTitleVariants({ size }), className)}
+      className={cn(fieldTitleVariants({ size, disabled }), className)}
       {...props}
     />
   );
@@ -158,7 +163,7 @@ const fieldDescriptionVariants = cva(
       size: {
         sm: 'paragraph-small-primary',
         default: 'paragraph-regular-primary',
-        lg: 'paragraph-regular-primary',
+        lg: 'paragraph-large-primary',
       },
       disabled: {
         false: 'text-fg-tertiary',
@@ -217,12 +222,12 @@ function FieldSeparator({
   );
 }
 
-const fieldErrorVariants = cva('text-status-error', {
+const fieldErrorVariants = cva('text-error', {
   variants: {
     size: {
       sm: 'paragraph-small-primary',
       default: 'paragraph-regular-primary',
-      lg: 'paragraph-regular-primary',
+      lg: 'paragraph-large-primary',
     },
   },
   defaultVariants: {

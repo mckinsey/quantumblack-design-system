@@ -3,46 +3,15 @@ import type { ReactNode } from 'react';
 import {
   FieldDescription,
   FieldError,
+  FieldSet,
   FieldTitle,
 } from '@/components/ui/field';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
+import { Input } from '@/components/ui/input';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 
 const FIELD_WIDTH = 'w-full min-w-[240px] max-w-[320px]';
-
-function RequiredMark() {
-  return (
-    <span className="text-status-error" aria-hidden>
-      *
-    </span>
-  );
-}
-
-function LabelRow({
-  size = 'default',
-  disabled = false,
-  counter,
-}: {
-  size?: 'sm' | 'default' | 'lg';
-  disabled?: boolean;
-  counter?: ReactNode;
-}) {
-  return (
-    <FieldTitle
-      size={size}
-      className={`w-[240px] justify-between ${disabled ? 'opacity-50' : ''}`}>
-      <span className="flex items-center gap-1">
-        Field label
-        <RequiredMark />
-        <IconShell size="sm" variant="secondary" disabled={disabled}>
-          <Icon icon="info" />
-        </IconShell>
-      </span>
-      {counter}
-    </FieldTitle>
-  );
-}
 
 const counterSizeClass = {
   sm: 'paragraph-small-primary',
@@ -53,8 +22,11 @@ const counterSizeClass = {
 const counterTypeClass = {
   empty: 'text-fg-secondary',
   filled: 'text-fg-primary',
-  exceeded: 'text-status-error',
+  exceeded: 'text-error',
 } as const;
+
+type Size = keyof typeof counterSizeClass;
+type CounterType = keyof typeof counterTypeClass;
 
 function Counter({
   count,
@@ -65,8 +37,8 @@ function Counter({
 }: {
   count: number;
   max: number;
-  size?: keyof typeof counterSizeClass;
-  type?: keyof typeof counterTypeClass;
+  size?: Size;
+  type?: CounterType;
   disabled?: boolean;
 }) {
   const countClass = disabled ? 'text-fg-disabled' : counterTypeClass[type];
@@ -83,162 +55,157 @@ function Counter({
   );
 }
 
-export function FieldLabelDemo() {
+function LabelRow({
+  size = 'default',
+  disabled = false,
+  counter,
+}: {
+  size?: Size;
+  disabled?: boolean;
+  counter?: ReactNode;
+}) {
   return (
-    <div className={`${FIELD_WIDTH} flex flex-col gap-4`}>
-      <LabelRow counter={<Counter count={0} max={150} type="empty" />} />
-    </div>
+    <FieldTitle
+      size={size}
+      disabled={disabled}
+      className="w-full justify-between">
+      <span className="flex items-center gap-1">
+        Field label
+        <span className="text-error" aria-hidden>
+          *
+        </span>
+        <IconShell size="sm" variant="secondary" disabled={disabled}>
+          <Icon icon="info" />
+        </IconShell>
+      </span>
+      {counter}
+    </FieldTitle>
   );
 }
 
-export function FieldLabelSizes() {
+const statusClass = {
+  warning: 'text-warning',
+  success: 'text-success',
+} as const;
+
+const inputStatusClass = {
+  error: '!border-stroke-status-error',
+  warning: '!border-stroke-status-warning',
+  success: '!border-stroke-status-success',
+} as const;
+
+type Status = 'error' | keyof typeof statusClass;
+
+function FieldBlock({
+  size = 'default',
+  disabled = false,
+  count = 10,
+  max = 150,
+  type = 'filled',
+  status,
+}: {
+  size?: Size;
+  disabled?: boolean;
+  count?: number;
+  max?: number;
+  type?: CounterType;
+  status?: Status;
+}) {
   return (
-    <div className={`${FIELD_WIDTH} flex flex-col gap-4`}>
+    <FieldSet className="gap-2">
       <LabelRow
-        size="sm"
-        counter={<Counter count={0} max={150} size="sm" type="empty" />}
+        size={size}
+        disabled={disabled}
+        counter={
+          <Counter
+            count={count}
+            max={max}
+            size={size}
+            type={type}
+            disabled={disabled}
+          />
+        }
       />
-      <LabelRow
-        size="default"
-        counter={<Counter count={0} max={150} type="empty" />}
+      <Input
+        size={size}
+        disabled={disabled}
+        placeholder="Hint text"
+        aria-invalid={status === 'error' || undefined}
+        className={status ? inputStatusClass[status] : undefined}
       />
-      <LabelRow
-        size="lg"
-        counter={<Counter count={0} max={150} size="lg" type="empty" />}
-      />
+      {status === 'error' ? (
+        <FieldError size={size}>Feedback</FieldError>
+      ) : status ? (
+        <FieldDescription
+          size={size}
+          className={statusClass[status]}
+          role="status">
+          Feedback
+        </FieldDescription>
+      ) : (
+        <FieldDescription size={size} disabled={disabled}>
+          Helper text
+        </FieldDescription>
+      )}
+    </FieldSet>
+  );
+}
+
+export function FieldDemo() {
+  return (
+    <div className={FIELD_WIDTH}>
+      <FieldBlock />
     </div>
   );
 }
 
-export function FieldLabelDisabled() {
+export function FieldSizes() {
   return (
-    <div className={`${FIELD_WIDTH} flex flex-col gap-4`}>
-      <LabelRow
-        disabled
-        counter={<Counter count={0} max={150} type="empty" disabled />}
-      />
+    <div className={`${FIELD_WIDTH} flex flex-col gap-6`}>
+      <FieldBlock size="sm" count={0} type="empty" />
+      <FieldBlock size="default" />
+      <FieldBlock size="lg" />
     </div>
   );
 }
 
-export function FieldHelpTextDemo() {
+export function FieldStates() {
   return (
-    <div className={`${FIELD_WIDTH} flex flex-col gap-4`}>
-      <FieldDescription size="sm">Helper text</FieldDescription>
-      <FieldDescription>Helper text</FieldDescription>
-      <FieldDescription size="lg">Helper text</FieldDescription>
-    </div>
-  );
-}
-
-export function FieldHelpTextDisabled() {
-  return (
-    <div className={`${FIELD_WIDTH} flex flex-col gap-4`}>
-      <FieldDescription size="sm" disabled>
-        Helper text
-      </FieldDescription>
-      <FieldDescription disabled>Helper text</FieldDescription>
-      <FieldDescription size="lg" disabled>
-        Helper text
-      </FieldDescription>
-    </div>
-  );
-}
-
-export function FieldErrorDemo() {
-  return (
-    <div className={`${FIELD_WIDTH} flex flex-col gap-4`}>
-      <FieldError size="sm">Feedback</FieldError>
-      <FieldError>Feedback</FieldError>
-      <FieldError size="lg">Feedback</FieldError>
-    </div>
-  );
-}
-
-export function FieldCounterDemo() {
-  return (
-    <div className={`${FIELD_WIDTH} flex flex-col gap-4`}>
-      <Counter count={0} max={150} type="empty" />
-      <Counter count={10} max={150} type="filled" />
-      <Counter count={151} max={150} type="exceeded" />
-    </div>
-  );
-}
-
-export function FieldCompositionDemo() {
-  return (
-    <div className={`${FIELD_WIDTH} flex flex-col gap-2`}>
-      <LabelRow counter={<Counter count={10} max={150} type="filled" />} />
-      <FieldDescription>Helper text</FieldDescription>
-    </div>
-  );
-}
-
-export function FieldCompositionError() {
-  return (
-    <div className={`${FIELD_WIDTH} flex flex-col gap-2`}>
-      <LabelRow counter={<Counter count={151} max={150} type="exceeded" />} />
-      <FieldError>Feedback</FieldError>
+    <div className={`${FIELD_WIDTH} flex flex-col gap-6`}>
+      <FieldBlock disabled count={0} type="empty" />
+      <FieldBlock count={151} type="exceeded" status="error" />
+      <FieldBlock status="warning" />
+      <FieldBlock status="success" />
+      <div className="flex flex-col gap-2">
+        <Counter count={0} max={150} type="empty" />
+        <Counter count={10} max={150} type="filled" />
+        <Counter count={151} max={150} type="exceeded" />
+      </div>
     </div>
   );
 }
 
 export const examples: DemoExample[] = [
   {
-    name: 'FieldLabelDemo',
-    title: 'Label',
-    description: 'Field label with required mark, info icon, and counter slot.',
+    name: 'FieldDemo',
+    title: 'Default',
+    description: 'Label, input, counter, and helper text.',
   },
   {
-    name: 'FieldLabelSizes',
-    title: 'Label sizes',
-    description: 'Small, regular, and large field labels.',
+    name: 'FieldSizes',
+    title: 'Sizes',
+    description: 'Small, default, and large compositions.',
   },
   {
-    name: 'FieldLabelDisabled',
-    title: 'Label disabled',
-    description: 'Disabled field label composition.',
-  },
-  {
-    name: 'FieldHelpTextDemo',
-    title: 'Help text',
-    description: 'Helper text sizes (sm, default, lg).',
-  },
-  {
-    name: 'FieldHelpTextDisabled',
-    title: 'Help text disabled',
-    description: 'Disabled helper text.',
-  },
-  {
-    name: 'FieldErrorDemo',
-    title: 'Error',
-    description: 'Error feedback sizes (sm, default, lg).',
-  },
-  {
-    name: 'FieldCounterDemo',
-    title: 'Character counter',
-    description: 'Empty, filled, and exceeded counter composition.',
-  },
-  {
-    name: 'FieldCompositionDemo',
-    title: 'Composition',
-    description: 'Label row with counter and helper text.',
-  },
-  {
-    name: 'FieldCompositionError',
-    title: 'Composition error',
-    description: 'Label row with counter and error feedback (XOR helper).',
+    name: 'FieldStates',
+    title: 'States',
+    description:
+      'Disabled, error / warning / success, and counter empty / filled / exceeded.',
   },
 ];
 
 export const field = createLegacyDemo('field', examples, {
-  FieldLabelDemo: <FieldLabelDemo />,
-  FieldLabelSizes: <FieldLabelSizes />,
-  FieldLabelDisabled: <FieldLabelDisabled />,
-  FieldHelpTextDemo: <FieldHelpTextDemo />,
-  FieldHelpTextDisabled: <FieldHelpTextDisabled />,
-  FieldErrorDemo: <FieldErrorDemo />,
-  FieldCounterDemo: <FieldCounterDemo />,
-  FieldCompositionDemo: <FieldCompositionDemo />,
-  FieldCompositionError: <FieldCompositionError />,
+  FieldDemo: <FieldDemo />,
+  FieldSizes: <FieldSizes />,
+  FieldStates: <FieldStates />,
 });
