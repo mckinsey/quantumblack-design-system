@@ -72,15 +72,15 @@ describe(`${componentName} — structure`, () => {
     expect(container.querySelector('[data-slot="field-error"]')).toBeNull();
   });
 
-  it.each(['paragraph-small-primary', 'paragraph-regular-primary'] as const)(
-    'renders typography className="%s" without crashing',
-    typeClass => {
+  it.each(['sm', 'default', 'lg'] as const)(
+    'renders size="%s" without crashing',
+    size => {
       expect(() =>
         render(
           <Field>
-            <FieldTitle className="label-regular-primary">Label</FieldTitle>
-            <FieldDescription className={typeClass}>Helper</FieldDescription>
-            <FieldError className={typeClass}>Error</FieldError>
+            <FieldTitle size={size}>Label</FieldTitle>
+            <FieldDescription size={size}>Helper</FieldDescription>
+            <FieldError size={size}>Error</FieldError>
           </Field>,
         ),
       ).not.toThrow();

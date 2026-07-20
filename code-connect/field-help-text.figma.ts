@@ -5,10 +5,10 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const typeClass = instance.getEnum('size', {
-  sm: 'paragraph-small-primary',
-  reg: 'paragraph-regular-primary',
-  lg: 'paragraph-regular-primary',
+const size = instance.getEnum('size', {
+  sm: 'sm',
+  reg: 'default',
+  lg: 'lg',
 });
 
 const disabled = instance.getEnum('state', {
@@ -20,7 +20,7 @@ const helperText = instance.getString('helperText') || 'Helper text';
 
 export default {
   example: figma.code`
-    <FieldDescription className="${typeClass}"${disabled ? ' disabled' : ''}>
+    <FieldDescription size="${size}"${disabled ? ' disabled' : ''}>
       ${helperText}
     </FieldDescription>
   `,

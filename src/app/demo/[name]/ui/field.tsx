@@ -28,16 +28,10 @@ function LabelRow({
   disabled?: boolean;
   counter?: ReactNode;
 }) {
-  const labelClass =
-    size === 'sm'
-      ? 'label-small-primary'
-      : size === 'lg'
-        ? 'label-large-primary'
-        : 'label-regular-primary';
-
   return (
     <FieldTitle
-      className={`${labelClass} w-full justify-between ${disabled ? 'opacity-50' : ''}`}>
+      size={size}
+      className={`w-[240px] justify-between ${disabled ? 'opacity-50' : ''}`}>
       <span className="flex items-center gap-1">
         Field label
         <RequiredMark />
@@ -124,15 +118,9 @@ export function FieldLabelDisabled() {
 export function FieldHelpTextDemo() {
   return (
     <div className={`${FIELD_WIDTH} flex flex-col gap-4`}>
-      <FieldDescription className="paragraph-small-primary">
-        Helper text
-      </FieldDescription>
-      <FieldDescription className="paragraph-regular-primary">
-        Helper text
-      </FieldDescription>
-      <FieldDescription className="paragraph-regular-primary">
-        Helper text
-      </FieldDescription>
+      <FieldDescription size="sm">Helper text</FieldDescription>
+      <FieldDescription>Helper text</FieldDescription>
+      <FieldDescription size="lg">Helper text</FieldDescription>
     </div>
   );
 }
@@ -140,13 +128,11 @@ export function FieldHelpTextDemo() {
 export function FieldHelpTextDisabled() {
   return (
     <div className={`${FIELD_WIDTH} flex flex-col gap-4`}>
-      <FieldDescription className="paragraph-small-primary" disabled>
+      <FieldDescription size="sm" disabled>
         Helper text
       </FieldDescription>
-      <FieldDescription className="paragraph-regular-primary" disabled>
-        Helper text
-      </FieldDescription>
-      <FieldDescription className="paragraph-regular-primary" disabled>
+      <FieldDescription disabled>Helper text</FieldDescription>
+      <FieldDescription size="lg" disabled>
         Helper text
       </FieldDescription>
     </div>
@@ -156,9 +142,9 @@ export function FieldHelpTextDisabled() {
 export function FieldErrorDemo() {
   return (
     <div className={`${FIELD_WIDTH} flex flex-col gap-4`}>
-      <FieldError className="paragraph-small-primary">Feedback</FieldError>
-      <FieldError className="paragraph-regular-primary">Feedback</FieldError>
-      <FieldError className="paragraph-regular-primary">Feedback</FieldError>
+      <FieldError size="sm">Feedback</FieldError>
+      <FieldError>Feedback</FieldError>
+      <FieldError size="lg">Feedback</FieldError>
     </div>
   );
 }
@@ -177,9 +163,7 @@ export function FieldCompositionDemo() {
   return (
     <div className={`${FIELD_WIDTH} flex flex-col gap-2`}>
       <LabelRow counter={<Counter count={10} max={150} type="filled" />} />
-      <FieldDescription className="paragraph-regular-primary">
-        Helper text
-      </FieldDescription>
+      <FieldDescription>Helper text</FieldDescription>
     </div>
   );
 }
@@ -188,7 +172,7 @@ export function FieldCompositionError() {
   return (
     <div className={`${FIELD_WIDTH} flex flex-col gap-2`}>
       <LabelRow counter={<Counter count={151} max={150} type="exceeded" />} />
-      <FieldError className="paragraph-regular-primary">Feedback</FieldError>
+      <FieldError>Feedback</FieldError>
     </div>
   );
 }
