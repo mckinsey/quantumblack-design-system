@@ -5,10 +5,10 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const size = instance.getEnum('size', {
-  sm: 'sm',
-  reg: 'default',
-  lg: 'lg',
+const typeClass = instance.getEnum('size', {
+  sm: 'paragraph-small-primary',
+  reg: 'paragraph-regular-primary',
+  lg: 'paragraph-regular-primary',
 });
 
 const status = instance.getEnum('status', {
@@ -29,12 +29,12 @@ const statusClass =
 const example =
   status === 'error'
     ? figma.code`
-    <FieldError size="${size}">
+    <FieldError className="${typeClass}">
       ${statusMessage}
     </FieldError>
   `
     : figma.code`
-    <FieldDescription size="${size}" className="${statusClass}" role="status">
+    <FieldDescription className="${typeClass} ${statusClass}" role="status">
       ${statusMessage}
     </FieldDescription>
   `;

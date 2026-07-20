@@ -5,10 +5,10 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const size = instance.getEnum('size', {
-  sm: 'sm',
-  reg: 'default',
-  lg: 'lg',
+const typeClass = instance.getEnum('size', {
+  sm: 'label-small-primary',
+  reg: 'label-regular-primary',
+  lg: 'label-large-primary',
 });
 
 const disabled = instance.getEnum('state', {
@@ -54,7 +54,7 @@ const disabledClass = disabled ? ' opacity-50' : '';
 
 export default {
   example: figma.code`
-    <FieldTitle size="${size}" className="w-full justify-between${alignClass}${disabledClass}">
+    <FieldTitle className="${typeClass} w-full justify-between${alignClass}${disabledClass}">
       <span className="flex items-center gap-1">
         ${label}
         ${requiredMark}
