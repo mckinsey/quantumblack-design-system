@@ -108,7 +108,10 @@ function FieldLabel({
   return (
     <Label
       data-slot="field-label"
-      className={cn('flex w-fit items-center gap-2', className)}
+      className={cn(
+        'text-fg-secondary label-regular-primary flex w-fit items-center gap-2',
+        className,
+      )}
       {...props}
     />
   );
@@ -119,7 +122,7 @@ function FieldTitle({ className, ...props }: React.ComponentProps<'div'>) {
     <div
       data-slot="field-label"
       className={cn(
-        'text-fg-secondary flex w-fit items-center gap-2 group-data-[disabled=true]/field:opacity-50',
+        'text-fg-secondary label-regular-primary flex w-fit items-center gap-2 group-data-[disabled=true]/field:opacity-50',
         className,
       )}
       {...props}
@@ -129,6 +132,7 @@ function FieldTitle({ className, ...props }: React.ComponentProps<'div'>) {
 
 const fieldDescriptionVariants = cva(
   [
+    'paragraph-regular-primary',
     'group-has-[[data-orientation=horizontal]]/field:text-balance',
     'last:mt-0 nth-last-2:-mt-1 [[data-variant=legend]+&]:-mt-1.5',
     '[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4',
@@ -233,7 +237,7 @@ function FieldError({
     <div
       role="alert"
       data-slot="field-error"
-      className={cn('text-status-error', className)}
+      className={cn('text-status-error text-sm font-normal', className)}
       {...props}>
       {content}
     </div>
