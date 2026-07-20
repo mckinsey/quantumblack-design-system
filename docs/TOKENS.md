@@ -15,7 +15,7 @@ A searchable reference with light/dark swatches (and shadow previews for elevati
 - **Prefer semantic over primitive.** Use `bg-fill-active`, never `bg-slate-950`. Primitives (`mist-*`, `slate-*`, opacity ladders) exist only to feed semantics — don't reach for them directly in components.
 - **Prefer Tailwind utility over inline var.** Use `bg-surface-base`, not `bg-[var(--surface-base)]`. The bridge is already wired in `@theme inline`.
 - **Use the right family.** `surface-*` for shells, `fill-*` for content/components, `text-*`/`fg-*` for text, `border-*`/`stroke-*` for strokes, `stateslayer-overlay-*` for interaction tints.
-- **State overlays go through `bg-stateslayer-overlay-*` or the stacked `overlay-*` utilities,** not custom alpha. They are colour-correct in both light and dark modes.
+- **State overlays go through `bg-stateslayer-overlay-*`,** not custom alpha. They are colour-correct in both light and dark modes.
 - **Typography is class-based.** Use `paragraph-regular-primary`, not `text-sm leading-5 tracking-[-0.028px]`. The `cn()` wrapper in [`src/lib/utils.ts`](../src/lib/utils.ts) extends `tailwind-merge` to dedupe these classes correctly.
 - **Status colours have two flavours.** `status-*` is for **non-text fills/borders** (not AA-compliant); `text-information|error|warning|success` is for **text** (AA 4.5:1).
 
@@ -122,17 +122,6 @@ Interaction state overlays applied to the **entire UI item** (e.g. button hover 
 | `--stateslayer-overlay-active`          | `bg-stateslayer-overlay-active`          | Active state overlay.                             | `StatesLayer-Overlay/Active`          |
 | `--stateslayer-overlay-enabled-inverse` | `bg-stateslayer-overlay-enabled-inverse` | Default inverse overlay (no tint).                | `StatesLayer-Overlay/Enabled_Inverse` |
 | `--stateslayer-overlay-*-inverse`       | `bg-stateslayer-overlay-*-inverse`       | Same overlays on high-contrast / accent elements. | `StatesLayer-Overlay/*-Inverse`       |
-
-To **stack** an overlay on a solid fill (correct alpha compositing, same as Figma), use the composed utilities instead of hand-rolled gradients:
-
-| Utility             | Use for                                 |
-| ------------------- | --------------------------------------- |
-| `overlay-hover`     | Hover tint on a solid `bg-fill-*`       |
-| `overlay-pressed`   | Pressed tint                            |
-| `overlay-disabled`  | Disabled tint                           |
-| `overlay-*-inverse` | Same on high-contrast / accent surfaces |
-
-Example: `bg-fill-onsurface-ui-2 hover:overlay-hover active:overlay-pressed`. Variant-capable (`before:overlay-hover`, `disabled:overlay-disabled`, …). Does not tint replaced children (`img`) — put the utility on a `::before` / absolute layer when content sits above the fill.
 
 ## Brand accent
 
@@ -277,7 +266,7 @@ So write `gap-4`, not `gap-[16px]`.
 - **Primitives directly.** `mist-50`, `slate-900`, `--mist-50-opacity-88`, `--slate-900-opacity-60` — these feed the semantic tokens above. Always pick the semantic equivalent.
 - **Raw Tailwind `slate-*` utilities.** QBDS redefines `--color-slate-*` inside `@theme`; using `bg-slate-100` will yield QBDS values, not stock Tailwind defaults. Prefer semantic surface / fill tokens.
 - **Inline CSS variables.** `bg-[var(--surface-base)]` works but the Tailwind utility `bg-surface-base` exists for the same thing — use it for readability and class-merging.
-- **Hand-rolled state overlays.** Don't write `bg-white/8` or arbitrary `linear-gradient(…)` overlays — use `bg-stateslayer-overlay-hover` or `hover:overlay-hover` so it adapts to dark / theme-switched contexts.
+- **Hand-rolled state overlays.** Don't write `bg-white/8` for a hover tint — use `bg-stateslayer-overlay-hover` so it adapts to dark / theme-switched contexts.
 - **Hand-rolled typography.** Don't compose `text-sm leading-5 tracking-[-0.028px]` — use `paragraph-regular-primary`.
 
 Maintainers syncing from Figma: see [README — Syncing from Figma](../README.md#syncing-from-figma).

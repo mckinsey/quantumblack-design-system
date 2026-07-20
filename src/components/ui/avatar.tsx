@@ -200,6 +200,7 @@ function AvatarGroupCount({
 }: React.ComponentProps<'button'>) {
   return (
     <Button
+      type="button"
       variant={'ghost'}
       data-slot="avatar-group-count"
       className={className}
