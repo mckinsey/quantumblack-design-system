@@ -74,7 +74,7 @@
       "type": "registry:ui",
       "title": "Avatar",
       "description": "An avatar component with support for images and tooltips.",
-      "dependencies": ["@base-ui/react/avatar"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",

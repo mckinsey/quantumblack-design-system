@@ -39,7 +39,7 @@ const avatarVariants = cva(
         disabled: [
           'bg-fill-onsurface-ui-2',
           'border border-stroke-active-inverse',
-          'before:absolute before:inset-0 before:rounded-full',
+          "before:absolute before:inset-0 before:rounded-full before:content-['']",
           'before:pointer-events-none before:z-10',
           'before:overlay-disabled',
         ],
@@ -55,7 +55,7 @@ const avatarVariants = cva(
         state: 'default',
         class: [
           'hover:shadow-elevation-1',
-          'before:absolute before:inset-0 before:rounded-full',
+          "before:absolute before:inset-0 before:rounded-full before:content-['']",
           'before:pointer-events-none before:z-10',
           'before:transition-opacity before:duration-200',
           'before:overlay-hover before:opacity-0',
