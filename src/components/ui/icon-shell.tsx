@@ -33,7 +33,7 @@ const iconVariants = cva(
           'cursor-pointer',
           'hover:opacity-88',
           'active:opacity-88',
-          'group-hover/btn:opacity-88',
+          'group-hover/button:opacity-88',
           'group-active/btn:opacity-88',
         ],
         false: '',
