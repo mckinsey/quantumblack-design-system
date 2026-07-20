@@ -175,10 +175,38 @@ describe('Select', () => {
   it('multiple select renders checkbox items', async () => {
     const user = userEvent.setup();
 
-    render(<SelectDemo />);
+    function MultiCheckboxHarness() {
+      const [value, setValue] = React.useState<string[]>([]);
 
-    const triggers = screen.getAllByRole('combobox');
-    await user.click(triggers[2]);
+      return (
+        <Select
+          multiple
+          items={items}
+          value={value}
+          onValueChange={v => setValue(v as string[])}>
+          <SelectTrigger>
+            <SelectValue placeholder="Pick" />
+          </SelectTrigger>
+          <SelectContent>
+            {items.map(item => (
+              <SelectItem key={item.value} value={item.value}>
+                <Checkbox
+                  checked={value.includes(item.value)}
+                  onCheckedChange={() => {}}
+                  tabIndex={-1}
+                  className="pointer-events-none"
+                />
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      );
+    }
+
+    render(<MultiCheckboxHarness />);
+
+    await user.click(screen.getByRole('combobox'));
 
     const options = await screen.findAllByRole('option');
     expect(options.length).toBeGreaterThan(0);

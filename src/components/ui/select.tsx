@@ -55,7 +55,7 @@ const selectTriggerVariants = cva(
           inputVariantStyles.default.base,
           inputVariantStyles.default.text,
           inputVariantStyles.default.hover,
-          'focus-visible:bg-stateslayer-overlay-active-inverse focus-visible:ring-stroke-status-focus',
+          inputVariantStyles.default.focus,
           'data-[popup-open]:bg-stateslayer-overlay-active-inverse data-[popup-open]:ring-stroke-status-focus data-[popup-open]:shadow-elevation-0',
           inputVariantStyles.default.error,
           'data-invalid:border-status-error data-invalid:ring-0',
@@ -67,7 +67,7 @@ const selectTriggerVariants = cva(
           inputVariantStyles.inline.text,
           inputVariantStyles.inline.hover,
           'px-0!',
-          'focus-visible:border-b-stroke-status-focus focus-visible:ring-0 focus-visible:shadow-elevation-0',
+          inputVariantStyles.inline.focus,
           'data-[popup-open]:border-b-stroke-status-focus data-[popup-open]:shadow-elevation-0',
           inputVariantStyles.inline.error,
           'data-invalid:border-b-status-error data-invalid:ring-0',
@@ -399,7 +399,10 @@ function SelectScrollUpArrow({
   return (
     <SelectPrimitive.ScrollUpArrow
       data-slot="select-scroll-up-arrow"
-      className={cn('', className)}
+      className={cn(
+        'flex cursor-default items-center justify-center py-1',
+        className,
+      )}
       {...props}>
       <IconShell size={iconSize} variant="secondary">
         <Icon icon="expand_less" size={iconSize} />
@@ -418,7 +421,10 @@ function SelectScrollDownArrow({
   return (
     <SelectPrimitive.ScrollDownArrow
       data-slot="select-scroll-down-arrow"
-      className={cn(className)}
+      className={cn(
+        'flex cursor-default items-center justify-center py-1',
+        className,
+      )}
       {...props}>
       <IconShell size={iconSize} variant="secondary">
         <Icon icon="expand_more" size={iconSize} />
