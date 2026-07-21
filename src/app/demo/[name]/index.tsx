@@ -250,6 +250,7 @@ import {
   SidebarAppRight,
   SidebarNavMenuIcons,
   SidebarNavMenuSizes,
+  SidebarNavMenuStates,
   SidebarSizes,
   sidebar,
   examples as sidebarExamples,
@@ -605,6 +606,7 @@ export const exampleComponentMaps: Record<
     SidebarSizes,
     SidebarNavMenuSizes,
     SidebarNavMenuIcons,
+    SidebarNavMenuStates,
   },
   slider: {
     SliderDemo,

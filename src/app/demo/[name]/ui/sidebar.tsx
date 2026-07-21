@@ -1200,6 +1200,121 @@ export function SidebarNavMenuIcons() {
   return <NavMenuSizeShowcase withIcons />;
 }
 
+type NavMenuItemState =
+  | 'enabled'
+  | 'hover'
+  | 'disabled'
+  | 'active'
+  | 'active-expanded';
+
+const navMenuItemStates: { id: NavMenuItemState; label: string }[] = [
+  { id: 'enabled', label: 'Enabled' },
+  { id: 'hover', label: 'Hover' },
+  { id: 'disabled', label: 'Disabled' },
+  { id: 'active', label: 'Active' },
+  { id: 'active-expanded', label: 'Active expanded' },
+];
+
+function NavMenuStateRow({ state }: { state: NavMenuItemState }) {
+  const { size } = useSidebar();
+  const iconSize = size === 'lg' ? 'default' : 'sm';
+  const forcedHover = state === 'hover';
+  const isActive = state === 'active' || state === 'active-expanded';
+  const disabled = state === 'disabled';
+
+  if (state === 'active-expanded') {
+    return (
+      <Collapsible
+        open
+        className="group/collapsible data-[state=open]:bg-fill-muted">
+        <SidebarNavMenuItem>
+          <CollapsibleTrigger asChild>
+            <SidebarNavMenuButton showChevron isActive>
+              {navIcon('folder', true, iconSize)}
+              <span>Nav Item</span>
+            </SidebarNavMenuButton>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <SidebarNavMenuSub>
+              <SidebarMenuSubItem>
+                <SidebarNavMenuSubButton isActive>
+                  {navIcon('description', true, iconSize)}
+                  <span>Child Item</span>
+                </SidebarNavMenuSubButton>
+              </SidebarMenuSubItem>
+              <SidebarMenuSubItem>
+                <SidebarNavMenuSubButton>
+                  {navIcon('description', false, iconSize)}
+                  <span>Child Item</span>
+                </SidebarNavMenuSubButton>
+              </SidebarMenuSubItem>
+            </SidebarNavMenuSub>
+          </CollapsibleContent>
+        </SidebarNavMenuItem>
+      </Collapsible>
+    );
+  }
+
+  return (
+    <SidebarNavMenuItem>
+      <SidebarNavMenuButton
+        showChevron
+        isActive={isActive}
+        disabled={disabled}
+        className={cn(
+          forcedHover &&
+            'bg-stateslayer-overlay-hover text-fg-primary pointer-events-none',
+        )}>
+        {navIcon('folder', isActive || forcedHover, iconSize)}
+        <span>Nav Item</span>
+      </SidebarNavMenuButton>
+    </SidebarNavMenuItem>
+  );
+}
+
+function NavMenuStatesColumn({
+  size,
+  label,
+}: {
+  size: RailSize;
+  label: string;
+}) {
+  return (
+    <LabeledSection label={label}>
+      <SidebarProvider
+        layout="nav"
+        size={size}
+        className="h-auto min-h-0 w-auto">
+        <SidebarNav className="h-auto min-h-0 w-auto">
+          <SidebarNavMenu className="h-auto gap-4">
+            {navMenuItemStates.map(({ id, label: stateLabel }) => (
+              <div key={id} className="flex flex-col gap-2">
+                <span className="paragraph-small text-fg-tertiary">
+                  {stateLabel}
+                </span>
+                <SidebarMenu>
+                  <NavMenuStateRow state={id} />
+                </SidebarMenu>
+              </div>
+            ))}
+          </SidebarNavMenu>
+        </SidebarNav>
+      </SidebarProvider>
+    </LabeledSection>
+  );
+}
+
+export function SidebarNavMenuStates() {
+  return (
+    <div className="border-stroke-divider w-full overflow-hidden rounded-lg border">
+      <div className="bg-surface-secondary flex items-start justify-center gap-12 p-6">
+        <NavMenuStatesColumn size="default" label="Default" />
+        <NavMenuStatesColumn size="lg" label="Large" />
+      </div>
+    </div>
+  );
+}
+
 export const examples: DemoExample[] = [
   {
     name: 'SidebarApp',
@@ -1225,6 +1340,12 @@ export const examples: DemoExample[] = [
     description:
       'NavMenu at default and lg with icons on groups and sub-items. Open fullscreen for an app shell preview.',
   },
+  {
+    name: 'SidebarNavMenuStates',
+    title: 'NavMenu states',
+    description:
+      'NavMenu items at default and lg across enabled, hover, disabled, active, and active expanded.',
+  },
 ];
 
 export const sidebar = createLegacyDemo('sidebar', examples, {
@@ -1232,4 +1353,5 @@ export const sidebar = createLegacyDemo('sidebar', examples, {
   SidebarSizes: <SidebarSizes />,
   SidebarNavMenuSizes: <SidebarNavMenuSizes />,
   SidebarNavMenuIcons: <SidebarNavMenuIcons />,
+  SidebarNavMenuStates: <SidebarNavMenuStates />,
 });
