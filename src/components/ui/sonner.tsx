@@ -77,7 +77,11 @@ function getCancelComponent(
   cancel: ToastOptions['cancel'],
   id: string | number,
 ): React.ReactNode {
-  if (cancel) {
+  if (cancel === null) {
+    return null;
+  }
+
+  if (cancel !== undefined) {
     return cancel;
   }
 
@@ -98,7 +102,7 @@ const Toast = memo(function Toast({ id, message, type, options }: ToastProps) {
   const { action, cancel, className, icon, testId } = options || {};
 
   const config = getToastConfig(type);
-  const displayIcon = icon ?? getDefaultIcon(config);
+  const displayIcon = icon === undefined ? getDefaultIcon(config) : icon;
   const cancelComponent = getCancelComponent(cancel, id);
 
   return (
@@ -113,9 +117,11 @@ const Toast = memo(function Toast({ id, message, type, options }: ToastProps) {
       )}
       {...(testId && { 'data-testid': testId })}>
       <div className="flex min-w-0 flex-1 items-center gap-2">
-        <div data-slot="toast-icon" className="flex shrink-0 items-center">
-          {displayIcon}
-        </div>
+        {displayIcon !== null && (
+          <div data-slot="toast-icon" className="flex shrink-0 items-center">
+            {displayIcon}
+          </div>
+        )}
 
         <div className="flex min-w-0 flex-1 items-center">
           <p
@@ -127,11 +133,13 @@ const Toast = memo(function Toast({ id, message, type, options }: ToastProps) {
         </div>
       </div>
 
-      <div
-        data-slot="toast-dismiss"
-        className="flex shrink-0 items-center self-stretch">
-        {cancelComponent}
-      </div>
+      {cancelComponent !== null && (
+        <div
+          data-slot="toast-dismiss"
+          className="flex shrink-0 items-center self-stretch">
+          {cancelComponent}
+        </div>
+      )}
     </div>
   );
 });

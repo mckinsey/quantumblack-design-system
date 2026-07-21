@@ -136,6 +136,33 @@ describe(`${componentName} — toast API`, () => {
       expect(screen.queryByText('Dismissible toast')).not.toBeInTheDocument();
     });
   });
+
+  it('hides icon when icon is null', async () => {
+    renderToaster();
+    toast.info('No icon toast', { icon: null });
+
+    await waitFor(() => {
+      expect(screen.getByText('No icon toast')).toBeInTheDocument();
+    });
+
+    expect(document.querySelector('[data-slot="toast-icon"]')).toBeNull();
+    expect(document.querySelector('[data-slot="toast-dismiss"]')).toBeTruthy();
+  });
+
+  it('hides dismiss when cancel is null', async () => {
+    renderToaster();
+    toast.info('No dismiss toast', { cancel: null });
+
+    await waitFor(() => {
+      expect(screen.getByText('No dismiss toast')).toBeInTheDocument();
+    });
+
+    expect(document.querySelector('[data-slot="toast-dismiss"]')).toBeNull();
+    expect(
+      screen.queryByRole('button', { name: 'Close toast' }),
+    ).not.toBeInTheDocument();
+    expect(document.querySelector('[data-slot="toast-icon"]')).toBeTruthy();
+  });
 });
 
 describe(`${componentName} — demo triggers`, () => {

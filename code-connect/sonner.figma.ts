@@ -39,13 +39,13 @@ let call = figma.code`toast.${type}(${message})`;
 if (showIcon && isDismissable && iconCode.length) {
   call = figma.code`toast.${type}(${message}, { icon: ${iconCode} })`;
 } else if (showIcon && !isDismissable && iconCode.length) {
-  call = figma.code`toast.${type}(${message}, { icon: ${iconCode}, cancel: <></> })`;
+  call = figma.code`toast.${type}(${message}, { icon: ${iconCode}, cancel: null })`;
 } else if (showIcon && !isDismissable) {
-  call = figma.code`toast.${type}(${message}, { cancel: <></> })`;
+  call = figma.code`toast.${type}(${message}, { cancel: null })`;
 } else if (!showIcon && isDismissable) {
-  call = figma.code`toast.${type}(${message}, { icon: <></> })`;
+  call = figma.code`toast.${type}(${message}, { icon: null })`;
 } else if (!showIcon && !isDismissable) {
-  call = figma.code`toast.${type}(${message}, { icon: <></>, cancel: <></> })`;
+  call = figma.code`toast.${type}(${message}, { icon: null, cancel: null })`;
 }
 
 const trigger = figma.code`
