@@ -3,11 +3,11 @@
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
-import { inputVariantStyles } from '@/components/ui/input';
+import { inputFocusRingWidth, inputVariantStyles } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
 const textareaVariants = cva(
-  'flex w-full rounded-none outline-none transition-[border-color,box-shadow,background-color] font-normal min-h-16 selection:bg-fill-active selection:text-fg-primary-inverse',
+  'flex w-full rounded-none outline-none transition-[border-color,box-shadow,background-color] font-normal min-h-[108px] selection:bg-fill-active selection:text-fg-primary-inverse',
   {
     variants: {
       variant: {
@@ -15,18 +15,26 @@ const textareaVariants = cva(
           inputVariantStyles.default.base,
           inputVariantStyles.default.text,
           inputVariantStyles.default.hover,
-          'focus-visible:bg-stateslayer-overlay-active-inverse focus-visible:ring-stroke-status-focus',
+          inputVariantStyles.default.focus,
           inputVariantStyles.default.error,
           inputVariantStyles.default.disabled,
-          'disabled:bg-stateslayer-overlay-disabled',
         ],
       },
       size: {
-        sm: 'paragraph-small-primary p-3 focus-visible:ring-[1px]',
-        default: 'paragraph-regular-primary p-3 focus-visible:ring-[1px]',
-        lg: 'paragraph-large-primary p-3 focus-visible:ring-[2px]',
+        sm: 'paragraph-small-primary p-3',
+        default: 'paragraph-regular-primary p-3',
+        lg: 'paragraph-large-primary p-3',
       },
     },
+    compoundVariants: [
+      { variant: 'default', size: 'sm', className: inputFocusRingWidth.sm },
+      {
+        variant: 'default',
+        size: 'default',
+        className: inputFocusRingWidth.default,
+      },
+      { variant: 'default', size: 'lg', className: inputFocusRingWidth.lg },
+    ],
     defaultVariants: {
       variant: 'default',
       size: 'default',
@@ -38,6 +46,7 @@ type TextareaContextValue = {
   hasRoot: boolean;
   count: number;
   maxCharacters?: number;
+  size?: 'sm' | 'default' | 'lg';
   registerTextarea: (ref: HTMLTextAreaElement | null) => void;
   formProps?: Pick<
     React.ComponentProps<'textarea'>,
@@ -48,6 +57,7 @@ type TextareaContextValue = {
 const TextareaContext = React.createContext<TextareaContextValue>({
   hasRoot: false,
   count: 0,
+  size: 'default',
   registerTextarea: () => {},
 });
 
@@ -114,6 +124,7 @@ function TextareaRoot({
         hasRoot: true,
         count,
         maxCharacters,
+        size,
         registerTextarea,
         formProps,
       }}>
@@ -126,11 +137,21 @@ function TextareaRoot({
   );
 }
 
+const counterTypography = {
+  sm: 'paragraph-small-primary',
+  default: 'paragraph-regular-primary',
+  lg: 'paragraph-large-primary',
+} as const;
+
 function TextareaCounter({
   className,
   ...props
 }: Omit<React.ComponentProps<'div'>, 'children'>) {
-  const { count, maxCharacters } = React.useContext(TextareaContext);
+  const {
+    count,
+    maxCharacters,
+    size = 'default',
+  } = React.useContext(TextareaContext);
 
   if (!maxCharacters) {
     console.warn(
@@ -144,19 +165,22 @@ function TextareaCounter({
   return (
     <div
       className={cn(
-        'text-fg-secondary ml-auto flex items-center gap-0.5',
+        counterTypography[size],
+        'text-fg-secondary ml-auto flex items-center gap-1',
         className,
       )}
       {...props}>
       <span
         className={cn(
           count > 0 && !isOverLimit && 'text-fg-primary',
-          isOverLimit && 'text-status-error',
+          isOverLimit && 'text-fg-error',
         )}>
         {count}
       </span>
-      <span>/</span>
-      <span>{maxCharacters}</span>
+      <span className={cn(isOverLimit && 'text-fg-tertiary')}>/</span>
+      <span className={cn(isOverLimit && 'text-fg-tertiary')}>
+        {maxCharacters}
+      </span>
     </div>
   );
 }
