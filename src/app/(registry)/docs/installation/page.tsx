@@ -213,8 +213,8 @@ export function MyComponent() {
           </div>
 
           <div className="flex flex-col gap-3 pt-4 sm:flex-row">
-            <Button size="lg" asChild>
-              <Link to="/components">Browse Components</Link>
+            <Button render={<Link to="/components" />} nativeButton={false}>
+              Browse Components
             </Button>
           </div>
 

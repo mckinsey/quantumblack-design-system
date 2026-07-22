@@ -100,13 +100,15 @@ const stopPropagationHandlers = {
 function ComboboxTriggerAddon() {
   return (
     <InputGroupAddon align="inline-end">
-      <InputGroupButton
-        size="icon-xs"
-        variant="ghost"
-        asChild
-        className="group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent">
-        <ComboboxTrigger />
-      </InputGroupButton>
+      <ComboboxTrigger
+        render={
+          <InputGroupButton
+            size="icon-xs"
+            variant="ghost"
+            className="group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent"
+          />
+        }
+      />
     </InputGroupAddon>
   );
 }
@@ -130,13 +132,15 @@ export function ComboboxDemo() {
               <InputGroupText>
                 <Icon icon="layers" className="icon text-[16px]" />
               </InputGroupText>
-              <InputGroupButton
-                size="icon-xs"
-                variant="ghost"
-                asChild
-                className="group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent">
-                <ComboboxTrigger />
-              </InputGroupButton>
+              <ComboboxTrigger
+                render={
+                  <InputGroupButton
+                    size="icon-xs"
+                    variant="ghost"
+                    className="group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent"
+                  />
+                }
+              />
               <ComboboxClear />
             </InputGroupAddon>
           </InputGroup>
