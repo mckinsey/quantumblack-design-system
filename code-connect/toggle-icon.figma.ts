@@ -3,7 +3,7 @@
 // component=Toggle
 //
 // Figma models toggle-on as a Button-Icon state variant (secondary-filled, secondary-outline,
-// ghost only). Code uses a separate Toggle component (Radix) — map state=toggle-on to
+// ghost only). Code uses a separate Toggle (Base UI) — map state=toggle-on to
 // pressed={true}. For non-toggle Button-Icon states, use button-icon.figma.ts instead.
 import figma from 'figma';
 
