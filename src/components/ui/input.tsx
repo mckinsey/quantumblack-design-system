@@ -32,7 +32,7 @@ export const inputVariantStyles = {
       'focus-visible:bg-stateslayer-overlay-active-inverse focus-visible:ring-stroke-status-focus',
     error: 'aria-invalid:border-status-error aria-invalid:ring-0',
     disabled:
-      'disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-stateslayer-overlay-disabled disabled:text-fg-disabled disabled:placeholder:text-fg-disabled',
+      'disabled:cursor-not-allowed disabled:bg-stateslayer-overlay-disabled disabled:text-fg-disabled disabled:placeholder:text-fg-disabled',
   },
   inline: {
     base: 'bg-transparent border-0 border-b-[1px] shadow-none',
