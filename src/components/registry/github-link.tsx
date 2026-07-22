@@ -1,4 +1,4 @@
-import { buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 export const GITHUB_REPO_URL =
@@ -24,17 +24,20 @@ function GitHubMark({ className }: { className?: string }) {
 
 export function GitHubLink({ className }: { className?: string }) {
   return (
-    <a
-      href={GITHUB_REPO_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="View source on GitHub"
-      className={cn(
-        buttonVariants({ variant: 'outline', size: 'icon' }),
-        'text-fg-primary',
-        className,
-      )}>
+    <Button
+      variant="outline"
+      size="icon"
+      className={cn('text-fg-primary', className)}
+      render={
+        <a
+          href={GITHUB_REPO_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="View source on GitHub"
+        />
+      }
+      nativeButton={false}>
       <GitHubMark />
-    </a>
+    </Button>
   );
 }
