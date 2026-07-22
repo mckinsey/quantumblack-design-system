@@ -35,7 +35,7 @@ for (const name of leadingNames) {
 }
 
 const iconNote = leadingCode.length
-  ? `{/* Tabs do not style leading icons. Use controlled value and set IconShell variant manually: primary when value matches the trigger, else secondary. */}\n    `
+  ? `// Tabs do not style leading icons. Use controlled value and set IconShell variant manually: primary when value matches the trigger, else secondary.\n    `
   : '';
 
 const imports = ['import { TabsTrigger } from "@/components/ui/tabs"'];

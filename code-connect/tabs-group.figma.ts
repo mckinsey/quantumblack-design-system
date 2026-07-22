@@ -26,7 +26,7 @@ const tabs = figma.properties.children(['.base/Tab']);
 
 export default {
   example: figma.code`
-    {/* Tabs do not style leading icons. Use controlled value and set IconShell variant manually: primary when value matches the trigger, else secondary. */}
+    // Tabs do not style leading icons. Use controlled value and set IconShell variant manually: primary when value matches the trigger, else secondary.
     <Tabs defaultValue="tab" size="${size}" padded={${padded}}>
       <TabsList${listClass ? ` className="${listClass}"` : ''}>
         ${figma.helpers.react.renderChildren(tabs)}
