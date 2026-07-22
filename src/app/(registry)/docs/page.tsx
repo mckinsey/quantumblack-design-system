@@ -95,11 +95,14 @@ export default function IntroductionPage() {
           </div>
 
           <div className="flex flex-col gap-3 pt-4 sm:flex-row">
-            <Button size="lg" asChild>
-              <Link to="/components">Browse Components</Link>
+            <Button render={<Link to="/components" />} nativeButton={false}>
+              Browse Components
             </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link to="/installation">Installation</Link>
+            <Button
+              variant="outline"
+              render={<Link to="/installation" />}
+              nativeButton={false}>
+              Installation
             </Button>
           </div>
 

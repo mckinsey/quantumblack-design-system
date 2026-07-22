@@ -108,7 +108,7 @@
       "type": "registry:ui",
       "title": "Button",
       "description": "Allows users to take actions with a single click or tap.",
-      "dependencies": ["@radix-ui/react-slot"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -888,7 +888,7 @@
       "type": "registry:ui",
       "title": "Toggle",
       "description": "A toggle component.",
-      "dependencies": ["@radix-ui/react-toggle"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
