@@ -827,7 +827,7 @@
       "name": "tag",
       "type": "registry:ui",
       "title": "Tag",
-      "description": "A dismissable tag component with support for icons, variants (default, secondary, accent, outline, accent-outline), pill shape, and sizes.",
+      "description": "A dismissable tag with icons, variants (primary, secondary, accent, outline, accent-outline), pill shape, and sizes. Leading IconShell color is consumer-managed via tagIconTone (secondary → neutral-inverse).",
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",

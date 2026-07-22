@@ -159,6 +159,10 @@ const tagVariants = cva(tagBaseStyles('aria-disabled'), {
  * - accent → Type=accent
  * - outline → Type=primary, Outline=true
  * - accent-outline → Type=accent, Outline=true
+ *
+ * Leading IconShell color is consumer-managed: use `tagIconTone[variant]` for
+ * `type` (secondary → `neutral-inverse`, others → `neutral`). When the tag is
+ * disabled, pass `disabled` to IconShell as well.
  */
 export interface TagProps
   extends
@@ -171,6 +175,7 @@ export interface TagProps
 
 type IconTone = 'neutral' | 'neutral-inverse';
 
+/** Maps Tag variant → IconShell `type`. Use for leading icons: secondary → `neutral-inverse`, others → `neutral`. Pass `disabled` to IconShell when the tag is disabled. */
 const tagIconTone: Record<NonNullable<TagProps['variant']>, IconTone> = {
   primary: 'neutral',
   secondary: 'neutral-inverse',
@@ -179,6 +184,11 @@ const tagIconTone: Record<NonNullable<TagProps['variant']>, IconTone> = {
   'accent-outline': 'neutral',
 };
 
+/**
+ * Dismissable tag. Leading icons are consumer-managed — use
+ * `tagIconTone[variant]` for IconShell `type`, and pass `disabled` to IconShell
+ * when the tag is disabled.
+ */
 function Tag({
   className,
   size = 'default',
