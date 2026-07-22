@@ -159,6 +159,20 @@ export function SonnerPersistent() {
   );
 }
 
+export function SonnerMinWidth() {
+  return (
+    <Button
+      variant="outline"
+      onClick={() =>
+        toast.info('Short message goes here', {
+          className: 'min-w-[360px]',
+        })
+      }>
+      Min width toast
+    </Button>
+  );
+}
+
 // ============================================================================
 // Example Metadata
 // ============================================================================
@@ -190,6 +204,12 @@ export const examples = [
     title: 'Persistent',
     description: 'Toast that stays visible until manually dismissed.',
   },
+  {
+    name: 'SonnerMinWidth',
+    title: 'Min width',
+    description:
+      'Optional min width via toast options: className: "min-w-[360px]". Width stays content-based by default.',
+  },
 ];
 
 // ============================================================================
@@ -204,5 +224,6 @@ export const sonner = {
     'With Action': <SonnerWithAction />,
     'Custom Styled': <SonnerCustom />,
     Persistent: <SonnerPersistent />,
+    'Min width': <SonnerMinWidth />,
   },
 };

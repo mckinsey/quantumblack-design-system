@@ -265,6 +265,7 @@ import {
 import {
   SonnerCustom,
   SonnerDemo,
+  SonnerMinWidth,
   SonnerPersistent,
   SonnerVariants,
   SonnerWithAction,
@@ -611,6 +612,7 @@ export const exampleComponentMaps: Record<
     SonnerWithAction,
     SonnerCustom,
     SonnerPersistent,
+    SonnerMinWidth,
   },
   switch: {
     SwitchDemo,

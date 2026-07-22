@@ -201,15 +201,15 @@ function useThemeValue(): 'light' | 'dark' {
   return theme;
 }
 
-const Toaster = ({ ...props }: ToasterProps) => {
+const Toaster = ({ expand = true, ...props }: ToasterProps) => {
   const theme = useThemeValue();
 
   return (
     <Sonner
       theme={theme as ToasterProps['theme']}
       className="toaster group"
-      expand={props.expand ?? true}
       {...props}
+      expand={expand}
     />
   );
 };
