@@ -1,8 +1,7 @@
 'use client';
 
-import { Toggle } from '@base-ui/react/toggle';
+import { Toggle as TogglePrimitive } from '@base-ui/react/toggle';
 import type { VariantProps } from 'class-variance-authority';
-import * as React from 'react';
 
 import {
   tagBaseStyles,
@@ -90,19 +89,19 @@ function TagToggle({
   pill,
   children,
   ...props
-}: Omit<Toggle.Props, 'className'> & {
+}: Omit<TogglePrimitive.Props, 'className'> & {
   className?: string;
   variant?: TagToggleVariant;
   size?: TagToggleSize;
   pill?: VariantProps<typeof tagSizeVariants>['pill'];
 }) {
   return (
-    <Toggle
+    <TogglePrimitive
       data-slot="tag-toggle"
       className={tagToggleClasses({ variant, size, pill, className })}
       {...props}>
       {wrapTagText(children, 'disabled')}
-    </Toggle>
+    </TogglePrimitive>
   );
 }
 
