@@ -5,9 +5,9 @@ import { IconShell } from '@/components/ui/icon-shell';
 import { TagToggle } from '@/components/ui/tag-toggle';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 
-function TagToggleLeadingIcon() {
+function TagToggleLeadingIcon({ disabled }: { disabled?: boolean }) {
   return (
-    <IconShell size="sm" type="neutral" variant="primary">
+    <IconShell size="sm" type="neutral" variant="primary" disabled={disabled}>
       <Icon icon="style" />
     </IconShell>
   );
@@ -89,17 +89,17 @@ export function TagToggleDisabled() {
   return (
     <div className="flex flex-wrap gap-3">
       <TagToggle disabled>
-        <TagToggleLeadingIcon />
+        <TagToggleLeadingIcon disabled />
         Disabled
       </TagToggle>
 
       <TagToggle variant="outline" disabled>
-        <TagToggleLeadingIcon />
+        <TagToggleLeadingIcon disabled />
         Disabled
       </TagToggle>
 
       <TagToggle pill disabled>
-        <TagToggleLeadingIcon />
+        <TagToggleLeadingIcon disabled />
         Disabled Pill
       </TagToggle>
     </div>
@@ -130,7 +130,8 @@ export const examples: DemoExample[] = [
   {
     name: 'TagToggleDisabled',
     title: 'Disabled',
-    description: 'Disabled tag toggle states.',
+    description:
+      'Disabled tag toggle states. Pass disabled to IconShell as well so the leading icon uses disabled opacity.',
   },
 ];
 

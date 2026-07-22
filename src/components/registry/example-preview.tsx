@@ -104,6 +104,7 @@ export function ExamplePreview({
             type="button"
             variant="ghost"
             size="sm"
+            aria-expanded={isExpanded}
             onClick={() => setIsExpanded(v => !v)}
             className="h-7 gap-1 px-2">
             <span className="paragraph-small-emphasised text-fg-secondary">
@@ -115,6 +116,7 @@ export function ExamplePreview({
             />
           </Button>
           <Button
+            type="button"
             size="sm"
             variant="ghost"
             onClick={copyToClipboard}

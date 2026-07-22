@@ -1,6 +1,6 @@
 ---
 name: figma-parity
-description: Match Figma specs when implementing or reviewing QBDS UI — tokens, layout, all variants/states, demos, registry. Use when implementing, updating, or reviewing a QBDS component against a Figma URL/node or the library spec. Triggers — "implement this Figma component", "match the Figma spec", "figma parity", "build this component from Figma", or a figma.com URL alongside work in src/components/ui/, demos, or registry.json.
+description: Match Figma specs when implementing or reviewing QBDS UI — tokens, layout, all variants/states, Code Connect, demos, registry. Use when implementing, updating, or reviewing a QBDS component against a Figma URL/node or the library spec. Triggers — "implement this Figma component", "match the Figma spec", "figma parity", "build this component from Figma", or a figma.com URL alongside work in src/components/ui/, demos, registry.json, or code-connect/.
 ---
 
 # Figma ↔ code parity (QBDS)
@@ -36,9 +36,13 @@ Match Figma tokens via **[docs/TOKENS.md](docs/TOKENS.md)** (Design name + Tailw
 
 ## Workflow (run in order)
 
-### 0 — Code Connect (if present)
+### 0 — Code Connect (do NOT treat as source of truth)
 
-If **`code-connect/<name>.figma.tsx` exists**, read it before raw Figma codegen. Use it for props, enums, slots, and `example` snippets; still verify tokens, spacing, geometry, and states in code. Map every Figma variant property; use the real public API (no invented props). Update the mapping when the React API changes. New mappings: follow `code-connect/button.figma.tsx` and use `get_code_connect_map` when available.
+`code-connect/<name>.figma.ts` (or legacy `.figma.tsx`) is a **downstream artifact — it can be wrong or stale.** Do not seed the alignment table from it and do not "verify" Figma against it.
+
+- **Source of truth = Figma** (`get_metadata`, `get_variable_defs`, `get_screenshot`) **+ the real React API** (`src/components/ui/<name>.tsx`).
+- Build the alignment table from those first, **then** check the mapping against it (see step 4). Any mismatch — enum values, size names, variant→prop mapping — is a **Code Connect bug to fix**, not a spec to follow.
+- To create or update a mapping, use the **`code-connect`** skill — it owns the mechanics and QBDS conventions.
 
 For field-composed controls: derive **`errorClass`** (and warning/success/info) the same way as **`labelClass`** / **`descClass`** — pass explicit `className` on `<FieldError>` when Figma typography varies by size.
 
@@ -47,17 +51,19 @@ For field-composed controls: derive **`errorClass`** (and warning/success/info) 
 1. **Component description (Figma)** — On the **component set** root (not a single variant instance), read the designer-written **description** in Dev Mode, or from `get_design_context` on that node (follow **component documentation** links and **design annotations** in the response when present). QBDS descriptions often state the **default layout** and which variant axes exist (e.g. “Defaults to unboxed horizontal… also supports boxed, vertical, …”). Treat this as the narrative source of truth for defaults and scope before inferring from one frame.
 2. `get_metadata` (or Dev Mode) on the component set — list every variant, boolean, text, and SLOT property; note which property values are the set’s **default** selections.
 3. Read `src/components/ui/<name>.tsx` — `cva` keys, props, `data-slot`, exports.
-4. Build an alignment table; flag **asymmetric** coverage (Figma-only or code-only values):
+4. Build an alignment table from **Figma + React API** (never from Code Connect); flag **asymmetric** coverage (Figma-only or code-only values). The **Code Connect** column records what the mapping claims — a mismatch there is a mapping bug to fix, not a reason to change the spec:
 
-| Axis              | Figma values                 | React values                                            | Aligned? | Notes                    |
-| ----------------- | ---------------------------- | ------------------------------------------------------- | -------- | ------------------------ |
-| Variant / type    | …                            | …                                                       |          |                          |
-| Size              | …                            | …                                                       |          |                          |
-| Other layout axes | …                            | …                                                       |          |                          |
-| State (if on set) | …                            | …                                                       |          |                          |
-| Field slots       | Label, Help, Status, Counter | `FieldTitle`, `FieldDescription`, `FieldError`, counter |          | Per **size** — see below |
-| SLOT props        | …                            | children / sub-components                               |          |                          |
-| Sub-components    | …                            | exports                                                 |          |                          |
+| Axis              | Figma values                 | React values                                            | Code Connect (verify) | Aligned? | Notes                    |
+| ----------------- | ---------------------------- | ------------------------------------------------------- | --------------------- | -------- | ------------------------ |
+| Variant / type    | …                            | …                                                       | …                     |          |                          |
+| Size              | …                            | …                                                       | …                     |          |                          |
+| Other layout axes | …                            | …                                                       | …                     |          |                          |
+| State (if on set) | …                            | …                                                       | …                     |          |                          |
+| Field slots       | Label, Help, Status, Counter | `FieldTitle`, `FieldDescription`, `FieldError`, counter | …                     |          | Per **size** — see below |
+| SLOT props        | …                            | children / sub-components                               | …                     |          |                          |
+| Sub-components    | …                            | exports                                                 | …                     |          |                          |
+
+If a Code Connect mapping exists, confirm its enum values, size names, and variant→prop mapping match the Figma + React columns above. Fix the mapping (via the `code-connect` skill) when it drifts.
 
 5. **Field chrome table** (required when Figma nests Elements/\* or booleans `showLabel`, `showHelpText`, `showFeedbackMessage`, `showCounter`): inspect **each text slot** at sm, reg/default, and lg (and error/disabled states). Shared primitives (`FieldError`, `FieldDescription`) often ship generic defaults — override in demo/Code Connect when Figma differs.
 
@@ -121,6 +127,7 @@ Report a **variant × state** matrix: pass / drift (note ≥2px or wrong token).
 ## Acceptance checklist
 
 - [ ] Alignment table: all Figma axes ↔ `cva`/props (both directions); SLOT seams covered
+- [ ] Code Connect (if present): enums, size names, variant→prop mapping verified against Figma + React API (not the reverse); drift fixed
 - [ ] Field chrome table (when Elements/\* present): label, helper, feedback, counter — typography + color per **size**
 - [ ] Feedback copy uses `text-error|warning|success|information`, not `text-status-*`
 - [ ] Variant × state matrix: tokens + geometry per cell
