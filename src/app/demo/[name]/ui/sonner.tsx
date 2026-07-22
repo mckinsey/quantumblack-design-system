@@ -165,7 +165,7 @@ export function SonnerMinWidth() {
       variant="outline"
       onClick={() =>
         toast.info('Short message goes here', {
-          className: 'min-w-[360px]',
+          className: 'min-w-[200px]',
         })
       }>
       Min width toast
@@ -208,7 +208,7 @@ export const examples = [
     name: 'SonnerMinWidth',
     title: 'Min width',
     description:
-      'Optional min width via toast options: className: "min-w-[360px]". Width stays content-based by default.',
+      'Optional min width via toast options: className: "min-w-[200px]". Width stays content-based by default.',
   },
 ];
 
