@@ -1,6 +1,14 @@
+import * as React from 'react';
+
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  type TabSize,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/ui/tabs';
 
 /**
  * Default tabs demo
@@ -21,37 +29,64 @@ export function TabsDemo() {
 }
 
 /**
+ * Tabs do not style leading icons. Use controlled value and set
+ * IconShell variant manually: primary when value matches the trigger, else secondary.
+ */
+function TabsSizeExample({
+  size,
+  iconSize,
+}: {
+  size?: TabSize;
+  iconSize: 'sm' | 'default';
+}) {
+  const [value, setValue] = React.useState('account');
+
+  return (
+    <Tabs
+      value={value}
+      onValueChange={setValue}
+      className="w-[400px]"
+      size={size}
+      hideBaseline>
+      <TabsList>
+        <TabsTrigger value="account">
+          <IconShell
+            size={iconSize}
+            variant={value === 'account' ? 'primary' : 'secondary'}>
+            <Icon icon="crop_free" />
+          </IconShell>
+          Account
+        </TabsTrigger>
+        <TabsTrigger value="password">
+          <IconShell
+            size={iconSize}
+            variant={value === 'password' ? 'primary' : 'secondary'}>
+            <Icon icon="crop_free" />
+          </IconShell>
+          Password
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value="account">
+        {size === 'lg'
+          ? 'Large tabs content.'
+          : size === 'xl'
+            ? 'Extra large tabs content.'
+            : 'Default tabs content.'}
+      </TabsContent>
+      <TabsContent value="password">Password content.</TabsContent>
+    </Tabs>
+  );
+}
+
+/**
  * Tab sizes demonstration
  */
 export function TabsSizes() {
   return (
     <div className="flex flex-col gap-8">
-      <Tabs defaultValue="account" className="w-[400px]" hideBaseline>
-        <TabsList>
-          <TabsTrigger value="account">Account</TabsTrigger>
-          <TabsTrigger value="password">Password</TabsTrigger>
-        </TabsList>
-        <TabsContent value="account">Default tabs content.</TabsContent>
-        <TabsContent value="password">Password content.</TabsContent>
-      </Tabs>
-
-      <Tabs defaultValue="account" className="w-[400px]" size="lg" hideBaseline>
-        <TabsList>
-          <TabsTrigger value="account">Account</TabsTrigger>
-          <TabsTrigger value="password">Password</TabsTrigger>
-        </TabsList>
-        <TabsContent value="account">Large tabs content.</TabsContent>
-        <TabsContent value="password">Password content.</TabsContent>
-      </Tabs>
-
-      <Tabs defaultValue="account" className="w-[400px]" size="xl" hideBaseline>
-        <TabsList>
-          <TabsTrigger value="account">Account</TabsTrigger>
-          <TabsTrigger value="password">Password</TabsTrigger>
-        </TabsList>
-        <TabsContent value="account">Extra large tabs content.</TabsContent>
-        <TabsContent value="password">Password content.</TabsContent>
-      </Tabs>
+      <TabsSizeExample iconSize="sm" />
+      <TabsSizeExample size="lg" iconSize="default" />
+      <TabsSizeExample size="xl" iconSize="default" />
     </div>
   );
 }
@@ -175,36 +210,6 @@ export function TabsDisabled() {
   );
 }
 
-export function TabsWithIcons() {
-  return (
-    <Tabs defaultValue="account" className="w-[400px]">
-      <TabsList>
-        <TabsTrigger value="account">
-          <IconShell size="sm">
-            <Icon icon="person" />
-          </IconShell>
-          Account
-        </TabsTrigger>
-        <TabsTrigger value="password">
-          <IconShell size="sm">
-            <Icon icon="lock" />
-          </IconShell>
-          Password
-        </TabsTrigger>
-        <TabsTrigger value="settings">
-          <IconShell size="sm">
-            <Icon icon="settings" />
-          </IconShell>
-          Settings
-        </TabsTrigger>
-      </TabsList>
-      <TabsContent value="account">Account with leading icons.</TabsContent>
-      <TabsContent value="password">Password with leading icons.</TabsContent>
-      <TabsContent value="settings">Settings with leading icons.</TabsContent>
-    </Tabs>
-  );
-}
-
 // ============================================================================
 // Example Metadata
 // ============================================================================
@@ -218,7 +223,8 @@ export const examples = [
   {
     name: 'TabsSizes',
     title: 'Sizes',
-    description: 'Default, large, and extra large tab sizes.',
+    description:
+      'Sizes with leading icons. Set IconShell variant from controlled value (primary when active, secondary otherwise) — TabsTrigger does not drive icon opacity.',
   },
   {
     name: 'TabsBaseline',
@@ -242,12 +248,6 @@ export const examples = [
     title: 'Disabled',
     description: 'Tabs with some disabled options.',
   },
-  {
-    name: 'TabsWithIcons',
-    title: 'With Icons',
-    description:
-      'Leading IconShell + Icon as TabsTrigger children (Figma showLeadingIcon).',
-  },
 ];
 
 // ============================================================================
@@ -263,6 +263,5 @@ export const tabs = {
     Centered: <TabsCentered />,
     'Compact (No Padding)': <TabsCompact />,
     Disabled: <TabsDisabled />,
-    'With Icons': <TabsWithIcons />,
   },
 };

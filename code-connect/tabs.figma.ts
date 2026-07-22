@@ -34,9 +34,13 @@ for (const name of leadingNames) {
   }
 }
 
+const iconNote = leadingCode.length
+  ? `{/* Tabs do not style leading icons. Use controlled value and set IconShell variant manually: primary when value matches the trigger, else secondary. */}\n    `
+  : '';
+
 export default {
   example: figma.code`
-    <TabsTrigger size="${size}" value="tab"${disabled ? ' disabled' : ''}>
+    ${iconNote}<TabsTrigger size="${size}" value="tab"${disabled ? ' disabled' : ''}>
       ${leadingCode}
       ${label}
     </TabsTrigger>
