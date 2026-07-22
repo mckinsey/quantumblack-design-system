@@ -1,3 +1,5 @@
+import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 /**
@@ -173,6 +175,36 @@ export function TabsDisabled() {
   );
 }
 
+export function TabsWithIcons() {
+  return (
+    <Tabs defaultValue="account" className="w-[400px]">
+      <TabsList>
+        <TabsTrigger value="account">
+          <IconShell size="sm">
+            <Icon icon="person" />
+          </IconShell>
+          Account
+        </TabsTrigger>
+        <TabsTrigger value="password">
+          <IconShell size="sm">
+            <Icon icon="lock" />
+          </IconShell>
+          Password
+        </TabsTrigger>
+        <TabsTrigger value="settings">
+          <IconShell size="sm">
+            <Icon icon="settings" />
+          </IconShell>
+          Settings
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value="account">Account with leading icons.</TabsContent>
+      <TabsContent value="password">Password with leading icons.</TabsContent>
+      <TabsContent value="settings">Settings with leading icons.</TabsContent>
+    </Tabs>
+  );
+}
+
 // ============================================================================
 // Example Metadata
 // ============================================================================
@@ -210,6 +242,12 @@ export const examples = [
     title: 'Disabled',
     description: 'Tabs with some disabled options.',
   },
+  {
+    name: 'TabsWithIcons',
+    title: 'With Icons',
+    description:
+      'Leading IconShell + Icon as TabsTrigger children (Figma showLeadingIcon).',
+  },
 ];
 
 // ============================================================================
@@ -225,5 +263,6 @@ export const tabs = {
     Centered: <TabsCentered />,
     'Compact (No Padding)': <TabsCompact />,
     Disabled: <TabsDisabled />,
+    'With Icons': <TabsWithIcons />,
   },
 };

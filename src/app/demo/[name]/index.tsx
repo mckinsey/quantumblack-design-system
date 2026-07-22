@@ -294,6 +294,7 @@ import {
   TabsDemo,
   TabsDisabled,
   TabsSizes,
+  TabsWithIcons,
   tabs,
   examples as tabsExamples,
 } from '@/app/demo/[name]/ui/tabs';
@@ -632,6 +633,7 @@ export const exampleComponentMaps: Record<
     TabsCentered,
     TabsCompact,
     TabsDisabled,
+    TabsWithIcons,
   },
   tag: {
     TagDemo,
