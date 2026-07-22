@@ -11,23 +11,26 @@ import {
 } from '@/components/ui/textarea';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 
-/** Matches QB-DS TextArea-Input frame: min 240px, typical 320px width. */
-const demoFieldWidth = 'w-full min-w-[240px] max-w-[320px]';
+const demoFieldWidth = 'w-[320px]';
 
 const fieldConfig = {
   sm: {
     label: 'label-small-primary text-fg-secondary',
     description: 'paragraph-small-primary text-fg-tertiary',
+    error: 'paragraph-small-primary text-fg-error',
     gap: 'gap-2',
   },
   default: {
     label: 'label-regular-primary text-fg-secondary',
     description: 'paragraph-regular-primary text-fg-tertiary',
+    error: 'paragraph-large-primary text-fg-error',
+    disabledLabel: 'label-regular-primary text-fg-disabled',
     gap: 'gap-2',
   },
   lg: {
     label: 'label-large-primary text-fg-secondary',
     description: 'paragraph-regular-primary text-fg-tertiary',
+    error: 'paragraph-large-primary text-fg-error',
     gap: 'gap-2',
   },
 } as const;
@@ -80,41 +83,22 @@ export function TextareaSizes() {
   );
 }
 
-/** Filled, disabled, and error states */
-export function TextareaStates() {
+/** Disabled textarea */
+export function TextareaDisabled() {
   return (
-    <div className={`${demoFieldWidth} space-y-4`}>
-      <FieldSet className={fieldConfig.default.gap}>
-        <FieldTitle className={fieldConfig.default.label}>Filled</FieldTitle>
-        <Textarea
-          size="default"
-          defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        />
-
-        <FieldDescription className={fieldConfig.default.description}>
-          Helper text
-        </FieldDescription>
-      </FieldSet>
-
-      <FieldSet className={fieldConfig.default.gap}>
-        <FieldTitle className={fieldConfig.default.label}>Disabled</FieldTitle>
-        <Textarea size="default" placeholder="Hint text" disabled />
-
-        <FieldDescription className={fieldConfig.default.description}>
-          Helper text
-        </FieldDescription>
-      </FieldSet>
-
-      <FieldSet className={fieldConfig.default.gap}>
-        <FieldTitle className={fieldConfig.default.label}>Error</FieldTitle>
-        <Textarea
-          size="default"
-          aria-invalid
-          defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        />
-        <FieldError>Feedback message here</FieldError>
-      </FieldSet>
-    </div>
+    <FieldSet className={`${demoFieldWidth} ${fieldConfig.default.gap}`}>
+      <FieldTitle className={fieldConfig.default.disabledLabel}>
+        Label
+      </FieldTitle>
+      <Textarea
+        size="default"
+        disabled
+        defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      />
+      <FieldDescription className={fieldConfig.default.description}>
+        Helper text
+      </FieldDescription>
+    </FieldSet>
   );
 }
 
@@ -166,8 +150,8 @@ export function TextareaError() {
           size="default"
           defaultValue="This text is way too long for the limit of 20 characters."
         />
-        <FieldError>
-          Character limit exceeded. Please shorten your text.
+        <FieldError className={fieldConfig.default.error}>
+          Character limit exceeded.
         </FieldError>
       </FieldSet>
     </TextareaRoot>
@@ -186,9 +170,9 @@ export const examples: DemoExample[] = [
     description: 'Small, default, and large textarea sizes.',
   },
   {
-    name: 'TextareaStates',
-    title: 'States',
-    description: 'Filled, disabled, and error textarea states.',
+    name: 'TextareaDisabled',
+    title: 'Disabled',
+    description: 'Disabled textarea with filled content.',
   },
   {
     name: 'TextareaRows',
@@ -210,7 +194,7 @@ export const examples: DemoExample[] = [
 export const textarea = createLegacyDemo('textarea', examples, {
   TextareaDemo: <TextareaDemo />,
   TextareaSizes: <TextareaSizes />,
-  TextareaStates: <TextareaStates />,
+  TextareaDisabled: <TextareaDisabled />,
   TextareaRows: <TextareaRows />,
   TextareaWithCounter: <TextareaWithCounter />,
   TextareaError: <TextareaError />,

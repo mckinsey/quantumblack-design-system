@@ -333,10 +333,10 @@ import {
 } from '@/app/demo/[name]/ui/tag-toggle';
 import {
   TextareaDemo,
+  TextareaDisabled,
   TextareaError,
   TextareaRows,
   TextareaSizes,
-  TextareaStates,
   TextareaWithCounter,
   textarea,
   examples as textareaExamples,
@@ -672,7 +672,7 @@ export const exampleComponentMaps: Record<
   textarea: {
     TextareaDemo,
     TextareaSizes,
-    TextareaStates,
+    TextareaDisabled,
     TextareaRows,
     TextareaWithCounter,
     TextareaError,
