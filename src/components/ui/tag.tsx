@@ -169,6 +169,16 @@ export interface TagProps
   onRemove?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
+type IconTone = 'neutral' | 'neutral-inverse';
+
+const tagIconTone: Record<NonNullable<TagProps['variant']>, IconTone> = {
+  primary: 'neutral',
+  secondary: 'neutral-inverse',
+  accent: 'neutral',
+  outline: 'neutral',
+  'accent-outline': 'neutral',
+};
+
 function Tag({
   className,
   size = 'default',
@@ -243,4 +253,11 @@ function Tag({
   );
 }
 
-export { Tag, tagBaseStyles, tagSizeVariants, tagVariants, wrapTagText };
+export {
+  Tag,
+  tagBaseStyles,
+  tagIconTone,
+  tagSizeVariants,
+  tagVariants,
+  wrapTagText,
+};

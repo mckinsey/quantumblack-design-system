@@ -3,15 +3,25 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
-import { Tag } from '@/components/ui/tag';
+import { Tag, type TagProps, tagIconTone } from '@/components/ui/tag';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 import { cn } from '@/lib/utils';
 
 const basePath = import.meta.env.VITE_BASE_PATH ?? '';
 
-function TagLeadingIcon() {
+function TagLeadingIcon({
+  variant = 'primary',
+  disabled,
+}: {
+  variant?: TagProps['variant'];
+  disabled?: boolean;
+}) {
   return (
-    <IconShell size="sm" type="neutral" variant="primary">
+    <IconShell
+      size="sm"
+      type={tagIconTone[variant ?? 'primary']}
+      variant="primary"
+      disabled={disabled}>
       <Icon icon="style" />
     </IconShell>
   );
@@ -32,24 +42,24 @@ export function TagVariants() {
   return (
     <div className="flex flex-wrap gap-3">
       <Tag variant="primary" onRemove={() => {}}>
-        <TagLeadingIcon />
+        <TagLeadingIcon variant="primary" />
         Primary
       </Tag>
       <Tag variant="secondary" onRemove={() => {}}>
-        <TagLeadingIcon />
+        <TagLeadingIcon variant="secondary" />
         Secondary
       </Tag>
       <Tag variant="accent" onRemove={() => {}}>
-        <TagLeadingIcon />
+        <TagLeadingIcon variant="accent" />
         Accent
       </Tag>
       <Tag variant="outline" onRemove={() => {}}>
-        <TagLeadingIcon />
+        <TagLeadingIcon variant="outline" />
         Outline
       </Tag>
 
       <Tag variant="accent-outline" onRemove={() => {}}>
-        <TagLeadingIcon />
+        <TagLeadingIcon variant="accent-outline" />
         Accent Outline
       </Tag>
     </div>
@@ -61,24 +71,24 @@ export function TagPill() {
   return (
     <div className="flex flex-wrap gap-3">
       <Tag variant="primary" pill onRemove={() => {}}>
-        <TagLeadingIcon />
+        <TagLeadingIcon variant="primary" />
         Primary
       </Tag>
       <Tag variant="secondary" pill onRemove={() => {}}>
-        <TagLeadingIcon />
+        <TagLeadingIcon variant="secondary" />
         Secondary
       </Tag>
       <Tag variant="accent" pill onRemove={() => {}}>
-        <TagLeadingIcon />
+        <TagLeadingIcon variant="accent" />
         Accent
       </Tag>
       <Tag variant="outline" pill onRemove={() => {}}>
-        <TagLeadingIcon />
+        <TagLeadingIcon variant="outline" />
         Outline
       </Tag>
 
       <Tag variant="accent-outline" pill onRemove={() => {}}>
-        <TagLeadingIcon />
+        <TagLeadingIcon variant="accent-outline" />
         Accent Outline
       </Tag>
     </div>
@@ -267,22 +277,22 @@ export function TagDisabled() {
         <span className="text-fg-tertiary text-sm">Default shape</span>
         <div className="flex flex-wrap items-center gap-3">
           <Tag variant="primary" disabled onRemove={() => {}}>
-            <TagLeadingIcon />
+            <TagLeadingIcon variant="primary" disabled />
             Primary
           </Tag>
 
           <Tag variant="secondary" disabled onRemove={() => {}}>
-            <TagLeadingIcon />
+            <TagLeadingIcon variant="secondary" disabled />
             Secondary
           </Tag>
 
           <Tag variant="accent" disabled onRemove={() => {}}>
-            <TagLeadingIcon />
+            <TagLeadingIcon variant="accent" disabled />
             Accent
           </Tag>
 
           <Tag variant="outline" disabled onRemove={() => {}}>
-            <TagLeadingIcon />
+            <TagLeadingIcon variant="outline" disabled />
             Outline
           </Tag>
         </div>
@@ -292,22 +302,22 @@ export function TagDisabled() {
         <span className="text-fg-tertiary text-sm">Pill shape</span>
         <div className="flex flex-wrap items-center gap-3">
           <Tag variant="primary" pill disabled onRemove={() => {}}>
-            <TagLeadingIcon />
+            <TagLeadingIcon variant="primary" disabled />
             Primary
           </Tag>
 
           <Tag variant="secondary" pill disabled onRemove={() => {}}>
-            <TagLeadingIcon />
+            <TagLeadingIcon variant="secondary" disabled />
             Secondary
           </Tag>
 
           <Tag variant="accent" pill disabled onRemove={() => {}}>
-            <TagLeadingIcon />
+            <TagLeadingIcon variant="accent" disabled />
             Accent
           </Tag>
 
           <Tag variant="outline" pill disabled onRemove={() => {}}>
-            <TagLeadingIcon />
+            <TagLeadingIcon variant="outline" disabled />
             Outline
           </Tag>
         </div>
