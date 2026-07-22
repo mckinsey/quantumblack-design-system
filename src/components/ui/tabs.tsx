@@ -181,6 +181,7 @@ function TabsTrigger({
     <TabsPrimitive.Tab
       data-slot="tabs-trigger"
       disabled={disabled}
+      data-disabled={disabled ? '' : undefined}
       className={cn(
         defaultStyles.tab.base,
         padded

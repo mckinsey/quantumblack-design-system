@@ -38,6 +38,15 @@ const iconNote = leadingCode.length
   ? `{/* Tabs do not style leading icons. Use controlled value and set IconShell variant manually: primary when value matches the trigger, else secondary. */}\n    `
   : '';
 
+const imports = ['import { TabsTrigger } from "@/components/ui/tabs"'];
+
+if (leadingCode.length) {
+  imports.push(
+    'import { IconShell } from "@/components/ui/icon-shell"',
+    'import { Icon } from "@/components/ui/icon"',
+  );
+}
+
 export default {
   example: figma.code`
     ${iconNote}<TabsTrigger size="${size}" value="tab"${disabled ? ' disabled' : ''}>
@@ -45,11 +54,7 @@ export default {
       ${label}
     </TabsTrigger>
   `,
-  imports: [
-    'import { TabsTrigger } from "@/components/ui/tabs"',
-    'import { IconShell } from "@/components/ui/icon-shell"',
-    'import { Icon } from "@/components/ui/icon"',
-  ],
+  imports,
   id: 'tabs',
   metadata: { nestable: true },
 };
