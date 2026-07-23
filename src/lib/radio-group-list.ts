@@ -19,8 +19,4 @@ function listLegendMb(
   return verticalLegendMb[size][density];
 }
 
-function radioGroupLegendClass(size: ListSize) {
-  return size === 'lg' ? 'label-large-primary' : 'label-regular-primary';
-}
-
-export { listLegendMb, radioGroupLegendClass, type ListDensity, type ListSize };
+export { listLegendMb, type ListDensity, type ListSize };
