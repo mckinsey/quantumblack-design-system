@@ -116,6 +116,10 @@ spacing:
   3xl: '96px'
   gutter: '24px'
   margin: '32px'
+focus-ring:
+  outlineColor: '{colors.focus-light}'
+  outlineWidth: '2px'
+  outlineOffset: '2px'
 components:
   button-primary:
     backgroundColor: '{colors.primary}'
@@ -247,9 +251,6 @@ components:
     rounded: '{rounded.full}'
     padding: '4px 8px'
     typography: '{typography.label-small}'
-  focus-ring:
-    backgroundColor: '{colors.focus}'
-    size: '2px'
 ---
 
 # Design System: QuantumBlack Design System
@@ -280,10 +281,6 @@ Do not generate UI until these assets exist. Surface missing assets as blockers.
 
 **Fonts:** Inter (all UI text) and Roboto Mono (code only). Weights: 300, 400, 600 — no 500 or 700.
 
-**Tokens:** Semantic CSS variables from [`src/styles/globals.css`](https://github.com/mckinsey/quantumblack-design-system/blob/main/src/styles/globals.css). Consumer projects install via `npx shadcn add theme`. Use semantic Tailwind utilities (`bg-surface-primary`, `text-fg-primary`) — not raw hex or primitives. Full utility mapping: [TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md).
-
-**Icons:** Material Symbols **sharp** only, via `<Icon icon="search" />` wrapped in `<IconShell>`. Ligature names in snake_case. Never Lucide, Heroicons, Font Awesome, emoji, or non-sharp Material variants.
-
 **Components:** Prefer registry primitives from [`registry.json`](https://github.com/mckinsey/quantumblack-design-system/blob/main/registry.json) (`npx shadcn add <name>`). Do not reimplement controls that exist in the registry.
 
 **Theme switches** (independent, compose on `<html>`):
@@ -300,7 +297,7 @@ Do not generate UI until these assets exist. Surface missing assets as blockers.
 - **Implementation:** there is no `@qbds/theme-toggle` registry item. The file at `src/components/registry/theme-toggle.tsx` is the registry site's own toggle — reference only. Hand-build from `Button` (ghost, icon size) + Material Symbols Sharp icons (`light_mode` / `dark_mode`) and place it in the app chrome (header, navbar, or settings).
 - **Sync:** toggling must add/remove `.dark` on `<html>` and re-apply chart plot tokens for any embedded visualizations.
 
-## Colors
+## Colour palette, roles & token architecture
 
 The palette is rooted in high-contrast slate neutrals with a single brand accent. **Primary** is slate-950 — high-contrast fills and active states. **Secondary** is slate-900 — the body text anchor. **Tertiary / accent** is QB cyan — decorative highlights only, not the default action colour. **Neutral** is mist-100 — base canvas. **Surface** is mist-50 — panels and cards. Semantic tokens swap under `.dark`; never hardcode light-mode primitives in component code.
 
@@ -324,79 +321,41 @@ The palette is rooted in high-contrast slate neutrals with a single brand accent
 
 Dark mode remaps the same semantic roles: surfaces shift to slate-800/900, foreground to mist-50 opacity ramps, status colours lighten one step. See [TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md) for the full light/dark utility table.
 
-### Chart colours
+### Token architecture
 
-QBDS chart palettes for ECharts (default), Chart.js, D3, Vega-Lite, and other libraries. Apply these values **directly in chart configuration** — do not use `echarts.registerTheme()` or pass a theme name to `echarts.init()`. Set `color`, axis options, and `backgroundColor` explicitly on each chart instance so dark/light toggling works correctly.
+Tokens have three layers. Always reach for the innermost layer you need — never skip to primitives.
 
-Never invent chart hex. Qualitative and continuous palettes are identical in dark and light mode; only plot/axis tokens swap on theme toggle. Chart labels, legends, tooltips, and titles use **Inter**.
+| Layer                | Example                                                | Rule                                                                         |
+| -------------------- | ------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| **Primitive**        | `--mist-50`, `--slate-950`                             | Foundation only — feeds semantic tokens. Do not use in components.           |
+| **Semantic**         | `--surface-primary`, `--fill-active`, `--text-primary` | Use in all component code. Swaps correctly in light/dark.                    |
+| **Composed utility** | `bg-surface-primary`, `text-fg-primary`                | Tailwind class generated from semantic variable. Prefer over inline `var()`. |
 
-**Qualitative (discrete / categorical series)** — default for bar, line, and pie series with distinct categories. Order matches `theme.color` in the bundled ECharts themes.
+**Picking a token (in order):**
 
-| #   | Hex       |
-| --- | --------- |
-| 1   | `#097DFE` |
-| 2   | `#6F39E3` |
-| 3   | `#05D0F0` |
-| 4   | `#0F766E` |
-| 5   | `#8C8DE9` |
-| 6   | `#11B883` |
-| 7   | `#E77EC2` |
-| 8   | `#C84189` |
-| 9   | `#C0CA33` |
-| 10  | `#3E495B` |
+1. Identify purpose — background (`surface-*`), component fill (`fill-*`), text (`fg-*`), stroke (`stroke-*`), status (`status-*`), overlay (`stateslayer-overlay-*`), shadow (`shadow-elevation-*`).
+2. Pick contrast — `primary > secondary > tertiary > disabled`.
+3. Use `-inverse` on dark/accent fills so content stays legible across themes.
 
-**Continuous — default scales.** Stops run **light (low) → dark (high)** unless noted.
+Full token reference: [TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md). The token palette is browsable at `/tokens` on the registry site.
 
-| Key                  | Use                          | Stops                                                                                                     |
-| -------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------- |
-| **sequential**       | Default continuous / heatmap | `#DBEBFE` → `#BDDCFE` → `#8CC6FF` → `#4BA5FF` → `#097DFE` → `#0063F6` → `#004DE0` → `#0B40B4` → `#163B8B` |
-| **sequential_plus**  | Positive / "good" sentiment  | `#D0FAF3` → `#A1F4E8` → `#64E9D9` → `#1BD0C1` → `#00B5A9` → `#00918A` → `#0F766E` → `#0F5B59` → `#144B49` |
-| **sequential_minus** | Reversed negative scale      | `#782921` → `#922A20` → `#B22F20` → `#D63A28` → `#EA5748` → `#F1766C` → `#F7AAA3` → `#FACDC9` → `#FBE4E2` |
-| **diverging**        | Data with a midpoint         | `#782921` → `#B22F20` → `#EA5748` → `#F7AAA3` → `#C9D0D9` → `#8CC6FF` → `#097DFE` → `#004DE0` → `#163B8B` |
+**What NOT to use:** primitives directly (`bg-slate-900`), raw hex in components, inline `bg-[var(--surface-base)]` where a utility exists, hand-rolled `bg-white/8` hover tints (use `bg-stateslayer-overlay-hover`).
 
-Anchor the diverging centre stop (`#C9D0D9`) at the data's neutral value (often zero).
+### Frequent utilities
 
-**Semantic chart colours** — single-value tokens for KPIs, status badges, candlesticks, and annotations. Same in dark and light.
+The most common token-to-utility mappings for quick reference:
 
-| Role                                | Hex       |
-| ----------------------------------- | --------- |
-| Positive / success / candlestick up | `#00B5A9` |
-| Negative / error / candlestick down | `#EA5748` |
-| Neutral                             | `#3E495B` |
-
-**Mode-specific plot tokens** — swap when the theme toggle changes.
-
-| Token                      | Dark                      | Light                  |
-| -------------------------- | ------------------------- | ---------------------- |
-| Plot background            | `#141721`                 | `#FAFAFB`              |
-| Title                      | `rgba(255,255,255,0.878)` | `rgba(20,23,33,0.878)` |
-| Subtitle                   | `rgba(255,255,255,0.6)`   | `rgba(20,23,33,0.6)`   |
-| Axis line / tick           | `rgba(255,255,255,0.380)` | `rgba(20,23,33,0.380)` |
-| Axis labels / legend       | `rgba(255,255,255,0.5)`   | `rgba(20,23,33,0.5)`   |
-| Grid lines                 | `rgba(255,255,255,0.078)` | `rgba(20,23,33,0.078)` |
-| Crosshair / hover line     | `rgba(255,255,255,0.380)` | `rgba(20,23,33,0.380)` |
-| Split area (striped bands) | `rgba(255,255,255,0.04)`  | `rgba(20,23,33,0.04)`  |
-| Graph / network edge       | `rgba(255,255,255,0.5)`   | `rgba(20,23,33,0.5)`   |
-
-**Axis behaviour:**
-
-| Axis type       | Axis line    | Ticks                  | Grid lines        |
-| --------------- | ------------ | ---------------------- | ----------------- |
-| **Category**    | show + ticks | same as axis (38% ink) | **no** grid lines |
-| **Value / log** | hide         | —                      | **show** (8% ink) |
-| **Time**        | show + ticks | same as axis (38% ink) | **no** grid lines |
-
-**Compact 3-stop gradient** (for `visualMap.inRange.color` in ECharts or equivalent colour-range API): `#163B8B` → `#097DFE` → `#DBEBFE`.
-
-**Line series defaults** (apply across all charting libraries):
-
-| Property      | Value                                        |
-| ------------- | -------------------------------------------- |
-| Stroke width  | 2px                                          |
-| Point markers | Small open circles — size 4, border 1px      |
-| Smoothing     | None — straight segments between data points |
-
-For extended palette scales (alternative sequential/diverging, map/geo tokens), ECharts inline JS constants, and chart type / title guidance, see the skill reference files bundled with this project.
+| Role         | Utility                                             |
+| ------------ | --------------------------------------------------- |
+| App canvas   | `bg-surface-base`                                   |
+| Panel / card | `bg-surface-primary`                                |
+| Body text    | `text-fg-primary` + `paragraph-regular-primary`     |
+| Muted text   | `text-fg-secondary`                                 |
+| Divider      | `border-stroke-divider`                             |
+| Card outline | `border-stroke-tertiary`                            |
+| Subtle lift  | `shadow-elevation-1`                                |
+| Focus ring   | `ring-stroke-status-focus focus-visible:ring-[2px]` |
+| Brand accent | `bg-brand-accents-qb-accent` (sparingly)            |
 
 ## Typography
 
@@ -424,7 +383,251 @@ The typography strategy uses **Inter** for all UI text and **Roboto Mono** for c
 
 Utility classes (representative — full list in [TOKENS.md](TOKENS.md)): `display-d1-regular`, `headings-h2-semibold`, `headings-h3-regular`, `paragraph-regular-primary`, `label-regular-primary`, `cta-button-01`, `cta-button-02`, `cta-button-03`, `paragraph-small-primary`, `paragraph-code-text`. Link variants append `-link`.
 
-## Layout
+## Iconography
+
+Icons use the **Material Symbols Sharp** variable font exclusively. Never use Lucide, Heroicons, Font Awesome, emoji, or non-sharp Material variants.
+
+### Usage
+
+Wrap icons in `<IconShell>` for QBDS size, weight, and opacity. Pass `hoverable` for interactive icons, `disabled` for disabled state.
+
+```tsx
+<IconShell size="sm" variant="secondary">
+  <Icon icon="search" />
+</IconShell>
+
+<IconShell hoverable>
+  <Icon icon="edit" />
+</IconShell>
+
+<IconShell type="custom" className="text-status-success" variant="primary">
+  <Icon icon="check" />
+</IconShell>
+```
+
+### Size and optical spec
+
+| Size    | Optical spec     | Use for                  |
+| ------- | ---------------- | ------------------------ |
+| sm      | 20 dp @ wght 400 | Inline, compact controls |
+| default | 24 dp @ wght 300 | Standard UI              |
+| lg      | 40 dp @ wght 300 | Feature callouts         |
+
+Optical-size contract matches Figma: `sm` → 20dp@wght400, `default` → 24dp@wght300, `lg` → 40dp@wght300 via `fontVariationSettings`. Set `size` on `<Icon>` directly when not using `IconShell`.
+
+### Naming
+
+Ligature names in Google snake_case — `keyboard_arrow_down`, `check_circle`, `close`. Any icon in the Material Symbols Sharp catalog works without additional files or codegen.
+
+### Colour and opacity
+
+Colour inherits via `currentColor` and semantic text/fill tokens. Use `neutral-inverse` on dark fills, `accent` type for brand highlights.
+
+| Variant   | Opacity |
+| --------- | ------- |
+| primary   | 88%     |
+| secondary | 60%     |
+| disabled  | 30%     |
+
+Interactive icons brighten on hover (60% → 88%).
+
+### Accessibility
+
+Decorative icons are `aria-hidden="true"`. Interactive icons live inside labelled buttons or links — the icon alone is never the accessible name.
+
+### Installation
+
+`npx shadcn add icon` ships `icon.tsx` and appends the Google Fonts `@import` to the consumer's CSS.
+
+## Shapes
+
+The shape language is defined by **architectural precision**. Sharp corners (0 px) are the brand default — reflected in the YAML `rounded` tokens above. When `.radius-mode` is enabled on an ancestor, radii become:
+
+| Scale | Sharp (default) | Rounded mode | Use for                    |
+| ----- | --------------- | ------------ | -------------------------- |
+| sm    | 0 px            | 4 px         | Buttons, inputs            |
+| reg   | 0 px            | 8 px         | Default components         |
+| md    | 0 px            | 12 px        | Cards, panels              |
+| lg    | 0 px            | 16 px        | Modals, dialogs            |
+| full  | 9999 px         | 9999 px      | Pills, avatars, radio dots |
+
+Set `.radius-mode` on `<html>` or not at all. Never mix sharp and rounded within one surface. Buttons are sharp (or 4 px in rounded mode). Full rounding is for tags, badges, avatars, and radio indicators only.
+
+## Elevation & Depth
+
+Depth is structural, not decorative. Most surfaces are **flat at rest**. Five elevation levels exist for floating UI only:
+
+| Level | Use for                            |
+| ----- | ---------------------------------- |
+| 0     | Input resting state, hairline lift |
+| 1     | Elevated cards, tooltips           |
+| 2     | Popovers, dropdowns, toasts        |
+| 3     | Dialogs, modals                    |
+| 4     | Full-screen overlays, drawers      |
+
+Use composed Tailwind utilities: `shadow-elevation-0` through `shadow-elevation-4`. Light-mode shadows use slate-tinted opacity (8–38%). Dark-mode shadows deepen (60–88%) to read against slate backgrounds. No coloured shadows. Static cards, page regions, and headers carry no shadow — separation comes from `surface-primary` contrast and optional tertiary borders.
+
+## Motion & Animation
+
+QBDS motion is **functional and minimal**. Analytical tools are data-dense — unnecessary animation competes with data and degrades performance. Animate only to communicate state change; never for decoration.
+
+### Current state
+
+No named duration or easing tokens exist yet. Components use ad-hoc Tailwind duration utilities. The only CSS variable is `--accordion-panel-duration: 0.2s` in `globals.css`.
+
+In practice, `duration-200` (200ms) is the most common value across components (accordion, tabs, avatar, dialog). Shorter `duration-100` is used for fast toggles (combobox). Longer values (300–500ms) come from Radix defaults on Sheet and should be reviewed.
+
+### Intent (not yet codified as tokens)
+
+| Pattern           | Target value | Tailwind       |
+| ----------------- | ------------ | -------------- |
+| Fast state change | ~100ms       | `duration-100` |
+| Default           | ~200ms       | `duration-200` |
+| Panel / drawer    | ~300ms       | `duration-300` |
+
+Easing in use: `ease-out` (accordion), implicit `ease-in-out` (sheet). No formal easing scale exists.
+
+### What's not allowed (applies now)
+
+- Spring physics or bounce easing
+- Rotation or spin (except a loading spinner)
+- Colour wipes or gradient sweeps
+- Decorative particle or parallax effects
+- Staggered entrance sequences in data tables
+
+### `prefers-reduced-motion`
+
+Always add `motion-reduce:transition-none` alongside any transition class. This is currently inconsistent across components — it should be treated as required for new work.
+
+## Accessibility & Focus
+
+Accessibility is not an afterthought — QBDS components are used in professional tools where keyboard-only and screen-reader workflows are common.
+
+### Focus rings
+
+Every interactive element must show a visible focus ring on keyboard focus. Never suppress focus outlines.
+
+- Token: `ring-stroke-status-focus` (`--border-status-focus`)
+- Implementation: `ring-stroke-status-focus focus-visible:ring-[2px]` (set `ring-stroke-status-focus` as the ring colour, then conditionally apply width via `focus-visible:ring-[1px]` or `focus-visible:ring-[2px]`)
+- Always use `focus-visible:` — not `focus:` — to avoid showing focus rings on mouse click
+- On error state: remove the conflicting ring with `ring-0`; the error border communicates state instead
+- Light mode: `#0EA5E9` (sky-500); dark mode: `#38BDF8` (sky-400)
+- Ring width: 1px on small controls (tag, checkbox); 2px on default and large controls
+
+### Keyboard navigation
+
+| Pattern                | Keys                                           |
+| ---------------------- | ---------------------------------------------- |
+| Sequential focus       | `Tab` / `Shift+Tab`                            |
+| Close overlay          | `Escape`                                       |
+| List / menu navigation | `Arrow` keys                                   |
+| Activate control       | `Enter` or `Space`                             |
+| Radio group            | `Arrow` keys move selection; `Tab` exits group |
+
+Tab order must follow visible reading order. Never use `tabindex > 0`.
+
+### ARIA
+
+- Decorative icons: `aria-hidden="true"`
+- Icon-only buttons: `aria-label` required
+- Form controls: associate via `htmlFor` / `id` pair (the `Field` component handles this)
+- Overlays: focus trap while open; focus returns to trigger on close (Radix handles)
+- Status messages: use `role="status"` (polite) or `role="alert"` (assertive) for toasts and inline errors
+
+### Colour contrast
+
+- Normal text (< 18px / < 14px bold): **4.5:1** minimum
+- Large text (≥ 18px or ≥ 14px bold): **3:1** minimum
+- UI components and focus rings: **3:1** minimum
+- `status-*` tokens are **not** AA-compliant for text — use `text-error`, `text-warning`, `text-success`, `text-information` instead
+
+### Motion
+
+See §7 Motion & Animation. All new transition work must include `motion-reduce:transition-none`.
+
+## Data visualisation
+
+QBDS chart palettes for ECharts (default), Chart.js, D3, Vega-Lite, and other libraries. Apply these values **directly in chart configuration** — do not use `echarts.registerTheme()` or pass a theme name to `echarts.init()`. Set `color`, axis options, and `backgroundColor` explicitly on each chart instance so dark/light toggling works correctly.
+
+Never invent chart hex. Qualitative and continuous palettes are identical in dark and light mode; only plot/axis tokens swap on theme toggle. Chart labels, legends, tooltips, and titles use **Inter**.
+
+### Qualitative palette (discrete / categorical series)
+
+Default for bar, line, and pie series with distinct categories. Order matches `theme.color` in the bundled ECharts themes.
+
+| #   | Hex       |
+| --- | --------- |
+| 1   | `#097DFE` |
+| 2   | `#6F39E3` |
+| 3   | `#05D0F0` |
+| 4   | `#0F766E` |
+| 5   | `#8C8DE9` |
+| 6   | `#11B883` |
+| 7   | `#E77EC2` |
+| 8   | `#C84189` |
+| 9   | `#C0CA33` |
+| 10  | `#3E495B` |
+
+### Continuous scales
+
+Stops run **light (low) → dark (high)** unless noted.
+
+| Key                  | Use                          | Stops                                                                                                     |
+| -------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------- |
+| **sequential**       | Default continuous / heatmap | `#DBEBFE` → `#BDDCFE` → `#8CC6FF` → `#4BA5FF` → `#097DFE` → `#0063F6` → `#004DE0` → `#0B40B4` → `#163B8B` |
+| **sequential_plus**  | Positive / "good" sentiment  | `#D0FAF3` → `#A1F4E8` → `#64E9D9` → `#1BD0C1` → `#00B5A9` → `#00918A` → `#0F766E` → `#0F5B59` → `#144B49` |
+| **sequential_minus** | Reversed negative scale      | `#782921` → `#922A20` → `#B22F20` → `#D63A28` → `#EA5748` → `#F1766C` → `#F7AAA3` → `#FACDC9` → `#FBE4E2` |
+| **diverging**        | Data with a midpoint         | `#782921` → `#B22F20` → `#EA5748` → `#F7AAA3` → `#C9D0D9` → `#8CC6FF` → `#097DFE` → `#004DE0` → `#163B8B` |
+
+Anchor the diverging centre stop (`#C9D0D9`) at the data's neutral value (often zero).
+
+**Compact 3-stop gradient** (for `visualMap.inRange.color` in ECharts or equivalent colour-range API): `#163B8B` → `#097DFE` → `#DBEBFE`.
+
+### Semantic chart colours
+
+Single-value tokens for KPIs, status badges, candlesticks, and annotations. Same in dark and light.
+
+| Role                                | Hex       |
+| ----------------------------------- | --------- |
+| Positive / success / candlestick up | `#00B5A9` |
+| Negative / error / candlestick down | `#EA5748` |
+| Neutral                             | `#3E495B` |
+
+### Mode-specific plot tokens
+
+Swap when the theme toggle changes.
+
+| Token                      | Dark                      | Light                  |
+| -------------------------- | ------------------------- | ---------------------- |
+| Plot background            | `#141721`                 | `#FAFAFB`              |
+| Title                      | `rgba(255,255,255,0.878)` | `rgba(20,23,33,0.878)` |
+| Subtitle                   | `rgba(255,255,255,0.6)`   | `rgba(20,23,33,0.6)`   |
+| Axis line / tick           | `rgba(255,255,255,0.380)` | `rgba(20,23,33,0.380)` |
+| Axis labels / legend       | `rgba(255,255,255,0.5)`   | `rgba(20,23,33,0.5)`   |
+| Grid lines                 | `rgba(255,255,255,0.078)` | `rgba(20,23,33,0.078)` |
+| Crosshair / hover line     | `rgba(255,255,255,0.380)` | `rgba(20,23,33,0.380)` |
+| Split area (striped bands) | `rgba(255,255,255,0.04)`  | `rgba(20,23,33,0.04)`  |
+| Graph / network edge       | `rgba(255,255,255,0.5)`   | `rgba(20,23,33,0.5)`   |
+
+### Axis behaviour
+
+| Axis type       | Axis line    | Ticks                  | Grid lines        |
+| --------------- | ------------ | ---------------------- | ----------------- |
+| **Category**    | show + ticks | same as axis (38% ink) | **no** grid lines |
+| **Value / log** | hide         | —                      | **show** (8% ink) |
+| **Time**        | show + ticks | same as axis (38% ink) | **no** grid lines |
+
+### Line series defaults
+
+| Property      | Value                                        |
+| ------------- | -------------------------------------------- |
+| Stroke width  | 2px                                          |
+| Point markers | Small open circles — size 4, border 1px      |
+| Smoothing     | None — straight segments between data points |
+
+For extended palette scales, ECharts inline JS constants, and chart-type / title guidance, see the skill reference files bundled with this project.
+
+## Layout principles
 
 The layout follows a **4px base grid**. All padding, margin, and gap values are multiples of 4 px.
 
@@ -440,10 +643,6 @@ Related items group inside cards or panels with **24 px internal padding** (`p-6
 | gutter / `gap-6`, `p-6` | 24  | Card padding, section gaps      |
 | margin / `gap-8`, `p-8` | 32  | Major section separation        |
 | 2xl / `gap-12`          | 48  | Page-level breathing room       |
-
-### Responsive behaviour
-
-Tailwind v4 defaults apply. On narrow viewports, **simplify rather than squeeze** — collapse sidebars to off-canvas, stack columns, hide secondary content. Minimum touch target: **36 × 36 px**; prefer **48 × 48 px** for primary mobile actions. Do not drop body text below 12 px on mobile.
 
 ### Dashboard layout rules
 
@@ -463,33 +662,59 @@ Tailwind v4 defaults apply. On narrow viewports, **simplify rather than squeeze*
 
 Shell structure: Navbar `<header>` sits **outside** `SidebarProvider`, which wraps the sidebar and `SidebarInset` (scrollable main).
 
-## Elevation & Depth
+## Responsive behaviour
 
-Depth is structural, not decorative. Most surfaces are **flat at rest**. Five elevation levels exist for floating UI only:
+Tailwind v4 defaults apply (`sm` 640px, `md` 768px, `lg` 1024px, `xl` 1280px, `2xl` 1536px). On narrow viewports, **simplify rather than squeeze** — collapse sidebars to off-canvas, stack columns, hide secondary content.
 
-| Level | Use for                            |
-| ----- | ---------------------------------- |
-| 0     | Input resting state, hairline lift |
-| 1     | Elevated cards, tooltips           |
-| 2     | Popovers, dropdowns, toasts        |
-| 3     | Dialogs, modals                    |
-| 4     | Full-screen overlays, drawers      |
+### Touch targets
 
-Light-mode shadows use slate-tinted opacity (8–38%). Dark-mode shadows deepen (60–88%) to read against slate backgrounds. No coloured shadows. Static cards, page regions, and headers carry no shadow — separation comes from `surface-primary` contrast and optional tertiary borders.
+- Minimum touch target: **36 × 36 px**
+- Preferred for primary mobile actions: **48 × 48 px**
+- Do not drop body text below **12 px** on any viewport
 
-## Shapes
+### Breakpoint behaviour (current guidance)
 
-The shape language is defined by **architectural precision**. Sharp corners (0 px) are the brand default — reflected in the YAML `rounded` tokens above. When `.radius-mode` is enabled on an ancestor, radii become:
+| Breakpoint       | Sidebar              | Layout        | KPI grid                          |
+| ---------------- | -------------------- | ------------- | --------------------------------- |
+| `< sm` (< 640px) | Off-canvas (hidden)  | Single column | Horizontal scroll (`flex-nowrap`) |
+| `sm–lg`          | Off-canvas or hidden | 1–2 columns   | `grid-cols-2`                     |
+| `≥ lg`           | Persistent rail      | Multi-column  | `grid-cols-2 xl:grid-cols-4`      |
 
-| Scale | Sharp (default) | Rounded mode | Use for                    |
-| ----- | --------------- | ------------ | -------------------------- |
-| sm    | 0 px            | 4 px         | Buttons, inputs            |
-| reg   | 0 px            | 8 px         | Default components         |
-| md    | 0 px            | 12 px        | Cards, panels              |
-| lg    | 0 px            | 16 px        | Modals, dialogs            |
-| full  | 9999 px         | 9999 px      | Pills, avatars, radio dots |
+## Copy & tone
 
-Set `.radius-mode` on `<html>` or not at all. Never mix sharp and rounded within one surface. Buttons are sharp (or 4 px in rounded mode). Full rounding is for tags, badges, avatars, and radio indicators only.
+QBDS products are professional analytical tools. The voice is **direct, expert, and composed** — never patronising, never casual, never exclamatory.
+
+### Core principles
+
+- **Concise:** say the minimum needed. Delete filler words ("simply", "just", "easily").
+- **Direct:** lead with the action or outcome, not the process.
+- **Expert:** assume the user knows their domain. Don't over-explain domain concepts.
+- **Sentence case everywhere** — headings, labels, button text, tooltips. Title Case only for proper nouns and product names.
+- **No emoji** in product UI.
+- **No em-dash chains** — use periods or commas to separate clauses instead.
+- **No buzzwords** — "streamline", "empower", "supercharge", "leverage", "world-class", "enterprise-grade". Name the specific action or data instead.
+- **No manufactured-contrast one-liners** ("Not a feature. A platform.") — state the fact plainly.
+- **Pattern descriptions** — third person where it fits: "Displays…", "Shows…", "Filters…".
+
+### Patterns by context
+
+| Context             | Pattern                            | Example                                    | Avoid                             |
+| ------------------- | ---------------------------------- | ------------------------------------------ | --------------------------------- |
+| CTA / button        | Verb + noun                        | "Save changes", "Add filter", "Export CSV" | "Click here", "Submit"            |
+| Form label          | Noun only, sentence case           | "Email address", "Date range"              | "Please enter your email address" |
+| Error message       | What failed + how to fix           | "Invalid date. Use DD/MM/YYYY."            | "An error occurred."              |
+| Validation hint     | Constraint, present tense          | "Must be 8–64 characters"                  | "Password is too short!"          |
+| Loading state       | Present progressive                | "Loading results…"                         | "Please wait…", "Fetching…"       |
+| Empty state         | Factual + one actionable next step | "No results. Try adjusting your filters."  | "Oops, nothing here!"             |
+| Success feedback    | Confirmation + implication         | "Saved. Changes take effect immediately."  | "Great! You did it!"              |
+| Destructive confirm | Verb that states the consequence   | "Delete pipeline" (in a `Dialog`)          | "Are you sure?"                   |
+
+### Punctuation
+
+- End standalone labels and button text without a period.
+- End full-sentence helper text and error messages with a period.
+- Use `…` (ellipsis character, U+2026) for truncated text and loading copy — never three dots `...`.
+- Avoid exclamation marks — they break the composed, professional tone.
 
 ## Components
 
@@ -501,13 +726,13 @@ The most common selection confusions resolved:
 
 **Actions**
 
-| Need                           | Use                                      | Not                                |
-| ------------------------------ | ---------------------------------------- | ---------------------------------- |
-| Text-labeled action            | `Button`                                 | —                                  |
-| Glyph-only, tight space        | `Button-Icon` + `aria-label` + `Tooltip` | `Button` without a label           |
-| Primary + related alternatives | `Button-Split`                           | Multiple `Button`s side by side    |
-| Related actions together       | `ButtonsGroup`                           | More than one `primary` in a group |
-| Exclusive view-mode toggle     | `SegmentedControls`                      | `Tab-Group`                        |
+| Need                           | Use                                                | Not                                |
+| ------------------------------ | -------------------------------------------------- | ---------------------------------- |
+| Text-labeled action            | `Button`                                           | —                                  |
+| Glyph-only, tight space        | `Button` (icon variant) + `aria-label` + `Tooltip` | `Button` without a label           |
+| Primary + related alternatives | `Button` + `DropdownMenu`                          | Multiple `Button`s side by side    |
+| Related actions together       | `ButtonGroup`                                      | More than one `primary` in a group |
+| Exclusive view-mode toggle     | `SegmentedControls`                                | `Tabs`                             |
 
 **Selection controls**
 
@@ -521,29 +746,41 @@ The most common selection confusions resolved:
 
 **Tags vs badges**
 
-| Need                              | Use               | Not                             |
-| --------------------------------- | ----------------- | ------------------------------- |
-| User-applied, removable label     | `Tag-Dismissable` | `Badge`                         |
-| User-toggled filter chip          | `Tag-Toggle`      | `Checkbox` or `Tag-Dismissable` |
-| System status / count (read-only) | `Badge`           | `Tag`                           |
+| Need                              | Use         | Not                 |
+| --------------------------------- | ----------- | ------------------- |
+| User-applied, removable label     | `Tag`       | `Badge`             |
+| User-toggled filter chip          | `TagToggle` | `Checkbox` or `Tag` |
+| System status / count (read-only) | `Badge`     | `Tag`               |
 
 **Feedback and overlays**
 
-| Need                                      | Use           | Not                   |
-| ----------------------------------------- | ------------- | --------------------- |
-| Transient "done" (auto-dismisses)         | `Snackbars`   | `AlertBanner`         |
-| Persistent message until resolved         | `AlertBanner` | `Snackbars`           |
-| Blocking task / decision                  | `Modal`       | In-page `AlertBanner` |
-| Short hover / focus hint                  | `Tooltip`     | Popover               |
-| Interactive / persistent floating content | Popover       | `Tooltip`             |
+| Need                                      | Use       | Not            |
+| ----------------------------------------- | --------- | -------------- |
+| Transient "done" (auto-dismisses)         | `Sonner`  | `Alert`        |
+| Persistent message until resolved         | `Alert`   | `Sonner`       |
+| Blocking task / decision                  | `Dialog`  | Inline `Alert` |
+| Short hover / focus hint                  | `Tooltip` | `Popover`      |
+| Interactive / persistent floating content | `Popover` | `Tooltip`      |
 
 **Navigation**
 
 | Need                                       | Use                                 | Not            |
 | ------------------------------------------ | ----------------------------------- | -------------- |
-| Persistent app-level left nav              | `LeftNav` (rail + expandable panel) | Custom `<nav>` |
-| Switch between sibling content panels      | `Tab-Group`                         | `Accordion`    |
-| Progressive disclosure of stacked sections | `Accordion`                         | `Tab-Group`    |
+| Persistent app-level left nav              | `Sidebar` (rail + expandable panel) | Custom `<nav>` |
+| Switch between sibling content panels      | `Tabs`                              | `Accordion`    |
+| Progressive disclosure of stacked sections | `Accordion`                         | `Tabs`         |
+
+### State layers
+
+All interactive components use opacity overlays, not colour shifts. Apply via `bg-stateslayer-overlay-*` utilities:
+
+| State    | Overlay   | Tailwind                                                                                              |
+| -------- | --------- | ----------------------------------------------------------------------------------------------------- |
+| Hover    | ~8%       | `bg-stateslayer-overlay-hover`                                                                        |
+| Pressed  | ~16%      | `bg-stateslayer-overlay-pressed`                                                                      |
+| Disabled | ~38% text | `bg-stateslayer-overlay-disabled` + `text-fg-disabled` + `cursor-not-allowed` + `pointer-events-none` |
+
+Never communicate disabled state by colour alone. No scale transforms on state change — overlays only.
 
 ### Buttons
 
@@ -607,23 +844,6 @@ Always wrap inputs in a `Field` with an associated `Label`.
 - **Content:** Primary surface, elevation 3, sharp corners.
 - Focus trap via Radix; focus returns to trigger on close.
 
-### Icons
-
-Material Symbols **sharp** via `<IconShell>` + `<Icon>`:
-
-| Size    | Optical spec     | Use for                  |
-| ------- | ---------------- | ------------------------ |
-| sm      | 20 dp @ wght 400 | Inline, compact controls |
-| default | 24 dp @ wght 300 | Standard UI              |
-| lg      | 40 dp @ wght 300 | Feature callouts         |
-
-- **Set:** Material Symbols **sharp** variable font — never rounded, outlined, or filled variants.
-- **Pattern:** `<IconShell size="default" variant="secondary"><Icon icon="search" /></IconShell>`
-- **Naming:** Google ligature snake_case (`keyboard_arrow_down`, `check_circle`, `close`)
-- **Colour:** Inherited from parent via `currentColor` and semantic text/fill tokens. Use `neutral-inverse` on dark fills, `accent` type for brand highlights.
-- **Opacity:** primary 88%, secondary 60%, disabled 30%. Interactive icons brighten on hover (60% → 88%).
-- **Accessibility:** Decorative icons are `aria-hidden`. Interactive icons live inside labelled buttons or links — the icon alone is never the accessible name.
-
 ## Do's and Don'ts
 
 ### Do
@@ -641,6 +861,7 @@ Material Symbols **sharp** via `<IconShell>` + `<Icon>`:
 - Pair status colours with icons and text — never colour alone.
 - Use `-inverse` tokens on primary or accent fills so content stays legible in both themes.
 - Respect `prefers-reduced-motion`.
+- Use sentence case for all UI copy — headings, labels, CTAs.
 
 ### Don't
 
@@ -658,3 +879,12 @@ Material Symbols **sharp** via `<IconShell>` + `<Icon>`:
 - Drop body text below 12 px on mobile.
 - Reimplement registry components when `npx shadcn add` can install them.
 - Use tertiary/accent as the default primary CTA — reserve it for one focal highlight per view.
+- Use exclamation marks, filler words ("just", "simply"), or passive voice in UI copy.
+- Exceed 88% opacity for foreground text — `fg-primary` is intentionally ~88%.
+- Use a thick single-side accent border decoratively on cards or panels — the only accent-border pattern in QBDS is the `border-stroke-active` underline on active `Tabs`.
+- Nest surfaces more than one layer deep (card-in-card-in-card) — flatten with `border-stroke-divider` and spacing instead.
+- Stack a decorative eyebrow label or pill chip above a headline, or repeat small uppercase kicker labels above every section — let `headings-h3-semibold` and layout density carry hierarchy.
+- Add numbered section markers (01 / 02 / 03) unless the section is a literal ordered sequence (e.g. onboarding steps).
+- Blow up a long-sentence headline to `display-*` size — that scale is for short KPI values and 1–2 word phrases; longer copy takes `headings-h2-semibold`.
+- Fill a page with a uniform card grid of icon + heading + text — vary content to match real information density; a repeated filler template is not a layout.
+- Use PNG icons, ad-hoc Unicode symbols, or illustration as product chrome — QBDS stays typographic.
