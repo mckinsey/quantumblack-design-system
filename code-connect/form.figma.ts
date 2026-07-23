@@ -5,10 +5,10 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-instance.getEnum('layout', {
+const layout = (instance.getEnum('layout', {
   inline: 'inline',
   stacked: 'stacked',
-});
+}) ?? 'stacked') as 'inline' | 'stacked';
 
 const title = instance.getString('Title');
 const descriptor = instance.getString('Descriptor');
@@ -99,7 +99,7 @@ export default {
   example: figma.code`
     <div className="flex w-full max-w-[480px] min-w-[320px] flex-col gap-8 py-4">
       ${header}
-      <form id="form-demo" className="flex w-full max-w-[420px] flex-col gap-8">
+      <form id="form-demo" data-layout="${layout}" className="flex w-full max-w-[420px] flex-col gap-8">
         ${
           slot1Nodes
             ? figma.code`
