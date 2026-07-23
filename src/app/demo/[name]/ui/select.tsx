@@ -105,7 +105,7 @@ function SelectOptionItem({
       <SelectItemText>{children}</SelectItemText>
       <SelectItemIndicator>
         <IconShell size={iconSize} variant="primary">
-          <Icon icon="done" />
+          <Icon icon="done" size={iconSize} />
         </IconShell>
       </SelectItemIndicator>
     </SelectItem>
