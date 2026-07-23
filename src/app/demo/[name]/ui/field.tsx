@@ -1,10 +1,12 @@
-import type { ReactNode } from 'react';
+'use client';
+
+import { type ReactNode, useId } from 'react';
 
 import {
   FieldDescription,
   FieldError,
+  FieldLabel,
   FieldSet,
-  FieldTitle,
 } from '@/components/ui/field';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
@@ -59,15 +61,18 @@ function LabelRow({
   size = 'default',
   disabled = false,
   counter,
+  htmlFor,
 }: {
   size?: Size;
   disabled?: boolean;
   counter?: ReactNode;
+  htmlFor?: string;
 }) {
   return (
-    <FieldTitle
+    <FieldLabel
       size={size}
       disabled={disabled}
+      htmlFor={htmlFor}
       className="w-full justify-between">
       <span className="flex items-center gap-1">
         Field label
@@ -79,7 +84,7 @@ function LabelRow({
         </IconShell>
       </span>
       {counter}
-    </FieldTitle>
+    </FieldLabel>
   );
 }
 
@@ -111,11 +116,14 @@ function FieldBlock({
   type?: CounterType;
   status?: Status;
 }) {
+  const id = useId();
+
   return (
     <FieldSet className="gap-2">
       <LabelRow
         size={size}
         disabled={disabled}
+        htmlFor={id}
         counter={
           <Counter
             count={count}
@@ -127,6 +135,7 @@ function FieldBlock({
         }
       />
       <Input
+        id={id}
         size={size}
         disabled={disabled}
         placeholder="Hint text"

@@ -243,7 +243,7 @@ function FieldError({
     errors?: Array<{ message?: string } | undefined>;
   }) {
   const content = React.useMemo(() => {
-    if (children) {
+    if (children !== undefined && children !== null) {
       return children;
     }
 
@@ -269,7 +269,7 @@ function FieldError({
     );
   }, [children, errors]);
 
-  if (!content) {
+  if (content === undefined || content === null) {
     return null;
   }
 
