@@ -188,14 +188,17 @@ function Slider({
     (newValue, details) => {
       const values = Array.isArray(newValue) ? [...newValue] : [newValue];
 
-      setInternalValue(values);
+      if (value === undefined) {
+        setInternalValue(values);
+      }
+
       onValueChange?.(values);
 
       if (details.reason === 'drag' || details.reason === 'track-press') {
         startInteraction();
       }
     },
-    [onValueChange, startInteraction],
+    [onValueChange, startInteraction, value],
   );
 
   const handleValueCommitted = React.useCallback<
