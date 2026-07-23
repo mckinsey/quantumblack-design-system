@@ -49,9 +49,9 @@ export default {
   example: labeled
     ? figma.code`
         <div className="flex items-center ${labelGap}">
-          ${showLeft ? figma.code`<Label htmlFor="switch"${labelProps}>${left}</Label>` : []}
+          ${showLeft ? figma.code`<Label htmlFor="switch"${labelProps}>${left}</Label>` : ''}
           ${switchCode}
-          ${showRight ? figma.code`<Label htmlFor="switch"${labelProps}>${right}</Label>` : []}
+          ${showRight ? figma.code`<Label htmlFor="switch"${labelProps}>${right}</Label>` : ''}
         </div>
       `
     : switchCode,
