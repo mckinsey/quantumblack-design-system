@@ -125,7 +125,7 @@ const datePickerInlineLabel = cn(datePickerLabel, 'mb-[-4px]');
 
 const formDemoShell = {
   root: 'flex w-full max-w-[480px] min-w-[320px] flex-col gap-8 py-4',
-  form: 'flex w-[420px] flex-col gap-8',
+  form: 'flex w-full max-w-[420px] flex-col gap-8',
   fieldsColumn: 'flex flex-col gap-6',
   dateTimeGrid: 'grid grid-cols-2 gap-6',
   checksColumn: 'flex flex-col gap-4',

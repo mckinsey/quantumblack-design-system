@@ -67,9 +67,9 @@ const checkboxItems = showSlot4
     )
   : [];
 
-let checkbox0;
-let checkbox1;
-let checkbox2;
+let checkbox0: figma.ResultSection[] = [];
+let checkbox1: figma.ResultSection[] = [];
+let checkbox2: figma.ResultSection[] = [];
 
 if (checkboxItems[0] && checkboxItems[0].type === 'INSTANCE') {
   checkbox0 = checkboxItems[0].executeTemplate().example;
@@ -86,7 +86,7 @@ if (checkboxItems[2] && checkboxItems[2].type === 'INSTANCE') {
 const footer = instance.getBoolean('hasFooter', {
   true: figma.code`
     <ButtonGroup>
-      <Button type="submit">Submit</Button>
+      <Button type="submit" form="form-demo">Submit</Button>
       <Button type="button" variant="outline">
         Cancel
       </Button>
@@ -99,7 +99,7 @@ export default {
   example: figma.code`
     <div className="flex w-full max-w-[480px] min-w-[320px] flex-col gap-8 py-4">
       ${header}
-      <form className="flex w-[420px] flex-col gap-8">
+      <form id="form-demo" className="flex w-full max-w-[420px] flex-col gap-8">
         ${
           slot1Nodes
             ? figma.code`
