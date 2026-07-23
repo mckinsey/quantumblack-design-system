@@ -70,7 +70,7 @@ export function RadioGroupStates() {
           <RadioGroupItem value="state-three" id="s3" disabled />
           <FieldLabel
             htmlFor="s3"
-            className="text-fg-secondary label-regular-primary"
+            className="text-fg-disabled label-regular-primary"
             disabled>
             Disabled (unchecked)
           </FieldLabel>
@@ -91,7 +91,7 @@ export function RadioGroupDisabled() {
           <RadioGroupItem value="disabled-one" id="d1" />
           <FieldLabel
             htmlFor="d1"
-            className="text-fg-secondary label-regular-primary"
+            className="text-fg-disabled label-regular-primary"
             disabled>
             Option One (Selected)
           </FieldLabel>
@@ -100,7 +100,7 @@ export function RadioGroupDisabled() {
           <RadioGroupItem value="disabled-two" id="d2" />
           <FieldLabel
             htmlFor="d2"
-            className="text-fg-secondary label-regular-primary"
+            className="text-fg-disabled label-regular-primary"
             disabled>
             Option Two
           </FieldLabel>
@@ -109,7 +109,7 @@ export function RadioGroupDisabled() {
           <RadioGroupItem value="disabled-three" id="d3" />
           <FieldLabel
             htmlFor="d3"
-            className="text-fg-secondary label-regular-primary"
+            className="text-fg-disabled label-regular-primary"
             disabled>
             Option Three
           </FieldLabel>
@@ -138,7 +138,7 @@ export function RadioGroupPartialDisabled() {
           <RadioGroupItem value="partial-two" id="p2" disabled />
           <FieldLabel
             htmlFor="p2"
-            className="text-fg-secondary label-regular-primary"
+            className="text-fg-disabled label-regular-primary"
             disabled>
             Option Two (Disabled)
           </FieldLabel>
