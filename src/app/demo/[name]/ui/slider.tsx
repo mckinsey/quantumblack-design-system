@@ -174,7 +174,13 @@ export function SliderInlineInput() {
           className="w-10 shrink-0 text-center"
           value={String(value[0])}
           onChange={e => {
-            const next = Number(e.target.value);
+            const raw = e.target.value;
+
+            if (raw === '') {
+              return;
+            }
+
+            const next = Number(raw);
 
             if (!Number.isNaN(next)) {
               setValue([Math.min(100, Math.max(0, next))]);
