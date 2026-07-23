@@ -18,7 +18,7 @@ const useAvatarContext = () => React.useContext(AvatarContext);
 
 const avatarVariants = cva(
   [
-    'relative flex shrink-0 rounded-full shadow-elevation-0',
+    'relative flex shrink-0 rounded-full shadow-elevation-0 outline-none',
     'transition-all duration-200',
   ].join(' '),
   {
