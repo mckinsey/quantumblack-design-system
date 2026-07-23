@@ -204,7 +204,8 @@ function Sidebar({
 
   if (collapsible === 'none') {
     return (
-      <div
+      <nav
+        aria-label="Primary"
         data-slot="sidebar"
         className={cn(
           'bg-surface-primary text-fg-primary flex h-full w-(--sidebar-width) flex-col',
@@ -213,7 +214,7 @@ function Sidebar({
         style={style}
         {...props}>
         {children}
-      </div>
+      </nav>
     );
   }
 
@@ -439,6 +440,7 @@ function SidebarGroup({ className, ...props }: React.ComponentProps<'div'>) {
 const sidebarGroupLabelVariants = cva(
   [
     'text-fg-tertiary uppercase ring-stroke-status-focus flex shrink-0 items-center outline-hidden focus-visible:ring-2',
+    'group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0',
   ],
   {
     variants: {

@@ -164,7 +164,10 @@ describe('registry.json dependency coverage', () => {
               f.type === 'registry:ui' &&
               f.path.replace(/\\/g, '/').startsWith('src/components/ui/'),
           )
-          .map(f => path.basename(f.path, path.extname(f.path))),
+          .map(f => {
+            const norm = f.path.replace(/\\/g, '/');
+            return path.basename(norm, path.extname(norm));
+          }),
       );
 
       const uiDepFiles =

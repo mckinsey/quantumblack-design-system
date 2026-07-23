@@ -7,16 +7,13 @@ import * as React from 'react';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import {
-  SidebarMenuItem,
-  SidebarMenuSub,
-  useSidebar,
-} from '@/components/ui/sidebar';
-import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
+
+import { SidebarMenuItem, SidebarMenuSub, useSidebar } from './sidebar';
 
 type SidebarNavSize = 'default' | 'lg';
 
@@ -30,7 +27,7 @@ const sidebarMenuIconButtonVariants = cva(
     'focus-visible:ring-1',
     'active:bg-stateslayer-overlay-active-inverse active:text-fg-primary',
     'data-[active=true]:bg-stateslayer-overlay-active-inverse data-[active=true]:text-fg-primary',
-    'data-[active=true]:before:bg-slate-950 data-[active=true]:before:absolute data-[active=true]:before:left-0 data-[active=true]:before:w-1 data-[active=true]:before:content-[""]',
+    'data-[active=true]:before:bg-fill-active-inverse data-[active=true]:before:absolute data-[active=true]:before:left-0 data-[active=true]:before:w-1 data-[active=true]:before:content-[""]',
     'disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50',
     'data-[state=open]:hover:bg-stateslayer-hover data-[state=open]:hover:text-fg-primary',
   ],
@@ -337,9 +334,13 @@ function SidebarNavMenu({
 
   const panelWidth = sidebarNavMenuPanelWidth[size];
 
+  const overlayClosed = mode === 'overlay' && !open;
+
   return (
     <nav
       aria-label="Navigation menu"
+      aria-hidden={overlayClosed || undefined}
+      inert={overlayClosed || undefined}
       data-slot="sidebar-nav-menu"
       data-mode={mode}
       data-state={mode === 'overlay' ? (open ? 'open' : 'closed') : undefined}
@@ -352,8 +353,8 @@ function SidebarNavMenu({
           side === 'left'
             ? 'left-(--sidebar-width-icon) ml-[2px]'
             : 'right-(--sidebar-width-icon) mr-[2px]',
-          open ? [panelWidth, 'overflow-y-auto'] : 'size-0',
-          !open && 'pointer-events-none',
+          open ? [panelWidth, 'overflow-y-auto'] : 'w-0',
+          overlayClosed && 'pointer-events-none',
         ],
         className,
       )}
