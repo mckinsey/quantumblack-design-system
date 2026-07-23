@@ -6,7 +6,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 const labelVariants = cva(
-  'flex items-center font-normal gap-1 select-none group-data-[disabled=true]:pointer-events-none peer-disabled:cursor-not-allowed',
+  'flex items-center font-normal gap-1 select-none data-[disabled=true]:pointer-events-none group-data-[disabled=true]:pointer-events-none peer-disabled:cursor-not-allowed',
   {
     variants: {
       size: {
