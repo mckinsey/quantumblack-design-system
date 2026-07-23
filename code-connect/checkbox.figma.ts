@@ -5,22 +5,25 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const size = instance.getEnum('size', {
-  reg: 'default',
-  lg: 'lg',
-});
+const size =
+  instance.getEnum('size', {
+    reg: 'default',
+    lg: 'lg',
+  }) ?? 'default';
 
-const type = instance.getEnum('type', {
-  unchecked: 'unchecked',
-  checked: 'checked',
-  indeterminate: 'indeterminate',
-});
+const type =
+  instance.getEnum('type', {
+    unchecked: 'unchecked',
+    checked: 'checked',
+    indeterminate: 'indeterminate',
+  }) ?? 'unchecked';
 
-const disabled = instance.getEnum('state', {
-  disabled: true,
-  enabled: false,
-  focused: false,
-});
+const disabled =
+  instance.getEnum('state', {
+    disabled: true,
+    enabled: false,
+    focused: false,
+  }) ?? false;
 
 const checkedProp =
   type === 'checked'

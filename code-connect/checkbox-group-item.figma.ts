@@ -5,23 +5,26 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const size = instance.getEnum('size', {
-  sm: 'sm',
-  reg: 'reg',
-  lg: 'lg',
-});
+const size =
+  instance.getEnum('size', {
+    sm: 'sm',
+    reg: 'reg',
+    lg: 'lg',
+  }) ?? 'reg';
 
-const type = instance.getEnum('type', {
-  unchecked: 'unchecked',
-  checked: 'checked',
-  indeterminate: 'indeterminate',
-});
+const type =
+  instance.getEnum('type', {
+    unchecked: 'unchecked',
+    checked: 'checked',
+    indeterminate: 'indeterminate',
+  }) ?? 'unchecked';
 
-const disabled = instance.getEnum('state', {
-  enabled: false,
-  focused: false,
-  disabled: true,
-});
+const disabled =
+  instance.getEnum('state', {
+    enabled: false,
+    focused: false,
+    disabled: true,
+  }) ?? false;
 
 const showItemCount = instance.getBoolean('showItemCount');
 const label = instance.getString('ListItem-Label');
