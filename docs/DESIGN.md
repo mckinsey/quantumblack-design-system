@@ -517,8 +517,6 @@ Common icon names: Close, Check, ChevronDown, ChevronLeft, ChevronRight, Calenda
 
 ## 7. Components from the registry
 
-**Authoritative detail** — props, variants, install workflow: [react-qbds-registry.md](react-qbds-registry.md).
-
 Components are Radix-based primitives styled with `cva`. Prefer **composing** them over copying bespoke class stacks from memory. Extend via wrappers; avoid forking registry markup so upstream DS fixes propagate.
 
 Charts are **not** QBDS primitives — use Apache ECharts. Chart colour palettes and plot tokens are defined in [§2 — Chart colours](#chart-colours) above.
@@ -567,7 +565,6 @@ Charts are **not** QBDS primitives — use Apache ECharts. Chart colour palettes
 
 - **Spacing:** Tailwind 4px scale (`p-*`, `gap-*`). Match shipped patterns: `Card` padding `p-6`, `Button` padding `p-2`, default `Input` height `h-9` (36px). Between major dashboard sections (header, KPI row, charts, table): `gap-8` on a `flex flex-col` wrapper — not isolated `mb-6` on each child.
 - **KPI / metric cards:** minimum width `min-w-[240px]` so label, value, and delta stay on one visual unit; use `overflow-x-auto` + `flex-nowrap` when the row cannot fit.
-- **Grid/container:** see [app-layout-archetypes.md](app-layout-archetypes.md) for main column widths by archetype.
 - **Z-index:** floating surfaces (Popover, Dropdown, Dialog, Tooltip) are managed by Radix portals — never set z-index manually.
 
 ---
@@ -655,4 +652,3 @@ QBDS reads **analytical and restrained** — not marketing or chatty.
 
 - **Breakpoints:** Tailwind defaults (`sm`, `md`, `lg`). On small viewports: prefer stacking, bottom sheets for dense menus.
 - **Type scaling:** do not drop body text below 12px (`paragraph-small-primary`). Displays (40–56px) can scale down to 32px on small screens.
-- **Sidebar:** responsive behaviour and shapes — [app-layout-archetypes.md § Shared app shell](app-layout-archetypes.md#shared-app-shell).
