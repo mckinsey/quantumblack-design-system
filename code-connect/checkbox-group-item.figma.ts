@@ -28,12 +28,13 @@ const label = instance.getString('ListItem-Label');
 const itemCount = instance.getString('itemCount');
 
 const checkboxSize = size === 'lg' ? 'lg' : 'default';
+const labelTone = disabled ? 'text-fg-disabled' : 'text-fg-secondary';
 const labelClass =
   size === 'lg'
-    ? 'text-fg-secondary paragraph-large-primary'
+    ? `${labelTone} paragraph-large-primary`
     : size === 'sm'
-      ? 'text-fg-secondary paragraph-small-primary'
-      : 'text-fg-secondary paragraph-regular-primary';
+      ? `${labelTone} paragraph-small-primary`
+      : `${labelTone} paragraph-regular-primary`;
 
 const checkedProp =
   type === 'checked'
@@ -43,7 +44,6 @@ const checkedProp =
       : '';
 
 const disabledProp = disabled ? ' disabled' : '';
-const labelDisabledProp = disabled ? ' disabled' : '';
 
 const countNode = showItemCount
   ? figma.code`<span className="${labelClass}" aria-hidden>${itemCount}</span>`
@@ -53,7 +53,7 @@ export default {
   example: figma.code`
     <Field orientation="horizontal" className="gap-2">
       <FieldLabel
-        className="${labelClass} flex min-w-0 flex-1 cursor-pointer items-center gap-2"${labelDisabledProp}>
+        className="${labelClass} flex min-w-0 flex-1 cursor-pointer items-center gap-2">
         <Checkbox size="${checkboxSize}" value="checkbox-item"${checkedProp}${disabledProp} />
         <span className="min-w-0 flex-1">${label}</span>
       </FieldLabel>

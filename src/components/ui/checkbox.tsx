@@ -85,9 +85,24 @@ interface CheckboxProps extends Omit<
   React.ComponentProps<typeof CheckboxPrimitive.Root>,
   'checked' | 'defaultChecked' | 'indeterminate' | 'onCheckedChange'
 > {
+  /**
+   * The size of the checkbox.
+   * - `default`: 16px visible box (20px bounding box)
+   * - `lg`: 20px visible box (24px bounding box)
+   * @default "default"
+   */
   size?: 'default' | 'lg';
+  /**
+   * The controlled checked state. Can be true, false, or "indeterminate".
+   */
   checked?: TriState;
+  /**
+   * The default checked state for uncontrolled usage. Can be true, false, or "indeterminate".
+   */
   defaultChecked?: TriState;
+  /**
+   * Called when the checked state changes. Receives true, false, or "indeterminate".
+   */
   onCheckedChange?: (checked: TriState) => void;
 }
 
