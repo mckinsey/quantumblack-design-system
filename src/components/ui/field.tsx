@@ -108,10 +108,7 @@ function FieldLabel({
   return (
     <Label
       data-slot="field-label"
-      className={cn(
-        'text-fg-secondary label-regular-primary flex w-fit items-center gap-2',
-        className,
-      )}
+      className={cn('flex w-fit items-center gap-2', className)}
       {...props}
     />
   );
@@ -145,7 +142,7 @@ function FieldTitle({
 }: React.ComponentProps<'div'> & VariantProps<typeof fieldTitleVariants>) {
   return (
     <div
-      data-slot="field-label"
+      data-slot="field-title"
       className={cn(fieldTitleVariants({ size, disabled }), className)}
       {...props}
     />
