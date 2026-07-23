@@ -337,7 +337,7 @@
     {
       "name": "field",
       "type": "registry:ui",
-      "title": "Form Elements",
+      "title": "Field",
       "description": "Composable form field elements — label, help text, error feedback, and layout primitives (FieldSet, FieldLegend, FieldGroup, Field, FieldLabel, FieldContent, FieldTitle, FieldDescription, FieldError).",
       "dependencies": ["@base-ui/react/fieldset"],
       "registryDependencies": [
