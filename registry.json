@@ -764,7 +764,7 @@
       "type": "registry:ui",
       "title": "Tabs",
       "description": "A responsive tabs component.",
-      "dependencies": ["@radix-ui/react-tabs"],
+      "dependencies": ["@base-ui/react/tabs"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
