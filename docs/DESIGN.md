@@ -252,77 +252,50 @@ components:
     size: '2px'
 ---
 
-# Design System: QuantumBlack Design System
+# Visual design rules — QuantumBlack Design System
 
-> Source: [mckinsey/quantumblack-design-system](https://github.com/mckinsey/quantumblack-design-system). Validate with `npx @google/design.md lint docs/DESIGN.md`. Token utilities: [TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md). Spec: [DESIGN.md format](https://stitch.withgoogle.com/docs/design-md/specification).
+> Source: [mckinsey/quantumblack-design-system](https://github.com/mckinsey/quantumblack-design-system) (Tailwind CSS v4 + shadcn/ui, Radix UI primitives, Material Symbols Sharp icons).
+> **Exact hex, opacity ramps, typography measurements, shadow stacks:** [`src/styles/globals.css`](https://github.com/mckinsey/quantumblack-design-system/blob/main/src/styles/globals.css).
 
-## Overview
+**This file:** design rules, accessibility, layout philosophy, do/don't. Does **not** replace `globals.css`, per-component APIs, or the live docs.
 
-**Creative North Star: "Data-Dense and Composed"**
+---
 
-The UI evokes professional analytical tooling — precise, quiet, and structural. Practitioners spend hours in dense dashboards, tables, and configuration flows; the interface should feel like engineered infrastructure, not consumer marketing. Every screen is flat by default, sharp by default, and semantically coloured. Neutral slate and mist palettes dominate. Brand cyan appears sparingly. Interaction feedback uses opacity overlays, not saturated hover colours. Material Symbols in **sharp** geometry reinforce the right-angled posture.
+## Table of contents
 
-**Audience:** Teams building and using internal analytics, ML, and data products.
+1. [Visual theme and atmosphere](#1-visual-theme-and-atmosphere)
+2. [Color palette and roles](#2-color-palette-and-roles)
+3. [Typography rules](#3-typography-rules)
+4. [Token architecture](#4-token-architecture)
+5. [Theming and modes](#5-theming-and-modes)
+6. [Iconography](#6-iconography)
+7. [Components from the registry](#7-components-from-the-registry)
+8. [Accessibility & focus](#8-accessibility--focus)
+9. [Layout principles](#9-layout-principles)
+10. [Depth and elevation](#10-depth-and-elevation)
+11. [Interaction conventions](#11-interaction-conventions)
+12. [Do's and don'ts](#12-dos-and-donts)
+13. [Responsive behavior](#13-responsive-behavior)
 
-**Emotional target:** Composed confidence. The interface earns trust through clarity and consistency, not ornament. Users scan hierarchy in seconds, operate controls without hesitation, and switch between light and dark mode without broken contrast.
+---
 
-**Key characteristics:**
+## 1. Visual theme and atmosphere
 
-- Geometry-first — sharp corners are the brand default; rounded mode is opt-in at the app level
-- Dark-capable — semantic tokens swap under `.dark`; default to dark mode; always ship a theme toggle
-- Opacity-based state layers — hover and pressed feel like subtle tints, not colour shifts
-- Typography-driven hierarchy — class-based utilities, three weights only (300 / 400 / 600)
-- Material Symbols **sharp** @ 300–400 weight — never rounded or outlined variants
+QBDS is a **dark-capable, geometry-first** interface language rooted in McKinsey / QuantumBlack analytical practice. The intended posture is **precise, quiet, structural**: flat surfaces by default, sharp corners unless `.radius-mode` is applied at the root (§5), colour used semantically (roles and state — not decorative gradients or rainbow chrome).
 
-### Generation constraints
+Palette: **slate** and **mist** neutrals; restrained **brand accents** (exact values only in `globals.css`). Interaction feedback uses **opacity overlays**, not saturated hovers (§11). **Material Symbols Sharp** for product chrome (§6).
 
-Do not generate UI until these assets exist. Surface missing assets as blockers.
+The overall effect is **data-dense and composed** — hierarchy from typography weight and layout density (§3), not from extra colour bands.
 
-**Fonts:** Inter (all UI text) and Roboto Mono (code only). Weights: 300, 400, 600 — no 500 or 700.
+---
 
-**Tokens:** Semantic CSS variables from [`src/styles/globals.css`](https://github.com/mckinsey/quantumblack-design-system/blob/main/src/styles/globals.css). Consumer projects install via `npx shadcn add theme`. Use semantic Tailwind utilities (`bg-surface-primary`, `text-fg-primary`) — not raw hex or primitives. Full utility mapping: [TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md).
+## 2. Color palette and roles
 
-**Icons:** Material Symbols **sharp** only, via `<Icon icon="search" />` wrapped in `<IconShell>`. Ligature names in snake_case. Never Lucide, Heroicons, Font Awesome, emoji, or non-sharp Material variants.
+**Single source of truth for hex, opacity ramps, semantic colour mappings, and status ramps:** [`src/styles/globals.css`](https://github.com/mckinsey/quantumblack-design-system/blob/main/src/styles/globals.css). After `npx shadcn@latest add @qbds/...`, read the same variables from the installed theme file.
 
-**Components:** Prefer registry primitives from [`registry.json`](https://github.com/mckinsey/quantumblack-design-system/blob/main/registry.json) (`npx shadcn add <name>`). Do not reimplement controls that exist in the registry.
+QBDS uses a **3-layer pipeline**: **primitives** (mist, slate, brand ramps) → **semantic CSS variables** (`--surface-base`, `--fg-primary`, … in `globals.css`) → **Tailwind utilities** named in [TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md) (`bg-surface-base`, `text-fg-primary`, …).
 
-**Theme switches** (independent, compose on `<html>`):
-
-| Mode            | Class          | Default            | Effect                                              |
-| --------------- | -------------- | ------------------ | --------------------------------------------------- |
-| Light / dark    | `.dark`        | **Dark**           | Remaps semantic colour tokens and chart plot tokens |
-| Sharp / rounded | `.radius-mode` | Sharp (0 px radii) | Sets sm/reg/md/lg to 4/8/12/16 px                   |
-
-**Theme toggle (required).** Every generated app, dashboard, and demo must expose a visible light/dark toggle. Do not ship a single-theme UI.
-
-- **Default:** dark mode on first visit — add `.dark` to `<html>` when no saved preference exists.
-- **Persistence:** store the choice in `localStorage` under the key `theme` (`"dark"` | `"light"`).
-- **Implementation:** there is no `@qbds/theme-toggle` registry item. The file at `src/components/registry/theme-toggle.tsx` is the registry site's own toggle — reference only. Hand-build from `Button` (ghost, icon size) + Material Symbols Sharp icons (`light_mode` / `dark_mode`) and place it in the app chrome (header, navbar, or settings).
-- **Sync:** toggling must add/remove `.dark` on `<html>` and re-apply chart plot tokens for any embedded visualizations.
-
-## Colors
-
-The palette is rooted in high-contrast slate neutrals with a single brand accent. **Primary** is slate-950 — high-contrast fills and active states. **Secondary** is slate-900 — the body text anchor. **Tertiary / accent** is QB cyan — decorative highlights only, not the default action colour. **Neutral** is mist-100 — base canvas. **Surface** is mist-50 — panels and cards. Semantic tokens swap under `.dark`; never hardcode light-mode primitives in component code.
-
-### UI palette
-
-- **Primary (#10121B):** Button fills, active states, tooltip backgrounds, selected filter chips. The default interactive anchor on light surfaces.
-- **Secondary (#141721):** Core text and icon fill at full contrast. Headings and data entries resolve here via opacity ramps in implementation.
-- **Tertiary / Accent (#00A9F4):** Brand-accent decorative use — accent badges, brand tags, focal icons. Not a status colour. Not the default primary CTA.
-- **Neutral (#FAFAFB):** Base page canvas in light mode (`surface-base`). Separates content zones.
-- **Surface (#FFFFFF):** Primary panels, cards, and floating content backgrounds in light mode.
-- **On-surface (#141721):** Default text and icon colour on light surfaces (88% opacity in implementation).
-- **On-primary (#FFFFFF):** Text and icons on primary/accent fills.
-
-### Feedback
-
-- **Success (#16A34A):** Confirmations, positive states. Readable text: `text-success`. Fills/borders: `status-success`.
-- **Error (#DC2626):** Destructive actions, validation failures. Readable text: `text-error`. Fills/borders: `status-error`.
-- **Warning (#D97706):** Caution, non-blocking alerts. Readable text: `text-warning`. Fills/borders: `status-warning`.
-- **Information (#0284C7 light / sky-400 dark):** Info banners, tips. Readable text: `text-information`. Fills/borders: `status-information`.
-- **Focus (sky-500 light / sky-400 dark):** Focus rings — `--border-status-focus` remaps between themes: `#0EA5E9` in light mode, `#38BDF8` in dark mode. Never remove focus outlines.
-
-Dark mode remaps the same semantic roles: surfaces shift to slate-800/900, foreground to mist-50 opacity ramps, status colours lighten one step. See [TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md) for the full light/dark utility table.
+**In UI code:** prefer **Tailwind utilities** so `.dark` and future DS updates apply automatically. Use primitives only when extending the token system itself.
 
 ### Chart colours
 
@@ -396,265 +369,290 @@ Anchor the diverging centre stop (`#C9D0D9`) at the data's neutral value (often 
 | Point markers | Small open circles — size 4, border 1px      |
 | Smoothing     | None — straight segments between data points |
 
-For extended palette scales (alternative sequential/diverging, map/geo tokens), ECharts inline JS constants, and chart type / title guidance, see the skill reference files bundled with this project.
+---
 
-## Typography
+## 3. Typography rules
 
-The typography strategy uses **Inter** for all UI text and **Roboto Mono** for code. Inter at tight negative tracking carries data-dense interfaces. Displays are light (300); body is regular (400); buttons and emphasis are semibold (600). Use class-based utilities from `globals.css` — never compose size, weight, line-height, and tracking manually.
+**Source of truth for font stacks, sizes, line-heights, tracking, and named utility classes** (`display-*`, `headings-*`, `label-*`, `paragraph-*`, `cta-button-*`, `*-link`): [`globals.css`](https://github.com/mckinsey/quantumblack-design-system/blob/main/src/styles/globals.css) or your project's installed QBDS theme CSS.
 
-### Hierarchy
+**Fonts:** Inter (UI), Roboto Mono (code). **Weights in product: 300, 400, 600 only** — never 500, 700, 800.
 
-| Level           | Spec                       | Use for                            |
-| --------------- | -------------------------- | ---------------------------------- |
-| Display D1      | 56px / Light 300           | KPI numerals, hero stats           |
-| Display D2      | 48px / Light 300           | Secondary display numbers          |
-| Display D3      | 40px / Light 300           | Smallest display tier              |
-| H1              | 32px / Regular 400         | Page title — one per page          |
-| H2              | 24px / Regular or Semibold | Major section headers              |
-| H3              | 20px / Regular or Semibold | Card titles, form sections         |
-| H4              | 16px / Regular or Semibold | Sub-section headings               |
-| Body            | 14px / Regular 400         | Default paragraph and table text   |
-| Body Large      | 16px / Regular 400         | Intro copy, chat content           |
-| Body Small      | 12px / Regular 400         | Tooltips, helper text, captions    |
-| Label           | 14px / Regular 400         | Form labels, list captions         |
-| CTA / Button 01 | 16px / Semibold 600        | ≤40 px button controls             |
-| CTA / Button 02 | 14px / Semibold 600        | 32–36 px button controls (default) |
-| CTA / Button 03 | 12px / Semibold 600        | Smallest button controls           |
-| Code            | 12px / Roboto Mono         | Inline code                        |
+Prefer **named typography classes** over composing raw `text-*` + `leading-*` + `tracking-*` manually.
 
-Utility classes (representative — full list in [TOKENS.md](TOKENS.md)): `display-d1-regular`, `headings-h2-semibold`, `headings-h3-regular`, `paragraph-regular-primary`, `label-regular-primary`, `cta-button-01`, `cta-button-02`, `cta-button-03`, `paragraph-small-primary`, `paragraph-code-text`. Link variants append `-link`.
+**Rule of thumb:** displays → light (300); body → regular (400); labels, buttons, emphasis → semibold (600). Never exceed three weights on a page.
 
-## Layout
+### Quick-reference — common typography classes
 
-The layout follows a **4px base grid**. All padding, margin, and gap values are multiples of 4 px.
+Full list and measurements in [`globals.css`](https://github.com/mckinsey/quantumblack-design-system/blob/main/src/styles/globals.css). These are the most-used classes in product UI:
 
-Related items group inside cards or panels with **24 px internal padding** (`p-6`, `{spacing.gutter}`). Sibling elements within a group: **12 px** (`gap-3`). Between groups: **24–32 px**. Between major page sections: **48–96 px**.
+| Class                       | Typical use                                                  |
+| --------------------------- | ------------------------------------------------------------ |
+| `headings-h2-semibold`      | Navbar / page title                                          |
+| `headings-h3-semibold`      | Section or card title                                        |
+| `headings-h4-regular`       | Page subtitle, secondary heading                             |
+| `label-regular-primary`     | Form labels, table column headers                            |
+| `label-small-primary`       | Nav group labels, helper captions                            |
+| `paragraph-regular-primary` | Body copy, input text                                        |
+| `paragraph-small-primary`   | Secondary body, description text (min size: do not go below) |
+| `cta-button-02`             | Button text (default size)                                   |
 
-### Spacing scale
+For `display-*` sizes and the full weight variants, open `globals.css` and search for `@utility`.
 
-| Token / Tailwind        | px  | Typical use                     |
-| ----------------------- | --- | ------------------------------- |
-| xs / `gap-1`            | 4   | Tight inline gaps               |
-| sm / `gap-2`            | 8   | Button padding, compact gaps    |
-| md / `gap-4`            | 16  | Form spacing, small table cells |
-| gutter / `gap-6`, `p-6` | 24  | Card padding, section gaps      |
-| margin / `gap-8`, `p-8` | 32  | Major section separation        |
-| 2xl / `gap-12`          | 48  | Page-level breathing room       |
+---
 
-### Responsive behaviour
+## 4. Token architecture
 
-Tailwind v4 defaults apply. On narrow viewports, **simplify rather than squeeze** — collapse sidebars to off-canvas, stack columns, hide secondary content. Minimum touch target: **36 × 36 px**; prefer **48 × 48 px** for primary mobile actions. Do not drop body text below 12 px on mobile.
+QBDS enforces a strict pipeline. Full role → utility tables live in [TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md). Hex values and variable definitions live in `globals.css`.
 
-### Dashboard layout rules
+| Layer                        | Purpose                                                       | When to use                                             |
+| ---------------------------- | ------------------------------------------------------------- | ------------------------------------------------------- |
+| **1. Primitives**            | Raw palette (`mist-*`, `slate-*`, opacity ramps)              | Almost never in product UI — they feed semantics        |
+| **2. Semantic tokens**       | Role-based CSS vars that swap under `.dark` / `.radius-mode`  | Via Tailwind utilities from TOKENS.md                   |
+| **3. Registry class stacks** | Full interactive styling (`button.tsx` `cva`, `input.tsx`, …) | Copy onto HTML elements or use `@qbds` React primitives |
 
-- **Page sections:** wrap scrollable main content in `flex flex-col gap-8` — use gap on the flex wrapper between page header, KPI banner, chart grid, and table. Do not use isolated `mb-*` on each block.
-- **KPI cards:** `min-w-[240px]` on every card so label + value + trend delta stay readable on one unit. Row: `overflow-x-auto` wrapper with `flex flex-nowrap gap-4`; at `sm` and above use `grid grid-cols-2 xl:grid-cols-4`.
-- **Chart containers:** explicit height is required — **320 px recommended**, 280 px minimum. Use 480 px for dense time series or scatter. Chart grid: `grid grid-cols-1 xl:grid-cols-2 gap-6`.
-- **Filter placement:** use sidebar **or** main toolbar — never both on the same dashboard. Sidebar filters go as the last nav group (vertical fields, `w-full` selects). Toolbar filters are a surfaced horizontal strip (`bg-surface-primary border border-stroke-tertiary p-4`, actions right).
+**Why it matters:** semantic utilities remap under `.dark` and `.radius-mode` automatically. Primitives and hand-rolled hex do not.
 
-### App layout archetypes
+### How to choose
 
-| Archetype                     | Primary content                                                    | Typical filter location                               |
-| ----------------------------- | ------------------------------------------------------------------ | ----------------------------------------------------- |
-| **A — Doc / multi-section**   | Long-form reading or config spread across `Card` + `Tabs` sections | Main toolbar                                          |
-| **B — Analytics / dashboard** | KPI banner + chart grid + table in `flex flex-col gap-8`           | Sidebar (last nav group) or main toolbar — never both |
-| **C — Form-centric**          | Dense `Field` / `Form` flow — single column or grouped settings    | N/A                                                   |
-| **D — Table-centric**         | Full-width `DataTable` with toolbar (search, density, export)      | Main toolbar                                          |
+1. **Purpose first** — `surface` (shells), `fill` (components), `fg` (copy), `stroke` (borders), `status` (non-text fills), `stateslayer-overlay` (hover/press), `shadow-elevation-*` (depth).
+2. **Then contrast** — within a family: `primary` > `secondary` > `tertiary` > `disabled`.
+3. **`-inverse`** on accent / high-contrast backgrounds.
+4. **Prefer Tailwind utilities** (`bg-surface-base`, `text-fg-primary`) over `var(--*)`.
+5. **Typography** — named classes (`paragraph-regular-primary`, `headings-h2-semibold`), not hand-composed `text-sm leading-5`.
+6. **Status text** — `text-error`, `text-success`, etc. (AA); `status-*` utilities are for fills/borders only.
 
-Shell structure: Navbar `<header>` sits **outside** `SidebarProvider`, which wraps the sidebar and `SidebarInset` (scrollable main).
+### Quick rules
 
-## Elevation & Depth
+- Prefer **semantic** over **primitive** in product UI.
+- Use the right **family** — `surface-*` for shells, `fill-*` for components, `stroke-*` for borders.
+- **Hover/press** — `bg-stateslayer-overlay-hover` / `pressed` (or `-inverse`), not `bg-white/8` or ad-hoc opacity.
+- **Elevation** — `shadow-elevation-0` … `shadow-elevation-4`, not custom box-shadows.
+- **Spacing** — Tailwind 4px scale (`p-6`, `gap-4`).
 
-Depth is structural, not decorative. Most surfaces are **flat at rest**. Five elevation levels exist for floating UI only:
+### Frequent utilities
 
-| Level | Use for                            |
-| ----- | ---------------------------------- |
-| 0     | Input resting state, hairline lift |
-| 1     | Elevated cards, tooltips           |
-| 2     | Popovers, dropdowns, toasts        |
-| 3     | Dialogs, modals                    |
-| 4     | Full-screen overlays, drawers      |
+| Role                     | Utility                                         |
+| ------------------------ | ----------------------------------------------- |
+| App canvas               | `bg-surface-base`                               |
+| Panel / card             | `bg-surface-primary`                            |
+| Body text                | `text-fg-primary` + `paragraph-regular-primary` |
+| Muted text               | `text-fg-secondary`                             |
+| Divider / border         | `border-stroke-divider`                         |
+| Card outline             | `border-stroke-tertiary`                        |
+| Subtle lift              | `shadow-elevation-1`                            |
+| Focus ring               | `focus-visible:ring-stroke-status-focus`        |
+| Brand accent (sparingly) | `bg-brand-accents-qb-accent`                    |
 
-Light-mode shadows use slate-tinted opacity (8–38%). Dark-mode shadows deepen (60–88%) to read against slate backgrounds. No coloured shadows. Static cards, page regions, and headers carry no shadow — separation comes from `surface-primary` contrast and optional tertiary borders.
+---
 
-## Shapes
+## 5. Theming and modes
 
-The shape language is defined by **architectural precision**. Sharp corners (0 px) are the brand default — reflected in the YAML `rounded` tokens above. When `.radius-mode` is enabled on an ancestor, radii become:
+Two **independent** mode switches, applied as CSS classes on a parent element:
 
-| Scale | Sharp (default) | Rounded mode | Use for                    |
-| ----- | --------------- | ------------ | -------------------------- |
-| sm    | 0 px            | 4 px         | Buttons, inputs            |
-| reg   | 0 px            | 8 px         | Default components         |
-| md    | 0 px            | 12 px        | Cards, panels              |
-| lg    | 0 px            | 16 px        | Modals, dialogs            |
-| full  | 9999 px         | 9999 px      | Pills, avatars, radio dots |
+| Mode            | Class          | Default when unset    | Effect                                                               |
+| --------------- | -------------- | --------------------- | -------------------------------------------------------------------- |
+| Light / dark    | `.dark`        | Light token maps      | Remaps `fg`, `surface`, `stroke`, `fill`, `status`, elevation tokens |
+| Sharp / rounded | `.radius-mode` | Sharp — all radii `0` | Enables `--rad-sm/reg/md/lg` = `4/8/12/16px`                         |
 
-Set `.radius-mode` on `<html>` or not at all. Never mix sharp and rounded within one surface. Buttons are sharp (or 4 px in rounded mode). Full rounding is for tags, badges, avatars, and radio indicators only.
+Default to `class="dark"` on `<html>` at first load. Toggle removes `dark` for light; add `radius-mode` only when the app explicitly opts into rounded geometry.
 
-## Components
+### Theme activation
 
-Style guidance for common atoms. Install implementations from the [registry](https://github.com/mckinsey/quantumblack-design-system/blob/main/registry.json) — do not rebuild primitives that already exist.
+```html
+<html class="dark">
+  <!-- dark, sharp — default -->
+  <html>
+    <!-- light, sharp -->
+    <html class="dark radius-mode">
+      <!-- dark, rounded -->
+      <html class="radius-mode">
+        <!-- light, rounded -->
+      </html>
+    </html>
+  </html>
+</html>
+```
 
-### Component selection quick-picker
+### Radius scale
 
-The most common selection confusions resolved:
+| Token       | Sharp (default) | Rounded (`.radius-mode`) |
+| ----------- | --------------- | ------------------------ |
+| `--rad-sm`  | `0px`           | `4px`                    |
+| `--rad-reg` | `0px`           | `8px`                    |
+| `--rad-md`  | `0px`           | `12px`                   |
+| `--rad-lg`  | `0px`           | `16px`                   |
 
-**Actions**
+**Sharp is the brand default.** Never mix sharp and rounded in the same surface.
 
-| Need                           | Use                                      | Not                                |
-| ------------------------------ | ---------------------------------------- | ---------------------------------- |
-| Text-labeled action            | `Button`                                 | —                                  |
-| Glyph-only, tight space        | `Button-Icon` + `aria-label` + `Tooltip` | `Button` without a label           |
-| Primary + related alternatives | `Button-Split`                           | Multiple `Button`s side by side    |
-| Related actions together       | `ButtonsGroup`                           | More than one `primary` in a group |
-| Exclusive view-mode toggle     | `SegmentedControls`                      | `Tab-Group`                        |
+---
 
-**Selection controls**
+## 6. Iconography
 
-| Need                                  | Use                  | Not                  |
-| ------------------------------------- | -------------------- | -------------------- |
-| Independent on/off, applied on submit | `Checkbox`           | `Switch`             |
-| Instant on/off setting                | `Switch`             | `Checkbox`           |
-| One-of-many, always visible           | `RadioGroup`         | `Field/SingleSelect` |
-| One-of-many, long list / space-tight  | `Field/SingleSelect` | `RadioGroup`         |
-| Many-of-many, searchable              | `Field/MultiSelect`  | `CheckboxGroup`      |
+**Source:** [Material Symbols Sharp @ 400 weight](https://fonts.google.com/icons). **Never use:** rounded or outlined Material Symbols variants, lucide-react, heroicons, or any other icon set. Sharp geometry is brand-defining.
 
-**Tags vs badges**
+Icons inherit `currentColor` — tint is controlled by the parent's `text-fg-*` class.
 
-| Need                              | Use               | Not                             |
-| --------------------------------- | ----------------- | ------------------------------- |
-| User-applied, removable label     | `Tag-Dismissable` | `Badge`                         |
-| User-toggled filter chip          | `Tag-Toggle`      | `Checkbox` or `Tag-Dismissable` |
-| System status / count (read-only) | `Badge`           | `Tag`                           |
+### Opacity state model
 
-**Feedback and overlays**
+| State                        | Opacity |
+| ---------------------------- | ------- |
+| Default                      | 60%     |
+| `.icon-interactive` hover    | 88%     |
+| `.icon-interactive` disabled | 30%     |
 
-| Need                                      | Use           | Not                   |
-| ----------------------------------------- | ------------- | --------------------- |
-| Transient "done" (auto-dismisses)         | `Snackbars`   | `AlertBanner`         |
-| Persistent message until resolved         | `AlertBanner` | `Snackbars`           |
-| Blocking task / decision                  | `Modal`       | In-page `AlertBanner` |
-| Short hover / focus hint                  | `Tooltip`     | Popover               |
-| Interactive / persistent floating content | Popover       | `Tooltip`             |
+### `IconShell` (React path)
 
-**Navigation**
+```tsx
+import { CropFree } from '@/components/icons';
+import { IconShell } from '@/components/ui/icon-shell';
 
-| Need                                       | Use                                 | Not            |
-| ------------------------------------------ | ----------------------------------- | -------------- |
-| Persistent app-level left nav              | `LeftNav` (rail + expandable panel) | Custom `<nav>` |
-| Switch between sibling content panels      | `Tab-Group`                         | `Accordion`    |
-| Progressive disclosure of stacked sections | `Accordion`                         | `Tab-Group`    |
+<IconShell size="sm">
+  <CropFree />
+</IconShell>;
+```
 
-### Buttons
+Common icon names: Close, Check, ChevronDown, ChevronLeft, ChevronRight, CalendarMonth, ArrowForward, CheckCircle, Cancel, ErrorIcon, Info, SwapVert.
 
-- **Primary:** Primary fill, on-primary text. 36 px default height, 48 px large. Hover and pressed apply a **subtle opacity overlay** on the same fill — not a colour change.
-- **Accent:** Tertiary/accent fill, primary (dark) text. Decorative highlight actions only — not the main CTA per screen.
-- **Secondary:** Neutral/muted fill, on-surface text.
-- **Outline / Ghost:** Transparent or bordered; hover uses state-layer tint.
-- **Focus:** Sky-blue focus ring — 1 px on small controls, 2 px on default/large. Always `focus-visible`, never on mouse click alone.
-- **Disabled:** Muted fill, disabled text colour, not-allowed cursor.
+---
 
-### Input fields
+## 7. Components from the registry
 
-- **Default:** Neutral fill-on-surface background, on-surface text, hairline elevation at rest. 36 px height.
-- **Focus:** Inverse active overlay + focus ring. Inline variant uses bottom-border focus instead.
-- **Error:** Error-coloured border; error message below in readable error text. Set `aria-invalid`.
-- **Disabled:** Disabled overlay, disabled text, not-allowed cursor.
-- **Placeholder:** Tertiary text colour — never the same contrast as entered values.
+**Authoritative detail** — props, variants, install workflow: [react-qbds-registry.md](react-qbds-registry.md).
 
-Always wrap inputs in a `Field` with an associated `Label`.
+Components are Radix-based primitives styled with `cva`. Prefer **composing** them over copying bespoke class stacks from memory. Extend via wrappers; avoid forking registry markup so upstream DS fixes propagate.
 
-### Cards / Containers
+Charts are **not** QBDS primitives — use Apache ECharts. Chart colour palettes and plot tokens are defined in [§2 — Chart colours](#chart-colours) above.
 
-- **Background:** Surface colour, on-surface text.
-- **Padding:** 24 px (`gutter`), 12 px gap between slots.
-- **Shadow:** None by default. Optional tertiary border. Elevation 1 only when the card truly floats.
+---
 
-### Checkboxes
+## 8. Accessibility & focus
 
-- **Unchecked:** Transparent fill, primary-stroke border, 16 px visible box (20 px bounding box).
-- **Checked / indeterminate:** Primary fill for checkmark or dash; on-primary icon colour.
-- **Focus:** Focus ring + active border. Disabled: tertiary border, disabled fill.
+### Focus ring
 
-### Radio buttons
+- Always `focus-visible:ring-stroke-status-focus` — never shown on mouse click, always on keyboard nav.
+- **Ring width:** 1px for small components (`xs`, `sm`); 2px for medium and large.
+- **Ring offset:** 1px with `ring-offset-stroke-active-inverse` on filled variants.
 
-- **Unselected:** Circular, primary-stroke border, transparent fill.
-- **Selected:** Primary-fill dot centred inside the circle.
-- **Focus:** Focus ring + active border. 12 px gap between items in a group.
+### Error and validation
 
-### Tooltips
+- `aria-invalid="true"` switches border to `border-status-error`; remove conflicting focus ring with `ring-0`.
+- Error messages: `text-status-error text-sm`, rendered below the input inside the Field wrapper.
 
-- **Background:** Primary fill. **Text:** On-primary, body-small size.
-- **Elevation:** Level 1. Max width ~140 px single line, ~220 px multi-line.
-- **Delay:** Immediate show on focus/hover for accessibility.
+### Disabled state
 
-### Tags / Chips
+- All interactive components: `cursor-not-allowed`, `text-fg-disabled`, `pointer-events-none`, and `stateslayer-overlay-disabled`.
+- Never communicate disabled-ness by colour alone.
 
-- **Default:** Surface background, on-surface text, sharp corners (or sm radius in rounded mode). 28 px height.
-- **Selected (filter):** Primary fill, on-primary text.
-- **Accent variant:** Tertiary border with muted fill — not a filled accent body.
-- **Dismiss:** Icon at secondary opacity; full rounding only for the close affordance if circular.
+### Keyboard
 
-### Lists / Tables
+- All menus, dropdowns, dialogs, and comboboxes ship with Radix/`cmdk` keyboard handling: arrow nav, Enter to select, Escape to close, Tab to leave.
+- Focus returns to trigger when a floating surface closes.
 
-- **Header:** Semibold 14 px, primary surface background. Sticky on scroll.
-- **Body:** Regular 14 px, ~60 px row height, tertiary dividers.
-- **Interactive rows:** Subtle fill tint on hover.
+### Semantic structure
 
-### Dialogs / Overlays
+- Icons: `aria-hidden="true"` — label the parent button/link.
+- Form controls: always associated with a `<Label>` via `Field` or `Form`.
 
-- **Overlay:** Base surface with backdrop blur.
-- **Content:** Primary surface, elevation 3, sharp corners.
-- Focus trap via Radix; focus returns to trigger on close.
+### Touch targets
 
-### Icons
+- Minimum: **36 × 36 px** (`size-9`, default Button/Input height). For mobile-critical flows, prefer `lg` (48px).
 
-Material Symbols **sharp** via `<IconShell>` + `<Icon>`:
+### Motion
 
-| Size    | Optical spec     | Use for                  |
-| ------- | ---------------- | ------------------------ |
-| sm      | 20 dp @ wght 400 | Inline, compact controls |
-| default | 24 dp @ wght 300 | Standard UI              |
-| lg      | 40 dp @ wght 300 | Feature callouts         |
+- Transitions: ~200ms. No pulsing, bouncing, or parallax. Respect `prefers-reduced-motion`.
 
-- **Set:** Material Symbols **sharp** variable font — never rounded, outlined, or filled variants.
-- **Pattern:** `<IconShell size="default" variant="secondary"><Icon icon="search" /></IconShell>`
-- **Naming:** Google ligature snake_case (`keyboard_arrow_down`, `check_circle`, `close`)
-- **Colour:** Inherited from parent via `currentColor` and semantic text/fill tokens. Use `neutral-inverse` on dark fills, `accent` type for brand highlights.
-- **Opacity:** primary 88%, secondary 60%, disabled 30%. Interactive icons brighten on hover (60% → 88%).
-- **Accessibility:** Decorative icons are `aria-hidden`. Interactive icons live inside labelled buttons or links — the icon alone is never the accessible name.
+---
 
-## Do's and Don'ts
+## 9. Layout principles
+
+- **Spacing:** Tailwind 4px scale (`p-*`, `gap-*`). Match shipped patterns: `Card` padding `p-6`, `Button` padding `p-2`, default `Input` height `h-9` (36px). Between major dashboard sections (header, KPI row, charts, table): `gap-8` on a `flex flex-col` wrapper — not isolated `mb-6` on each child.
+- **KPI / metric cards:** minimum width `min-w-[240px]` so label, value, and delta stay on one visual unit; use `overflow-x-auto` + `flex-nowrap` when the row cannot fit.
+- **Grid/container:** see [app-layout-archetypes.md](app-layout-archetypes.md) for main column widths by archetype.
+- **Z-index:** floating surfaces (Popover, Dropdown, Dialog, Tooltip) are managed by Radix portals — never set z-index manually.
+
+---
+
+## 10. Depth and elevation
+
+Five elevation utilities: `shadow-elevation-0` … `shadow-elevation-4`. Exact shadow stacks in `globals.css`.
+
+| Utility              | Typical use                                  |
+| -------------------- | -------------------------------------------- |
+| `shadow-elevation-0` | Flush input focus, subtle resting lift       |
+| `shadow-elevation-1` | Slightly raised cards or panels              |
+| `shadow-elevation-2` | Popovers, dropdowns, tooltips, menus, toasts |
+| `shadow-elevation-3` | Dialogs, modals                              |
+| `shadow-elevation-4` | Heavy overlays, drawers                      |
+
+In light mode, many surfaces use **borders and surface contrast** instead of shadow — reserve elevation utilities for surfaces that truly float above their parent.
+
+---
+
+## 11. Interaction conventions
+
+### State layers
+
+Hover and press use **opacity overlays**:
+
+- **Hover:** ~8% overlay
+- **Pressed / active:** ~16% overlay
+- **Disabled:** state layer + reduced text opacity (~38%)
+- **No scale transforms** — state reads through colour/overlay only
+- **Animation:** ~200ms transitions; respect `prefers-reduced-motion`
+
+---
+
+## 12. Do's and don'ts
+
+### Copy & tone
+
+QBDS reads **analytical and restrained** — not marketing or chatty.
+
+- **Functional and direct** — terse labels; no slogans or filler. No marketing buzzwords ("streamline", "empower", "supercharge", "world-class", "enterprise-grade") — name the specific action or data instead.
+- **Simple**: clear, concise, direct — not vague, jargon-heavy, or verbose. E.g. "We build new skills within your team," not "We leverage your existing organisational resources to synthesise novel competencies."
+- **Sentence case** for labels and short strings; Title Case for proper names only.
+- **No emoji** in product UI.
+- **Errors** — plain, factual, actionable.
+- **Pattern descriptions** — third person where it fits: "Displays…", "Shows…", "Filters…".
+- **No em-dash chains** in UI copy or generated narrative text — use periods or commas to separate clauses.
+- **No manufactured-contrast one-liners** ("Not a feature. A platform.") or dismissive "theater" framing in empty states, onboarding copy, or insight text — state the fact plainly.
 
 ### Do
 
-- Use semantic tokens for all styling. Reference [TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md) when unsure.
-- Ship a visible theme toggle on every app; default to dark mode and persist the choice in `localStorage`.
-- Use QBDS chart palettes (qualitative, sequential, sequential_minus, diverging) for data visualizations — never invent series hex.
-- Default to sharp geometry. Opt into `.radius-mode` at the app root only.
-- Separate surfaces with borders and background contrast in light mode. Reserve elevation for floating UI.
-- Apply opacity-based state layers for hover and pressed — not saturated colour shifts.
-- Use typography utility classes (`paragraph-regular-primary`, `cta-button-02`).
-- Ship visible `focus-visible` rings on every interactive element.
-- Associate every form control with a label via `Field` or `Form`.
-- Handle empty, loading, and error states on async surfaces.
-- Pair status colours with icons and text — never colour alone.
-- Use `-inverse` tokens on primary or accent fills so content stays legible in both themes.
-- Respect `prefers-reduced-motion`.
+- Use **Tailwind utilities from TOKENS.md** for all styling — never primitives or raw hex in product UI.
+- Default to **sharp geometry**. Opt into `.radius-mode` at the app level, not per-component.
+- Use **borders over shadows** for separation in light mode.
+- Use **opacity-based state layers** (`stateslayer-overlay-*`) for hover/press.
+- Apply **named typography classes** instead of composing font-size + line-height manually.
+- Use **Material Symbols Sharp @ 400** for all icons.
+- Ship every interactive element with a visible `focus-visible` ring using `ring-stroke-status-focus`.
+- Pair status colours with icons **and** text labels.
 
 ### Don't
 
-- Hardcode primitives (`bg-slate-900`) or raw hex in components.
-- Ship light-only or dark-only UIs without a theme toggle.
-- Invent chart colours or hardcode plot chrome that ignores dark/light plot tokens.
-- Mix sharp and rounded corners in the same view.
-- Use pill-shaped buttons — pills are for tags, badges, and avatars.
-- Exceed three font weights (300 / 400 / 600) on a page.
-- Apply default drop-shadows to cards or page regions.
-- Import Lucide, Heroicons, or non-sharp Material Symbols.
-- Use `status-*` tokens for readable text — they are not AA-compliant.
-- Set manual z-index on portalled surfaces (popover, dialog, tooltip).
-- Use gradients, glassmorphism, bounce easing, or decorative animation.
-- Drop body text below 12 px on mobile.
-- Reimplement registry components when `npx shadcn add` can install them.
-- Use tertiary/accent as the default primary CTA — reserve it for one focal highlight per view.
+- **Don't use primitives** (`bg-slate-900`, `text-mist-50`) in product UI — semantic tokens only.
+- **Don't mix sharp and rounded corners** in the same surface.
+- **Don't use `rounded-full` on rectangular buttons** — reserved for pill tags, avatars, dot indicators.
+- **Don't exceed 3 font weights** (300, 400, 600 — that's the maximum, not the target).
+- **Don't saturate hover colours** — overlays, not colour shifts.
+- **Don't use drop-shadows on cards by default** — light-mode cards separate via border and surface.
+- **Don't import non-Sharp icons** (lucide, heroicons, rounded/outlined Material Symbols).
+- **Don't exceed 88% opacity for foreground text** — `fg-primary` is intentionally ~88%.
+- **Don't set z-index manually** on Radix-portalled surfaces.
+- **Don't use gradients, patterns, or textures** as backgrounds.
+- **Don't use PNG icons or ad-hoc Unicode symbols** for product chrome.
+- **Don't fill the shell with illustration or full-bleed imagery** — QBDS stays typographic.
+- **Don't use a thick single-side accent border decoratively** on a card or panel — the only accent-border pattern in QBDS is the `border-stroke-active` underline on active `Tabs`; never apply a colored side-stripe to cards, alerts, or panels as a status or decorative treatment.
+- **Don't nest surfaces more than one layer deep** (card-in-card-in-card) — flatten with `border-stroke-divider` and spacing instead.
+- **Don't stack a decorative eyebrow label or pill chip above a headline**, and don't repeat tiny uppercase kicker labels above every section — let `headings-h3-semibold` and layout density (§9) carry structure.
+- **Don't add numbered section markers (01 / 02 / 03)** unless the section is a literal, ordered sequence (e.g. onboarding steps).
+- **Don't blow up a long-sentence headline to `display-*` size** — that scale is for short headlines (1–2 phrases); longer copy takes `headings-h2-semibold`.
+- **Don't manufacture uniform card grids to fill space** — vary card content to match actual information density; a repeated icon+heading+text template is a filler pattern, not a layout.
+
+---
+
+## 13. Responsive behavior
+
+- **Breakpoints:** Tailwind defaults (`sm`, `md`, `lg`). On small viewports: prefer stacking, bottom sheets for dense menus.
+- **Type scaling:** do not drop body text below 12px (`paragraph-small-primary`). Displays (40–56px) can scale down to 32px on small screens.
+- **Sidebar:** responsive behaviour and shapes — [app-layout-archetypes.md § Shared app shell](app-layout-archetypes.md#shared-app-shell).
