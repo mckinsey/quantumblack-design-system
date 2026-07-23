@@ -1,4 +1,14 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import * as React from 'react';
+
+import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
+import {
+  type TabSize,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/ui/tabs';
 
 /**
  * Default tabs demo
@@ -19,37 +29,64 @@ export function TabsDemo() {
 }
 
 /**
+ * Tabs do not style leading icons. Use controlled value and set
+ * IconShell variant manually: primary when value matches the trigger, else secondary.
+ */
+function TabsSizeExample({
+  size,
+  iconSize,
+}: {
+  size?: TabSize;
+  iconSize: 'sm' | 'default';
+}) {
+  const [value, setValue] = React.useState('account');
+
+  return (
+    <Tabs
+      value={value}
+      onValueChange={setValue}
+      className="w-[400px]"
+      size={size}
+      hideBaseline>
+      <TabsList>
+        <TabsTrigger value="account">
+          <IconShell
+            size={iconSize}
+            variant={value === 'account' ? 'primary' : 'secondary'}>
+            <Icon icon="crop_free" />
+          </IconShell>
+          Account
+        </TabsTrigger>
+        <TabsTrigger value="password">
+          <IconShell
+            size={iconSize}
+            variant={value === 'password' ? 'primary' : 'secondary'}>
+            <Icon icon="crop_free" />
+          </IconShell>
+          Password
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value="account">
+        {size === 'lg'
+          ? 'Large tabs content.'
+          : size === 'xl'
+            ? 'Extra large tabs content.'
+            : 'Default tabs content.'}
+      </TabsContent>
+      <TabsContent value="password">Password content.</TabsContent>
+    </Tabs>
+  );
+}
+
+/**
  * Tab sizes demonstration
  */
 export function TabsSizes() {
   return (
     <div className="flex flex-col gap-8">
-      <Tabs defaultValue="account" className="w-[400px]" size="sm" hideBaseline>
-        <TabsList>
-          <TabsTrigger value="account">Account</TabsTrigger>
-          <TabsTrigger value="password">Password</TabsTrigger>
-        </TabsList>
-        <TabsContent value="account">Small tabs content.</TabsContent>
-        <TabsContent value="password">Password content.</TabsContent>
-      </Tabs>
-
-      <Tabs defaultValue="account" className="w-[400px]" hideBaseline>
-        <TabsList>
-          <TabsTrigger value="account">Account</TabsTrigger>
-          <TabsTrigger value="password">Password</TabsTrigger>
-        </TabsList>
-        <TabsContent value="account">Default tabs content.</TabsContent>
-        <TabsContent value="password">Password content.</TabsContent>
-      </Tabs>
-
-      <Tabs defaultValue="account" className="w-[400px]" size="lg" hideBaseline>
-        <TabsList>
-          <TabsTrigger value="account">Account</TabsTrigger>
-          <TabsTrigger value="password">Password</TabsTrigger>
-        </TabsList>
-        <TabsContent value="account">Large tabs content.</TabsContent>
-        <TabsContent value="password">Password content.</TabsContent>
-      </Tabs>
+      <TabsSizeExample iconSize="sm" />
+      <TabsSizeExample size="lg" iconSize="default" />
+      <TabsSizeExample size="xl" iconSize="default" />
     </div>
   );
 }
@@ -109,21 +146,6 @@ export function TabsCentered() {
 export function TabsCompact() {
   return (
     <div className="flex flex-col gap-8">
-      <Tabs
-        defaultValue="account"
-        className="w-[400px]"
-        size="sm"
-        padded={false}>
-        <TabsList>
-          <TabsTrigger value="account">Account</TabsTrigger>
-          <TabsTrigger value="password">Password</TabsTrigger>
-          <TabsTrigger value="settings">Settings</TabsTrigger>
-        </TabsList>
-        <TabsContent value="account">Small compact tabs.</TabsContent>
-        <TabsContent value="password">Password content.</TabsContent>
-        <TabsContent value="settings">Settings content.</TabsContent>
-      </Tabs>
-
       <Tabs defaultValue="account" className="w-[400px]" padded={false}>
         <TabsList>
           <TabsTrigger value="account">Account</TabsTrigger>
@@ -146,6 +168,21 @@ export function TabsCompact() {
           <TabsTrigger value="settings">Settings</TabsTrigger>
         </TabsList>
         <TabsContent value="account">Large compact tabs.</TabsContent>
+        <TabsContent value="password">Password content.</TabsContent>
+        <TabsContent value="settings">Settings content.</TabsContent>
+      </Tabs>
+
+      <Tabs
+        defaultValue="account"
+        className="w-[400px]"
+        size="xl"
+        padded={false}>
+        <TabsList>
+          <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="password">Password</TabsTrigger>
+          <TabsTrigger value="settings">Settings</TabsTrigger>
+        </TabsList>
+        <TabsContent value="account">Extra large compact tabs.</TabsContent>
         <TabsContent value="password">Password content.</TabsContent>
         <TabsContent value="settings">Settings content.</TabsContent>
       </Tabs>
@@ -186,12 +223,14 @@ export const examples = [
   {
     name: 'TabsSizes',
     title: 'Sizes',
-    description: 'Small, default, and large tab sizes.',
+    description:
+      'Sizes with leading icons. Set IconShell variant from controlled value (primary when active, secondary otherwise) — TabsTrigger does not drive icon opacity.',
   },
   {
     name: 'TabsBaseline',
     title: 'Baseline',
-    description: 'Tabs with and without bottom baseline.',
+    description:
+      'hideBaseline=false shows the full-width divider under the tab row; hideBaseline=true removes it.',
   },
   {
     name: 'TabsCentered',
@@ -201,7 +240,8 @@ export const examples = [
   {
     name: 'TabsCompact',
     title: 'Compact (No Padding)',
-    description: 'Tabs without horizontal padding and gap between triggers.',
+    description:
+      'padded={false}: no horizontal padding on triggers and gap between tabs. padded={true} (default) adds px on each trigger with no inter-tab gap.',
   },
   {
     name: 'TabsDisabled',
