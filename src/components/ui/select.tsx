@@ -231,12 +231,12 @@ function SelectTrigger({
   const sizeContext = useSelectContext();
   const size = sizeContext?.size ?? 'default';
   const iconSize = selectIconSize(size);
-  const isDisabled = Boolean(disabled ?? sizeContext?.disabled);
+  const isDisabled = Boolean(disabled || sizeContext?.disabled);
 
   return (
     <SelectPrimitive.Trigger
       {...props}
-      disabled={disabled}
+      disabled={isDisabled}
       data-slot="select-trigger"
       data-variant={variant}
       className={cn(selectTriggerVariants({ variant, size }), className)}>
