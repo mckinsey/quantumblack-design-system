@@ -108,7 +108,7 @@
       "type": "registry:ui",
       "title": "Button",
       "description": "Allows users to take actions with a single click or tap.",
-      "dependencies": ["@radix-ui/react-slot"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -167,6 +167,7 @@
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/button.json",
         "__REGISTRY_URL__/r/calendar.json",
         "__REGISTRY_URL__/r/field.json",
         "__REGISTRY_URL__/r/icon-shell.json",
@@ -428,7 +429,7 @@
       "name": "icon-shell",
       "type": "registry:ui",
       "title": "Icon Shell",
-      "description": "An icon component.",
+      "description": "Wraps Icon with QBDS size, tone, and opacity. variant for static icons; hoverable for icon-only buttons. disabled overrides styling.",
       "dependencies": ["@radix-ui/react-slot"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
@@ -667,6 +668,7 @@
         "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/button.json",
         "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json",
         "__REGISTRY_URL__/r/separator.json",
         "__REGISTRY_URL__/r/tooltip.json",
         "__REGISTRY_URL__/r/input.json",
@@ -712,7 +714,8 @@
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/button.json",
         "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/icon.json"
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
       ],
       "dependencies": ["sonner", "next-themes"],
       "files": [
@@ -761,7 +764,7 @@
       "type": "registry:ui",
       "title": "Tabs",
       "description": "A responsive tabs component.",
-      "dependencies": ["@radix-ui/react-tabs"],
+      "dependencies": ["@base-ui/react/tabs"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -881,7 +884,7 @@
       "type": "registry:ui",
       "title": "Toggle",
       "description": "A toggle component.",
-      "dependencies": ["@radix-ui/react-toggle"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",

@@ -18,7 +18,7 @@ export function ButtonDemo() {
       <Button>Click me</Button>
 
       <Button size="icon" variant="default" aria-label="Expand">
-        <IconShell type="neutral-inverse" variant="primary">
+        <IconShell type="neutral-inverse" hoverable>
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
@@ -28,7 +28,7 @@ export function ButtonDemo() {
         variant="default"
         className="rounded-full"
         aria-label="Expand">
-        <IconShell type="neutral-inverse" variant="primary">
+        <IconShell type="neutral-inverse" hoverable>
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
@@ -90,14 +90,14 @@ export function ButtonWithIcons() {
   return (
     <div className="flex flex-wrap items-center gap-4">
       <Button>
-        <IconShell size="sm">
+        <IconShell size="sm" type="neutral-inverse" variant="primary">
           <Icon icon="crop_free" />
         </IconShell>
         Leading Icon
       </Button>
       <Button>
         Trailing Icon
-        <IconShell size="sm">
+        <IconShell size="sm" type="neutral-inverse" variant="primary">
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
@@ -109,18 +109,18 @@ export function ButtonWithIcons() {
 export function ButtonLoading() {
   return (
     <div className="flex flex-wrap items-center gap-4">
-      <Button disabled className="w-[100px]">
-        <IconShell size="sm">
+      <Button className="w-[100px]" aria-label="Loading">
+        <IconShell type="neutral-inverse" variant="primary" size="sm">
           <Icon icon="progress_activity" className="animate-spin" />
         </IconShell>
       </Button>
-      <Button variant="outline" disabled className="w-[100px]">
-        <IconShell size="sm">
+      <Button variant="outline" className="w-[100px]" aria-label="Loading">
+        <IconShell size="sm" hoverable>
           <Icon icon="progress_activity" className="animate-spin" />
         </IconShell>
       </Button>
-      <Button variant="secondary" disabled>
-        <IconShell size="sm">
+      <Button variant="secondary">
+        <IconShell size="sm" hoverable>
           <Icon icon="progress_activity" className="animate-spin" />
         </IconShell>
         Loading...
@@ -134,27 +134,27 @@ export function ButtonIconOnly() {
   return (
     <div className="flex flex-wrap items-center gap-4">
       <Button size="icon-lg" aria-label="Expand">
-        <IconShell size="default">
+        <IconShell size="default" type="neutral-inverse" hoverable>
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
       <Button size="icon" aria-label="Expand">
-        <IconShell size="sm">
+        <IconShell size="sm" type="neutral-inverse" hoverable>
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
       <Button size="icon-sm" aria-label="Expand">
-        <IconShell size="sm">
+        <IconShell size="sm" type="neutral-inverse" hoverable>
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
       <Button size="icon-xs" aria-label="Expand">
-        <IconShell size="sm">
+        <IconShell size="sm" type="neutral-inverse" hoverable>
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
       <Button size="icon-xxs" aria-label="Expand">
-        <IconShell size="sm">
+        <IconShell size="sm" type="neutral-inverse" hoverable>
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
@@ -167,27 +167,27 @@ export function ButtonIconRounded() {
   return (
     <div className="flex flex-wrap items-center gap-4">
       <Button size="icon-lg" className="rounded-full" aria-label="Expand">
-        <IconShell size="default">
+        <IconShell size="default" type="neutral-inverse" hoverable>
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
       <Button size="icon" className="rounded-full" aria-label="Expand">
-        <IconShell size="sm">
+        <IconShell size="sm" type="neutral-inverse" hoverable>
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
       <Button size="icon-sm" className="rounded-full" aria-label="Expand">
-        <IconShell size="sm">
+        <IconShell size="sm" type="neutral-inverse" hoverable>
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
       <Button size="icon-xs" className="rounded-full" aria-label="Expand">
-        <IconShell size="sm">
+        <IconShell size="sm" type="neutral-inverse" hoverable>
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
       <Button size="icon-xxs" className="rounded-full" aria-label="Expand">
-        <IconShell size="sm">
+        <IconShell size="sm" type="neutral-inverse" hoverable>
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
@@ -231,7 +231,7 @@ export function ButtonDropdown() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="icon" aria-label="Open menu">
-            <IconShell size="sm">
+            <IconShell size="sm" hoverable>
               <Icon icon="keyboard_arrow_down" />
             </IconShell>
           </Button>
@@ -246,7 +246,7 @@ export function ButtonDropdown() {
             size="icon"
             className="rounded-full"
             aria-label="Open menu">
-            <IconShell size="sm">
+            <IconShell size="sm" hoverable>
               <Icon icon="keyboard_arrow_down" />
             </IconShell>
           </Button>
@@ -276,7 +276,7 @@ export function ButtonRadiusMode() {
         <Button variant="ghost">Ghost</Button>
 
         <Button size="icon" aria-label="Expand">
-          <IconShell size="sm">
+          <IconShell size="sm" type="neutral-inverse" hoverable>
             <Icon icon="crop_free" />
           </IconShell>
         </Button>

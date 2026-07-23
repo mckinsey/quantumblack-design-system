@@ -159,7 +159,7 @@ export function SliderVolume() {
       <label className="text-fg-primary text-sm">Volume</label>
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon-sm" onClick={decrease}>
-          <IconShell size="sm">
+          <IconShell size="sm" hoverable>
             <Icon icon="volume_down" />
           </IconShell>
         </Button>
@@ -171,7 +171,7 @@ export function SliderVolume() {
           className="flex-1"
         />
         <Button variant="ghost" size="icon-sm" onClick={increase}>
-          <IconShell size="sm">
+          <IconShell size="sm" hoverable>
             <Icon icon="volume_up" />
           </IconShell>
         </Button>

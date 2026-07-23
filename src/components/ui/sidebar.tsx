@@ -6,6 +6,7 @@ import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -73,7 +74,7 @@ function SidebarProvider({
   defaultOpen = true,
   open: openProp,
   onOpenChange: setOpenProp,
-  size = 'lg',
+  size = 'default',
   className,
   style,
   children,
@@ -321,7 +322,9 @@ function SidebarTrigger({
         toggleSidebar();
       }}
       {...props}>
-      <Icon icon="menu" />
+      <IconShell type="neutral" hoverable size="sm">
+        <Icon icon="menu" />
+      </IconShell>
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );

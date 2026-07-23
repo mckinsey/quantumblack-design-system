@@ -8,6 +8,7 @@ import type {
   OnSelectHandler,
 } from 'react-day-picker';
 
+import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
 import { Icon } from '@/components/ui/icon';
@@ -230,12 +231,11 @@ export function DatePickerDemo() {
             />
             <InputGroupAddon align="inline-end">
               <span className="flex size-5 cursor-pointer items-center justify-center">
-                <IconShell size="sm">
-                  <Icon
-                    icon="calendar_month"
-                    className="text-[length:inherit]"
-                  />
-                </IconShell>
+                <Button size="icon-xxs" variant="ghost" aria-label="Expand">
+                  <IconShell size="sm" type="neutral" hoverable>
+                    <Icon icon="calendar_month" />
+                  </IconShell>
+                </Button>
               </span>
             </InputGroupAddon>
           </InputGroup>
@@ -312,12 +312,11 @@ export function DatePickerRange() {
             />
             <InputGroupAddon align="inline-end">
               <span className="flex size-5 cursor-pointer items-center justify-center">
-                <IconShell size="sm">
-                  <Icon
-                    icon="calendar_month"
-                    className="text-[length:inherit]"
-                  />
-                </IconShell>
+                <Button size="icon-xxs" variant="ghost" aria-label="Expand">
+                  <IconShell size="sm" type="neutral" hoverable>
+                    <Icon icon="calendar_month" />
+                  </IconShell>
+                </Button>
               </span>
             </InputGroupAddon>
           </InputGroup>
@@ -368,9 +367,15 @@ export function DatePickerDisabled() {
         />
         <InputGroupAddon align="inline-end">
           <span className="flex size-5 cursor-not-allowed items-center justify-center">
-            <IconShell size="sm">
-              <Icon icon="calendar_month" className="text-[length:inherit]" />
-            </IconShell>
+            <Button
+              size="icon-xxs"
+              variant="ghost"
+              aria-label="Expand"
+              disabled>
+              <IconShell size="sm" type="neutral" disabled>
+                <Icon icon="calendar_month" />
+              </IconShell>
+            </Button>
           </span>
         </InputGroupAddon>
       </InputGroup>
@@ -440,12 +445,17 @@ function DatePickerSized({
                 className={cn(
                   'flex cursor-pointer items-center justify-center',
                 )}>
-                <IconShell size={size === 'lg' ? 'default' : 'sm'}>
-                  <Icon
-                    icon="calendar_month"
-                    className="text-[length:inherit]"
-                  />
-                </IconShell>
+                <Button
+                  size={size === 'lg' ? 'icon' : 'icon-xxs'}
+                  variant="ghost"
+                  aria-label="Expand">
+                  <IconShell
+                    size={size === 'lg' ? 'default' : 'sm'}
+                    type="neutral"
+                    hoverable>
+                    <Icon icon="calendar_month" />
+                  </IconShell>
+                </Button>
               </span>
             </InputGroupAddon>
           </InputGroup>
@@ -586,12 +596,11 @@ function DatePickerValidationItem({
             />
             <InputGroupAddon align="inline-end">
               <span className="flex size-5 cursor-pointer items-center justify-center">
-                <IconShell size="sm">
-                  <Icon
-                    icon="calendar_month"
-                    className="text-[length:inherit]"
-                  />
-                </IconShell>
+                <Button size="icon-xxs" variant="ghost" aria-label="Expand">
+                  <IconShell size="sm" type="neutral" hoverable>
+                    <Icon icon="calendar_month" />
+                  </IconShell>
+                </Button>
               </span>
             </InputGroupAddon>
           </InputGroup>
