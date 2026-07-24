@@ -106,6 +106,23 @@ export function TagToggleDisabled() {
   );
 }
 
+/** Active (selected) tag toggles — Figma state=selected */
+export function TagToggleActive() {
+  return (
+    <div className="flex flex-wrap gap-3">
+      <TagToggle defaultPressed>
+        <TagToggleLeadingIcon />
+        Default
+      </TagToggle>
+
+      <TagToggle variant="outline" defaultPressed>
+        <TagToggleLeadingIcon />
+        Outline
+      </TagToggle>
+    </div>
+  );
+}
+
 export const examples: DemoExample[] = [
   {
     name: 'TagToggleDemo',
@@ -128,6 +145,12 @@ export const examples: DemoExample[] = [
     description: 'Tag toggle size options.',
   },
   {
+    name: 'TagToggleActive',
+    title: 'Active',
+    description:
+      'Selected/active state (defaultPressed). Leading icon uses inverse tone on default variant.',
+  },
+  {
     name: 'TagToggleDisabled',
     title: 'Disabled',
     description:
@@ -140,5 +163,6 @@ export const tagToggle = createLegacyDemo('tag-toggle', examples, {
   TagToggleVariants: <TagToggleVariants />,
   TagTogglePill: <TagTogglePill />,
   TagToggleSizes: <TagToggleSizes />,
+  TagToggleActive: <TagToggleActive />,
   TagToggleDisabled: <TagToggleDisabled />,
 });

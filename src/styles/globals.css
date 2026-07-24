@@ -89,6 +89,7 @@
   /** Mist Utility Colors */
   --color-mist-50: var(--mist-50);
   --color-mist-50-opacity-88: var(--mist-50-opacity-88);
+  --color-mist-50-opacity-38: var(--mist-50-opacity-38);
 
   /** Slate Primitives */
   --slate-50: oklch(34.96% 0.0179 272.24);

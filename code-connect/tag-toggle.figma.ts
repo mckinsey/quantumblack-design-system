@@ -24,9 +24,25 @@ if (leading?.type === 'INSTANCE') {
   leadingCode = leading.executeTemplate().example;
 }
 
+const pressed = instance.getEnum('state', {
+  enabled: false,
+  hover: false,
+  focus: false,
+  selected: true,
+  disabled: false,
+});
+
+const disabled = instance.getEnum('state', {
+  enabled: false,
+  hover: false,
+  focus: false,
+  selected: false,
+  disabled: true,
+});
+
 export default {
   example: figma.code`
-    <TagToggle variant="${variant}" size="${size}" pill={${pill}}>
+    <TagToggle variant="${variant}" size="${size}" pill={${pill}} pressed={${pressed}}${disabled ? ' disabled' : ''}>
       ${leadingCode}
       ${label}
     </TagToggle>

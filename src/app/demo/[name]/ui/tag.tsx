@@ -301,6 +301,11 @@ export function TagDisabled() {
             <TagLeadingIcon variant="outline" disabled />
             Outline
           </Tag>
+
+          <Tag variant="accent-outline" disabled onRemove={() => {}}>
+            <TagLeadingIcon variant="accent-outline" disabled />
+            Accent Outline
+          </Tag>
         </div>
       </div>
 
@@ -325,6 +330,11 @@ export function TagDisabled() {
           <Tag variant="outline" pill disabled onRemove={() => {}}>
             <TagLeadingIcon variant="outline" disabled />
             Outline
+          </Tag>
+
+          <Tag variant="accent-outline" pill disabled onRemove={() => {}}>
+            <TagLeadingIcon variant="accent-outline" disabled />
+            Accent Outline
           </Tag>
         </div>
       </div>

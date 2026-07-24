@@ -2,20 +2,21 @@ import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import { cn } from '@/lib/utils';
 
 const hoverOverlay = {
   normal:
-    'hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-hover),var(--color-stateslayer-overlay-hover))]',
+    'hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-hover),var(--color-stateslayer-overlay-hover))] aria-disabled:hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled),var(--color-stateslayer-overlay-disabled))]!',
   inverse:
-    'hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-hover-inverse),var(--color-stateslayer-overlay-hover-inverse))]!',
+    'hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-hover-inverse),var(--color-stateslayer-overlay-hover-inverse))] aria-disabled:hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled-inverse),var(--color-stateslayer-overlay-disabled-inverse))]!',
 } as const;
 
 const pressedOverlay = {
   normal:
-    'active:[background-image:linear-gradient(var(--color-stateslayer-overlay-pressed),var(--color-stateslayer-overlay-pressed))]',
+    'active:[background-image:linear-gradient(var(--color-stateslayer-overlay-pressed),var(--color-stateslayer-overlay-pressed))] aria-disabled:active:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled),var(--color-stateslayer-overlay-disabled))]!',
   inverse:
-    'active:[background-image:linear-gradient(var(--color-stateslayer-overlay-pressed-inverse),var(--color-stateslayer-overlay-pressed-inverse))]!',
+    'active:[background-image:linear-gradient(var(--color-stateslayer-overlay-pressed-inverse),var(--color-stateslayer-overlay-pressed-inverse))] aria-disabled:active:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled-inverse),var(--color-stateslayer-overlay-disabled-inverse))]!',
 } as const;
 
 const disabledOverlay =
@@ -23,22 +24,14 @@ const disabledOverlay =
 const disabledOverlayInverse =
   'aria-disabled:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled-inverse),var(--color-stateslayer-overlay-disabled-inverse))]';
 
-const dismissIconColor = {
-  primary: 'text-fill-active',
-  secondary: 'text-fill-active-inverse',
-  accent: 'text-mist-50',
-  outline: 'text-fill-active',
-  'accent-outline': 'text-fill-active',
-} as const;
-
 /** Base interaction classes shared with TagToggle (parameterised by disabled prefix) */
 function tagBaseStyles(disabledPrefix: 'disabled' | 'aria-disabled') {
   return [
     'whitespace-nowrap outline-none transition-all',
     'focus-visible:ring-2 focus-visible:ring-stroke-status-focus',
-    `${disabledPrefix}:cursor-not-allowed`,
-    `${disabledPrefix}:hover:[background-image:none]`,
-    `${disabledPrefix}:active:[background-image:none]`,
+    disabledPrefix === 'aria-disabled'
+      ? 'aria-disabled:cursor-not-allowed'
+      : 'disabled:cursor-not-allowed',
   ];
 }
 
@@ -55,8 +48,8 @@ function wrapTagText(
   const underlineClass = cn(
     'group-hover:underline [text-underline-position:from-font]',
     disabledPrefix === 'aria-disabled'
-      ? 'group-aria-disabled:no-underline'
-      : 'group-disabled:no-underline',
+      ? 'group-aria-disabled:no-underline!'
+      : 'group-disabled:no-underline!',
   );
 
   return React.Children.map(children, child => {
@@ -121,11 +114,11 @@ const tagVariants = cva(tagBaseStyles('aria-disabled'), {
       ],
       accent: [
         'bg-brand-accents-qb-accent text-mist-50',
-        hoverOverlay.inverse,
-        pressedOverlay.inverse,
-        'aria-disabled:text-fg-disabled',
-        'aria-disabled:hover:[background-image:none]!',
-        'aria-disabled:active:[background-image:none]!',
+        'hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-hover-inverse),var(--color-stateslayer-overlay-hover-inverse))]',
+        'aria-disabled:hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled),var(--color-stateslayer-overlay-disabled))]!',
+        'active:[background-image:linear-gradient(var(--color-stateslayer-overlay-pressed-inverse),var(--color-stateslayer-overlay-pressed-inverse))]',
+        'aria-disabled:active:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled),var(--color-stateslayer-overlay-disabled))]!',
+        'aria-disabled:text-mist-50-opacity-38',
         disabledOverlay,
       ],
       outline: [
@@ -140,9 +133,9 @@ const tagVariants = cva(tagBaseStyles('aria-disabled'), {
       'accent-outline': [
         'border border-brand-accents-qb-accent bg-fill-muted text-fg-primary',
         hoverOverlay.normal,
-        pressedOverlay.inverse,
+        'active:[background-image:linear-gradient(var(--color-stateslayer-overlay-pressed-inverse),var(--color-stateslayer-overlay-pressed-inverse))]',
+        'aria-disabled:active:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled),var(--color-stateslayer-overlay-disabled))]!',
         'aria-disabled:bg-fill-muted aria-disabled:text-fg-disabled',
-        'aria-disabled:active:[background-image:none]!',
         disabledOverlay,
       ],
     },
@@ -231,33 +224,35 @@ function Tag({
       className={cn(
         tagSizeVariants({ size, pill }),
         tagVariants({ variant }),
-        'group',
+        'group group/button',
         className,
       )}
       {...props}>
       {wrapTagText(children, 'aria-disabled')}
 
       {onRemove && (
-        <button
-          type="button"
+        <IconShell
+          asChild
+          size="sm"
+          type={tagIconTone[variant ?? 'primary']}
+          hoverable
           disabled={disabled}
-          onClick={e => {
-            e.stopPropagation();
-            onRemove(e);
-          }}
           className={cn(
-            'inline-flex shrink-0 cursor-pointer items-center justify-center transition-opacity outline-none',
-            'opacity-60 group-hover:opacity-[0.88] disabled:opacity-30',
-            'disabled:cursor-not-allowed',
-            dismissIconColor[variant ?? 'primary'],
-          )}
-          aria-label="Remove tag">
-          <Icon
-            icon="close"
-            size="sm"
-            className={cn(size !== 'xs' && 'ml-1')}
-          />
-        </button>
+            'shrink-0 outline-none',
+            disabled && 'pointer-events-none',
+            size !== 'xs' && 'ml-1',
+          )}>
+          <button
+            type="button"
+            disabled={disabled}
+            onClick={e => {
+              e.stopPropagation();
+              onRemove(e);
+            }}
+            aria-label="Remove tag">
+            <Icon icon="close" />
+          </button>
+        </IconShell>
       )}
     </div>
   );
