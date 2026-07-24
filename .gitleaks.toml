@@ -2,3 +2,17 @@ title = "quantumblack-design-system"
 
 [extend]
 useDefault = true
+
+[[rules]]
+id = "figma-url"
+description = "Do not commit Figma URLs; keep them in .env as FIGMA_URL_*"
+regex = '''https?://([a-zA-Z0-9-]+\.)?figma\.com/'''
+keywords = ["figma.com"]
+
+[[rules.allowlists]]
+description = "Temporary: figma-token-sync skill docs"
+paths = ['''\.agents/skills/figma-token-sync/''']
+
+[[rules.allowlists]]
+description = "Unit tests for figma-url rule"
+paths = ['''src/tests/figma-url-gitleaks\.test\.ts''']
