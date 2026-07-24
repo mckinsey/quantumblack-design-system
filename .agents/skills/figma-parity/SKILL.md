@@ -17,7 +17,7 @@ If no Figma URL/node is provided, ask for it (or use the team’s internal/share
 
 Match Figma tokens via **[docs/TOKENS.md](docs/TOKENS.md)** (Design name + Tailwind utility). CSS semantics in `globals.css`: `--text-*`, `--border-*`, `--fill-*`, `--surface-*`, `--status-*`, `--stateslayer-*`, `--elevations-*`, `--brand-accents-*` (each has a `-inverse` form where the spec uses inverse surfaces). In components use Tailwind utilities from TOKENS.md — e.g. `text-fg-*` (→ `--color-fg-*` → `--text-*`), `border-stroke-*` (→ `--color-stroke-*` → `--border-*`), `bg-fill-*` — not raw `--fg-*` / `--stroke-*` or primitives.
 
-**Text vs status (feedback copy):** Message text uses **`Text/Error`** → `text-error`, **`Text/Warning`** → `text-warning`, etc. (AA-compliant). **`Status/Error`** → `status-error` / `border-stroke-status-error` — control borders and fills only, **not** `<FieldError>`, helper text, or counters.
+**Feedback / status colour (do not flag `text-status-*`):** Figma may bind feedback copy to **`Text/Error`**, **`Text/Warning`**, etc. In QBDS code the established theme utilities are **`text-status-error`**, **`text-status-warning`**, **`text-status-success`**, **`text-status-information`** (same family as fills/borders via `--color-status-*`). That mapping is **correct and intentional** — match sibling demos (`field`, `input`, `alert`, …). Do **not** treat `text-status-*` on feedback, counters, or required markers as a token drift, and do **not** rewrite them to `text-error` / `text-warning` / `text-success` / `text-fg-error`. Use `border-stroke-status-*` / `bg-status-*` for control chrome as today.
 
 ## Repo patterns (match siblings, do not reinvent)
 
@@ -67,7 +67,7 @@ For field-composed controls: derive **`errorClass`** (and warning/success/info) 
 | Feedback | Elements/Status-Messages    | …                 | …       | …   | `fieldConfig.*.error` (etc.) |
 | Counter  | Elements/Characters-Counter | …                 | …       | …   | counter sub-component        |
 
-**Red flags:** label/description are per-size in demo but error/feedback is not; bare `<FieldError>` with no `className` on a sized field set; feedback uses `text-status-*` or wrong `paragraph-*` (e.g. `paragraph-regular-primary` when Figma shows `Paragraph/Large-Primary`).
+**Red flags:** label/description are per-size in demo but error/feedback is not; bare `<FieldError>` with no `className` on a sized field set; wrong `paragraph-*` (e.g. `paragraph-regular-primary` when Figma shows `Paragraph/Large-Primary`). **Not a red flag:** `text-status-*` on feedback / counter / required `*` (see Text vs status note above).
 
 6. **Defaults & demos:**
    - **Defaults:** Figma description, `cva` defaults, and `registry.json` must agree.
@@ -75,33 +75,33 @@ For field-composed controls: derive **`errorClass`** (and warning/success/info) 
 
 ### 2 — Tokens (every distinct variant × state)
 
-Use `get_variable_defs` on representative nodes: at minimum **enabled**, **hover**, **focus**, **pressed**, **disabled**, plus selected/active/loading if defined. Map fill, text, stroke, elevation, radius, and state overlays per **[docs/TOKENS.md](docs/TOKENS.md)**. Check **light and dark**. Flag: wrong `-inverse` prefix; raw hex; primitives; right hex but wrong token name; **`Status/*` on feedback copy** (should be **`Text/*`**).
+Use `get_variable_defs` on representative nodes: at minimum **enabled**, **hover**, **focus**, **pressed**, **disabled**, plus selected/active/loading if defined. Map fill, text, stroke, elevation, radius, and state overlays per **[docs/TOKENS.md](docs/TOKENS.md)**. Check **light and dark**. Flag: wrong `-inverse` prefix; raw hex; primitives; right hex but wrong token name. When Figma shows **`Text/Error`** (etc.) on feedback, accept code that uses **`text-status-error`** (etc.) — do not flag that as a name mismatch.
 
 ### 3 — Layout, spacing, typography & states
 
 For **each matrix cell** (every meaningful variant combination), use `get_design_context` or Dev Mode — not only the root frame. For field sets, also pull context on **nested Elements/** frames in that cell.
 
-| Property                      | Figma                            | Code                                                                              |
-| ----------------------------- | -------------------------------- | --------------------------------------------------------------------------------- |
-| Height / min size             | auto-layout                      | `size-*`, `min-h`, padding + line-height                                          |
-| Padding / gap                 | spacing variables                | `p-*`, `gap-*` on the scale above                                                 |
-| Icon box                      | icon frame size                  | `IconShell` + parent `icon-*` size                                                |
-| Separators / attached spacers | layout on group                  | avoid double gap; only between items                                              |
-| Typography (control)          | text style name                  | matching `cta-*` / `paragraph-*` utility                                          |
-| Typography (field feedback)   | Paragraph/\* + Text/Error (etc.) | per-size `paragraph-*` + `text-error` — verify **each size**, not control default |
+| Property                      | Figma                            | Code                                                                                            |
+| ----------------------------- | -------------------------------- | ----------------------------------------------------------------------------------------------- |
+| Height / min size             | auto-layout                      | `size-*`, `min-h`, padding + line-height                                                        |
+| Padding / gap                 | spacing variables                | `p-*`, `gap-*` on the scale above                                                               |
+| Icon box                      | icon frame size                  | `IconShell` + parent `icon-*` size                                                              |
+| Separators / attached spacers | layout on group                  | avoid double gap; only between items                                                            |
+| Typography (control)          | text style name                  | matching `cta-*` / `paragraph-*` utility                                                        |
+| Typography (field feedback)   | Paragraph/\* + Text/Error (etc.) | per-size `paragraph-*` + `text-status-error` (etc.) — verify **each size**, not control default |
 
 **Compound spacing:** Derive spacing from Figma **per variant cell**, not from a single axis (e.g. “if boxed, always gap-2”). Size and shape often change gap/padding independently — document or test non-default cells when logic is non-obvious.
 
 **Interactive states** (on controls inside the component):
 
-| State               | Verify                                                                                 |
-| ------------------- | -------------------------------------------------------------------------------------- |
-| Hover / pressed     | overlay tokens (+ `-inverse` where spec uses inverse surfaces)                         |
-| Focus               | ring token, width, offset                                                              |
-| Disabled            | muted fill, disabled text, overlay                                                     |
-| Selected / expanded | `data-[state=*]` / `aria-*` branches                                                   |
-| Loading             | if defined in Figma                                                                    |
-| Error (field)       | control border/fill (`Status/*`) **and** feedback text (`Text/*`, per-size typography) |
+| State               | Verify                                                                                                                      |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Hover / pressed     | overlay tokens (+ `-inverse` where spec uses inverse surfaces)                                                              |
+| Focus               | ring token, width, offset                                                                                                   |
+| Disabled            | muted fill, disabled text, overlay                                                                                          |
+| Selected / expanded | `data-[state=*]` / `aria-*` branches                                                                                        |
+| Loading             | if defined in Figma                                                                                                         |
+| Error (field)       | control border/fill (`border-stroke-status-*` / `bg-status-*`) **and** feedback text (`text-status-*`, per-size typography) |
 
 **Visual pass (required):** `npm run dev` on the demo vs Figma / `get_screenshot` per matrix cell. Fix or document any **≥2px** mismatch.
 
@@ -114,7 +114,7 @@ Report a **variant × state** matrix: pass / drift (note ≥2px or wrong token).
 - [ ] Code Connect read/updated if `code-connect/<name>.figma.tsx` exists
 - [ ] Alignment table: all Figma axes ↔ `cva`/props (both directions); SLOT seams covered
 - [ ] Field chrome table (when Elements/\* present): label, helper, feedback, counter — typography + color per **size**
-- [ ] Feedback copy uses `text-error|warning|success|information`, not `text-status-*`
+- [ ] Feedback / status copy uses theme utilities `text-status-error|warning|success|information` (Figma `Text/*` → `text-status-*` is OK)
 - [ ] Variant × state matrix: tokens + geometry per cell
 - [ ] Light and dark where the component appears on both
 - [ ] Defaults aligned (Figma, `cva`, registry); demos start simple and cover the full alignment table
