@@ -148,7 +148,8 @@ function FieldBlock({
         <FieldDescription
           size={size}
           className={statusClass[status]}
-          role="status">
+          role="status"
+          aria-live="polite">
           Feedback
         </FieldDescription>
       ) : (
