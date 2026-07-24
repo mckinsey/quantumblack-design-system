@@ -158,6 +158,7 @@ import {
 } from '@/app/demo/[name]/ui/dropdown-menu';
 import {
   FieldDemo,
+  FieldOtherVariants,
   FieldSizes,
   FieldStates,
   field,
@@ -526,6 +527,7 @@ export const exampleComponentMaps: Record<
     FieldDemo,
     FieldSizes,
     FieldStates,
+    FieldOtherVariants,
   },
   form: {
     ReactHookForm,

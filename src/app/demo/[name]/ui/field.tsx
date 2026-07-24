@@ -2,11 +2,13 @@
 
 import { type ReactNode, useId } from 'react';
 
+import { Badge, StatusBadge } from '@/components/ui/badge';
 import {
   FieldDescription,
   FieldError,
   FieldLabel,
   FieldSet,
+  FieldTitle,
 } from '@/components/ui/field';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
@@ -76,9 +78,7 @@ function LabelRow({
       className="w-full justify-between">
       <span className="flex items-center gap-1">
         Field label
-        <span className="text-status-error" aria-hidden>
-          *
-        </span>
+        <span aria-hidden>*</span>
         <IconShell size="sm" variant="secondary" disabled={disabled}>
           <Icon icon="info" />
         </IconShell>
@@ -185,11 +185,47 @@ export function FieldStates() {
       <FieldBlock count={151} type="exceeded" status="error" />
       <FieldBlock status="warning" />
       <FieldBlock status="success" />
-      <div className="flex flex-col gap-2">
-        <Counter count={0} max={150} type="empty" />
-        <Counter count={10} max={150} type="filled" />
-        <Counter count={151} max={150} type="exceeded" />
-      </div>
+    </div>
+  );
+}
+
+function LabelShell() {
+  return (
+    <span className="flex items-center gap-1">
+      Field label
+      <span aria-hidden>*</span>
+      <IconShell size="sm" variant="secondary">
+        <Icon icon="info" />
+      </IconShell>
+    </span>
+  );
+}
+
+export function FieldOtherVariants() {
+  return (
+    <div className={`${FIELD_WIDTH} flex flex-col gap-6`}>
+      <FieldTitle className="w-full justify-between">
+        <LabelShell />
+        <Badge outline size="sm" variant="high-emphasis" withDot>
+          <StatusBadge variant="neutral" size="sm" className="shrink-0" />
+          Label
+        </Badge>
+      </FieldTitle>
+      <FieldTitle className="w-full justify-end">
+        <span className="flex items-center gap-1">
+          <IconShell size="sm" variant="secondary">
+            <Icon icon="info" />
+          </IconShell>
+          <span aria-hidden>*</span>
+          Field label
+        </span>
+      </FieldTitle>
+      <FieldTitle className="w-full justify-between">
+        <LabelShell />
+        <IconShell size="sm" variant="secondary">
+          <Icon icon="expand_content" />
+        </IconShell>
+      </FieldTitle>
     </div>
   );
 }
@@ -211,10 +247,17 @@ export const examples: DemoExample[] = [
     description:
       'Disabled, error / warning / success, and counter empty / filled / exceeded.',
   },
+  {
+    name: 'FieldOtherVariants',
+    title: 'Other variants',
+    description:
+      'Regular-size label compositions: misc badge, right-align, and misc expand icon.',
+  },
 ];
 
 export const field = createLegacyDemo('field', examples, {
   FieldDemo: <FieldDemo />,
   FieldSizes: <FieldSizes />,
   FieldStates: <FieldStates />,
+  FieldOtherVariants: <FieldOtherVariants />,
 });
