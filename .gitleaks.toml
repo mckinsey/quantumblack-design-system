@@ -12,7 +12,3 @@ keywords = ["figma.com"]
 [[rules.allowlists]]
 description = "Temporary: figma-token-sync skill docs"
 paths = ['''\.agents/skills/figma-token-sync/''']
-
-[[rules.allowlists]]
-description = "Unit tests for figma-url rule"
-paths = ['''src/tests/figma-url-gitleaks\.test\.ts''']
