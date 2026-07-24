@@ -157,6 +157,14 @@ import {
   examples as dropdownMenuExamples,
 } from '@/app/demo/[name]/ui/dropdown-menu';
 import {
+  FieldDemo,
+  FieldOtherVariants,
+  FieldSizes,
+  FieldStates,
+  field,
+  examples as fieldExamples,
+} from '@/app/demo/[name]/ui/field';
+import {
   ReactHookForm,
   TanStackForm,
   form,
@@ -515,6 +523,12 @@ export const exampleComponentMaps: Record<
     DropdownMenuLarge,
     DropdownMenuDestructive,
   },
+  field: {
+    FieldDemo,
+    FieldSizes,
+    FieldStates,
+    FieldOtherVariants,
+  },
   form: {
     ReactHookForm,
     TanStackForm,
@@ -714,6 +728,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   dialog: dialogExamples,
   'context-menu': contextMenuExamples,
   'dropdown-menu': dropdownMenuExamples,
+  field: fieldExamples,
   form: formExamples,
   icon: iconExamples,
   'icon-shell': iconShellExamples,
@@ -813,6 +828,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...dropdownMenu,
     examples: dropdownMenuExamples,
     exampleComponents: exampleComponentMaps['dropdown-menu'],
+  },
+  field: {
+    ...field,
+    examples: fieldExamples,
+    exampleComponents: exampleComponentMaps.field,
   },
   form: {
     ...form,
