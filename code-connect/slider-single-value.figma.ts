@@ -36,15 +36,18 @@ if (showTrailing && shells[1]?.type === 'INSTANCE') {
 const sliderValue = Number.parseInt(markActiveEntry, 10);
 const defaultValue = Number.isNaN(sliderValue) ? 50 : sliderValue;
 
+const showInlineInput = inlineInput && showValue;
+
 export default {
+  // gap-6 = Figma 16px label gap + 8px; absolute thumbs sit above the track box and eat into gap-4
   example: figma.code`
-    <div className="flex w-full max-w-sm flex-col gap-2">
+    <div className="flex w-full max-w-60 flex-col gap-6">
       ${
         showLabel
           ? figma.code`
         <div className="flex items-center justify-between">
-          <span className="text-fg-primary text-sm">Label entry</span>
-          ${showValue && !inlineInput ? figma.code`<span className="text-fg-primary text-sm">${markActiveEntry}</span>` : ''}
+          <Label htmlFor="slider">Label entry</Label>
+          ${showValue && !inlineInput ? figma.code`<span className="text-fg-primary label-regular-primary">${markActiveEntry}</span>` : ''}
         </div>
       `
           : ''
@@ -52,6 +55,7 @@ export default {
       <div className="flex items-center gap-2">
         ${leadingCode}
         <Slider
+          ${showLabel ? 'id="slider"' : ''}
           defaultValue={[${defaultValue}]}
           max={100}
           step={1}
@@ -60,12 +64,12 @@ export default {
         />
         ${trailingCode}
         ${
-          inlineInput && showValue
+          showInlineInput
             ? figma.code`
           <Input
             variant="inline"
-            size="sm"
-            className="w-10 shrink-0 text-center"
+            size="default"
+            className="w-6 shrink-0 text-center"
             defaultValue="${markActiveEntry}"
           />
         `
@@ -75,8 +79,11 @@ export default {
     </div>
   `,
   imports: [
+    ...(showLabel ? ['import { Label } from "@/components/ui/label"'] : []),
     'import { Slider } from "@/components/ui/slider"',
-    'import { Input } from "@/components/ui/input"',
+    ...(showInlineInput
+      ? ['import { Input } from "@/components/ui/input"']
+      : []),
   ],
   id: 'slider-single-value',
   metadata: { nestable: true },

@@ -262,14 +262,10 @@ import {
 import {
   SliderComposed,
   SliderDemo,
-  SliderDisabled,
   SliderInlineInput,
-  SliderLabeled,
   SliderRange,
-  SliderRanges,
-  SliderSteps,
   SliderStepsLabeled,
-  SliderVolume,
+  SliderStepsLabeledRange,
   slider,
   examples as sliderExamples,
 } from '@/app/demo/[name]/ui/slider';
@@ -616,15 +612,11 @@ export const exampleComponentMaps: Record<
   },
   slider: {
     SliderDemo,
-    SliderRanges,
-    SliderSteps,
-    SliderStepsLabeled,
     SliderComposed,
     SliderInlineInput,
-    SliderLabeled,
     SliderRange,
-    SliderDisabled,
-    SliderVolume,
+    SliderStepsLabeled,
+    SliderStepsLabeledRange,
   },
   sonner: {
     SonnerDemo,

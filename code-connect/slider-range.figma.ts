@@ -15,19 +15,21 @@ const defaultLeft = Number.isNaN(leftValue) ? 21 : leftValue;
 const defaultRight = Number.isNaN(rightValue) ? 78 : rightValue;
 
 export default {
+  // gap-6 = Figma 16px label gap + 8px; absolute thumbs sit above the track box and eat into gap-4
   example: figma.code`
-    <div className="flex w-full max-w-sm flex-col gap-2">
+    <div className="flex w-full max-w-60 flex-col gap-6">
       ${
         showLabel
           ? figma.code`
         <div className="flex items-center justify-between">
-          <span className="text-fg-primary text-sm">Label entry</span>
-          <span className="text-fg-primary text-sm">${markLeftEntry} — ${markRightEntry}</span>
+          <Label htmlFor="slider">Label entry</Label>
+          <span className="text-fg-primary label-regular-primary">${markLeftEntry} — ${markRightEntry}</span>
         </div>
       `
           : ''
       }
       <Slider
+        ${showLabel ? 'id="slider"' : ''}
         defaultValue={[${defaultLeft}, ${defaultRight}]}
         max={100}
         step={1}
@@ -35,7 +37,10 @@ export default {
       />
     </div>
   `,
-  imports: ['import { Slider } from "@/components/ui/slider"'],
+  imports: [
+    ...(showLabel ? ['import { Label } from "@/components/ui/label"'] : []),
+    'import { Slider } from "@/components/ui/slider"',
+  ],
   id: 'slider-range',
   metadata: { nestable: true },
 };

@@ -13,7 +13,10 @@ const type = instance.getEnum('type', {
   'styled-marks': 'styled-marks',
 });
 
-const showStepMarkers = type === 'marks-and-steps' || type === 'styled-marks';
+const showStepMarkers =
+  type === 'marks-and-steps' ||
+  type === 'styled-marks' ||
+  type === 'marks-midpoint';
 const showStepLabels = type !== 'marks-off';
 
 let step = 1;
