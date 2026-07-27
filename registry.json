@@ -74,10 +74,11 @@
       "type": "registry:ui",
       "title": "Avatar",
       "description": "An avatar component with support for images and tooltips.",
-      "dependencies": ["@radix-ui/react-avatar"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
-        "__REGISTRY_URL__/r/utils.json"
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/button.json"
       ],
       "files": [
         {
@@ -338,7 +339,8 @@
       "name": "field",
       "type": "registry:ui",
       "title": "Field",
-      "description": "Composable field layout and structure for forms. Use FieldSet, FieldLegend, FieldGroup, Field, FieldLabel, FieldContent, FieldTitle, and FieldDescription.",
+      "description": "Composable form field elements — label, help text, error feedback, and layout primitives (FieldSet, FieldLegend, FieldGroup, Field, FieldLabel, FieldContent, FieldTitle, FieldDescription, FieldError).",
+      "dependencies": ["@base-ui/react/fieldset"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -504,7 +506,6 @@
       "type": "registry:ui",
       "title": "Label",
       "description": "A component that displays a label for form elements.",
-      "dependencies": ["@radix-ui/react-label"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -730,7 +731,7 @@
       "type": "registry:ui",
       "title": "Switch",
       "description": "A switch component.",
-      "dependencies": ["@radix-ui/react-switch", "class-variance-authority"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
