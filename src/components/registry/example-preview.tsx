@@ -112,7 +112,8 @@ export function ExamplePreview({
             </span>
             <Icon
               icon={isExpanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
-              className="text-fg-secondary size-3.5"
+              size="sm"
+              className="text-fg-secondary"
             />
           </Button>
           <Button
