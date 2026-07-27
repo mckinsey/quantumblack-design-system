@@ -114,12 +114,10 @@ const tagVariants = cva(tagBaseStyles('aria-disabled'), {
       ],
       accent: [
         'bg-brand-accents-qb-accent text-mist-50',
-        'hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-hover-inverse),var(--color-stateslayer-overlay-hover-inverse))]',
-        'aria-disabled:hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled),var(--color-stateslayer-overlay-disabled))]!',
-        'active:[background-image:linear-gradient(var(--color-stateslayer-overlay-pressed-inverse),var(--color-stateslayer-overlay-pressed-inverse))]',
-        'aria-disabled:active:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled),var(--color-stateslayer-overlay-disabled))]!',
+        hoverOverlay.inverse,
+        pressedOverlay.inverse,
         'aria-disabled:text-mist-50-opacity-38',
-        disabledOverlay,
+        disabledOverlayInverse,
       ],
       outline: [
         'border border-stroke-secondary bg-fill-muted text-fg-primary',

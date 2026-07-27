@@ -15,10 +15,10 @@ type TagToggleVariant = 'default' | 'outline';
 type TagToggleSize = 'xs' | 'sm' | 'default' | 'lg';
 
 const hoverOverlay =
-  'hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-hover),var(--color-stateslayer-overlay-hover))] disabled:hover:[background-image:none]';
+  'hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-hover),var(--color-stateslayer-overlay-hover))] disabled:hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled),var(--color-stateslayer-overlay-disabled))]!';
 
 const pressedOverlay =
-  'active:[background-image:linear-gradient(var(--color-stateslayer-overlay-pressed),var(--color-stateslayer-overlay-pressed))] disabled:active:[background-image:none]';
+  'active:[background-image:linear-gradient(var(--color-stateslayer-overlay-pressed),var(--color-stateslayer-overlay-pressed))] disabled:active:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled),var(--color-stateslayer-overlay-disabled))]!';
 
 const disabledOverlay =
   'disabled:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled),var(--color-stateslayer-overlay-disabled))]';
