@@ -40,34 +40,28 @@ export function TagDemo() {
 /** Tag variants - all button styles */
 export function TagVariants() {
   return (
-    <div className="flex flex-col gap-2">
-      <span className="text-fg-tertiary text-sm">
-        Leading IconShell type via tagIconTone — secondary uses neutral-inverse;
-        others use neutral.
-      </span>
-      <div className="flex flex-wrap gap-3">
-        <Tag variant="primary" onRemove={() => {}}>
-          <TagLeadingIcon variant="primary" />
-          Primary
-        </Tag>
-        <Tag variant="secondary" onRemove={() => {}}>
-          <TagLeadingIcon variant="secondary" />
-          Secondary
-        </Tag>
-        <Tag variant="accent" onRemove={() => {}}>
-          <TagLeadingIcon variant="accent" />
-          Accent
-        </Tag>
-        <Tag variant="outline" onRemove={() => {}}>
-          <TagLeadingIcon variant="outline" />
-          Outline
-        </Tag>
+    <div className="flex flex-wrap gap-3">
+      <Tag variant="primary" onRemove={() => {}}>
+        <TagLeadingIcon variant="primary" />
+        Primary
+      </Tag>
+      <Tag variant="secondary" onRemove={() => {}}>
+        <TagLeadingIcon variant="secondary" />
+        Secondary
+      </Tag>
+      <Tag variant="accent" onRemove={() => {}}>
+        <TagLeadingIcon variant="accent" />
+        Accent
+      </Tag>
+      <Tag variant="outline" onRemove={() => {}}>
+        <TagLeadingIcon variant="outline" />
+        Outline
+      </Tag>
 
-        <Tag variant="accent-outline" onRemove={() => {}}>
-          <TagLeadingIcon variant="accent-outline" />
-          Accent Outline
-        </Tag>
-      </div>
+      <Tag variant="accent-outline" onRemove={() => {}}>
+        <TagLeadingIcon variant="accent-outline" />
+        Accent Outline
+      </Tag>
     </div>
   );
 }
