@@ -29,15 +29,20 @@ Match Figma tokens via **[docs/TOKENS.md](docs/TOKENS.md)** (Design name + Tailw
 - **Typography**: globals utilities (`cta-*`, `paragraph-*`, …) — not hand-rolled `text-sm` / `font-*` / `leading-*`.
 - **Interactive states**: match the nearest button-like sibling — state overlays, disabled fills, focus rings; do not let variant branches override size-level focus treatment.
 - **Slots**: Figma SLOT props → composable children, named sub-components, or Radix `asChild` / `Slot`; mark seams with `data-slot`.
+- **Field footer**: `FieldDescription` (helper) and `FieldError` (feedback) are **mutually exclusive** — one per field. Error/invalid → `FieldError` only; otherwise `FieldDescription` when helper is shown. Never both in demo or Code Connect.
 - **Radix composition**: The primitive that owns focus and keyboard behavior must be the **rendered** element — put `asChild` on the outer primitive and wrap the styled QBDS sub-component, not the reverse. Verify keyboard navigation in the demo.
 - **Public API**: Every exported sub-component needs a demo example and at least one test, or remove it from the public API.
 - **Field-composed controls** (input, textarea, select, date/time pickers, …): Figma nests **Elements/** instances (Label, Help-Text, Status-Messages, Characters-Counter). Match **each slot** per size × state in the demo — copy the per-size `fieldConfig` pattern from the nearest sibling (e.g. `input.tsx`). Do **not** assume shared `Field*` defaults match the parent set’s spec.
 
 ## Workflow (run in order)
 
-### 0 — Code Connect (if present)
+### 0 — Code Connect (do NOT treat as source of truth)
 
-If **`code-connect/<name>.figma.tsx` exists**, read it before raw Figma codegen. Use it for props, enums, slots, and `example` snippets; still verify tokens, spacing, geometry, and states in code. Map every Figma variant property; use the real public API (no invented props). Update the mapping when the React API changes. New mappings: follow `code-connect/button.figma.tsx` and use `get_code_connect_map` when available.
+`code-connect/<name>.figma.ts` (or legacy `.figma.tsx`) is a **downstream artifact — it can be wrong or stale.** Do not seed the alignment table from it and do not "verify" Figma against it.
+
+- **Source of truth = Figma** (`get_metadata`, `get_variable_defs`, `get_screenshot`) **+ the real React API** (`src/components/ui/<name>.tsx`).
+- Build the alignment table from those first, **then** check the mapping against it (see step 4). Any mismatch — enum values, size names, variant→prop mapping — is a **Code Connect bug to fix**, not a spec to follow.
+- To create or update a mapping, use the **`code-connect`** skill — it owns the mechanics and QBDS conventions.
 
 For field-composed controls: derive **`errorClass`** (and warning/success/info) the same way as **`labelClass`** / **`descClass`** — pass explicit `className` on `<FieldError>` when Figma typography varies by size.
 
@@ -46,17 +51,19 @@ For field-composed controls: derive **`errorClass`** (and warning/success/info) 
 1. **Component description (Figma)** — On the **component set** root (not a single variant instance), read the designer-written **description** in Dev Mode, or from `get_design_context` on that node (follow **component documentation** links and **design annotations** in the response when present). QBDS descriptions often state the **default layout** and which variant axes exist (e.g. “Defaults to unboxed horizontal… also supports boxed, vertical, …”). Treat this as the narrative source of truth for defaults and scope before inferring from one frame.
 2. `get_metadata` (or Dev Mode) on the component set — list every variant, boolean, text, and SLOT property; note which property values are the set’s **default** selections.
 3. Read `src/components/ui/<name>.tsx` — `cva` keys, props, `data-slot`, exports.
-4. Build an alignment table; flag **asymmetric** coverage (Figma-only or code-only values):
+4. Build an alignment table from **Figma + React API** (never from Code Connect); flag **asymmetric** coverage (Figma-only or code-only values). The **Code Connect** column records what the mapping claims — a mismatch there is a mapping bug to fix, not a reason to change the spec:
 
-| Axis              | Figma values                 | React values                                            | Aligned? | Notes                    |
-| ----------------- | ---------------------------- | ------------------------------------------------------- | -------- | ------------------------ |
-| Variant / type    | …                            | …                                                       |          |                          |
-| Size              | …                            | …                                                       |          |                          |
-| Other layout axes | …                            | …                                                       |          |                          |
-| State (if on set) | …                            | …                                                       |          |                          |
-| Field slots       | Label, Help, Status, Counter | `FieldTitle`, `FieldDescription`, `FieldError`, counter |          | Per **size** — see below |
-| SLOT props        | …                            | children / sub-components                               |          |                          |
-| Sub-components    | …                            | exports                                                 |          |                          |
+| Axis              | Figma values                 | React values                                            | Code Connect (verify) | Aligned? | Notes                    |
+| ----------------- | ---------------------------- | ------------------------------------------------------- | --------------------- | -------- | ------------------------ |
+| Variant / type    | …                            | …                                                       | …                     |          |                          |
+| Size              | …                            | …                                                       | …                     |          |                          |
+| Other layout axes | …                            | …                                                       | …                     |          |                          |
+| State (if on set) | …                            | …                                                       | …                     |          |                          |
+| Field slots       | Label, Help, Status, Counter | `FieldTitle`, `FieldDescription`, `FieldError`, counter | …                     |          | Per **size** — see below |
+| SLOT props        | …                            | children / sub-components                               | …                     |          |                          |
+| Sub-components    | …                            | exports                                                 | …                     |          |                          |
+
+If a Code Connect mapping exists, confirm its enum values, size names, and variant→prop mapping match the Figma + React columns above. Fix the mapping (via the `code-connect` skill) when it drifts.
 
 5. **Field chrome table** (required when Figma nests Elements/\* or booleans `showLabel`, `showHelpText`, `showFeedbackMessage`, `showCounter`): inspect **each text slot** at sm, reg/default, and lg (and error/disabled states). Shared primitives (`FieldError`, `FieldDescription`) often ship generic defaults — override in demo/Code Connect when Figma differs.
 
@@ -92,6 +99,14 @@ For **each matrix cell** (every meaningful variant combination), use `get_design
 
 **Compound spacing:** Derive spacing from Figma **per variant cell**, not from a single axis (e.g. “if boxed, always gap-2”). Size and shape often change gap/padding independently — document or test non-default cells when logic is non-obvious.
 
+**Spacing verification rules**
+
+- Record **pl and pr separately** in the spacing table — never assume symmetric padding.
+- Do **not** infer padding from symbol bounding-box width or total component width.
+- Verify padding on the inner **State-Overlays** frame (Dev Mode or MCP codegen on the variant cell).
+- When `Spacing/N` tokens appear together (e.g. `Spacing/8` + `Spacing/12`), map each to its side; do not dismiss larger tokens as "internal only" without checking the overlay frame.
+- **Shared `cva` ≠ shared spacing** — if a sibling component (e.g. Tag vs TagToggle) diverges, document and fix per component file.
+
 **Interactive states** (on controls inside the component):
 
 | State               | Verify                                                                                                                      |
@@ -107,18 +122,20 @@ For **each matrix cell** (every meaningful variant combination), use `get_design
 
 Report a **variant × state** matrix: pass / drift (note ≥2px or wrong token).
 
-**Figma MCP (when available):** `get_design_context` (primary — layout, description, screenshot), `get_metadata`, `get_variable_defs`, `get_screenshot`, `get_code_connect_map`.
+**Figma MCP (when available):** `get_design_context` (primary — layout, description, screenshot), `get_metadata`, `get_variable_defs`, `get_screenshot`.
 
 ## Acceptance checklist
 
-- [ ] Code Connect read/updated if `code-connect/<name>.figma.tsx` exists
 - [ ] Alignment table: all Figma axes ↔ `cva`/props (both directions); SLOT seams covered
+- [ ] Code Connect (if present): enums, size names, variant→prop mapping verified against Figma + React API (not the reverse); drift fixed
 - [ ] Field chrome table (when Elements/\* present): label, helper, feedback, counter — typography + color per **size**
 - [ ] Feedback / status copy uses theme utilities `text-status-error|warning|success|information` (Figma `Text/*` → `text-status-*` is OK)
 - [ ] Variant × state matrix: tokens + geometry per cell
 - [ ] Light and dark where the component appears on both
 - [ ] Defaults aligned (Figma, `cva`, registry); demos start simple and cover the full alignment table
 - [ ] Compound spacing from per-cell Figma values (no undocumented single-axis shortcuts)
+- [ ] Horizontal padding verified as pl + pr per matrix cell (not width-inferred, not assumed symmetric)
+- [ ] Shared styling helpers checked per component when spacing differs
 - [ ] Exported sub-components: demo + test, or not exported
 - [ ] Composed primitives: correct `asChild` direction; keyboard nav verified
 - [ ] Visual pass: no undocumented ≥2px gaps
