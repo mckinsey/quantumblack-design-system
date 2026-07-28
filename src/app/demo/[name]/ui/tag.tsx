@@ -100,9 +100,7 @@ export function TagSizes() {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
-        <span className="text-fg-tertiary text-sm">
-          Default shape (4px padding)
-        </span>
+        <span className="text-fg-tertiary text-sm">Default shape</span>
         <div className="flex flex-wrap items-center gap-3">
           <Tag size="xs" onRemove={() => {}}>
             <TagLeadingIcon />
@@ -123,9 +121,7 @@ export function TagSizes() {
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-fg-tertiary text-sm">
-          Pill shape (8px padding)
-        </span>
+        <span className="text-fg-tertiary text-sm">Pill shape</span>
         <div className="flex flex-wrap items-center gap-3">
           <Tag size="xs" pill onRemove={() => {}}>
             <TagLeadingIcon />
