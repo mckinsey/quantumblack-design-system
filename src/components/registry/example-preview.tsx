@@ -99,52 +99,46 @@ export function ExamplePreview({
 
       {/* Code section */}
       <div>
-        {/* Code header — full-width toggle button */}
-        <button
-          onClick={() => setIsExpanded(v => !v)}
-          className="bg-fill-muted flex w-full cursor-pointer items-center justify-between px-3 py-2">
-          <span className="paragraph-small-emphasised text-fg-secondary">
-            Code
-          </span>
-          <div className="flex items-center gap-2">
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={e => {
-                e.stopPropagation();
-                copyToClipboard();
-              }}
-              className="h-7 px-2 text-xs">
-              {copied ? (
-                <>
-                  <Icon
-                    icon="check"
-                    className="text-status-success mr-1 size-4"
-                  />
-                  Copied
-                </>
-              ) : (
-                <>
-                  <Icon icon="content_copy" className="mr-1 size-4" />
-                  Copy
-                </>
-              )}
-            </Button>
+        <div className="bg-fill-muted flex w-full items-center justify-between px-3 py-2">
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            aria-expanded={isExpanded}
+            onClick={() => setIsExpanded(v => !v)}
+            className="h-7 gap-1 px-2">
+            <span className="paragraph-small-emphasised text-fg-secondary">
+              Code
+            </span>
             <Icon
-              icon="keyboard_arrow_down"
+              icon={isExpanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
+              size="sm"
               className="text-fg-secondary"
-              style={{
-                fontSize: 14,
-                transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                transition: prefersReducedMotion
-                  ? undefined
-                  : `transform ${isExpanded ? '220ms' : '160ms'} cubic-bezier(0.23, 1, 0.32, 1)`,
-              }}
             />
-          </div>
-        </button>
+          </Button>
+          <Button
+            type="button"
+            size="sm"
+            variant="ghost"
+            onClick={copyToClipboard}
+            className="h-7 px-2 text-xs">
+            {copied ? (
+              <>
+                <Icon
+                  icon="check"
+                  className="text-status-success mr-1 size-4"
+                />
+                Copied
+              </>
+            ) : (
+              <>
+                <Icon icon="content_copy" className="mr-1 size-4" />
+                Copy
+              </>
+            )}
+          </Button>
+        </div>
 
-        {/* Animated code content */}
         <div
           className="grid overflow-hidden"
           style={{
