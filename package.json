@@ -76,12 +76,12 @@
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.4.2",
     "radix-ui": "^1.4.3",
-    "react": "19.2.0",
+    "react": "19.2.8",
     "react-day-picker": "^9.11.1",
-    "react-dom": "19.2.0",
+    "react-dom": "19.2.8",
     "react-hook-form": "^7.60.0",
     "react-resizable-panels": "^3.0.3",
-    "react-router": "^7.15.1",
+    "react-router": "^8.3.0",
     "recharts": "^2.15.4",
     "shiki": "^1.29.2",
     "sonner": "^2.0.7",
@@ -108,8 +108,8 @@
     "@types/babel__traverse": "^7.28.0",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^22.16.3",
-    "@types/react": "19.2.2",
-    "@types/react-dom": "19.2.2",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react-swc": "^4.3.1",
     "concurrently": "^9.2.4",
     "eslint": "^9.37.0",
@@ -137,12 +137,12 @@
     "public/r/*.json"
   ],
   "engines": {
-    "node": ">=22"
+    "node": ">=22.22.0"
   },
   "overrides": {
     "react-is": "^19.0.0-rc-69d4b800-20241021",
-    "@types/react": "19.2.2",
-    "@types/react-dom": "19.2.2",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
     "lodash": ">=4.18.0",
     "lodash-es": ">=4.18.0"
   }
