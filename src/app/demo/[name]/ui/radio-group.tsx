@@ -16,25 +16,19 @@ export function RadioGroupDemo() {
       <RadioGroup defaultValue="option-one">
         <Field orientation="horizontal">
           <RadioGroupItem value="option-one" id="r1" />
-          <FieldLabel
-            htmlFor="r1"
-            className="text-fg-secondary label-regular-primary">
+          <FieldLabel htmlFor="r1" className="label-regular-primary">
             Option One
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="option-two" id="r2" />
-          <FieldLabel
-            htmlFor="r2"
-            className="text-fg-secondary label-regular-primary">
+          <FieldLabel htmlFor="r2" className="label-regular-primary">
             Option Two
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="option-three" id="r3" />
-          <FieldLabel
-            htmlFor="r3"
-            className="text-fg-secondary label-regular-primary">
+          <FieldLabel htmlFor="r3" className="label-regular-primary">
             Option Three
           </FieldLabel>
         </Field>
@@ -52,26 +46,19 @@ export function RadioGroupStates() {
       <RadioGroup defaultValue="state-one">
         <Field orientation="horizontal">
           <RadioGroupItem value="state-one" id="s1" />
-          <FieldLabel
-            htmlFor="s1"
-            className="text-fg-secondary label-regular-primary">
+          <FieldLabel htmlFor="s1" className="label-regular-primary">
             Checked (default)
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="state-two" id="s2" />
-          <FieldLabel
-            htmlFor="s2"
-            className="text-fg-secondary label-regular-primary">
+          <FieldLabel htmlFor="s2" className="label-regular-primary">
             Unchecked
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="state-three" id="s3" disabled />
-          <FieldLabel
-            htmlFor="s3"
-            className="text-fg-disabled label-regular-primary"
-            disabled>
+          <FieldLabel htmlFor="s3" className="label-regular-primary" disabled>
             Disabled (unchecked)
           </FieldLabel>
         </Field>
@@ -89,28 +76,19 @@ export function RadioGroupDisabled() {
       <RadioGroup defaultValue="disabled-one" disabled>
         <Field orientation="horizontal">
           <RadioGroupItem value="disabled-one" id="d1" />
-          <FieldLabel
-            htmlFor="d1"
-            className="text-fg-disabled label-regular-primary"
-            disabled>
+          <FieldLabel htmlFor="d1" className="label-regular-primary" disabled>
             Option One (Selected)
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="disabled-two" id="d2" />
-          <FieldLabel
-            htmlFor="d2"
-            className="text-fg-disabled label-regular-primary"
-            disabled>
+          <FieldLabel htmlFor="d2" className="label-regular-primary" disabled>
             Option Two
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="disabled-three" id="d3" />
-          <FieldLabel
-            htmlFor="d3"
-            className="text-fg-disabled label-regular-primary"
-            disabled>
+          <FieldLabel htmlFor="d3" className="label-regular-primary" disabled>
             Option Three
           </FieldLabel>
         </Field>
@@ -128,26 +106,19 @@ export function RadioGroupPartialDisabled() {
       <RadioGroup defaultValue="partial-one">
         <Field orientation="horizontal">
           <RadioGroupItem value="partial-one" id="p1" />
-          <FieldLabel
-            htmlFor="p1"
-            className="text-fg-secondary label-regular-primary">
+          <FieldLabel htmlFor="p1" className="label-regular-primary">
             Option One
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="partial-two" id="p2" disabled />
-          <FieldLabel
-            htmlFor="p2"
-            className="text-fg-disabled label-regular-primary"
-            disabled>
+          <FieldLabel htmlFor="p2" className="label-regular-primary" disabled>
             Option Two (Disabled)
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="partial-three" id="p3" />
-          <FieldLabel
-            htmlFor="p3"
-            className="text-fg-secondary label-regular-primary">
+          <FieldLabel htmlFor="p3" className="label-regular-primary">
             Option Three
           </FieldLabel>
         </Field>
@@ -161,16 +132,16 @@ const sizeVariants = [
     label: 'Small',
     key: 'sm' as const,
     prefix: 's',
-    radioSize: undefined as 'lg' | undefined,
-    labelClass: 'text-fg-secondary label-small-primary',
+    radioSize: 'sm' as const,
+    labelClass: 'label-small-primary',
     legendClass: 'label-regular-primary',
   },
   {
     label: 'Regular',
-    key: 'reg' as const,
+    key: 'default' as const,
     prefix: 'r',
-    radioSize: undefined as 'lg' | undefined,
-    labelClass: 'text-fg-secondary label-regular-primary',
+    radioSize: 'default' as const,
+    labelClass: 'label-regular-primary',
     legendClass: 'label-regular-primary',
   },
   {
@@ -178,7 +149,7 @@ const sizeVariants = [
     key: 'lg' as const,
     prefix: 'l',
     radioSize: 'lg' as const,
-    labelClass: 'text-fg-secondary label-large-primary',
+    labelClass: 'label-large-primary',
     legendClass: 'label-large-primary',
   },
 ];
@@ -206,9 +177,7 @@ export function RadioGroupDensity() {
           <h4 className="label-regular-primary mb-4">
             Density: {density.label}
           </h4>
-          <div
-            key={density.key}
-            className="border-stroke-tertiary flex justify-center gap-12 border-b pb-6 last:border-b-0 last:pb-0">
+          <div className="border-stroke-tertiary flex justify-center gap-12 border-b pb-6 last:border-b-0 last:pb-0">
             {sizeVariants.map(size => {
               const prefix = `${density.prefix}${size.prefix}`;
               const ids = [1, 2, 3, 4, 5].map(i => `${prefix}-${i}`);
@@ -309,13 +278,13 @@ export const examples = [
     name: 'RadioGroupDensity',
     title: 'Sizes & Density',
     description:
-      'Small, regular, and large sizes in default and comfortable density.',
+      'Small, default, and large sizes in default and comfortable density.',
   },
   {
     name: 'RadioGroupHorizontal',
     title: 'Horizontal',
     description:
-      'Inline radio groups by size (small, regular, large) and density (default, comfortable).',
+      'Inline radio groups by size (small, default, large) and density (default, comfortable).',
   },
   {
     name: 'RadioGroupStates',

@@ -3,24 +3,16 @@
 // component=RadioGroupListVertical
 import figma from 'figma';
 
-type ListSize = 'sm' | 'reg' | 'lg';
+type ListSize = 'sm' | 'default' | 'lg';
 type ListDensity = 'default' | 'comfortable';
 
 const verticalLegendMb: Record<ListSize, Record<ListDensity, string>> = {
   sm: { default: 'mb-3', comfortable: 'mb-4' },
-  reg: { default: 'mb-3', comfortable: 'mb-4' },
+  default: { default: 'mb-3', comfortable: 'mb-4' },
   lg: { default: 'mb-4', comfortable: 'mb-5' },
 };
 
-function listLegendMb(
-  size: ListSize,
-  density: ListDensity,
-  orientation: 'vertical' | 'horizontal',
-) {
-  if (orientation === 'horizontal') {
-    return 'mb-3';
-  }
-
+function listLegendMb(size: ListSize, density: ListDensity) {
   return verticalLegendMb[size][density];
 }
 
@@ -32,9 +24,9 @@ const instance = figma.selectedInstance;
 
 const size = (instance.getEnum('size', {
   sm: 'sm',
-  reg: 'reg',
+  reg: 'default',
   lg: 'lg',
-}) ?? 'reg') as ListSize;
+}) ?? 'default') as ListSize;
 
 const density = (instance.getEnum('density', {
   default: 'default',
@@ -53,7 +45,7 @@ const listLabel =
     : '';
 
 const legendClass = radioGroupLegendClass(size);
-const legendMb = listLegendMb(size, density, 'vertical');
+const legendMb = listLegendMb(size, density);
 
 export default {
   example: figma.code`

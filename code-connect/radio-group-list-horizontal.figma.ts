@@ -3,26 +3,7 @@
 // component=RadioGroupListHorizontal
 import figma from 'figma';
 
-type ListSize = 'sm' | 'reg' | 'lg';
-type ListDensity = 'default' | 'comfortable';
-
-const verticalLegendMb: Record<ListSize, Record<ListDensity, string>> = {
-  sm: { default: 'mb-3', comfortable: 'mb-4' },
-  reg: { default: 'mb-3', comfortable: 'mb-4' },
-  lg: { default: 'mb-4', comfortable: 'mb-5' },
-};
-
-function listLegendMb(
-  size: ListSize,
-  density: ListDensity,
-  orientation: 'vertical' | 'horizontal',
-) {
-  if (orientation === 'horizontal') {
-    return 'mb-3';
-  }
-
-  return verticalLegendMb[size][density];
-}
+type ListSize = 'sm' | 'default' | 'lg';
 
 function radioGroupLegendClass(size: ListSize) {
   return size === 'lg' ? 'label-large-primary' : 'label-regular-primary';
@@ -32,14 +13,15 @@ const instance = figma.selectedInstance;
 
 const size = (instance.getEnum('size', {
   sm: 'sm',
-  reg: 'reg',
+  reg: 'default',
   lg: 'lg',
-}) ?? 'reg') as ListSize;
+}) ?? 'default') as ListSize;
 
-const density = (instance.getEnum('density', {
-  default: 'default',
-  comfortable: 'comfortable',
-}) ?? 'default') as ListDensity;
+const density =
+  instance.getEnum('density', {
+    default: 'default',
+    comfortable: 'comfortable',
+  }) ?? 'default';
 
 const showListLabel = instance.getBoolean('showListLabel');
 const items = figma.properties.children(['RadioGroup/Item']);
@@ -53,12 +35,11 @@ const listLabel =
     : '';
 
 const legendClass = radioGroupLegendClass(size);
-const legendMb = listLegendMb(size, density, 'horizontal');
 
 export default {
   example: figma.code`
     <FieldSet>
-      ${showListLabel ? figma.code`<FieldLegend variant="label" className="${legendClass} ${legendMb}">${listLabel}</FieldLegend>` : figma.code``}
+      ${showListLabel ? figma.code`<FieldLegend variant="label" className="${legendClass} mb-3">${listLabel}</FieldLegend>` : figma.code``}
       <RadioGroup orientation="horizontal" defaultValue="option-1" density="${density}" size="${size}">
         ${figma.helpers.react.renderChildren(items)}
       </RadioGroup>

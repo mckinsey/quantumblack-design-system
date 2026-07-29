@@ -7,6 +7,7 @@ const instance = figma.selectedInstance;
 
 const size =
   instance.getEnum('size', {
+    sm: 'sm',
     reg: 'default',
     lg: 'lg',
   }) ?? 'default';

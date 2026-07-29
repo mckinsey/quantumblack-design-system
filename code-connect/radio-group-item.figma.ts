@@ -8,9 +8,9 @@ const instance = figma.selectedInstance;
 const size =
   instance.getEnum('size', {
     sm: 'sm',
-    reg: 'reg',
+    reg: 'default',
     lg: 'lg',
-  }) ?? 'reg';
+  }) ?? 'default';
 
 const disabled = instance.getEnum('state', {
   enabled: false,
@@ -20,18 +20,17 @@ const disabled = instance.getEnum('state', {
 
 const label = instance.getString('Label-Radio');
 
-const radioSize = size === 'lg' ? 'lg' : 'default';
 const labelClass =
   size === 'lg'
-    ? 'text-fg-secondary label-large-primary'
+    ? 'label-large-primary'
     : size === 'sm'
-      ? 'text-fg-secondary label-small-primary'
-      : 'text-fg-secondary label-regular-primary';
+      ? 'label-small-primary'
+      : 'label-regular-primary';
 
 export default {
   example: figma.code`
     <Field orientation="horizontal">
-      <RadioGroupItem value="option" id="option" size="${radioSize}"${disabled ? ' disabled' : ''} />
+      <RadioGroupItem value="option" id="option" size="${size}"${disabled ? ' disabled' : ''} />
       <FieldLabel htmlFor="option" className="${labelClass}"${disabled ? ' disabled' : ''}>
         ${label}
       </FieldLabel>

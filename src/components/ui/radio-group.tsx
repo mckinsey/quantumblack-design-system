@@ -3,7 +3,6 @@
 import { Radio as RadioPrimitive } from '@base-ui/react/radio';
 import { RadioGroup as RadioGroupPrimitive } from '@base-ui/react/radio-group';
 import { type VariantProps, cva } from 'class-variance-authority';
-import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -19,22 +18,22 @@ const radioGroupVariants = cva('', {
     },
     size: {
       sm: '',
-      reg: '',
+      default: '',
       lg: '',
     },
   },
   compoundVariants: [
     { size: 'sm', density: 'default', class: 'gap-2' },
     { size: 'sm', density: 'comfortable', class: 'gap-3' },
-    { size: 'reg', density: 'default', class: 'gap-3' },
-    { size: 'reg', density: 'comfortable', class: 'gap-4' },
+    { size: 'default', density: 'default', class: 'gap-3' },
+    { size: 'default', density: 'comfortable', class: 'gap-4' },
     { size: 'lg', density: 'default', class: 'gap-3' },
     { size: 'lg', density: 'comfortable', class: 'gap-4' },
   ],
   defaultVariants: {
     orientation: 'vertical',
     density: 'default',
-    size: 'reg',
+    size: 'default',
   },
 });
 
@@ -42,7 +41,7 @@ function RadioGroup({
   className,
   orientation = 'vertical',
   density = 'default',
-  size = 'reg',
+  size = 'default',
   ...props
 }: RadioGroupPrimitive.Props & VariantProps<typeof radioGroupVariants>) {
   return (
@@ -51,6 +50,7 @@ function RadioGroup({
       data-orientation={orientation}
       data-density={density}
       data-size={size}
+      aria-orientation={orientation ?? undefined}
       className={cn(
         radioGroupVariants({ orientation, density, size }),
         className,
@@ -65,7 +65,7 @@ function RadioGroupItem({
   size = 'default',
   ...props
 }: RadioPrimitive.Root.Props & {
-  size?: 'default' | 'lg';
+  size?: 'sm' | 'default' | 'lg';
 }) {
   const isLg = size === 'lg';
   const bboxSize = isLg ? 'size-6' : 'size-5';
