@@ -59,7 +59,7 @@ export default {
   example: figma.code`
     <FieldSet>
       ${showListLabel ? figma.code`<FieldLegend variant="label" className="${legendClass} ${legendMb}">${listLabel}</FieldLegend>` : figma.code``}
-      <RadioGroup defaultValue="option-1" density="${density}">
+      <RadioGroup defaultValue="option-1" density="${density}" size="${size}">
         ${figma.helpers.react.renderChildren(items)}
       </RadioGroup>
     </FieldSet>

@@ -90,4 +90,16 @@ describe(`${componentName} — state`, () => {
     expect(group).toHaveAttribute('data-density', 'comfortable');
     expect(group).toHaveAttribute('data-orientation', 'horizontal');
   });
+
+  it('renders list size attr', () => {
+    const { container } = render(
+      <RadioGroup size="sm" density="default">
+        <RadioGroupItem value="a" aria-label="a" />
+      </RadioGroup>,
+    );
+
+    const group = container.querySelector('[data-slot="radio-group"]');
+
+    expect(group).toHaveAttribute('data-size', 'sm');
+  });
 });

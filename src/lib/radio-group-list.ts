@@ -7,6 +7,12 @@ const verticalLegendMb: Record<ListSize, Record<ListDensity, string>> = {
   lg: { default: 'mb-4', comfortable: 'mb-5' },
 };
 
+const itemGap: Record<ListSize, Record<ListDensity, string>> = {
+  sm: { default: 'gap-2', comfortable: 'gap-3' },
+  reg: { default: 'gap-3', comfortable: 'gap-4' },
+  lg: { default: 'gap-3', comfortable: 'gap-4' },
+};
+
 function listLegendMb(
   size: ListSize,
   density: ListDensity,
@@ -19,4 +25,8 @@ function listLegendMb(
   return verticalLegendMb[size][density];
 }
 
-export { listLegendMb, type ListDensity, type ListSize };
+function listItemGap(size: ListSize, density: ListDensity) {
+  return itemGap[size][density];
+}
+
+export { listItemGap, listLegendMb, type ListDensity, type ListSize };

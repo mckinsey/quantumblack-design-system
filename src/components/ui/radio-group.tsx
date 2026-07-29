@@ -14,13 +14,27 @@ const radioGroupVariants = cva('', {
       horizontal: 'flex flex-row',
     },
     density: {
-      default: 'gap-3',
-      comfortable: 'gap-4',
+      default: '',
+      comfortable: '',
+    },
+    size: {
+      sm: '',
+      reg: '',
+      lg: '',
     },
   },
+  compoundVariants: [
+    { size: 'sm', density: 'default', class: 'gap-2' },
+    { size: 'sm', density: 'comfortable', class: 'gap-3' },
+    { size: 'reg', density: 'default', class: 'gap-3' },
+    { size: 'reg', density: 'comfortable', class: 'gap-4' },
+    { size: 'lg', density: 'default', class: 'gap-3' },
+    { size: 'lg', density: 'comfortable', class: 'gap-4' },
+  ],
   defaultVariants: {
     orientation: 'vertical',
     density: 'default',
+    size: 'reg',
   },
 });
 
@@ -28,6 +42,7 @@ function RadioGroup({
   className,
   orientation = 'vertical',
   density = 'default',
+  size = 'reg',
   ...props
 }: RadioGroupPrimitive.Props & VariantProps<typeof radioGroupVariants>) {
   return (
@@ -35,7 +50,11 @@ function RadioGroup({
       data-slot="radio-group"
       data-orientation={orientation}
       data-density={density}
-      className={cn(radioGroupVariants({ orientation, density }), className)}
+      data-size={size}
+      className={cn(
+        radioGroupVariants({ orientation, density, size }),
+        className,
+      )}
       {...props}
     />
   );

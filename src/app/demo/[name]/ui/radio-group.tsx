@@ -200,36 +200,48 @@ export function RadioGroupDensity() {
   return (
     <div className="flex flex-col gap-10">
       {densityVariants.map(density => (
-        <div key={density.key} className="flex flex-wrap gap-8">
-          {sizeVariants.map(size => {
-            const prefix = `${density.prefix}${size.prefix}`;
-            const ids = [1, 2, 3, 4, 5].map(i => `${prefix}-${i}`);
+        <div
+          key={density.key}
+          className="border-stroke-tertiary border-b pb-6 last:border-b-0 last:pb-0">
+          <h4 className="label-regular-primary mb-4">
+            Density: {density.label}
+          </h4>
+          <div
+            key={density.key}
+            className="border-stroke-tertiary flex justify-center gap-12 border-b pb-6 last:border-b-0 last:pb-0">
+            {sizeVariants.map(size => {
+              const prefix = `${density.prefix}${size.prefix}`;
+              const ids = [1, 2, 3, 4, 5].map(i => `${prefix}-${i}`);
 
-            return (
-              <FieldSet key={prefix} className="w-60">
-                <FieldLegend
-                  variant="label"
-                  className={`${size.legendClass} ${listLegendMb(size.key, density.key, 'vertical')}`}>
-                  {size.label} ({density.label})
-                </FieldLegend>
+              return (
+                <FieldSet key={prefix} className="w-30">
+                  <FieldLegend
+                    variant="label"
+                    className={`${size.legendClass} ${listLegendMb(size.key, density.key, 'vertical')}`}>
+                    {size.label}
+                  </FieldLegend>
 
-                <RadioGroup defaultValue={ids[0]} density={density.key}>
-                  {ids.map(id => (
-                    <Field key={id} orientation="horizontal">
-                      <RadioGroupItem
-                        value={id}
-                        id={id}
-                        size={size.radioSize}
-                      />
-                      <FieldLabel htmlFor={id} className={size.labelClass}>
-                        Radio label
-                      </FieldLabel>
-                    </Field>
-                  ))}
-                </RadioGroup>
-              </FieldSet>
-            );
-          })}
+                  <RadioGroup
+                    defaultValue={ids[0]}
+                    density={density.key}
+                    size={size.key}>
+                    {ids.map(id => (
+                      <Field key={id} orientation="horizontal">
+                        <RadioGroupItem
+                          value={id}
+                          id={id}
+                          size={size.radioSize}
+                        />
+                        <FieldLabel htmlFor={id} className={size.labelClass}>
+                          Radio label
+                        </FieldLabel>
+                      </Field>
+                    ))}
+                  </RadioGroup>
+                </FieldSet>
+              );
+            })}
+          </div>
         </div>
       ))}
     </div>
@@ -240,39 +252,47 @@ export function RadioGroupHorizontal() {
   return (
     <div className="flex flex-col gap-10">
       {densityVariants.map(density => (
-        <div key={density.key} className="flex flex-wrap gap-8">
-          {sizeVariants.map(size => {
-            const prefix = `${density.prefix}h${size.prefix}`;
-            const ids = [1, 2, 3].map(i => `${prefix}-${i}`);
+        <div
+          key={density.key}
+          className="border-stroke-tertiary border-b pb-6 last:border-b-0 last:pb-0">
+          <h4 className="label-regular-primary mb-4">
+            Density: {density.label}
+          </h4>
+          <div className="flex flex-col gap-8">
+            {sizeVariants.map(size => {
+              const prefix = `${density.prefix}h${size.prefix}`;
+              const ids = [1, 2, 3].map(i => `${prefix}-${i}`);
 
-            return (
-              <FieldSet key={prefix} className="w-auto">
-                <FieldLegend
-                  variant="label"
-                  className={`${size.legendClass} ${listLegendMb(size.key, density.key, 'horizontal')}`}>
-                  Options ({size.label}, {density.label})
-                </FieldLegend>
+              return (
+                <FieldSet key={prefix} className="w-auto">
+                  <FieldLegend
+                    variant="label"
+                    className={`${size.legendClass} ${listLegendMb(size.key, density.key, 'horizontal')}`}>
+                    {size.label}
+                  </FieldLegend>
 
-                <RadioGroup
-                  orientation="horizontal"
-                  defaultValue={ids[0]}
-                  density={density.key}>
-                  {ids.map(id => (
-                    <Field key={id} orientation="horizontal">
-                      <RadioGroupItem
-                        value={id}
-                        id={id}
-                        size={size.radioSize}
-                      />
-                      <FieldLabel htmlFor={id} className={size.labelClass}>
-                        Radio label
-                      </FieldLabel>
-                    </Field>
-                  ))}
-                </RadioGroup>
-              </FieldSet>
-            );
-          })}
+                  <RadioGroup
+                    orientation="horizontal"
+                    defaultValue={ids[0]}
+                    density={density.key}
+                    size={size.key}>
+                    {ids.map(id => (
+                      <Field key={id} orientation="horizontal">
+                        <RadioGroupItem
+                          value={id}
+                          id={id}
+                          size={size.radioSize}
+                        />
+                        <FieldLabel htmlFor={id} className={size.labelClass}>
+                          Radio label
+                        </FieldLabel>
+                      </Field>
+                    ))}
+                  </RadioGroup>
+                </FieldSet>
+              );
+            })}
+          </div>
         </div>
       ))}
     </div>
