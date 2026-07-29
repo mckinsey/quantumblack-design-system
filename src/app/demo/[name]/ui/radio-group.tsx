@@ -158,19 +158,19 @@ export function RadioGroupPartialDisabled() {
 
 const sizeVariants = [
   {
-    label: 'Regular',
-    key: 'reg' as const,
-    prefix: 'r',
-    radioSize: undefined as 'lg' | undefined,
-    labelClass: 'text-fg-secondary label-regular-primary',
-    legendClass: 'label-regular-primary',
-  },
-  {
     label: 'Small',
     key: 'sm' as const,
     prefix: 's',
     radioSize: undefined as 'lg' | undefined,
     labelClass: 'text-fg-secondary label-small-primary',
+    legendClass: 'label-regular-primary',
+  },
+  {
+    label: 'Regular',
+    key: 'reg' as const,
+    prefix: 'r',
+    radioSize: undefined as 'lg' | undefined,
+    labelClass: 'text-fg-secondary label-regular-primary',
     legendClass: 'label-regular-primary',
   },
   {
@@ -240,7 +240,7 @@ export function RadioGroupHorizontal() {
   return (
     <div className="flex flex-col gap-10">
       {densityVariants.map(density => (
-        <div key={density.key} className="flex flex-col gap-8">
+        <div key={density.key} className="flex flex-wrap gap-8">
           {sizeVariants.map(size => {
             const prefix = `${density.prefix}h${size.prefix}`;
             const ids = [1, 2, 3].map(i => `${prefix}-${i}`);
@@ -289,13 +289,13 @@ export const examples = [
     name: 'RadioGroupDensity',
     title: 'Sizes & Density',
     description:
-      'Regular, small label, and large sizes in default and comfortable density.',
+      'Small, regular, and large sizes in default and comfortable density.',
   },
   {
     name: 'RadioGroupHorizontal',
     title: 'Horizontal',
     description:
-      'Inline radio groups by size (sm, reg, lg) and density (default, comfortable).',
+      'Inline radio groups by size (small, regular, large) and density (default, comfortable).',
   },
   {
     name: 'RadioGroupStates',

@@ -5,11 +5,12 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const size = instance.getEnum('size', {
-  sm: 'sm',
-  reg: 'reg',
-  lg: 'lg',
-});
+const size =
+  instance.getEnum('size', {
+    sm: 'sm',
+    reg: 'reg',
+    lg: 'lg',
+  }) ?? 'reg';
 
 const disabled = instance.getEnum('state', {
   enabled: false,

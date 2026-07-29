@@ -50,7 +50,6 @@ describe(`${componentName} — state`, () => {
     render(<RadioGroupItem value="a" aria-label="a" disabled />);
     expect(screen.getByRole('radio', { name: 'a' })).toHaveAttribute(
       'data-disabled',
-      '',
     );
   });
 
