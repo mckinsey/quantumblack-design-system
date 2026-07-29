@@ -18,7 +18,11 @@ const disabled = instance.getEnum('state', {
   disabled: true,
 });
 
-const label = instance.getString('Label-Radio');
+const label = instance.getString('Label-Radio') || 'option';
+const id = label
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/^-|-$/g, '');
 
 const labelClass =
   size === 'lg'
@@ -30,8 +34,8 @@ const labelClass =
 export default {
   example: figma.code`
     <Field orientation="horizontal">
-      <RadioGroupItem value="option" id="option" size="${size}"${disabled ? ' disabled' : ''} />
-      <FieldLabel htmlFor="option" className="${labelClass}"${disabled ? ' disabled' : ''}>
+      <RadioGroupItem value="${label}" id="${id}" size="${size}"${disabled ? ' disabled' : ''} />
+      <FieldLabel htmlFor="${id}" className="${labelClass}"${disabled ? ' disabled' : ''}>
         ${label}
       </FieldLabel>
     </Field>

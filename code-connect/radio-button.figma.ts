@@ -7,7 +7,6 @@ const instance = figma.selectedInstance;
 
 const size =
   instance.getEnum('size', {
-    sm: 'sm',
     reg: 'default',
     lg: 'lg',
   }) ?? 'default';
@@ -18,9 +17,11 @@ const disabled = instance.getEnum('state', {
   disabled: true,
 });
 
+const selected = instance.getBoolean('isSelected');
+
 export default {
   example: figma.code`
-    <RadioGroup defaultValue="option">
+    <RadioGroup${selected ? ' defaultValue="option"' : ''}>
       <RadioGroupItem value="option" size="${size}"${disabled ? ' disabled' : ''} />
     </RadioGroup>
   `,

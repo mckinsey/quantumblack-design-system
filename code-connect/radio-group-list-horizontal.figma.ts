@@ -1,6 +1,6 @@
 // url=<QBDS_RADIO_GROUP_LIST_HORIZONTAL>
-// source=src/app/demo/[name]/ui/radio-group.tsx
-// component=RadioGroupListHorizontal
+// source=src/components/ui/radio-group.tsx
+// component=RadioGroup
 import figma from 'figma';
 
 type ListSize = 'sm' | 'default' | 'lg';
@@ -24,7 +24,19 @@ const density =
   }) ?? 'default';
 
 const showListLabel = instance.getBoolean('showListLabel');
-const items = figma.properties.children(['RadioGroup/Item']);
+
+const slot = instance.getSlot('itemsSlot');
+const connected = slot?.connectedInstances ?? [];
+const items =
+  connected.length > 0
+    ? connected.map(n => n.executeTemplate().example).flat()
+    : figma.properties.children(['RadioGroup/Item']);
+
+const firstItem = connected[0];
+const defaultValue =
+  firstItem && firstItem.type === 'INSTANCE'
+    ? firstItem.getString('Label-Radio') || 'option'
+    : 'option';
 
 const listLabelNode = showListLabel
   ? instance.findInstance('Elements/Label', { traverseInstances: true })
@@ -40,7 +52,7 @@ export default {
   example: figma.code`
     <FieldSet>
       ${showListLabel ? figma.code`<FieldLegend variant="label" className="${legendClass} mb-3">${listLabel}</FieldLegend>` : figma.code``}
-      <RadioGroup orientation="horizontal" defaultValue="option-1" density="${density}" size="${size}">
+      <RadioGroup orientation="horizontal" defaultValue="${defaultValue}" density="${density}" size="${size}">
         ${figma.helpers.react.renderChildren(items)}
       </RadioGroup>
     </FieldSet>
