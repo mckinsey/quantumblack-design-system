@@ -1,6 +1,6 @@
 'use client';
 
-import * as SliderPrimitive from '@radix-ui/react-slider';
+import { Slider as SliderPrimitive } from '@base-ui/react/slider';
 import * as React from 'react';
 
 import {
@@ -10,42 +10,42 @@ import {
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
-// Types
+type SliderRootProps = React.ComponentProps<typeof SliderPrimitive.Root>;
 
-type SliderProps = React.ComponentProps<typeof SliderPrimitive.Root> & {
+type SliderProps = Omit<
+  SliderRootProps,
+  'onValueChange' | 'onValueCommitted'
+> & {
   showStepMarkers?: boolean;
   showValueTooltip?: boolean;
   showStepLabels?: boolean;
   formatValue?: (value: number) => string;
+  onValueChange?: (value: number[]) => void;
 };
 
 type Marker = { value: number; percentage: number };
 
-// Helpers
+const thumbClasses = cn(
+  'relative flex h-4 w-4 cursor-pointer items-center justify-center rounded-full',
+  'bg-fill-active shadow-none',
+  'transition-[box-shadow,outline-color,background-color] duration-200',
+  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-stroke-primary',
+  'data-disabled:pointer-events-none data-disabled:bg-fill-onsurface-ui-2 data-disabled:shadow-elevation-0',
+);
 
-/**
- * Helper function to check if a value is in the active (filled) range
- * @param value - The value to check
- * @param currentValues - The current values of the slider
- * @returns True if the value is in the active (filled) range, false otherwise
- */
 const isValueInRange = (value: number, currentValues: number[]): boolean => {
-  if (currentValues.length === 1) return value <= currentValues[0];
+  if (currentValues.length === 1) {
+    return value <= currentValues[0];
+  }
+
   const [minVal, maxVal] = [
     Math.min(...currentValues),
     Math.max(...currentValues),
   ];
+
   return value >= minVal && value <= maxVal;
 };
 
-/**
- * Helper function to generate marker data
- * @param min - The minimum value of the slider
- * @param max - The maximum value of the slider
- * @param step - The step size of the slider
- * @param showIntermediate - Whether to show intermediate markers
- * @returns An array of markers
- */
 const generateMarkers = (
   min: number,
   max: number,
@@ -61,19 +61,10 @@ const generateMarkers = (
   }
 
   markers.push({ value: max, percentage: 100 });
+
   return markers;
 };
 
-// Components
-
-/**
- * Component to render a step marker
- * @param marker - The marker to render
- * @param isActive - Whether the marker is active
- * @param isVertical - Whether the slider is vertical
- * @param showLabel - Whether to show the label
- * @returns A React component
- */
 const StepMarker = React.memo(
   ({
     marker,
@@ -88,6 +79,9 @@ const StepMarker = React.memo(
     showLabel: boolean;
     disabled: boolean;
   }) => {
+    const isMin = marker.percentage === 0;
+    const isMax = marker.percentage === 100;
+
     let labelColor = 'text-fg-tertiary';
 
     if (disabled) {
@@ -108,7 +102,7 @@ const StepMarker = React.memo(
         <div
           className={cn(
             'h-1 w-1 rounded-full transition-colors',
-            isActive ? 'bg-fill-active' : 'bg-slider-track',
+            isActive ? 'bg-fill-active' : 'bg-fill-stepmarkers-track',
           )}
         />
 
@@ -118,8 +112,14 @@ const StepMarker = React.memo(
               'label-regular-primary whitespace-nowrap',
               isVertical
                 ? 'ml-1.5'
-                : 'absolute top-full left-1/2 mt-2 -translate-x-1/2',
-              labelColor,
+                : cn(
+                    'absolute top-full mt-2',
+                    isMin && 'left-0',
+                    isMax && 'right-0',
+                    !isMin && !isMax && 'left-1/2 -translate-x-1/2',
+                    labelColor,
+                  ),
+              isVertical && labelColor,
             )}>
             {marker.value}
           </span>
@@ -130,22 +130,6 @@ const StepMarker = React.memo(
 );
 StepMarker.displayName = 'StepMarker';
 
-/**
- * Component to render a slider
- * @param className - The class name to apply to the slider
- * @param defaultValue - The default value of the slider
- * @param value - The value of the slider
- * @param min - The minimum value of the slider
- * @param max - The maximum value of the slider
- * @param step - The step size of the slider
- * @param showStepMarkers - Whether to show step markers
- * @param showValueTooltip - Whether to show value tooltip
- * @param showStepLabels - Whether to show step labels
- * @param formatValue - The function to format the value
- * @param onValueChange - The function to call when the value changes
- * @param props - Additional props to pass to the slider
- * @returns A React component
- */
 function Slider({
   className,
   defaultValue,
@@ -159,39 +143,76 @@ function Slider({
   showStepLabels = true,
   formatValue = val => val.toString(),
   onValueChange,
+  orientation = 'horizontal',
   ...props
 }: SliderProps) {
-  const [internalValue, setInternalValue] = React.useState<number[]>(
-    () => value ?? defaultValue ?? [min],
-  );
+  const [internalValue, setInternalValue] = React.useState<number[]>(() => {
+    if (value !== undefined) {
+      return Array.isArray(value) ? [...value] : [value];
+    }
+
+    if (defaultValue !== undefined) {
+      return Array.isArray(defaultValue) ? [...defaultValue] : [defaultValue];
+    }
+
+    return [min];
+  });
   const [isInteracting, setIsInteracting] = React.useState(false);
   const [isHovering, setIsHovering] = React.useState(false);
 
-  const currentValue = value ?? internalValue;
-  const isVertical = props.orientation === 'vertical';
+  const startInteraction = React.useCallback(() => {
+    if (disabled) {
+      return;
+    }
 
-  const handleValueChange = React.useCallback(
-    (newValue: number[]) => {
-      setInternalValue(newValue);
-      onValueChange?.(newValue);
+    setIsInteracting(true);
+  }, [disabled]);
+
+  const stopInteraction = React.useCallback(() => {
+    setIsInteracting(false);
+  }, []);
+
+  const currentValue = React.useMemo(() => {
+    if (value !== undefined) {
+      return Array.isArray(value) ? [...value] : [value];
+    }
+
+    return internalValue;
+  }, [internalValue, value]);
+
+  const isVertical = orientation === 'vertical';
+
+  const handleValueChange = React.useCallback<
+    NonNullable<SliderRootProps['onValueChange']>
+  >(
+    (newValue, details) => {
+      const values = Array.isArray(newValue) ? [...newValue] : [newValue];
+
+      if (value === undefined) {
+        setInternalValue(values);
+      }
+
+      onValueChange?.(values);
+
+      if (details.reason === 'drag' || details.reason === 'track-press') {
+        startInteraction();
+      }
     },
-    [onValueChange],
+    [onValueChange, startInteraction, value],
   );
+
+  const handleValueCommitted = React.useCallback<
+    NonNullable<SliderRootProps['onValueCommitted']>
+  >(() => {
+    stopInteraction();
+  }, [stopInteraction]);
 
   const markers = React.useMemo(
     () => generateMarkers(min, max, step, showStepMarkers),
     [min, max, step, showStepMarkers],
   );
 
-  const thumbClasses = cn(
-    'relative flex items-center justify-center w-4 h-4 rounded-full transition-all duration-200',
-    'bg-fill-active shadow-none',
-    'hover:outline hover:outline-2 hover:outline-stroke-primary',
-    'focus:outline focus:outline-2 focus:outline-stroke-primary focus:shadow-elevation-1',
-    'active:shadow-elevation-1',
-    'data-[disabled]:pointer-events-none data-[disabled]:bg-fill-onsurface-ui-2 data-[disabled]:shadow-elevation-0',
-    'cursor-pointer',
-  );
+  const thumbCount = currentValue.length;
 
   return (
     <SliderPrimitive.Root
@@ -203,65 +224,76 @@ function Slider({
       max={max}
       step={step}
       disabled={disabled}
-      minStepsBetweenThumbs={1}
+      orientation={orientation}
+      minStepsBetweenValues={1}
+      thumbAlignment="edge"
       onValueChange={handleValueChange}
+      onValueCommitted={handleValueCommitted}
       className={cn(
-        'relative flex w-full touch-none items-center select-none',
-        'data-[orientation=horizontal]:px-2',
-        'data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-22 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col data-[orientation=vertical]:py-2',
+        'data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full',
         className,
       )}>
-      <SliderPrimitive.Track
-        data-slot="slider-track"
+      <SliderPrimitive.Control
+        onPointerDown={startInteraction}
         className={cn(
-          'bg-slider-track relative grow',
-          'data-[orientation=horizontal]:h-[1px] data-[orientation=horizontal]:w-full',
-          'data-[orientation=vertical]:h-full data-[orientation=vertical]:w-[1px]',
+          'relative flex w-full touch-none items-center select-none',
+          'data-[orientation=horizontal]:px-2',
+          'data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-22 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col data-[orientation=vertical]:py-2',
         )}>
-        <SliderPrimitive.Range
-          data-slot="slider-range"
-          className="bg-fill-active absolute data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full"
-        />
-
-        {markers.map((marker, i) => (
-          <StepMarker
-            key={`${marker.value}-${i}`}
-            marker={marker}
-            isActive={isValueInRange(marker.value, currentValue)}
-            isVertical={isVertical}
-            showLabel={showStepLabels}
-            disabled={disabled}
+        <SliderPrimitive.Track
+          data-slot="slider-track"
+          className={cn(
+            'bg-fill-stepmarkers-track relative grow',
+            'data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full',
+            'data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px',
+          )}>
+          <SliderPrimitive.Indicator
+            data-slot="slider-range"
+            className="bg-fill-active data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full"
           />
+
+          {markers.map((marker, i) => (
+            <StepMarker
+              key={`${marker.value}-${i}`}
+              marker={marker}
+              isActive={isValueInRange(marker.value, currentValue)}
+              isVertical={isVertical}
+              showLabel={showStepLabels}
+              disabled={disabled}
+            />
+          ))}
+        </SliderPrimitive.Track>
+
+        {Array.from({ length: thumbCount }, (_, i) => (
+          <Tooltip
+            key={i}
+            open={showValueTooltip && (isInteracting || isHovering)}>
+            <TooltipTrigger asChild>
+              <SliderPrimitive.Thumb
+                index={i}
+                data-slot="slider-thumb"
+                className={cn(
+                  thumbClasses,
+                  (isHovering || isInteracting) &&
+                    'outline-stroke-primary outline outline-2 outline-offset-0',
+                  isInteracting && 'shadow-elevation-1 transition-none',
+                )}
+                onPointerEnter={() => setIsHovering(true)}
+                onPointerLeave={() => setIsHovering(false)}>
+                <div className="bg-fill-active-inverse h-1 w-1 rounded-full" />
+              </SliderPrimitive.Thumb>
+            </TooltipTrigger>
+
+            <TooltipContent
+              side={isVertical ? 'left' : 'top'}
+              sideOffset={10}
+              align="center"
+              className="!animate-none text-center">
+              {formatValue(currentValue[i])}
+            </TooltipContent>
+          </Tooltip>
         ))}
-      </SliderPrimitive.Track>
-
-      {currentValue.map((_, i) => (
-        <Tooltip
-          key={i}
-          open={showValueTooltip && (isInteracting || isHovering)}>
-          <TooltipTrigger asChild>
-            <SliderPrimitive.Thumb
-              data-slot="slider-thumb"
-              className={thumbClasses}
-              onPointerDown={() => setIsInteracting(true)}
-              onPointerUp={() => setIsInteracting(false)}
-              onPointerEnter={() => setIsHovering(true)}
-              onPointerLeave={() => {
-                setIsInteracting(false);
-                setIsHovering(false);
-              }}>
-              <div className="bg-fill-active-inverse h-1 w-1 rounded-full" />
-            </SliderPrimitive.Thumb>
-          </TooltipTrigger>
-
-          <TooltipContent
-            side={isVertical ? 'left' : 'top'}
-            sideOffset={6}
-            className="max-w-[140px] min-w-[36px] !animate-none truncate text-center leading-4 tracking-[0.024px]">
-            {formatValue(currentValue[i])}
-          </TooltipContent>
-        </Tooltip>
-      ))}
+      </SliderPrimitive.Control>
     </SliderPrimitive.Root>
   );
 }

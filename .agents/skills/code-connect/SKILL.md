@@ -9,6 +9,46 @@ Use the **`/figma-code-connect`** skill to create the template mappings — it o
 
 QBDS authors **template** files (`code-connect/<name>.figma.ts`, MCP `figma` API). The old parser style (`figma.connect(...)` in `.figma.tsx`) is **deprecated** — do not author new `.figma.tsx` files.
 
+## Env vars (before templates)
+
+Every `// url=<QBDS_*>` token needs a matching env var. Derive the name from the header:
+
+| Template header             | Env var                      |
+| --------------------------- | ---------------------------- |
+| `// url=<QBDS_TAG>`         | `FIGMA_URL_QBDS_TAG`         |
+| `// url=<QBDS_BUTTON_TEXT>` | `FIGMA_URL_QBDS_BUTTON_TEXT` |
+
+Rule: `<QBDS_X>` → `FIGMA_URL_QBDS_X`.
+
+### Missing var — add to repo files
+
+When creating or wiring a template, check both files:
+
+| File           | Action                                                                                                  |
+| -------------- | ------------------------------------------------------------------------------------------------------- |
+| `.env.example` | add empty placeholder if key missing: `FIGMA_URL_QBDS_<NAME>=`                                          |
+| `.env`         | add key if missing — paste URL when user provided it in chat; otherwise empty: `FIGMA_URL_QBDS_<NAME>=` |
+
+Then tell the user:
+
+- If `.env` has the full URL → run `npm run figma:config`
+- If `.env` value is empty → ask user to paste the Figma URL into `.env`, then run `npm run figma:config`
+
+Never commit real URLs or tokens — only empty placeholders in `.env.example`.
+
+### Cannot write `.env`
+
+`.env` is local and may be missing or blocked. If you cannot create or edit it:
+
+1. Still add the empty key to `.env.example` (committed).
+2. Stop and give the user an exact block to paste into their local `.env`:
+
+```bash
+FIGMA_URL_QBDS_<NAME>=<full figma component-set url>
+```
+
+Do not run `npm run figma:config` / `figma:parse` until the user confirms the URL is in `.env` (empty values are skipped by `generate-figma-config.ts`).
+
 ## QBDS conventions
 
 ### 1 — Figma URL is a token, never inlined
@@ -21,8 +61,9 @@ The `// url=` header references a substitution token, not a raw URL:
 // component=Button
 ```
 
-- Add the node URL to **`.env`** and **`.env.example`** as `FIGMA_URL_QBDS_<NAME>=...`, then run `npm run figma:config`.
+- Add the node URL via env vars (see **Env vars** above) — never inline the URL in the template.
 - The script turns each `FIGMA_URL_<NAME>` into `<<NAME>>` and writes `documentUrlSubstitutions` into `figma.config.json` (git-ignored). The CLI substitutes `<QBDS_<NAME>>` → URL at publish.
+- URL must target the **COMPONENT_SET** node, not a variant inside it. Dev Mode only surfaces Code Connect at the set level. Copy link from the set name in Figma (e.g. `Tags-Dismissable` → `38573-15379`, not variant `38573-15380`).
 
 ### 2 — Files, imports
 
@@ -39,14 +80,54 @@ The component `Props` in `src/components/ui/<name>.tsx` is the source of truth. 
 
 If nothing represents it, omit it and tell the user. Keep `example` close to the demo (`src/app/demo/[name]/ui/<name>.tsx`).
 
+### 3b — Field footer: helper XOR feedback
+
+Figma inputs often expose `showHelpText` and `showFeedbackMessage` as separate booleans. React composes **one** footer message:
+
+| State           | Render                                                                                                 |
+| --------------- | ------------------------------------------------------------------------------------------------------ |
+| valid / neutral | `<FieldDescription>` when `showHelpText`                                                               |
+| error / invalid | `<FieldError>` when `showFeedbackMessage` — **replaces** helper, do not also render `FieldDescription` |
+
+Demos follow this (see `TextareaStates` error example). Code Connect templates must match — not both in the same snippet.
+
+```ts
+${invalid && showFeedback
+  ? figma.code`<FieldError>${statusMessage}</FieldError>`
+  : showHelpText
+    ? figma.code`<FieldDescription className="${descClass}">${helperText}</FieldDescription>`
+    : figma.code``}
+```
+
+### 4 — Slot children (repeated same-type instances)
+
+When a SLOT holds multiple instances of the same component (tag groups, button groups, sidebar items), use `figma.properties.children()` + `renderChildren()` — not `getSlot()` or `findConnectedInstances()` (both render empty for this pattern).
+
+```ts
+const tags = figma.properties.children(['Tag-Dismissable']);
+
+export default {
+  example: figma.code`
+    <div className="flex flex-wrap gap-2">
+      ${figma.helpers.react.renderChildren(tags)}
+    </div>
+  `,
+};
+```
+
+Use the child layer's **main component name** as the filter string. See `button-group.figma.ts`, `sidebar-nav.figma.ts`, `tag-group-dismissable.figma.ts`.
+
 ## Reference examples
 
-Read existing templates in `code-connect/` before writing a new one — `button-text.figma.ts` and `button-icon.figma.ts` cover the token header, separate-file split, and showing Figma-only props through the component. Match their shape.
+Read existing templates in `code-connect/` before writing a new one:
+
+- `button-text.figma.ts`, `button-icon.figma.ts` — token header, variant split, Figma-only props
+- `button-group.figma.ts`, `tag-group-dismissable.figma.ts` — dynamic slot children via `properties.children`
 
 ## Validate & publish
 
 ```bash
 npm run figma:config        # regenerate substitutions
-npx figma connect parse     # exit 0
+npm run figma:parse         # local template validation (exit 0)
 npm run figma:publish       # only when the user asks (needs FIGMA_ACCESS_TOKEN)
 ```
