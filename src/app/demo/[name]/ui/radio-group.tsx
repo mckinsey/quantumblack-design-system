@@ -5,7 +5,24 @@ import {
   FieldSet,
 } from '@/components/ui/field';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { listLegendMb } from '@/lib/radio-group-list';
+
+const legendMb = {
+  sm: { default: 'mb-3', comfortable: 'mb-4' },
+  default: { default: 'mb-3', comfortable: 'mb-4' },
+  lg: { default: 'mb-4', comfortable: 'mb-5' },
+} as const;
+
+function listLegendMb(
+  size: keyof typeof legendMb,
+  density: 'default' | 'comfortable',
+  orientation: 'vertical' | 'horizontal',
+) {
+  if (orientation === 'horizontal') {
+    return 'mb-3';
+  }
+
+  return legendMb[size][density];
+}
 
 export function RadioGroupDemo() {
   return (
