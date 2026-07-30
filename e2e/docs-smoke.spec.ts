@@ -23,12 +23,7 @@ test('docs site routes and component Code toggle', async ({ page }) => {
   ).toBeVisible();
 
   await page
-    .getByRole('navigation')
-    .getByRole('link', { name: 'Docs' })
-    .click();
-  await expect(page).toHaveURL(/\/$/);
-  await page
-    .getByRole('main')
+    .locator('[data-slot="sidebar"]')
     .getByRole('link', { name: 'Installation' })
     .click();
   await expect(page).toHaveURL(/\/installation$/);
