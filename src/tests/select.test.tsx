@@ -3,10 +3,12 @@ import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { afterEach, describe, expect, it } from 'vitest';
 
+import { Renderer } from '@/app/demo/[name]/renderer';
 import {
   SelectDemo,
   SelectHorizontal,
   SelectInline,
+  SelectMultiple,
   SelectMultipleExamples,
   SelectMultipleSizes,
   SelectMultipleWithSlots,
@@ -38,6 +40,7 @@ describe('Select', () => {
   it('renders demos without crash', () => {
     const demos = [
       <SelectDemo key="demo" />,
+      <SelectMultiple key="multiple" />,
       <SelectSizes key="sizes" />,
       <SelectInline key="inline" />,
       <SelectHorizontal key="horizontal" />,
@@ -50,7 +53,7 @@ describe('Select', () => {
     ];
 
     for (const demo of demos) {
-      expect(() => render(demo)).not.toThrow();
+      expect(() => render(<Renderer>{demo}</Renderer>)).not.toThrow();
       cleanup();
     }
   });

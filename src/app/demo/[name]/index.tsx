@@ -240,6 +240,7 @@ import {
   SelectDemo,
   SelectHorizontal,
   SelectInline,
+  SelectMultiple,
   SelectMultipleExamples,
   SelectMultipleSizes,
   SelectMultipleWithSlots,
@@ -593,6 +594,7 @@ export const exampleComponentMaps: Record<
   },
   select: {
     SelectDemo,
+    SelectMultiple,
     SelectSizes,
     SelectInline,
     SelectHorizontal,

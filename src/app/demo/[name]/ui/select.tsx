@@ -212,131 +212,65 @@ function MultiValueDisplay({
 }
 
 export function SelectDemo() {
-  const [multiValue, setMultiValue] = React.useState<string[]>([]);
-  const [multiInlineValue, setMultiInlineValue] = React.useState<string[]>([]);
+  return (
+    <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
+      <FieldTitle className={fieldConfig.default.label}>Label</FieldTitle>
+
+      <Select items={themeItems}>
+        <SelectTrigger className="w-[240px]">
+          <SelectValue placeholder="Choose option" />
+        </SelectTrigger>
+        <SelectContent>
+          {themeItems.map(item => (
+            <SelectOptionItem key={item.value} value={item.value}>
+              {item.label}
+            </SelectOptionItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      <FieldDescription className={fieldConfig.default.description}>
+        Helper text
+      </FieldDescription>
+    </FieldSet>
+  );
+}
+
+export function SelectMultiple() {
+  const [value, setValue] = React.useState<string[]>([]);
 
   return (
-    <div className="grid w-full max-w-3xl grid-cols-2 gap-8">
-      <div className="space-y-12">
-        <FieldSet className={fieldConfig.default.gap}>
-          <FieldTitle className={fieldConfig.default.label}>Default</FieldTitle>
+    <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
+      <FieldTitle className={fieldConfig.default.label}>Label</FieldTitle>
 
-          <Select items={themeItems}>
-            <SelectTrigger className="w-full max-w-[240px]">
-              <SelectValue placeholder="Choose option" />
-            </SelectTrigger>
-            <SelectContent>
-              {themeItems.map(item => (
-                <SelectOptionItem key={item.value} value={item.value}>
-                  {item.label}
-                </SelectOptionItem>
-              ))}
-            </SelectContent>
-          </Select>
+      <Select
+        multiple
+        items={languageItems}
+        value={value}
+        onValueChange={v => setValue(v as string[])}>
+        <SelectTrigger className="w-[280px]">
+          <SelectValue placeholder="Choose Options">
+            {value.length > 0 ? (
+              <MultiValueDisplay value={value} onClear={() => setValue([])} />
+            ) : null}
+          </SelectValue>
+        </SelectTrigger>
+        <SelectContent>
+          {languageItems.map(item => (
+            <SelectCheckboxItem
+              key={item.value}
+              value={item.value}
+              checked={value.includes(item.value)}>
+              {item.label}
+            </SelectCheckboxItem>
+          ))}
+        </SelectContent>
+      </Select>
 
-          <FieldDescription className={fieldConfig.default.description}>
-            Helper text
-          </FieldDescription>
-        </FieldSet>
-
-        <FieldSet className={fieldConfig.default.gap}>
-          <FieldTitle className={fieldConfig.default.label}>Inline</FieldTitle>
-
-          <Select items={themeItems}>
-            <SelectTrigger variant="inline" className="w-full max-w-[240px]">
-              <SelectValue placeholder="Choose option" />
-            </SelectTrigger>
-            <SelectContent>
-              {themeItems.map(item => (
-                <SelectOptionItem key={item.value} value={item.value}>
-                  {item.label}
-                </SelectOptionItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          <FieldDescription className={fieldConfig.default.description}>
-            Helper text
-          </FieldDescription>
-        </FieldSet>
-      </div>
-
-      <div className="space-y-12">
-        <FieldSet className={fieldConfig.default.gap}>
-          <FieldTitle className={fieldConfig.default.label}>
-            Multiple
-          </FieldTitle>
-
-          <Select
-            multiple
-            items={languageItems}
-            value={multiValue}
-            onValueChange={v => setMultiValue(v as string[])}>
-            <SelectTrigger className="w-full max-w-[280px]">
-              <SelectValue placeholder="Choose Options">
-                {multiValue.length > 0 ? (
-                  <MultiValueDisplay
-                    value={multiValue}
-                    onClear={() => setMultiValue([])}
-                  />
-                ) : null}
-              </SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              {languageItems.map(item => (
-                <SelectCheckboxItem
-                  key={item.value}
-                  value={item.value}
-                  checked={multiValue.includes(item.value)}>
-                  {item.label}
-                </SelectCheckboxItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          <FieldDescription className={fieldConfig.default.description}>
-            Multi-select with counter — tags/wrap use Combobox
-          </FieldDescription>
-        </FieldSet>
-
-        <FieldSet className={fieldConfig.default.gap}>
-          <FieldTitle className={fieldConfig.default.label}>
-            Multiple Inline
-          </FieldTitle>
-
-          <Select
-            multiple
-            items={languageItems}
-            value={multiInlineValue}
-            onValueChange={v => setMultiInlineValue(v as string[])}>
-            <SelectTrigger variant="inline" className="w-full max-w-[280px]">
-              <SelectValue placeholder="Choose Options">
-                {multiInlineValue.length > 0 ? (
-                  <MultiValueDisplay
-                    value={multiInlineValue}
-                    onClear={() => setMultiInlineValue([])}
-                  />
-                ) : null}
-              </SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              {languageItems.map(item => (
-                <SelectCheckboxItem
-                  key={item.value}
-                  value={item.value}
-                  checked={multiInlineValue.includes(item.value)}>
-                  {item.label}
-                </SelectCheckboxItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          <FieldDescription className={fieldConfig.default.description}>
-            Multi-select inline trigger
-          </FieldDescription>
-        </FieldSet>
-      </div>
-    </div>
+      <FieldDescription className={fieldConfig.default.description}>
+        Multi-select with counter
+      </FieldDescription>
+    </FieldSet>
   );
 }
 
@@ -627,7 +561,7 @@ export function SelectValidation() {
         <FieldTitle className={fieldConfig.default.label}>Warning</FieldTitle>
 
         <Select items={optionItems} defaultValue="option2">
-          <SelectTrigger className="!border-status-warning w-[240px]">
+          <SelectTrigger className="!border-status-warning focus-visible:ring-stroke-status-warning data-[popup-open]:ring-stroke-status-warning w-[240px]">
             <SelectValue placeholder="Choose option" />
             <SelectFeedbackIcon state="warning" />
           </SelectTrigger>
@@ -650,7 +584,7 @@ export function SelectValidation() {
         <FieldTitle className={fieldConfig.default.label}>Success</FieldTitle>
 
         <Select items={optionItems} defaultValue="option2">
-          <SelectTrigger className="!border-status-success w-[240px]">
+          <SelectTrigger className="!border-status-success focus-visible:ring-stroke-status-success data-[popup-open]:ring-stroke-status-success w-[240px]">
             <SelectValue placeholder="Choose option" />
             <SelectFeedbackIcon state="success" />
           </SelectTrigger>
@@ -957,12 +891,17 @@ export const examples = [
   {
     name: 'SelectDemo',
     title: 'Default',
-    description: 'Default, inline, multiple, and multiple inline.',
+    description: 'Filled single select.',
+  },
+  {
+    name: 'SelectMultiple',
+    title: 'Multiple',
+    description: 'Multi-select with counter in the trigger.',
   },
   {
     name: 'SelectSizes',
     title: 'Sizes',
-    description: 'Small, default, and large select sizes.',
+    description: 'Small, default, and large — filled only.',
   },
   {
     name: 'SelectInline',
@@ -1012,6 +951,7 @@ export const select = {
   name: 'select',
   components: {
     Default: <SelectDemo />,
+    Multiple: <SelectMultiple />,
     Sizes: <SelectSizes />,
     Inline: <SelectInline />,
     Horizontal: <SelectHorizontal />,

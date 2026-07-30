@@ -58,7 +58,7 @@ const selectTriggerVariants = cva(
           inputVariantStyles.default.focus,
           'data-[popup-open]:bg-stateslayer-overlay-active-inverse data-[popup-open]:ring-stroke-status-focus data-[popup-open]:shadow-elevation-0',
           inputVariantStyles.default.error,
-          'data-invalid:border-status-error data-invalid:ring-0',
+          'aria-invalid:data-[popup-open]:ring-stroke-status-error',
           'data-disabled:bg-stateslayer-overlay-disabled',
         ],
         inline: [
@@ -70,7 +70,7 @@ const selectTriggerVariants = cva(
           inputVariantStyles.inline.focus,
           'data-[popup-open]:border-b-stroke-status-focus data-[popup-open]:shadow-elevation-0',
           inputVariantStyles.inline.error,
-          'data-invalid:border-b-status-error data-invalid:ring-0',
+          'aria-invalid:data-[popup-open]:border-b-status-error',
         ],
       },
       size: {
@@ -115,7 +115,7 @@ const selectTriggerVariants = cva(
       {
         variant: 'inline',
         size: 'lg',
-        className: inputInlineFocusBorderWidth.lg,
+        className: 'border-b-[2px]',
       },
       {
         variant: 'inline',
@@ -126,11 +126,6 @@ const selectTriggerVariants = cva(
         variant: 'inline',
         size: 'default',
         className: 'data-[popup-open]:border-b-[1px]',
-      },
-      {
-        variant: 'inline',
-        size: 'lg',
-        className: 'data-[popup-open]:border-b-[2px]',
       },
     ],
     defaultVariants: {
