@@ -163,9 +163,11 @@ export function CheckboxItemSizes() {
 function CheckboxItemGroupVariant({
   density,
   size,
+  legend = 'List label',
 }: {
   density: ListDensity;
   size: ListSize;
+  legend?: string;
 }) {
   const [value, setValue] = useState<string[]>([
     GROUP_ITEMS[1].value,
@@ -180,7 +182,7 @@ function CheckboxItemGroupVariant({
       <FieldLegend
         variant="label"
         className={cn(sizeCfg.legendClass, listLegendMb(size, density))}>
-        List label
+        {legend}
       </FieldLegend>
       <CheckboxGroup
         allValues={ALL_VALUES}
@@ -255,6 +257,7 @@ export function CheckboxItemGroupSection() {
                 key={`${density.key}-${size.key}`}
                 density={density.key}
                 size={size.key}
+                legend={size.label}
               />
             ))}
           </div>
@@ -319,47 +322,46 @@ export function CheckboxHorizontal() {
 export const examples = [
   {
     name: 'CheckboxDemo',
-    title: 'Normal checkbox',
-    description: 'A normal checkbox with label.',
+    title: 'Default',
+    description: 'Basic checkbox with label.',
   },
   {
     name: 'CheckboxGroupItem',
-    title: 'Checkbox item',
+    title: 'States',
     description: 'Unchecked, checked, and indeterminate.',
   },
   {
     name: 'CheckboxItemSizes',
-    title: 'Checkbox item sizes',
-    description: 'Small, default, and large.',
+    title: 'Item Sizes',
+    description: 'Small, default, and large item label and checkbox sizes.',
   },
   {
     name: 'CheckboxItemGroup',
-    title: 'Checkbox Item Group',
+    title: 'Vertical List',
     description:
-      'Group with parent select-all, label, count, underline, and list of items.',
+      'Parent select-all with selection count, divider, and nested items.',
   },
   {
     name: 'CheckboxItemGroupSection',
-    title: 'Checkbox Item Group Section',
+    title: 'Sizes & Density',
     description:
-      'Small, regular, and large in default and comfortable density.',
+      'Vertical lists across small, regular, and large in default and comfortable density.',
   },
   {
     name: 'CheckboxHorizontal',
-    title: 'Checkbox Horizontal List',
-    description:
-      'Inline checkbox groups by size (small, regular, large) and density.',
+    title: 'Horizontal',
+    description: 'Inline checkbox groups by size and density.',
   },
 ];
 
 export const checkbox = {
   name: 'checkbox',
   components: {
-    'Normal checkbox': <CheckboxDemo />,
-    'Checkbox item': <CheckboxGroupItem />,
-    'Checkbox item sizes': <CheckboxItemSizes />,
-    'Checkbox Item Group': <CheckboxItemGroup />,
-    'Checkbox Item Group Section': <CheckboxItemGroupSection />,
-    'Checkbox Horizontal List': <CheckboxHorizontal />,
+    Default: <CheckboxDemo />,
+    States: <CheckboxGroupItem />,
+    'Item Sizes': <CheckboxItemSizes />,
+    'Vertical List': <CheckboxItemGroup />,
+    'Sizes & Density': <CheckboxItemGroupSection />,
+    Horizontal: <CheckboxHorizontal />,
   },
 };
