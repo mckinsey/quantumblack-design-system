@@ -1,14 +1,23 @@
 'use client';
 
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import { TagToggle } from '@/components/ui/tag-toggle';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
+
+function TagToggleLeadingIcon({ disabled }: { disabled?: boolean }) {
+  return (
+    <IconShell size="sm" type="neutral" variant="primary" disabled={disabled}>
+      <Icon icon="style" />
+    </IconShell>
+  );
+}
 
 /** Default tag toggle */
 export function TagToggleDemo() {
   return (
     <TagToggle>
-      <Icon icon="style" className="size-4" />
+      <TagToggleLeadingIcon />
       Label
     </TagToggle>
   );
@@ -19,12 +28,12 @@ export function TagToggleVariants() {
   return (
     <div className="flex flex-wrap gap-3">
       <TagToggle variant="default">
-        <Icon icon="style" className="size-4" />
+        <TagToggleLeadingIcon />
         Default
       </TagToggle>
 
       <TagToggle variant="outline">
-        <Icon icon="style" className="size-4" />
+        <TagToggleLeadingIcon />
         Outline
       </TagToggle>
     </div>
@@ -36,12 +45,12 @@ export function TagTogglePill() {
   return (
     <div className="flex flex-wrap gap-3">
       <TagToggle pill>
-        <Icon icon="style" className="size-4" />
+        <TagToggleLeadingIcon />
         Default
       </TagToggle>
 
       <TagToggle variant="outline" pill>
-        <Icon icon="style" className="size-4" />
+        <TagToggleLeadingIcon />
         Outline
       </TagToggle>
     </div>
@@ -53,22 +62,22 @@ export function TagToggleSizes() {
   return (
     <div className="flex flex-wrap items-center gap-3">
       <TagToggle size="xs">
-        <Icon icon="style" className="size-4" />
+        <TagToggleLeadingIcon />
         Extra small
       </TagToggle>
 
       <TagToggle size="sm">
-        <Icon icon="style" className="size-4" />
+        <TagToggleLeadingIcon />
         Small
       </TagToggle>
 
       <TagToggle size="default">
-        <Icon icon="style" className="size-4" />
+        <TagToggleLeadingIcon />
         Default
       </TagToggle>
 
       <TagToggle size="lg">
-        <Icon icon="style" className="size-4" />
+        <TagToggleLeadingIcon />
         Large
       </TagToggle>
     </div>
@@ -80,18 +89,35 @@ export function TagToggleDisabled() {
   return (
     <div className="flex flex-wrap gap-3">
       <TagToggle disabled>
-        <Icon icon="style" className="size-4" />
+        <TagToggleLeadingIcon disabled />
         Disabled
       </TagToggle>
 
       <TagToggle variant="outline" disabled>
-        <Icon icon="style" className="size-4" />
+        <TagToggleLeadingIcon disabled />
         Disabled
       </TagToggle>
 
       <TagToggle pill disabled>
-        <Icon icon="style" className="size-4" />
+        <TagToggleLeadingIcon disabled />
         Disabled Pill
+      </TagToggle>
+    </div>
+  );
+}
+
+/** Active (selected) tag toggles — Figma state=selected */
+export function TagToggleActive() {
+  return (
+    <div className="flex flex-wrap gap-3">
+      <TagToggle defaultPressed>
+        <TagToggleLeadingIcon />
+        Default
+      </TagToggle>
+
+      <TagToggle variant="outline" defaultPressed>
+        <TagToggleLeadingIcon />
+        Outline
       </TagToggle>
     </div>
   );
@@ -119,9 +145,16 @@ export const examples: DemoExample[] = [
     description: 'Tag toggle size options.',
   },
   {
+    name: 'TagToggleActive',
+    title: 'Active',
+    description:
+      'Selected/active state (defaultPressed). Leading icon uses inverse tone on default variant.',
+  },
+  {
     name: 'TagToggleDisabled',
     title: 'Disabled',
-    description: 'Disabled tag toggle states.',
+    description:
+      'Disabled tag toggle states. Pass disabled to IconShell as well so the leading icon uses disabled opacity.',
   },
 ];
 
@@ -130,5 +163,6 @@ export const tagToggle = createLegacyDemo('tag-toggle', examples, {
   TagToggleVariants: <TagToggleVariants />,
   TagTogglePill: <TagTogglePill />,
   TagToggleSizes: <TagToggleSizes />,
+  TagToggleActive: <TagToggleActive />,
   TagToggleDisabled: <TagToggleDisabled />,
 });

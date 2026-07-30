@@ -79,13 +79,23 @@ describe(`${componentName} — structure`, () => {
     expect(screen.getByText('TU')).toBeInTheDocument();
   });
 
-  it('disabled avatar is not focusable via keyboard', () => {
+  it('does not force tabindex on the avatar root', () => {
+    render(
+      <Avatar>
+        <AvatarFallback>AB</AvatarFallback>
+      </Avatar>,
+    );
+    const avatar = document.querySelector('[data-slot="avatar"]');
+    expect(avatar).not.toHaveAttribute('tabindex');
+  });
+
+  it('disabled avatar still has no forced tabindex', () => {
     render(
       <Avatar disabled>
         <AvatarFallback>DI</AvatarFallback>
       </Avatar>,
     );
     const avatar = document.querySelector('[data-slot="avatar"]');
-    expect(avatar).toHaveAttribute('tabindex', '-1');
+    expect(avatar).not.toHaveAttribute('tabindex');
   });
 });

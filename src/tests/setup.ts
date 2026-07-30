@@ -25,18 +25,14 @@ if (typeof window !== 'undefined' && !window.matchMedia) {
   });
 }
 
-if (
-  typeof globalThis.PointerEvent === 'undefined' &&
-  typeof globalThis.MouseEvent !== 'undefined'
-) {
-  class MockPointerEvent extends MouseEvent {
-    pointerId: number;
+if (typeof globalThis.PointerEvent === 'undefined') {
+  type EventCtor = new (...args: never[]) => Event;
 
-    constructor(type: string, params: PointerEventInit = {}) {
-      super(type, params);
-      this.pointerId = params.pointerId ?? 0;
-    }
-  }
+  const Base: EventCtor =
+    typeof globalThis.MouseEvent !== 'undefined'
+      ? (MouseEvent as unknown as EventCtor)
+      : Event;
 
-  globalThis.PointerEvent = MockPointerEvent as unknown as typeof PointerEvent;
+  (globalThis as unknown as Record<string, unknown>).PointerEvent =
+    class PointerEvent extends Base {};
 }

@@ -47,3 +47,7 @@ figma.config.json
 .eslintcache
 .prettiercache
 .vite/
+
+
+.migration
+docs/migrations/
