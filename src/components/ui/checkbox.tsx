@@ -51,7 +51,8 @@ const checkboxGroupVariants = cva('', {
   variants: {
     orientation: {
       vertical: 'grid',
-      horizontal: 'flex flex-row',
+      horizontal:
+        'flex flex-row [&>[data-slot=field]]:w-auto [&>[data-slot=field]>[data-slot=field-label]]:flex-none',
     },
     density: {
       default: '',
