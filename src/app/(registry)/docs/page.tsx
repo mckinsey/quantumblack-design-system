@@ -9,7 +9,7 @@ export default function IntroductionPage() {
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-2">
             <h1 className="headings-h1-regular text-fg-primary">
-              Introductio
+              Introduction
             </h1>
           </div>
 
