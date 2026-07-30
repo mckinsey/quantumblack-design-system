@@ -8,9 +8,9 @@ const instance = figma.selectedInstance;
 const size =
   instance.getEnum('size', {
     sm: 'sm',
-    reg: 'reg',
+    reg: 'default',
     lg: 'lg',
-  }) ?? 'reg';
+  }) ?? 'default';
 
 const type =
   instance.getEnum('type', {
@@ -27,7 +27,7 @@ const disabled =
   }) ?? false;
 
 const showItemCount = instance.getBoolean('showItemCount');
-const label = instance.getString('ListItem-Label');
+const label = instance.getString('ListItem-Label') || 'Checkbox label';
 const itemCount = instance.getString('itemCount');
 
 const checkboxSize = size === 'lg' ? 'lg' : 'default';
@@ -57,7 +57,7 @@ export default {
     <Field orientation="horizontal" className="gap-2">
       <FieldLabel
         className="${labelClass} flex min-w-0 flex-1 cursor-pointer items-center gap-2">
-        <Checkbox size="${checkboxSize}" value="checkbox-item"${checkedProp}${disabledProp} />
+        <Checkbox size="${checkboxSize}" value="${label}"${checkedProp}${disabledProp} />
         <span className="min-w-0 flex-1">${label}</span>
       </FieldLabel>
       ${countNode}

@@ -100,7 +100,6 @@ import {
   CheckboxItemGroup,
   CheckboxItemGroupSection,
   CheckboxItemSizes,
-  CheckboxSizes,
   checkbox,
   examples as checkboxExamples,
 } from '@/app/demo/[name]/ui/checkbox';
@@ -484,7 +483,6 @@ export const exampleComponentMaps: Record<
   },
   checkbox: {
     CheckboxDemo,
-    CheckboxSizes,
     CheckboxGroupItem,
     CheckboxItemSizes,
     CheckboxItemGroup,

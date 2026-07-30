@@ -3,23 +3,62 @@
 // component=CheckboxGroup
 import figma from 'figma';
 
-type ListSize = 'sm' | 'reg' | 'lg';
-type ListDensity = 'default' | 'comfortable';
+type ListSize = 'sm' | 'default' | 'lg';
 
 const instance = figma.selectedInstance;
 
 const size = (instance.getEnum('size', {
   sm: 'sm',
-  reg: 'reg',
+  reg: 'default',
   lg: 'lg',
-}) ?? 'reg') as ListSize;
+}) ?? 'default') as ListSize;
 
-const density = (instance.getEnum('density', {
-  default: 'default',
-  comfortable: 'comfortable',
-}) ?? 'default') as ListDensity;
+const density =
+  instance.getEnum('density', {
+    default: 'default',
+    comfortable: 'comfortable',
+  }) ?? 'default';
 
-const items = figma.properties.children(['CheckboxGroup/Item']);
+const slot = instance.getSlot('itemsSlot');
+const connected = slot?.connectedInstances ?? [];
+const items =
+  connected.length > 0
+    ? connected.flatMap(n => n.executeTemplate().example)
+    : figma.properties.children(['CheckboxGroup/Item']);
+
+const values = connected.map((n, i) => {
+  if (n.type !== 'INSTANCE') {
+    return `option-${i + 1}`;
+  }
+
+  return n.getString('ListItem-Label') || `option-${i + 1}`;
+});
+
+const selected = connected
+  .map((n, i) => {
+    if (n.type !== 'INSTANCE') {
+      return null;
+    }
+
+    const type =
+      n.getEnum('type', {
+        unchecked: 'unchecked',
+        checked: 'checked',
+        indeterminate: 'indeterminate',
+      }) ?? 'unchecked';
+
+    return type === 'checked' || type === 'indeterminate' ? values[i] : null;
+  })
+  .filter((v): v is string => Boolean(v));
+
+const defaultValue =
+  selected.length > 0
+    ? selected
+    : values.length > 0
+      ? [values[0]]
+      : ['option-1'];
+
+const defaultValueLit = `[${defaultValue.map(v => `"${v}"`).join(', ')}]`;
 
 const listLabelNode = instance.findInstance('Elements/Label', {
   traverseInstances: true,
@@ -44,7 +83,7 @@ export default {
       </FieldLegend>
       <CheckboxGroup
         orientation="horizontal"
-        defaultValue={["option-1"]}
+        defaultValue={${defaultValueLit}}
         density="${density}">
         ${figma.helpers.react.renderChildren(items)}
       </CheckboxGroup>

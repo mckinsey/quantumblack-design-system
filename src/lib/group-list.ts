@@ -1,21 +1,21 @@
-type ListSize = 'sm' | 'reg' | 'lg';
+type ListSize = 'sm' | 'default' | 'lg';
 type ListDensity = 'default' | 'comfortable';
 
 const verticalLegendMb: Record<ListSize, Record<ListDensity, string>> = {
   sm: { default: 'mb-3', comfortable: 'mb-4' },
-  reg: { default: 'mb-3', comfortable: 'mb-4' },
+  default: { default: 'mb-3', comfortable: 'mb-4' },
   lg: { default: 'mb-4', comfortable: 'mb-5' },
 };
 
 const itemStackGap: Record<ListSize, Record<ListDensity, string>> = {
   sm: { default: 'gap-2', comfortable: 'gap-3' },
-  reg: { default: 'gap-3', comfortable: 'gap-4' },
+  default: { default: 'gap-3', comfortable: 'gap-4' },
   lg: { default: 'gap-3', comfortable: 'gap-4' },
 };
 
 const sectionGap: Record<ListSize, Record<ListDensity, string>> = {
   sm: { default: 'gap-2', comfortable: 'gap-3' },
-  reg: { default: 'gap-3', comfortable: 'gap-3' },
+  default: { default: 'gap-3', comfortable: 'gap-3' },
   lg: { default: 'gap-3', comfortable: 'gap-4' },
 };
 

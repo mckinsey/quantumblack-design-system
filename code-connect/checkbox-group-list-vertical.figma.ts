@@ -3,24 +3,24 @@
 // component=CheckboxGroup
 import figma from 'figma';
 
-type ListSize = 'sm' | 'reg' | 'lg';
+type ListSize = 'sm' | 'default' | 'lg';
 type ListDensity = 'default' | 'comfortable';
 
 const verticalLegendMb: Record<ListSize, Record<ListDensity, string>> = {
   sm: { default: 'mb-3', comfortable: 'mb-4' },
-  reg: { default: 'mb-3', comfortable: 'mb-4' },
+  default: { default: 'mb-3', comfortable: 'mb-4' },
   lg: { default: 'mb-4', comfortable: 'mb-5' },
 };
 
 const itemStackGap: Record<ListSize, Record<ListDensity, string>> = {
   sm: { default: 'gap-2', comfortable: 'gap-3' },
-  reg: { default: 'gap-3', comfortable: 'gap-4' },
+  default: { default: 'gap-3', comfortable: 'gap-4' },
   lg: { default: 'gap-3', comfortable: 'gap-4' },
 };
 
 const sectionGap: Record<ListSize, Record<ListDensity, string>> = {
   sm: { default: 'gap-2', comfortable: 'gap-3' },
-  reg: { default: 'gap-3', comfortable: 'gap-3' },
+  default: { default: 'gap-3', comfortable: 'gap-3' },
   lg: { default: 'gap-3', comfortable: 'gap-4' },
 };
 
@@ -28,9 +28,9 @@ const instance = figma.selectedInstance;
 
 const size = (instance.getEnum('size', {
   sm: 'sm',
-  reg: 'reg',
+  reg: 'default',
   lg: 'lg',
-}) ?? 'reg') as ListSize;
+}) ?? 'default') as ListSize;
 
 const density = (instance.getEnum('density', {
   default: 'default',
@@ -39,7 +39,52 @@ const density = (instance.getEnum('density', {
 
 const showHeader = instance.getBoolean('showHeaderParentCheckbox');
 
-const items = figma.properties.children(['CheckboxGroup/Item']);
+const slot = instance.getSlot('itemsSlot');
+const connected = slot?.connectedInstances ?? [];
+const items =
+  connected.length > 0
+    ? connected.flatMap(n => n.executeTemplate().example)
+    : figma.properties.children(['CheckboxGroup/Item']);
+
+const values = connected.map((n, i) => {
+  if (n.type !== 'INSTANCE') {
+    return `option-${i + 1}`;
+  }
+
+  return n.getString('ListItem-Label') || `option-${i + 1}`;
+});
+
+const allValues =
+  values.length > 0
+    ? values
+    : ['option-1', 'option-2', 'option-3', 'option-4', 'option-5'];
+
+const selected = connected
+  .map((n, i) => {
+    if (n.type !== 'INSTANCE') {
+      return null;
+    }
+
+    const type =
+      n.getEnum('type', {
+        unchecked: 'unchecked',
+        checked: 'checked',
+        indeterminate: 'indeterminate',
+      }) ?? 'unchecked';
+
+    return type === 'checked' || type === 'indeterminate' ? allValues[i] : null;
+  })
+  .filter((v): v is string => Boolean(v));
+
+const defaultValue =
+  selected.length > 0
+    ? selected
+    : allValues.length >= 3
+      ? [allValues[1], allValues[2]]
+      : allValues.slice(0, 1);
+
+const allValuesLit = `[${allValues.map(v => `"${v}"`).join(', ')}]`;
+const defaultValueLit = `[${defaultValue.map(v => `"${v}"`).join(', ')}]`;
 
 const listLabelNode = instance.findInstance('Elements/Label', {
   traverseInstances: true,
@@ -76,8 +121,8 @@ const headerNode = showHeader
           <span className="min-w-0 flex-1">Checkbox label</span>
         </FieldLabel>
         <span className="${labelClass} shrink-0" aria-hidden>
-          <span className="text-fg-primary">2</span>
-          <span>/5</span>
+          <span className="text-fg-primary">${defaultValue.length}</span>
+          <span>/${allValues.length}</span>
         </span>
       </Field>
       <div
@@ -98,8 +143,8 @@ export default {
         ${listLabel}
       </FieldLegend>
       <CheckboxGroup
-        allValues={["option-1", "option-2", "option-3", "option-4", "option-5"]}
-        defaultValue={["option-2", "option-3"]}
+        allValues={${allValuesLit}}
+        defaultValue={${defaultValueLit}}
         density="${density}"
         className="${listGap}">
         ${headerNode}
