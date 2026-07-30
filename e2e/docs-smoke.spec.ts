@@ -27,7 +27,10 @@ test('docs site routes and component Code toggle', async ({ page }) => {
     .getByRole('link', { name: 'Docs' })
     .click();
   await expect(page).toHaveURL(/\/$/);
-  await page.getByRole('link', { name: 'Installation' }).click();
+  await page
+    .getByRole('main')
+    .getByRole('link', { name: 'Installation' })
+    .click();
   await expect(page).toHaveURL(/\/installation$/);
   await expect(
     page.getByRole('heading', { level: 1, name: 'Installation' }),
