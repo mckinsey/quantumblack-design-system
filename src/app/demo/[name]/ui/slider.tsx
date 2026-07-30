@@ -1,28 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useId, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
-
-/** Labeled slider field used across multiple examples */
-function SliderField({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="space-y-3">
-      <label className="text-fg-secondary mb-4 block text-sm">{label}</label>
-      {children}
-    </div>
-  );
-}
 
 /** Default slider */
 export function SliderDemo() {
@@ -33,152 +19,194 @@ export function SliderDemo() {
   );
 }
 
-/** Slider with different min/max ranges */
-export function SliderRanges() {
+/** SingleValueSlider composed (inline-input=false) */
+export function SliderComposed() {
+  const id = useId();
+  const labelId = `${id}-label`;
+  const [value, setValue] = useState([46]);
+
+  const decrease = () => setValue([Math.max(0, value[0] - 10)]);
+  const increase = () => setValue([Math.min(100, value[0] + 10)]);
+
   return (
-    <div className="w-full max-w-sm space-y-10 pb-4">
-      <SliderField label="0-100 (default)">
-        <Slider defaultValue={[50]} max={100} step={1} showStepLabels={false} />
-      </SliderField>
-      <SliderField label="0-200">
+    <div className="flex w-full max-w-60 flex-col gap-4">
+      <div className="flex items-center justify-between">
+        <Label htmlFor={id} id={labelId}>
+          Label entry
+        </Label>
+        <span className="text-fg-primary label-regular-primary">
+          {value[0]}
+        </span>
+      </div>
+      <div className="flex h-6 items-center gap-2">
+        <Button type="button" size="icon-xs" variant="ghost" onClick={decrease}>
+          <IconShell type="neutral" hoverable>
+            <Icon icon="volume_mute" />
+            <span className="sr-only">Decrease volume</span>
+          </IconShell>
+        </Button>
         <Slider
-          defaultValue={[100]}
-          max={200}
+          id={id}
+          aria-labelledby={labelId}
+          value={value}
+          onValueChange={setValue}
+          max={100}
           step={1}
-          showStepMarkers={false}
+          className="flex-1"
           showStepLabels={false}
         />
-      </SliderField>
-      <SliderField label="-50 to 50">
-        <Slider
-          defaultValue={[0]}
-          min={-50}
-          max={50}
-          step={1}
-          showStepMarkers={false}
-          showStepLabels={false}
-        />
-      </SliderField>
+        <Button type="button" size="icon-xs" variant="ghost" onClick={increase}>
+          <IconShell type="neutral" hoverable>
+            <Icon icon="volume_up" />
+            <span className="sr-only">Increase volume</span>
+          </IconShell>
+        </Button>
+      </div>
     </div>
   );
 }
 
-/** Slider with step markers (dots only) */
-export function SliderSteps() {
+/** Slider with label, icons, and inline value input (SingleValueSlider inline-input=true) */
+export function SliderInlineInput() {
+  const id = useId();
+  const labelId = `${id}-label`;
+  const [value, setValue] = useState([46]);
+
+  const decrease = () => setValue([Math.max(0, value[0] - 10)]);
+  const increase = () => setValue([Math.min(100, value[0] + 10)]);
+
   return (
-    <div className="w-full max-w-sm space-y-8">
-      <SliderField label="Step: 10">
+    <div className="flex w-full max-w-60 flex-col gap-4">
+      <Label htmlFor={id} id={labelId}>
+        Label entry
+      </Label>
+      <div className="flex items-center gap-2">
+        <Button type="button" size="icon-xs" variant="ghost" onClick={decrease}>
+          <IconShell type="neutral" hoverable>
+            <Icon icon="volume_mute" />
+            <span className="sr-only">Decrease volume</span>
+          </IconShell>
+        </Button>
         <Slider
-          defaultValue={[50]}
+          id={id}
+          aria-labelledby={labelId}
+          value={value}
+          onValueChange={setValue}
           max={100}
-          step={10}
-          showStepMarkers
+          step={1}
+          className="flex-1"
           showStepLabels={false}
         />
-      </SliderField>
-      <SliderField label="Step: 25">
-        <Slider
-          defaultValue={[50]}
-          max={100}
-          step={25}
-          showStepMarkers
-          showStepLabels={false}
+        <Button type="button" size="icon-xs" variant="ghost" onClick={increase}>
+          <IconShell type="neutral" hoverable>
+            <Icon icon="volume_up" />
+            <span className="sr-only">Increase volume</span>
+          </IconShell>
+        </Button>
+        <Input
+          variant="inline"
+          size="default"
+          className="w-6 shrink-0 text-center"
+          value={String(value[0])}
+          onChange={e => {
+            const raw = e.target.value;
+
+            if (raw === '') {
+              return;
+            }
+
+            const next = Number(raw);
+
+            if (!Number.isNaN(next)) {
+              setValue([Math.min(100, Math.max(0, next))]);
+            }
+          }}
         />
-      </SliderField>
+      </div>
+    </div>
+  );
+}
+
+/** Range slider with two handles (RangeSlider Default) */
+export function SliderRange() {
+  const id = useId();
+  const labelId = `${id}-label`;
+  const [range, setRange] = useState([21, 78]);
+
+  return (
+    // gap-6 = Figma 16px label gap + 8px; absolute thumbs sit above the track box and eat into gap-4
+    <div className="flex w-full max-w-60 flex-col gap-6 pb-12">
+      <div className="flex items-center justify-between">
+        <Label htmlFor={id} id={labelId}>
+          Label entry
+        </Label>
+        <span className="text-fg-primary label-regular-primary">
+          {range[0]} — {range[1]}
+        </span>
+      </div>
+      <Slider
+        id={id}
+        aria-labelledby={labelId}
+        value={range}
+        onValueChange={setRange}
+        max={100}
+        step={1}
+        showStepLabels
+      />
     </div>
   );
 }
 
 /** Slider with step markers and labels */
 export function SliderStepsLabeled() {
+  const id = useId();
+  const labelId = `${id}-label`;
+
   return (
-    <div className="w-full max-w-sm space-y-12 pb-6">
-      <SliderField label="Step: 25 with labels">
-        <Slider
-          defaultValue={[50]}
-          max={100}
-          step={25}
-          showStepMarkers
-          showStepLabels
-        />
-      </SliderField>
-      <SliderField label="Step: 20 with labels">
-        <Slider
-          defaultValue={[40]}
-          max={100}
-          step={20}
-          showStepMarkers
-          showStepLabels
-        />
-      </SliderField>
+    <div className="w-full max-w-sm pb-12">
+      {/* mb-6 = Figma 16px label gap + 8px; absolute thumbs sit above the track box and eat into mb-4 */}
+      <Label htmlFor={id} id={labelId} className="mb-6">
+        Step: 25
+      </Label>
+      <Slider
+        id={id}
+        aria-labelledby={labelId}
+        defaultValue={[50]}
+        max={100}
+        step={25}
+        showStepMarkers
+        showStepLabels
+      />
     </div>
   );
 }
 
-/** Slider with label and value display */
-export function SliderLabeled() {
-  const [value, setValue] = useState([50]);
-
-  return (
-    <div className="w-full max-w-sm space-y-4">
-      <div className="flex items-center justify-between">
-        <label className="text-fg-primary text-sm">Brightness</label>
-        <span className="text-fg-secondary font-mono text-sm">{value[0]}%</span>
-      </div>
-      <Slider value={value} onValueChange={setValue} max={100} step={1} />
-    </div>
-  );
-}
-
-/** Range slider with two handles */
-export function SliderRange() {
+/** Range slider with step markers and labels */
+export function SliderStepsLabeledRange() {
+  const id = useId();
+  const labelId = `${id}-label`;
   const [range, setRange] = useState([25, 75]);
 
   return (
-    <div className="w-full max-w-sm space-y-4">
+    <div className="flex w-full max-w-60 flex-col gap-6 pb-12">
       <div className="flex items-center justify-between">
-        <label className="text-fg-primary text-sm">Price Range</label>
-        <span className="text-fg-secondary font-mono text-sm">
-          ${range[0]} - ${range[1]}
+        <Label htmlFor={id} id={labelId}>
+          Label entry
+        </Label>
+        <span className="text-fg-primary label-regular-primary">
+          {range[0]} — {range[1]}
         </span>
       </div>
-      <Slider value={range} onValueChange={setRange} max={100} step={1} />
-    </div>
-  );
-}
-
-/** Volume control slider with buttons */
-export function SliderVolume() {
-  const [volume, setVolume] = useState([50]);
-
-  const decrease = () => setVolume([Math.max(0, volume[0] - 10)]);
-  const increase = () => setVolume([Math.min(100, volume[0] + 10)]);
-
-  return (
-    <div className="w-full max-w-sm space-y-4">
-      <label className="text-fg-primary text-sm">Volume</label>
-      <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon-sm" onClick={decrease}>
-          <IconShell size="sm" hoverable>
-            <Icon icon="volume_down" />
-          </IconShell>
-        </Button>
-        <Slider
-          value={volume}
-          onValueChange={setVolume}
-          max={100}
-          step={1}
-          className="flex-1"
-        />
-        <Button variant="ghost" size="icon-sm" onClick={increase}>
-          <IconShell size="sm" hoverable>
-            <Icon icon="volume_up" />
-          </IconShell>
-        </Button>
-      </div>
-      <p className="text-fg-secondary mb-4 block text-center text-sm">
-        Volume: {volume[0]}%
-      </p>
+      <Slider
+        id={id}
+        aria-labelledby={labelId}
+        value={range}
+        onValueChange={setRange}
+        max={100}
+        step={25}
+        showStepMarkers
+        showStepLabels
+      />
     </div>
   );
 }
@@ -187,46 +215,40 @@ export const examples: DemoExample[] = [
   {
     name: 'SliderDemo',
     title: 'Default',
-    description: 'Basic slider with default value.',
+    description: 'Basic single-value slider.',
   },
   {
-    name: 'SliderRanges',
-    title: 'Custom Ranges',
-    description: 'Sliders with different min/max values.',
+    name: 'SliderComposed',
+    title: 'With Label & Icons',
+    description: 'Label, value readout, and leading/trailing icon buttons.',
   },
   {
-    name: 'SliderSteps',
-    title: 'Step Markers',
-    description: 'Sliders with visible step marker dots.',
-  },
-  {
-    name: 'SliderStepsLabeled',
-    title: 'Step Labels',
-    description: 'Sliders with step markers and value labels.',
-  },
-  {
-    name: 'SliderLabeled',
-    title: 'With Label',
-    description: 'Slider with label and value display.',
+    name: 'SliderInlineInput',
+    title: 'With Inline Input',
+    description: 'Label, icons, and inline numeric input.',
   },
   {
     name: 'SliderRange',
-    title: 'Range Slider',
-    description: 'Dual-handle range slider.',
+    title: 'Range',
+    description: 'Dual-handle range with step labels.',
   },
   {
-    name: 'SliderVolume',
-    title: 'Volume Control',
-    description: 'Slider with increment/decrement buttons.',
+    name: 'SliderStepsLabeled',
+    title: 'Step Markers',
+    description: 'Discrete steps with markers and labels.',
+  },
+  {
+    name: 'SliderStepsLabeledRange',
+    title: 'Step Markers with Range',
+    description: 'Dual-handle range with discrete step markers and labels.',
   },
 ];
 
 export const slider = createLegacyDemo('slider', examples, {
   SliderDemo: <SliderDemo />,
-  SliderRanges: <SliderRanges />,
-  SliderSteps: <SliderSteps />,
-  SliderStepsLabeled: <SliderStepsLabeled />,
-  SliderLabeled: <SliderLabeled />,
+  SliderComposed: <SliderComposed />,
+  SliderInlineInput: <SliderInlineInput />,
   SliderRange: <SliderRange />,
-  SliderVolume: <SliderVolume />,
+  SliderStepsLabeled: <SliderStepsLabeled />,
+  SliderStepsLabeledRange: <SliderStepsLabeledRange />,
 });

@@ -229,6 +229,7 @@ import {
   RadioGroupDemo,
   RadioGroupDensity,
   RadioGroupDisabled,
+  RadioGroupHorizontal,
   RadioGroupPartialDisabled,
   RadioGroupStates,
   radioGroup,
@@ -260,13 +261,12 @@ import {
   examples as sidebarExamples,
 } from '@/app/demo/[name]/ui/sidebar';
 import {
+  SliderComposed,
   SliderDemo,
-  SliderLabeled,
+  SliderInlineInput,
   SliderRange,
-  SliderRanges,
-  SliderSteps,
   SliderStepsLabeled,
-  SliderVolume,
+  SliderStepsLabeledRange,
   slider,
   examples as sliderExamples,
 } from '@/app/demo/[name]/ui/slider';
@@ -588,6 +588,7 @@ export const exampleComponentMaps: Record<
   'radio-group': {
     RadioGroupDemo,
     RadioGroupDensity,
+    RadioGroupHorizontal,
     RadioGroupStates,
     RadioGroupDisabled,
     RadioGroupPartialDisabled,
@@ -613,12 +614,11 @@ export const exampleComponentMaps: Record<
   },
   slider: {
     SliderDemo,
-    SliderRanges,
-    SliderSteps,
-    SliderStepsLabeled,
-    SliderLabeled,
+    SliderComposed,
+    SliderInlineInput,
     SliderRange,
-    SliderVolume,
+    SliderStepsLabeled,
+    SliderStepsLabeledRange,
   },
   sonner: {
     SonnerDemo,

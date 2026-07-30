@@ -74,10 +74,11 @@
       "type": "registry:ui",
       "title": "Avatar",
       "description": "An avatar component with support for images and tooltips.",
-      "dependencies": ["@radix-ui/react-avatar"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
-        "__REGISTRY_URL__/r/utils.json"
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/button.json"
       ],
       "files": [
         {
@@ -538,7 +539,7 @@
       "type": "registry:ui",
       "title": "Radio Group",
       "description": "A radio group component.",
-      "dependencies": ["@radix-ui/react-radio-group"],
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -692,7 +693,7 @@
       "type": "registry:ui",
       "title": "Slider",
       "description": "An input where the user selects a value from within a given range.",
-      "dependencies": ["@radix-ui/react-slider"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -827,11 +828,12 @@
       "name": "tag",
       "type": "registry:ui",
       "title": "Tag",
-      "description": "A dismissable tag component with support for icons, variants (default, secondary, accent, outline, accent-outline), pill shape, and sizes.",
+      "description": "A dismissable tag with icons, variants (primary, secondary, accent, outline, accent-outline), pill shape, and sizes. Leading IconShell color is consumer-managed via tagIconTone (secondary → neutral-inverse).",
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/icon.json"
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
       ],
       "files": [
         {
@@ -864,12 +866,11 @@
       "name": "tag-toggle",
       "type": "registry:ui",
       "title": "Tag Toggle",
-      "description": "A toggleable tag component with support for icons, pill shape, and sizes. Built on Radix Toggle primitive with tag styling.",
-      "dependencies": ["@radix-ui/react-toggle"],
+      "description": "A toggleable tag with icons, pill shape, and sizes. Built on Base UI Toggle.",
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/button.json",
         "__REGISTRY_URL__/r/tag.json"
       ],
       "files": [

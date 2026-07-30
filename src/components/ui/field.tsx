@@ -12,7 +12,7 @@ function FieldSet({ className, ...props }: FieldsetPrimitive.Root.Props) {
   return (
     <FieldsetPrimitive.Root
       data-slot="field-set"
-      className={cn('flex flex-col gap-6', className)}
+      className={cn('flex flex-col', className)}
       {...props}
     />
   );
