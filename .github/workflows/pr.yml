@@ -89,7 +89,7 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     env:
-      QBDS_REGISTRY_URL: ${{ vars.QBDS_REGISTRY_URL || 'https://designsystem.quantumblack.com' }}
+      QBDS_REGISTRY_URL: http://127.0.0.1:4173
     steps:
       - uses: actions/checkout@v6
 
