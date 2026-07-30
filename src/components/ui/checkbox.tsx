@@ -92,6 +92,7 @@ function CheckboxGroup({
       data-orientation={orientation}
       data-density={density}
       data-size={size}
+      aria-orientation={orientation ?? undefined}
       className={cn(
         checkboxGroupVariants({ orientation, density, size }),
         className,

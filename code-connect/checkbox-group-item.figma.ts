@@ -27,7 +27,7 @@ const disabled =
   }) ?? false;
 
 const showItemCount = instance.getBoolean('showItemCount');
-const label = instance.getString('ListItem-Label') || 'Checkbox label';
+const label = instance.getString('ListItem-Label');
 const itemCount = instance.getString('itemCount');
 
 const checkboxSize = size === 'lg' ? 'lg' : 'default';

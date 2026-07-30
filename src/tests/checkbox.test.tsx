@@ -90,6 +90,8 @@ describe(`${componentName} — state`, () => {
 
     expect(group).toHaveAttribute('data-density', 'comfortable');
     expect(group).toHaveAttribute('data-orientation', 'horizontal');
+    expect(group).toHaveAttribute('data-size', 'sm');
+    expect(group).toHaveAttribute('aria-orientation', 'horizontal');
   });
 
   it('parent checkbox reflects partial selection', () => {
@@ -114,6 +116,51 @@ describe(`${componentName} — state`, () => {
       'aria-checked',
       'mixed',
     );
+  });
+
+  it('parent checkbox selects and clears all values', async () => {
+    const user = userEvent.setup();
+
+    function ParentGroup() {
+      const [value, setValue] = useState(['a']);
+
+      return (
+        <CheckboxGroup
+          allValues={['a', 'b']}
+          value={value}
+          onValueChange={setValue}>
+          <Checkbox aria-label="parent" parent />
+          <Checkbox aria-label="a" value="a" />
+          <Checkbox aria-label="b" value="b" />
+        </CheckboxGroup>
+      );
+    }
+
+    render(<ParentGroup />);
+
+    const parent = screen.getByRole('checkbox', { name: 'parent' });
+
+    await user.click(parent);
+    expect(screen.getByRole('checkbox', { name: 'a' })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
+    expect(screen.getByRole('checkbox', { name: 'b' })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
+    expect(parent).toHaveAttribute('aria-checked', 'true');
+
+    await user.click(parent);
+    expect(screen.getByRole('checkbox', { name: 'a' })).toHaveAttribute(
+      'aria-checked',
+      'false',
+    );
+    expect(screen.getByRole('checkbox', { name: 'b' })).toHaveAttribute(
+      'aria-checked',
+      'false',
+    );
+    expect(parent).toHaveAttribute('aria-checked', 'false');
   });
 
   it('can toggle values in a group', async () => {

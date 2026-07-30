@@ -34,7 +34,7 @@ const values = connected.map((n, i) => {
   return n.getString('ListItem-Label') || `option-${i + 1}`;
 });
 
-const selected = connected
+const defaultValue = connected
   .map((n, i) => {
     if (n.type !== 'INSTANCE') {
       return null;
@@ -51,14 +51,10 @@ const selected = connected
   })
   .filter((v): v is string => Boolean(v));
 
-const defaultValue =
-  selected.length > 0
-    ? selected
-    : values.length > 0
-      ? [values[0]]
-      : ['option-1'];
-
-const defaultValueLit = `[${defaultValue.map(v => `"${v}"`).join(', ')}]`;
+const defaultValueLit =
+  defaultValue.length > 0
+    ? `[${defaultValue.map(v => `"${v}"`).join(', ')}]`
+    : '';
 
 const listLabelNode = instance.findInstance('Elements/Label', {
   traverseInstances: true,
@@ -66,7 +62,7 @@ const listLabelNode = instance.findInstance('Elements/Label', {
 const listLabel =
   listLabelNode && listLabelNode.type === 'INSTANCE'
     ? listLabelNode.getString('labelField')
-    : 'List label';
+    : '';
 
 const legendClass =
   size === 'lg'
@@ -83,7 +79,7 @@ export default {
       </FieldLegend>
       <CheckboxGroup
         orientation="horizontal"
-        defaultValue={${defaultValueLit}}
+        ${defaultValueLit ? figma.code`defaultValue={${defaultValueLit}}` : figma.code``}
         density="${density}"
         size="${size}">
         ${figma.helpers.react.renderChildren(items)}
@@ -91,7 +87,7 @@ export default {
     </FieldSet>
   `,
   imports: [
-    'import { Field, FieldLabel, FieldLegend, FieldSet } from "@/components/ui/field"',
+    'import { FieldLegend, FieldSet } from "@/components/ui/field"',
     'import { Checkbox, CheckboxGroup } from "@/components/ui/checkbox"',
   ],
   id: 'checkbox-group-list-horizontal',
