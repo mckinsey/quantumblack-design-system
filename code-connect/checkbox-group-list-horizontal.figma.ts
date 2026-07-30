@@ -4,6 +4,13 @@
 import figma from 'figma';
 
 type ListSize = 'sm' | 'default' | 'lg';
+type ListDensity = 'default' | 'comfortable';
+
+const horizontalLegendMb: Record<ListSize, Record<ListDensity, string>> = {
+  sm: { default: 'mb-3', comfortable: 'mb-4' },
+  default: { default: 'mb-3', comfortable: 'mb-4' },
+  lg: { default: 'mb-4', comfortable: 'mb-5' },
+};
 
 const instance = figma.selectedInstance;
 
@@ -13,11 +20,10 @@ const size = (instance.getEnum('size', {
   lg: 'lg',
 }) ?? 'default') as ListSize;
 
-const density =
-  instance.getEnum('density', {
-    default: 'default',
-    comfortable: 'comfortable',
-  }) ?? 'default';
+const density = (instance.getEnum('density', {
+  default: 'default',
+  comfortable: 'comfortable',
+}) ?? 'default') as ListDensity;
 
 const slot = instance.getSlot('itemsSlot');
 const connected = slot?.connectedInstances ?? [];
@@ -70,11 +76,12 @@ const legendClass =
     : size === 'sm'
       ? 'label-small-primary'
       : 'label-regular-primary';
+const legendMb = horizontalLegendMb[size][density];
 
 export default {
   example: figma.code`
     <FieldSet className="gap-0">
-      <FieldLegend variant="label" className="${legendClass} mb-3">
+      <FieldLegend variant="label" className="${legendClass} ${legendMb}">
         ${listLabel}
       </FieldLegend>
       <CheckboxGroup

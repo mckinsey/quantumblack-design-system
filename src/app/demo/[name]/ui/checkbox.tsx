@@ -36,15 +36,7 @@ const itemStackGap = {
   lg: { default: 'gap-3', comfortable: 'gap-4' },
 } as const;
 
-function listLegendMb(
-  size: ListSize,
-  density: ListDensity,
-  orientation: 'vertical' | 'horizontal',
-) {
-  if (orientation === 'horizontal') {
-    return 'mb-3';
-  }
-
+function listLegendMb(size: ListSize, density: ListDensity) {
   return legendMb[size][density];
 }
 
@@ -187,10 +179,7 @@ function CheckboxItemGroupVariant({
     <FieldSet className="w-[240px] shrink-0 gap-0">
       <FieldLegend
         variant="label"
-        className={cn(
-          sizeCfg.legendClass,
-          listLegendMb(size, density, 'vertical'),
-        )}>
+        className={cn(sizeCfg.legendClass, listLegendMb(size, density))}>
         List label
       </FieldLegend>
       <CheckboxGroup
@@ -296,7 +285,7 @@ export function CheckboxHorizontal() {
                     variant="label"
                     className={cn(
                       size.legendClass,
-                      listLegendMb(size.key, density.key, 'horizontal'),
+                      listLegendMb(size.key, density.key),
                     )}>
                     {size.label}
                   </FieldLegend>
