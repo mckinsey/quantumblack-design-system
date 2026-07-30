@@ -101,28 +101,38 @@ ${invalid && showFeedback
 
 ### 4 — Slot children (repeated same-type instances)
 
-When a SLOT holds multiple instances of the same component (tag groups, button groups, sidebar items), use `figma.properties.children()` + `renderChildren()` — not `getSlot()` or `findConnectedInstances()` (both render empty for this pattern).
+Prefer Figma’s official SLOT path when the component has a SLOT property (see [Writing template files](https://developers.figma.com/docs/code-connect/template-files/)):
+
+1. **`getSlot('propName').connectedInstances`** + `executeTemplate()` / `renderChildren` — SLOT with code-connected children (expand snippets inline). Prefer this for new templates.
+2. **Bare `getSlot('propName')`** — only when you want the Dev Mode slot pill (freeform content), not expanded children.
+3. **`figma.properties.children(['MainComponentName'])`** — fallback when `connectedInstances` is empty (known quirk for some QBDS sets). Still used by older templates (tag groups, button groups).
 
 ```ts
-const tags = figma.properties.children(['Tag-Dismissable']);
+const slot = instance.getSlot('itemsSlot');
+const connected = slot?.connectedInstances ?? [];
+const items =
+  connected.length > 0
+    ? connected.map(n => n.executeTemplate().example).flat()
+    : figma.properties.children(['RadioGroup/Item']);
 
 export default {
   example: figma.code`
-    <div className="flex flex-wrap gap-2">
-      ${figma.helpers.react.renderChildren(tags)}
-    </div>
+    <RadioGroup>
+      ${figma.helpers.react.renderChildren(items)}
+    </RadioGroup>
   `,
 };
 ```
 
-Use the child layer's **main component name** as the filter string. See `button-group.figma.ts`, `sidebar-nav.figma.ts`, `tag-group-dismissable.figma.ts`.
+Do not call `executeTemplate()` on the slot itself — only on each `connectedInstances` handle. See `radio-group-list-vertical.figma.ts`, `radio-group-list-horizontal.figma.ts`.
 
 ## Reference examples
 
 Read existing templates in `code-connect/` before writing a new one:
 
 - `button-text.figma.ts`, `button-icon.figma.ts` — token header, variant split, Figma-only props
-- `button-group.figma.ts`, `tag-group-dismissable.figma.ts` — dynamic slot children via `properties.children`
+- `radio-group-list-vertical.figma.ts` — SLOT via `getSlot().connectedInstances` with `properties.children` fallback
+- `button-group.figma.ts`, `tag-group-dismissable.figma.ts` — older `properties.children` pattern
 
 ## Validate & publish
 
