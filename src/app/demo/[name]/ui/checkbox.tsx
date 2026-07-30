@@ -17,7 +17,6 @@ import {
   itemLabelClass,
   listDensityGap,
   listLegendMb,
-  listSectionGap,
 } from '@/lib/group-list';
 import { cn } from '@/lib/utils';
 
@@ -153,7 +152,6 @@ function CheckboxItemGroupVariant({
   const checkboxSize = itemCheckboxSize(size);
   const labelClass = itemLabelClass(size);
   const densityGap = listDensityGap(size, density);
-  const sectionGap = listSectionGap(size, density);
 
   return (
     <FieldSet className="w-[240px] shrink-0 gap-0">
@@ -170,7 +168,7 @@ function CheckboxItemGroupVariant({
         value={value}
         onValueChange={setValue}
         density={density}
-        className={sectionGap}>
+        size={size}>
         <div className={cn('flex w-full flex-col', densityGap)}>
           <Field orientation="horizontal" className="w-full items-center gap-2">
             <FieldLabel
@@ -257,7 +255,7 @@ export function CheckboxHorizontal() {
           <h4 className="label-regular-primary mb-4">
             Density: {density.label}
           </h4>
-          <div className="flex flex-wrap gap-8">
+          <div className="flex flex-col gap-12">
             {sizeVariants.map(size => {
               const prefix = `${density.prefix}h${size.prefix}`;
               const ids = [1, 2, 3].map(n => `${prefix}-${n}`);
@@ -265,7 +263,7 @@ export function CheckboxHorizontal() {
               const labelClass = itemLabelClass(size.key);
 
               return (
-                <FieldSet key={prefix} className="w-auto gap-0">
+                <FieldSet key={prefix} className="w-auto">
                   <FieldLegend
                     variant="label"
                     className={cn(
@@ -277,6 +275,7 @@ export function CheckboxHorizontal() {
                   <CheckboxGroup
                     orientation="horizontal"
                     density={density.key}
+                    size={size.key}
                     defaultValue={[ids[1], ids[2]]}>
                     {ids.map(id => (
                       <Field

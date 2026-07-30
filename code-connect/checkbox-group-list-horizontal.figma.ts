@@ -84,7 +84,8 @@ export default {
       <CheckboxGroup
         orientation="horizontal"
         defaultValue={${defaultValueLit}}
-        density="${density}">
+        density="${density}"
+        size="${size}">
         ${figma.helpers.react.renderChildren(items)}
       </CheckboxGroup>
     </FieldSet>

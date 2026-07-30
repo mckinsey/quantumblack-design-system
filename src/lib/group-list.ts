@@ -15,7 +15,7 @@ const itemStackGap: Record<ListSize, Record<ListDensity, string>> = {
 
 const sectionGap: Record<ListSize, Record<ListDensity, string>> = {
   sm: { default: 'gap-2', comfortable: 'gap-3' },
-  default: { default: 'gap-3', comfortable: 'gap-3' },
+  default: { default: 'gap-3', comfortable: 'gap-4' },
   lg: { default: 'gap-3', comfortable: 'gap-4' },
 };
 

@@ -18,12 +18,6 @@ const itemStackGap: Record<ListSize, Record<ListDensity, string>> = {
   lg: { default: 'gap-3', comfortable: 'gap-4' },
 };
 
-const sectionGap: Record<ListSize, Record<ListDensity, string>> = {
-  sm: { default: 'gap-2', comfortable: 'gap-3' },
-  default: { default: 'gap-3', comfortable: 'gap-3' },
-  lg: { default: 'gap-3', comfortable: 'gap-4' },
-};
-
 const instance = figma.selectedInstance;
 
 const size = (instance.getEnum('size', {
@@ -109,7 +103,6 @@ const labelClass =
       ? 'text-fg-secondary paragraph-small-primary'
       : 'text-fg-secondary paragraph-regular-primary';
 const densityGap = itemStackGap[size][density];
-const listGap = sectionGap[size][density];
 
 const headerNode = showHeader
   ? figma.code`
@@ -146,7 +139,7 @@ export default {
         allValues={${allValuesLit}}
         defaultValue={${defaultValueLit}}
         density="${density}"
-        className="${listGap}">
+        size="${size}">
         ${headerNode}
         <div className="flex w-full flex-col ${densityGap}">
           ${figma.helpers.react.renderChildren(items)}

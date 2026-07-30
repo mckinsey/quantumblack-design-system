@@ -54,13 +54,27 @@ const checkboxGroupVariants = cva('', {
       horizontal: 'flex flex-row',
     },
     density: {
-      default: 'gap-3',
-      comfortable: 'gap-4',
+      default: '',
+      comfortable: '',
+    },
+    size: {
+      sm: '',
+      default: '',
+      lg: '',
     },
   },
+  compoundVariants: [
+    { size: 'sm', density: 'default', class: 'gap-2' },
+    { size: 'sm', density: 'comfortable', class: 'gap-3' },
+    { size: 'default', density: 'default', class: 'gap-3' },
+    { size: 'default', density: 'comfortable', class: 'gap-4' },
+    { size: 'lg', density: 'default', class: 'gap-3' },
+    { size: 'lg', density: 'comfortable', class: 'gap-4' },
+  ],
   defaultVariants: {
     orientation: 'vertical',
     density: 'default',
+    size: 'default',
   },
 });
 
@@ -68,6 +82,7 @@ function CheckboxGroup({
   className,
   orientation = 'vertical',
   density = 'default',
+  size = 'default',
   ...props
 }: CheckboxGroupPrimitive.Props & VariantProps<typeof checkboxGroupVariants>) {
   return (
@@ -75,7 +90,11 @@ function CheckboxGroup({
       data-slot="checkbox-group"
       data-orientation={orientation}
       data-density={density}
-      className={cn(checkboxGroupVariants({ orientation, density }), className)}
+      data-size={size}
+      className={cn(
+        checkboxGroupVariants({ orientation, density, size }),
+        className,
+      )}
       {...props}
     />
   );

@@ -81,7 +81,7 @@ describe(`${componentName} — state`, () => {
 
   it('renders density and orientation attrs', () => {
     const { container } = render(
-      <CheckboxGroup density="comfortable" orientation="horizontal">
+      <CheckboxGroup density="comfortable" orientation="horizontal" size="sm">
         <Checkbox aria-label="a" value="a" />
       </CheckboxGroup>,
     );
