@@ -8,8 +8,8 @@ import {
   Field,
   FieldDescription,
   FieldError,
+  FieldLabel,
   FieldSet,
-  FieldTitle,
 } from '@/components/ui/field';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
@@ -202,10 +202,12 @@ function MultiValueDisplay({
 export function SelectDemo() {
   return (
     <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
-      <FieldTitle className={fieldConfig.default.label}>Label</FieldTitle>
+      <FieldLabel htmlFor="select-demo" className={fieldConfig.default.label}>
+        Label
+      </FieldLabel>
 
       <Select items={themeItems}>
-        <SelectTrigger className="w-[240px]">
+        <SelectTrigger id="select-demo" className="w-[240px]">
           <SelectValue placeholder="Choose option" />
         </SelectTrigger>
         <SelectContent>
@@ -310,13 +312,16 @@ export function SelectInline() {
 
 function InlineField({ size, label }: { size: SelectSize; label: string }) {
   const cfg = fieldConfig[size];
+  const id = `select-inline-${size}`;
 
   return (
     <FieldSet className={cfg.gap}>
-      <FieldTitle className={cfg.label}>{label}</FieldTitle>
+      <FieldLabel htmlFor={id} className={cfg.label}>
+        {label}
+      </FieldLabel>
 
       <Select size={size} items={optionItems}>
-        <SelectTrigger variant="inline" className="w-[240px]">
+        <SelectTrigger id={id} variant="inline" className="w-[240px]">
           <SelectValue placeholder="Choose option" />
         </SelectTrigger>
         <SelectContent>
@@ -339,10 +344,12 @@ export function SelectSizes() {
   return (
     <div className="w-full max-w-sm space-y-4">
       <FieldSet className={fieldConfig.sm.gap}>
-        <FieldTitle className={fieldConfig.sm.label}>Small Size</FieldTitle>
+        <FieldLabel htmlFor="select-size-sm" className={fieldConfig.sm.label}>
+          Small Size
+        </FieldLabel>
 
         <Select size="sm" items={optionItems}>
-          <SelectTrigger className="w-[240px]">
+          <SelectTrigger id="select-size-sm" className="w-[240px]">
             <SelectValue placeholder="Choose option" />
           </SelectTrigger>
           <SelectContent>
@@ -360,12 +367,14 @@ export function SelectSizes() {
       </FieldSet>
 
       <FieldSet className={fieldConfig.default.gap}>
-        <FieldTitle className={fieldConfig.default.label}>
+        <FieldLabel
+          htmlFor="select-size-default"
+          className={fieldConfig.default.label}>
           Default Size
-        </FieldTitle>
+        </FieldLabel>
 
         <Select items={optionItems}>
-          <SelectTrigger className="w-[240px]">
+          <SelectTrigger id="select-size-default" className="w-[240px]">
             <SelectValue placeholder="Choose option" />
           </SelectTrigger>
           <SelectContent>
@@ -383,10 +392,12 @@ export function SelectSizes() {
       </FieldSet>
 
       <FieldSet className={fieldConfig.lg.gap}>
-        <FieldTitle className={fieldConfig.lg.label}>Large Size</FieldTitle>
+        <FieldLabel htmlFor="select-size-lg" className={fieldConfig.lg.label}>
+          Large Size
+        </FieldLabel>
 
         <Select size="lg" items={optionItems}>
-          <SelectTrigger className="w-[240px]">
+          <SelectTrigger id="select-size-lg" className="w-[240px]">
             <SelectValue placeholder="Choose option" />
           </SelectTrigger>
           <SelectContent>
@@ -409,12 +420,17 @@ export function SelectSizes() {
 export function SelectHorizontal() {
   return (
     <Field orientation="horizontal" className="w-fit items-center gap-3">
-      <FieldTitle className={cn(fieldConfig.default.label, 'shrink-0')}>
+      <FieldLabel
+        htmlFor="select-horizontal"
+        className={cn(fieldConfig.default.label, 'shrink-0')}>
         Field label
-      </FieldTitle>
+      </FieldLabel>
 
       <Select items={optionItems}>
-        <SelectTrigger variant="inline" className="w-[240px]">
+        <SelectTrigger
+          id="select-horizontal"
+          variant="inline"
+          className="w-[240px]">
           <SelectValue placeholder="Choose option" />
         </SelectTrigger>
         <SelectContent>
@@ -468,12 +484,12 @@ export function SelectValidation() {
   return (
     <div className="w-full max-w-sm space-y-4">
       <FieldSet className={fieldConfig.default.gap}>
-        <FieldTitle className="label-regular-primary text-fg-disabled">
+        <FieldLabel htmlFor="select-disabled" disabled>
           Disabled
-        </FieldTitle>
+        </FieldLabel>
 
         <Select items={optionItems} defaultValue="option2" disabled>
-          <SelectTrigger className="w-[240px]">
+          <SelectTrigger id="select-disabled" className="w-[240px]">
             <SelectValue placeholder="Choose option" />
           </SelectTrigger>
           <SelectContent>
@@ -491,10 +507,14 @@ export function SelectValidation() {
       </FieldSet>
 
       <FieldSet className={fieldConfig.default.gap}>
-        <FieldTitle className={fieldConfig.default.label}>Error</FieldTitle>
+        <FieldLabel
+          htmlFor="select-error"
+          className={fieldConfig.default.label}>
+          Error
+        </FieldLabel>
 
         <Select items={optionItems} defaultValue="option2">
-          <SelectTrigger className="w-[240px]" aria-invalid>
+          <SelectTrigger id="select-error" className="w-[240px]" aria-invalid>
             <SelectValue placeholder="Choose option" />
             <SelectFeedbackIcon state="error" />
           </SelectTrigger>
@@ -513,10 +533,16 @@ export function SelectValidation() {
       </FieldSet>
 
       <FieldSet className={fieldConfig.default.gap}>
-        <FieldTitle className={fieldConfig.default.label}>Warning</FieldTitle>
+        <FieldLabel
+          htmlFor="select-warning"
+          className={fieldConfig.default.label}>
+          Warning
+        </FieldLabel>
 
         <Select items={optionItems} defaultValue="option2">
-          <SelectTrigger className="!border-status-warning focus-visible:ring-stroke-status-warning data-[popup-open]:ring-stroke-status-warning w-[240px]">
+          <SelectTrigger
+            id="select-warning"
+            className="!border-status-warning focus-visible:ring-stroke-status-warning data-[popup-open]:ring-stroke-status-warning w-[240px]">
             <SelectValue placeholder="Choose option" />
             <SelectFeedbackIcon state="warning" />
           </SelectTrigger>
@@ -536,10 +562,16 @@ export function SelectValidation() {
       </FieldSet>
 
       <FieldSet className={fieldConfig.default.gap}>
-        <FieldTitle className={fieldConfig.default.label}>Success</FieldTitle>
+        <FieldLabel
+          htmlFor="select-success"
+          className={fieldConfig.default.label}>
+          Success
+        </FieldLabel>
 
         <Select items={optionItems} defaultValue="option2">
-          <SelectTrigger className="!border-status-success focus-visible:ring-stroke-status-success data-[popup-open]:ring-stroke-status-success w-[240px]">
+          <SelectTrigger
+            id="select-success"
+            className="!border-status-success focus-visible:ring-stroke-status-success data-[popup-open]:ring-stroke-status-success w-[240px]">
             <SelectValue placeholder="Choose option" />
             <SelectFeedbackIcon state="success" />
           </SelectTrigger>
@@ -566,14 +598,18 @@ export function SelectMultiple() {
 
   return (
     <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
-      <FieldTitle className={fieldConfig.default.label}>Label</FieldTitle>
+      <FieldLabel
+        htmlFor="select-multiple"
+        className={fieldConfig.default.label}>
+        Label
+      </FieldLabel>
 
       <Select
         multiple
         items={languageItems}
         value={value}
         onValueChange={v => setValue(v as string[])}>
-        <SelectTrigger className="w-[280px]">
+        <SelectTrigger id="select-multiple" className="w-[280px]">
           <SelectValue placeholder="Choose Options">
             {value.length > 0 ? (
               <MultiValueDisplay value={value} onClear={() => setValue([])} />
@@ -613,14 +649,18 @@ export function SelectTagsWrap() {
 
   return (
     <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
-      <FieldTitle className={fieldConfig.default.label}>Label</FieldTitle>
+      <FieldLabel
+        htmlFor="select-tags-wrap"
+        className={fieldConfig.default.label}>
+        Label
+      </FieldLabel>
 
       <Select
         multiple
         items={tagItems}
         value={tagsValue}
         onValueChange={v => setTagsValue(v as string[])}>
-        <SelectTrigger className={tagsTriggerClass}>
+        <SelectTrigger id="select-tags-wrap" className={tagsTriggerClass}>
           <SelectValue placeholder="Choose options">
             {tagsValue.length > 0 ? (
               <span className="flex flex-wrap gap-2">
@@ -667,10 +707,14 @@ export function SelectTagsWrap() {
 export function SelectWithGroups() {
   return (
     <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
-      <FieldTitle className={fieldConfig.default.label}>Timezone</FieldTitle>
+      <FieldLabel
+        htmlFor="select-grouped"
+        className={fieldConfig.default.label}>
+        Timezone
+      </FieldLabel>
 
       <Select items={timezoneItems}>
-        <SelectTrigger className="w-[240px]">
+        <SelectTrigger id="select-grouped" className="w-[240px]">
           <SelectValue placeholder="Choose option" />
         </SelectTrigger>
         <SelectContent>

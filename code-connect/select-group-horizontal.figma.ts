@@ -57,14 +57,14 @@ export default {
     <Field orientation="horizontal" className="w-fit items-center gap-3">
       ${
         showLabel
-          ? figma.code`<FieldTitle className="${titleClass}">${labelText}</FieldTitle>`
+          ? figma.code`<FieldLabel htmlFor="select" className="${titleClass}">${labelText}</FieldLabel>`
           : figma.code``
       }
       ${fieldCode}
     </Field>
   `,
   imports: [
-    'import { Field, FieldTitle } from "@/components/ui/field"',
+    'import { Field, FieldLabel } from "@/components/ui/field"',
     'import { Select, SelectContent, SelectItem, SelectItemText, SelectTrigger, SelectValue } from "@/components/ui/select"',
   ],
   id: 'select-group-horizontal',

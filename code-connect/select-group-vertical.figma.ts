@@ -68,7 +68,7 @@ const descClass =
 
 const fallbackSelect = figma.code`
   <Select size="${size}">
-    <SelectTrigger className="w-[240px]">
+    <SelectTrigger id="select" className="w-[240px]">
       <SelectValue placeholder="Choose option" />
     </SelectTrigger>
     <SelectContent>
@@ -90,13 +90,13 @@ const selectBody = fieldCode.length > 0 ? fieldCode : fallbackSelect;
 export default {
   example: figma.code`
     <FieldSet className="gap-2">
-      ${showLabel ? figma.code`<FieldTitle className="${labelClass}">${label}</FieldTitle>` : figma.code``}
+      ${showLabel ? figma.code`<FieldLabel htmlFor="select" className="${labelClass}">${label}</FieldLabel>` : figma.code``}
       ${selectBody}
       ${showHelperText ? figma.code`<FieldDescription className="${descClass}">${helperText}</FieldDescription>` : figma.code``}
     </FieldSet>
   `,
   imports: [
-    'import { FieldDescription, FieldSet, FieldTitle } from "@/components/ui/field"',
+    'import { FieldDescription, FieldLabel, FieldSet } from "@/components/ui/field"',
     'import { Select, SelectContent, SelectItem, SelectItemText, SelectTrigger, SelectValue } from "@/components/ui/select"',
   ],
   id: 'select-group-vertical',
