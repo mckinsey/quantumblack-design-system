@@ -1,0 +1,33 @@
+// url=<QBDS_RADIO_BUTTON>
+// source=src/components/ui/radio-group.tsx
+// component=RadioGroupItem
+import figma from 'figma';
+
+const instance = figma.selectedInstance;
+
+const size =
+  instance.getEnum('size', {
+    reg: 'default',
+    lg: 'lg',
+  }) ?? 'default';
+
+const disabled = instance.getEnum('state', {
+  enabled: false,
+  focused: false,
+  disabled: true,
+});
+
+const selected = instance.getBoolean('isSelected');
+
+export default {
+  example: figma.code`
+    <RadioGroup${selected ? ' defaultValue="option"' : ''}>
+      <RadioGroupItem value="option" size="${size}"${disabled ? ' disabled' : ''} />
+    </RadioGroup>
+  `,
+  imports: [
+    'import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"',
+  ],
+  id: 'radio-button',
+  metadata: { nestable: true },
+};

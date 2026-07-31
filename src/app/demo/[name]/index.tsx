@@ -157,6 +157,14 @@ import {
   examples as dropdownMenuExamples,
 } from '@/app/demo/[name]/ui/dropdown-menu';
 import {
+  FieldDemo,
+  FieldOtherVariants,
+  FieldSizes,
+  FieldStates,
+  field,
+  examples as fieldExamples,
+} from '@/app/demo/[name]/ui/field';
+import {
   ReactHookForm,
   TanStackForm,
   form,
@@ -221,6 +229,7 @@ import {
   RadioGroupDemo,
   RadioGroupDensity,
   RadioGroupDisabled,
+  RadioGroupHorizontal,
   RadioGroupPartialDisabled,
   RadioGroupStates,
   radioGroup,
@@ -255,13 +264,12 @@ import {
   examples as sidebarExamples,
 } from '@/app/demo/[name]/ui/sidebar';
 import {
+  SliderComposed,
   SliderDemo,
-  SliderLabeled,
+  SliderInlineInput,
   SliderRange,
-  SliderRanges,
-  SliderSteps,
   SliderStepsLabeled,
-  SliderVolume,
+  SliderStepsLabeledRange,
   slider,
   examples as sliderExamples,
 } from '@/app/demo/[name]/ui/slider';
@@ -518,6 +526,12 @@ export const exampleComponentMaps: Record<
     DropdownMenuLarge,
     DropdownMenuDestructive,
   },
+  field: {
+    FieldDemo,
+    FieldSizes,
+    FieldStates,
+    FieldOtherVariants,
+  },
   form: {
     ReactHookForm,
     TanStackForm,
@@ -577,6 +591,7 @@ export const exampleComponentMaps: Record<
   'radio-group': {
     RadioGroupDemo,
     RadioGroupDensity,
+    RadioGroupHorizontal,
     RadioGroupStates,
     RadioGroupDisabled,
     RadioGroupPartialDisabled,
@@ -605,12 +620,11 @@ export const exampleComponentMaps: Record<
   },
   slider: {
     SliderDemo,
-    SliderRanges,
-    SliderSteps,
-    SliderStepsLabeled,
-    SliderLabeled,
+    SliderComposed,
+    SliderInlineInput,
     SliderRange,
-    SliderVolume,
+    SliderStepsLabeled,
+    SliderStepsLabeledRange,
   },
   sonner: {
     SonnerDemo,
@@ -720,6 +734,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   dialog: dialogExamples,
   'context-menu': contextMenuExamples,
   'dropdown-menu': dropdownMenuExamples,
+  field: fieldExamples,
   form: formExamples,
   icon: iconExamples,
   'icon-shell': iconShellExamples,
@@ -819,6 +834,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...dropdownMenu,
     examples: dropdownMenuExamples,
     exampleComponents: exampleComponentMaps['dropdown-menu'],
+  },
+  field: {
+    ...field,
+    examples: fieldExamples,
+    exampleComponents: exampleComponentMaps.field,
   },
   form: {
     ...form,

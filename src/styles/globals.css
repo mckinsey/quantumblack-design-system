@@ -89,6 +89,7 @@
   /** Mist Utility Colors */
   --color-mist-50: var(--mist-50);
   --color-mist-50-opacity-88: var(--mist-50-opacity-88);
+  --color-mist-50-opacity-38: var(--mist-50-opacity-38);
 
   /** Slate Primitives */
   --slate-50: oklch(34.96% 0.0179 272.24);
@@ -324,7 +325,7 @@
   --color-fill-onsurface-ui-2: var(--fill-onsurface-ui-2);
   --color-fill-onsurface-ui-3: var(--fill-onsurface-ui-3);
 
-  --color-slider-track: var(--slider-track);
+  --color-fill-stepmarkers-track: var(--fill-stepmarkers-track);
 
   /*** Surface Tokens */
 
@@ -477,7 +478,7 @@
   --fill-onsurface-ui-2: var(--mist-300);
   --fill-onsurface-ui-3: var(--mist-200);
 
-  --slider-track: var(--mist-900);
+  --fill-stepmarkers-track: var(--mist-900);
 
   /** Light mode surface tokens */
 
@@ -588,7 +589,7 @@
   --fill-onsurface-ui-2: var(--slate-300);
   --fill-onsurface-ui-3: var(--slate-400);
 
-  --slider-track: var(--slate-100);
+  --fill-stepmarkers-track: var(--slate-100);
 
   /** Dark mode surface tokens */
 
