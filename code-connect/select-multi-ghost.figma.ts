@@ -94,6 +94,7 @@ const showWrap = instance.getEnum('state', {
 const placeholder = instance.getString('placeholderText');
 const optionSelected = instance.getString('optionSelected');
 const showFeedback = instance.getBoolean('showFeedbackMessage');
+const showHint = instance.getBoolean('showHintText');
 
 const statusInst = instance.findInstance('Elements/Status-Messages', {
   traverseInstances: true,
@@ -103,34 +104,49 @@ const statusMessage =
     ? statusInst.getString('statusMessage')
     : 'Feedback message';
 
+function textProp(node: figma.InstanceHandle, ...names: string[]) {
+  for (const name of names) {
+    const value = node.getString(name);
+
+    if (typeof value === 'string' && value) {
+      return value;
+    }
+  }
+
+  return '';
+}
+
+function connectedExamples(
+  nodes: figma.InstanceHandle[],
+): figma.ResultSection[] {
+  return nodes
+    .filter((node): node is figma.InstanceHandle => node.type === 'INSTANCE')
+    .map(child => child.executeTemplate().example)
+    .flat();
+}
+
 const tagsSlot = showTags ? instance.getSlot('tagsSlot') : null;
 const slotConnected = tagsSlot?.connectedInstances ?? [];
+let valueCode: figma.ResultSection[] = [];
 
-const tagCode =
-  slotConnected.length > 0
-    ? slotConnected.map(n => n.executeTemplate().example).flat()
-    : showTags
-      ? instance
-          .findConnectedInstances(
-            node =>
-              node.name === 'Tag-Dismissable' || node.name === 'Badge/Numeric',
-            { traverseInstances: true },
-          )
-          .filter(
-            (node): node is figma.InstanceHandle => node.type === 'INSTANCE',
-          )
-          .map(child => child.executeTemplate().example)
-          .flat()
-      : [];
+if (slotConnected.length > 0) {
+  valueCode = connectedExamples(
+    slotConnected.filter(
+      (node): node is figma.InstanceHandle => node.type === 'INSTANCE',
+    ),
+  );
+}
 
-const counterTag =
-  showCounter && !showTags
-    ? instance.findInstance('Tag-Dismissable', { traverseInstances: true })
-    : null;
-let counterCode: figma.ResultSection[] = [];
-
-if (counterTag && counterTag.type === 'INSTANCE') {
-  counterCode = counterTag.executeTemplate().example;
+if (valueCode.length === 0 && (showTags || showCounter)) {
+  valueCode = connectedExamples(
+    instance
+      .findConnectedInstances(
+        node =>
+          node.name === 'Tag-Dismissable' || node.name === 'Badge/Numeric',
+        { traverseInstances: true },
+      )
+      .filter((node): node is figma.InstanceHandle => node.type === 'INSTANCE'),
+  );
 }
 
 const menu = instance.findInstance('Menu/Select', { traverseInstances: true });
@@ -153,20 +169,12 @@ const menuItemInsts =
         );
 
 const optionSnippets = menuItemInsts.flatMap((item, i) => {
-  const label = item.getString('Label');
-
-  if (!label) {
-    return [];
-  }
-
-  const value = label
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
+  const label = textProp(item, 'Label', 'ItemLabel') || `Option ${i + 1}`;
+  const valueKey = `option-${i + 1}`;
 
   return [
     figma.code`
-      <SelectItem value="${value || `option-${i + 1}`}">
+      <SelectItem value="${valueKey}">
         <SelectItemText>${label}</SelectItemText>
       </SelectItem>
     `,
@@ -186,6 +194,7 @@ const wrapClass = showWrap
 
 const triggerClass = [wrapClass, statusClass].filter(Boolean).join(' ');
 const invalidProp = validationState === 'error' ? ' aria-invalid' : '';
+const placeholderProp = showHint ? ` placeholder="${placeholder}"` : '';
 
 const iconSize = size === 'lg' ? 'default' : 'sm';
 const feedbackGlyph =
@@ -212,22 +221,23 @@ const errorClass =
       ? 'paragraph-large-primary text-status-error'
       : 'paragraph-regular-primary text-status-error';
 
+const showSummary = showCounter && !showTags && Boolean(optionSelected);
+const summaryCode = showSummary
+  ? figma.code`
+      <span>${optionSelected}</span>
+    `
+  : [];
+
 const value =
-  tagCode.length > 0
+  valueCode.length > 0 || showSummary
     ? figma.code`
-        <SelectValue placeholder="${placeholder}">
-          ${tagCode}
+        <SelectValue${placeholderProp}>
+          ${valueCode}
+          ${summaryCode}
         </SelectValue>
       `
-    : counterCode.length > 0
-      ? figma.code`
-        <SelectValue placeholder="${placeholder}">
-          ${counterCode}
-          <span>${optionSelected}</span>
-        </SelectValue>
-      `
-      : figma.code`
-        <SelectValue placeholder="${placeholder}" />
+    : figma.code`
+        <SelectValue${placeholderProp} />
       `;
 
 const selectContent =
