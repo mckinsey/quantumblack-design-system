@@ -1,3 +1,10 @@
+# Deploys production to gh-pages root on main; PR previews to gh-pages/pr-preview/pr-<n>/.
+#
+# Required repo settings (Settings → Pages):
+#   - Source: Deploy from branch → gh-pages / (root)
+#   - Custom domain: designsystem.quantumblack.com (CNAME copied into production deploy)
+# Required Actions settings:
+#   - Workflow permissions: Read and write (for gh-pages pushes)
 name: Deploy QB Registry to GitHub Pages
 
 on:
@@ -5,25 +12,28 @@ on:
     branches:
       - main
   pull_request:
-    branches:
+    types: [opened, synchronize, reopened, closed]
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
   pull-requests: write
+
 concurrency:
   group: pages-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+env:
+  PAGES_BASE_URL: ${{ vars.QBDS_REGISTRY_URL || 'https://designsystem.quantumblack.com' }}
+
 jobs:
   build:
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    if: github.event_name != 'pull_request' || (github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: ubuntu-latest
     env:
       # Previews resolve install commands from the browser origin at runtime.
       QBDS_REGISTRY_URL: ${{ github.event_name != 'pull_request' && vars.QBDS_REGISTRY_URL || '' }}
+      VITE_BASE_PATH: ${{ github.event_name == 'pull_request' && format('/pr-preview/pr-{0}/', github.event.number) || '' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -50,9 +60,13 @@ jobs:
       - name: Copy index.html to 404.html for SPA routing
         run: cp dist/index.html dist/404.html
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v4
+      - name: Disable Jekyll on GitHub Pages
+        run: touch dist/.nojekyll
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
         with:
+          name: dist
           path: dist
 
   deploy:
@@ -61,22 +75,56 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ env.PAGES_BASE_URL }}
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Copy CNAME for custom domain
+        run: cp CNAME dist/CNAME
+
+      - name: Deploy production to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: dist
+          clean: true
+          clean-exclude: pr-preview
+          force: false
 
   deploy-preview:
     needs: build
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && github.event.action != 'closed'
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages-preview
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy PR preview to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
         with:
-          preview: true
+          name: dist
+          path: dist
+
+      - name: Deploy PR preview
+        id: preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./dist
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          pages-base-url: ${{ env.PAGES_BASE_URL }}
+          wait-for-pages-deployment: true
+          action: deploy
+
+  remove-preview:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove PR preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          pages-base-url: ${{ env.PAGES_BASE_URL }}
+          action: remove
