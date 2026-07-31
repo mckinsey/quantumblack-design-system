@@ -51,7 +51,7 @@ export const inputVariantStyles = {
 
 // Shared input size styles - exported for use in InputGroup
 export const inputSizeStyles = {
-  sm: 'h-7 paragraph-regular-primary',
+  sm: 'h-7 paragraph-small-primary',
   default: 'h-9 paragraph-regular-primary',
   lg: 'h-12 paragraph-large-primary',
 } as const;

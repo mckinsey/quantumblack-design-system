@@ -71,10 +71,12 @@ const selectTriggerVariants = cva(
           'data-[popup-open]:border-b-stroke-status-focus data-[popup-open]:shadow-elevation-0',
           inputVariantStyles.inline.error,
           'aria-invalid:data-[popup-open]:border-b-status-error',
+          inputVariantStyles.inline.disabled,
+          'data-disabled:pointer-events-none data-disabled:data-placeholder:text-fg-disabled',
         ],
       },
       size: {
-        sm: `${inputSizeDefinitions.sm} gap-1`,
+        sm: `${inputSizeDefinitions.sm} gap-2`,
         default: `${inputSizeDefinitions.default} gap-2`,
         lg: `${inputSizeDefinitions.lg} gap-2`,
       },

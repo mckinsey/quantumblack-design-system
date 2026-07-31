@@ -34,16 +34,19 @@ const fieldConfig = {
   sm: {
     label: 'label-small-primary text-fg-secondary',
     description: 'paragraph-small-primary text-fg-tertiary',
+    error: 'paragraph-small-primary text-status-error',
     gap: 'gap-2',
   },
   default: {
     label: 'label-regular-primary text-fg-secondary',
     description: 'paragraph-regular-primary text-fg-tertiary',
+    error: 'paragraph-regular-primary text-status-error',
     gap: 'gap-2',
   },
   lg: {
     label: 'label-large-primary text-fg-secondary',
-    description: 'paragraph-regular-primary text-fg-tertiary',
+    description: 'paragraph-large-primary text-fg-tertiary',
+    error: 'paragraph-large-primary text-status-error',
     gap: 'gap-2',
   },
 } as const;
@@ -504,7 +507,9 @@ export function SelectValidation() {
           </SelectContent>
         </Select>
 
-        <FieldError>Feedback message</FieldError>
+        <FieldError className={fieldConfig.default.error}>
+          Feedback message
+        </FieldError>
       </FieldSet>
 
       <FieldSet className={fieldConfig.default.gap}>

@@ -75,8 +75,27 @@ const showTags = instance.getEnum('state', {
   disabled: false,
 });
 
+const tagsWrap = instance.getEnum('state', {
+  enabled: false,
+  hover: false,
+  focus: false,
+  'open-counter': false,
+  'filled-counter': false,
+  'open-tags-with-counter': false,
+  'filled-tags-with-counter': false,
+  'open-tags-wrap': true,
+  'filled-tags-wrap': true,
+  success: false,
+  warning: false,
+  error: false,
+  disabled: false,
+});
+
 const placeholder = instance.getString('placeholderText');
+const optionSelected = instance.getString('optionSelected');
 const showLeading = instance.getBoolean('showLeadingIcon');
+const showFeedback = instance.getBoolean('showFeedbackMessage');
+const showFeedbackIcon = instance.getBoolean('showFeedbackIcon');
 
 const leading = showLeading ? instance.findInstance('Leading-Icon') : null;
 let leadingCode: figma.ResultSection[] = [];
@@ -85,81 +104,181 @@ if (leading && leading.type === 'INSTANCE') {
   leadingCode = leading.executeTemplate().example;
 }
 
-const tagCode = showTags
-  ? instance
+const statusInst = instance.findInstance('Elements/Status-Messages', {
+  traverseInstances: true,
+});
+const statusMessage =
+  statusInst && statusInst.type === 'INSTANCE'
+    ? statusInst.getString('statusMessage')
+    : 'Feedback message';
+
+function connectedExamples(
+  nodes: figma.InstanceHandle[],
+): figma.ResultSection[] {
+  return nodes
+    .filter((node): node is figma.InstanceHandle => node.type === 'INSTANCE')
+    .map(child => child.executeTemplate().example)
+    .flat();
+}
+
+const tagsSlot = showTags ? instance.getSlot('tagsSlot') : null;
+const slotConnected = tagsSlot?.connectedInstances ?? [];
+let valueCode: figma.ResultSection[] = [];
+
+if (slotConnected.length > 0) {
+  valueCode = connectedExamples(
+    slotConnected.filter(
+      (node): node is figma.InstanceHandle => node.type === 'INSTANCE',
+    ),
+  );
+}
+
+if (valueCode.length === 0 && (showTags || showCounter)) {
+  valueCode = connectedExamples(
+    instance
       .findConnectedInstances(
         node =>
           node.name === 'Tag-Dismissable' || node.name === 'Badge/Numeric',
         { traverseInstances: true },
       )
-      .filter((node): node is figma.InstanceHandle => node.type === 'INSTANCE')
-      .map(child => child.executeTemplate().example)
-      .flat()
+      .filter((node): node is figma.InstanceHandle => node.type === 'INSTANCE'),
+  );
+}
+
+const showSummary = showCounter && !showTags && Boolean(optionSelected);
+const summaryCode = showSummary
+  ? figma.code`
+      <span>${optionSelected}</span>
+    `
   : [];
 
-const badge =
-  showCounter && tagCode.length === 0
-    ? instance.findInstance('Badge/Numeric', { traverseInstances: true })
-    : null;
-let badgeCode: figma.ResultSection[] = [];
+const iconSize = size === 'lg' ? 'default' : 'sm';
+const feedbackGlyph =
+  validationState === 'error'
+    ? 'cancel'
+    : validationState === 'warning'
+      ? 'error'
+      : validationState === 'success'
+        ? 'check_circle'
+        : '';
 
-if (badge && badge.type === 'INSTANCE') {
-  badgeCode = badge.executeTemplate().example;
-}
+const feedbackIcon =
+  showFeedbackIcon && feedbackGlyph
+    ? figma.code`
+        <IconShell size="${iconSize}" type="custom" variant="primary" className="shrink-0 text-status-${validationState}" data-slot="select-feedback-icon">
+          <Icon icon="${feedbackGlyph}" size="${iconSize}" />
+        </IconShell>
+      `
+    : [];
 
 const statusClass =
   validationState === 'warning'
-    ? ' !border-status-warning'
+    ? '!border-status-warning'
     : validationState === 'success'
-      ? ' !border-status-success'
+      ? '!border-status-success'
       : '';
 
+const wrapClass = tagsWrap
+  ? 'h-auto min-h-9 whitespace-normal *:data-[slot=select-value]:line-clamp-none *:data-[slot=select-value]:overflow-visible *:data-[slot=select-value]:whitespace-normal'
+  : '';
+
+const triggerClass = [wrapClass, statusClass].filter(Boolean).join(' ');
+const triggerClassProp = triggerClass ? ` className="${triggerClass}"` : '';
 const invalidProp = validationState === 'error' ? ' aria-invalid' : '';
 
-const valueChildren =
-  tagCode.length > 0 ? tagCode : badgeCode.length > 0 ? badgeCode : null;
+const errorClass =
+  size === 'sm'
+    ? 'paragraph-small-primary text-status-error'
+    : size === 'lg'
+      ? 'paragraph-large-primary text-status-error'
+      : 'paragraph-regular-primary text-status-error';
 
-const value = valueChildren
-  ? figma.code`
-        <SelectValue placeholder="${placeholder}">
-          ${valueChildren}
-        </SelectValue>
-      `
-  : showCounter
+const value =
+  valueCode.length > 0 || showSummary
     ? figma.code`
         <SelectValue placeholder="${placeholder}">
-          <NumericBadge size="sm" variant="primary">2</NumericBadge>
-          <span>items selected</span>
+          ${valueCode}
+          ${summaryCode}
         </SelectValue>
       `
     : figma.code`
         <SelectValue placeholder="${placeholder}" />
       `;
 
+const menu = instance.findInstance('Menu/Select', { traverseInstances: true });
+const menuSlot =
+  menu && menu.type === 'INSTANCE' ? menu.getSlot('itemsSlot') : null;
+const menuConnected = menuSlot?.connectedInstances ?? [];
+
+const selectItems =
+  menuConnected.length > 0
+    ? menuConnected
+        .filter(
+          (node): node is figma.InstanceHandle => node.type === 'INSTANCE',
+        )
+        .map((node, i) => {
+          const label = node.getString('Label') || `Option ${i + 1}`;
+          const valueKey = `option-${i + 1}`;
+
+          return figma.code`
+            <SelectItem value="${valueKey}">
+              <SelectItemText>${label}</SelectItemText>
+            </SelectItem>
+          `;
+        })
+        .flat()
+    : [];
+
+const selectContent =
+  selectItems.length > 0
+    ? figma.code`
+        <SelectContent>
+          ${selectItems}
+        </SelectContent>
+      `
+    : figma.code`
+        <SelectContent />
+      `;
+
+const selectBody = figma.code`
+  <Select multiple size="${size}"${disabled ? ' disabled' : ''}>
+    <SelectTrigger${triggerClassProp}${invalidProp}>
+      ${leadingCode}
+      ${value}
+      ${feedbackIcon}
+    </SelectTrigger>
+    ${selectContent}
+  </Select>
+`;
+
+const showError = validationState === 'error' && showFeedback;
+
+const selectImports = [
+  'import { Select, SelectContent, SelectItem, SelectItemText, SelectTrigger, SelectValue } from "@/components/ui/select"',
+];
+
+if (showFeedbackIcon && feedbackGlyph) {
+  selectImports.unshift(
+    'import { Icon } from "@/components/ui/icon"',
+    'import { IconShell } from "@/components/ui/icon-shell"',
+  );
+}
+
 export default {
-  example: figma.code`
-    <Select multiple size="${size}"${disabled ? ' disabled' : ''}>
-      <SelectTrigger className="w-[280px]${statusClass}"${invalidProp}>
-        ${leadingCode}
-        ${value}
-      </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="option-1">
-          <SelectItemText>Option 1</SelectItemText>
-        </SelectItem>
-        <SelectItem value="option-2">
-          <SelectItemText>Option 2</SelectItemText>
-        </SelectItem>
-        <SelectItem value="option-3">
-          <SelectItemText>Option 3</SelectItemText>
-        </SelectItem>
-      </SelectContent>
-    </Select>
-  `,
-  imports: [
-    'import { NumericBadge } from "@/components/ui/badge"',
-    'import { Select, SelectContent, SelectItem, SelectItemText, SelectTrigger, SelectValue } from "@/components/ui/select"',
-  ],
+  example: showError
+    ? figma.code`
+        <FieldSet className="gap-2">
+          ${selectBody}
+          <FieldError className="${errorClass}">${statusMessage}</FieldError>
+        </FieldSet>
+      `
+    : selectBody,
+  imports: showError
+    ? [
+        'import { FieldError, FieldSet } from "@/components/ui/field"',
+        ...selectImports,
+      ]
+    : selectImports,
   id: 'select-multi',
   metadata: { nestable: true },
 };
