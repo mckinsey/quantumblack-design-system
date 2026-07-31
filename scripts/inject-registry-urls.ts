@@ -13,7 +13,8 @@ const PLACEHOLDER = '__REGISTRY_URL__';
 const OUTPUT_DIR = 'public/r';
 
 function getRegistryUrl(): string {
-  if (process.env.QBDS_REGISTRY_URL) {
+  // Explicitly empty (e.g. PR preview CI) → relative /r/*.json URLs at runtime origin.
+  if (process.env.QBDS_REGISTRY_URL !== undefined) {
     return process.env.QBDS_REGISTRY_URL;
   }
 
