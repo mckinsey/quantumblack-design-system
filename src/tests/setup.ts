@@ -24,3 +24,15 @@ if (typeof window !== 'undefined' && !window.matchMedia) {
     }),
   });
 }
+
+if (typeof globalThis.PointerEvent === 'undefined') {
+  type EventCtor = new (...args: never[]) => Event;
+
+  const Base: EventCtor =
+    typeof globalThis.MouseEvent !== 'undefined'
+      ? (MouseEvent as unknown as EventCtor)
+      : Event;
+
+  (globalThis as unknown as Record<string, unknown>).PointerEvent =
+    class PointerEvent extends Base {};
+}

@@ -2,17 +2,36 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Icon } from '@/components/ui/icon';
-import { Tag } from '@/components/ui/tag';
+import { IconShell } from '@/components/ui/icon-shell';
+import { Tag, type TagProps, tagIconTone } from '@/components/ui/tag';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 import { cn } from '@/lib/utils';
 
 const basePath = import.meta.env.VITE_BASE_PATH ?? '';
 
+function TagLeadingIcon({
+  variant = 'primary',
+  disabled,
+}: {
+  variant?: TagProps['variant'];
+  disabled?: boolean;
+}) {
+  return (
+    <IconShell
+      size="sm"
+      type={tagIconTone[variant ?? 'primary']}
+      variant="primary"
+      disabled={disabled}>
+      <Icon icon="style" />
+    </IconShell>
+  );
+}
+
 /** Default tag with remove button */
 export function TagDemo() {
   return (
     <Tag onRemove={() => console.log('Remove')}>
-      <Icon icon="style" className="size-4" />
+      <TagLeadingIcon />
       Default Tag
     </Tag>
   );
@@ -23,24 +42,24 @@ export function TagVariants() {
   return (
     <div className="flex flex-wrap gap-3">
       <Tag variant="primary" onRemove={() => {}}>
-        <Icon icon="style" className="size-4" />
+        <TagLeadingIcon variant="primary" />
         Primary
       </Tag>
       <Tag variant="secondary" onRemove={() => {}}>
-        <Icon icon="style" className="size-4" />
+        <TagLeadingIcon variant="secondary" />
         Secondary
       </Tag>
       <Tag variant="accent" onRemove={() => {}}>
-        <Icon icon="style" className="size-4" />
+        <TagLeadingIcon variant="accent" />
         Accent
       </Tag>
       <Tag variant="outline" onRemove={() => {}}>
-        <Icon icon="style" className="size-4" />
+        <TagLeadingIcon variant="outline" />
         Outline
       </Tag>
 
       <Tag variant="accent-outline" onRemove={() => {}}>
-        <Icon icon="style" className="size-4" />
+        <TagLeadingIcon variant="accent-outline" />
         Accent Outline
       </Tag>
     </div>
@@ -52,24 +71,24 @@ export function TagPill() {
   return (
     <div className="flex flex-wrap gap-3">
       <Tag variant="primary" pill onRemove={() => {}}>
-        <Icon icon="style" className="size-4" />
+        <TagLeadingIcon variant="primary" />
         Primary
       </Tag>
       <Tag variant="secondary" pill onRemove={() => {}}>
-        <Icon icon="style" className="size-4" />
+        <TagLeadingIcon variant="secondary" />
         Secondary
       </Tag>
       <Tag variant="accent" pill onRemove={() => {}}>
-        <Icon icon="style" className="size-4" />
+        <TagLeadingIcon variant="accent" />
         Accent
       </Tag>
       <Tag variant="outline" pill onRemove={() => {}}>
-        <Icon icon="style" className="size-4" />
+        <TagLeadingIcon variant="outline" />
         Outline
       </Tag>
 
       <Tag variant="accent-outline" pill onRemove={() => {}}>
-        <Icon icon="style" className="size-4" />
+        <TagLeadingIcon variant="accent-outline" />
         Accent Outline
       </Tag>
     </div>
@@ -81,47 +100,43 @@ export function TagSizes() {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
-        <span className="text-fg-tertiary text-sm">
-          Default shape (4px padding)
-        </span>
+        <span className="text-fg-tertiary text-sm">Default shape</span>
         <div className="flex flex-wrap items-center gap-3">
           <Tag size="xs" onRemove={() => {}}>
-            <Icon icon="style" className="size-4" />
+            <TagLeadingIcon />
             Extra small
           </Tag>
           <Tag size="sm" onRemove={() => {}}>
-            <Icon icon="style" className="size-4" />
+            <TagLeadingIcon />
             Small
           </Tag>
           <Tag size="default" onRemove={() => {}}>
-            <Icon icon="style" className="size-4" />
+            <TagLeadingIcon />
             Default
           </Tag>
           <Tag size="lg" onRemove={() => {}}>
-            <Icon icon="style" className="size-4" />
+            <TagLeadingIcon />
             Large
           </Tag>
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <span className="text-fg-tertiary text-sm">
-          Pill shape (8px padding)
-        </span>
+        <span className="text-fg-tertiary text-sm">Pill shape</span>
         <div className="flex flex-wrap items-center gap-3">
           <Tag size="xs" pill onRemove={() => {}}>
-            <Icon icon="style" className="size-4" />
+            <TagLeadingIcon />
             Extra small
           </Tag>
           <Tag size="sm" pill onRemove={() => {}}>
-            <Icon icon="style" className="size-4" />
+            <TagLeadingIcon />
             Small
           </Tag>
           <Tag size="default" pill onRemove={() => {}}>
-            <Icon icon="style" className="size-4" />
+            <TagLeadingIcon />
             Default
           </Tag>
           <Tag size="lg" pill onRemove={() => {}}>
-            <Icon icon="style" className="size-4" />
+            <TagLeadingIcon />
             Large
           </Tag>
         </div>
@@ -258,23 +273,28 @@ export function TagDisabled() {
         <span className="text-fg-tertiary text-sm">Default shape</span>
         <div className="flex flex-wrap items-center gap-3">
           <Tag variant="primary" disabled onRemove={() => {}}>
-            <Icon icon="style" className="size-4" />
+            <TagLeadingIcon variant="primary" disabled />
             Primary
           </Tag>
 
           <Tag variant="secondary" disabled onRemove={() => {}}>
-            <Icon icon="style" className="size-4" />
+            <TagLeadingIcon variant="secondary" disabled />
             Secondary
           </Tag>
 
           <Tag variant="accent" disabled onRemove={() => {}}>
-            <Icon icon="style" className="size-4" />
+            <TagLeadingIcon variant="accent" disabled />
             Accent
           </Tag>
 
           <Tag variant="outline" disabled onRemove={() => {}}>
-            <Icon icon="style" className="size-4" />
+            <TagLeadingIcon variant="outline" disabled />
             Outline
+          </Tag>
+
+          <Tag variant="accent-outline" disabled onRemove={() => {}}>
+            <TagLeadingIcon variant="accent-outline" disabled />
+            Accent Outline
           </Tag>
         </div>
       </div>
@@ -283,23 +303,28 @@ export function TagDisabled() {
         <span className="text-fg-tertiary text-sm">Pill shape</span>
         <div className="flex flex-wrap items-center gap-3">
           <Tag variant="primary" pill disabled onRemove={() => {}}>
-            <Icon icon="style" className="size-4" />
+            <TagLeadingIcon variant="primary" disabled />
             Primary
           </Tag>
 
           <Tag variant="secondary" pill disabled onRemove={() => {}}>
-            <Icon icon="style" className="size-4" />
+            <TagLeadingIcon variant="secondary" disabled />
             Secondary
           </Tag>
 
           <Tag variant="accent" pill disabled onRemove={() => {}}>
-            <Icon icon="style" className="size-4" />
+            <TagLeadingIcon variant="accent" disabled />
             Accent
           </Tag>
 
           <Tag variant="outline" pill disabled onRemove={() => {}}>
-            <Icon icon="style" className="size-4" />
+            <TagLeadingIcon variant="outline" disabled />
             Outline
+          </Tag>
+
+          <Tag variant="accent-outline" pill disabled onRemove={() => {}}>
+            <TagLeadingIcon variant="accent-outline" disabled />
+            Accent Outline
           </Tag>
         </div>
       </div>
@@ -316,7 +341,8 @@ export const examples: DemoExample[] = [
   {
     name: 'TagVariants',
     title: 'Variants',
-    description: 'All tag style variants.',
+    description:
+      'All style variants. Leading IconShell type comes from tagIconTone — secondary uses neutral-inverse; others use neutral.',
   },
   {
     name: 'TagPill',
@@ -332,7 +358,8 @@ export const examples: DemoExample[] = [
   {
     name: 'TagDisabled',
     title: 'Disabled',
-    description: 'Disabled tag states.',
+    description:
+      'Disabled tags. Pass disabled to IconShell as well so the leading icon uses disabled opacity.',
   },
 ];
 
