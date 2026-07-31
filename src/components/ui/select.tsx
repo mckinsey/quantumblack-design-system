@@ -142,7 +142,9 @@ const selectItemVariants = cva(
     'text-fg-secondary',
     'data-highlighted:overlay-hover data-highlighted:text-fg-primary',
     'active:overlay-pressed data-highlighted:active:overlay-pressed',
-    'data-disabled:pointer-events-none data-disabled:cursor-not-allowed data-disabled:text-fg-disabled',
+    'data-disabled:cursor-not-allowed data-disabled:text-fg-disabled',
+    'data-disabled:data-highlighted:[background-image:none] data-disabled:data-highlighted:text-fg-disabled',
+    'data-disabled:active:[background-image:none]',
   ],
   {
     variants: {

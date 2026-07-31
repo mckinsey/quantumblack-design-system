@@ -21,11 +21,13 @@ import {
   SelectItemIndicator,
   SelectItemText,
   SelectLabel,
+  type SelectSize,
   SelectTrigger,
   SelectValue,
   useSelectContext,
 } from '@/components/ui/select';
 import { Tag } from '@/components/ui/tag';
+import { Toggle } from '@/components/ui/toggle';
 import { cn } from '@/lib/utils';
 
 const fieldConfig = {
@@ -58,15 +60,9 @@ const optionItems = [
   { label: 'Option 3', value: 'option3' },
 ];
 
-const themeItemsWithDisabled = [
-  { label: 'Light', value: 'light' },
-  { label: 'Dark', value: 'dark' },
-  { label: 'Disabled Option', value: 'disabled' },
-  { label: 'System', value: 'system' },
-];
-
 const timezoneItems = [
   { label: 'Eastern Standard Time (EST)', value: 'est' },
+  { label: 'Alaska Standard Time (AKST)', value: 'akst' },
   { label: 'Central Standard Time (CST)', value: 'cst' },
   { label: 'Pacific Standard Time (PST)', value: 'pst' },
   { label: 'Greenwich Mean Time (GMT)', value: 'gmt' },
@@ -86,6 +82,14 @@ const languageItems = [
   { label: 'Java', value: 'java' },
   { label: 'C#', value: 'csharp' },
   { label: 'Ruby', value: 'ruby' },
+];
+
+const tagItems = [
+  { label: 'Option 1', value: 'option1' },
+  { label: 'Option 2', value: 'option2' },
+  { label: 'Option 3', value: 'option3' },
+  { label: 'Option 4', value: 'option4' },
+  { label: 'Option 5', value: 'option5' },
 ];
 
 function SelectOptionItem({
@@ -118,16 +122,12 @@ function SelectCheckboxItem({
   disabled,
   checked,
   counter,
-  leading,
-  trailing,
 }: {
   value: string;
   children: ReactNode;
   disabled?: boolean;
   checked?: boolean;
   counter?: string;
-  leading?: ReactNode;
-  trailing?: ReactNode;
 }) {
   const sizeCtx = useSelectContext();
   const size = sizeCtx?.size ?? 'default';
@@ -146,11 +146,7 @@ function SelectCheckboxItem({
         className="pointer-events-none"
       />
 
-      {leading ?? null}
-
       <SelectItemText>{children}</SelectItemText>
-
-      {trailing ?? null}
 
       {counter !== undefined ? (
         <span
@@ -164,17 +160,6 @@ function SelectCheckboxItem({
         </span>
       ) : null}
     </SelectItem>
-  );
-}
-
-function SlotIcon() {
-  const sizeCtx = useSelectContext();
-  const iconSize = sizeCtx?.size === 'lg' ? 'default' : 'sm';
-
-  return (
-    <IconShell size={iconSize} variant="secondary">
-      <Icon icon="crop_free" size={iconSize} />
-    </IconShell>
   );
 }
 
@@ -236,39 +221,112 @@ export function SelectDemo() {
   );
 }
 
-export function SelectMultiple() {
-  const [value, setValue] = React.useState<string[]>([]);
+export function SelectInline() {
+  const [showAllSizes, setShowAllSizes] = React.useState(false);
+  const prefersReducedMotion =
+    typeof window !== 'undefined'
+      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      : false;
+
+  const ease = 'cubic-bezier(0.23, 1, 0.32, 1)';
+  const duration = showAllSizes ? '220ms' : '160ms';
+
+  const expandTransition = prefersReducedMotion
+    ? undefined
+    : `grid-template-rows ${duration} ${ease}`;
+
+  const fadeTransition = prefersReducedMotion
+    ? undefined
+    : `opacity ${duration} ${ease}, transform ${duration} ${ease}`;
 
   return (
-    <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
-      <FieldTitle className={fieldConfig.default.label}>Label</FieldTitle>
+    <div className="relative w-full">
+      <Toggle
+        variant="ghost"
+        size="xs"
+        pressed={showAllSizes}
+        onPressedChange={setShowAllSizes}
+        className="absolute top-0 right-0 z-10"
+        aria-label={showAllSizes ? 'Hide all sizes' : 'Show all sizes'}>
+        {showAllSizes ? 'Hide all sizes' : 'Show all sizes'}
+      </Toggle>
 
-      <Select
-        multiple
-        items={languageItems}
-        value={value}
-        onValueChange={v => setValue(v as string[])}>
-        <SelectTrigger className="w-[280px]">
-          <SelectValue placeholder="Choose Options">
-            {value.length > 0 ? (
-              <MultiValueDisplay value={value} onClear={() => setValue([])} />
-            ) : null}
-          </SelectValue>
+      <div className="mx-auto w-full max-w-sm pt-10">
+        <div
+          className="grid overflow-hidden"
+          style={{
+            gridTemplateRows: showAllSizes ? '1fr' : '0fr',
+            transition: expandTransition,
+          }}
+          aria-hidden={!showAllSizes}>
+          <div
+            className={cn('min-h-0', !showAllSizes && 'pointer-events-none')}>
+            <div
+              className={cn(
+                'pb-4',
+                showAllSizes
+                  ? 'translate-y-0 opacity-100'
+                  : '-translate-y-1 opacity-0',
+              )}
+              style={{ transition: fadeTransition }}>
+              <InlineField size="sm" label="Small" />
+            </div>
+          </div>
+        </div>
+
+        <InlineField
+          size="default"
+          label={showAllSizes ? 'Default' : 'Label'}
+        />
+
+        <div
+          className="grid overflow-hidden"
+          style={{
+            gridTemplateRows: showAllSizes ? '1fr' : '0fr',
+            transition: expandTransition,
+          }}
+          aria-hidden={!showAllSizes}>
+          <div
+            className={cn('min-h-0', !showAllSizes && 'pointer-events-none')}>
+            <div
+              className={cn(
+                'pt-4',
+                showAllSizes
+                  ? 'translate-y-0 opacity-100'
+                  : 'translate-y-1 opacity-0',
+              )}
+              style={{ transition: fadeTransition }}>
+              <InlineField size="lg" label="Large" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InlineField({ size, label }: { size: SelectSize; label: string }) {
+  const cfg = fieldConfig[size];
+
+  return (
+    <FieldSet className={cfg.gap}>
+      <FieldTitle className={cfg.label}>{label}</FieldTitle>
+
+      <Select size={size} items={optionItems}>
+        <SelectTrigger variant="inline" className="w-[240px]">
+          <SelectValue placeholder="Choose option" />
         </SelectTrigger>
         <SelectContent>
-          {languageItems.map(item => (
-            <SelectCheckboxItem
-              key={item.value}
-              value={item.value}
-              checked={value.includes(item.value)}>
+          {optionItems.map(item => (
+            <SelectOptionItem key={item.value} value={item.value}>
               {item.label}
-            </SelectCheckboxItem>
+            </SelectOptionItem>
           ))}
         </SelectContent>
       </Select>
 
-      <FieldDescription className={fieldConfig.default.description}>
-        Multi-select with counter
+      <FieldDescription className={cfg.description}>
+        Helper text
       </FieldDescription>
     </FieldSet>
   );
@@ -346,133 +404,25 @@ export function SelectSizes() {
 }
 
 export function SelectHorizontal() {
-  const rows = [
-    { size: 'sm' as const, label: fieldConfig.sm.label },
-    { size: 'default' as const, label: fieldConfig.default.label },
-    { size: 'lg' as const, label: fieldConfig.lg.label },
-  ];
-
   return (
-    <div className="flex w-fit flex-col gap-8">
-      {rows.map(({ size, label }) => (
-        <Field
-          key={size}
-          orientation="horizontal"
-          className="items-center gap-3">
-          <FieldTitle className={cn(label, 'shrink-0')}>Field label</FieldTitle>
+    <Field orientation="horizontal" className="w-fit items-center gap-3">
+      <FieldTitle className={cn(fieldConfig.default.label, 'shrink-0')}>
+        Field label
+      </FieldTitle>
 
-          <Select size={size} items={optionItems}>
-            <SelectTrigger variant="inline" className="w-[240px]">
-              <SelectValue placeholder="Choose option" />
-            </SelectTrigger>
-            <SelectContent>
-              {optionItems.map(item => (
-                <SelectOptionItem key={item.value} value={item.value}>
-                  {item.label}
-                </SelectOptionItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </Field>
-      ))}
-    </div>
-  );
-}
-
-export function SelectInline() {
-  return (
-    <div className="w-full max-w-sm space-y-4">
-      <FieldSet className={fieldConfig.sm.gap}>
-        <FieldTitle className={fieldConfig.sm.label}>Small</FieldTitle>
-
-        <Select size="sm" items={optionItems}>
-          <SelectTrigger variant="inline" className="w-[240px]">
-            <SelectValue placeholder="Choose option" />
-          </SelectTrigger>
-          <SelectContent>
-            {optionItems.map(item => (
-              <SelectOptionItem key={item.value} value={item.value}>
-                {item.label}
-              </SelectOptionItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        <FieldDescription className={fieldConfig.sm.description}>
-          Helper text
-        </FieldDescription>
-      </FieldSet>
-
-      <FieldSet className={fieldConfig.default.gap}>
-        <FieldTitle className={fieldConfig.default.label}>Default</FieldTitle>
-
-        <Select items={optionItems}>
-          <SelectTrigger variant="inline" className="w-[240px]">
-            <SelectValue placeholder="Choose option" />
-          </SelectTrigger>
-          <SelectContent>
-            {optionItems.map(item => (
-              <SelectOptionItem key={item.value} value={item.value}>
-                {item.label}
-              </SelectOptionItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        <FieldDescription className={fieldConfig.default.description}>
-          Helper text
-        </FieldDescription>
-      </FieldSet>
-
-      <FieldSet className={fieldConfig.lg.gap}>
-        <FieldTitle className={fieldConfig.lg.label}>Large</FieldTitle>
-
-        <Select size="lg" items={optionItems}>
-          <SelectTrigger variant="inline" className="w-[240px]">
-            <SelectValue placeholder="Choose option" />
-          </SelectTrigger>
-          <SelectContent>
-            {optionItems.map(item => (
-              <SelectOptionItem key={item.value} value={item.value}>
-                {item.label}
-              </SelectOptionItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        <FieldDescription className={fieldConfig.lg.description}>
-          Helper text
-        </FieldDescription>
-      </FieldSet>
-    </div>
-  );
-}
-
-export function SelectWithDisabled() {
-  return (
-    <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
-      <FieldTitle className={fieldConfig.default.label}>Label</FieldTitle>
-
-      <Select items={themeItemsWithDisabled}>
-        <SelectTrigger className="w-[240px]">
+      <Select items={optionItems}>
+        <SelectTrigger variant="inline" className="w-[240px]">
           <SelectValue placeholder="Choose option" />
         </SelectTrigger>
         <SelectContent>
-          {themeItemsWithDisabled.map(item => (
-            <SelectOptionItem
-              key={item.value}
-              value={item.value}
-              disabled={item.value === 'disabled'}>
+          {optionItems.map(item => (
+            <SelectOptionItem key={item.value} value={item.value}>
               {item.label}
             </SelectOptionItem>
           ))}
         </SelectContent>
       </Select>
-
-      <FieldDescription className={fieldConfig.default.description}>
-        Helper text
-      </FieldDescription>
-    </FieldSet>
+    </Field>
   );
 }
 
@@ -606,6 +556,109 @@ export function SelectValidation() {
   );
 }
 
+export function SelectMultiple() {
+  const [value, setValue] = React.useState<string[]>([]);
+
+  return (
+    <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
+      <FieldTitle className={fieldConfig.default.label}>Label</FieldTitle>
+
+      <Select
+        multiple
+        items={languageItems}
+        value={value}
+        onValueChange={v => setValue(v as string[])}>
+        <SelectTrigger className="w-[280px]">
+          <SelectValue placeholder="Choose Options">
+            {value.length > 0 ? (
+              <MultiValueDisplay value={value} onClear={() => setValue([])} />
+            ) : null}
+          </SelectValue>
+        </SelectTrigger>
+        <SelectContent>
+          {languageItems.map(item => (
+            <SelectCheckboxItem
+              key={item.value}
+              value={item.value}
+              checked={value.includes(item.value)}>
+              {item.label}
+            </SelectCheckboxItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      <FieldDescription className={fieldConfig.default.description}>
+        Multi-select with counter
+      </FieldDescription>
+    </FieldSet>
+  );
+}
+
+export function SelectTagsWrap() {
+  const [tagsValue, setTagsValue] = React.useState<string[]>([
+    'option2',
+    'option3',
+    'option4',
+    'option5',
+    'option1',
+  ]);
+
+  const tagsTriggerClass =
+    'h-auto min-h-9 w-[280px] whitespace-normal *:data-[slot=select-value]:line-clamp-none *:data-[slot=select-value]:overflow-visible *:data-[slot=select-value]:whitespace-normal';
+
+  return (
+    <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
+      <FieldTitle className={fieldConfig.default.label}>Label</FieldTitle>
+
+      <Select
+        multiple
+        items={tagItems}
+        value={tagsValue}
+        onValueChange={v => setTagsValue(v as string[])}>
+        <SelectTrigger className={tagsTriggerClass}>
+          <SelectValue placeholder="Choose options">
+            {tagsValue.length > 0 ? (
+              <span className="flex flex-wrap gap-2">
+                {tagsValue.map(v => {
+                  const label = tagItems.find(i => i.value === v)?.label ?? v;
+
+                  return (
+                    <Tag
+                      key={v}
+                      variant="primary"
+                      size="xs"
+                      onRemove={() =>
+                        setTagsValue(prev => prev.filter(x => x !== v))
+                      }>
+                      {label}
+                    </Tag>
+                  );
+                })}
+              </span>
+            ) : null}
+          </SelectValue>
+        </SelectTrigger>
+
+        <SelectContent>
+          {tagItems.map(item => (
+            <SelectCheckboxItem
+              key={item.value}
+              value={item.value}
+              checked={tagsValue.includes(item.value)}
+              counter="01">
+              {item.label}
+            </SelectCheckboxItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      <FieldDescription className={fieldConfig.default.description}>
+        Dismissible tags wrap inside the trigger
+      </FieldDescription>
+    </FieldSet>
+  );
+}
+
 export function SelectWithGroups() {
   return (
     <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
@@ -620,6 +673,9 @@ export function SelectWithGroups() {
             <SelectLabel>North America</SelectLabel>
             <SelectOptionItem value="est">
               Eastern Standard Time (EST)
+            </SelectOptionItem>
+            <SelectOptionItem value="akst" disabled>
+              Alaska Standard Time (AKST)
             </SelectOptionItem>
             <SelectOptionItem value="cst">
               Central Standard Time (CST)
@@ -664,229 +720,6 @@ export function SelectWithGroups() {
   );
 }
 
-export function SelectMultipleSizes() {
-  const [defaultValue, setDefaultValue] = React.useState<string[]>([]);
-  const [lgValue, setLgValue] = React.useState<string[]>([]);
-
-  return (
-    <div className="w-full max-w-sm space-y-4">
-      <FieldSet className={fieldConfig.default.gap}>
-        <FieldTitle className={fieldConfig.default.label}>Default</FieldTitle>
-
-        <Select
-          multiple
-          items={optionItems}
-          value={defaultValue}
-          onValueChange={v => setDefaultValue(v as string[])}>
-          <SelectTrigger className="w-[240px]">
-            <SelectValue placeholder="Choose options" />
-          </SelectTrigger>
-          <SelectContent>
-            {optionItems.map(item => (
-              <SelectCheckboxItem
-                key={item.value}
-                value={item.value}
-                checked={defaultValue.includes(item.value)}>
-                {item.label}
-              </SelectCheckboxItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </FieldSet>
-
-      <FieldSet className={fieldConfig.lg.gap}>
-        <FieldTitle className={fieldConfig.lg.label}>Large</FieldTitle>
-
-        <Select
-          multiple
-          size="lg"
-          items={optionItems}
-          value={lgValue}
-          onValueChange={v => setLgValue(v as string[])}>
-          <SelectTrigger className="w-[240px]">
-            <SelectValue placeholder="Choose options" />
-          </SelectTrigger>
-          <SelectContent>
-            {optionItems.map(item => (
-              <SelectCheckboxItem
-                key={item.value}
-                value={item.value}
-                checked={lgValue.includes(item.value)}>
-                {item.label}
-              </SelectCheckboxItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </FieldSet>
-    </div>
-  );
-}
-
-export function SelectMultipleWithSlots() {
-  const [value, setValue] = React.useState<string[]>([]);
-
-  return (
-    <FieldSet className={`w-full max-w-sm ${fieldConfig.default.gap}`}>
-      <FieldTitle className={fieldConfig.default.label}>With slots</FieldTitle>
-
-      <Select
-        multiple
-        items={optionItems}
-        value={value}
-        onValueChange={v => setValue(v as string[])}>
-        <SelectTrigger className="w-[280px]">
-          <SelectValue placeholder="Choose options" />
-        </SelectTrigger>
-        <SelectContent>
-          {optionItems.map(item => (
-            <SelectCheckboxItem
-              key={item.value}
-              value={item.value}
-              checked={value.includes(item.value)}
-              counter="01"
-              leading={<SlotIcon />}
-              trailing={<SlotIcon />}>
-              {item.label}
-            </SelectCheckboxItem>
-          ))}
-        </SelectContent>
-      </Select>
-
-      <FieldDescription className={fieldConfig.default.description}>
-        Leading, trailing, and counter slots
-      </FieldDescription>
-    </FieldSet>
-  );
-}
-
-export function SelectMultipleExamples() {
-  const [tagsValue, setTagsValue] = React.useState<string[]>([
-    'option2',
-    'option3',
-    'option4',
-    'option5',
-    'option1',
-  ]);
-
-  const [inlineTagsValue, setInlineTagsValue] = React.useState<string[]>([
-    'option2',
-    'option3',
-    'option4',
-    'option5',
-    'option1',
-  ]);
-
-  const tagItems = [
-    { label: 'Option 1', value: 'option1' },
-    { label: 'Option 2', value: 'option2' },
-    { label: 'Option 3', value: 'option3' },
-    { label: 'Option 4', value: 'option4' },
-    { label: 'Option 5', value: 'option5' },
-  ];
-
-  const tagsTriggerClass =
-    'h-auto min-h-9 w-[280px] whitespace-normal *:data-[slot=select-value]:line-clamp-none *:data-[slot=select-value]:overflow-visible *:data-[slot=select-value]:whitespace-normal';
-
-  const renderTags = (
-    value: string[],
-    items: { label: string; value: string }[],
-    onRemove: (v: string) => void,
-  ) =>
-    value.length > 0 ? (
-      <span className="flex flex-wrap gap-2">
-        {value.map(v => {
-          const label = items.find(i => i.value === v)?.label ?? v;
-
-          return (
-            <Tag
-              key={v}
-              variant="primary"
-              size="xs"
-              onRemove={() => onRemove(v)}>
-              {label}
-            </Tag>
-          );
-        })}
-      </span>
-    ) : null;
-
-  return (
-    <div className="w-full max-w-sm space-y-8">
-      <FieldSet className={fieldConfig.default.gap}>
-        <FieldTitle className={fieldConfig.default.label}>
-          Open tags wrap
-        </FieldTitle>
-
-        <Select
-          multiple
-          items={tagItems}
-          value={tagsValue}
-          onValueChange={v => setTagsValue(v as string[])}>
-          <SelectTrigger className={tagsTriggerClass}>
-            <SelectValue placeholder="Choose options">
-              {renderTags(tagsValue, tagItems, item =>
-                setTagsValue(v => v.filter(x => x !== item)),
-              )}
-            </SelectValue>
-          </SelectTrigger>
-
-          <SelectContent>
-            {tagItems.map(item => (
-              <SelectCheckboxItem
-                key={item.value}
-                value={item.value}
-                checked={tagsValue.includes(item.value)}
-                counter="01">
-                {item.label}
-              </SelectCheckboxItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        <FieldDescription className={fieldConfig.default.description}>
-          Dismissible tags wrap inside the trigger
-        </FieldDescription>
-      </FieldSet>
-
-      <FieldSet className={fieldConfig.default.gap}>
-        <FieldTitle className={fieldConfig.default.label}>
-          Open tags wrap inline
-        </FieldTitle>
-
-        <Select
-          multiple
-          items={tagItems}
-          value={inlineTagsValue}
-          onValueChange={v => setInlineTagsValue(v as string[])}>
-          <SelectTrigger variant="inline" className={tagsTriggerClass}>
-            <SelectValue placeholder="Choose options">
-              {renderTags(inlineTagsValue, tagItems, item =>
-                setInlineTagsValue(v => v.filter(x => x !== item)),
-              )}
-            </SelectValue>
-          </SelectTrigger>
-
-          <SelectContent>
-            {tagItems.map(item => (
-              <SelectCheckboxItem
-                key={item.value}
-                value={item.value}
-                checked={inlineTagsValue.includes(item.value)}
-                counter="01">
-                {item.label}
-              </SelectCheckboxItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        <FieldDescription className={fieldConfig.default.description}>
-          Inline trigger with dismissible wrapping tags
-        </FieldDescription>
-      </FieldSet>
-    </div>
-  );
-}
-
 export const examples = [
   {
     name: 'SelectDemo',
@@ -894,9 +727,9 @@ export const examples = [
     description: 'Filled single select.',
   },
   {
-    name: 'SelectMultiple',
-    title: 'Multiple',
-    description: 'Multi-select with counter in the trigger.',
+    name: 'SelectInline',
+    title: 'Inline',
+    description: 'Ghost / underline select (Field/SingleSelect-Ghost).',
   },
   {
     name: 'SelectSizes',
@@ -904,20 +737,9 @@ export const examples = [
     description: 'Small, default, and large — filled only.',
   },
   {
-    name: 'SelectInline',
-    title: 'Inline',
-    description: 'Ghost / underline select (Field/SingleSelect-Ghost).',
-  },
-  {
     name: 'SelectHorizontal',
     title: 'Horizontal',
-    description:
-      'SelectGroup/Horizontal — label + inline select, sm / default / lg.',
-  },
-  {
-    name: 'SelectWithDisabled',
-    title: 'With Disabled Option',
-    description: 'Select with a disabled option.',
+    description: 'SelectGroup/Horizontal — label + inline select.',
   },
   {
     name: 'SelectValidation',
@@ -926,24 +748,19 @@ export const examples = [
       'Disabled, error, warning, and success — last rows of the Figma matrix.',
   },
   {
+    name: 'SelectMultiple',
+    title: 'Multiple',
+    description: 'Multi-select with counter in the trigger.',
+  },
+  {
+    name: 'SelectTagsWrap',
+    title: 'Tags wrap',
+    description: 'Multi-select with dismissible tags in the trigger.',
+  },
+  {
     name: 'SelectWithGroups',
-    title: 'Grouped Options',
-    description: 'Select with grouped and labeled options.',
-  },
-  {
-    name: 'SelectMultipleSizes',
-    title: 'Multiple Sizes',
-    description: 'Multi-select default and large checkbox item sizes.',
-  },
-  {
-    name: 'SelectMultipleWithSlots',
-    title: 'Multiple With Slots',
-    description: 'Leading, trailing icons and counter on checkbox items.',
-  },
-  {
-    name: 'SelectMultipleExamples',
-    title: 'Multiple select examples',
-    description: 'Pre-selected, open tags wrap, and inline tags wrap.',
+    title: 'Grouped',
+    description: 'Grouped options with one disabled item.',
   },
 ];
 
@@ -951,15 +768,12 @@ export const select = {
   name: 'select',
   components: {
     Default: <SelectDemo />,
-    Multiple: <SelectMultiple />,
-    Sizes: <SelectSizes />,
     Inline: <SelectInline />,
+    Sizes: <SelectSizes />,
     Horizontal: <SelectHorizontal />,
-    'With Disabled': <SelectWithDisabled />,
     States: <SelectValidation />,
-    'Grouped Options': <SelectWithGroups />,
-    'Multiple Sizes': <SelectMultipleSizes />,
-    'Multiple With Slots': <SelectMultipleWithSlots />,
-    'Multiple select examples': <SelectMultipleExamples />,
+    Multiple: <SelectMultiple />,
+    'Tags wrap': <SelectTagsWrap />,
+    Grouped: <SelectWithGroups />,
   },
 };

@@ -9,12 +9,9 @@ import {
   SelectHorizontal,
   SelectInline,
   SelectMultiple,
-  SelectMultipleExamples,
-  SelectMultipleSizes,
-  SelectMultipleWithSlots,
   SelectSizes,
+  SelectTagsWrap,
   SelectValidation,
-  SelectWithDisabled,
   SelectWithGroups,
 } from '@/app/demo/[name]/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -40,16 +37,13 @@ describe('Select', () => {
   it('renders demos without crash', () => {
     const demos = [
       <SelectDemo key="demo" />,
-      <SelectMultiple key="multiple" />,
-      <SelectSizes key="sizes" />,
       <SelectInline key="inline" />,
+      <SelectSizes key="sizes" />,
       <SelectHorizontal key="horizontal" />,
-      <SelectWithDisabled key="disabled-option" />,
       <SelectValidation key="validation" />,
+      <SelectMultiple key="multiple" />,
+      <SelectTagsWrap key="tags-wrap" />,
       <SelectWithGroups key="groups" />,
-      <SelectMultipleSizes key="multi-sizes" />,
-      <SelectMultipleWithSlots key="multi-slots" />,
-      <SelectMultipleExamples key="multi-examples" />,
     ];
 
     for (const demo of demos) {
