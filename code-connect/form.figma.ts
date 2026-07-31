@@ -56,44 +56,27 @@ const slot3Nodes = instance.getBoolean('showSlot3', {
   false: undefined,
 });
 
-// CC template API: executeTemplate().example is ResultSection[], not a string —
-// cannot .map().join(); index into vars (cap 3 = Form library slot, not a product rule).
-// Treat this snippet as inspiration; build the real form from the Figma design.
 const showSlot4 = instance.getBoolean('showSlot4');
+
 const checkboxItems = showSlot4
-  ? instance.findConnectedInstances(
-      node => node.name === 'CheckboxGroup/Item',
-      { traverseInstances: true },
-    )
+  ? instance
+      .findConnectedInstances(node => node.name === 'CheckboxGroup/Item', {
+        traverseInstances: true,
+      })
+      .map(item => item.executeTemplate().example)
   : [];
 
-let checkbox0: figma.ResultSection[] = [];
-let checkbox1: figma.ResultSection[] = [];
-let checkbox2: figma.ResultSection[] = [];
+const showFooter = instance.getBoolean('hasFooter');
 
-if (checkboxItems[0] && checkboxItems[0].type === 'INSTANCE') {
-  checkbox0 = checkboxItems[0].executeTemplate().example;
+const footerGroup = showFooter
+  ? instance.findInstance('ButtonsGroup/CTAs', { traverseInstances: true })
+  : null;
+
+let footer: figma.ResultSection[] = [];
+
+if (footerGroup && footerGroup.type === 'INSTANCE') {
+  footer = footerGroup.executeTemplate().example;
 }
-
-if (checkboxItems[1] && checkboxItems[1].type === 'INSTANCE') {
-  checkbox1 = checkboxItems[1].executeTemplate().example;
-}
-
-if (checkboxItems[2] && checkboxItems[2].type === 'INSTANCE') {
-  checkbox2 = checkboxItems[2].executeTemplate().example;
-}
-
-const footer = instance.getBoolean('hasFooter', {
-  true: figma.code`
-    <ButtonGroup>
-      <Button type="submit" form="form-demo">Submit</Button>
-      <Button type="button" variant="outline">
-        Cancel
-      </Button>
-    </ButtonGroup>
-  `,
-  false: undefined,
-});
 
 export default {
   example: figma.code`
@@ -123,9 +106,7 @@ export default {
           showSlot4
             ? figma.code`
         <div className="flex flex-col gap-4">
-          ${checkbox0}
-          ${checkbox1}
-          ${checkbox2}
+          ${checkboxItems.flat()}
         </div>
             `
             : ''
@@ -134,15 +115,7 @@ export default {
       ${footer}
     </div>
   `,
-  imports: [
-    'import { Button } from "@/components/ui/button"',
-    'import { ButtonGroup } from "@/components/ui/button-group"',
-    'import { Checkbox } from "@/components/ui/checkbox"',
-    'import { Field, FieldDescription, FieldLabel, FieldSet, FieldTitle } from "@/components/ui/field"',
-    'import { Input } from "@/components/ui/input"',
-    'import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"',
-    'import { Textarea } from "@/components/ui/textarea"',
-  ],
+  imports: [],
   id: 'form',
   metadata: { nestable: false },
 };
