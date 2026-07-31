@@ -72,7 +72,7 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     environment:
-      name: github-pages
+      name: github-pages-preview
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy PR preview to GitHub Pages
