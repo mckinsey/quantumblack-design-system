@@ -1,5 +1,7 @@
 # Deploys production to gh-pages root on main; PR previews to gh-pages/pr-preview/pr-<n>/.
 #
+# Uses git push to gh-pages (no third-party deploy actions).
+#
 # Required repo settings (Settings → Pages):
 #   - Source: Deploy from branch → gh-pages / (root)
 #   - Custom domain: designsystem.quantumblack.com (CNAME copied into production deploy)
@@ -83,23 +85,33 @@ jobs:
           name: dist
           path: dist
 
+      - name: Checkout deploy assets
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            CNAME
+            .github/scripts/deploy-to-gh-pages.sh
+          sparse-checkout-cone-mode: false
+
       - name: Copy CNAME for custom domain
         run: cp CNAME dist/CNAME
 
       - name: Deploy production to gh-pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages
-          folder: dist
-          clean: true
-          clean-exclude: pr-preview
-          force: false
+        run: bash .github/scripts/deploy-to-gh-pages.sh production
+        env:
+          SOURCE_DIR: dist
 
   deploy-preview:
     needs: build
     if: github.event_name == 'pull_request' && github.event.action != 'closed'
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout deploy script
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: .github/scripts/deploy-to-gh-pages.sh
+          sparse-checkout-cone-mode: false
+
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
@@ -107,24 +119,92 @@ jobs:
           path: dist
 
       - name: Deploy PR preview
-        id: preview
-        uses: rossjrw/pr-preview-action@v1
+        run: bash .github/scripts/deploy-to-gh-pages.sh preview
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          SOURCE_DIR: dist
+
+      - name: Comment PR preview URL
+        uses: actions/github-script@v7
+        env:
+          PREVIEW_URL: ${{ format('{0}/pr-preview/pr-{1}/', env.PAGES_BASE_URL, github.event.pull_request.number) }}
         with:
-          source-dir: ./dist
-          preview-branch: gh-pages
-          umbrella-dir: pr-preview
-          pages-base-url: ${{ env.PAGES_BASE_URL }}
-          wait-for-pages-deployment: true
-          action: deploy
+          script: |
+            const marker = '<!-- pr-preview -->';
+            const previewUrl = process.env.PREVIEW_URL;
+            const shortSha = context.sha.slice(0, 7);
+            const body = [
+              marker,
+              '## PR Preview',
+              '',
+              `**Preview URL:** ${previewUrl}`,
+              '',
+              `Deployed from commit \`${shortSha}\`.`,
+            ].join('\n');
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const existing = comments.find((comment) => comment.body?.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
 
   remove-preview:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
     steps:
-      - name: Remove PR preview
-        uses: rossjrw/pr-preview-action@v1
+      - name: Checkout deploy script
+        uses: actions/checkout@v6
         with:
-          preview-branch: gh-pages
-          umbrella-dir: pr-preview
-          pages-base-url: ${{ env.PAGES_BASE_URL }}
-          action: remove
+          sparse-checkout: .github/scripts/deploy-to-gh-pages.sh
+          sparse-checkout-cone-mode: false
+
+      - name: Remove PR preview
+        run: bash .github/scripts/deploy-to-gh-pages.sh remove-preview
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+
+      - name: Comment preview removed
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const marker = '<!-- pr-preview -->';
+            const prNumber = context.issue.number;
+            const body = [
+              marker,
+              '## PR Preview',
+              '',
+              `Preview for PR #${prNumber} was removed.`,
+            ].join('\n');
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            });
+
+            const existing = comments.find((comment) => comment.body?.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            }
