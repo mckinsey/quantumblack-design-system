@@ -71,7 +71,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: dist
-          path: dist
+          path: /tmp/qbds-deploy-dist
 
       - name: Deploy production to gh-pages
         run: |
@@ -89,8 +89,9 @@ jobs:
           [ -d pr-preview ] && cp -a pr-preview "$saved/"
           find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
           [ -d "$saved/pr-preview" ] && cp -a "$saved/pr-preview" .
-          cp -a dist/. .
+          cp -a /tmp/qbds-deploy-dist/. .
           cp /tmp/CNAME CNAME
+          touch .nojekyll
           git add -A
           git diff --staged --quiet || git commit -m "Deploy production from ${GITHUB_SHA}"
           git push origin gh-pages
@@ -143,7 +144,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: dist-preview
-          path: dist
+          path: /tmp/qbds-preview-dist
 
       - name: Deploy preview to gh-pages
         env:
@@ -160,7 +161,7 @@ jobs:
           fi
           rm -rf pr-preview/pr-${PR_NUMBER}
           mkdir -p pr-preview/pr-${PR_NUMBER}
-          cp -a dist/. pr-preview/pr-${PR_NUMBER}/
+          cp -a /tmp/qbds-preview-dist/. pr-preview/pr-${PR_NUMBER}/
           touch .nojekyll
           git add -A
           git diff --staged --quiet || git commit -m "Deploy preview for PR ${PR_NUMBER}"

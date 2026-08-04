@@ -51,7 +51,7 @@ export const router = createBrowserRouter(
     },
   ],
   {
-    // React Router basename must not have a trailing slash; Vite base keeps it for assets.
-    basename: import.meta.env.VITE_BASE_PATH?.replace(/\/$/, '') || '/',
+    // BASE_URL comes from Vite `base`; strip trailing slash for React Router.
+    basename: import.meta.env.BASE_URL.replace(/\/$/, '') || '/',
   },
 );
