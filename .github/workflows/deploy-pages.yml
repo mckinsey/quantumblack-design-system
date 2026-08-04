@@ -1,3 +1,6 @@
+# Production → gh-pages root. PR previews → gh-pages/pr-preview/pr-<n>/.
+#
+# Required (Settings → Pages): Source = Deploy from branch → gh-pages / (root)
 name: Deploy QB Registry to GitHub Pages
 
 on:
@@ -5,54 +8,48 @@ on:
     branches:
       - main
   pull_request:
-    branches:
+    types: [opened, synchronize, reopened, closed]
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
   pull-requests: write
+
 concurrency:
   group: pages-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+env:
+  PAGES_BASE_URL: ${{ vars.QBDS_REGISTRY_URL || 'https://designsystem.quantumblack.com' }}
+
 jobs:
   build:
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     env:
-      # Previews resolve install commands from the browser origin at runtime.
-      QBDS_REGISTRY_URL: ${{ github.event_name != 'pull_request' && vars.QBDS_REGISTRY_URL || '' }}
+      QBDS_REGISTRY_URL: ${{ vars.QBDS_REGISTRY_URL || '' }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
+      - uses: actions/checkout@v6
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
+      - uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
 
-      - name: Cache node modules
-        uses: actions/cache@v5
+      - uses: actions/cache@v5
         with:
           path: ~/.npm
           key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-npm-
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
+      - run: npm run build
+      - run: cp dist/index.html dist/404.html
+      - run: touch dist/.nojekyll
 
-      - name: Build
-        run: npm run build
-
-      - name: Copy index.html to 404.html for SPA routing
-        run: cp dist/index.html dist/404.html
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
+          name: dist
           path: dist
 
   deploy:
@@ -61,22 +58,132 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ env.PAGES_BASE_URL }}
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - uses: actions/checkout@v6
+        with:
+          sparse-checkout: CNAME
+          sparse-checkout-cone-mode: false
+
+      - name: Deploy production to gh-pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          dir=$(mktemp -d)
+          git init -b gh-pages "$dir"
+          git -C "$dir" remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git -C "$dir" fetch origin gh-pages --depth=1 2>/dev/null && git -C "$dir" reset --hard origin/gh-pages || true
+          saved=$(mktemp -d)
+          [ -d "$dir/pr-preview" ] && cp -a "$dir/pr-preview" "$saved/"
+          find "$dir" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          [ -d "$saved/pr-preview" ] && cp -a "$saved/pr-preview" "$dir/"
+          cp -a dist/. "$dir/"
+          cp CNAME "$dir/CNAME"
+          git -C "$dir" add -A
+          git -C "$dir" diff --staged --quiet || git -C "$dir" commit -m "Deploy production from ${GITHUB_SHA}"
+          git -C "$dir" push origin gh-pages
+
+  build-preview:
+    if: github.event_name == 'pull_request' && github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    env:
+      # Previews resolve install commands from the browser origin at runtime.
+      VITE_BASE_PATH: ${{ format('/pr-preview/pr-{0}/', github.event.pull_request.number) }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+
+      - uses: actions/cache@v5
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - run: npm ci
+      - run: npm run build
+      - run: cp dist/index.html dist/404.html
+      - run: touch dist/.nojekyll
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-preview
+          path: dist
 
   deploy-preview:
-    needs: build
-    if: github.event_name == 'pull_request'
+    needs: build-preview
     runs-on: ubuntu-latest
     environment:
       name: github-pages-preview
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ format('{0}/pr-preview/pr-{1}/', env.PAGES_BASE_URL, github.event.pull_request.number) }}
     steps:
-      - name: Deploy PR preview to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - uses: actions/download-artifact@v4
         with:
-          preview: true
+          name: dist-preview
+          path: dist
+
+      - name: Deploy preview to gh-pages
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          dir=$(mktemp -d)
+          git init -b gh-pages "$dir"
+          git -C "$dir" remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git -C "$dir" fetch origin gh-pages --depth=1 2>/dev/null && git -C "$dir" reset --hard origin/gh-pages || true
+          rm -rf "$dir/pr-preview/pr-${PR_NUMBER}"
+          mkdir -p "$dir/pr-preview/pr-${PR_NUMBER}"
+          cp -a dist/. "$dir/pr-preview/pr-${PR_NUMBER}/"
+          git -C "$dir" add -A
+          git -C "$dir" diff --staged --quiet || git -C "$dir" commit -m "Deploy preview for PR ${PR_NUMBER}"
+          git -C "$dir" push origin gh-pages
+
+      - uses: actions/github-script@v7
+        env:
+          PREVIEW_URL: ${{ format('{0}/pr-preview/pr-{1}/', env.PAGES_BASE_URL, github.event.pull_request.number) }}
+        with:
+          script: |
+            const marker = '<!-- pr-preview -->';
+            const body = [marker, '## PR Preview', '', `**Preview URL:** ${process.env.PREVIEW_URL}`].join('\n');
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: context.issue.number,
+            });
+            const existing = comments.find((c) => c.body?.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner, repo: context.repo.repo, comment_id: existing.id, body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo, issue_number: context.issue.number, body,
+              });
+            }
+
+  remove-preview:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove preview from gh-pages
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          dir=$(mktemp -d)
+          git init -b gh-pages "$dir"
+          git -C "$dir" remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git -C "$dir" fetch origin gh-pages --depth=1
+          git -C "$dir" reset --hard origin/gh-pages
+          rm -rf "$dir/pr-preview/pr-${PR_NUMBER}"
+          git -C "$dir" add -A
+          git -C "$dir" diff --staged --quiet || git -C "$dir" commit -m "Remove preview for PR ${PR_NUMBER}"
+          git -C "$dir" push origin gh-pages
