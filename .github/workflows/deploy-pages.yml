@@ -161,6 +161,7 @@ jobs:
           rm -rf pr-preview/pr-${PR_NUMBER}
           mkdir -p pr-preview/pr-${PR_NUMBER}
           cp -a dist/. pr-preview/pr-${PR_NUMBER}/
+          touch .nojekyll
           git add -A
           git diff --staged --quiet || git commit -m "Deploy preview for PR ${PR_NUMBER}"
           git push origin gh-pages

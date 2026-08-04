@@ -159,7 +159,9 @@ export async function getComponentAPI(
   try {
     // In production, this would be a fetch to the public/api directory
     // For now, we'll return null and let the component handle the fallback
-    const response = await fetch(`/api/${componentName}.json`);
+    const response = await fetch(
+      `${import.meta.env.BASE_URL}api/${componentName}.json`,
+    );
     if (!response.ok) {
       return null;
     }
