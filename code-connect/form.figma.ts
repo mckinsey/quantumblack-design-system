@@ -80,6 +80,7 @@ if (footerGroup && footerGroup.type === 'INSTANCE') {
 
 export default {
   example: figma.code`
+    {/* Outer shell widths/gaps are demo chrome (hardcoded). Adapt max-w / min-w / gap to your layout — Form is a composition recipe, not an exported component. */}
     <div className="flex w-full max-w-[480px] min-w-[320px] flex-col gap-8 py-4">
       ${header}
       <form id="form-demo" data-layout="${layout}" className="flex w-full max-w-[420px] flex-col gap-8">
