@@ -92,7 +92,8 @@ jobs:
     if: github.event_name == 'pull_request' && github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     env:
-      # Previews resolve install commands from the browser origin at runtime.
+      # Empty string → inject-registry-urls uses relative URLs; runtime uses preview origin.
+      QBDS_REGISTRY_URL: ''
       VITE_BASE_PATH: ${{ format('/pr-preview/pr-{0}/', github.event.pull_request.number) }}
     steps:
       - uses: actions/checkout@v6
