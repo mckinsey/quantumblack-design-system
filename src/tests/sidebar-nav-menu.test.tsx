@@ -211,9 +211,11 @@ describe('SidebarNavMenu — overlay mode', () => {
       </NavShell>,
     );
 
+    const nav = document.querySelector('[data-slot="sidebar-nav"]');
     const menu = document.querySelector('[data-slot="sidebar-nav-menu"]');
-    expect(menu).toHaveClass('right-(--sidebar-width-icon)');
-    expect(menu).not.toHaveClass('left-(--sidebar-width-icon)');
+    expect(nav).toHaveAttribute('data-side', 'right');
+    expect(menu).toHaveAttribute('data-mode', 'overlay');
+    expect(menu).toHaveAttribute('data-state', 'open');
   });
 });
 

@@ -1,6 +1,18 @@
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
+const switchLabelClass = {
+  sm: 'paragraph-small-primary',
+  default: 'label-regular-primary',
+  lg: 'label-large-primary',
+} as const;
+
+const switchLabelGap = {
+  sm: 'gap-2',
+  default: 'gap-3',
+  lg: 'gap-3',
+} as const;
+
 // ============================================================================
 // Example Components (New Format)
 // ============================================================================
@@ -10,9 +22,11 @@ import { Switch } from '@/components/ui/switch';
  */
 export function SwitchDemo() {
   return (
-    <div className="flex items-center space-x-2">
+    <div className={`flex items-center ${switchLabelGap.default}`}>
       <Switch id="airplane-mode" />
-      <Label htmlFor="airplane-mode">Airplane Mode</Label>
+      <Label htmlFor="airplane-mode" className={switchLabelClass.default}>
+        Airplane Mode
+      </Label>
     </div>
   );
 }
@@ -23,19 +37,21 @@ export function SwitchDemo() {
 export function SwitchSizes() {
   return (
     <div className="space-y-4">
-      <div className="flex items-center space-x-2">
+      <div className={`flex items-center ${switchLabelGap.sm}`}>
         <Switch id="switch-sm" size="sm" />
-        <Label htmlFor="switch-sm" size="sm">
+        <Label htmlFor="switch-sm" className={switchLabelClass.sm}>
           Small
         </Label>
       </div>
-      <div className="flex items-center space-x-2">
+      <div className={`flex items-center ${switchLabelGap.default}`}>
         <Switch id="switch-default" size="default" />
-        <Label htmlFor="switch-default">Default</Label>
+        <Label htmlFor="switch-default" className={switchLabelClass.default}>
+          Default
+        </Label>
       </div>
-      <div className="flex items-center space-x-2">
+      <div className={`flex items-center ${switchLabelGap.lg}`}>
         <Switch id="switch-lg" size="lg" />
-        <Label htmlFor="switch-lg" size="lg">
+        <Label htmlFor="switch-lg" className={switchLabelClass.lg}>
           Large
         </Label>
       </div>
@@ -49,19 +65,21 @@ export function SwitchSizes() {
 export function SwitchChecked() {
   return (
     <div className="space-y-4">
-      <div className="flex items-center space-x-2">
+      <div className={`flex items-center ${switchLabelGap.sm}`}>
         <Switch id="checked-sm" size="sm" checked />
-        <Label htmlFor="checked-sm" size="sm">
+        <Label htmlFor="checked-sm" className={switchLabelClass.sm}>
           Small Checked
         </Label>
       </div>
-      <div className="flex items-center space-x-2">
+      <div className={`flex items-center ${switchLabelGap.default}`}>
         <Switch id="checked-default" size="default" checked />
-        <Label htmlFor="checked-default">Default Checked</Label>
+        <Label htmlFor="checked-default" className={switchLabelClass.default}>
+          Default Checked
+        </Label>
       </div>
-      <div className="flex items-center space-x-2">
+      <div className={`flex items-center ${switchLabelGap.lg}`}>
         <Switch id="checked-lg" size="lg" checked />
-        <Label htmlFor="checked-lg" size="lg">
+        <Label htmlFor="checked-lg" className={switchLabelClass.lg}>
           Large Checked
         </Label>
       </div>
@@ -75,13 +93,13 @@ export function SwitchChecked() {
 export function SwitchDisabled() {
   return (
     <div className="space-y-4">
-      <div className="flex items-center space-x-2">
+      <div className={`flex items-center ${switchLabelGap.default}`}>
         <Switch id="disabled-off" disabled />
         <Label htmlFor="disabled-off" disabled>
           Disabled Off
         </Label>
       </div>
-      <div className="flex items-center space-x-2">
+      <div className={`flex items-center ${switchLabelGap.default}`}>
         <Switch id="disabled-on" disabled checked />
         <Label htmlFor="disabled-on" disabled>
           Disabled On
@@ -98,7 +116,9 @@ export function SwitchStates() {
   return (
     <div className="grid grid-cols-2 gap-x-10 gap-y-8">
       <div className="space-y-4">
-        <Label className="text-fg-secondary text-xs">Unchecked</Label>
+        <Label className="paragraph-small-primary text-fg-secondary">
+          Unchecked
+        </Label>
         <div className="flex flex-col items-start gap-3">
           <div>
             <Switch size="sm" />
@@ -112,7 +132,9 @@ export function SwitchStates() {
         </div>
       </div>
       <div className="space-y-4">
-        <Label className="text-fg-secondary text-xs">Checked</Label>
+        <Label className="paragraph-small-primary text-fg-secondary">
+          Checked
+        </Label>
         <div className="flex flex-col items-start gap-3">
           <div>
             <Switch size="sm" checked />
@@ -126,7 +148,9 @@ export function SwitchStates() {
         </div>
       </div>
       <div className="space-y-4">
-        <Label className="text-fg-secondary text-xs">Disabled Off</Label>
+        <Label className="paragraph-small-primary text-fg-secondary">
+          Disabled Off
+        </Label>
         <div className="flex flex-col items-start gap-3">
           <div>
             <Switch size="sm" disabled />
@@ -140,7 +164,9 @@ export function SwitchStates() {
         </div>
       </div>
       <div className="space-y-4">
-        <Label className="text-fg-secondary text-xs">Disabled On</Label>
+        <Label className="paragraph-small-primary text-fg-secondary">
+          Disabled On
+        </Label>
         <div className="flex flex-col items-start gap-3">
           <div>
             <Switch size="sm" disabled checked />

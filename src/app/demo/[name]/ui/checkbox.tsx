@@ -50,7 +50,7 @@ export function CheckboxDemo() {
  */
 export function CheckboxGroupItem() {
   return (
-    <FieldSet>
+    <FieldSet className="gap-6">
       <FieldLegend variant="label">CheckboxGroup/Item</FieldLegend>
       <FieldDescription>
         Three variants: unchecked, checked, indeterminate.
@@ -108,7 +108,7 @@ export function CheckboxGroupItem() {
  */
 export function CheckboxItemSizes() {
   return (
-    <FieldSet>
+    <FieldSet className="gap-6">
       <FieldLegend variant="label">Checkbox item sizes</FieldLegend>
       <FieldDescription>
         Checkbox item with label and suffix at small, default, and large sizes.
@@ -207,7 +207,7 @@ export function CheckboxItemGroup() {
   const countLabel = `${selectedIds.size}/${CHECKBOX_GROUP_ITEMS.length}`;
 
   return (
-    <FieldSet>
+    <FieldSet className="gap-6">
       <Field
         orientation="horizontal"
         className="border-stroke-divider w-[220px] gap-2 border-b pt-2 pb-3">
@@ -466,7 +466,7 @@ export function CheckboxItemGroupSection() {
   }
 
   return (
-    <FieldSet>
+    <FieldSet className="gap-6">
       <FieldLegend variant="label">Checkbox Item Group Section</FieldLegend>
       <FieldDescription>
         2 densities × 3 sizes (6 variants). Row 1: compact. Row 2: relaxed.
@@ -516,7 +516,7 @@ export function CheckboxItemGroupSection() {
  */
 export function CheckboxSizes() {
   return (
-    <FieldSet>
+    <FieldSet className="gap-6">
       <FieldLegend variant="label">Checkbox sizes</FieldLegend>
       <FieldDescription>Default and large.</FieldDescription>
       <FieldGroup data-slot="checkbox-group" className="gap-3">
