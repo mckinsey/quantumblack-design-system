@@ -1,0 +1,110 @@
+[
+  {
+    "displayName": "Badge",
+    "description": "",
+    "props": {
+      "variant": {
+        "type": "\"high-emphasis\" | \"brand-accent\" | \"alternative\" | \"error\" | \"warning\" | \"success\"",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "size": {
+        "type": "\"default\" | \"sm\" | \"lg\"",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      },
+      "outline": {
+        "type": "boolean",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "asChild": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      "withIcon": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      "withDot": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "NumericBadge",
+    "description": "",
+    "props": {
+      "withIcon": {
+        "type": "boolean",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "withDot": {
+        "type": "boolean",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "asChild": {
+        "type": "boolean",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "variant": {
+        "type": "\"primary\" | \"secondary\" | \"accent\"",
+        "defaultValue": "primary",
+        "description": "",
+        "required": false
+      },
+      "size": {
+        "type": "\"default\" | \"sm\" | \"lg\"",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      },
+      "outline": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "StatusBadge",
+    "description": "",
+    "props": {
+      "variant": {
+        "type": "StatusBadgeDotVariant",
+        "defaultValue": "neutral",
+        "description": "",
+        "required": false
+      },
+      "size": {
+        "type": "StatusBadgeDotSize",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      },
+      "outline": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      }
+    }
+  }
+]

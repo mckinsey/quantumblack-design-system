@@ -1,0 +1,30 @@
+[
+  {
+    "name": "ToggleDemo",
+    "code": "import { Toggle } from '@/components/ui/toggle';\n\nexport function ToggleDemo() {\n  return <Toggle>Toggle</Toggle>;\n}"
+  },
+  {
+    "name": "ToggleVariants",
+    "code": "import { Toggle } from '@/components/ui/toggle';\n\nconst toggleVariants = ['secondary', 'outline', 'ghost'] as const;\n\nexport function ToggleVariants() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-3\">\n      {toggleVariants.map(v => (\n        <Toggle key={v} variant={v}>\n          {v.charAt(0).toUpperCase() + v.slice(1)}\n        </Toggle>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "ToggleSizes",
+    "code": "import { Toggle } from '@/components/ui/toggle';\n\nexport function ToggleSizes() {\n  const sizes = [\n    {\n      size: 'xxs',\n      label: 'XXS',\n    },\n    {\n      size: 'xs',\n      label: 'Extra Small',\n    },\n    {\n      size: 'sm',\n      label: 'Small',\n    },\n    {\n      size: 'default',\n      label: 'Default',\n    },\n    {\n      size: 'lg',\n      label: 'Large',\n    },\n  ] as const;\n  return (\n    <div className=\"flex flex-wrap items-center gap-3\">\n      {sizes.map(s => (\n        <Toggle key={s.size} size={s.size}>\n          {s.label}\n        </Toggle>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "TogglePressed",
+    "code": "import { Toggle } from '@/components/ui/toggle';\n\nconst toggleVariants = ['secondary', 'outline', 'ghost'] as const;\n\nexport function TogglePressed() {\n  return (\n    <div className=\"space-y-4\">\n      <div className=\"flex flex-wrap items-center gap-3\">\n        {toggleVariants.map(v => (\n          <Toggle key={v} variant={v}>\n            Off\n          </Toggle>\n        ))}\n      </div>\n      <div className=\"flex flex-wrap items-center gap-3\">\n        {toggleVariants.map(v => (\n          <Toggle key={v} variant={v} pressed={true}>\n            On\n          </Toggle>\n        ))}\n      </div>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "ToggleIcons",
+    "code": "import { Icon } from '@/components/ui/icon';\nimport { IconShell } from '@/components/ui/icon-shell';\nimport { Toggle } from '@/components/ui/toggle';\n\nconst iconToggleVariants = ['secondary', 'outline', 'ghost'] as const;\n\nfunction IconToggleRow({ className }: { className?: string }) {\n  return (\n    <div className=\"flex flex-wrap items-center gap-3\">\n      {iconToggleVariants.map(variant => (\n        <Toggle\n          key={variant}\n          variant={variant}\n          size=\"icon\"\n          className={className}>\n          <IconShell size=\"sm\" hoverable>\n            <Icon icon=\"crop_free\" />\n          </IconShell>\n        </Toggle>\n      ))}\n    </div>\n  );\n}\n\nexport function ToggleIcons() {\n  return <IconToggleRow />;\n}"
+  },
+  {
+    "name": "ToggleIconsRound",
+    "code": "import { Icon } from '@/components/ui/icon';\nimport { IconShell } from '@/components/ui/icon-shell';\nimport { Toggle } from '@/components/ui/toggle';\n\nconst iconToggleVariants = ['secondary', 'outline', 'ghost'] as const;\n\nfunction IconToggleRow({ className }: { className?: string }) {\n  return (\n    <div className=\"flex flex-wrap items-center gap-3\">\n      {iconToggleVariants.map(variant => (\n        <Toggle\n          key={variant}\n          variant={variant}\n          size=\"icon\"\n          className={className}>\n          <IconShell size=\"sm\" hoverable>\n            <Icon icon=\"crop_free\" />\n          </IconShell>\n        </Toggle>\n      ))}\n    </div>\n  );\n}\n\nexport function ToggleIconsRound() {\n  return <IconToggleRow className=\"rounded-full\" />;\n}"
+  },
+  {
+    "name": "ToggleIconSizes",
+    "code": "import { Icon } from '@/components/ui/icon';\nimport { IconShell } from '@/components/ui/icon-shell';\nimport { Toggle } from '@/components/ui/toggle';\n\nexport function ToggleIconSizes() {\n  const sizes = [\n    {\n      size: 'icon-xxs',\n      iconSize: 'sm',\n    },\n    {\n      size: 'icon-xs',\n      iconSize: 'sm',\n    },\n    {\n      size: 'icon-sm',\n      iconSize: 'sm',\n    },\n    {\n      size: 'icon',\n      iconSize: 'sm',\n    },\n    {\n      size: 'icon-lg',\n      iconSize: 'default',\n    },\n  ] as const;\n  return (\n    <div className=\"flex flex-wrap items-center gap-3\">\n      {sizes.map(({ size, iconSize }) => (\n        <Toggle key={size} variant=\"secondary\" size={size}>\n          <IconShell size={iconSize}>\n            <Icon icon=\"crop_free\" />\n          </IconShell>\n        </Toggle>\n      ))}\n    </div>\n  );\n}"
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "displayName": "Toggle",
+    "description": "",
+    "props": {
+      "variant": {
+        "type": "ToggleVariant",
+        "defaultValue": "secondary",
+        "description": "",
+        "required": false
+      },
+      "size": {
+        "type": "ToggleSize",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "toggleVariants",
+    "description": "",
+    "props": {
+      "variant": {
+        "type": "ToggleVariant",
+        "defaultValue": "secondary",
+        "description": "",
+        "required": false
+      },
+      "size": {
+        "type": "ToggleSize",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      },
+      "className": {
+        "type": "string",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "displayName": "Slider",
+    "description": "",
+    "props": {
+      "showStepMarkers": {
+        "type": "boolean",
+        "defaultValue": "false",
+        "description": "",
+        "required": false
+      },
+      "showValueTooltip": {
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      "showStepLabels": {
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      },
+      "formatValue": {
+        "type": "(value: number) => string",
+        "defaultValue": "val => val.toString()",
+        "description": "",
+        "required": false
+      },
+      "onValueChange": {
+        "type": "(value: number[]) => void",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  }
+]

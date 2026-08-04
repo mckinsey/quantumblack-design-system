@@ -1,0 +1,26 @@
+[
+  {
+    "displayName": "Checkbox",
+    "description": "Checkbox component for binary or tri-state selection.\n\nSupports checked, unchecked, and indeterminate states.\nBuilt on Radix UI Checkbox primitive for accessibility.",
+    "props": {
+      "size": {
+        "type": "\"default\" | \"lg\"",
+        "defaultValue": "default",
+        "description": "The size of the checkbox.\n- `default`: 16px visible box (20px bounding box)\n- `lg`: 20px visible box (24px bounding box)",
+        "required": false
+      },
+      "checked": {
+        "type": "boolean | \"indeterminate\"",
+        "defaultValue": null,
+        "description": "The controlled checked state. Can be true, false, or \"indeterminate\".",
+        "required": false
+      },
+      "defaultChecked": {
+        "type": "boolean | \"indeterminate\"",
+        "defaultValue": null,
+        "description": "The default checked state for uncontrolled usage.",
+        "required": false
+      }
+    }
+  }
+]

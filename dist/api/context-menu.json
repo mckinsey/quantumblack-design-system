@@ -1,0 +1,124 @@
+[
+  {
+    "displayName": "ContextMenu",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ContextMenuPortal",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ContextMenuTrigger",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ContextMenuContent",
+    "description": "",
+    "props": {
+      "onOpenAutoFocus": {
+        "type": "(event: Event) => void",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "size": {
+        "type": "ContextMenuSize",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "ContextMenuGroup",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ContextMenuLabel",
+    "description": "",
+    "props": {
+      "inset": {
+        "type": "boolean",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "ContextMenuItem",
+    "description": "",
+    "props": {
+      "inset": {
+        "type": "boolean",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "variant": {
+        "type": "\"default\" | \"destructive\"",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "ContextMenuCheckboxItem",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ContextMenuRadioGroup",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ContextMenuRadioItem",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ContextMenuSeparator",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ContextMenuShortcut",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ContextMenuSub",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ContextMenuSubTrigger",
+    "description": "",
+    "props": {
+      "inset": {
+        "type": "boolean",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "ContextMenuSubContent",
+    "description": "",
+    "props": {
+      "size": {
+        "type": "ContextMenuSize",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  }
+]

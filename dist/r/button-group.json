@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button-group",
+  "title": "Button Group",
+  "description": "Groups related buttons together with a constant 12px QBDS gap. Supports horizontal and vertical orientation.",
+  "dependencies": [
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "/r/theme.json",
+    "/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/button-group.tsx",
+      "content": "import { type VariantProps, cva } from 'class-variance-authority';\nimport type * as React from 'react';\n\nimport { cn } from '@/lib/utils';\n\nconst buttonGroupVariants = cva('flex w-fit gap-3', {\n  variants: {\n    orientation: {\n      horizontal: 'flex-row items-center',\n      vertical: 'flex-col items-stretch',\n    },\n  },\n  defaultVariants: {\n    orientation: 'horizontal',\n  },\n});\n\ninterface ButtonGroupProps\n  extends\n    React.ComponentProps<'div'>,\n    VariantProps<typeof buttonGroupVariants> {}\n\n/**\n * Groups related buttons together with consistent QBDS spacing.\n *\n * Place `Button` children inside and choose their variants (e.g. a primary\n * action paired with a secondary or ghost action). The group only controls\n * layout: `orientation` for direction with a constant 12px gap. Size the\n * child `Button`s directly.\n *\n * @example\n * ```tsx\n * <ButtonGroup>\n *   <Button variant=\"default\">Save</Button>\n *   <Button variant=\"ghost\">Cancel</Button>\n * </ButtonGroup>\n * ```\n */\nfunction ButtonGroup({ className, orientation, ...props }: ButtonGroupProps) {\n  return (\n    <div\n      data-slot=\"button-group\"\n      role=\"group\"\n      className={cn(buttonGroupVariants({ orientation }), className)}\n      {...props}\n    />\n  );\n}\n\nexport { ButtonGroup, buttonGroupVariants, type ButtonGroupProps };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

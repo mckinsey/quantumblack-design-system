@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "aspect-ratio",
+  "title": "Aspect Ratio",
+  "description": "Constrains content to a fixed width-to-height ratio — ideal for images, video placeholders, and media cards.",
+  "dependencies": [
+    "@radix-ui/react-aspect-ratio"
+  ],
+  "registryDependencies": [
+    "/r/theme.json"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/aspect-ratio.tsx",
+      "content": "'use client';\n\nimport * as AspectRatioPrimitive from '@radix-ui/react-aspect-ratio';\nimport type * as React from 'react';\n\nfunction AspectRatio({\n  ...props\n}: React.ComponentProps<typeof AspectRatioPrimitive.Root>) {\n  return <AspectRatioPrimitive.Root data-slot=\"aspect-ratio\" {...props} />;\n}\n\nexport { AspectRatio };\n",
+      "type": "registry:file",
+      "target": "components/ui/aspect-ratio.tsx"
+    }
+  ],
+  "type": "registry:ui"
+}

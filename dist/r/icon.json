@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icon",
+  "title": "Icon",
+  "description": "Material Symbols Sharp icon via variable font. Optical-size-matched per QBDS size (sm/default/lg).",
+  "registryDependencies": [
+    "/r/theme.json",
+    "/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/icon.tsx",
+      "content": "import * as React from 'react';\n\nimport { cn } from '@/lib/utils';\n\nexport type IconSize = 'sm' | 'default' | 'lg';\n\nexport const IconSizeContext = React.createContext<IconSize | undefined>(\n  undefined,\n);\n\n// QBDS optical-size contract: 20dp@400 → sm, 24dp@300 → default, 40dp@300 → lg.\nconst SIZE_MAP: Record<\n  IconSize,\n  { fontSize: number; weight: number; opticalSize: number }\n> = {\n  sm: { fontSize: 16, weight: 400, opticalSize: 20 },\n  default: { fontSize: 24, weight: 300, opticalSize: 24 },\n  lg: { fontSize: 32, weight: 300, opticalSize: 40 },\n};\n\n/** Match legacy SVG slots that only set Tailwind box utilities (e.g. size-4). */\nfunction inferIconSize(className?: string): IconSize | undefined {\n  if (!className) return undefined;\n  if (/\\b(?:size|h)-8\\b/.test(className)) return 'lg';\n  if (/\\b(?:size|h)-6\\b/.test(className)) return 'default';\n  if (/\\b(?:size|h)-(?:4|5)\\b/.test(className)) return 'sm';\n  return undefined;\n}\n\nfunction Icon({\n  icon,\n  size: sizeProp,\n  className,\n  style,\n  ...props\n}: React.ComponentProps<'span'> & {\n  icon: string;\n  size?: IconSize;\n}) {\n  const sizeFromShell = React.useContext(IconSizeContext);\n  const size =\n    sizeProp ?? sizeFromShell ?? inferIconSize(className) ?? 'default';\n  const { fontSize, weight, opticalSize } = SIZE_MAP[size];\n\n  return (\n    <span\n      data-slot=\"icon-glyph\"\n      aria-hidden\n      className={cn(\n        'material-symbols-sharp inline-flex shrink-0 items-center justify-center leading-none',\n        className,\n      )}\n      style={{\n        fontSize,\n        width: fontSize,\n        height: fontSize,\n        lineHeight: `${fontSize}px`,\n        fontVariationSettings: `'FILL' 0, 'wght' ${weight}, 'opsz' ${opticalSize}`,\n        ...style,\n      }}\n      {...props}>\n      {icon}\n    </span>\n  );\n}\n\nexport { Icon, SIZE_MAP, inferIconSize };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "css": {
+    "@import": "url('https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,300..400,0,0&display=block')",
+    "@layer base": {
+      ".material-symbols-sharp": {
+        "font-family": "'Material Symbols Sharp'",
+        "font-weight": "normal",
+        "font-style": "normal",
+        "letter-spacing": "normal",
+        "text-transform": "none",
+        "white-space": "nowrap",
+        "word-wrap": "normal",
+        "direction": "ltr",
+        "font-feature-settings": "'liga'",
+        "-webkit-font-smoothing": "antialiased"
+      }
+    }
+  },
+  "type": "registry:ui"
+}

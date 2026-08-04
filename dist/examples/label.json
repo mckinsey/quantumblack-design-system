@@ -1,0 +1,14 @@
+[
+  {
+    "name": "LabelDemo",
+    "code": "import { Checkbox } from '@/components/ui/checkbox';\nimport { Label } from '@/components/ui/label';\n\nexport function LabelDemo() {\n  return (\n    <div className=\"flex items-center gap-3\">\n      <Checkbox id=\"terms\" />\n      <Label htmlFor=\"terms\">Label</Label>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "LabelSizes",
+    "code": "import { Checkbox } from '@/components/ui/checkbox';\nimport { Label } from '@/components/ui/label';\n\nexport function LabelSizes() {\n  return (\n    <div className=\"space-y-4\">\n      <div className=\"flex items-center gap-3\">\n        <Checkbox id=\"terms-sm\" />\n        <Label htmlFor=\"terms-sm\" size=\"sm\">\n          Label small\n        </Label>\n      </div>\n      <div className=\"flex items-center gap-3\">\n        <Checkbox id=\"terms-default\" />\n        <Label htmlFor=\"terms-default\">Label regular</Label>\n      </div>\n      <div className=\"flex items-center gap-3\">\n        <Checkbox id=\"terms-lg\" size=\"lg\" />\n        <Label htmlFor=\"terms-lg\" size=\"lg\">\n          Label large\n        </Label>\n      </div>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "LabelDisabled",
+    "code": "import { Checkbox } from '@/components/ui/checkbox';\nimport { Label } from '@/components/ui/label';\n\nexport function LabelDisabled() {\n  return (\n    <div className=\"space-y-4\">\n      <div className=\"flex items-center gap-3\">\n        <Checkbox id=\"disabled-sm\" disabled />\n        <Label disabled htmlFor=\"disabled-sm\" size=\"sm\">\n          Label disabled small\n        </Label>\n      </div>\n      <div className=\"flex items-center gap-3\">\n        <Checkbox id=\"disabled-default\" disabled />\n        <Label disabled htmlFor=\"disabled-default\">\n          Label disabled default\n        </Label>\n      </div>\n      <div className=\"flex items-center gap-3\">\n        <Checkbox id=\"disabled-lg\" disabled size=\"lg\" />\n        <Label disabled htmlFor=\"disabled-lg\" size=\"lg\">\n          Label disabled large\n        </Label>\n      </div>\n    </div>\n  );\n}"
+  }
+]

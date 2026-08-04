@@ -1,0 +1,17 @@
+[
+  {
+    "displayName": "Collapsible",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "CollapsibleTrigger",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "CollapsibleContent",
+    "description": "",
+    "props": {}
+  }
+]

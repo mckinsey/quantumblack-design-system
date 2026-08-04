@@ -1,0 +1,20 @@
+[
+  {
+    "displayName": "Button",
+    "description": "",
+    "props": {
+      "variant": {
+        "type": "\"default\" | \"accent\" | \"secondary\" | \"outline\" | \"ghost\"",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      },
+      "size": {
+        "type": "\"default\" | \"xxs\" | \"xs\" | \"sm\" | \"lg\" | \"icon-xxs\" | \"icon-xs\" | \"icon-sm\" | \"icon\" | \"icon-lg\"",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      }
+    }
+  }
+]

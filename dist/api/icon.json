@@ -1,0 +1,30 @@
+[
+  {
+    "displayName": "IconSizeContext",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "Icon",
+    "description": "",
+    "props": {
+      "icon": {
+        "type": "string",
+        "defaultValue": null,
+        "description": "",
+        "required": true
+      },
+      "size": {
+        "type": "IconSize",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "inferIconSize",
+    "description": "Match legacy SVG slots that only set Tailwind box utilities (e.g. size-4).",
+    "props": {}
+  }
+]

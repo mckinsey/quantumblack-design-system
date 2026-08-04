@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tag-toggle",
+  "title": "Tag Toggle",
+  "description": "A toggleable tag with icons, pill shape, and sizes. Built on Base UI Toggle.",
+  "dependencies": [
+    "@base-ui/react"
+  ],
+  "registryDependencies": [
+    "/r/theme.json",
+    "/r/utils.json",
+    "/r/tag.json"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/tag-toggle.tsx",
+      "content": "'use client';\n\nimport { Toggle as TogglePrimitive } from '@base-ui/react/toggle';\nimport type { VariantProps } from 'class-variance-authority';\n\nimport {\n  tagBaseStyles,\n  tagSizeVariants,\n  wrapTagText,\n} from '@/components/ui/tag';\nimport { cn } from '@/lib/utils';\n\ntype TagToggleVariant = 'default' | 'outline';\n\ntype TagToggleSize = 'xs' | 'sm' | 'default' | 'lg';\n\nconst hoverOverlay =\n  'hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-hover),var(--color-stateslayer-overlay-hover))] disabled:hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled),var(--color-stateslayer-overlay-disabled))]!';\n\nconst pressedOverlay =\n  'active:[background-image:linear-gradient(var(--color-stateslayer-overlay-pressed),var(--color-stateslayer-overlay-pressed))] disabled:active:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled),var(--color-stateslayer-overlay-disabled))]!';\n\nconst disabledOverlay =\n  'disabled:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled),var(--color-stateslayer-overlay-disabled))]';\n\nconst nonPillPadding = {\n  xs: '!pl-1 !pr-2',\n  sm: '!pl-1 !pr-2',\n  default: '!pl-1 !pr-2',\n  lg: '!px-2',\n} as const;\n\nconst pillPadding = {\n  xs: '!pl-1 !pr-2',\n  sm: '!pl-2 !pr-3',\n  default: '!pl-2 !pr-3',\n  lg: '!pl-2 !pr-3',\n} as const;\n\nfunction tagToggleClasses({\n  variant = 'default',\n  size = 'default',\n  pill,\n  className,\n}: {\n  variant?: TagToggleVariant;\n  size?: TagToggleSize;\n  pill?: VariantProps<typeof tagSizeVariants>['pill'];\n  className?: string;\n} = {}) {\n  return cn(\n    tagSizeVariants({ size, pill }),\n\n    'gap-1',\n    pill !== true && nonPillPadding[size],\n    pill === true && pillPadding[size],\n\n    ...tagBaseStyles('disabled'),\n    'cursor-pointer group',\n    'disabled:text-fg-disabled',\n\n    variant === 'default' && [\n      'bg-fill-muted text-fg-primary',\n      hoverOverlay,\n      pressedOverlay,\n      disabledOverlay,\n      'focus-visible:bg-fill-muted',\n      'data-pressed:bg-fill-active data-pressed:text-fg-primary-inverse',\n      'data-pressed:**:data-[slot=icon]:text-fill-active-inverse',\n      'data-pressed:focus-visible:bg-fill-active',\n    ],\n\n    variant === 'outline' && [\n      'border border-stroke-tertiary text-fg-primary',\n      hoverOverlay,\n      pressedOverlay,\n      disabledOverlay,\n      'data-pressed:border-stroke-active!',\n    ],\n\n    className,\n  );\n}\n\nfunction TagToggle({\n  className,\n  variant = 'default',\n  size = 'default',\n  pill,\n  children,\n  ...props\n}: Omit<TogglePrimitive.Props, 'className'> & {\n  className?: string;\n  variant?: TagToggleVariant;\n  size?: TagToggleSize;\n  pill?: VariantProps<typeof tagSizeVariants>['pill'];\n}) {\n  return (\n    <TogglePrimitive\n      data-slot=\"tag-toggle\"\n      className={tagToggleClasses({ variant, size, pill, className })}\n      {...props}>\n      {wrapTagText(children, 'disabled')}\n    </TogglePrimitive>\n  );\n}\n\nexport {\n  TagToggle,\n  tagToggleClasses,\n  type TagToggleVariant,\n  type TagToggleSize,\n};\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

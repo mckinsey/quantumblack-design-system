@@ -1,0 +1,59 @@
+[
+  {
+    "displayName": "Dialog",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "DialogClose",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "DialogContent",
+    "description": "",
+    "props": {
+      "showCloseButton": {
+        "type": "boolean",
+        "defaultValue": "true",
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "DialogDescription",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "DialogFooter",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "DialogHeader",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "DialogOverlay",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "DialogPortal",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "DialogTitle",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "DialogTrigger",
+    "description": "",
+    "props": {}
+  }
+]

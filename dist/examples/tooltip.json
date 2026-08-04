@@ -1,0 +1,18 @@
+[
+  {
+    "name": "TooltipDemo",
+    "code": "import { Button } from '@/components/ui/button';\nimport {\n  Tooltip,\n  TooltipContent,\n  TooltipTrigger,\n} from '@/components/ui/tooltip';\n\nexport function TooltipDemo() {\n  return (\n    <Tooltip>\n      <TooltipTrigger asChild>\n        <Button variant=\"outline\">Hover me</Button>\n      </TooltipTrigger>\n      <TooltipContent>This is a tooltip</TooltipContent>\n    </Tooltip>\n  );\n}"
+  },
+  {
+    "name": "TooltipPositions",
+    "code": "import { Button } from '@/components/ui/button';\nimport {\n  Tooltip,\n  TooltipContent,\n  TooltipTrigger,\n} from '@/components/ui/tooltip';\n\nexport function TooltipPositions() {\n  return (\n    <div className=\"flex flex-wrap gap-4\">\n      <Tooltip>\n        <TooltipTrigger asChild>\n          <Button variant=\"outline\" size=\"sm\">\n            Top\n          </Button>\n        </TooltipTrigger>\n        <TooltipContent side=\"top\">Tooltip on top</TooltipContent>\n      </Tooltip>\n      <Tooltip>\n        <TooltipTrigger asChild>\n          <Button variant=\"outline\" size=\"sm\">\n            Right\n          </Button>\n        </TooltipTrigger>\n        <TooltipContent side=\"right\">Tooltip on right</TooltipContent>\n      </Tooltip>\n      <Tooltip>\n        <TooltipTrigger asChild>\n          <Button variant=\"outline\" size=\"sm\">\n            Bottom\n          </Button>\n        </TooltipTrigger>\n        <TooltipContent side=\"bottom\">Tooltip on bottom</TooltipContent>\n      </Tooltip>\n      <Tooltip>\n        <TooltipTrigger asChild>\n          <Button variant=\"outline\" size=\"sm\">\n            Left\n          </Button>\n        </TooltipTrigger>\n        <TooltipContent side=\"left\">Tooltip on left</TooltipContent>\n      </Tooltip>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "TooltipAlignment",
+    "code": "import { Button } from '@/components/ui/button';\nimport {\n  Tooltip,\n  TooltipContent,\n  TooltipTrigger,\n} from '@/components/ui/tooltip';\n\nexport function TooltipAlignment() {\n  return (\n    <div className=\"flex flex-wrap gap-4\">\n      <Tooltip>\n        <TooltipTrigger asChild>\n          <Button variant=\"outline\" size=\"sm\">\n            Start\n          </Button>\n        </TooltipTrigger>\n        <TooltipContent side=\"top\" align=\"start\">\n          Aligned to start\n        </TooltipContent>\n      </Tooltip>\n      <Tooltip>\n        <TooltipTrigger asChild>\n          <Button variant=\"outline\" size=\"sm\">\n            Center\n          </Button>\n        </TooltipTrigger>\n        <TooltipContent side=\"top\" align=\"center\">\n          Aligned to center\n        </TooltipContent>\n      </Tooltip>\n      <Tooltip>\n        <TooltipTrigger asChild>\n          <Button variant=\"outline\" size=\"sm\">\n            End\n          </Button>\n        </TooltipTrigger>\n        <TooltipContent side=\"top\" align=\"end\">\n          Aligned to end\n        </TooltipContent>\n      </Tooltip>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "TooltipLongContent",
+    "code": "import { Button } from '@/components/ui/button';\nimport {\n  Tooltip,\n  TooltipContent,\n  TooltipTrigger,\n} from '@/components/ui/tooltip';\n\nexport function TooltipLongContent() {\n  return (\n    <Tooltip>\n      <TooltipTrigger asChild>\n        <Button variant=\"outline\">Info</Button>\n      </TooltipTrigger>\n      <TooltipContent className=\"max-w-xs\">\n        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque libero\n        odio, accumsan et elementum nec, pulvinar nec velit.\n      </TooltipContent>\n    </Tooltip>\n  );\n}"
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "displayName": "ButtonGroup",
+    "description": "Groups related buttons together with consistent QBDS spacing.\n\nPlace `Button` children inside and choose their variants (e.g. a primary\naction paired with a secondary or ghost action). The group only controls\nlayout: `orientation` for direction with a constant 12px gap. Size the\nchild `Button`s directly.",
+    "props": {
+      "orientation": {
+        "type": "\"horizontal\" | \"vertical\"",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  }
+]

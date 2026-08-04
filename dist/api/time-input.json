@@ -1,0 +1,169 @@
+[
+  {
+    "displayName": "TimeInputRoot",
+    "description": "",
+    "props": {
+      "variant": {
+        "type": "\"default\" | \"inline\"",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "size": {
+        "type": "\"default\" | \"sm\" | \"lg\"",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      },
+      "disabled": {
+        "type": "boolean",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "validationState": {
+        "type": "ValidationState",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "TimeSegmentInput",
+    "description": "",
+    "props": {
+      "onChange": {
+        "type": "(value: number) => void",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "value": {
+        "type": "number",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "min": {
+        "type": "number",
+        "defaultValue": "0",
+        "description": "",
+        "required": false
+      },
+      "max": {
+        "type": "number",
+        "defaultValue": "59",
+        "description": "",
+        "required": false
+      },
+      "step": {
+        "type": "number",
+        "defaultValue": "1",
+        "description": "",
+        "required": false
+      },
+      "onComplete": {
+        "type": "() => void",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "onNavigateLeft": {
+        "type": "() => void",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "onNavigateRight": {
+        "type": "() => void",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "TimeSeparator",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "TimeInputTrigger",
+    "description": "",
+    "props": {
+      "size": {
+        "type": "TimeInputSize",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "TimeInput",
+    "description": "",
+    "props": {
+      "variant": {
+        "type": "TimeInputVariant",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "size": {
+        "type": "TimeInputSize",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      },
+      "validationState": {
+        "type": "ValidationState",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "hour": {
+        "type": "number",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "minute": {
+        "type": "number",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "onHourChange": {
+        "type": "(hour: number) => void",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "onMinuteChange": {
+        "type": "(minute: number) => void",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "onTriggerClick": {
+        "type": "() => void",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "placeholderHour": {
+        "type": "string",
+        "defaultValue": "hh",
+        "description": "",
+        "required": false
+      },
+      "placeholderMinute": {
+        "type": "string",
+        "defaultValue": "mm",
+        "description": "",
+        "required": false
+      }
+    }
+  }
+]

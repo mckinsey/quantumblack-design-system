@@ -1,0 +1,38 @@
+[
+  {
+    "displayName": "RadioGroup",
+    "description": "",
+    "props": {
+      "orientation": {
+        "type": "\"vertical\" | \"horizontal\"",
+        "defaultValue": "vertical",
+        "description": "",
+        "required": false
+      },
+      "density": {
+        "type": "\"default\" | \"comfortable\"",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      },
+      "size": {
+        "type": "\"default\" | \"sm\" | \"lg\"",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "RadioGroupItem",
+    "description": "",
+    "props": {
+      "size": {
+        "type": "\"default\" | \"sm\" | \"lg\"",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      }
+    }
+  }
+]

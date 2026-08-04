@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "label",
+  "title": "Label",
+  "description": "A component that displays a label for form elements.",
+  "registryDependencies": [
+    "/r/theme.json",
+    "/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/label.tsx",
+      "content": "'use client';\n\nimport { type VariantProps, cva } from 'class-variance-authority';\nimport * as React from 'react';\n\nimport { cn } from '@/lib/utils';\n\nconst labelVariants = cva(\n  'flex items-center font-normal gap-1 select-none data-[disabled=true]:pointer-events-none group-data-[disabled=true]:pointer-events-none peer-disabled:cursor-not-allowed',\n  {\n    variants: {\n      size: {\n        sm: 'label-small-primary',\n        default: 'label-regular-primary',\n        lg: 'label-large-primary',\n      },\n      disabled: {\n        false: 'text-fg-secondary',\n        true: 'text-fg-disabled cursor-not-allowed',\n      },\n    },\n    defaultVariants: {\n      disabled: false,\n      size: 'default',\n    },\n  },\n);\n\nexport interface LabelProps\n  extends\n    React.ComponentPropsWithoutRef<'label'>,\n    VariantProps<typeof labelVariants> {}\n\nfunction Label({ className, size, disabled, ...props }: LabelProps) {\n  return (\n    <label\n      className={cn(labelVariants({ size, disabled }), className)}\n      data-slot=\"label\"\n      data-disabled={disabled ? true : undefined}\n      {...props}\n    />\n  );\n}\n\nexport { Label, labelVariants };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

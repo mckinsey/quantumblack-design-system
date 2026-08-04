@@ -1,0 +1,59 @@
+[
+  {
+    "displayName": "Avatar",
+    "description": "",
+    "props": {
+      "disabled": {
+        "type": "boolean",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "size": {
+        "type": "\"default\" | \"xxs\" | \"xs\" | \"sm\" | \"lg\" | \"xl\"",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "state": {
+        "type": "\"default\" | \"disabled\"",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "AvatarImage",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "AvatarFallback",
+    "description": "",
+    "props": {
+      "disabled": {
+        "type": "boolean",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "size": {
+        "type": "\"default\" | \"xxs\" | \"xs\" | \"sm\" | \"lg\" | \"xl\"",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "AvatarGroup",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "AvatarGroupCount",
+    "description": "",
+    "props": {}
+  }
+]

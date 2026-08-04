@@ -1,0 +1,18 @@
+[
+  {
+    "name": "IconDemo",
+    "code": "import { Icon } from '@/components/ui/icon';\n\nexport function IconDemo() {\n  return <Icon icon=\"search\" className=\"text-fg-primary\" />;\n}"
+  },
+  {
+    "name": "IconSizes",
+    "code": "import { Icon } from '@/components/ui/icon';\n\nexport function IconSizes() {\n  return (\n    <div className=\"flex items-end gap-8\">\n      {(['sm', 'default', 'lg'] as const).map(size => (\n        <div key={size} className=\"flex flex-col items-center gap-2\">\n          <Icon icon=\"favorite\" size={size} className=\"text-fg-primary\" />\n          <span className=\"text-fg-secondary text-xs\">{size}</span>\n        </div>\n      ))}\n    </div>\n  );\n}"
+  },
+  {
+    "name": "IconColors",
+    "code": "import { Icon } from '@/components/ui/icon';\n\nexport function IconColors() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-6\">\n      <Icon\n        icon=\"check_circle\"\n        size=\"default\"\n        className=\"text-status-success\"\n      />\n      <Icon icon=\"error\" size=\"default\" className=\"text-status-error\" />\n      <Icon icon=\"warning\" size=\"default\" className=\"text-status-warning\" />\n      <Icon\n        icon=\"bolt\"\n        size=\"default\"\n        className=\"text-brand-accents-qb-accent\"\n      />\n    </div>\n  );\n}"
+  },
+  {
+    "name": "IconSpinner",
+    "code": "import { Icon } from '@/components/ui/icon';\n\nexport function IconSpinner() {\n  return (\n    <div className=\"flex items-center gap-4\">\n      <Icon\n        icon=\"progress_activity\"\n        size=\"sm\"\n        className=\"text-fg-primary animate-spin\"\n      />\n      <Icon\n        icon=\"progress_activity\"\n        size=\"default\"\n        className=\"text-fg-primary animate-spin\"\n      />\n      <Icon\n        icon=\"progress_activity\"\n        size=\"lg\"\n        className=\"text-fg-primary animate-spin\"\n      />\n    </div>\n  );\n}"
+  }
+]

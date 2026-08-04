@@ -1,0 +1,14 @@
+[
+  {
+    "displayName": "Switch",
+    "description": "",
+    "props": {
+      "size": {
+        "type": "\"sm\" | \"default\" | \"lg\"",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      }
+    }
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "name": "TextareaDemo",
+    "code": "import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';\nimport { Textarea } from '@/components/ui/textarea';\n\nexport function TextareaDemo() {\n  return (\n    <FieldSet className=\"w-[320px] gap-2\">\n      <FieldTitle className=\"label-regular-primary text-fg-secondary\">\n        Label\n      </FieldTitle>\n      <Textarea size=\"default\" placeholder=\"Hint text\" />\n\n      <FieldDescription className=\"paragraph-regular-primary text-fg-tertiary\">\n        Helper text\n      </FieldDescription>\n    </FieldSet>\n  );\n}"
+  },
+  {
+    "name": "TextareaSizes",
+    "code": "import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';\nimport { Textarea } from '@/components/ui/textarea';\n\nexport function TextareaSizes() {\n  return (\n    <div className=\"w-[320px] space-y-4\">\n      <FieldSet className=\"gap-2\">\n        <FieldTitle className=\"label-small-primary text-fg-secondary\">\n          Small\n        </FieldTitle>\n        <Textarea size=\"sm\" placeholder=\"Hint text\" />\n\n        <FieldDescription className=\"paragraph-small-primary text-fg-tertiary\">\n          Helper text\n        </FieldDescription>\n      </FieldSet>\n\n      <FieldSet className=\"gap-2\">\n        <FieldTitle className=\"label-regular-primary text-fg-secondary\">\n          Default\n        </FieldTitle>\n        <Textarea size=\"default\" placeholder=\"Hint text\" />\n\n        <FieldDescription className=\"paragraph-regular-primary text-fg-tertiary\">\n          Helper text\n        </FieldDescription>\n      </FieldSet>\n\n      <FieldSet className=\"gap-2\">\n        <FieldTitle className=\"label-large-primary text-fg-secondary\">\n          Large\n        </FieldTitle>\n        <Textarea size=\"lg\" placeholder=\"Hint text\" />\n\n        <FieldDescription className=\"paragraph-regular-primary text-fg-tertiary\">\n          Helper text\n        </FieldDescription>\n      </FieldSet>\n    </div>\n  );\n}"
+  },
+  {
+    "name": "TextareaDisabled",
+    "code": "import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';\nimport { Textarea } from '@/components/ui/textarea';\n\nexport function TextareaDisabled() {\n  return (\n    <FieldSet className=\"w-[320px] gap-2\">\n      <FieldTitle className=\"label-regular-primary text-fg-disabled\">\n        Label\n      </FieldTitle>\n      <Textarea\n        size=\"default\"\n        disabled\n        defaultValue=\"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\"\n      />\n      <FieldDescription className=\"paragraph-regular-primary text-fg-tertiary\">\n        Helper text\n      </FieldDescription>\n    </FieldSet>\n  );\n}"
+  },
+  {
+    "name": "TextareaWithCounter",
+    "code": "import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';\nimport {\n  Textarea,\n  TextareaCounter,\n  TextareaRoot,\n} from '@/components/ui/textarea';\n\nexport function TextareaWithCounter() {\n  return (\n    <TextareaRoot maxCharacters={150} size=\"default\">\n      <FieldSet className=\"w-[320px] gap-2\">\n        <div className=\"flex items-center justify-between\">\n          <FieldTitle className=\"label-regular-primary text-fg-secondary\">\n            Bio\n          </FieldTitle>\n          <TextareaCounter />\n        </div>\n        <Textarea size=\"default\" placeholder=\"Tell us about yourself...\" />\n\n        <FieldDescription className=\"paragraph-regular-primary text-fg-tertiary\">\n          Write a brief description about yourself.\n        </FieldDescription>\n      </FieldSet>\n    </TextareaRoot>\n  );\n}"
+  },
+  {
+    "name": "TextareaRows",
+    "code": "import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';\nimport { Textarea } from '@/components/ui/textarea';\n\nexport function TextareaRows() {\n  return (\n    <FieldSet className=\"w-[320px] gap-2\">\n      <FieldTitle className=\"label-regular-primary text-fg-secondary\">\n        Notes\n      </FieldTitle>\n      <Textarea size=\"default\" rows={8} placeholder=\"Hint text\" />\n\n      <FieldDescription className=\"paragraph-regular-primary text-fg-tertiary\">\n        Helper text\n      </FieldDescription>\n    </FieldSet>\n  );\n}"
+  },
+  {
+    "name": "TextareaError",
+    "code": "import { FieldError, FieldSet, FieldTitle } from '@/components/ui/field';\nimport {\n  Textarea,\n  TextareaCounter,\n  TextareaRoot,\n} from '@/components/ui/textarea';\n\nexport function TextareaError() {\n  return (\n    <TextareaRoot maxCharacters={20} size=\"default\">\n      <FieldSet className=\"w-[320px] gap-2\">\n        <div className=\"flex items-center justify-between\">\n          <FieldTitle className=\"label-regular-primary text-fg-secondary\">\n            Feedback\n          </FieldTitle>\n          <TextareaCounter />\n        </div>\n        <Textarea\n          size=\"default\"\n          defaultValue=\"This text is way too long for the limit of 20 characters.\"\n        />\n        <FieldError className=\"paragraph-large-primary text-fg-error\">\n          Character limit exceeded.\n        </FieldError>\n      </FieldSet>\n    </TextareaRoot>\n  );\n}"
+  }
+]

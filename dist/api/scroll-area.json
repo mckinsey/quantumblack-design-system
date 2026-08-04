@@ -1,0 +1,12 @@
+[
+  {
+    "displayName": "ScrollArea",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "ScrollBar",
+    "description": "",
+    "props": {}
+  }
+]

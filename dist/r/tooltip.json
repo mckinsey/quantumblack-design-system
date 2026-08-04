@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tooltip",
+  "title": "Tooltip",
+  "description": "A component that displays informative text when users hover over an element.",
+  "dependencies": [
+    "@radix-ui/react-tooltip"
+  ],
+  "registryDependencies": [
+    "/r/theme.json",
+    "/r/utils.json"
+  ],
+  "files": [
+    {
+      "path": "src/components/ui/tooltip.tsx",
+      "content": "'use client';\n\nimport * as TooltipPrimitive from '@radix-ui/react-tooltip';\nimport * as React from 'react';\n\nimport { cn } from '@/lib/utils';\n\nfunction TooltipProvider({\n  delayDuration = 0,\n  ...props\n}: React.ComponentProps<typeof TooltipPrimitive.Provider>) {\n  return (\n    <TooltipPrimitive.Provider\n      data-slot=\"tooltip-provider\"\n      delayDuration={delayDuration}\n      {...props}\n    />\n  );\n}\n\nfunction Tooltip({\n  ...props\n}: React.ComponentProps<typeof TooltipPrimitive.Root>) {\n  return (\n    <TooltipProvider>\n      <TooltipPrimitive.Root data-slot=\"tooltip\" {...props} />\n    </TooltipProvider>\n  );\n}\n\nfunction TooltipTrigger({\n  ...props\n}: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {\n  return <TooltipPrimitive.Trigger data-slot=\"tooltip-trigger\" {...props} />;\n}\n\nfunction TooltipContent({\n  className,\n  sideOffset = 0,\n  children,\n  ...props\n}: React.ComponentProps<typeof TooltipPrimitive.Content>) {\n  const getTextContent = (node: React.ReactNode): string => {\n    if (typeof node === 'string') return node;\n    if (typeof node === 'number') return String(node);\n    if (Array.isArray(node)) return node.map(getTextContent).join('');\n\n    if (React.isValidElement(node)) {\n      const nodeProps = node.props as { children?: React.ReactNode };\n\n      if (nodeProps.children) {\n        return getTextContent(nodeProps.children);\n      }\n    }\n\n    return '';\n  };\n\n  const textContent = getTextContent(children);\n  const estimatedCharsPerLine = 35; // approximate for max-w-[220px] and paragraph-small-primary\n  const isMultiLine = textContent.length > estimatedCharsPerLine;\n\n  return (\n    <TooltipPrimitive.Portal>\n      <TooltipPrimitive.Content\n        data-slot=\"tooltip-content\"\n        sideOffset={sideOffset}\n        className={cn(\n          'bg-fill-primary text-fg-primary-inverse paragraph-small-primary animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 shadow-elevation-1 z-50 w-fit min-w-[36px] origin-(--radix-tooltip-content-transform-origin) text-balance',\n          isMultiLine ? 'max-w-[220px] p-2' : 'max-w-[140px] p-1',\n          className,\n        )}\n        {...props}>\n        {children}\n        <TooltipPrimitive.Arrow className=\"fill-fill-primary\" />\n      </TooltipPrimitive.Content>\n    </TooltipPrimitive.Portal>\n  );\n}\n\nexport { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

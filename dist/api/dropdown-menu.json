@@ -1,0 +1,124 @@
+[
+  {
+    "displayName": "DropdownMenu",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "DropdownMenuPortal",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "DropdownMenuTrigger",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "DropdownMenuContent",
+    "description": "",
+    "props": {
+      "onOpenAutoFocus": {
+        "type": "(event: Event) => void",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "size": {
+        "type": "DropdownMenuSize",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "DropdownMenuGroup",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "DropdownMenuLabel",
+    "description": "",
+    "props": {
+      "inset": {
+        "type": "boolean",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "DropdownMenuItem",
+    "description": "",
+    "props": {
+      "inset": {
+        "type": "boolean",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "variant": {
+        "type": "\"default\" | \"destructive\"",
+        "defaultValue": "default",
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "DropdownMenuCheckboxItem",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "DropdownMenuRadioGroup",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "DropdownMenuRadioItem",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "DropdownMenuSeparator",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "DropdownMenuShortcut",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "DropdownMenuSub",
+    "description": "",
+    "props": {}
+  },
+  {
+    "displayName": "DropdownMenuSubTrigger",
+    "description": "",
+    "props": {
+      "inset": {
+        "type": "boolean",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  },
+  {
+    "displayName": "DropdownMenuSubContent",
+    "description": "",
+    "props": {
+      "size": {
+        "type": "DropdownMenuSize",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  }
+]

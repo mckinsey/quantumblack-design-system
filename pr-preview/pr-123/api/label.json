@@ -1,0 +1,20 @@
+[
+  {
+    "displayName": "Label",
+    "description": "",
+    "props": {
+      "size": {
+        "type": "\"default\" | \"sm\" | \"lg\"",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      },
+      "disabled": {
+        "type": "boolean",
+        "defaultValue": null,
+        "description": "",
+        "required": false
+      }
+    }
+  }
+]
