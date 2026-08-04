@@ -126,6 +126,8 @@ export default {
 
 Do not call `executeTemplate()` on the slot itself — only on each `connectedInstances` handle. See `radio-group-list-vertical.figma.ts`, `radio-group-list-horizontal.figma.ts`.
 
+Do **not** hand-roll nested snippets (e.g. inline `<Tag>` / `<NumericBadge>` inside Select) when those children already have Code Connect. Prefer `executeTemplate()` so the child’s mapping owns the snippet and imports. Only hand-roll when the child has no mapping, or `executeTemplate()` fails for that node.
+
 ## Reference examples
 
 Read existing templates in `code-connect/` before writing a new one:
