@@ -1,0 +1,102 @@
+// url=<QBDS_CHECKBOX_GROUP_LIST_HORIZONTAL>
+// source=src/components/ui/checkbox.tsx
+// component=CheckboxGroup
+import figma from 'figma';
+
+type ListSize = 'sm' | 'default' | 'lg';
+type ListDensity = 'default' | 'comfortable';
+
+const horizontalLegendMb: Record<ListSize, Record<ListDensity, string>> = {
+  sm: { default: 'mb-3', comfortable: 'mb-4' },
+  default: { default: 'mb-3', comfortable: 'mb-4' },
+  lg: { default: 'mb-4', comfortable: 'mb-5' },
+};
+
+const instance = figma.selectedInstance;
+
+const size = (instance.getEnum('size', {
+  sm: 'sm',
+  reg: 'default',
+  lg: 'lg',
+}) ?? 'default') as ListSize;
+
+const density = (instance.getEnum('density', {
+  default: 'default',
+  comfortable: 'comfortable',
+}) ?? 'default') as ListDensity;
+
+const slot = instance.getSlot('itemsSlot');
+const connected = slot?.connectedInstances ?? [];
+const items =
+  connected.length > 0
+    ? connected.flatMap(n => n.executeTemplate().example)
+    : figma.properties.children(['CheckboxGroup/Item']);
+
+const values = connected.map((n, i) => {
+  if (n.type !== 'INSTANCE') {
+    return `option-${i + 1}`;
+  }
+
+  return n.getString('ListItem-Label') || `option-${i + 1}`;
+});
+
+const defaultValue = connected
+  .map((n, i) => {
+    if (n.type !== 'INSTANCE') {
+      return null;
+    }
+
+    const type =
+      n.getEnum('type', {
+        unchecked: 'unchecked',
+        checked: 'checked',
+        indeterminate: 'indeterminate',
+      }) ?? 'unchecked';
+
+    return type === 'checked' || type === 'indeterminate' ? values[i] : null;
+  })
+  .filter((v): v is string => Boolean(v));
+
+const defaultValueLit =
+  defaultValue.length > 0
+    ? `[${defaultValue.map(v => `"${v}"`).join(', ')}]`
+    : '';
+
+const listLabelNode = instance.findInstance('Elements/Label', {
+  traverseInstances: true,
+});
+const listLabel =
+  listLabelNode && listLabelNode.type === 'INSTANCE'
+    ? listLabelNode.getString('labelField')
+    : '';
+
+const legendClass =
+  size === 'lg'
+    ? 'label-large-primary'
+    : size === 'sm'
+      ? 'label-small-primary'
+      : 'label-regular-primary';
+const legendMb = horizontalLegendMb[size][density];
+
+export default {
+  example: figma.code`
+    <FieldSet className="gap-0">
+      <FieldLegend variant="label" className="${legendClass} ${legendMb}">
+        ${listLabel}
+      </FieldLegend>
+      <CheckboxGroup
+        orientation="horizontal"
+        ${defaultValueLit ? figma.code`defaultValue={${defaultValueLit}}` : figma.code``}
+        density="${density}"
+        size="${size}">
+        ${figma.helpers.react.renderChildren(items)}
+      </CheckboxGroup>
+    </FieldSet>
+  `,
+  imports: [
+    'import { FieldLegend, FieldSet } from "@/components/ui/field"',
+    'import { Checkbox, CheckboxGroup } from "@/components/ui/checkbox"',
+  ],
+  id: 'checkbox-group-list-horizontal',
+  metadata: { nestable: false },
+};

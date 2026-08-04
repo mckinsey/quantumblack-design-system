@@ -7,7 +7,7 @@ const components = getUIPrimitives();
 export default function ComponentsPage() {
   return (
     <main className="bg-surface-base min-h-screen w-full p-5 md:p-10">
-      <div className="mx-auto w-full max-w-[800px]">
+      <div className="mx-auto w-full max-w-[960px]">
         <div className="flex flex-col gap-8">
           {/* Header */}
           <div className="flex flex-col gap-2">
