@@ -58,7 +58,7 @@
       "name": "aspect-ratio",
       "type": "registry:ui",
       "title": "Aspect Ratio",
-      "description": "Constrains content to a fixed width-to-height ratio \u2014 ideal for images, video placeholders, and media cards.",
+      "description": "Constrains content to a fixed width-to-height ratio. Ideal for images, video placeholders, and media cards.",
       "dependencies": ["@radix-ui/react-aspect-ratio"],
       "registryDependencies": ["__REGISTRY_URL__/r/theme.json"],
       "files": [
@@ -339,7 +339,7 @@
       "name": "field",
       "type": "registry:ui",
       "title": "Field",
-      "description": "Composable form field elements \u2014 label, help text, error feedback, and layout primitives (FieldSet, FieldLegend, FieldGroup, Field, FieldLabel, FieldContent, FieldTitle, FieldDescription, FieldError).",
+      "description": "Composable form field elements: label, help text, error feedback, and layout primitives (FieldSet, FieldLegend, FieldGroup, Field, FieldLabel, FieldContent, FieldTitle, FieldDescription, FieldError).",
       "dependencies": ["@base-ui/react/fieldset"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
@@ -830,7 +830,7 @@
       "name": "tag",
       "type": "registry:ui",
       "title": "Tag",
-      "description": "A dismissable tag with icons, variants (primary, secondary, accent, outline, accent-outline), pill shape, and sizes. Leading IconShell color is consumer-managed via tagIconTone (secondary \u2192 neutral-inverse).",
+      "description": "A dismissable tag with icons, variants (primary, secondary, accent, outline, accent-outline), pill shape, and sizes. Leading IconShell color is consumer-managed via tagIconTone (secondary to neutral-inverse).",
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -848,7 +848,7 @@
       "name": "tag-group",
       "type": "registry:example",
       "title": "Tag Group",
-      "description": "Examples of grouped tags \u2014 dismissable, with avatars, and toggleable \u2014 across sizes, shapes, and outlines.",
+      "description": "Examples of grouped tags (dismissable, with avatars, and toggleable) across sizes, shapes, and outlines.",
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
