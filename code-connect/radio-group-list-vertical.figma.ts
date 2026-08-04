@@ -39,7 +39,7 @@ const slot = instance.getSlot('itemsSlot');
 const connected = slot?.connectedInstances ?? [];
 const items =
   connected.length > 0
-    ? connected.map(n => n.executeTemplate().example).flat()
+    ? connected.flatMap(n => n.executeTemplate().example)
     : figma.properties.children(['RadioGroup/Item']);
 
 const firstItem = connected[0];
