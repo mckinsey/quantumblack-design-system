@@ -1,6 +1,8 @@
 # Production → gh-pages root. PR previews → gh-pages/pr-preview/pr-<n>/.
 #
 # Required (Settings → Pages): Source = Deploy from branch → gh-pages / (root)
+# If PR deploy push fails with "Authentication failed", add repo secret GH_PAGES_DEPLOY_TOKEN
+# (PAT with contents:write on this repo) — some orgs block GITHUB_TOKEN writes on pull_request.
 name: Deploy QB Registry to GitHub Pages
 
 on:
@@ -21,6 +23,7 @@ concurrency:
 
 env:
   PAGES_BASE_URL: ${{ vars.QBDS_REGISTRY_URL || 'https://designsystem.quantumblack.com' }}
+  GH_PAGES_TOKEN: ${{ secrets.GH_PAGES_DEPLOY_TOKEN || github.token }}
 
 jobs:
   build:
@@ -60,39 +63,42 @@ jobs:
       name: github-pages
       url: ${{ env.PAGES_BASE_URL }}
     steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ env.GH_PAGES_TOKEN }}
+
       - uses: actions/download-artifact@v4
         with:
           name: dist
           path: dist
 
-      - uses: actions/checkout@v6
-        with:
-          sparse-checkout: CNAME
-          sparse-checkout-cone-mode: false
-
       - name: Deploy production to gh-pages
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          dir=$(mktemp -d)
-          git init -b gh-pages "$dir"
-          git -C "$dir" remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git -C "$dir" fetch origin gh-pages --depth=1 2>/dev/null && git -C "$dir" reset --hard origin/gh-pages || true
+          cp CNAME /tmp/CNAME
+          if git ls-remote --heads origin gh-pages | grep -q gh-pages; then
+            git fetch origin gh-pages
+            git checkout gh-pages
+          else
+            git checkout --orphan gh-pages
+            git rm -rf . 2>/dev/null || true
+          fi
           saved=$(mktemp -d)
-          [ -d "$dir/pr-preview" ] && cp -a "$dir/pr-preview" "$saved/"
-          find "$dir" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
-          [ -d "$saved/pr-preview" ] && cp -a "$saved/pr-preview" "$dir/"
-          cp -a dist/. "$dir/"
-          cp CNAME "$dir/CNAME"
-          git -C "$dir" add -A
-          git -C "$dir" diff --staged --quiet || git -C "$dir" commit -m "Deploy production from ${GITHUB_SHA}"
-          git -C "$dir" push origin gh-pages
+          [ -d pr-preview ] && cp -a pr-preview "$saved/"
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          [ -d "$saved/pr-preview" ] && cp -a "$saved/pr-preview" .
+          cp -a dist/. .
+          cp /tmp/CNAME CNAME
+          git add -A
+          git diff --staged --quiet || git commit -m "Deploy production from ${GITHUB_SHA}"
+          git push origin gh-pages
 
   build-preview:
     if: github.event_name == 'pull_request' && github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     env:
-      # Empty string → inject-registry-urls uses relative URLs; runtime uses preview origin.
       QBDS_REGISTRY_URL: ''
       VITE_BASE_PATH: ${{ format('/pr-preview/pr-{0}/', github.event.pull_request.number) }}
     steps:
@@ -121,11 +127,19 @@ jobs:
 
   deploy-preview:
     needs: build-preview
+    permissions:
+      contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     environment:
       name: github-pages-preview
       url: ${{ format('{0}/pr-preview/pr-{1}/', env.PAGES_BASE_URL, github.event.pull_request.number) }}
     steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.VIZRO_SVC_PAT }}
+
       - uses: actions/download-artifact@v4
         with:
           name: dist-preview
@@ -135,18 +149,21 @@ jobs:
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          dir=$(mktemp -d)
-          git init -b gh-pages "$dir"
-          git -C "$dir" remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git -C "$dir" fetch origin gh-pages --depth=1 2>/dev/null && git -C "$dir" reset --hard origin/gh-pages || true
-          rm -rf "$dir/pr-preview/pr-${PR_NUMBER}"
-          mkdir -p "$dir/pr-preview/pr-${PR_NUMBER}"
-          cp -a dist/. "$dir/pr-preview/pr-${PR_NUMBER}/"
-          git -C "$dir" add -A
-          git -C "$dir" diff --staged --quiet || git -C "$dir" commit -m "Deploy preview for PR ${PR_NUMBER}"
-          git -C "$dir" push origin gh-pages
+          git config --global user.email "145135826+vizro-svc@users.noreply.github.com"
+          git config --global user.name "Vizro Team"
+          if git ls-remote --heads origin gh-pages | grep -q gh-pages; then
+            git fetch origin gh-pages
+            git checkout gh-pages
+          else
+            git checkout --orphan gh-pages
+            git rm -rf . 2>/dev/null || true
+          fi
+          rm -rf pr-preview/pr-${PR_NUMBER}
+          mkdir -p pr-preview/pr-${PR_NUMBER}
+          cp -a dist/. pr-preview/pr-${PR_NUMBER}/
+          git add -A
+          git diff --staged --quiet || git commit -m "Deploy preview for PR ${PR_NUMBER}"
+          git push origin gh-pages
 
       - uses: actions/github-script@v7
         env:
@@ -171,20 +188,24 @@ jobs:
 
   remove-preview:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.VIZRO_SVC_PAT }}
+
       - name: Remove preview from gh-pages
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          dir=$(mktemp -d)
-          git init -b gh-pages "$dir"
-          git -C "$dir" remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git -C "$dir" fetch origin gh-pages --depth=1
-          git -C "$dir" reset --hard origin/gh-pages
-          rm -rf "$dir/pr-preview/pr-${PR_NUMBER}"
-          git -C "$dir" add -A
-          git -C "$dir" diff --staged --quiet || git -C "$dir" commit -m "Remove preview for PR ${PR_NUMBER}"
-          git -C "$dir" push origin gh-pages
+          git config --global user.email "145135826+vizro-svc@users.noreply.github.com"
+          git config --global user.name "Vizro Team"
+          git fetch origin gh-pages
+          git checkout gh-pages
+          rm -rf pr-preview/pr-${PR_NUMBER}
+          git add -A
+          git diff --staged --quiet || git commit -m "Remove preview for PR ${PR_NUMBER}"
+          git push origin gh-pages
