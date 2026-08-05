@@ -427,11 +427,17 @@ function SidebarContent({ className, ...props }: React.ComponentProps<'div'>) {
 }
 
 function SidebarGroup({ className, ...props }: React.ComponentProps<'div'>) {
+  const { layout } = useSidebar();
+
   return (
     <div
       data-slot="sidebar-group"
       data-sidebar="group"
-      className={cn('relative flex w-full min-w-0 flex-col', className)}
+      className={cn(
+        'relative flex w-full min-w-0 flex-col',
+        layout !== 'nav' && 'p-2',
+        className,
+      )}
       {...props}
     />
   );
@@ -465,7 +471,7 @@ function SidebarGroupLabel({
   size?: SidebarSize;
 }) {
   const Comp = asChild ? Slot : 'div';
-  const { size: ctxSize } = useSidebar();
+  const { size: ctxSize, layout } = useSidebar();
   const size = sizeProp ?? ctxSize;
 
   return (
@@ -473,7 +479,15 @@ function SidebarGroupLabel({
       data-slot="sidebar-group-label"
       data-sidebar="group-label"
       data-size={size}
-      className={cn(sidebarGroupLabelVariants({ size }), className)}
+      className={cn(
+        layout === 'nav'
+          ? sidebarGroupLabelVariants({ size })
+          : [
+              'paragraph-small-emphasised text-fg-secondary ring-stroke-status-focus flex h-8 shrink-0 items-center rounded-md px-2 outline-hidden transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0',
+              'group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0',
+            ],
+        className,
+      )}
       {...props}
     />
   );
@@ -589,7 +603,7 @@ function SidebarMenuButton({
   tooltip?: string | React.ComponentProps<typeof TooltipContent>;
 } & VariantProps<typeof sidebarMenuButtonVariants>) {
   const Comp = asChild ? Slot : 'button';
-  const { isMobile, state } = useSidebar();
+  const { isMobile, state, layout } = useSidebar();
 
   const button = (
     <Comp
@@ -598,7 +612,11 @@ function SidebarMenuButton({
       data-size={size}
       data-active={isActive}
       aria-current={isActive ? 'page' : undefined}
-      className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
+      className={cn(
+        sidebarMenuButtonVariants({ variant, size }),
+        layout !== 'nav' && 'data-[active=true]:bg-fill-onsurface-ui-3',
+        className,
+      )}
       {...props}
     />
   );
