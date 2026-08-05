@@ -1,6 +1,6 @@
 // url=<QBDS_SIDEBAR_UTILITY_ITEM>
 // source=src/components/ui/sidebar-nav.tsx
-// component=SidebarFooterButton
+// component=SidebarNavUtilityButton
 import figma from 'figma';
 
 const instance = figma.selectedInstance;
@@ -28,16 +28,16 @@ const tipLabel =
 export default {
   example: figma.code`
     <SidebarMenuItem>
-      <SidebarFooterButton${figma.helpers.react.renderProp(
+      <SidebarNavUtilityButton${figma.helpers.react.renderProp(
         'disabled',
         disabled || undefined,
       )}${tipLabel ? figma.helpers.react.renderProp('tooltip', tipLabel) : ''}>
         ${icon}
-      </SidebarFooterButton>
+      </SidebarNavUtilityButton>
     </SidebarMenuItem>
   `,
   imports: [
-    'import { SidebarFooterButton, SidebarMenuItem } from "@/components/ui/sidebar"',
+    'import { SidebarMenuItem, SidebarNavUtilityButton } from "@/components/ui/sidebar"',
   ],
   id: 'sidebar-utility-item',
   metadata: { nestable: true },

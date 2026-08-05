@@ -13,11 +13,11 @@ import {
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
-import { SidebarMenuItem, SidebarMenuSub, useSidebar } from './sidebar';
+import { SidebarMenuSub, useSidebar } from './sidebar';
 
 type SidebarNavSize = 'default' | 'lg';
 
-const sidebarMenuIconButtonVariants = cva(
+const sidebarNavIconButtonVariants = cva(
   [
     'peer/menu-button relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-none p-0',
     'ring-stroke-status-focus outline-hidden transition-[width,height,padding,background-color]',
@@ -25,18 +25,16 @@ const sidebarMenuIconButtonVariants = cva(
     'group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2!',
     'hover:bg-stateslayer-overlay-hover hover:text-fg-primary',
     'focus-visible:ring-1',
-    'active:bg-stateslayer-overlay-active-inverse active:text-fg-primary',
-    'data-[active=true]:bg-stateslayer-overlay-active-inverse data-[active=true]:text-fg-primary',
-    'data-[active=true]:before:bg-fill-active-inverse data-[active=true]:before:absolute data-[active=true]:before:left-0 data-[active=true]:before:w-1 data-[active=true]:before:content-[""]',
-    'disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50',
+    'active:text-fg-primary',
+    'data-[active=true]:text-fg-primary',
+    'disabled:pointer-events-none aria-disabled:pointer-events-none aria-disabled:opacity-50',
     'data-[state=open]:hover:bg-stateslayer-hover data-[state=open]:hover:text-fg-primary',
   ],
   {
     variants: {
       size: {
-        default:
-          'size-16 data-[active=true]:before:top-3 data-[active=true]:before:h-10',
-        lg: 'size-20 group-data-[collapsible=icon]:p-0! data-[active=true]:before:top-4 data-[active=true]:before:h-12',
+        default: 'size-16',
+        lg: 'size-20 group-data-[collapsible=icon]:p-0! ',
       },
     },
     defaultVariants: {
@@ -74,7 +72,7 @@ function SidebarNav({
   );
 }
 
-function SidebarMenuIconButton({
+function SidebarNavIconButton({
   asChild = false,
   isActive = false,
   size: sizeProp,
@@ -85,19 +83,19 @@ function SidebarMenuIconButton({
   asChild?: boolean;
   isActive?: boolean;
   tooltip?: string | React.ComponentProps<typeof TooltipContent>;
-} & VariantProps<typeof sidebarMenuIconButtonVariants>) {
+} & VariantProps<typeof sidebarNavIconButtonVariants>) {
   const Comp = asChild ? Slot : 'button';
   const { isMobile, size: ctxSize } = useSidebar();
   const size = sizeProp ?? ctxSize;
 
   const button = (
     <Comp
-      data-slot="sidebar-menu-icon-button"
+      data-slot="sidebar-nav-icon-button"
       data-sidebar="menu-button"
       data-size={size}
       data-active={isActive}
       aria-current={isActive ? 'page' : undefined}
-      className={cn(sidebarMenuIconButtonVariants({ size }), className)}
+      className={cn(sidebarNavIconButtonVariants({ size }), className)}
       {...props}
     />
   );
@@ -128,7 +126,7 @@ function SidebarMenuIconButton({
   );
 }
 
-const sidebarFooterButtonVariants = cva([
+const sidebarNavUtilityButtonVariants = cva([
   'flex size-8 mx-auto items-center justify-center rounded-none p-0',
   'ring-stroke-status-focus outline-hidden transition-[background-color]',
   'bg-stateslayer-overlay-enabled',
@@ -138,7 +136,7 @@ const sidebarFooterButtonVariants = cva([
   'aria-disabled:bg-stateslayer-overlay-disabled aria-disabled:pointer-events-none',
 ]);
 
-function SidebarFooterButton({
+function SidebarNavUtilityButton({
   asChild = false,
   tooltip,
   className,
@@ -152,9 +150,9 @@ function SidebarFooterButton({
 
   const button = (
     <Comp
-      data-slot="sidebar-footer-button"
+      data-slot="sidebar-nav-utility-button"
       data-sidebar="footer-button"
-      className={cn(sidebarFooterButtonVariants(), className)}
+      className={cn(sidebarNavUtilityButtonVariants(), className)}
       {...props}
     />
   );
@@ -207,8 +205,7 @@ const sidebarNavMenuButtonVariants = cva(
     'focus-visible:ring-2',
     'disabled:pointer-events-none disabled:text-fg-disabled',
     'aria-disabled:pointer-events-none aria-disabled:text-fg-disabled',
-    'data-[active=true]:text-fg-primary',
-    'data-[state=open]:bg-fill-muted data-[state=open]:text-fg-primary data-[state=open]:hover:bg-fill-muted',
+    'data-[active=true]:bg-fill-muted data-[active=true]:text-fg-primary data-[active=true]:hover:bg-fill-muted',
   ],
   {
     variants: {
@@ -287,7 +284,7 @@ const sidebarNavMenuPanelWidth: Record<SidebarNavSize, string> = {
 };
 
 function SidebarNavMenu({
-  mode = 'inline',
+  mode = 'overlay',
   open: openProp,
   defaultOpen = false,
   onOpenChange,
@@ -302,6 +299,7 @@ function SidebarNavMenu({
   children?: React.ReactNode;
 }) {
   const { size, side } = useSidebar();
+  const menuRef = React.useRef<HTMLElement>(null);
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);
   const open = openProp ?? uncontrolledOpen;
 
@@ -328,46 +326,81 @@ function SidebarNavMenu({
       }
     };
 
+    const onPointerDown = (event: PointerEvent) => {
+      const target = event.target;
+
+      if (!(target instanceof Element)) {
+        return;
+      }
+
+      if (menuRef.current?.contains(target)) {
+        return;
+      }
+
+      if (target.closest('[data-slot="sidebar-nav-rail"]')) {
+        return;
+      }
+
+      setOpen(false);
+    };
+
     window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
+    document.addEventListener('pointerdown', onPointerDown, true);
+
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('pointerdown', onPointerDown, true);
+    };
   }, [mode, open, setOpen]);
 
   const panelWidth = sidebarNavMenuPanelWidth[size];
-
   const overlayClosed = mode === 'overlay' && !open;
+  const panelPad = cn(
+    'bg-surface-primary flex h-full flex-col p-3',
+    size === 'lg' && 'px-3 py-4',
+  );
 
-  return (
-    <nav
-      aria-label="Navigation menu"
-      aria-hidden={overlayClosed || undefined}
-      inert={overlayClosed || undefined}
-      data-slot="sidebar-nav-menu"
-      data-mode={mode}
-      data-state={mode === 'overlay' ? (open ? 'open' : 'closed') : undefined}
-      className={cn(
-        'bg-surface-primary flex flex-col p-3',
-        size === 'lg' && 'px-3 py-4',
-        mode === 'inline' && ['shrink-0 overflow-y-auto', panelWidth],
-        mode === 'overlay' && [
-          'absolute top-0 bottom-0 z-20 overflow-hidden transition-[width] duration-250 ease-out',
+  if (mode === 'overlay') {
+    return (
+      <nav
+        ref={menuRef}
+        aria-label="Navigation menu"
+        aria-hidden={overlayClosed || undefined}
+        inert={overlayClosed || undefined}
+        data-slot="sidebar-nav-menu"
+        data-mode={mode}
+        data-state={open ? 'open' : 'closed'}
+        className={cn(
+          'absolute top-0 bottom-0 z-20 overflow-hidden p-0 transition-[width] duration-250 ease-out',
           side === 'left'
             ? 'left-(--sidebar-width-icon) ml-[2px]'
             : 'right-(--sidebar-width-icon) mr-[2px]',
           open ? [panelWidth, 'overflow-y-auto'] : 'w-0',
           overlayClosed && 'pointer-events-none',
-        ],
+          className,
+        )}
+        {...props}>
+        <div className={cn(panelPad, panelWidth)}>{children}</div>
+      </nav>
+    );
+  }
+
+  return (
+    <nav
+      ref={menuRef}
+      aria-label="Navigation menu"
+      data-slot="sidebar-nav-menu"
+      data-mode={mode}
+      className={cn(
+        panelPad,
+        'shrink-0 overflow-y-auto',
+        panelWidth,
         className,
       )}
       {...props}>
       {children}
     </nav>
   );
-}
-
-function SidebarNavMenuItem(
-  props: React.ComponentProps<typeof SidebarMenuItem>,
-) {
-  return <SidebarMenuItem {...props} />;
 }
 
 function SidebarNavMenuSub(props: React.ComponentProps<typeof SidebarMenuSub>) {
@@ -433,14 +466,13 @@ function useSidebarNavMenuOverlay<TActive>(initialActive: TActive) {
 }
 
 export {
-  SidebarFooterButton,
-  SidebarMenuIconButton,
   SidebarNav,
+  SidebarNavIconButton,
   SidebarNavMenu,
   SidebarNavMenuButton,
-  SidebarNavMenuItem,
   SidebarNavMenuSub,
   SidebarNavMenuSubButton,
   SidebarNavRail,
+  SidebarNavUtilityButton,
   useSidebarNavMenuOverlay,
 };

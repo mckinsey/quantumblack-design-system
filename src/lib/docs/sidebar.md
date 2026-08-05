@@ -1,47 +1,36 @@
-## Usage
+## What this is
 
-```tsx
-import {
-  SidebarInset,
-  SidebarNav,
-  SidebarNavMenu,
-  SidebarNavRail,
-  SidebarProvider,
-  useSidebarNavMenuOverlay,
-} from '@/components/ui/sidebar';
+QB **LeftNav**: a fixed **icon rail** plus a **sliding NavMenu panel** beside it.
 
-export function App() {
-  const nav = useSidebarNavMenuOverlay('home');
+This is **not** the classic shadcn collapsible sidebar, and **not** a `DropdownMenu` flyout. Shared names like `SidebarProvider` and `SidebarMenuItem` come from shadcn; the product composition is LeftNav only.
 
-  return (
-    <div className="flex min-h-svh">
-      <SidebarProvider layout="nav" size="lg">
-        <SidebarNav>
-          <SidebarNavRail>{/* rail icons */}</SidebarNavRail>
-          <SidebarNavMenu
-            mode="overlay"
-            open={nav.open}
-            onOpenChange={nav.setOpen}>
-            {/* nav groups + items */}
-          </SidebarNavMenu>
-        </SidebarNav>
-      </SidebarProvider>
-      <SidebarInset>{/* page */}</SidebarInset>
-    </div>
-  );
-}
-```
+| Piece  | Component                        | Job                                                   |
+| ------ | -------------------------------- | ----------------------------------------------------- |
+| Shell  | `SidebarProvider` + `SidebarNav` | Owns `size` / `side` / `layout`; lays out rail + menu |
+| Rail   | `SidebarNavRail`                 | Always-visible icon column                            |
+| Flyout | `SidebarNavMenu`                 | Panel beside the rail (`overlay` by default)          |
+| Page   | `SidebarInset`                   | Main content                                          |
 
 ## Composition
 
-LeftNav shell.
-
 ```text
-SidebarProvider (layout="nav")
+SidebarProvider (layout="nav", size, side)
 ├── SidebarNav
 │   ├── SidebarNavRail
-│   └── SidebarNavMenu
+│   │   ├── SidebarHeader → SidebarMenu → SidebarMenuItem → SidebarNavIconButton
+│   │   └── SidebarFooter → SidebarMenu → SidebarMenuItem → SidebarNavUtilityButton
+│   └── SidebarNavMenu                    // overlay panel; wire with useSidebarNavMenuOverlay
+│       └── SidebarGroup → … → SidebarNavMenuButton / SidebarNavMenuSubButton
 └── SidebarInset
 ```
 
-For more information, see the [shadcn/ui Sidebar docs](https://ui.shadcn.com/docs/components/base/sidebar).
+Use `useSidebarNavMenuOverlay` so rail clicks open/close the panel. Nested groups use `Collapsible` + `SidebarNavMenuButton showChevron`, not `DropdownMenu`. See **Examples** below for live shells and source.
+
+## Do / don’t
+
+- **Do** use `SidebarNavIconButton` on the rail and `SidebarNavMenu` for the flyout.
+- **Don’t** wrap rail buttons in `DropdownMenu` for primary nav.
+- **Don’t** use `SidebarMenuButton` for the LeftNav icon rail.
+- **Don’t** expect `SidebarNavMenu` to portal like a popover — it sits beside the rail inside `SidebarNav`.
+
+Classic shadcn pieces (`Sidebar`, `SidebarTrigger`, `SidebarRail`, `collapsible="icon"`) stay exported for the registry app — skip them for LeftNav.

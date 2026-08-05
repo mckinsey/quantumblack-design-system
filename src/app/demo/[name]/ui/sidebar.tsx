@@ -17,22 +17,21 @@ import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import {
   SidebarFooter,
-  SidebarFooterButton,
   SidebarGroup,
   SidebarGroupLabel,
   SidebarHeader,
   SidebarInset,
   SidebarMenu,
-  SidebarMenuIconButton,
   SidebarMenuItem,
   SidebarMenuSubItem,
   SidebarNav,
+  SidebarNavIconButton,
   SidebarNavMenu,
   SidebarNavMenuButton,
-  SidebarNavMenuItem,
   SidebarNavMenuSub,
   SidebarNavMenuSubButton,
   SidebarNavRail,
+  SidebarNavUtilityButton,
   SidebarProvider,
   SidebarSeparator,
   useSidebar,
@@ -623,29 +622,47 @@ function navIcon(icon: string, active = false, size: 'sm' | 'default' = 'sm') {
 }
 
 function NavMenuGroupRow({
+  groupKey,
   group,
   withIcons = false,
   defaultOpen = false,
-  selectedId,
+  activeRowId,
+  onActivate,
   onSelect,
 }: {
+  groupKey: string;
   group: NavGroup;
   withIcons?: boolean;
   defaultOpen?: boolean;
-  selectedId?: string;
+  activeRowId?: string | null;
+  onActivate?: (id: string | null) => void;
   onSelect?: (id: string) => void;
 }) {
   const { size } = useSidebar();
   const iconSize = size === 'lg' ? 'default' : 'sm';
+  const [open, setOpen] = useState(defaultOpen);
+  const groupActive = activeRowId === groupKey;
 
   return (
     <Collapsible
-      defaultOpen={defaultOpen}
-      className="group/collapsible data-[state=open]:bg-fill-muted">
-      <SidebarNavMenuItem>
+      open={open}
+      onOpenChange={next => {
+        setOpen(next);
+
+        if (next) {
+          onActivate?.(groupKey);
+          return;
+        }
+
+        if (groupActive) {
+          onActivate?.(null);
+        }
+      }}
+      className={cn('group/collapsible', groupActive && 'bg-fill-muted')}>
+      <SidebarMenuItem>
         <CollapsibleTrigger asChild>
-          <SidebarNavMenuButton showChevron>
-            {withIcons ? navIcon(group.icon, false, iconSize) : null}
+          <SidebarNavMenuButton showChevron isActive={groupActive}>
+            {withIcons ? navIcon(group.icon, groupActive, iconSize) : null}
             <span>{group.label}</span>
             {group.badge ? (
               <Badge
@@ -661,13 +678,16 @@ function NavMenuGroupRow({
         <CollapsibleContent>
           <SidebarNavMenuSub>
             {group.items.map(item => {
-              const isActive = selectedId === item.id;
+              const isActive = activeRowId === item.id;
 
               return (
                 <SidebarMenuSubItem key={item.id}>
                   <SidebarNavMenuSubButton
                     isActive={isActive}
-                    onClick={() => onSelect?.(item.id)}>
+                    onClick={() => {
+                      onActivate?.(item.id);
+                      onSelect?.(item.id);
+                    }}>
                     {withIcons ? navIcon(item.icon, isActive, iconSize) : null}
                     <span>{item.label}</span>
                   </SidebarNavMenuSubButton>
@@ -676,7 +696,7 @@ function NavMenuGroupRow({
             })}
           </SidebarNavMenuSub>
         </CollapsibleContent>
-      </SidebarNavMenuItem>
+      </SidebarMenuItem>
     </Collapsible>
   );
 }
@@ -692,6 +712,10 @@ function NavMenuSectionsContent({
   selectedId?: string;
   onSelect?: (id: string) => void;
 }) {
+  const [activeRowId, setActiveRowId] = useState<string | null>(
+    selectedId ?? null,
+  );
+
   return (
     <>
       {sections.map((section, sectionIndex) => (
@@ -699,16 +723,22 @@ function NavMenuSectionsContent({
           <SidebarGroupLabel>{section.header}</SidebarGroupLabel>
 
           <SidebarMenu>
-            {section.groups.map((group, index) => (
-              <NavMenuGroupRow
-                key={group.label}
-                group={group}
-                withIcons={withIcons}
-                selectedId={selectedId}
-                onSelect={onSelect}
-                defaultOpen={sectionIndex === 0 && index === 0}
-              />
-            ))}
+            {section.groups.map((group, index) => {
+              const groupKey = `g:${section.header}:${group.label}`;
+
+              return (
+                <NavMenuGroupRow
+                  key={groupKey}
+                  groupKey={groupKey}
+                  group={group}
+                  withIcons={withIcons}
+                  activeRowId={activeRowId}
+                  onActivate={setActiveRowId}
+                  onSelect={onSelect}
+                  defaultOpen={sectionIndex === 0 && index === 0}
+                />
+              );
+            })}
           </SidebarMenu>
         </SidebarGroup>
       ))}
@@ -775,7 +805,7 @@ function NavRailContent({
 
             return (
               <SidebarMenuItem key={item.id}>
-                <SidebarMenuIconButton
+                <SidebarNavIconButton
                   isActive={isActive}
                   tooltip={itemTooltip(item.label)}
                   onClick={() => onActive(item.id)}>
@@ -784,7 +814,7 @@ function NavRailContent({
                     variant={isActive ? 'primary' : 'secondary'}>
                     <Icon icon={item.icon} />
                   </IconShell>
-                </SidebarMenuIconButton>
+                </SidebarNavIconButton>
               </SidebarMenuItem>
             );
           })}
@@ -795,11 +825,11 @@ function NavRailContent({
         <SidebarMenu className="items-center gap-4">
           {utilityNav.map(item => (
             <SidebarMenuItem key={item.label}>
-              <SidebarFooterButton tooltip={itemTooltip(item.label)}>
+              <SidebarNavUtilityButton tooltip={itemTooltip(item.label)}>
                 <IconShell size="default" variant="secondary">
                   <Icon icon={item.icon} />
                 </IconShell>
-              </SidebarFooterButton>
+              </SidebarNavUtilityButton>
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
@@ -894,7 +924,7 @@ function LeftNavShell({
             ) : null}
             {showNavMenu ? (
               <SidebarNavMenu
-                mode={overlay ? 'overlay' : 'inline'}
+                mode={overlay ? undefined : 'inline'}
                 open={overlay ? navOverlay.open : undefined}
                 onOpenChange={overlay ? navOverlay.setOpen : undefined}>
                 {showcaseMenu ? (
@@ -996,7 +1026,7 @@ function FullscreenShell({
 
 function SidebarFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="border-stroke-divider h-[996px] w-full overflow-hidden rounded-lg border">
+    <div className="border-stroke-divider min-h-[1024px] w-full overflow-hidden rounded-lg border">
       {children}
     </div>
   );
@@ -1032,22 +1062,6 @@ export function SidebarApp() {
   );
 }
 
-export function SidebarAppRight() {
-  return (
-    <FullscreenShell>
-      {({ fullscreen, onToggleFullscreen }) => (
-        <LeftNavShell
-          mode="overlay"
-          withIcons
-          sidebarSide="right"
-          fullscreen={fullscreen}
-          onToggleFullscreen={onToggleFullscreen}
-        />
-      )}
-    </FullscreenShell>
-  );
-}
-
 function NavRailFrame({ size }: { size: RailSize }) {
   const [active, setActive] = useState<NavId>('home');
 
@@ -1063,7 +1077,7 @@ function NavRailFrame({ size }: { size: RailSize }) {
   );
 }
 
-export function SidebarSizes() {
+export function SidebarNavRailSizes() {
   return (
     <SidebarFrame>
       <div className="bg-surface-secondary flex h-full items-start justify-center gap-8 p-6">
@@ -1100,13 +1114,7 @@ function RailSizeSection({ size, label }: { size: RailSize; label: string }) {
   );
 }
 
-function NavMenuStandalone({
-  size,
-  withIcons = false,
-}: {
-  size: RailSize;
-  withIcons?: boolean;
-}) {
+function NavMenuStandalone({ size }: { size: RailSize }) {
   const [selectedId, setSelectedId] = useState(firstShowcaseItemId);
 
   return (
@@ -1116,9 +1124,9 @@ function NavMenuStandalone({
         size={size}
         className="h-full min-h-0 w-auto">
         <SidebarNav className="h-full min-h-0 w-auto">
-          <SidebarNavMenu className="h-full">
+          <SidebarNavMenu mode="inline" className="h-full">
             <NavMenuShowcaseContent
-              withIcons={withIcons}
+              withIcons
               selectedId={selectedId}
               onSelect={setSelectedId}
             />
@@ -1131,11 +1139,9 @@ function NavMenuStandalone({
 
 function NavMenuFullscreenTrigger({
   size,
-  withIcons,
   label,
 }: {
   size: RailSize;
-  withIcons: boolean;
   label: string;
 }) {
   return (
@@ -1146,7 +1152,7 @@ function NavMenuFullscreenTrigger({
             mode="inline"
             showRail={false}
             showcaseMenu
-            withIcons={withIcons}
+            withIcons
             size={size}
             fullscreen
             onToggleFullscreen={onToggleFullscreen}
@@ -1162,154 +1168,26 @@ function NavMenuFullscreenTrigger({
   );
 }
 
-function NavMenuSizeShowcase({ withIcons }: { withIcons: boolean }) {
+export function SidebarNavMenuDemo() {
   return (
     <div className="border-stroke-divider w-full overflow-hidden rounded-lg border">
       <div className="bg-surface-secondary flex flex-col gap-6 p-6">
         <div className="flex flex-wrap items-center justify-center gap-4">
           <NavMenuFullscreenTrigger
             size="default"
-            withIcons={withIcons}
             label="Open default fullscreen"
           />
-          <NavMenuFullscreenTrigger
-            size="lg"
-            withIcons={withIcons}
-            label="Open large fullscreen"
-          />
+          <NavMenuFullscreenTrigger size="lg" label="Open large fullscreen" />
         </div>
 
         <div className="grid grid-cols-2 gap-8">
           <LabeledSection label="Default">
-            <NavMenuStandalone size="default" withIcons={withIcons} />
+            <NavMenuStandalone size="default" />
           </LabeledSection>
           <LabeledSection label="Large">
-            <NavMenuStandalone size="lg" withIcons={withIcons} />
+            <NavMenuStandalone size="lg" />
           </LabeledSection>
         </div>
-      </div>
-    </div>
-  );
-}
-
-export function SidebarNavMenuSizes() {
-  return <NavMenuSizeShowcase withIcons={false} />;
-}
-
-export function SidebarNavMenuIcons() {
-  return <NavMenuSizeShowcase withIcons />;
-}
-
-type NavMenuItemState =
-  | 'enabled'
-  | 'hover'
-  | 'disabled'
-  | 'active'
-  | 'active-expanded';
-
-const navMenuItemStates: { id: NavMenuItemState; label: string }[] = [
-  { id: 'enabled', label: 'Enabled' },
-  { id: 'hover', label: 'Hover' },
-  { id: 'disabled', label: 'Disabled' },
-  { id: 'active', label: 'Active' },
-  { id: 'active-expanded', label: 'Active expanded' },
-];
-
-function NavMenuStateRow({ state }: { state: NavMenuItemState }) {
-  const { size } = useSidebar();
-  const iconSize = size === 'lg' ? 'default' : 'sm';
-  const forcedHover = state === 'hover';
-  const isActive = state === 'active' || state === 'active-expanded';
-  const disabled = state === 'disabled';
-
-  if (state === 'active-expanded') {
-    return (
-      <Collapsible
-        open
-        className="group/collapsible data-[state=open]:bg-fill-muted">
-        <SidebarNavMenuItem>
-          <CollapsibleTrigger asChild>
-            <SidebarNavMenuButton showChevron isActive>
-              {navIcon('folder', true, iconSize)}
-              <span>Nav Item</span>
-            </SidebarNavMenuButton>
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <SidebarNavMenuSub>
-              <SidebarMenuSubItem>
-                <SidebarNavMenuSubButton isActive>
-                  {navIcon('description', true, iconSize)}
-                  <span>Child Item</span>
-                </SidebarNavMenuSubButton>
-              </SidebarMenuSubItem>
-              <SidebarMenuSubItem>
-                <SidebarNavMenuSubButton>
-                  {navIcon('description', false, iconSize)}
-                  <span>Child Item</span>
-                </SidebarNavMenuSubButton>
-              </SidebarMenuSubItem>
-            </SidebarNavMenuSub>
-          </CollapsibleContent>
-        </SidebarNavMenuItem>
-      </Collapsible>
-    );
-  }
-
-  return (
-    <SidebarNavMenuItem>
-      <SidebarNavMenuButton
-        showChevron
-        isActive={isActive}
-        disabled={disabled}
-        className={cn(
-          forcedHover &&
-            'bg-stateslayer-overlay-hover text-fg-primary pointer-events-none',
-        )}>
-        {navIcon('folder', isActive || forcedHover, iconSize)}
-        <span>Nav Item</span>
-      </SidebarNavMenuButton>
-    </SidebarNavMenuItem>
-  );
-}
-
-function NavMenuStatesColumn({
-  size,
-  label,
-}: {
-  size: RailSize;
-  label: string;
-}) {
-  return (
-    <LabeledSection label={label}>
-      <SidebarProvider
-        layout="nav"
-        size={size}
-        className="h-auto min-h-0 w-auto">
-        <SidebarNav className="h-auto min-h-0 w-auto">
-          <SidebarNavMenu className="h-auto gap-4">
-            {navMenuItemStates.map(({ id, label: stateLabel }) => (
-              <div key={id} className="flex flex-col gap-2">
-                <span className="paragraph-small text-fg-tertiary">
-                  {stateLabel}
-                </span>
-                <SidebarMenu>
-                  <NavMenuStateRow state={id} />
-                </SidebarMenu>
-              </div>
-            ))}
-          </SidebarNavMenu>
-        </SidebarNav>
-      </SidebarProvider>
-    </LabeledSection>
-  );
-}
-
-export function SidebarNavMenuStates() {
-  return (
-    <div className="border-stroke-divider w-full overflow-hidden rounded-lg border">
-      <div className="bg-surface-secondary flex items-start justify-center gap-12 p-6">
-        <NavMenuStatesColumn size="default" label="Default" />
-        <NavMenuStatesColumn size="lg" label="Large" />
       </div>
     </div>
   );
@@ -1320,38 +1198,24 @@ export const examples: DemoExample[] = [
     name: 'SidebarApp',
     title: 'Sidebar',
     description:
-      'Icon rail where each icon opens its own NavMenu from behind the rail. Open fullscreen for the full app shell.',
+      'Icon rail opens an overlay NavMenu panel beside the rail. Open fullscreen for the full app shell.',
   },
   {
-    name: 'SidebarSizes',
-    title: 'Sidebar sizes',
+    name: 'SidebarNavRailSizes',
+    title: 'Rail sizes',
     description:
-      'SidebarNavRail at default and lg, side by side. Open fullscreen for the rail in an app shell.',
+      'Icon rail at default and lg. Open fullscreen for the rail in an app shell.',
   },
   {
-    name: 'SidebarNavMenuSizes',
-    title: 'NavMenu sizes',
+    name: 'SidebarNavMenuDemo',
+    title: 'NavMenu',
     description:
-      'NavMenu at default and lg without icons. Open fullscreen for an app shell preview.',
-  },
-  {
-    name: 'SidebarNavMenuIcons',
-    title: 'NavMenu with icons',
-    description:
-      'NavMenu at default and lg with icons on groups and sub-items. Open fullscreen for an app shell preview.',
-  },
-  {
-    name: 'SidebarNavMenuStates',
-    title: 'NavMenu states',
-    description:
-      'NavMenu items at default and lg across enabled, hover, disabled, active, and active expanded.',
+      'Inline NavMenu at default and lg with icons. Open fullscreen for an app shell preview.',
   },
 ];
 
 export const sidebar = createLegacyDemo('sidebar', examples, {
   SidebarApp: <SidebarApp />,
-  SidebarSizes: <SidebarSizes />,
-  SidebarNavMenuSizes: <SidebarNavMenuSizes />,
-  SidebarNavMenuIcons: <SidebarNavMenuIcons />,
-  SidebarNavMenuStates: <SidebarNavMenuStates />,
+  SidebarNavRailSizes: <SidebarNavRailSizes />,
+  SidebarNavMenuDemo: <SidebarNavMenuDemo />,
 });

@@ -658,7 +658,7 @@
       "name": "sidebar",
       "type": "registry:ui",
       "title": "Sidebar",
-      "description": "Composable sidebar with collapsible sections, mobile sheet, and icon mode, plus the QB LeftNav layer (icon rail + slide-out NavMenu). shadcn API.",
+      "description": "QB LeftNav: icon rail plus overlay NavMenu panel. Keeps the shadcn sidebar primitives underneath.",
       "dependencies": [
         "@radix-ui/react-dialog",
         "@radix-ui/react-slot",

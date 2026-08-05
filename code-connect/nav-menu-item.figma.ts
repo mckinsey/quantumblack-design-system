@@ -92,7 +92,7 @@ export default {
       ? withChildren && subItems.length
         ? figma.code`
             <Collapsible${isExpanded ? ' defaultOpen' : ''} className="group/collapsible">
-              <SidebarNavMenuItem>
+              <SidebarMenuItem>
                 <CollapsibleTrigger asChild>
                   ${groupButton}
                 </CollapsibleTrigger>
@@ -101,13 +101,13 @@ export default {
                     ${figma.helpers.react.renderChildren(subItems)}
                   </SidebarNavMenuSub>
                 </CollapsibleContent>
-              </SidebarNavMenuItem>
+              </SidebarMenuItem>
             </Collapsible>
           `
         : figma.code`
-            <SidebarNavMenuItem>
+            <SidebarMenuItem>
               ${groupButton}
-            </SidebarNavMenuItem>
+            </SidebarMenuItem>
           `
       : figma.code`
           <SidebarMenuSubItem>
@@ -116,7 +116,7 @@ export default {
         `,
   imports: [
     'import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"',
-    'import { SidebarMenuSubItem, SidebarNavMenuButton, SidebarNavMenuItem, SidebarNavMenuSub, SidebarNavMenuSubButton } from "@/components/ui/sidebar"',
+    'import { SidebarMenuItem, SidebarMenuSubItem, SidebarNavMenuButton, SidebarNavMenuSub, SidebarNavMenuSubButton } from "@/components/ui/sidebar"',
   ],
   id: 'nav-menu-item',
   metadata: { nestable: true },

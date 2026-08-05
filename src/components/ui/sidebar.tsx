@@ -549,7 +549,7 @@ const sidebarMenuButtonVariants = cva(
     'disabled:pointer-events-none disabled:opacity-50',
     'aria-disabled:pointer-events-none aria-disabled:opacity-50',
     'group-has-data-[sidebar=menu-action]/menu-item:pr-8',
-    'data-[active=true]:rounded-none data-[active=true]:bg-fill-onsurface-ui-3 data-[active=true]:font-semibold data-[active=true]:text-fg-primary',
+    'data-[active=true]:rounded-none data-[active=true]:font-semibold data-[active=true]:text-fg-primary',
     'data-[state=open]:hover:bg-stateslayer-overlay-hover data-[state=open]:hover:text-fg-primary',
     'group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2!',
   ],
@@ -808,14 +808,13 @@ export {
 };
 
 export {
-  SidebarFooterButton,
-  SidebarMenuIconButton,
   SidebarNav,
+  SidebarNavIconButton,
   SidebarNavMenu,
   SidebarNavMenuButton,
-  SidebarNavRail,
-  useSidebarNavMenuOverlay,
-  SidebarNavMenuItem,
   SidebarNavMenuSub,
   SidebarNavMenuSubButton,
+  SidebarNavRail,
+  SidebarNavUtilityButton,
+  useSidebarNavMenuOverlay,
 } from './sidebar-nav';
