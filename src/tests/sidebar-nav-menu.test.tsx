@@ -333,20 +333,4 @@ describe('useSidebarNavMenuOverlay', () => {
 
     expect(result.current.open).toBe(false);
   });
-
-  it('exposes close and openMenu', () => {
-    const { result } = renderHook(() => useSidebarNavMenuOverlay('home'));
-
-    act(() => {
-      result.current.openMenu();
-    });
-
-    expect(result.current.open).toBe(true);
-
-    act(() => {
-      result.current.close();
-    });
-
-    expect(result.current.open).toBe(false);
-  });
 });

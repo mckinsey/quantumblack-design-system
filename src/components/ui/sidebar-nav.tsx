@@ -17,12 +17,12 @@ import { SidebarMenuSub, useSidebar } from './sidebar';
 
 type SidebarNavSize = 'default' | 'lg';
 
+type NavTooltip = string | React.ComponentProps<typeof TooltipContent>;
+
 const sidebarNavIconButtonVariants = cva(
   [
     'peer/menu-button relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-none p-0',
     'ring-stroke-status-focus outline-hidden transition-[width,height,padding,background-color]',
-    'group-has-data-[sidebar=menu-action]/menu-item:pr-8',
-    'group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2!',
     'hover:bg-stateslayer-overlay-hover hover:text-fg-primary',
     'focus-visible:ring-1',
     'active:text-fg-primary',
@@ -34,7 +34,7 @@ const sidebarNavIconButtonVariants = cva(
     variants: {
       size: {
         default: 'size-16',
-        lg: 'size-20 group-data-[collapsible=icon]:p-0! ',
+        lg: 'size-20',
       },
     },
     defaultVariants: {
@@ -47,6 +47,32 @@ const tooltipOffsetForIconButton: Record<SidebarNavSize, number> = {
   default: -20,
   lg: -24,
 };
+
+function withNavTooltip(
+  button: React.ReactElement,
+  tooltip: NavTooltip | undefined,
+  opts: { isMobile: boolean; sideOffset?: number },
+) {
+  if (!tooltip) {
+    return button;
+  }
+
+  const tip = typeof tooltip === 'string' ? { children: tooltip } : tooltip;
+  const { hidden: tooltipHidden, ...tooltipProps } = tip;
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>{button}</TooltipTrigger>
+      <TooltipContent
+        side="right"
+        align="center"
+        sideOffset={opts.sideOffset}
+        hidden={tooltipHidden ?? opts.isMobile}
+        {...tooltipProps}
+      />
+    </Tooltip>
+  );
+}
 
 function SidebarNav({
   className,
@@ -82,7 +108,7 @@ function SidebarNavIconButton({
 }: React.ComponentProps<'button'> & {
   asChild?: boolean;
   isActive?: boolean;
-  tooltip?: string | React.ComponentProps<typeof TooltipContent>;
+  tooltip?: NavTooltip;
 } & VariantProps<typeof sidebarNavIconButtonVariants>) {
   const Comp = asChild ? Slot : 'button';
   const { isMobile, size: ctxSize } = useSidebar();
@@ -100,30 +126,10 @@ function SidebarNavIconButton({
     />
   );
 
-  if (!tooltip) {
-    return button;
-  }
-
-  if (typeof tooltip === 'string') {
-    tooltip = {
-      children: tooltip,
-    };
-  }
-
-  const { hidden: tooltipHidden, ...tooltipProps } = tooltip;
-
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>{button}</TooltipTrigger>
-      <TooltipContent
-        side="right"
-        align="center"
-        sideOffset={tooltipOffsetForIconButton[size]}
-        hidden={tooltipHidden ?? isMobile}
-        {...tooltipProps}
-      />
-    </Tooltip>
-  );
+  return withNavTooltip(button, tooltip, {
+    isMobile,
+    sideOffset: tooltipOffsetForIconButton[size],
+  });
 }
 
 const sidebarNavUtilityButtonVariants = cva([
@@ -143,7 +149,7 @@ function SidebarNavUtilityButton({
   ...props
 }: React.ComponentProps<'button'> & {
   asChild?: boolean;
-  tooltip?: string | React.ComponentProps<typeof TooltipContent>;
+  tooltip?: NavTooltip;
 }) {
   const Comp = asChild ? Slot : 'button';
   const { isMobile } = useSidebar();
@@ -157,29 +163,7 @@ function SidebarNavUtilityButton({
     />
   );
 
-  if (!tooltip) {
-    return button;
-  }
-
-  if (typeof tooltip === 'string') {
-    tooltip = {
-      children: tooltip,
-    };
-  }
-
-  const { hidden: tooltipHidden, ...tooltipProps } = tooltip;
-
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>{button}</TooltipTrigger>
-      <TooltipContent
-        side="right"
-        align="center"
-        hidden={tooltipHidden ?? isMobile}
-        {...tooltipProps}
-      />
-    </Tooltip>
-  );
+  return withNavTooltip(button, tooltip, { isMobile });
 }
 
 function SidebarNavRail({ className, ...props }: React.ComponentProps<'div'>) {
@@ -304,15 +288,14 @@ function SidebarNavMenu({
   const open = openProp ?? uncontrolledOpen;
 
   const setOpen = React.useCallback(
-    (value: boolean | ((prev: boolean) => boolean)) => {
-      const next = typeof value === 'function' ? value(open) : value;
+    (next: boolean) => {
       onOpenChange?.(next);
 
       if (openProp === undefined) {
         setUncontrolledOpen(next);
       }
     },
-    [onOpenChange, open, openProp],
+    [onOpenChange, openProp],
   );
 
   React.useEffect(() => {
@@ -446,22 +429,12 @@ function useSidebarNavMenuOverlay<TActive>(initialActive: TActive) {
     [active, open],
   );
 
-  const close = React.useCallback(() => {
-    setOpen(false);
-  }, []);
-
-  const openMenu = React.useCallback(() => {
-    setOpen(true);
-  }, []);
-
   return {
     active,
     setActive,
     open,
     setOpen,
     selectActive,
-    close,
-    openMenu,
   };
 }
 
