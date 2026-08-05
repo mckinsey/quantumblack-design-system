@@ -1,23 +1,33 @@
 'use client';
 
 import { Select as SelectPrimitive } from '@base-ui/react/select';
+import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
+import {
+  inputFocusRingWidth,
+  inputInlineFocusBorderWidth,
+  inputSizeDefinitions,
+  inputVariantStyles,
+} from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
 export type SelectSize = 'sm' | 'default' | 'lg';
+export type SelectVariant = 'default' | 'inline';
 
-interface SelectSizeContextValue {
+interface SelectContextValue {
   size?: SelectSize;
+  disabled?: boolean;
 }
 
-const SelectSizeContext = React.createContext<
-  SelectSizeContextValue | undefined
->(undefined);
+const SelectContext = React.createContext<SelectContextValue | undefined>(
+  undefined,
+);
 
-const useSelectSizeContext = () => {
-  return React.useContext(SelectSizeContext);
+const useSelectContext = () => {
+  return React.useContext(SelectContext);
 };
 
 type SelectProps = React.ComponentProps<typeof SelectPrimitive.Root> & {
@@ -27,6 +37,136 @@ type SelectProps = React.ComponentProps<typeof SelectPrimitive.Root> & {
    */
   size?: SelectSize;
 };
+
+const selectTriggerVariants = cva(
+  [
+    'relative flex w-fit items-center whitespace-nowrap text-left',
+    'rounded-none outline-none transition-[border-color,box-shadow,background-color]',
+    'cursor-pointer',
+    'data-placeholder:text-fg-tertiary',
+    '*:data-[slot=select-value]:min-w-0 *:data-[slot=select-value]:flex-1 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2',
+    '[&_[data-slot=select-feedback-icon]]:shrink-0 [&_[data-slot=select-icon]]:shrink-0 [&_[data-slot=select-icon]]:self-center',
+    'data-disabled:cursor-not-allowed data-disabled:text-fg-disabled',
+  ],
+  {
+    variants: {
+      variant: {
+        default: [
+          inputVariantStyles.default.base,
+          inputVariantStyles.default.text,
+          inputVariantStyles.default.hover,
+          inputVariantStyles.default.focus,
+          'data-[popup-open]:bg-stateslayer-overlay-active-inverse data-[popup-open]:ring-stroke-status-focus data-[popup-open]:shadow-elevation-0',
+          inputVariantStyles.default.error,
+          'aria-invalid:data-[popup-open]:ring-stroke-status-error',
+          'data-disabled:bg-stateslayer-overlay-disabled',
+        ],
+        inline: [
+          inputVariantStyles.inline.base,
+          inputVariantStyles.inline.border,
+          inputVariantStyles.inline.text,
+          inputVariantStyles.inline.hover,
+          'px-0!',
+          inputVariantStyles.inline.focus,
+          'data-[popup-open]:border-b-stroke-status-focus data-[popup-open]:shadow-elevation-0',
+          inputVariantStyles.inline.error,
+          'aria-invalid:data-[popup-open]:border-b-status-error',
+          inputVariantStyles.inline.disabled,
+          'data-disabled:pointer-events-none data-disabled:data-placeholder:text-fg-disabled',
+        ],
+      },
+      size: {
+        sm: `${inputSizeDefinitions.sm} gap-2`,
+        default: `${inputSizeDefinitions.default} gap-2`,
+        lg: `${inputSizeDefinitions.lg} gap-2`,
+      },
+    },
+    compoundVariants: [
+      { variant: 'default', size: 'sm', className: inputFocusRingWidth.sm },
+      {
+        variant: 'default',
+        size: 'default',
+        className: inputFocusRingWidth.default,
+      },
+      { variant: 'default', size: 'lg', className: inputFocusRingWidth.lg },
+      {
+        variant: 'default',
+        size: 'sm',
+        className: 'data-[popup-open]:ring-[1px]',
+      },
+      {
+        variant: 'default',
+        size: 'default',
+        className: 'data-[popup-open]:ring-[1px]',
+      },
+      {
+        variant: 'default',
+        size: 'lg',
+        className: 'data-[popup-open]:ring-[2px]',
+      },
+      {
+        variant: 'inline',
+        size: 'sm',
+        className: inputInlineFocusBorderWidth.sm,
+      },
+      {
+        variant: 'inline',
+        size: 'default',
+        className: inputInlineFocusBorderWidth.default,
+      },
+      {
+        variant: 'inline',
+        size: 'lg',
+        className: 'border-b-[2px]',
+      },
+      {
+        variant: 'inline',
+        size: 'sm',
+        className: 'data-[popup-open]:border-b-[1px]',
+      },
+      {
+        variant: 'inline',
+        size: 'default',
+        className: 'data-[popup-open]:border-b-[1px]',
+      },
+    ],
+    defaultVariants: {
+      variant: 'default',
+      size: 'default',
+    },
+  },
+);
+
+const selectItemVariants = cva(
+  [
+    'relative flex w-full items-center outline-none select-none',
+    'cursor-pointer',
+    'text-fg-secondary',
+    'data-highlighted:overlay-hover data-highlighted:text-fg-primary',
+    'active:overlay-pressed data-highlighted:active:overlay-pressed',
+    'data-disabled:cursor-not-allowed data-disabled:text-fg-disabled',
+    'data-disabled:data-highlighted:[background-image:none] data-disabled:data-highlighted:text-fg-disabled',
+    'data-disabled:active:[background-image:none]',
+  ],
+  {
+    variants: {
+      size: {
+        sm: 'paragraph-regular-primary gap-2 py-2 pr-2 pl-1',
+        default: 'paragraph-regular-primary gap-2 py-2 pr-2 pl-1',
+        lg: 'paragraph-large-primary gap-1 p-2',
+      },
+    },
+    defaultVariants: {
+      size: 'default',
+    },
+  },
+);
+
+const selectLabelSize = {
+  sm: 'label-regular-primary px-1 py-2',
+  default: 'label-regular-primary px-1 py-2',
+  lg: 'label-large-primary p-2',
+} as const;
 
 /**
  * Select component for choosing from a list of options.
@@ -47,13 +187,18 @@ type SelectProps = React.ComponentProps<typeof SelectPrimitive.Root> & {
  * </Select>
  * ```
  */
-function Select({ size = 'default', children, ...props }: SelectProps) {
+function Select({
+  size = 'default',
+  disabled = false,
+  children,
+  ...props
+}: SelectProps) {
   return (
-    <SelectSizeContext.Provider value={{ size }}>
-      <SelectPrimitive.Root data-slot="select" {...props}>
+    <SelectContext.Provider value={{ size, disabled }}>
+      <SelectPrimitive.Root data-slot="select" disabled={disabled} {...props}>
         {children}
       </SelectPrimitive.Root>
-    </SelectSizeContext.Provider>
+    </SelectContext.Provider>
   );
 }
 
@@ -62,66 +207,43 @@ function SelectValue(props: SelectPrimitive.Value.Props) {
 }
 
 function SelectIcon({ className, ...props }: SelectPrimitive.Icon.Props) {
-  const sizeContext = useSelectSizeContext();
-  const size = sizeContext?.size ?? 'default';
-
   return (
     <SelectPrimitive.Icon
       data-slot="select-icon"
-      className={cn(
-        'text-fill-active shrink-0 opacity-60',
-        '[[data-disabled]>&]:opacity-30',
-        size === 'lg' ? 'size-6' : 'size-4',
-        className,
-      )}
+      className={cn('flex shrink-0 items-center justify-center', className)}
       {...props}
     />
   );
 }
 
+function selectIconSize(size: SelectSize = 'default') {
+  return size === 'lg' ? 'default' : 'sm';
+}
+
 function SelectTrigger({
   className,
   children,
+  variant = 'default',
+  disabled,
   ...props
-}: SelectPrimitive.Trigger.Props) {
-  const sizeContext = useSelectSizeContext();
+}: SelectPrimitive.Trigger.Props & VariantProps<typeof selectTriggerVariants>) {
+  const sizeContext = useSelectContext();
   const size = sizeContext?.size ?? 'default';
+  const iconSize = selectIconSize(size);
+  const isDisabled = Boolean(disabled || sizeContext?.disabled);
 
   return (
     <SelectPrimitive.Trigger
+      {...props}
+      disabled={isDisabled}
       data-slot="select-trigger"
-      className={cn(
-        'relative flex w-fit items-center justify-between whitespace-nowrap',
-        'bg-fill-onsurface-ui-3 transition-all outline-none',
-        'border border-transparent',
-        'cursor-pointer data-disabled:cursor-not-allowed data-disabled:opacity-50',
-
-        'text-fg-primary',
-        'data-placeholder:text-fg-tertiary',
-
-        'hover:bg-stateslayer-overlay-hover',
-
-        'focus-visible:bg-stateslayer-overlay-active-inverse focus-visible:border-stroke-status-focus',
-        'data-[popup-open]:bg-stateslayer-overlay-active-inverse data-[popup-open]:border-stroke-status-focus',
-        'data-[popup-open]:shadow-elevation-0',
-
-        size === 'sm' && 'paragraph-regular-primary gap-1 px-2 py-1',
-        size === 'default' && 'paragraph-regular-primary gap-2 p-2',
-        size === 'lg' && 'paragraph-large-primary gap-2 p-3',
-
-        'data-invalid:border-destructive',
-
-        '[&_svg]:pointer-events-none [&_svg]:shrink-0',
-        (size === 'sm' || size === 'default') && '[&_svg]:size-4',
-        size === 'lg' && '[&_svg]:size-6',
-
-        '*:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2',
-        className,
-      )}
-      {...props}>
+      data-variant={variant}
+      className={cn(selectTriggerVariants({ variant, size }), className)}>
       {children}
       <SelectIcon className="transition-transform duration-200 [[data-popup-open]>&]:rotate-180">
-        <Icon icon="keyboard_arrow_down" size="sm" />
+        <IconShell size={iconSize} variant="secondary" disabled={isDisabled}>
+          <Icon icon="expand_more" size={iconSize} />
+        </IconShell>
       </SelectIcon>
     </SelectPrimitive.Trigger>
   );
@@ -137,6 +259,10 @@ function SelectContent({
   className?: string;
   children?: React.ReactNode;
 }) {
+  const sizeContext = useSelectContext();
+  const size = sizeContext?.size ?? 'default';
+  const listPad = size === 'lg' ? 'px-1 py-2' : 'p-1';
+
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Positioner
@@ -146,7 +272,7 @@ function SelectContent({
         <SelectPrimitive.Popup
           data-slot="select-content"
           className={cn(
-            'bg-stateslayer-overlay-active-inverse text-fg-primary',
+            'bg-fill-active-inverse text-fg-primary',
             'relative z-50 overflow-hidden',
             'shadow-elevation-1',
             'data-open:animate-in data-closed:animate-out',
@@ -157,7 +283,11 @@ function SelectContent({
             className,
           )}>
           <SelectScrollUpArrow />
-          <SelectPrimitive.List className="max-h-[var(--available-height)] min-w-[var(--anchor-width)] p-1">
+          <SelectPrimitive.List
+            className={cn(
+              'max-h-[var(--available-height)] min-w-[var(--anchor-width)]',
+              listPad,
+            )}>
             {children}
           </SelectPrimitive.List>
           <SelectScrollDownArrow />
@@ -181,13 +311,12 @@ function SelectLabel({
   className,
   ...props
 }: SelectPrimitive.GroupLabel.Props) {
+  const size = useSelectContext()?.size ?? 'default';
+
   return (
     <SelectPrimitive.GroupLabel
       data-slot="select-label"
-      className={cn(
-        'text-fg-tertiary paragraph-small-primary px-2 py-1.5',
-        className,
-      )}
+      className={cn('text-fg-secondary', selectLabelSize[size], className)}
       {...props}
     />
   );
@@ -198,28 +327,13 @@ function SelectItem({
   children,
   ...props
 }: SelectPrimitive.Item.Props) {
-  const sizeContext = useSelectSizeContext();
+  const sizeContext = useSelectContext();
   const size = sizeContext?.size ?? 'default';
 
   return (
     <SelectPrimitive.Item
       data-slot="select-item"
-      className={cn(
-        'relative flex w-full cursor-default items-center outline-none select-none',
-
-        (size === 'sm' || size === 'default') &&
-          'paragraph-regular-primary gap-2 py-2 pr-2 pl-1',
-        size === 'lg' && 'paragraph-large-primary gap-1 p-2',
-
-        'text-fg-secondary',
-
-        'data-highlighted:bg-stateslayer-overlay-hover data-highlighted:text-fg-primary cursor-pointer',
-        'active:bg-stateslayer-overlay-pressed',
-
-        'data-disabled:text-fg-disabled data-disabled:cursor-not-allowed',
-
-        className,
-      )}
+      className={cn(selectItemVariants({ size }), className)}
       {...props}>
       {children}
     </SelectPrimitive.Item>
@@ -278,6 +392,9 @@ function SelectScrollUpArrow({
   className,
   ...props
 }: SelectPrimitive.ScrollUpArrow.Props) {
+  const sizeContext = useSelectContext();
+  const iconSize = selectIconSize(sizeContext?.size);
+
   return (
     <SelectPrimitive.ScrollUpArrow
       data-slot="select-scroll-up-arrow"
@@ -286,7 +403,9 @@ function SelectScrollUpArrow({
         className,
       )}
       {...props}>
-      <Icon icon="keyboard_arrow_down" size="sm" className="rotate-180" />
+      <IconShell size={iconSize} variant="secondary">
+        <Icon icon="expand_less" size={iconSize} />
+      </IconShell>
     </SelectPrimitive.ScrollUpArrow>
   );
 }
@@ -295,6 +414,9 @@ function SelectScrollDownArrow({
   className,
   ...props
 }: SelectPrimitive.ScrollDownArrow.Props) {
+  const sizeContext = useSelectContext();
+  const iconSize = selectIconSize(sizeContext?.size);
+
   return (
     <SelectPrimitive.ScrollDownArrow
       data-slot="select-scroll-down-arrow"
@@ -303,7 +425,9 @@ function SelectScrollDownArrow({
         className,
       )}
       {...props}>
-      <Icon icon="keyboard_arrow_down" size="sm" />
+      <IconShell size={iconSize} variant="secondary">
+        <Icon icon="expand_more" size={iconSize} />
+      </IconShell>
     </SelectPrimitive.ScrollDownArrow>
   );
 }
@@ -322,5 +446,7 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-  useSelectSizeContext,
+  selectItemVariants,
+  selectTriggerVariants,
+  useSelectContext,
 };

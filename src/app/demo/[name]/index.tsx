@@ -96,10 +96,10 @@ import {
 import {
   CheckboxDemo,
   CheckboxGroupItem,
+  CheckboxHorizontal,
   CheckboxItemGroup,
   CheckboxItemGroupSection,
   CheckboxItemSizes,
-  CheckboxSizes,
   checkbox,
   examples as checkboxExamples,
 } from '@/app/demo/[name]/ui/checkbox';
@@ -247,9 +247,12 @@ import {
 } from '@/app/demo/[name]/ui/segmented-controls';
 import {
   SelectDemo,
-  SelectMultipleDemo,
+  SelectHorizontal,
+  SelectInline,
+  SelectMultiple,
   SelectSizes,
-  SelectWithDisabled,
+  SelectTagsWrap,
+  SelectValidation,
   SelectWithGroups,
   select,
   examples as selectExamples,
@@ -484,11 +487,11 @@ export const exampleComponentMaps: Record<
   },
   checkbox: {
     CheckboxDemo,
-    CheckboxSizes,
     CheckboxGroupItem,
     CheckboxItemSizes,
     CheckboxItemGroup,
     CheckboxItemGroupSection,
+    CheckboxHorizontal,
   },
   'date-picker': {
     DatePickerDemo,
@@ -604,10 +607,13 @@ export const exampleComponentMaps: Record<
   },
   select: {
     SelectDemo,
+    SelectInline,
     SelectSizes,
-    SelectWithDisabled,
+    SelectHorizontal,
+    SelectValidation,
+    SelectMultiple,
+    SelectTagsWrap,
     SelectWithGroups,
-    SelectMultipleDemo,
   },
   sidebar: {
     SidebarApp,

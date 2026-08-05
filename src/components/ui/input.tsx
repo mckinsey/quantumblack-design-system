@@ -30,7 +30,8 @@ export const inputVariantStyles = {
     hover: 'hover:bg-stateslayer-overlay-hover',
     focus:
       'focus-visible:bg-stateslayer-overlay-active-inverse focus-visible:ring-stroke-status-focus',
-    error: 'aria-invalid:border-status-error aria-invalid:ring-0',
+    error:
+      'aria-invalid:border-status-error aria-invalid:focus-visible:ring-stroke-status-error',
     disabled:
       'disabled:cursor-not-allowed disabled:bg-stateslayer-overlay-disabled disabled:text-fg-disabled disabled:placeholder:text-fg-disabled',
   },
@@ -41,7 +42,8 @@ export const inputVariantStyles = {
     hover: 'hover:border-b-stroke-tertiary-hover',
     focus:
       'focus-visible:border-b-stroke-status-focus focus-visible:ring-0 focus-visible:shadow-elevation-0',
-    error: 'aria-invalid:border-b-status-error aria-invalid:ring-0',
+    error:
+      'aria-invalid:border-b-status-error aria-invalid:focus-visible:border-b-status-error',
     disabled:
       'disabled:pointer-events-none disabled:cursor-not-allowed disabled:text-fg-disabled disabled:placeholder:text-fg-disabled',
   },
@@ -49,7 +51,7 @@ export const inputVariantStyles = {
 
 // Shared input size styles - exported for use in InputGroup
 export const inputSizeStyles = {
-  sm: 'h-7 paragraph-regular-primary',
+  sm: 'h-7 paragraph-small-primary',
   default: 'h-9 paragraph-regular-primary',
   lg: 'h-12 paragraph-large-primary',
 } as const;
@@ -147,7 +149,7 @@ const inputVariants = cva(
       {
         variant: 'inline',
         size: 'lg',
-        className: inputInlineFocusBorderWidth.lg,
+        className: 'border-b-[2px]',
       },
     ],
     defaultVariants: {
