@@ -21,7 +21,7 @@ type NavTooltip = string | React.ComponentProps<typeof TooltipContent>;
 
 const sidebarNavIconButtonVariants = cva(
   [
-    'peer/menu-button relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-none p-0',
+    'group/button peer/menu-button relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-none p-0',
     'ring-stroke-status-focus outline-hidden transition-[width,height,padding,background-color]',
     'hover:bg-stateslayer-overlay-hover hover:text-fg-primary',
     'focus-visible:ring-1',
@@ -132,7 +132,7 @@ function SidebarNavIconButton({
 }
 
 const sidebarNavUtilityButtonVariants = cva([
-  'flex size-8 mx-auto items-center justify-center rounded-none p-0',
+  'group/button flex size-8 mx-auto items-center justify-center rounded-none p-0',
   'ring-stroke-status-focus outline-hidden transition-[background-color]',
   'bg-stateslayer-overlay-enabled',
   'hover:bg-stateslayer-overlay-hover hover:text-fg-primary',

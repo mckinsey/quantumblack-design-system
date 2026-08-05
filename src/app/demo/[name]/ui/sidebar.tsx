@@ -255,8 +255,7 @@ function NavRailContent({
                 <SidebarNavIconButton
                   isActive={isActive}
                   tooltip={item.label}
-                  onClick={() => onActive(item.id)}
-                  className="group/button">
+                  onClick={() => onActive(item.id)}>
                   <IconShell
                     size={iconSize}
                     variant={isActive ? 'primary' : 'secondary'}>
@@ -273,9 +272,7 @@ function NavRailContent({
         <SidebarMenu className="items-center gap-4">
           {utilityNav.map(item => (
             <SidebarMenuItem key={item.label}>
-              <SidebarNavUtilityButton
-                tooltip={item.label}
-                className="group/button">
+              <SidebarNavUtilityButton tooltip={item.label}>
                 <IconShell size="default" hoverable>
                   <Icon icon={item.icon} />
                 </IconShell>
