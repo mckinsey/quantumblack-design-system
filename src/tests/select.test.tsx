@@ -253,7 +253,7 @@ describe('Select', () => {
     await user.click(await screen.findByRole('option', { name: 'One' }));
 
     const checkbox = document.querySelector('[role="checkbox"]');
-    expect(checkbox).toHaveAttribute('data-state', 'checked');
+    expect(checkbox).toHaveAttribute('aria-checked', 'true');
     expect(screen.getByRole('combobox')).toBeInTheDocument();
   });
 });
