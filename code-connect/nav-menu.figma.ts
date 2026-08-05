@@ -10,7 +10,12 @@ const size = instance.getEnum('size', {
   lg: 'lg',
 });
 
-const items = figma.properties.children(['NavMenu/Item', 'NavMenu/Header']);
+const slot = instance.getSlot('itemsSlot');
+const connected = slot?.connectedInstances ?? [];
+const items =
+  connected.length > 0
+    ? connected.map(n => n.executeTemplate().example).flat()
+    : figma.properties.children(['NavMenu/Item', 'NavMenu/Header']);
 
 export default {
   example: figma.code`

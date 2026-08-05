@@ -21,7 +21,9 @@ const disabled = instance.getEnum('state', {
   disabled: true,
 });
 
-const shell = instance.findInstance('IconShell', { traverseInstances: true });
+const shell =
+  instance.findInstance('IconShell', { traverseInstances: true }) ??
+  instance.findInstance('SidebarMenuButton', { traverseInstances: true });
 
 let icon: figma.ResultSection[] = [];
 

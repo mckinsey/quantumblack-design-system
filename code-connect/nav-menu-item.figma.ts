@@ -53,9 +53,14 @@ const label =
     : instance.getString('label');
 
 const showTrailing = instance.getBoolean('showTrailingSlot');
-const trailing = showTrailing
-  ? figma.properties.children(['trailingSlot'])
-  : [];
+const trailingSlot = showTrailing ? instance.getSlot('trailingSlot') : null;
+const trailingConnected = trailingSlot?.connectedInstances ?? [];
+const trailing =
+  trailingConnected.length > 0
+    ? trailingConnected.map(n => n.executeTemplate().example).flat()
+    : showTrailing
+      ? figma.properties.children(['Badge/Label-Only'])
+      : [];
 
 const leading = withIcon ? instance.findInstance('Leading-Icon') : null;
 
@@ -65,7 +70,13 @@ if (leading && leading.type === 'INSTANCE' && leading.hasCodeConnect()) {
   iconCode = leading.executeTemplate().example;
 }
 
-const subItems = figma.properties.children(['subItemsSlot']);
+const subSlot = instance.getSlot('subItemsSlot');
+const subConnected = subSlot?.connectedInstances ?? [];
+const subItems =
+  subConnected.length > 0
+    ? subConnected.map(n => n.executeTemplate().example).flat()
+    : figma.properties.children(['NavMenu/Item']);
+
 const buttonProps = `${figma.helpers.react.renderProp(
   'isActive',
   isActive || undefined,
