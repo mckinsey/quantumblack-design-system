@@ -658,7 +658,7 @@
       "name": "sidebar",
       "type": "registry:ui",
       "title": "Sidebar",
-      "description": "QB LeftNav: icon rail plus overlay NavMenu panel. Keeps the shadcn sidebar primitives underneath.",
+      "description": "Composable sidebar icon-rail variant with optional NavMenu panel. shadcn API.",
       "dependencies": [
         "@radix-ui/react-dialog",
         "@radix-ui/react-slot",
