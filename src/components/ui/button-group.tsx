@@ -1,50 +1,128 @@
+'use client';
+
+import { mergeProps } from '@base-ui/react/merge-props';
+import { useRender } from '@base-ui/react/use-render';
 import { type VariantProps, cva } from 'class-variance-authority';
 import type * as React from 'react';
 
+import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 
-const buttonGroupVariants = cva('flex w-fit gap-3', {
-  variants: {
-    orientation: {
-      horizontal: 'flex-row items-center',
-      vertical: 'flex-col items-stretch',
+const buttonGroupVariants = cva(
+  [
+    'flex w-fit items-stretch',
+    '*:focus-visible:relative *:focus-visible:z-10',
+    'has-[>[data-slot=button-group]]:gap-2',
+    'has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-r-reg',
+    "[&>[data-slot=select-trigger]:not([class*='w-'])]:w-fit",
+    '[&>input]:flex-1',
+  ],
+  {
+    variants: {
+      orientation: {
+        horizontal: 'flex-row',
+        vertical: 'flex-col',
+      },
+      spacing: {
+        attached: 'gap-px',
+        spaced: 'gap-3',
+      },
+    },
+    compoundVariants: [
+      {
+        orientation: 'horizontal',
+        spacing: 'attached',
+        className: [
+          '*:data-slot:rounded-r-none',
+          '[&>[data-slot]:not(:has(~[data-slot]))]:rounded-r-reg!',
+          '[&>[data-slot]~[data-slot]]:rounded-l-none',
+        ].join(' '),
+      },
+      {
+        orientation: 'vertical',
+        spacing: 'attached',
+        className: [
+          '*:data-slot:rounded-b-none',
+          '[&>[data-slot]:not(:has(~[data-slot]))]:rounded-b-reg!',
+          '[&>[data-slot]~[data-slot]]:rounded-t-none',
+        ].join(' '),
+      },
+    ],
+    defaultVariants: {
+      orientation: 'horizontal',
+      spacing: 'spaced',
     },
   },
-  defaultVariants: {
-    orientation: 'horizontal',
-  },
-});
+);
 
 interface ButtonGroupProps
   extends
     React.ComponentProps<'div'>,
     VariantProps<typeof buttonGroupVariants> {}
 
-/**
- * Groups related buttons together with consistent QBDS spacing.
- *
- * Place `Button` children inside and choose their variants (e.g. a primary
- * action paired with a secondary or ghost action). The group only controls
- * layout: `orientation` for direction with a constant 12px gap. Size the
- * child `Button`s directly.
- *
- * @example
- * ```tsx
- * <ButtonGroup>
- *   <Button variant="default">Save</Button>
- *   <Button variant="ghost">Cancel</Button>
- * </ButtonGroup>
- * ```
- */
-function ButtonGroup({ className, orientation, ...props }: ButtonGroupProps) {
+function ButtonGroup({
+  className,
+  orientation,
+  spacing,
+  ...props
+}: ButtonGroupProps) {
   return (
     <div
-      data-slot="button-group"
       role="group"
-      className={cn(buttonGroupVariants({ orientation }), className)}
+      data-slot="button-group"
+      data-orientation={orientation ?? 'horizontal'}
+      data-spacing={spacing ?? 'spaced'}
+      className={cn(buttonGroupVariants({ orientation, spacing }), className)}
       {...props}
     />
   );
 }
 
-export { ButtonGroup, buttonGroupVariants, type ButtonGroupProps };
+function ButtonGroupText({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<'div'>) {
+  return useRender({
+    defaultTagName: 'div',
+    props: mergeProps<'div'>(
+      {
+        className: cn(
+          'flex items-center gap-2 rounded-reg border border-stroke-secondary bg-fill-muted px-2.5 paragraph-regular-primary [&_svg]:pointer-events-none [&_svg:not([class*="size-"])]:size-4',
+          className,
+        ),
+      },
+      props,
+    ),
+    render,
+    state: {
+      slot: 'button-group-text',
+    },
+  });
+}
+
+function ButtonGroupSeparator({
+  className,
+  orientation = 'vertical',
+  ...props
+}: React.ComponentProps<typeof Separator>) {
+  return (
+    <Separator
+      data-slot="button-group-separator"
+      orientation={orientation}
+      className={cn(
+        'bg-stroke-secondary relative self-stretch data-[orientation=horizontal]:mx-px data-[orientation=horizontal]:w-auto data-[orientation=vertical]:my-px data-[orientation=vertical]:h-auto',
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+export {
+  ButtonGroup,
+  ButtonGroupSeparator,
+  ButtonGroupText,
+  buttonGroupVariants,
+  type ButtonGroupProps,
+};

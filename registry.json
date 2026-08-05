@@ -125,11 +125,12 @@
       "name": "button-group",
       "type": "registry:ui",
       "title": "Button Group",
-      "description": "Groups related buttons together with a constant 12px QBDS gap. Supports horizontal and vertical orientation.",
-      "dependencies": ["class-variance-authority"],
+      "description": "Groups related buttons. spacing=spaced (default, 12px gap) for CTA pairs; spacing=attached (1px gap) for split segments. Includes Text and Separator subcomponents.",
+      "dependencies": ["class-variance-authority", "@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
-        "__REGISTRY_URL__/r/utils.json"
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/separator.json"
       ],
       "files": [
         {

@@ -70,9 +70,8 @@ import {
 import {
   ButtonGroupConfigs,
   ButtonGroupDemo,
-  ButtonGroupIconOnly,
   ButtonGroupSizes,
-  ButtonGroupVertical,
+  ButtonGroupSplit,
   buttonGroup,
   examples as buttonGroupExamples,
 } from '@/app/demo/[name]/ui/button-group';
@@ -468,8 +467,7 @@ export const exampleComponentMaps: Record<
     ButtonGroupDemo,
     ButtonGroupConfigs,
     ButtonGroupSizes,
-    ButtonGroupVertical,
-    ButtonGroupIconOnly,
+    ButtonGroupSplit,
   },
   calendar: {
     CalendarDemo,

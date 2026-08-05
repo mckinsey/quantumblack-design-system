@@ -1,12 +1,19 @@
 'use client';
 
+import * as React from 'react';
+
 import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 
-/** Default button group — a primary action paired with a secondary action */
 export function ButtonGroupDemo() {
   return (
     <ButtonGroup>
@@ -16,74 +23,29 @@ export function ButtonGroupDemo() {
   );
 }
 
-/**
- * CTA pairings: a primary action (mono `default` or `accent`) paired with a
- * secondary-style action (`secondary`, `outline`, or `ghost`). Each pairing is
- * shown with the primary leading (left column) and trailing (right column).
- */
 export function ButtonGroupConfigs() {
   return (
-    <div className="grid grid-cols-2 gap-x-16 gap-y-4">
-      {/* Primary leading */}
-      <div className="flex flex-col gap-4">
-        <ButtonGroup>
-          <Button variant="default">Button</Button>
-          <Button variant="secondary">Button</Button>
-        </ButtonGroup>
-        <ButtonGroup>
-          <Button variant="default">Button</Button>
-          <Button variant="outline">Button</Button>
-        </ButtonGroup>
-        <ButtonGroup>
-          <Button variant="default">Button</Button>
-          <Button variant="ghost">Button</Button>
-        </ButtonGroup>
-        <ButtonGroup>
-          <Button variant="accent">Button</Button>
-          <Button variant="secondary">Button</Button>
-        </ButtonGroup>
-        <ButtonGroup>
-          <Button variant="accent">Button</Button>
-          <Button variant="outline">Button</Button>
-        </ButtonGroup>
-        <ButtonGroup>
-          <Button variant="accent">Button</Button>
-          <Button variant="ghost">Button</Button>
-        </ButtonGroup>
-      </div>
-
-      {/* Primary trailing (reversed) */}
-      <div className="flex flex-col gap-4">
-        <ButtonGroup>
-          <Button variant="secondary">Button</Button>
-          <Button variant="default">Button</Button>
-        </ButtonGroup>
-        <ButtonGroup>
-          <Button variant="outline">Button</Button>
-          <Button variant="default">Button</Button>
-        </ButtonGroup>
-        <ButtonGroup>
-          <Button variant="ghost">Button</Button>
-          <Button variant="default">Button</Button>
-        </ButtonGroup>
-        <ButtonGroup>
-          <Button variant="secondary">Button</Button>
-          <Button variant="accent">Button</Button>
-        </ButtonGroup>
-        <ButtonGroup>
-          <Button variant="outline">Button</Button>
-          <Button variant="accent">Button</Button>
-        </ButtonGroup>
-        <ButtonGroup>
-          <Button variant="ghost">Button</Button>
-          <Button variant="accent">Button</Button>
-        </ButtonGroup>
-      </div>
+    <div className="flex flex-col items-start gap-4">
+      <ButtonGroup>
+        <Button variant="default">Button</Button>
+        <Button variant="secondary">Button</Button>
+      </ButtonGroup>
+      <ButtonGroup>
+        <Button variant="default">Button</Button>
+        <Button variant="ghost">Button</Button>
+      </ButtonGroup>
+      <ButtonGroup>
+        <Button variant="accent">Button</Button>
+        <Button variant="outline">Button</Button>
+      </ButtonGroup>
+      <ButtonGroup>
+        <Button variant="ghost">Button</Button>
+        <Button variant="default">Button</Button>
+      </ButtonGroup>
     </div>
   );
 }
 
-/** Child button sizes — group keeps a constant 12px gap */
 export function ButtonGroupSizes() {
   return (
     <div className="flex flex-col items-start gap-4">
@@ -113,51 +75,108 @@ export function ButtonGroupSizes() {
   );
 }
 
-/** Vertical orientation */
-export function ButtonGroupVertical() {
-  return (
-    <ButtonGroup orientation="vertical">
-      <Button variant="default">Button</Button>
-      <Button variant="secondary">Button</Button>
-      <Button variant="ghost">Button</Button>
-    </ButtonGroup>
+export function ButtonGroupSplit() {
+  const variants = [
+    'default',
+    'accent',
+    'secondary',
+    'outline',
+    'ghost',
+  ] as const;
+
+  type Variant = (typeof variants)[number];
+
+  const options = ['Option 1', 'Option 2', 'Option 3'] as const;
+  const [selected, setSelected] =
+    React.useState<(typeof options)[number]>('Option 1');
+
+  const menu = (
+    <DropdownMenuContent align="end" className="w-[180px]">
+      {options.map(option => (
+        <DropdownMenuItem
+          key={option}
+          onSelect={() => setSelected(option)}
+          className="justify-between">
+          {option}
+          {selected === option ? (
+            <IconShell className="text-fill-active" size="sm" variant="primary">
+              <Icon icon="check" />
+            </IconShell>
+          ) : null}
+        </DropdownMenuItem>
+      ))}
+    </DropdownMenuContent>
   );
-}
 
-/** Icon-only buttons, horizontal and vertical */
-export function ButtonGroupIconOnly() {
+  function shellType(variant: Variant) {
+    return variant === 'default' || variant === 'accent'
+      ? 'neutral-inverse'
+      : 'neutral';
+  }
+
+  function ChevronTrigger({ variant }: { variant: Variant }) {
+    const type = shellType(variant);
+    const icon = (
+      <IconShell size="sm" type={type} hoverable>
+        <Icon icon="keyboard_arrow_down" />
+      </IconShell>
+    );
+
+    if (variant === 'ghost') {
+      return (
+        <DropdownMenuTrigger asChild>
+          <Button
+            aria-label="More actions"
+            variant="ghost"
+            className="w-4 px-0">
+            {icon}
+          </Button>
+        </DropdownMenuTrigger>
+      );
+    }
+
+    return (
+      <DropdownMenuTrigger asChild>
+        <Button aria-label="More actions" size="icon" variant={variant}>
+          {icon}
+        </Button>
+      </DropdownMenuTrigger>
+    );
+  }
+
   return (
-    <div className="flex items-start gap-8">
-      <ButtonGroup>
-        <Button aria-label="Bold" size="icon" variant="outline">
-          <IconShell size="sm" hoverable>
-            <Icon icon="format_bold" />
-          </IconShell>
-        </Button>
-        <Button aria-label="Italic" size="icon" variant="outline">
-          <IconShell size="sm" hoverable>
-            <Icon icon="format_italic" />
-          </IconShell>
-        </Button>
-        <Button aria-label="Underline" size="icon" variant="outline">
-          <IconShell size="sm" hoverable>
-            <Icon icon="format_underlined" />
-          </IconShell>
-        </Button>
-      </ButtonGroup>
+    <div className="flex flex-col items-start gap-8">
+      <div className="flex flex-wrap items-start gap-4">
+        {variants.map(variant => (
+          <ButtonGroup key={`text-${variant}`} spacing="attached">
+            <Button variant={variant}>Button</Button>
+            <DropdownMenu>
+              <ChevronTrigger variant={variant} />
+              {menu}
+            </DropdownMenu>
+          </ButtonGroup>
+        ))}
+      </div>
 
-      <ButtonGroup orientation="vertical">
-        <Button aria-label="Zoom in" size="icon" variant="outline">
-          <IconShell size="sm" hoverable>
-            <Icon icon="add" />
-          </IconShell>
-        </Button>
-        <Button aria-label="Zoom out" size="icon" variant="outline">
-          <IconShell size="sm" hoverable>
-            <Icon icon="remove" />
-          </IconShell>
-        </Button>
-      </ButtonGroup>
+      <div className="flex flex-wrap items-start gap-4">
+        {variants.map(variant => {
+          const type = shellType(variant);
+
+          return (
+            <ButtonGroup key={`icon-${variant}`} spacing="attached">
+              <Button aria-label="Action" size="icon" variant={variant}>
+                <IconShell size="sm" type={type} hoverable>
+                  <Icon icon="crop_free" />
+                </IconShell>
+              </Button>
+              <DropdownMenu>
+                <ChevronTrigger variant={variant} />
+                {menu}
+              </DropdownMenu>
+            </ButtonGroup>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -166,29 +185,24 @@ export const examples: DemoExample[] = [
   {
     name: 'ButtonGroupDemo',
     title: 'Default',
-    description: 'A primary action paired with a secondary action.',
+    description:
+      'Spaced CTA pair — primary Save with secondary Cancel (12px gap).',
   },
   {
     name: 'ButtonGroupConfigs',
-    title: 'Configurations',
-    description:
-      'A primary action (mono or accent) paired with a secondary, outline, or ghost action, shown leading (left) and trailing (right).',
+    title: 'CTA pairings',
+    description: 'Common primary + alternate pairs, including reversed order.',
   },
   {
     name: 'ButtonGroupSizes',
     title: 'Sizes',
+    description: 'sm, default, and lg children. Gap stays 12px.',
+  },
+  {
+    name: 'ButtonGroupSplit',
+    title: 'Split',
     description:
-      'Child buttons at sm, default, and lg; the group keeps a constant 12px gap.',
-  },
-  {
-    name: 'ButtonGroupVertical',
-    title: 'Vertical',
-    description: 'Buttons stacked with vertical orientation.',
-  },
-  {
-    name: 'ButtonGroupIconOnly',
-    title: 'Icon Only',
-    description: 'Icon-only buttons grouped horizontally and vertically.',
+      'Reg-size attached splits for every Button variant (text + icon). Chevron menu is demo-only.',
   },
 ];
 
@@ -196,6 +210,5 @@ export const buttonGroup = createLegacyDemo('button-group', examples, {
   ButtonGroupDemo: <ButtonGroupDemo />,
   ButtonGroupConfigs: <ButtonGroupConfigs />,
   ButtonGroupSizes: <ButtonGroupSizes />,
-  ButtonGroupVertical: <ButtonGroupVertical />,
-  ButtonGroupIconOnly: <ButtonGroupIconOnly />,
+  ButtonGroupSplit: <ButtonGroupSplit />,
 });

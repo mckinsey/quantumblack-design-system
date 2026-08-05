@@ -60,13 +60,13 @@ const buttonVariants = cva(
           disabledOverlayGradient,
         ],
         outline: [
-          'border border-stroke-secondary bg-fill-muted-inverse text-fg-primary',
-          'focus-visible:border-stroke-active',
+          'inset-ring inset-ring-stroke-secondary bg-fill-muted-inverse text-fg-primary',
+          'focus-visible:inset-ring-stroke-active',
           hoverGradient.normal,
           activeGradient.normal,
           'focus-visible:bg-stateslayer-overlay-active-inverse',
           disabledOverlayGradient,
-          'disabled:border-stroke-tertiary',
+          'disabled:inset-ring-stroke-tertiary',
         ],
         ghost: [
           'bg-transparent text-fg-primary',
