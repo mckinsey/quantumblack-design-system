@@ -28,7 +28,6 @@ const sidebarNavIconButtonVariants = cva(
     'active:text-fg-primary',
     'data-[active=true]:text-fg-primary',
     'disabled:pointer-events-none aria-disabled:pointer-events-none aria-disabled:opacity-50',
-    'data-[state=open]:hover:bg-stateslayer-hover data-[state=open]:hover:text-fg-primary',
   ],
   {
     variants: {
@@ -263,8 +262,8 @@ function SidebarNavMenuButton({
 }
 
 const sidebarNavMenuPanelWidth: Record<SidebarNavSize, string> = {
-  default: 'w-60',
-  lg: 'w-70',
+  default: 'w-66',
+  lg: 'w-76',
 };
 
 function SidebarNavMenu({
@@ -391,7 +390,7 @@ function SidebarNavMenuSub(props: React.ComponentProps<typeof SidebarMenuSub>) {
 
   return (
     <SidebarMenuSub
-      className={cn('mx-0 gap-0 border-none p-0', className)}
+      className={cn('mx-0 translate-x-0 gap-0 border-none p-0', className)}
       {...rest}
     />
   );

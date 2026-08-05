@@ -239,21 +239,21 @@ export const pageNav: Record<NavId, { sections: NavSection[] }> = {
         header: 'Reports',
         groups: [
           {
-            label: 'Weekly summary',
+            label: 'Weekly',
             icon: 'summarize',
             badge: 'New',
             items: [
               navItem('dashboard-emea', 'EMEA', 'public', {
                 section: 'Reports',
-                group: 'Weekly summary',
+                group: 'Weekly',
               }),
               navItem('dashboard-americas', 'Americas', 'public', {
                 section: 'Reports',
-                group: 'Weekly summary',
+                group: 'Weekly',
               }),
               navItem('dashboard-apac', 'APAC', 'public', {
                 section: 'Reports',
-                group: 'Weekly summary',
+                group: 'Weekly',
               }),
             ],
           },
