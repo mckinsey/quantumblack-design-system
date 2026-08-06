@@ -69,7 +69,7 @@ const buttonVariants = cva(
         outline: [
           'inset-ring inset-ring-stroke-secondary bg-fill-muted-inverse text-fg-primary',
           'hover:inset-ring-stroke-primary',
-          'focus-visible:inset-ring-stroke-active data-[state=open]:inset-ring-stroke-active',
+          'focus-visible:inset-ring-0 data-[state=open]:inset-ring-0',
           hoverGradient.normal,
           activeGradient.normal,
           'focus-visible:bg-stateslayer-overlay-active-inverse data-[state=open]:bg-stateslayer-overlay-active-inverse',

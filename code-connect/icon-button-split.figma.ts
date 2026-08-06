@@ -36,8 +36,9 @@ export default {
       override that, so chevron width notes below are guidance only (apply in product code).
       - Narrow chevron: className={splitIconChevronSizing(size, { ghost }).chevronClassName}
       - Ghost: omit size="icon"; hug with the same helper ({ ghost: true }).
-      - default / accent: IconShell type="neutral-inverse"; other variants use type="neutral".
-      Dropdown on the chevron is composition (demo) — not part of this mapping.
+      - Closed icons: default/accent → IconShell type="neutral-inverse"; others → type="neutral".
+      - dropdown-open: put DropdownMenuTrigger on the chevron only (data-state="open"). Button uses
+        active-inverse fill; keep closed-state IconShell type — neutral-inverse auto-flips under open parent.
     */}
     <ButtonGroup spacing="attached">
       ${figma.helpers.react.renderChildren(segments)}

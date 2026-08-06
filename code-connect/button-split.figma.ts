@@ -47,8 +47,9 @@ export default {
       Nested Button-Icon Code Connect always emits size="icon" — this template cannot
       override that, so chevron width notes below are guidance only (apply in product code).
       - Text+chevron: full size="icon", except ghost → splitIconChevronSizing(size, { ghost: true }).chevronClassName
-      - default / accent icons: IconShell type="neutral-inverse"; other variants use type="neutral".
-      Dropdown on the chevron is composition (demo) — not part of this mapping.
+      - Closed icons: default/accent → IconShell type="neutral-inverse"; others → type="neutral".
+      - dropdown-open: put DropdownMenuTrigger on the chevron only (data-state="open"). Button uses
+        active-inverse fill; keep closed-state IconShell type — neutral-inverse auto-flips under open parent.
     */}
     <ButtonGroup spacing="attached">
       ${mainCode}
