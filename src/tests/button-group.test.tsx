@@ -8,6 +8,7 @@ import {
   ButtonGroup,
   ButtonGroupSeparator,
   ButtonGroupText,
+  splitIconChevronSizing,
 } from '@/components/ui/button-group';
 
 const componentName = 'button-group';
@@ -112,5 +113,38 @@ describe(`${componentName} — structure`, () => {
       </ButtonGroup>,
     );
     expect(screen.getByRole('group')).toHaveClass('custom-class');
+  });
+});
+
+describe(`${componentName} — splitIconChevronSizing`, () => {
+  it('returns narrower chevron width for filled icon sizes', () => {
+    expect(splitIconChevronSizing('icon-lg')).toEqual({
+      chevronClassName: 'w-8 px-0',
+    });
+    expect(splitIconChevronSizing('icon')).toEqual({
+      chevronClassName: 'w-6 px-0',
+    });
+    expect(splitIconChevronSizing('icon-sm')).toEqual({
+      chevronClassName: 'w-5 px-0',
+    });
+    expect(splitIconChevronSizing('icon-xs')).toEqual({
+      chevronClassName: 'w-5 px-0',
+    });
+    expect(splitIconChevronSizing('icon-xxs')).toEqual({
+      chevronClassName: 'w-4 px-0',
+    });
+  });
+
+  it('returns hug width for ghost', () => {
+    expect(splitIconChevronSizing('icon-lg', { ghost: true })).toEqual({
+      chevronClassName: 'w-6 px-0',
+    });
+    expect(splitIconChevronSizing('icon', { ghost: true })).toEqual({
+      chevronClassName: 'w-4 px-0',
+    });
+  });
+
+  it('defaults to icon', () => {
+    expect(splitIconChevronSizing()).toEqual(splitIconChevronSizing('icon'));
   });
 });

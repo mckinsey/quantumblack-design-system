@@ -3,7 +3,10 @@
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
-import { ButtonGroup } from '@/components/ui/button-group';
+import {
+  ButtonGroup,
+  splitIconChevronSizing,
+} from '@/components/ui/button-group';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -114,35 +117,32 @@ export function ButtonGroupSplit() {
       : 'neutral';
   }
 
-  function ChevronTrigger({ variant }: { variant: Variant }) {
+  function ChevronTrigger({
+    variant,
+    narrow,
+  }: {
+    variant: Variant;
+    narrow?: boolean;
+  }) {
     const type = shellType(variant);
-    const icon = (
-      <IconShell
-        size="sm"
-        type={type}
-        hoverable
-        className="transition-transform duration-200 group-data-[state=open]/button:rotate-180">
-        <Icon icon="keyboard_arrow_down" />
-      </IconShell>
-    );
-
-    if (variant === 'ghost') {
-      return (
-        <DropdownMenuTrigger asChild>
-          <Button
-            aria-label="More actions"
-            variant="ghost"
-            className="w-4 px-0">
-            {icon}
-          </Button>
-        </DropdownMenuTrigger>
-      );
-    }
+    const ghost = variant === 'ghost';
+    const useNarrow = ghost || narrow;
+    const { chevronClassName } = splitIconChevronSizing('icon', { ghost });
 
     return (
       <DropdownMenuTrigger asChild>
-        <Button aria-label="More actions" size="icon" variant={variant}>
-          {icon}
+        <Button
+          aria-label="More actions"
+          size={ghost ? undefined : 'icon'}
+          variant={variant}
+          className={useNarrow ? chevronClassName : undefined}>
+          <IconShell
+            size="sm"
+            type={type}
+            hoverable
+            className="transition-transform duration-200 group-data-[state=open]/button:rotate-180">
+            <Icon icon="keyboard_arrow_down" />
+          </IconShell>
         </Button>
       </DropdownMenuTrigger>
     );
@@ -174,7 +174,7 @@ export function ButtonGroupSplit() {
                 </IconShell>
               </Button>
               <DropdownMenu>
-                <ChevronTrigger variant={variant} />
+                <ChevronTrigger variant={variant} narrow />
                 {menu}
               </DropdownMenu>
             </ButtonGroup>

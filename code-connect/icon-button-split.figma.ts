@@ -32,7 +32,8 @@ export default {
   example: figma.code`
     {/*
       Icon split = ButtonGroup spacing="attached" + two icon Buttons.
-      - ghost: chevron segment uses className="w-4 px-0" (not size="icon") so width matches the glyph.
+      Narrow chevron only for icon+icon splits: className={splitIconChevronSizing(size, { ghost }).chevronClassName}
+      Text+chevron splits use a full size="icon" chevron (no narrow class).
       - default / accent: IconShell type="neutral-inverse"; other variants use type="neutral".
       Dropdown on the chevron is composition (demo) — not part of this mapping.
     */}

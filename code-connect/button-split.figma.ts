@@ -44,7 +44,8 @@ export default {
   example: figma.code`
     {/*
       Split = ButtonGroup spacing="attached" + Button + Button (chevron).
-      - ghost: chevron is not size="icon" — use className="w-4 px-0" so the trigger is icon-width only.
+      - Chevron uses full size="icon" when paired with a text Button, except ghost: use
+        splitIconChevronSizing(size, { ghost: true }).chevronClassName (icon-width hug).
       - default / accent icons: IconShell type="neutral-inverse"; other variants use type="neutral".
       Dropdown on the chevron is composition (demo) — not part of this mapping.
     */}

@@ -125,7 +125,7 @@
       "name": "button-group",
       "type": "registry:ui",
       "title": "Button Group",
-      "description": "Groups related buttons. spacing=spaced (default, 12px gap) for CTA pairs; spacing=attached (1px gap) for split segments. Includes Text and Separator subcomponents.",
+      "description": "Groups related buttons. spacing=spaced (default, 12px gap) for CTA pairs; spacing=attached (1px gap) for split segments. Includes Text, Separator, and splitIconChevronSizing (narrow chevron width).",
       "dependencies": ["class-variance-authority", "@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",

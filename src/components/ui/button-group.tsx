@@ -119,10 +119,51 @@ function ButtonGroupSeparator({
   );
 }
 
+type SplitIconButtonSize =
+  | 'icon-lg'
+  | 'icon'
+  | 'icon-sm'
+  | 'icon-xs'
+  | 'icon-xxs';
+
+type SplitIconChevronSizing = {
+  chevronClassName: string;
+};
+
+const chevronWidth: Record<SplitIconButtonSize, string> = {
+  'icon-lg': 'w-8',
+  icon: 'w-6',
+  'icon-sm': 'w-5',
+  'icon-xs': 'w-5',
+  'icon-xxs': 'w-4',
+};
+
+const ghostChevronWidth: Record<SplitIconButtonSize, string> = {
+  'icon-lg': 'w-6',
+  icon: 'w-4',
+  'icon-sm': 'w-4',
+  'icon-xs': 'w-4',
+  'icon-xxs': 'w-4',
+};
+
+function splitIconChevronSizing(
+  size: SplitIconButtonSize = 'icon',
+  options?: { ghost?: boolean },
+): SplitIconChevronSizing {
+  const width = options?.ghost ? ghostChevronWidth[size] : chevronWidth[size];
+
+  return {
+    chevronClassName: `${width} px-0`,
+  };
+}
+
 export {
   ButtonGroup,
   ButtonGroupSeparator,
   ButtonGroupText,
   buttonGroupVariants,
+  splitIconChevronSizing,
   type ButtonGroupProps,
+  type SplitIconButtonSize,
+  type SplitIconChevronSizing,
 };
