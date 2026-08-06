@@ -1,0 +1,25 @@
+{
+  "name": "QuantumBlack Design System",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "forwardPorts": [4123],
+  "portsAttributes": {
+    "4123": {
+      "label": "QBDS component registry",
+      "onAutoForward": "openBrowser",
+      "visibility": "public"
+    }
+  },
+  "remoteEnv": {
+    "ALLOWED_HOSTS": ".app.github.dev"
+  },
+  "postCreateCommand": "npm ci",
+  "updateContentCommand": "npm ci",
+  "postStartCommand": "npm run dev -- --host 0.0.0.0",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  }
+}
