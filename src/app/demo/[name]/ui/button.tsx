@@ -38,13 +38,52 @@ export function ButtonDemo() {
 
 /** All button variants displayed side by side */
 export function ButtonVariants() {
+  const variants = [
+    'default',
+    'accent',
+    'secondary',
+    'outline',
+    'ghost',
+  ] as const;
+
+  const labels = {
+    default: 'Default',
+    accent: 'Accent',
+    secondary: 'Secondary',
+    outline: 'Outline',
+    ghost: 'Ghost',
+  } as const;
+
   return (
-    <div className="flex flex-wrap gap-4">
-      <Button variant="default">Default</Button>
-      <Button variant="accent">Accent</Button>
-      <Button variant="secondary">Secondary</Button>
-      <Button variant="outline">Outline</Button>
-      <Button variant="ghost">Ghost</Button>
+    <div className="flex flex-col items-start gap-4">
+      <div className="flex flex-wrap gap-4">
+        {variants.map(variant => (
+          <Button key={variant} variant={variant}>
+            {labels[variant]}
+          </Button>
+        ))}
+      </div>
+
+      <div className="flex flex-wrap gap-4">
+        {variants.map(variant => {
+          const type =
+            variant === 'default' || variant === 'accent'
+              ? 'neutral-inverse'
+              : 'neutral';
+
+          return (
+            <Button
+              key={`icon-${variant}`}
+              aria-label={labels[variant]}
+              size="icon"
+              variant={variant}>
+              <IconShell size="sm" type={type} hoverable>
+                <Icon icon="crop_free" />
+              </IconShell>
+            </Button>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -295,7 +334,7 @@ export const examples: DemoExample[] = [
     name: 'ButtonVariants',
     title: 'Variants',
     description:
-      'All available button variants: default, accent, secondary, outline, and ghost.',
+      'All available button variants: default, accent, secondary, outline, and ghost — text and icon.',
   },
   {
     name: 'ButtonSizes',

@@ -25,7 +25,7 @@ Match Figma tokens via **[docs/TOKENS.md](docs/TOKENS.md)** (Design name + Tailw
 - **Demo**: `src/app/demo/[name]/ui/<name>.tsx` — `createLegacyDemo`, `examples[]`; cover every Figma variant axis or document manual gaps. No extra demo backgrounds unless the spec requires a surface contrast (match other demos).
 - **Registry**: `registry.json` + `npm run registry:build` → `public/r/`.
 - **Tests**: `src/tests/<name>.test.tsx` — a11y roles, `data-*` attrs, interaction; assert key variant outputs where helpers exist.
-- **Icons**: `<IconShell>` + `<Icon icon="snake_case" />`; shell owns colour — pair sizes with the parent control per sibling demos.
+- **Icons**: `<IconShell>` + `<Icon icon="snake_case" />`; shell owns colour — pair sizes with the parent control per sibling demos. When the parent surface flips (dropdown-open, toggle-on, inverse fill), re-check nested IconShell **Type** (`neutral` vs `neutral-inverse`) and **State**/opacity (`primary` vs `secondary`) — size alone is not enough.
 - **Typography**: globals utilities (`cta-*`, `paragraph-*`, …) — not hand-rolled `text-sm` / `font-*` / `leading-*`.
 - **Interactive states**: match the nearest button-like sibling — state overlays, disabled fills, focus rings; do not let variant branches override size-level focus treatment.
 - **Slots**: Figma SLOT props → composable children, named sub-components, or Radix `asChild` / `Slot`; mark seams with `data-slot`.
@@ -43,6 +43,7 @@ Match Figma tokens via **[docs/TOKENS.md](docs/TOKENS.md)** (Design name + Tailw
 
 - **Source of truth = Figma** (`get_metadata`, `get_variable_defs`, `get_screenshot`) **+ the real React API** (`src/components/ui/<name>.tsx`).
 - Build the alignment table from those first, **then** check the mapping against it (see step 4). Any mismatch — enum values, size names, variant→prop mapping — is a **Code Connect bug to fix**, not a spec to follow.
+- If Figma has a `dropdown-open` (or similar expanded) state and Code Connect maps it to `false`, omits open fill/icon changes, or documents a static IconShell type with no open override — that is a **mapping bug to flag**, not proof that open equals enabled.
 - To create or update a mapping, use the **`code-connect`** skill — it owns the mechanics and QBDS conventions.
 
 For field-composed controls: derive **`errorClass`** (and warning/success/info) the same way as **`labelClass`** / **`descClass`** — pass explicit `className` on `<FieldError>` when Figma typography varies by size.
@@ -83,20 +84,20 @@ If a Code Connect mapping exists, confirm its enum values, size names, and varia
 
 ### 2 — Tokens (every distinct variant × state)
 
-Use `get_variable_defs` on representative nodes: at minimum **enabled**, **hover**, **focus**, **pressed**, **disabled**, plus selected/active/loading if defined. Map fill, text, stroke, elevation, radius, and state overlays per **[docs/TOKENS.md](docs/TOKENS.md)**. Check **light and dark**. Flag: wrong `-inverse` prefix; raw hex; primitives; right hex but wrong token name. When Figma shows **`Text/Error`** (etc.) on feedback, accept code that uses **`text-status-error`** (etc.) — do not flag that as a name mismatch.
+Use `get_variable_defs` on representative nodes: at minimum **enabled**, **hover**, **focus**, **pressed**, **disabled**, plus every other Figma `state` enum value when present — **`dropdown-open`**, **`toggle-on`**, selected/active/loading, etc. Do not stop at focus when the set also has expanded/open cells. Map fill, text, stroke, elevation, radius, and state overlays per **[docs/TOKENS.md](docs/TOKENS.md)**. Check **light and dark**. Flag: wrong `-inverse` prefix; raw hex; primitives; right hex but wrong token name. When Figma shows **`Text/Error`** (etc.) on feedback, accept code that uses **`text-status-error`** (etc.) — do not flag that as a name mismatch.
 
 ### 3 — Layout, spacing, typography & states
 
 For **each matrix cell** (every meaningful variant combination), use `get_design_context` or Dev Mode — not only the root frame. For field sets, also pull context on **nested Elements/** frames in that cell.
 
-| Property                      | Figma                            | Code                                                                                            |
-| ----------------------------- | -------------------------------- | ----------------------------------------------------------------------------------------------- |
-| Height / min size             | auto-layout                      | `size-*`, `min-h`, padding + line-height                                                        |
-| Padding / gap                 | spacing variables                | `p-*`, `gap-*` on the scale above                                                               |
-| Icon box                      | icon frame size                  | `IconShell` + parent `icon-*` size                                                              |
-| Separators / attached spacers | layout on group                  | avoid double gap; only between items                                                            |
-| Typography (control)          | text style name                  | matching `cta-*` / `paragraph-*` utility                                                        |
-| Typography (field feedback)   | Paragraph/\* + Text/Error (etc.) | per-size `paragraph-*` + `text-status-error` (etc.) — verify **each size**, not control default |
+| Property                      | Figma                                  | Code                                                                                            |
+| ----------------------------- | -------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| Height / min size             | auto-layout                            | `size-*`, `min-h`, padding + line-height                                                        |
+| Padding / gap                 | spacing variables                      | `p-*`, `gap-*` on the scale above                                                               |
+| Icon box                      | icon frame size + IconShell Type/State | `IconShell` size + **type** + opacity; re-read on open/toggle when parent fill flips            |
+| Separators / attached spacers | layout on group                        | avoid double gap; only between items                                                            |
+| Typography (control)          | text style name                        | matching `cta-*` / `paragraph-*` utility                                                        |
+| Typography (field feedback)   | Paragraph/\* + Text/Error (etc.)       | per-size `paragraph-*` + `text-status-error` (etc.) — verify **each size**, not control default |
 
 **Compound spacing:** Derive spacing from Figma **per variant cell**, not from a single axis (e.g. “if boxed, always gap-2”). Size and shape often change gap/padding independently — document or test non-default cells when logic is non-obvious.
 
@@ -110,14 +111,17 @@ For **each matrix cell** (every meaningful variant combination), use `get_design
 
 **Interactive states** (on controls inside the component):
 
-| State               | Verify                                                                                                                      |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| Hover / pressed     | overlay tokens (+ `-inverse` where spec uses inverse surfaces)                                                              |
-| Focus               | ring token, width, offset                                                                                                   |
-| Disabled            | muted fill, disabled text, overlay                                                                                          |
-| Selected / expanded | `data-[state=*]` / `aria-*` branches                                                                                        |
-| Loading             | if defined in Figma                                                                                                         |
-| Error (field)       | control border/fill (`border-stroke-status-*` / `bg-status-*`) **and** feedback text (`text-status-*`, per-size typography) |
+| State                    | Verify                                                                                                                                                                                                                                                                                                                                                                |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hover / pressed          | overlay tokens (+ `-inverse` where spec uses inverse surfaces)                                                                                                                                                                                                                                                                                                        |
+| Focus                    | ring token, width, offset; fill/icons usually unchanged vs enabled — pull the **focused** Figma cell                                                                                                                                                                                                                                                                  |
+| Dropdown-open / expanded | **Separate Figma cell** from focus. Never copy `focus-visible` styles onto `data-[state=open]` without comparing both cells. Re-check nested IconShell Type + opacity when the parent surface flips (often dark/`active-inverse` + light/`neutral` icons). **Red flag:** shared `focus-visible:… data-[state=open]:…` classes with no focus-vs-open Figma comparison. |
+| Toggle-on / selected     | `data-[state=*]` / `aria-*` branches; icon tone if surface flips                                                                                                                                                                                                                                                                                                      |
+| Disabled                 | muted fill, disabled text, overlay                                                                                                                                                                                                                                                                                                                                    |
+| Loading                  | if defined in Figma                                                                                                                                                                                                                                                                                                                                                   |
+| Error (field)            | control border/fill (`border-stroke-status-*` / `bg-status-*`) **and** feedback text (`text-status-*`, per-size typography)                                                                                                                                                                                                                                           |
+
+Composition components (split buttons, icon+menu triggers): verify open on the **trigger segment** that receives `data-state=open`, including nested IconShell — not only the parent `cva` file.
 
 **Visual pass (required):** `npm run dev` on the demo vs Figma / `get_screenshot` per matrix cell. Fix or document any **≥2px** mismatch.
 
@@ -128,7 +132,8 @@ Report a **variant × state** matrix: pass / drift (note ≥2px or wrong token).
 ## Acceptance checklist
 
 - [ ] Alignment table: all Figma axes ↔ `cva`/props (both directions); SLOT seams covered
-- [ ] Code Connect (if present): enums, size names, variant→prop mapping verified against Figma + React API (not the reverse); drift fixed
+- [ ] Every Figma `state` value has a matrix cell; when both **focused** and **dropdown-open** exist, open ≠ focus verified (fill + nested IconShell type/opacity)
+- [ ] Code Connect (if present): enums, size names, variant→prop mapping verified against Figma + React API (not the reverse); drift fixed — including open/expanded not collapsed to enabled/`false` when Figma differs
 - [ ] Field chrome table (when Elements/\* present): label, helper, feedback, counter — typography + color per **size**
 - [ ] Feedback / status copy uses theme utilities `text-status-error|warning|success|information` (Figma `Text/*` → `text-status-*` is OK)
 - [ ] Variant × state matrix: tokens + geometry per cell

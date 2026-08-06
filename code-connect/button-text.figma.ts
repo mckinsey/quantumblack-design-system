@@ -21,15 +21,22 @@ const size = instance.getEnum('size', {
   lg: 'lg',
 });
 
-const disabled = instance.getEnum('state', {
-  enabled: false,
-  hover: false,
-  focused: false,
-  pressed: false,
-  disabled: true,
-  loading: false,
-  'dropdown-open': false,
+const state = instance.getEnum('state', {
+  enabled: 'enabled',
+  hover: 'enabled',
+  focused: 'enabled',
+  pressed: 'enabled',
+  disabled: 'disabled',
+  loading: 'enabled',
+  'dropdown-open': 'open',
 });
+
+const disabled = state === 'disabled';
+
+const openNote =
+  state === 'open'
+    ? figma.code`{/* data-state="open" from DropdownMenuTrigger — Button fill + IconShell tone follow that, not a Button prop */}`
+    : figma.code``;
 
 const label = instance.getString('label');
 
@@ -51,6 +58,7 @@ if (trailing && trailing.type === 'INSTANCE') {
 
 export default {
   example: figma.code`
+    ${openNote}
     <Button variant="${variant}" size="${size}"${disabled ? ' disabled' : ''}>
       ${leadingCode}
       ${label}
