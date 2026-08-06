@@ -117,7 +117,11 @@ export function ButtonGroupSplit() {
   function ChevronTrigger({ variant }: { variant: Variant }) {
     const type = shellType(variant);
     const icon = (
-      <IconShell size="sm" type={type} hoverable>
+      <IconShell
+        size="sm"
+        type={type}
+        hoverable
+        className="transition-transform duration-200 group-data-[state=open]/button:rotate-180">
         <Icon icon="keyboard_arrow_down" />
       </IconShell>
     );
