@@ -14,7 +14,7 @@
   },
   "postCreateCommand": "npm ci",
   "updateContentCommand": "npm ci",
-  "postStartCommand": "npm run dev -- --host 0.0.0.0",
+  "postStartCommand": "bash -lc 'CI=1 npm_config_yes=true nohup npm run dev -- --host 0.0.0.0 > /tmp/dev.log 2>&1 & echo $! > /tmp/dev.pid'",
   "customizations": {
     "vscode": {
       "settings": {
