@@ -15,6 +15,7 @@
   },
   "postCreateCommand": "bash -lc 'npm ci'",
   "updateContentCommand": "bash -lc 'npm ci'",
+  "postAttachCommand": "bash -lc '.devcontainer/start-dev.sh'",
   "postStartCommand": "bash -lc '.devcontainer/start-dev.sh'",
   "customizations": {
     "vscode": {
