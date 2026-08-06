@@ -4,7 +4,7 @@
   "forwardPorts": [4123],
   "portsAttributes": {
     "4123": {
-      "label": "QBDS component registry",
+      "label": "QBDS docs (dev)"
       "onAutoForward": "openBrowser",
       "visibility": "public"
     }
