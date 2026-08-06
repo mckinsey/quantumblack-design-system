@@ -31,9 +31,11 @@ const segments = figma.properties.children(['Button-Icon']);
 export default {
   example: figma.code`
     {/*
-      Icon split = ButtonGroup spacing="attached" + two icon Buttons.
-      Narrow chevron only for icon+icon splits: className={splitIconChevronSizing(size, { ghost }).chevronClassName}
-      Text+chevron splits use a full size="icon" chevron (no narrow class).
+      Icon split = ButtonGroup spacing="attached" + two Button-Icon children.
+      Nested Button-Icon Code Connect always emits size="icon" — this template cannot
+      override that, so chevron width notes below are guidance only (apply in product code).
+      - Narrow chevron: className={splitIconChevronSizing(size, { ghost }).chevronClassName}
+      - Ghost: omit size="icon"; hug with the same helper ({ ghost: true }).
       - default / accent: IconShell type="neutral-inverse"; other variants use type="neutral".
       Dropdown on the chevron is composition (demo) — not part of this mapping.
     */}

@@ -23,6 +23,13 @@ const disabledOverlayGradient =
 
 const commonDisabled = 'disabled:bg-fill-muted';
 
+const focusRing = {
+  w1: 'focus-visible:ring-1 data-[state=open]:ring-1',
+  w2: 'focus-visible:ring-2 data-[state=open]:ring-2',
+  offset:
+    'focus-visible:ring-offset-1 focus-visible:ring-offset-stroke-active-inverse data-[state=open]:ring-offset-1 data-[state=open]:ring-offset-stroke-active-inverse',
+} as const;
+
 const buttonVariants = cva(
   [
     'relative cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap outline-none',
@@ -39,7 +46,6 @@ const buttonVariants = cva(
           hoverGradient.inverse,
           activeGradient.inverse,
           'focus-visible:bg-stateslayer-overlay-active data-[state=open]:bg-stateslayer-overlay-active',
-          'focus-visible:ring-offset-1 focus-visible:ring-offset-stroke-active-inverse data-[state=open]:ring-offset-1 data-[state=open]:ring-offset-stroke-active-inverse',
           commonDisabled,
           disabledOverlayGradient,
         ],
@@ -47,7 +53,6 @@ const buttonVariants = cva(
           'bg-brand-accents-qb-accent text-mist-50-opacity-88',
           hoverGradient.normal,
           activeGradient.normal,
-          'focus-visible:ring-offset-1 focus-visible:ring-offset-stroke-active-inverse data-[state=open]:ring-offset-1 data-[state=open]:ring-offset-stroke-active-inverse',
           commonDisabled,
           disabledOverlayGradient,
         ],
@@ -55,12 +60,12 @@ const buttonVariants = cva(
           'bg-fill-muted text-fg-primary',
           hoverGradient.normal,
           activeGradient.normal,
-          'focus-visible:ring-offset-1 focus-visible:ring-offset-stroke-active-inverse data-[state=open]:ring-offset-1 data-[state=open]:ring-offset-stroke-active-inverse',
           commonDisabled,
           disabledOverlayGradient,
         ],
         outline: [
           'inset-ring inset-ring-stroke-secondary bg-fill-muted-inverse text-fg-primary',
+          'hover:inset-ring-stroke-primary',
           'focus-visible:inset-ring-stroke-active data-[state=open]:inset-ring-stroke-active',
           hoverGradient.normal,
           activeGradient.normal,
@@ -76,63 +81,95 @@ const buttonVariants = cva(
         ],
       },
       size: {
-        xxs: [
-          'px-1 py-0.5 gap-0.5',
-          'cta-button-03',
-          'rounded-sm',
-          'focus-visible:ring-1 data-[state=open]:ring-1',
-        ],
-        xs: [
-          'px-1 py-1 gap-0.5',
-          'cta-button-03',
-          'rounded-sm',
-          'focus-visible:ring-1 data-[state=open]:ring-1',
-        ],
-        sm: [
-          'px-2 py-1 gap-1',
-          'cta-button-02',
-          'rounded-sm',
-          'focus-visible:ring-1 data-[state=open]:ring-1',
-        ],
-        default: [
-          'p-2 gap-2',
-          'cta-button-02',
-          'rounded-reg',
-          'focus-visible:ring-2 data-[state=open]:ring-2',
-        ],
-        lg: [
-          'px-3 py-3 gap-2',
-          'cta-button-01',
-          'rounded-reg',
-          'focus-visible:ring-2 data-[state=open]:ring-2',
-        ],
-        'icon-xxs': [
-          'size-5 p-0',
-          'rounded-sm',
-          'focus-visible:ring-1 data-[state=open]:ring-1',
-        ],
-        'icon-xs': [
-          'size-6 p-0',
-          'rounded-sm',
-          'focus-visible:ring-1 data-[state=open]:ring-1',
-        ],
-        'icon-sm': [
-          'size-7 p-0',
-          'rounded-sm',
-          'focus-visible:ring-1 data-[state=open]:ring-1',
-        ],
-        icon: [
-          'size-9 p-0',
-          'rounded-reg',
-          'focus-visible:ring-2 data-[state=open]:ring-2',
-        ],
-        'icon-lg': [
-          'size-12 p-0',
-          'rounded-reg',
-          'focus-visible:ring-2 data-[state=open]:ring-2',
-        ],
+        xxs: ['px-1 py-0.5 gap-0.5', 'cta-button-03', 'rounded-sm'],
+        xs: ['px-1 py-1 gap-0.5', 'cta-button-03', 'rounded-sm'],
+        sm: ['px-2 py-1 gap-1', 'cta-button-02', 'rounded-sm'],
+        default: ['p-2 gap-2', 'cta-button-02', 'rounded-reg'],
+        lg: ['px-3 py-3 gap-2', 'cta-button-01', 'rounded-reg'],
+        'icon-xxs': ['size-5 p-0', 'rounded-sm'],
+        'icon-xs': ['size-6 p-0', 'rounded-sm'],
+        'icon-sm': ['size-7 p-0', 'rounded-sm'],
+        icon: ['size-9 p-0', 'rounded-reg'],
+        'icon-lg': ['size-12 p-0', 'rounded-reg'],
       },
     },
+    compoundVariants: [
+      {
+        variant: ['default', 'accent'],
+        size: ['default', 'lg', 'xs'],
+        class: focusRing.w2,
+      },
+      {
+        variant: ['default', 'accent'],
+        size: ['sm', 'xxs'],
+        class: focusRing.w1,
+      },
+      {
+        variant: ['default', 'accent'],
+        size: ['icon-lg'],
+        class: focusRing.w2,
+      },
+      {
+        variant: ['default', 'accent'],
+        size: ['icon', 'icon-sm', 'icon-xs', 'icon-xxs'],
+        class: focusRing.w1,
+      },
+      {
+        variant: ['secondary', 'outline', 'ghost'],
+        size: ['lg', 'icon-lg'],
+        class: focusRing.w2,
+      },
+      {
+        variant: ['secondary', 'outline', 'ghost'],
+        size: [
+          'default',
+          'sm',
+          'xs',
+          'xxs',
+          'icon',
+          'icon-sm',
+          'icon-xs',
+          'icon-xxs',
+        ],
+        class: focusRing.w1,
+      },
+      {
+        variant: ['default', 'accent'],
+        size: [
+          'default',
+          'lg',
+          'sm',
+          'xs',
+          'icon',
+          'icon-lg',
+          'icon-sm',
+          'icon-xs',
+          'icon-xxs',
+        ],
+        class: focusRing.offset,
+      },
+      {
+        variant: 'secondary',
+        size: [
+          'default',
+          'lg',
+          'sm',
+          'xs',
+          'xxs',
+          'icon',
+          'icon-lg',
+          'icon-sm',
+          'icon-xs',
+          'icon-xxs',
+        ],
+        class: focusRing.offset,
+      },
+      {
+        variant: 'ghost',
+        size: ['icon', 'icon-lg', 'icon-sm', 'icon-xs', 'icon-xxs'],
+        class: focusRing.offset,
+      },
+    ],
     defaultVariants: {
       variant: 'default',
       size: 'default',

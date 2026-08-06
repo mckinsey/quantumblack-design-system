@@ -43,9 +43,10 @@ if (trigger && trigger.type === 'INSTANCE') {
 export default {
   example: figma.code`
     {/*
-      Split = ButtonGroup spacing="attached" + Button + Button (chevron).
-      - Chevron uses full size="icon" when paired with a text Button, except ghost: use
-        splitIconChevronSizing(size, { ghost: true }).chevronClassName (icon-width hug).
+      Split = ButtonGroup spacing="attached" + Button + Button-Icon (chevron).
+      Nested Button-Icon Code Connect always emits size="icon" — this template cannot
+      override that, so chevron width notes below are guidance only (apply in product code).
+      - Text+chevron: full size="icon", except ghost → splitIconChevronSizing(size, { ghost: true }).chevronClassName
       - default / accent icons: IconShell type="neutral-inverse"; other variants use type="neutral".
       Dropdown on the chevron is composition (demo) — not part of this mapping.
     */}
