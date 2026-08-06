@@ -20,7 +20,8 @@ const iconVariants = cva(
       },
       type: {
         neutral: 'text-fill-active',
-        'neutral-inverse': 'text-fill-active-inverse',
+        'neutral-inverse':
+          'text-fill-active-inverse group-data-[state=open]/button:text-fill-active',
         custom: '',
       },
       variant: {
@@ -35,6 +36,7 @@ const iconVariants = cva(
           'active:opacity-88',
           'group-hover/button:opacity-88',
           'group-active/button:opacity-88',
+          'group-data-[state=open]/button:opacity-88',
         ],
         false: '',
       },
