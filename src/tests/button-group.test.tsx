@@ -4,7 +4,12 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { exampleComponentMaps } from '@/app/demo/[name]/index';
 import { Renderer } from '@/app/demo/[name]/renderer';
 import { Button } from '@/components/ui/button';
-import { ButtonGroup } from '@/components/ui/button-group';
+import {
+  ButtonGroup,
+  ButtonGroupSeparator,
+  ButtonGroupText,
+  splitIconChevronSizing,
+} from '@/components/ui/button-group';
 
 const componentName = 'button-group';
 
@@ -51,13 +56,15 @@ describe(`${componentName} — structure`, () => {
     expect(screen.getByText('Two')).toBeInTheDocument();
   });
 
-  it('defaults to horizontal layout with the default gap', () => {
+  it('defaults to spaced horizontal', () => {
     render(
       <ButtonGroup>
         <Button>One</Button>
       </ButtonGroup>,
     );
-    expect(screen.getByRole('group')).toHaveClass('flex-row', 'gap-3');
+    const group = screen.getByRole('group');
+    expect(group).toHaveAttribute('data-orientation', 'horizontal');
+    expect(group).toHaveAttribute('data-spacing', 'spaced');
   });
 
   it('applies vertical orientation', () => {
@@ -66,16 +73,37 @@ describe(`${componentName} — structure`, () => {
         <Button>One</Button>
       </ButtonGroup>,
     );
-    expect(screen.getByRole('group')).toHaveClass('flex-col');
+    expect(screen.getByRole('group')).toHaveAttribute(
+      'data-orientation',
+      'vertical',
+    );
   });
 
-  it('applies a constant 12px gap regardless of orientation', () => {
+  it('applies attached spacing', () => {
     render(
-      <ButtonGroup orientation="vertical">
+      <ButtonGroup spacing="attached">
         <Button>One</Button>
+        <Button>Two</Button>
       </ButtonGroup>,
     );
-    expect(screen.getByRole('group')).toHaveClass('gap-3');
+    expect(screen.getByRole('group')).toHaveAttribute(
+      'data-spacing',
+      'attached',
+    );
+  });
+
+  it('renders Text and Separator subcomponents', () => {
+    render(
+      <ButtonGroup spacing="attached">
+        <ButtonGroupText>Label</ButtonGroupText>
+        <ButtonGroupSeparator />
+        <Button>Go</Button>
+      </ButtonGroup>,
+    );
+    expect(screen.getByText('Label')).toBeInTheDocument();
+    expect(
+      document.querySelector('[data-slot="button-group-separator"]'),
+    ).toBeTruthy();
   });
 
   it('merges a custom className', () => {
@@ -85,5 +113,38 @@ describe(`${componentName} — structure`, () => {
       </ButtonGroup>,
     );
     expect(screen.getByRole('group')).toHaveClass('custom-class');
+  });
+});
+
+describe(`${componentName} — splitIconChevronSizing`, () => {
+  it('returns narrower chevron width for filled icon sizes', () => {
+    expect(splitIconChevronSizing('icon-lg')).toEqual({
+      chevronClassName: 'w-8 px-0',
+    });
+    expect(splitIconChevronSizing('icon')).toEqual({
+      chevronClassName: 'w-6 px-0',
+    });
+    expect(splitIconChevronSizing('icon-sm')).toEqual({
+      chevronClassName: 'w-5 px-0',
+    });
+    expect(splitIconChevronSizing('icon-xs')).toEqual({
+      chevronClassName: 'w-5 px-0',
+    });
+    expect(splitIconChevronSizing('icon-xxs')).toEqual({
+      chevronClassName: 'w-4 px-0',
+    });
+  });
+
+  it('returns hug width for ghost', () => {
+    expect(splitIconChevronSizing('icon-lg', { ghost: true })).toEqual({
+      chevronClassName: 'w-6 px-0',
+    });
+    expect(splitIconChevronSizing('icon', { ghost: true })).toEqual({
+      chevronClassName: 'w-4 px-0',
+    });
+  });
+
+  it('defaults to icon', () => {
+    expect(splitIconChevronSizing()).toEqual(splitIconChevronSizing('icon'));
   });
 });
