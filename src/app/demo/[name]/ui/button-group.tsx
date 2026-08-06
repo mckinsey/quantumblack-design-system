@@ -189,24 +189,23 @@ export const examples: DemoExample[] = [
   {
     name: 'ButtonGroupDemo',
     title: 'Default',
-    description:
-      'Spaced CTA pair — primary Save with secondary Cancel (12px gap).',
+    description: 'Spaced group: primary Save with secondary Cancel.',
   },
   {
     name: 'ButtonGroupConfigs',
     title: 'CTA pairings',
-    description: 'Common primary + alternate pairs, including reversed order.',
+    description: 'Common variant pairs (including reversed order).',
   },
   {
     name: 'ButtonGroupSizes',
     title: 'Sizes',
-    description: 'sm, default, and lg children. Gap stays 12px.',
+    description: 'Same spaced pair at sm, default, and lg.',
   },
   {
     name: 'ButtonGroupSplit',
     title: 'Split',
     description:
-      'Reg-size attached splits for every Button variant (text + icon). Chevron menu is demo-only.',
+      'Attached text+chevron and icon+chevron for every variant. Menu on the chevron is composition, not part of ButtonGroup.',
   },
 ];
 
