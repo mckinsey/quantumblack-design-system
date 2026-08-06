@@ -6,7 +6,7 @@
     "4123": {
       "label": "QBDS docs (dev)",
       "onAutoForward": "openPreview",
-      "visibility": "public"
+      "visibility": "private"
     }
   },
   "remoteEnv": {
@@ -15,7 +15,6 @@
   },
   "postCreateCommand": "bash -lc 'npm ci'",
   "updateContentCommand": "bash -lc 'npm ci'",
-  "postAttachCommand": "bash -lc '.devcontainer/start-dev.sh'",
   "postStartCommand": "bash -lc '.devcontainer/start-dev.sh'",
   "customizations": {
     "vscode": {
