@@ -3,13 +3,11 @@
 // component=ButtonGroup
 import figma from 'figma';
 
-// ButtonsGroup/CTAs is a 2-button CTA pair in Figma (primary + alternate).
-// Nested Button instances resolve via their own Code Connect (button-text).
 const buttons = figma.properties.children(['Button']);
 
 export default {
   example: figma.code`
-    <ButtonGroup>
+    <ButtonGroup spacing="spaced">
       ${figma.helpers.react.renderChildren(buttons)}
     </ButtonGroup>
   `,
