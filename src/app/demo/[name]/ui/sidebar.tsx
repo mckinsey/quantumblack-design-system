@@ -432,7 +432,7 @@ function AppMain({
   body: string;
 }) {
   return (
-    <SidebarInset className="bg-surface-secondary overflow-auto p-8">
+    <SidebarInset className="bg-surface-base overflow-auto p-8">
       <p className="paragraph-small text-fg-tertiary mb-1">{subtitle}</p>
       <h1 className="headings-h2-regular text-fg-primary mb-3">{title}</h1>
       <p className="paragraph-small text-fg-secondary max-w-2xl">{body}</p>
