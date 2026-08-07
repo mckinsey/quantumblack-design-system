@@ -662,7 +662,7 @@
       "name": "sidebar",
       "type": "registry:ui",
       "title": "Sidebar",
-      "description": "Composable sidebar icon-rail variant with optional NavMenu panel. shadcn API.",
+      "description": "Composable sidebar with a vertical icon-button navbar and optional accordion-based navigation panel",
       "dependencies": [
         "@radix-ui/react-dialog",
         "@radix-ui/react-slot",
