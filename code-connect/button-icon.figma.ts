@@ -5,7 +5,7 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const variant = instance.getEnum('type', {
+const type = instance.getEnum('type', {
   primary: 'default',
   'primary-accent': 'accent',
   'secondary-filled': 'secondary',
@@ -29,9 +29,13 @@ const state = instance.getEnum('state', {
   disabled: 'disabled',
   loading: 'enabled',
   'dropdown-open': 'open',
+  'toggle-on': 'toggle-on',
 });
 
 const disabled = state === 'disabled';
+const isToggle =
+  state === 'toggle-on' &&
+  (type === 'secondary' || type === 'outline' || type === 'ghost');
 
 const openNote =
   state === 'open'
@@ -51,13 +55,21 @@ if (icon && icon.type === 'INSTANCE') {
 }
 
 export default {
-  example: figma.code`
+  example: isToggle
+    ? figma.code`
+    <Toggle variant="${type}" size="${size}" pressed={true}${className ? ` className="${className}"` : ''}${disabled ? ' disabled' : ''}>
+      ${iconCode}
+    </Toggle>
+  `
+    : figma.code`
     ${openNote}
-    <Button variant="${variant}" size="${size}"${className ? ` className="${className}"` : ''}${disabled ? ' disabled' : ''}>
+    <Button variant="${type}" size="${size}"${className ? ` className="${className}"` : ''}${disabled ? ' disabled' : ''}>
       ${iconCode}
     </Button>
   `,
-  imports: ['import { Button } from "@/components/ui/button"'],
+  imports: isToggle
+    ? ['import { Toggle } from "@/components/ui/toggle"']
+    : ['import { Button } from "@/components/ui/button"'],
   id: 'button-icon',
   metadata: { nestable: true },
 };

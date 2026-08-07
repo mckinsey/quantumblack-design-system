@@ -2,14 +2,16 @@
 // source=src/components/ui/toggle.tsx
 // component=Toggle
 //
-// Figma models toggle-on as a Button-Icon state variant (secondary-filled, secondary-outline,
-// ghost only). Code uses a separate Toggle (Base UI) — map state=toggle-on to
-// pressed={true}. For non-toggle Button-Icon states, use button-icon.figma.ts instead.
+// Same COMPONENT_SET as button-icon (toggle-on is a Button-Icon state). Snippet must
+// be correct for every cell — if this template wins in Dev Mode, non-toggle states
+// still emit <Button>.
 import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const variant = instance.getEnum('type', {
+const type = instance.getEnum('type', {
+  primary: 'default',
+  'primary-accent': 'accent',
   'secondary-filled': 'secondary',
   'secondary-outline': 'outline',
   ghost: 'ghost',
@@ -23,10 +25,26 @@ const size = instance.getEnum('size', {
   lg: 'icon-lg',
 });
 
-const disabled = instance.getEnum('state', {
-  'toggle-on': false,
-  disabled: true,
+const state = instance.getEnum('state', {
+  enabled: 'enabled',
+  hover: 'enabled',
+  focused: 'enabled',
+  pressed: 'enabled',
+  disabled: 'disabled',
+  loading: 'enabled',
+  'dropdown-open': 'open',
+  'toggle-on': 'toggle-on',
 });
+
+const disabled = state === 'disabled';
+const isToggle =
+  state === 'toggle-on' &&
+  (type === 'secondary' || type === 'outline' || type === 'ghost');
+
+const openNote =
+  state === 'open'
+    ? figma.code`{/* data-state="open" from DropdownMenuTrigger — Button fill + IconShell tone follow that, not a Button prop */}`
+    : figma.code``;
 
 const className = instance.getEnum('shape', {
   square: undefined,
@@ -41,12 +59,21 @@ if (icon && icon.type === 'INSTANCE') {
 }
 
 export default {
-  example: figma.code`
-    <Toggle variant="${variant}" size="${size}" pressed={true}${className ? ` className="${className}"` : ''}${disabled ? ' disabled' : ''}>
+  example: isToggle
+    ? figma.code`
+    <Toggle variant="${type}" size="${size}" pressed={true}${className ? ` className="${className}"` : ''}${disabled ? ' disabled' : ''}>
       ${iconCode}
     </Toggle>
+  `
+    : figma.code`
+    ${openNote}
+    <Button variant="${type}" size="${size}"${className ? ` className="${className}"` : ''}${disabled ? ' disabled' : ''}>
+      ${iconCode}
+    </Button>
   `,
-  imports: ['import { Toggle } from "@/components/ui/toggle"'],
+  imports: isToggle
+    ? ['import { Toggle } from "@/components/ui/toggle"']
+    : ['import { Button } from "@/components/ui/button"'],
   id: 'toggle-icon',
   metadata: { nestable: true },
 };

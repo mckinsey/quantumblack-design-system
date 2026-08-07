@@ -29,10 +29,10 @@ function toggleVariants({
 } = {}) {
   return cn(
     buttonVariants({ variant, size }),
-    'data-pressed:bg-fill-active data-pressed:text-fg-primary-inverse',
+    'data-pressed:bg-fill-active data-pressed:text-fg-primary-inverse data-pressed:[&>span]:no-underline',
 
     variant === 'outline' &&
-      'data-pressed:border-stroke-active-inverse data-pressed:border-2',
+      'data-pressed:inset-ring-2 data-pressed:inset-ring-stroke-active-inverse',
 
     className,
   );
