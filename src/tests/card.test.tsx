@@ -6,38 +6,20 @@ import { Renderer } from '@/app/demo/[name]/renderer';
 import {
   Card,
   CardAction,
+  CardAttribution,
   CardContent,
+  CardData,
+  CardDataLabel,
+  CardDataRow,
+  CardDataValue,
   CardDescription,
   CardFooter,
   CardHeader,
+  CardMedia,
+  CardStat,
+  CardStatGroup,
   CardTitle,
 } from '@/components/ui/card';
-
-// ---------- Polyfills ----------
-class MockResizeObserver {
-  observe() {}
-  unobserve() {}
-  disconnect() {}
-}
-if (typeof globalThis.ResizeObserver === 'undefined') {
-  (globalThis as unknown as Record<string, unknown>).ResizeObserver =
-    MockResizeObserver;
-}
-if (typeof window !== 'undefined' && !window.matchMedia) {
-  Object.defineProperty(window, 'matchMedia', {
-    writable: true,
-    value: (query: string) => ({
-      matches: false,
-      media: query,
-      onchange: null,
-      addListener: () => {},
-      removeListener: () => {},
-      addEventListener: () => {},
-      removeEventListener: () => {},
-      dispatchEvent: () => false,
-    }),
-  });
-}
 
 const componentName = 'card';
 
@@ -61,50 +43,115 @@ describe(`${componentName} — all examples render`, () => {
 });
 
 describe(`${componentName} — structure`, () => {
-  it('renders card with data-slot="card"', () => {
-    render(<Card>Content</Card>);
-    expect(document.querySelector('[data-slot="card"]')).toBeInTheDocument();
-  });
-
-  it('renders all card sub-components with their data-slots', () => {
-    render(
+  it('exposes data-slot on every sub-component', () => {
+    const { container } = render(
       <Card>
-        <CardHeader>
+        <CardMedia>
+          <CardHeader>
+            <span>Badge</span>
+            <CardAction>Action</CardAction>
+          </CardHeader>
+        </CardMedia>
+        <CardContent>
+          <CardAttribution>Attribution</CardAttribution>
           <CardTitle>Title</CardTitle>
           <CardDescription>Description</CardDescription>
-          <CardAction>Action</CardAction>
-        </CardHeader>
-        <CardContent>Body</CardContent>
-        <CardFooter>Footer</CardFooter>
+        </CardContent>
+        <CardData>
+          <CardDataRow>
+            <CardDataLabel>Label</CardDataLabel>
+            <CardDataValue>Value</CardDataValue>
+          </CardDataRow>
+        </CardData>
+        <CardFooter>
+          <CardStatGroup>
+            <CardStat>21</CardStat>
+          </CardStatGroup>
+        </CardFooter>
       </Card>,
     );
-    expect(
-      document.querySelector('[data-slot="card-header"]'),
-    ).toBeInTheDocument();
-    expect(
-      document.querySelector('[data-slot="card-title"]'),
-    ).toBeInTheDocument();
-    expect(
-      document.querySelector('[data-slot="card-description"]'),
-    ).toBeInTheDocument();
-    expect(
-      document.querySelector('[data-slot="card-content"]'),
-    ).toBeInTheDocument();
-    expect(
-      document.querySelector('[data-slot="card-footer"]'),
-    ).toBeInTheDocument();
+
+    const slots = [
+      'card',
+      'card-media',
+      'card-header',
+      'card-action',
+      'card-content',
+      'card-attribution',
+      'card-title',
+      'card-description',
+      'card-data',
+      'card-data-divider',
+      'card-data-row',
+      'card-data-label',
+      'card-data-value',
+      'card-footer',
+      'card-stat-group',
+      'card-stat',
+    ];
+
+    for (const slot of slots) {
+      expect(
+        container.querySelector(`[data-slot="${slot}"]`),
+      ).toBeInTheDocument();
+    }
   });
 
-  it('renders title and description text correctly', () => {
+  it('renders title and description text', () => {
     render(
       <Card>
-        <CardHeader>
-          <CardTitle>My Card</CardTitle>
-          <CardDescription>Card body text</CardDescription>
-        </CardHeader>
+        <CardContent>
+          <CardTitle>My Title</CardTitle>
+          <CardDescription>My Description</CardDescription>
+        </CardContent>
       </Card>,
     );
-    expect(screen.getByText('My Card')).toBeInTheDocument();
-    expect(screen.getByText('Card body text')).toBeInTheDocument();
+    expect(screen.getByText('My Title')).toBeInTheDocument();
+    expect(screen.getByText('My Description')).toBeInTheDocument();
   });
+
+  it('applies default size via data-size', () => {
+    const { container } = render(<Card>Content</Card>);
+    expect(container.querySelector('[data-slot="card"]')).toHaveAttribute(
+      'data-size',
+      'default',
+    );
+  });
+
+  it('applies sm size via data-size', () => {
+    const { container } = render(<Card size="sm">Content</Card>);
+    expect(container.querySelector('[data-slot="card"]')).toHaveAttribute(
+      'data-size',
+      'sm',
+    );
+  });
+});
+
+describe(`${componentName} — size smoke`, () => {
+  it.each(['default', 'sm'] as const)(
+    'renders full composition at size="%s"',
+    size => {
+      expect(() =>
+        render(
+          <Card size={size} className="aspect-[3/4]">
+            <CardHeader>
+              <span>Badge</span>
+              <CardAction>More</CardAction>
+            </CardHeader>
+            <CardContent>
+              <CardTitle className="line-clamp-2 h-[2lh]">Title</CardTitle>
+              <CardDescription className="line-clamp-2 h-[2lh]">
+                Description
+              </CardDescription>
+            </CardContent>
+            <CardFooter>
+              <CardStatGroup>
+                <CardStat>1</CardStat>
+              </CardStatGroup>
+            </CardFooter>
+          </Card>,
+        ),
+      ).not.toThrow();
+    },
+  );
 });
