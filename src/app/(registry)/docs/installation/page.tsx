@@ -71,13 +71,26 @@ export default function InstallationPage() {
               <span className="bg-fill-subtle text-fg-primary paragraph-small-emphasised flex h-6 w-6 shrink-0 items-center justify-center">
                 1
               </span>
-              <div>
+              <div className="flex flex-1 flex-col gap-2">
                 <p className="paragraph-regular-primary text-fg-primary font-semibold">
-                  A React project with Tailwind CSS
+                  A React project with Tailwind CSS v4
                 </p>
                 <p className="paragraph-regular-primary text-fg-secondary">
-                  Next.js, Vite, or any React framework with Tailwind CSS
-                  configured.
+                  If you don&apos;t have one yet:
+                </p>
+                <CodeBlock
+                  code={`npx create-next-app@latest my-app --typescript --tailwind --eslint --app --src-dir --yes --use-npm
+cd my-app`}
+                  language="bash"
+                  filename="Terminal"
+                />
+                <p className="paragraph-regular-primary text-fg-secondary">
+                  Vite:{' '}
+                  <code className="paragraph-code-text bg-fill-subtle px-1.5 py-0.5">
+                    npm create vite@latest my-app -- --template react-ts --yes
+                    && cd my-app && npm install && npm install tailwindcss
+                    @tailwindcss/vite
+                  </code>
                 </p>
               </div>
             </div>
@@ -86,16 +99,20 @@ export default function InstallationPage() {
               <span className="bg-fill-subtle text-fg-primary paragraph-small-emphasised flex h-6 w-6 shrink-0 items-center justify-center">
                 2
               </span>
-              <div>
+              <div className="flex flex-1 flex-col gap-2">
                 <p className="paragraph-regular-primary text-fg-primary font-semibold">
                   shadcn/ui initialized
                 </p>
+                <CodeBlock
+                  code={`npx shadcn@latest init`}
+                  language="bash"
+                  filename="Terminal"
+                />
                 <p className="paragraph-regular-primary text-fg-secondary">
-                  Run{' '}
-                  <code className="paragraph-code-text bg-fill-subtle px-1.5 py-0.5">
-                    npx shadcn@latest init
-                  </code>{' '}
-                  to set up your project.
+                  You&apos;ll be asked to pick a component library — choose{' '}
+                  <strong>Base UI</strong>, since this registry is migrating to
+                  it. Then a style preset — pick any one; Step 2 replaces it
+                  with QBDS theming.
                 </p>
               </div>
             </div>
@@ -169,6 +186,11 @@ import '../styles/globals.css'`}
               language="typescript"
               filename="layout.tsx"
             />
+
+            <p className="paragraph-regular-primary text-fg-secondary">
+              Skipping this import leaves your app unstyled, with no error to
+              flag it — double-check it&apos;s there.
+            </p>
           </div>
 
           <div className="flex flex-col gap-4">
