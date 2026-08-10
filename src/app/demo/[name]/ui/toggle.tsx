@@ -68,7 +68,13 @@ export function TogglePressed() {
 const iconToggleVariants = ['secondary', 'outline', 'ghost'] as const;
 
 /** Renders icon toggles for each variant with optional extra className */
-function IconToggleRow({ className }: { className?: string }) {
+function IconToggleRow({
+  className,
+  pressed,
+}: {
+  className?: string;
+  pressed?: boolean;
+}) {
   return (
     <div className="flex flex-wrap items-center gap-3">
       {iconToggleVariants.map(variant => (
@@ -76,6 +82,7 @@ function IconToggleRow({ className }: { className?: string }) {
           key={variant}
           variant={variant}
           size="icon"
+          pressed={pressed}
           className={className}>
           <IconShell size="sm" hoverable>
             <Icon icon="crop_free" />
@@ -88,12 +95,22 @@ function IconToggleRow({ className }: { className?: string }) {
 
 /** Icon toggles - square buttons */
 export function ToggleIcons() {
-  return <IconToggleRow />;
+  return (
+    <div className="space-y-4">
+      <IconToggleRow />
+      <IconToggleRow pressed />
+    </div>
+  );
 }
 
 /** Round icon toggles */
 export function ToggleIconsRound() {
-  return <IconToggleRow className="rounded-full" />;
+  return (
+    <div className="space-y-4">
+      <IconToggleRow className="rounded-full" />
+      <IconToggleRow className="rounded-full" pressed />
+    </div>
+  );
 }
 
 /** Icon toggle sizes */
@@ -139,12 +156,12 @@ export const examples: DemoExample[] = [
   {
     name: 'ToggleIcons',
     title: 'Icon Toggles',
-    description: 'Square icon-only toggle buttons.',
+    description: 'Square icon-only toggles in off and on states.',
   },
   {
     name: 'ToggleIconsRound',
     title: 'Round Icons',
-    description: 'Circular icon toggle buttons.',
+    description: 'Circular icon toggles in off and on states.',
   },
   {
     name: 'ToggleIconSizes',

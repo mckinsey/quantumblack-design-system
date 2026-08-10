@@ -83,7 +83,7 @@ const buttonVariants = cva(
         ghost: [
           'bg-transparent text-fg-secondary',
           'hover:text-fg-primary active:text-fg-primary focus-visible:text-fg-primary data-[state=open]:text-fg-primary',
-          '[&>span]:underline disabled:[&>span]:no-underline aria-disabled:[&>span]:no-underline',
+          '[&>span:not([data-slot^=icon])]:underline disabled:[&>span:not([data-slot^=icon])]:no-underline aria-disabled:[&>span:not([data-slot^=icon])]:no-underline',
           'hover:bg-stateslayer-overlay-hover active:bg-stateslayer-overlay-pressed',
           'focus-visible:bg-stateslayer-overlay-active-inverse data-[state=open]:bg-stateslayer-overlay-active-inverse',
           'disabled:bg-transparent disabled:hover:bg-transparent disabled:active:bg-transparent',
@@ -188,9 +188,16 @@ const buttonVariants = cva(
 
 function wrapTextNodes(children: React.ReactNode): React.ReactNode {
   return React.Children.map(children, child => {
+    if (React.isValidElement(child) && child.type === React.Fragment) {
+      return wrapTextNodes(
+        (child.props as { children?: React.ReactNode }).children,
+      );
+    }
+
     if (typeof child === 'string' || typeof child === 'number') {
       return (
         <span
+          data-slot="button-label"
           className="[text-underline-position:from-font] group-hover/button:underline group-focus/button:underline group-active/button:underline group-disabled/button:no-underline group-aria-disabled/button:no-underline group-data-[state=open]/button:underline"
           key={String(child)}>
           {child}
