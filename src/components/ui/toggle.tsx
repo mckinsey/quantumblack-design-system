@@ -32,8 +32,7 @@ function toggleVariants({
     'data-pressed:bg-fill-active data-pressed:text-fg-primary-inverse data-pressed:[&>span:not([data-slot^=icon])]:no-underline',
     'data-pressed:**:data-[slot=icon]:text-fill-active-inverse',
 
-    variant === 'outline' &&
-      'data-pressed:inset-ring-2 data-pressed:inset-ring-stroke-active-inverse',
+    variant === 'outline' && 'data-pressed:inset-ring-0',
 
     className,
   );
