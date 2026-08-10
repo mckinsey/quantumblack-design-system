@@ -397,7 +397,7 @@ function SelectScrollUpArrow({
 
   return (
     <SelectPrimitive.ScrollUpArrow
-      data-slot="select-scroll-up-arrow"
+      data-slot="icon-select-scroll-up-arrow"
       className={cn(
         'flex cursor-default items-center justify-center py-1',
         className,
@@ -419,7 +419,7 @@ function SelectScrollDownArrow({
 
   return (
     <SelectPrimitive.ScrollDownArrow
-      data-slot="select-scroll-down-arrow"
+      data-slot="icon-select-scroll-down-arrow"
       className={cn(
         'flex cursor-default items-center justify-center py-1',
         className,

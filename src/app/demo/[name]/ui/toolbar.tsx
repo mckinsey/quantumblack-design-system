@@ -16,15 +16,23 @@ import {
   Toolbar,
   ToolbarButton,
   ToolbarGroup,
-  ToolbarLink,
   ToolbarSeparator,
   toolbarIconShellSizeMap,
   useToolbar,
 } from '@/components/ui/toolbar';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
-import { cn } from '@/lib/utils';
 
 const toolbarTextButtonClass = 'h-9 w-auto min-w-9 px-2';
+
+function SelectCheck() {
+  return (
+    <SelectItemIndicator>
+      <IconShell size="sm">
+        <Icon icon="check" />
+      </IconShell>
+    </SelectItemIndicator>
+  );
+}
 
 function ToolbarIcon() {
   const { size } = useToolbar();
@@ -177,35 +185,45 @@ export function ToolbarComposition() {
       <ToolbarSeparator />
 
       <Select defaultValue="helvetica" size="sm">
-        <ToolbarButton
-          aria-label="Font family"
-          className={cn(toolbarTextButtonClass, 'min-w-28 justify-between')}
-          render={<SelectTrigger />}>
+        <SelectTrigger aria-label="Font family" className="min-w-28">
           <SelectValue />
-        </ToolbarButton>
+        </SelectTrigger>
         <SelectContent>
           <SelectItem value="helvetica">
             <SelectItemText>Helvetica</SelectItemText>
-            <SelectItemIndicator>
-              <IconShell size="sm">
-                <Icon icon="check" />
-              </IconShell>
-            </SelectItemIndicator>
+            <SelectCheck />
           </SelectItem>
           <SelectItem value="arial">
             <SelectItemText>Arial</SelectItemText>
-            <SelectItemIndicator>
-              <IconShell size="sm">
-                <Icon icon="check" />
-              </IconShell>
-            </SelectItemIndicator>
+            <SelectCheck />
           </SelectItem>
         </SelectContent>
       </Select>
-
       <ToolbarSeparator />
 
-      <ToolbarLink href="#">Edited 51m ago</ToolbarLink>
+      <Select defaultValue="14" size="sm">
+        <SelectTrigger aria-label="Font size" className="min-w-16">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="12">
+            <SelectItemText>12</SelectItemText>
+            <SelectCheck />
+          </SelectItem>
+          <SelectItem value="14">
+            <SelectItemText>14</SelectItemText>
+            <SelectCheck />
+          </SelectItem>
+          <SelectItem value="16">
+            <SelectItemText>16</SelectItemText>
+            <SelectCheck />
+          </SelectItem>
+          <SelectItem value="18">
+            <SelectItemText>18</SelectItemText>
+            <SelectCheck />
+          </SelectItem>
+        </SelectContent>
+      </Select>
     </Toolbar>
   );
 }
@@ -242,7 +260,7 @@ export const examples: DemoExample[] = [
     name: 'ToolbarComposition',
     title: 'Composition',
     description:
-      'Toggle group, button group, select trigger, and link composed in one toolbar.',
+      'Toggle group, button group, and font selects composed in one toolbar.',
   },
 ];
 

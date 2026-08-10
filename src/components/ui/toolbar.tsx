@@ -249,7 +249,7 @@ function ToolbarLink({ className, ...props }: ToolbarPrimitive.Link.Props) {
     <ToolbarPrimitive.Link
       data-slot="toolbar-link"
       className={cn(
-        'paragraph-regular-secondary text-fg-secondary hover:text-fg-primary px-2 whitespace-nowrap outline-none',
+        'paragraph-small-primary text-fg-tertiary hover:text-fg-secondary px-2 whitespace-nowrap outline-none',
         'focus-visible:ring-stroke-status-focus focus-visible:ring-1',
         className,
       )}
