@@ -37,6 +37,7 @@ const iconVariants = cva(
           'group-hover/button:opacity-88',
           'group-active/button:opacity-88',
           'group-data-[state=open]/button:opacity-88',
+          'group-data-pressed/button:opacity-88',
         ],
         false: '',
       },

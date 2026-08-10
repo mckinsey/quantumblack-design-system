@@ -2,7 +2,7 @@
 
 import { Toggle as TogglePrimitive } from '@base-ui/react/toggle';
 
-import { buttonVariants } from '@/components/ui/button';
+import { buttonVariants, wrapTextNodes } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 type ToggleVariant = 'secondary' | 'outline' | 'ghost';
@@ -29,10 +29,11 @@ function toggleVariants({
 } = {}) {
   return cn(
     buttonVariants({ variant, size }),
-    'data-pressed:bg-fill-active data-pressed:text-fg-primary-inverse',
+    'data-pressed:bg-fill-active data-pressed:text-fg-primary-inverse data-pressed:[&>span:not([data-slot^=icon])]:no-underline',
+    'data-pressed:**:data-[slot=icon]:text-fill-active-inverse',
 
     variant === 'outline' &&
-      'data-pressed:border-stroke-active-inverse data-pressed:border-2',
+      'data-pressed:inset-ring-2 data-pressed:inset-ring-stroke-active-inverse',
 
     className,
   );
@@ -42,6 +43,7 @@ function Toggle({
   className,
   variant = 'secondary',
   size = 'default',
+  children,
   ...props
 }: TogglePrimitive.Props & {
   variant?: ToggleVariant;
@@ -51,8 +53,9 @@ function Toggle({
     <TogglePrimitive
       data-slot="toggle"
       className={cn(toggleVariants({ variant, size }), className)}
-      {...props}
-    />
+      {...props}>
+      {wrapTextNodes(children)}
+    </TogglePrimitive>
   );
 }
 

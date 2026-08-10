@@ -258,7 +258,8 @@ import {
 } from '@/app/demo/[name]/ui/select';
 import {
   SidebarApp,
-  SidebarSizes,
+  SidebarNavMenuDemo,
+  SidebarNavRailSizes,
   sidebar,
   examples as sidebarExamples,
 } from '@/app/demo/[name]/ui/sidebar';
@@ -361,11 +362,8 @@ import {
 } from '@/app/demo/[name]/ui/time-picker';
 import {
   ToggleDemo,
-  ToggleIconSizes,
-  ToggleIcons,
-  ToggleIconsRound,
-  TogglePressed,
   ToggleSizes,
+  ToggleToggled,
   ToggleVariants,
   toggle,
   examples as toggleExamples,
@@ -614,7 +612,8 @@ export const exampleComponentMaps: Record<
   },
   sidebar: {
     SidebarApp,
-    SidebarSizes,
+    SidebarNavRailSizes,
+    SidebarNavMenuDemo,
   },
   slider: {
     SliderDemo,
@@ -695,10 +694,7 @@ export const exampleComponentMaps: Record<
     ToggleDemo,
     ToggleVariants,
     ToggleSizes,
-    TogglePressed,
-    ToggleIcons,
-    ToggleIconsRound,
-    ToggleIconSizes,
+    ToggleToggled,
   },
   toolbar: {
     ToolbarDemo,

@@ -43,78 +43,46 @@ export function ToggleSizes() {
   );
 }
 
-/** Toggle pressed states */
-export function TogglePressed() {
+/** Off and on: text, icon, and round icon */
+export function ToggleToggled() {
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap items-center gap-3">
-        {toggleVariants.map(v => (
-          <Toggle key={v} variant={v}>
-            Off
+      <div className="space-y-2">
+        <p className="paragraph-small-primary text-fg-secondary">Normal</p>
+        <div className="flex flex-wrap items-center gap-3">
+          <Toggle>Toggle</Toggle>
+          <Toggle size="icon" aria-label="Toggle">
+            <IconShell size="sm" hoverable>
+              <Icon icon="crop_free" />
+            </IconShell>
           </Toggle>
-        ))}
-      </div>
-      <div className="flex flex-wrap items-center gap-3">
-        {toggleVariants.map(v => (
-          <Toggle key={v} variant={v} pressed={true}>
-            On
+          <Toggle size="icon" className="rounded-full" aria-label="Toggle">
+            <IconShell size="sm" hoverable>
+              <Icon icon="crop_free" />
+            </IconShell>
           </Toggle>
-        ))}
+        </div>
       </div>
-    </div>
-  );
-}
-
-const iconToggleVariants = ['secondary', 'outline', 'ghost'] as const;
-
-/** Renders icon toggles for each variant with optional extra className */
-function IconToggleRow({ className }: { className?: string }) {
-  return (
-    <div className="flex flex-wrap items-center gap-3">
-      {iconToggleVariants.map(variant => (
-        <Toggle
-          key={variant}
-          variant={variant}
-          size="icon"
-          className={className}>
-          <IconShell size="sm" hoverable>
-            <Icon icon="crop_free" />
-          </IconShell>
-        </Toggle>
-      ))}
-    </div>
-  );
-}
-
-/** Icon toggles - square buttons */
-export function ToggleIcons() {
-  return <IconToggleRow />;
-}
-
-/** Round icon toggles */
-export function ToggleIconsRound() {
-  return <IconToggleRow className="rounded-full" />;
-}
-
-/** Icon toggle sizes */
-export function ToggleIconSizes() {
-  const sizes = [
-    { size: 'icon-xxs', iconSize: 'sm' },
-    { size: 'icon-xs', iconSize: 'sm' },
-    { size: 'icon-sm', iconSize: 'sm' },
-    { size: 'icon', iconSize: 'sm' },
-    { size: 'icon-lg', iconSize: 'default' },
-  ] as const;
-
-  return (
-    <div className="flex flex-wrap items-center gap-3">
-      {sizes.map(({ size, iconSize }) => (
-        <Toggle key={size} variant="secondary" size={size}>
-          <IconShell size={iconSize}>
-            <Icon icon="crop_free" />
-          </IconShell>
-        </Toggle>
-      ))}
+      <div className="space-y-2">
+        <p className="paragraph-small-primary text-fg-secondary">Toggled</p>
+        <div className="flex flex-wrap items-center gap-3">
+          <Toggle pressed>Toggle</Toggle>
+          <Toggle size="icon" pressed aria-label="Toggle">
+            <IconShell size="sm" hoverable>
+              <Icon icon="crop_free" />
+            </IconShell>
+          </Toggle>
+          <Toggle
+            size="icon"
+            pressed
+            className="rounded-full"
+            aria-label="Toggle">
+            <IconShell size="sm" hoverable>
+              <Icon icon="crop_free" />
+            </IconShell>
+          </Toggle>
+        </div>
+      </div>
     </div>
   );
 }
@@ -129,27 +97,12 @@ export const examples: DemoExample[] = [
   {
     name: 'ToggleSizes',
     title: 'Sizes',
-    description: 'Toggle button sizes from xs to lg.',
+    description: 'Toggle button sizes from xxs to lg.',
   },
   {
-    name: 'TogglePressed',
-    title: 'Pressed States',
-    description: 'Toggle buttons in on and off states.',
-  },
-  {
-    name: 'ToggleIcons',
-    title: 'Icon Toggles',
-    description: 'Square icon-only toggle buttons.',
-  },
-  {
-    name: 'ToggleIconsRound',
-    title: 'Round Icons',
-    description: 'Circular icon toggle buttons.',
-  },
-  {
-    name: 'ToggleIconSizes',
-    title: 'Icon Sizes',
-    description: 'Icon toggle buttons in different sizes.',
+    name: 'ToggleToggled',
+    title: 'Toggled State',
+    description: 'Normal and toggled text, icon, and round icon toggles.',
   },
 ];
 
@@ -157,8 +110,5 @@ export const toggle = createLegacyDemo('toggle', examples, {
   ToggleDemo: <ToggleDemo />,
   ToggleVariants: <ToggleVariants />,
   ToggleSizes: <ToggleSizes />,
-  TogglePressed: <TogglePressed />,
-  ToggleIcons: <ToggleIcons />,
-  ToggleIconsRound: <ToggleIconsRound />,
-  ToggleIconSizes: <ToggleIconSizes />,
+  ToggleToggled: <ToggleToggled />,
 });
