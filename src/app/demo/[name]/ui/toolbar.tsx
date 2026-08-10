@@ -1,5 +1,8 @@
 'use client';
 
+import { Toggle } from '@base-ui/react/toggle';
+import { ToggleGroup } from '@base-ui/react/toggle-group';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,12 +15,12 @@ import {
   Toolbar,
   ToolbarButton,
   ToolbarSeparator,
-  ToolbarToggleGroup,
-  ToolbarToggleItem,
+  toolbarGapClass,
   toolbarIconShellSizeMap,
   useToolbar,
 } from '@/components/ui/toolbar';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
+import { cn } from '@/lib/utils';
 
 function ToolbarIcon() {
   const { size } = useToolbar();
@@ -30,22 +33,32 @@ function ToolbarIcon() {
 }
 
 function DefaultToolbarItems() {
+  const { boxed, shape, size, orientation } = useToolbar();
+
   return (
     <>
-      <ToolbarToggleGroup type="single" defaultValue="tool-1">
-        <ToolbarToggleItem aria-label="Tool 1" value="tool-1">
+      <ToggleGroup
+        aria-label="Tool selection"
+        className={cn(
+          'inline-flex items-center',
+          toolbarGapClass({ boxed, shape, size }),
+          orientation === 'vertical' ? 'flex-col' : 'flex-row',
+        )}
+        defaultValue={['tool-1']}
+        orientation={orientation}>
+        <ToolbarButton aria-label="Tool 1" render={<Toggle />} value="tool-1">
           <ToolbarIcon />
-        </ToolbarToggleItem>
-        <ToolbarToggleItem aria-label="Tool 2" value="tool-2">
+        </ToolbarButton>
+        <ToolbarButton aria-label="Tool 2" render={<Toggle />} value="tool-2">
           <ToolbarIcon />
-        </ToolbarToggleItem>
-        <ToolbarToggleItem aria-label="Tool 3" value="tool-3">
+        </ToolbarButton>
+        <ToolbarButton aria-label="Tool 3" render={<Toggle />} value="tool-3">
           <ToolbarIcon />
-        </ToolbarToggleItem>
-        <ToolbarToggleItem aria-label="Tool 4" value="tool-4">
+        </ToolbarButton>
+        <ToolbarButton aria-label="Tool 4" render={<Toggle />} value="tool-4">
           <ToolbarIcon />
-        </ToolbarToggleItem>
-      </ToolbarToggleGroup>
+        </ToolbarButton>
+      </ToggleGroup>
 
       <ToolbarSeparator />
 
@@ -125,29 +138,45 @@ export function ToolbarVertical() {
 export function ToolbarWithDropdown() {
   return (
     <Toolbar aria-label="Tools with menu" boxed>
-      <ToolbarToggleGroup type="single" defaultValue="tool-1">
-        <ToolbarToggleItem aria-label="Tool 1" value="tool-1">
+      <ToolbarDropdownBody />
+    </Toolbar>
+  );
+}
+
+function ToolbarDropdownBody() {
+  const { boxed, shape, size, orientation } = useToolbar();
+
+  return (
+    <>
+      <ToggleGroup
+        aria-label="Tool selection"
+        className={cn(
+          'inline-flex items-center',
+          toolbarGapClass({ boxed, shape, size }),
+          orientation === 'vertical' ? 'flex-col' : 'flex-row',
+        )}
+        defaultValue={['tool-1']}
+        orientation={orientation}>
+        <ToolbarButton aria-label="Tool 1" render={<Toggle />} value="tool-1">
           <ToolbarIcon />
-        </ToolbarToggleItem>
-        <ToolbarToggleItem aria-label="Tool 2" value="tool-2">
+        </ToolbarButton>
+        <ToolbarButton aria-label="Tool 2" render={<Toggle />} value="tool-2">
           <ToolbarIcon />
-        </ToolbarToggleItem>
-      </ToolbarToggleGroup>
+        </ToolbarButton>
+      </ToggleGroup>
 
       <ToolbarSeparator />
 
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <ToolbarButton aria-label="Tool 3">
-            <ToolbarIcon />
-          </ToolbarButton>
-        </DropdownMenuTrigger>
+        <ToolbarButton aria-label="Tool 3" render={<DropdownMenuTrigger />}>
+          <ToolbarIcon />
+        </ToolbarButton>
         <DropdownMenuContent align="start">
           <DropdownMenuItem>Duplicate</DropdownMenuItem>
           <DropdownMenuItem>Export</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-    </Toolbar>
+    </>
   );
 }
 

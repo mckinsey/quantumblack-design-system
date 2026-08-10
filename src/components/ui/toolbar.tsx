@@ -1,6 +1,6 @@
 'use client';
 
-import * as ToolbarPrimitive from '@radix-ui/react-toolbar';
+import { Toolbar as ToolbarPrimitive } from '@base-ui/react/toolbar';
 import { cva } from 'class-variance-authority';
 import * as React from 'react';
 
@@ -36,9 +36,6 @@ function toolbarGapClass({
   return 'gap-2';
 }
 
-// Negative margin cancels the flex gap before the separator (Figma spacer-on-prior-item).
-// Only use between two items — first/last overflows the container. Keys must match
-// every class `toolbarGapClass` can return.
 const toolbarSeparatorGapOffset: Record<
   ToolbarGapClass,
   { horizontal: string; vertical: string }
@@ -137,6 +134,9 @@ function toolbarItemClasses({
       size: toolbarIconSizeMap[size],
     }),
     shape === 'circle' ? 'rounded-full' : 'rounded-md',
+    'data-pressed:bg-fill-active data-pressed:text-fg-primary-inverse',
+    'disabled:data-pressed:text-fg-disabled disabled:data-pressed:bg-transparent',
+    'disabled:data-pressed:hover:bg-transparent disabled:data-pressed:active:bg-transparent',
     className,
   );
 }
@@ -145,9 +145,7 @@ function useToolbar() {
   return React.useContext(ToolbarContext);
 }
 
-interface ToolbarProps extends React.ComponentProps<
-  typeof ToolbarPrimitive.Root
-> {
+interface ToolbarProps extends ToolbarPrimitive.Root.Props {
   size?: ToolbarSize;
   shape?: ToolbarShape;
   boxed?: boolean;
@@ -180,16 +178,19 @@ function Toolbar({
   );
 }
 
-function ToolbarButton({
-  className,
-  ...props
-}: React.ComponentProps<typeof ToolbarPrimitive.Button>) {
+function ToolbarButton({ className, ...props }: ToolbarPrimitive.Button.Props) {
   const context = useToolbar();
 
   return (
     <ToolbarPrimitive.Button
       data-slot="toolbar-button"
-      className={toolbarItemClasses({ ...context, className })}
+      className={state =>
+        toolbarItemClasses({
+          ...context,
+          className:
+            typeof className === 'function' ? className(state) : className,
+        })
+      }
       {...props}
     />
   );
@@ -198,19 +199,12 @@ function ToolbarButton({
 function ToolbarSeparator({
   className,
   ...props
-}: Omit<
-  React.ComponentProps<typeof ToolbarPrimitive.Separator>,
-  'decorative' | 'orientation'
->) {
+}: ToolbarPrimitive.Separator.Props) {
   const context = useToolbar();
 
   return (
     <ToolbarPrimitive.Separator
       data-slot="toolbar-separator"
-      decorative
-      orientation={
-        context.orientation === 'horizontal' ? 'vertical' : 'horizontal'
-      }
       className={cn(
         'border-stroke-tertiary shrink-0',
         toolbarSeparatorOffsetClass(context),
@@ -232,15 +226,12 @@ function ToolbarSeparator({
   );
 }
 
-function ToolbarToggleGroup({
-  className,
-  ...props
-}: React.ComponentProps<typeof ToolbarPrimitive.ToggleGroup>) {
+function ToolbarGroup({ className, ...props }: ToolbarPrimitive.Group.Props) {
   const { boxed, shape, size, orientation } = useToolbar();
 
   return (
-    <ToolbarPrimitive.ToggleGroup
-      data-slot="toolbar-toggle-group"
+    <ToolbarPrimitive.Group
+      data-slot="toolbar-group"
       className={cn(
         'inline-flex items-center',
         toolbarGapClass({ boxed, shape, size }),
@@ -252,33 +243,12 @@ function ToolbarToggleGroup({
   );
 }
 
-function ToolbarToggleItem({
-  className,
-  ...props
-}: React.ComponentProps<typeof ToolbarPrimitive.ToggleItem>) {
-  const context = useToolbar();
-
-  return (
-    <ToolbarPrimitive.ToggleItem
-      data-slot="toolbar-toggle-item"
-      className={cn(
-        toolbarItemClasses(context),
-        'data-[state=on]:bg-fill-active data-[state=on]:text-fg-primary-inverse',
-        'disabled:data-[state=on]:text-fg-disabled disabled:data-[state=on]:bg-transparent',
-        'disabled:data-[state=on]:hover:bg-transparent disabled:data-[state=on]:active:bg-transparent',
-        className,
-      )}
-      {...props}
-    />
-  );
-}
-
 export {
   Toolbar,
   ToolbarButton,
+  ToolbarGroup,
   ToolbarSeparator,
-  ToolbarToggleGroup,
-  ToolbarToggleItem,
+  toolbarGapClass,
   toolbarIconShellSizeMap,
   useToolbar,
   type ToolbarSize,

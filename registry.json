@@ -907,7 +907,7 @@
       "type": "registry:ui",
       "title": "Toolbar",
       "description": "Groups icon-only controls with keyboard navigation. Defaults to an unboxed horizontal layout; also supports optional boxed containers, vertical orientation, circle and square shapes, and sm, reg, and lg sizes.",
-      "dependencies": ["@radix-ui/react-toolbar"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",

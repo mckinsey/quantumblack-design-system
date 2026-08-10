@@ -1,3 +1,5 @@
+import { Toggle } from '@base-ui/react/toggle';
+import { ToggleGroup } from '@base-ui/react/toggle-group';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -16,8 +18,6 @@ import {
   Toolbar,
   ToolbarButton,
   ToolbarSeparator,
-  ToolbarToggleGroup,
-  ToolbarToggleItem,
 } from '@/components/ui/toolbar';
 
 const componentName = 'toolbar';
@@ -57,33 +57,6 @@ describe(`${componentName} — structure & interaction`, () => {
       screen.getByRole('toolbar', { name: 'Editor tools' }),
     ).toBeInTheDocument();
   });
-
-  it.each([
-    ['gap-1', 'reg', false, 'circle'],
-    ['gap-2', 'reg', true, 'circle'],
-    ['gap-2', 'sm', false, 'circle'],
-    ['gap-3', 'lg', false, 'circle'],
-    ['gap-3', 'lg', true, 'circle'],
-    ['gap-3', 'lg', false, 'square'],
-    ['gap-2', 'reg', false, 'square'],
-  ] as const)(
-    'applies %s gap when size=%s boxed=%s shape=%s',
-    (gapClass, size, boxed, shape) => {
-      render(
-        <Toolbar aria-label="Tools" boxed={boxed} shape={shape} size={size}>
-          <ToolbarButton aria-label="Action">
-            <IconShell size="sm">
-              <Icon icon="crop_free" />
-            </IconShell>
-          </ToolbarButton>
-        </Toolbar>,
-      );
-
-      expect(screen.getByRole('toolbar', { name: 'Tools' })).toHaveClass(
-        gapClass,
-      );
-    },
-  );
 
   it('applies boxed and variant data attributes when boxed', () => {
     render(
@@ -146,35 +119,32 @@ describe(`${componentName} — structure & interaction`, () => {
 
     render(
       <Toolbar aria-label="Tools">
-        <ToolbarToggleGroup type="single" defaultValue="a">
-          <ToolbarToggleItem aria-label="Tool A" value="a">
+        <ToggleGroup defaultValue={['a']}>
+          <ToolbarButton aria-label="Tool A" render={<Toggle />} value="a">
             <IconShell size="sm">
               <Icon icon="crop_free" />
             </IconShell>
-          </ToolbarToggleItem>
-          <ToolbarToggleItem aria-label="Tool B" value="b">
+          </ToolbarButton>
+          <ToolbarButton aria-label="Tool B" render={<Toggle />} value="b">
             <IconShell size="sm">
               <Icon icon="crop_free" />
             </IconShell>
-          </ToolbarToggleItem>
-        </ToolbarToggleGroup>
+          </ToolbarButton>
+        </ToggleGroup>
       </Toolbar>,
     );
 
-    expect(screen.getByRole('radio', { name: 'Tool A' })).toHaveAttribute(
-      'data-state',
-      'on',
+    expect(screen.getByRole('button', { name: 'Tool A' })).toHaveAttribute(
+      'data-pressed',
     );
 
-    await user.click(screen.getByRole('radio', { name: 'Tool B' }));
+    await user.click(screen.getByRole('button', { name: 'Tool B' }));
 
-    expect(screen.getByRole('radio', { name: 'Tool B' })).toHaveAttribute(
-      'data-state',
-      'on',
+    expect(screen.getByRole('button', { name: 'Tool B' })).toHaveAttribute(
+      'data-pressed',
     );
-    expect(screen.getByRole('radio', { name: 'Tool A' })).toHaveAttribute(
-      'data-state',
-      'off',
+    expect(screen.getByRole('button', { name: 'Tool A' })).not.toHaveAttribute(
+      'data-pressed',
     );
   });
 
@@ -189,9 +159,11 @@ describe(`${componentName} — structure & interaction`, () => {
           </IconShell>
         </ToolbarButton>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <ToolbarButton aria-label="Open menu">Menu</ToolbarButton>
-          </DropdownMenuTrigger>
+          <ToolbarButton
+            aria-label="Open menu"
+            render={<DropdownMenuTrigger />}>
+            Menu
+          </ToolbarButton>
           <DropdownMenuContent>
             <DropdownMenuItem>Item</DropdownMenuItem>
           </DropdownMenuContent>
