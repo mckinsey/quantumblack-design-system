@@ -7,7 +7,7 @@ import * as React from 'react';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-type ToolbarSize = 'sm' | 'reg' | 'lg';
+type ToolbarSize = 'sm' | 'default' | 'lg';
 type ToolbarShape = 'square' | 'circle';
 
 interface ToolbarContextValue {
@@ -18,7 +18,7 @@ interface ToolbarContextValue {
 }
 
 const ToolbarContext = React.createContext<ToolbarContextValue>({
-  size: 'reg',
+  size: 'default',
   shape: 'circle',
   boxed: false,
   orientation: 'horizontal',
@@ -32,7 +32,7 @@ function toolbarGapClass({
   size,
 }: Pick<ToolbarContextValue, 'boxed' | 'shape' | 'size'>): ToolbarGapClass {
   if (size === 'lg') return 'gap-3';
-  if (size === 'reg' && shape === 'circle' && !boxed) return 'gap-1';
+  if (size === 'default' && shape === 'circle' && !boxed) return 'gap-1';
   return 'gap-2';
 }
 
@@ -55,37 +55,37 @@ function toolbarSeparatorOffsetClass(context: ToolbarContextValue) {
 const toolbarIconSizeMap: Record<ToolbarSize, 'icon-sm' | 'icon' | 'icon-lg'> =
   {
     sm: 'icon-sm',
-    reg: 'icon',
+    default: 'icon',
     lg: 'icon-lg',
   };
 
 const toolbarIconShellSizeMap: Record<ToolbarSize, 'sm' | 'default' | 'lg'> = {
   sm: 'sm',
-  reg: 'sm',
+  default: 'sm',
   lg: 'default',
 };
 
 const toolbarSeparatorLengthMap: Record<ToolbarSize, string> = {
   sm: 'h-5',
-  reg: 'h-7',
+  default: 'h-7',
   lg: 'h-8',
 };
 
 const toolbarSeparatorWidthMap: Record<ToolbarSize, string> = {
   sm: 'w-2',
-  reg: 'w-2',
+  default: 'w-2',
   lg: 'w-3',
 };
 
 const toolbarSeparatorHeightMap: Record<ToolbarSize, string> = {
   sm: 'h-2',
-  reg: 'h-2',
+  default: 'h-2',
   lg: 'h-3',
 };
 
 const toolbarSeparatorCrossSpanMap: Record<ToolbarSize, string> = {
   sm: 'w-6',
-  reg: 'w-7',
+  default: 'w-7',
   lg: 'w-8',
 };
 
@@ -105,21 +105,21 @@ const toolbarVariants = cva('inline-flex w-fit items-center', {
     },
     size: {
       sm: '',
-      reg: '',
+      default: '',
       lg: '',
     },
   },
   compoundVariants: [
     { boxed: true, shape: 'circle', className: 'rounded-full' },
     { boxed: true, shape: 'square', className: 'rounded-md' },
-    { boxed: true, size: ['sm', 'reg'], className: 'p-2' },
+    { boxed: true, size: ['sm', 'default'], className: 'p-2' },
     { boxed: true, size: 'lg', className: 'p-3' },
   ],
   defaultVariants: {
     boxed: false,
     orientation: 'horizontal',
     shape: 'circle',
-    size: 'reg',
+    size: 'default',
   },
 });
 
@@ -153,7 +153,7 @@ interface ToolbarProps extends ToolbarPrimitive.Root.Props {
 
 function Toolbar({
   className,
-  size = 'reg',
+  size = 'default',
   shape = 'circle',
   boxed = false,
   orientation = 'horizontal',
@@ -166,6 +166,7 @@ function Toolbar({
         data-size={size}
         data-shape={shape}
         data-boxed={boxed}
+        data-orientation={orientation}
         orientation={orientation}
         className={cn(
           toolbarVariants({ boxed, orientation, shape, size }),
@@ -243,12 +244,26 @@ function ToolbarGroup({ className, ...props }: ToolbarPrimitive.Group.Props) {
   );
 }
 
+function ToolbarLink({ className, ...props }: ToolbarPrimitive.Link.Props) {
+  return (
+    <ToolbarPrimitive.Link
+      data-slot="toolbar-link"
+      className={cn(
+        'paragraph-regular-secondary text-fg-secondary hover:text-fg-primary px-2 whitespace-nowrap outline-none',
+        'focus-visible:ring-stroke-status-focus focus-visible:ring-1',
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
 export {
   Toolbar,
   ToolbarButton,
   ToolbarGroup,
+  ToolbarLink,
   ToolbarSeparator,
-  toolbarGapClass,
   toolbarIconShellSizeMap,
   useToolbar,
   type ToolbarSize,

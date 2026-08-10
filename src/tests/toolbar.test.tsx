@@ -1,5 +1,3 @@
-import { Toggle } from '@base-ui/react/toggle';
-import { ToggleGroup } from '@base-ui/react/toggle-group';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -14,9 +12,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import {
   Toolbar,
   ToolbarButton,
+  ToolbarGroup,
+  ToolbarLink,
   ToolbarSeparator,
 } from '@/components/ui/toolbar';
 
@@ -73,6 +74,7 @@ describe(`${componentName} — structure & interaction`, () => {
     expect(toolbar).toHaveAttribute('data-boxed', 'true');
     expect(toolbar).toHaveAttribute('data-shape', 'square');
     expect(toolbar).toHaveAttribute('data-size', 'lg');
+    expect(toolbar).toHaveAttribute('data-orientation', 'horizontal');
   });
 
   it('sets data-boxed to false when unboxed', () => {
@@ -119,18 +121,26 @@ describe(`${componentName} — structure & interaction`, () => {
 
     render(
       <Toolbar aria-label="Tools">
-        <ToggleGroup defaultValue={['a']}>
-          <ToolbarButton aria-label="Tool A" render={<Toggle />} value="a">
+        <ToolbarGroup
+          render={<ToggleGroup defaultValue={['a']} />}
+          aria-label="Tools group">
+          <ToolbarButton
+            aria-label="Tool A"
+            render={<ToggleGroupItem value="a" />}
+            value="a">
             <IconShell size="sm">
               <Icon icon="crop_free" />
             </IconShell>
           </ToolbarButton>
-          <ToolbarButton aria-label="Tool B" render={<Toggle />} value="b">
+          <ToolbarButton
+            aria-label="Tool B"
+            render={<ToggleGroupItem value="b" />}
+            value="b">
             <IconShell size="sm">
               <Icon icon="crop_free" />
             </IconShell>
           </ToolbarButton>
-        </ToggleGroup>
+        </ToolbarGroup>
       </Toolbar>,
     );
 
@@ -198,5 +208,17 @@ describe(`${componentName} — structure & interaction`, () => {
     await user.click(screen.getByRole('button', { name: 'Run action' }));
 
     expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders a toolbar link', () => {
+    render(
+      <Toolbar aria-label="Tools">
+        <ToolbarLink href="#history">Edited 51m ago</ToolbarLink>
+      </Toolbar>,
+    );
+
+    const link = screen.getByRole('link', { name: 'Edited 51m ago' });
+    expect(link).toHaveAttribute('href', '#history');
+    expect(link).toHaveAttribute('data-slot', 'toolbar-link');
   });
 });

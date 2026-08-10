@@ -1,26 +1,30 @@
 'use client';
 
-import { Toggle } from '@base-ui/react/toggle';
-import { ToggleGroup } from '@base-ui/react/toggle-group';
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectItemIndicator,
+  SelectItemText,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import {
   Toolbar,
   ToolbarButton,
+  ToolbarGroup,
+  ToolbarLink,
   ToolbarSeparator,
-  toolbarGapClass,
   toolbarIconShellSizeMap,
   useToolbar,
 } from '@/components/ui/toolbar';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 import { cn } from '@/lib/utils';
+
+const toolbarTextButtonClass = 'h-9 w-auto min-w-9 px-2';
 
 function ToolbarIcon() {
   const { size } = useToolbar();
@@ -33,32 +37,40 @@ function ToolbarIcon() {
 }
 
 function DefaultToolbarItems() {
-  const { boxed, shape, size, orientation } = useToolbar();
+  const { orientation } = useToolbar();
 
   return (
     <>
-      <ToggleGroup
+      <ToolbarGroup
         aria-label="Tool selection"
-        className={cn(
-          'inline-flex items-center',
-          toolbarGapClass({ boxed, shape, size }),
-          orientation === 'vertical' ? 'flex-col' : 'flex-row',
-        )}
-        defaultValue={['tool-1']}
-        orientation={orientation}>
-        <ToolbarButton aria-label="Tool 1" render={<Toggle />} value="tool-1">
+        render={
+          <ToggleGroup defaultValue={['tool-1']} orientation={orientation} />
+        }>
+        <ToolbarButton
+          aria-label="Tool 1"
+          render={<ToggleGroupItem value="tool-1" />}
+          value="tool-1">
           <ToolbarIcon />
         </ToolbarButton>
-        <ToolbarButton aria-label="Tool 2" render={<Toggle />} value="tool-2">
+        <ToolbarButton
+          aria-label="Tool 2"
+          render={<ToggleGroupItem value="tool-2" />}
+          value="tool-2">
           <ToolbarIcon />
         </ToolbarButton>
-        <ToolbarButton aria-label="Tool 3" render={<Toggle />} value="tool-3">
+        <ToolbarButton
+          aria-label="Tool 3"
+          render={<ToggleGroupItem value="tool-3" />}
+          value="tool-3">
           <ToolbarIcon />
         </ToolbarButton>
-        <ToolbarButton aria-label="Tool 4" render={<Toggle />} value="tool-4">
+        <ToolbarButton
+          aria-label="Tool 4"
+          render={<ToggleGroupItem value="tool-4" />}
+          value="tool-4">
           <ToolbarIcon />
         </ToolbarButton>
-      </ToggleGroup>
+      </ToolbarGroup>
 
       <ToolbarSeparator />
 
@@ -112,7 +124,7 @@ export function ToolbarSizes() {
       <Toolbar aria-label="Small tools" boxed size="sm">
         <DefaultToolbarItems />
       </Toolbar>
-      <Toolbar aria-label="Regular tools" boxed size="reg">
+      <Toolbar aria-label="Default tools" boxed>
         <DefaultToolbarItems />
       </Toolbar>
       <Toolbar aria-label="Large tools" boxed size="lg">
@@ -135,48 +147,66 @@ export function ToolbarVertical() {
   );
 }
 
-export function ToolbarWithDropdown() {
+export function ToolbarComposition() {
   return (
-    <Toolbar aria-label="Tools with menu" boxed>
-      <ToolbarDropdownBody />
-    </Toolbar>
-  );
-}
-
-function ToolbarDropdownBody() {
-  const { boxed, shape, size, orientation } = useToolbar();
-
-  return (
-    <>
-      <ToggleGroup
-        aria-label="Tool selection"
-        className={cn(
-          'inline-flex items-center',
-          toolbarGapClass({ boxed, shape, size }),
-          orientation === 'vertical' ? 'flex-col' : 'flex-row',
-        )}
-        defaultValue={['tool-1']}
-        orientation={orientation}>
-        <ToolbarButton aria-label="Tool 1" render={<Toggle />} value="tool-1">
-          <ToolbarIcon />
+    <Toolbar aria-label="Document tools" boxed shape="square">
+      <ToggleGroup aria-label="Alignment" defaultValue={['align-left']}>
+        <ToolbarButton
+          aria-label="Align left"
+          className={toolbarTextButtonClass}
+          render={<ToggleGroupItem value="align-left" />}
+          value="align-left">
+          Align Left
         </ToolbarButton>
-        <ToolbarButton aria-label="Tool 2" render={<Toggle />} value="tool-2">
-          <ToolbarIcon />
+        <ToolbarButton
+          aria-label="Align right"
+          className={toolbarTextButtonClass}
+          render={<ToggleGroupItem value="align-right" />}
+          value="align-right">
+          Align Right
         </ToolbarButton>
       </ToggleGroup>
 
       <ToolbarSeparator />
 
-      <DropdownMenu>
-        <ToolbarButton aria-label="Tool 3" render={<DropdownMenuTrigger />}>
-          <ToolbarIcon />
+      <ToolbarGroup aria-label="Numerical format">
+        <ToolbarButton aria-label="Format as currency">$</ToolbarButton>
+        <ToolbarButton aria-label="Format as percent">%</ToolbarButton>
+      </ToolbarGroup>
+
+      <ToolbarSeparator />
+
+      <Select defaultValue="helvetica" size="sm">
+        <ToolbarButton
+          aria-label="Font family"
+          className={cn(toolbarTextButtonClass, 'min-w-28 justify-between')}
+          render={<SelectTrigger />}>
+          <SelectValue />
         </ToolbarButton>
-        <DropdownMenuContent align="start">
-          <DropdownMenuItem>Duplicate</DropdownMenuItem>
-          <DropdownMenuItem>Export</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </>
+        <SelectContent>
+          <SelectItem value="helvetica">
+            <SelectItemText>Helvetica</SelectItemText>
+            <SelectItemIndicator>
+              <IconShell size="sm">
+                <Icon icon="check" />
+              </IconShell>
+            </SelectItemIndicator>
+          </SelectItem>
+          <SelectItem value="arial">
+            <SelectItemText>Arial</SelectItemText>
+            <SelectItemIndicator>
+              <IconShell size="sm">
+                <Icon icon="check" />
+              </IconShell>
+            </SelectItemIndicator>
+          </SelectItem>
+        </SelectContent>
+      </Select>
+
+      <ToolbarSeparator />
+
+      <ToolbarLink href="#">Edited 51m ago</ToolbarLink>
+    </Toolbar>
   );
 }
 
@@ -201,7 +231,7 @@ export const examples: DemoExample[] = [
   {
     name: 'ToolbarSizes',
     title: 'Sizes',
-    description: 'Small, regular, and large toolbar sizes.',
+    description: 'Small, default, and large toolbar sizes.',
   },
   {
     name: 'ToolbarVertical',
@@ -209,9 +239,10 @@ export const examples: DemoExample[] = [
     description: 'Vertical orientation with boxed and unboxed variants.',
   },
   {
-    name: 'ToolbarWithDropdown',
-    title: 'With Dropdown',
-    description: 'Toolbar button composed with a dropdown menu trigger.',
+    name: 'ToolbarComposition',
+    title: 'Composition',
+    description:
+      'Toggle group, button group, select trigger, and link composed in one toolbar.',
   },
 ];
 
@@ -221,5 +252,5 @@ export const toolbar = createLegacyDemo('toolbar', examples, {
   ToolbarShapes: <ToolbarShapes />,
   ToolbarSizes: <ToolbarSizes />,
   ToolbarVertical: <ToolbarVertical />,
-  ToolbarWithDropdown: <ToolbarWithDropdown />,
+  ToolbarComposition: <ToolbarComposition />,
 });
