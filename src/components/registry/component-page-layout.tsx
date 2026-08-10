@@ -9,6 +9,7 @@ import { APIReference } from './api-reference';
 import { ComponentExamples } from './component-examples';
 import { ExamplePreview } from './example-preview';
 import { InstallationGuide } from './installation-guide';
+import { MarkdownDocs } from './markdown-docs';
 import { ComponentHeader, Section } from './section';
 import { UsageSection } from './usage-section';
 
@@ -27,8 +28,8 @@ interface ComponentPageLayoutProps {
   exampleCodeMap?: Record<string, string>;
   /** API documentation data */
   apiData?: ComponentAPI[];
-  /** Custom usage code example */
-  usageCode?: string;
+  /** Optional markdown docs (`src/lib/docs/<name>.md`) */
+  docs?: string;
   /** Whether to use the legacy preview (backwards compatibility) */
   useLegacyPreview?: boolean;
   /** Legacy preview content */
@@ -38,14 +39,14 @@ interface ComponentPageLayoutProps {
 }
 
 /**
- * New component documentation page layout inspired by shadcn/ui
+ * Component documentation page layout.
  *
  * Sections:
- * 1. Hero - Title, description, featured example
- * 2. Installation - CLI and manual installation
- * 3. Usage - Import and basic usage
- * 4. Examples - Individual examples with preview/code
- * 5. API Reference - Props tables
+ * 1. Hero
+ * 2. Installation
+ * 3. Docs (markdown) or default Usage
+ * 4. Examples
+ * 5. API Reference
  */
 export function ComponentPageLayout({
   component,
@@ -55,7 +56,7 @@ export function ComponentPageLayout({
   exampleComponents,
   exampleCodeMap,
   apiData,
-  usageCode,
+  docs,
   useLegacyPreview = false,
   legacyPreviewContent,
   legacyDemoCode,
@@ -64,14 +65,12 @@ export function ComponentPageLayout({
 
   return (
     <div className="space-y-12">
-      {/* Hero Section */}
       <div className="space-y-6">
         <ComponentHeader
           title={component.title}
           description={component.description}
         />
 
-        {/* Primary Example */}
         {useLegacyPreview && legacyPreviewContent ? (
           <div className="border-stroke-tertiary bg-surface-primary border p-6">
             {legacyPreviewContent}
@@ -83,21 +82,21 @@ export function ComponentPageLayout({
         ) : null}
       </div>
 
-      {/* Installation Section */}
       <Section title="Installation">
         <InstallationGuide component={component} />
       </Section>
 
-      {/* Usage Section */}
-      <Section title="Usage">
-        <UsageSection
-          componentName={component.name}
-          componentTitle={component.title}
-          usageCode={usageCode}
-        />
-      </Section>
+      {docs ? (
+        <MarkdownDocs content={docs} />
+      ) : (
+        <Section title="Usage">
+          <UsageSection
+            componentName={component.name}
+            componentTitle={component.title}
+          />
+        </Section>
+      )}
 
-      {/* Examples Section */}
       {hasNewExamples && exampleCodeMap ? (
         <Section
           title="Examples"
@@ -125,7 +124,6 @@ export function ComponentPageLayout({
         </Section>
       ) : null}
 
-      {/* API Reference Section */}
       <Section
         title="API Reference"
         description="Component props and their types.">

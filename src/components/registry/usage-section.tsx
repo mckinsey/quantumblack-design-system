@@ -19,12 +19,20 @@ export function UsageSection({
   componentTitle,
   usageCode,
 }: UsageSectionProps) {
-  // Convert title to valid component name (remove spaces, keep PascalCase)
   const componentImportName = componentTitle.replace(/\s+/g, '');
 
   const importStatement = `import { ${componentImportName} } from "@/components/ui/${componentName}"`;
 
-  const defaultUsageCode = usageCode || `<${componentImportName} />`;
+  if (usageCode) {
+    return (
+      <CodeBlock
+        code={usageCode}
+        language="tsx"
+        filename="Usage example"
+        showLineNumbers
+      />
+    );
+  }
 
   return (
     <div className="space-y-4">
@@ -44,7 +52,7 @@ export function UsageSection({
           Basic Usage
         </h4>
         <CodeBlock
-          code={defaultUsageCode}
+          code={`<${componentImportName} />`}
           language="tsx"
           filename="Usage example"
         />
