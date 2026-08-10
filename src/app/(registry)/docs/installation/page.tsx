@@ -85,13 +85,16 @@ cd my-app`}
                   filename="Terminal"
                 />
                 <p className="paragraph-regular-primary text-fg-secondary">
-                  Vite:{' '}
-                  <code className="paragraph-code-text bg-fill-subtle px-1.5 py-0.5">
-                    npm create vite@latest my-app -- --template react-ts --yes
-                    && cd my-app && npm install && npm install tailwindcss
-                    @tailwindcss/vite
-                  </code>
+                  Or with Vite:
                 </p>
+                <CodeBlock
+                  code={`npm create vite@latest my-app -- --template react-ts --yes
+cd my-app
+npm install
+npm install tailwindcss @tailwindcss/vite`}
+                  language="bash"
+                  filename="Terminal"
+                />
               </div>
             </div>
 
@@ -111,8 +114,8 @@ cd my-app`}
                 <p className="paragraph-regular-primary text-fg-secondary">
                   You&apos;ll be asked to pick a component library — choose{' '}
                   <strong>Base UI</strong>, since this registry is migrating to
-                  it. Then a style preset — pick any one; Step 2 replaces it
-                  with QBDS theming.
+                  it. Then a style preset — pick any one; your first component
+                  install in Step 2 below replaces it with QBDS theming.
                 </p>
               </div>
             </div>
