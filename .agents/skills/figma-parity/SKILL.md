@@ -11,11 +11,11 @@ If no Figma URL/node is provided, ask for it (or use the team’s internal/share
 
 ## Sources of truth (read before styling)
 
-1. **[docs/TOKENS.md](docs/TOKENS.md)** — semantic Tailwind utilities; design-name column maps to Figma variables.
-2. **[src/styles/globals.css](src/styles/globals.css)** — CSS variables and `@theme inline`; trace utilities back to semantics (e.g. `bg-fill-*` → `--color-fill-*` → `--fill-*`). Verify **light and dark** (`.dark`); use `-inverse` on dark/accent surfaces.
+1. **[docs/TOKENS.md](../../../docs/TOKENS.md)** — semantic Tailwind utilities; design-name column maps to Figma variables.
+2. **[src/styles/globals.css](../../../src/styles/globals.css)** — CSS variables and `@theme inline`; trace utilities back to semantics (e.g. `bg-fill-*` → `--color-fill-*` → `--fill-*`). Verify **light and dark** (`.dark`); use `-inverse` on dark/accent surfaces.
 3. **Spacing scale** — `gap-1` / `p-1` = 4px, `gap-2` / `p-2` = 8px, `gap-3` / `p-3` = 12px. No `gap-[Npx]`, `text-[#…]`, `bg-[#…]`, or primitives (`slate-*`, `mist-*`) in components.
 
-Match Figma tokens via **[docs/TOKENS.md](docs/TOKENS.md)** (Design name + Tailwind utility). CSS semantics in `globals.css`: `--text-*`, `--border-*`, `--fill-*`, `--surface-*`, `--status-*`, `--stateslayer-*`, `--elevations-*`, `--brand-accents-*` (each has a `-inverse` form where the spec uses inverse surfaces). In components use Tailwind utilities from TOKENS.md — e.g. `text-fg-*` (→ `--color-fg-*` → `--text-*`), `border-stroke-*` (→ `--color-stroke-*` → `--border-*`), `bg-fill-*` — not raw `--fg-*` / `--stroke-*` or primitives.
+Match Figma tokens via **[docs/TOKENS.md](../../../docs/TOKENS.md)** (Design name + Tailwind utility). CSS semantics in `globals.css`: `--text-*`, `--border-*`, `--fill-*`, `--surface-*`, `--status-*`, `--stateslayer-*`, `--elevations-*`, `--brand-accents-*` (each has a `-inverse` form where the spec uses inverse surfaces). In components use Tailwind utilities from TOKENS.md — e.g. `text-fg-*` (→ `--color-fg-*` → `--text-*`), `border-stroke-*` (→ `--color-stroke-*` → `--border-*`), `bg-fill-*` — not raw `--fg-*` / `--stroke-*` or primitives.
 
 **Feedback / status colour (do not flag `text-status-*`):** Figma may bind feedback copy to **`Text/Error`**, **`Text/Warning`**, etc. In QBDS code the established theme utilities are **`text-status-error`**, **`text-status-warning`**, **`text-status-success`**, **`text-status-information`** (same family as fills/borders via `--color-status-*`). That mapping is **correct and intentional** — match sibling demos (`field`, `input`, `alert`, …). Do **not** treat `text-status-*` on feedback, counters, or required markers as a token drift, and do **not** rewrite them to `text-error` / `text-warning` / `text-success` / `text-fg-error`. Use `border-stroke-status-*` / `bg-status-*` for control chrome as today.
 
@@ -84,7 +84,7 @@ If a Code Connect mapping exists, confirm its enum values, size names, and varia
 
 ### 2 — Tokens (every distinct variant × state)
 
-Use `get_variable_defs` on representative nodes: at minimum **enabled**, **hover**, **focus**, **pressed**, **disabled**, plus every other Figma `state` enum value when present — **`dropdown-open`**, **`toggle-on`**, selected/active/loading, etc. Do not stop at focus when the set also has expanded/open cells. Map fill, text, stroke, elevation, radius, and state overlays per **[docs/TOKENS.md](docs/TOKENS.md)**. Check **light and dark**. Flag: wrong `-inverse` prefix; raw hex; primitives; right hex but wrong token name. When Figma shows **`Text/Error`** (etc.) on feedback, accept code that uses **`text-status-error`** (etc.) — do not flag that as a name mismatch.
+Use `get_variable_defs` on representative nodes: at minimum **enabled**, **hover**, **focus**, **pressed**, **disabled**, plus every other Figma `state` enum value when present — **`dropdown-open`**, **`toggle-on`**, selected/active/loading, etc. Do not stop at focus when the set also has expanded/open cells. Map fill, text, stroke, elevation, radius, and state overlays per **[docs/TOKENS.md](../../../docs/TOKENS.md)**. Check **light and dark**. Flag: wrong `-inverse` prefix; raw hex; primitives; right hex but wrong token name. When Figma shows **`Text/Error`** (etc.) on feedback, accept code that uses **`text-status-error`** (etc.) — do not flag that as a name mismatch.
 
 ### 3 — Layout, spacing, typography & states
 
