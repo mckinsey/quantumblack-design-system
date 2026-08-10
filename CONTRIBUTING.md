@@ -11,9 +11,12 @@ Contributions of all experience levels are welcome! Please read [CODE_OF_CONDUCT
 - **Vite**, **React 19**, **React Router 7**, **TypeScript 5**
 - **Tailwind CSS v4** + PostCSS
 - **shadcn/ui** (new-york style) for registry tooling
+- **Base UI** (`@base-ui/react`) and **Radix UI** (`@radix-ui/*`) for headless component primitives
 - **TanStack Query** for component detail pages
 - **TanStack Table**, **react-hook-form**, **zod** for complex component demos
 - Icons via Material Symbols Sharp variable font (`<Icon />` + `<IconShell />`)
+
+Base UI is the target for new components and in-flight migrations; Radix remains in the components not yet migrated. Check the imports in the file you're editing and in the closest sibling in `src/components/ui/` before reaching for a primitive.
 
 ## Key commands
 
@@ -42,7 +45,9 @@ Contributions of all experience levels are welcome! Please read [CODE_OF_CONDUCT
 
 ### Figma Code Connect
 
-Mappings live in [`code-connect/`](code-connect/) (flat `*.figma.tsx` files). [`figma.config.template.json`](figma.config.template.json) is committed; `figma.config.json` is generated from the template + `.env` and gitignored.
+Mappings live in [`code-connect/`](code-connect/) as flat `*.figma.ts` template files. [`figma.config.template.json`](figma.config.template.json) is committed; `figma.config.json` is generated from the template + `.env` and gitignored.
+
+A few older mappings still use the deprecated parser style (`figma.connect(...)` in `*.figma.tsx`). Do not author new ones — follow [code-connect](.agents/skills/code-connect/SKILL.md) for the template conventions.
 
 | Variable                  | Description                                                                                                    |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------- |
@@ -66,7 +71,7 @@ Set `QBDS_REGISTRY_URL` as a **repository variable** under **Settings → Secret
 ```
 docs/
 └── TOKENS.md                   # Token catalogue (feeds the /tokens page)
-code-connect/                   # Figma Code Connect mappings (*.figma.tsx)
+code-connect/                   # Figma Code Connect mappings (*.figma.ts)
 src/
 ├── app/
 │   ├── (registry)/             # Registry site routes
@@ -98,7 +103,7 @@ registry.json                   # Source of truth for all registered components
 4. Run `npm run registry:build` to regenerate `public/r/` files.
 5. Before raising a PR, run `npm run build` and `npm run lint` to confirm everything passes.
 
-When implementing or updating a component from a Figma spec, follow [figma-parity](.cursor/rules/figma-parity.mdc) (`@figma-parity` in Cursor).
+When implementing or updating a component from a Figma spec, follow [figma-parity](.agents/skills/figma-parity/SKILL.md). Cursor and Claude Code both discover it automatically — describe the task or share the Figma URL.
 
 ## Tokens
 
@@ -108,7 +113,7 @@ The **`/tokens`** page on the registry site is built from that file plus [`src/s
 
 ### Syncing from Figma
 
-When designers update variables in the design system Figma file, follow [figma-token-sync](.cursor/rules/figma-token-sync.mdc) (`@figma-token-sync` in Cursor). That workflow covers updating [`src/styles/globals.css`](src/styles/globals.css) and [`docs/TOKENS.md`](docs/TOKENS.md).
+When designers update variables in the design system Figma file, follow [figma-token-sync](.agents/skills/figma-token-sync/SKILL.md). That workflow covers updating [`src/styles/globals.css`](src/styles/globals.css) and [`docs/TOKENS.md`](docs/TOKENS.md).
 
 After editing:
 
@@ -117,7 +122,7 @@ npm run tokens:check
 npm run dev    # open /tokens and check the swatches
 ```
 
-For component work from a Figma spec, use [figma-parity](.cursor/rules/figma-parity.mdc) instead.
+For component work from a Figma spec, use [figma-parity](.agents/skills/figma-parity/SKILL.md) instead.
 
 ## Icons
 
@@ -145,4 +150,4 @@ Install via registry: `npx shadcn add icon` (ships `icon.tsx` and the Google Fon
 - [ ] `npm run build` passes
 - [ ] `npm run lint` passes
 - [ ] `registry.json` updated and `npm run registry:build` run (if component added/changed)
-- [ ] Component matched to Figma (new or updated from spec): completed [figma-parity](.cursor/rules/figma-parity.mdc) checklist
+- [ ] Component matched to Figma (new or updated from spec): completed [figma-parity](.agents/skills/figma-parity/SKILL.md) checklist
