@@ -6,7 +6,7 @@
     "4123": {
       "label": "QBDS docs (dev)",
       "onAutoForward": "openPreview",
-      "visibility": "private"
+      "visibility": "org"
     }
   },
   "remoteEnv": {
