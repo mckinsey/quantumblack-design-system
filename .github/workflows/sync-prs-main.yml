@@ -1,0 +1,40 @@
+name: Sync open PRs with main
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: sync-prs-main
+  cancel-in-progress: false
+
+jobs:
+  update-prs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge main into open PR branches
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          prs=$(gh pr list --base main --state open \
+            --json number,isDraft,isCrossRepository \
+            --jq '.[] | select(.isDraft == false and .isCrossRepository == false) | .number')
+
+          if [ -z "$prs" ]; then
+            echo "No open non-draft same-repo PRs"
+            exit 0
+          fi
+
+          for n in $prs; do
+            echo "Updating PR #$n"
+            if gh pr update-branch "$n"; then
+              echo "Updated PR #$n"
+            else
+              echo "Skipped PR #$n (conflict or already up to date)"
+            fi
+          done
