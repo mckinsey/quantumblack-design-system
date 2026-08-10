@@ -90,14 +90,33 @@ Use `get_variable_defs` on representative nodes: at minimum **enabled**, **hover
 
 For **each matrix cell** (every meaningful variant combination), use `get_design_context` or Dev Mode — not only the root frame. For field sets, also pull context on **nested Elements/** frames in that cell.
 
-| Property                      | Figma                                  | Code                                                                                            |
-| ----------------------------- | -------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| Height / min size             | auto-layout                            | `size-*`, `min-h`, padding + line-height                                                        |
-| Padding / gap                 | spacing variables                      | `p-*`, `gap-*` on the scale above                                                               |
-| Icon box                      | icon frame size + IconShell Type/State | `IconShell` size + **type** + opacity; re-read on open/toggle when parent fill flips            |
-| Separators / attached spacers | layout on group                        | avoid double gap; only between items                                                            |
-| Typography (control)          | text style name                        | matching `cta-*` / `paragraph-*` utility                                                        |
-| Typography (field feedback)   | Paragraph/\* + Text/Error (etc.)       | per-size `paragraph-*` + `text-status-error` (etc.) — verify **each size**, not control default |
+| Property                      | Figma                                                           | Code                                                                                            |
+| ----------------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| Height / min size             | auto-layout                                                     | `size-*`, `min-h`, padding + line-height                                                        |
+| Padding / gap                 | spacing variables                                               | `p-*`, `gap-*` on the scale above                                                               |
+| Icon box                      | icon frame size + IconShell Type/State                          | `IconShell` size + **type** + opacity; re-read on open/toggle when parent fill flips            |
+| Separators / attached spacers | layout on group                                                 | avoid double gap; only between items                                                            |
+| Typography (control)          | text style name                                                 | matching `cta-*` / `paragraph-*` utility                                                        |
+| Typography (field feedback)   | Paragraph/\* + Text/Error (etc.)                                | per-size `paragraph-*` + `text-status-error` (etc.) — verify **each size**, not control default |
+| Underline / link CTA          | `CTA/button-*` vs `CTA/button-link-*` (also Paragraph `*-Link`) | see **CTA button vs button-link** below                                                         |
+
+**CTA button vs button-link (underline) — mandatory per variant × state**
+
+Figma text styles encode underline. Do **not** assume one underline rule for all variants.
+
+| Figma text style (enabled / state cell)                      | Code expectation                                                                                                                                        |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `CTA/button-01\|02\|03` (no `-link`) at **enabled**          | No underline at rest. Underline only if **hover / focus / pressed / open** cells switch to `CTA/button-link-*` (e.g. `group-hover:underline` on label). |
+| `CTA/button-link-01\|02\|03` at **enabled**                  | Permanent underline at rest (`cta-button-link-*` or always-on `underline` on the label).                                                                |
+| Disabled cell uses `CTA/button-*` while enabled used `-link` | Drop underline when disabled (`disabled:…:no-underline`).                                                                                               |
+
+**Red flags**
+
+- Shared hover-only underline wrapper for every variant while Figma **ghost** (or similar) binds `CTA/button-link-*` at **enabled**.
+- Always-on underline while Figma enabled cell is plain `CTA/button-*`.
+- Size axis only sets `cta-button-*` with no per-variant link/underline branch when Figma differs by `type`.
+
+Record pass/drift for underline in the variant × state matrix (not only font size/weight).
 
 **Compound spacing:** Derive spacing from Figma **per variant cell**, not from a single axis (e.g. “if boxed, always gap-2”). Size and shape often change gap/padding independently — document or test non-default cells when logic is non-obvious.
 
@@ -137,6 +156,7 @@ Report a **variant × state** matrix: pass / drift (note ≥2px or wrong token).
 - [ ] Field chrome table (when Elements/\* present): label, helper, feedback, counter — typography + color per **size**
 - [ ] Feedback / status copy uses theme utilities `text-status-error|warning|success|information` (Figma `Text/*` → `text-status-*` is OK)
 - [ ] Variant × state matrix: tokens + geometry per cell
+- [ ] CTA `button-*` vs `button-link-*` (underline) checked per variant × state — including ghost/link-like types at **enabled**
 - [ ] Light and dark where the component appears on both
 - [ ] Defaults aligned (Figma, `cva`, registry); demos start simple and cover the full alignment table
 - [ ] Compound spacing from per-cell Figma values (no undocumented single-axis shortcuts)
