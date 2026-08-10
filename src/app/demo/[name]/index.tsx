@@ -258,7 +258,8 @@ import {
 } from '@/app/demo/[name]/ui/select';
 import {
   SidebarApp,
-  SidebarSizes,
+  SidebarNavMenuDemo,
+  SidebarNavRailSizes,
   sidebar,
   examples as sidebarExamples,
 } from '@/app/demo/[name]/ui/sidebar';
@@ -614,7 +615,8 @@ export const exampleComponentMaps: Record<
   },
   sidebar: {
     SidebarApp,
-    SidebarSizes,
+    SidebarNavRailSizes,
+    SidebarNavMenuDemo,
   },
   slider: {
     SliderDemo,
