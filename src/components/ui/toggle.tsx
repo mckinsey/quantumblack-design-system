@@ -2,7 +2,7 @@
 
 import { Toggle as TogglePrimitive } from '@base-ui/react/toggle';
 
-import { buttonVariants } from '@/components/ui/button';
+import { buttonVariants, wrapTextNodes } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 type ToggleVariant = 'secondary' | 'outline' | 'ghost';
@@ -42,6 +42,7 @@ function Toggle({
   className,
   variant = 'secondary',
   size = 'default',
+  children,
   ...props
 }: TogglePrimitive.Props & {
   variant?: ToggleVariant;
@@ -51,8 +52,9 @@ function Toggle({
     <TogglePrimitive
       data-slot="toggle"
       className={cn(toggleVariants({ variant, size }), className)}
-      {...props}
-    />
+      {...props}>
+      {wrapTextNodes(children)}
+    </TogglePrimitive>
   );
 }
 
