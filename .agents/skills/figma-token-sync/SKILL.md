@@ -17,10 +17,10 @@ Use the Figma MCP `get_variable_defs` tool to read resolved values. Note: `searc
 
 ## Code targets (read before editing)
 
-| File                                               | Role                                                                                                                                     |
-| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| [`docs/TOKENS.md`](docs/TOKENS.md)                 | **Figma ↔ CSS mapping** — the **Design name** column is the canonical Figma variable path for each `--*` token; read this before syncing |
-| [`src/styles/globals.css`](src/styles/globals.css) | **CSS source of truth** — primitive + semantic variable definitions and `var()` bindings                                                 |
+| File                                                        | Role                                                                                                                                     |
+| ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| [`docs/TOKENS.md`](../../../docs/TOKENS.md)                 | **Figma ↔ CSS mapping** — the **Design name** column is the canonical Figma variable path for each `--*` token; read this before syncing |
+| [`src/styles/globals.css`](../../../src/styles/globals.css) | **CSS source of truth** — primitive + semantic variable definitions and `var()` bindings                                                 |
 
 ### `globals.css` structure (preserve layout)
 
@@ -36,7 +36,7 @@ Use the Figma MCP `get_variable_defs` tool to read resolved values. Note: `searc
 
 ### 1 — Read Figma variables
 
-1. Read [`docs/TOKENS.md`](docs/TOKENS.md) — note each token's **Design name** column (e.g. `--fill-active` → `Fill/Content/Active`). These are the canonical Figma paths to match against.
+1. Read [`docs/TOKENS.md`](../../../docs/TOKENS.md) — note each token's **Design name** column (e.g. `--fill-active` → `Fill/Content/Active`). These are the canonical Figma paths to match against.
 
 2. Call the Figma MCP `get_variable_defs` tool pointing at the QBDS v2.0.0 file and node `1878:17156`.
    - If the tool responds "nothing selected": this is a known limitation of the Figma plugin sandbox — it checks for an active selection before running, even though `fileKey` and `nodeId` are provided explicitly. Ask the user to open the [QBDS v2.0.0 variables page](https://www.figma.com/design/iuMWqCsIohoKAUB0tBS0xr/QBDS-v2.0.0?node-id=1878-17156&view=variables&p=f&t=z4NTULUiQsv5yiJM-0) in the Figma desktop app, click any layer, and retry. The selection does not affect the data returned.
