@@ -125,6 +125,22 @@ describe(`${componentName} — structure`, () => {
       'sm',
     );
   });
+
+  it('applies default contrast via data-contrast', () => {
+    const { container } = render(<Card>Content</Card>);
+    expect(container.querySelector('[data-slot="card"]')).toHaveAttribute(
+      'data-contrast',
+      'low',
+    );
+  });
+
+  it('applies high contrast via data-contrast', () => {
+    const { container } = render(<Card contrast="high">Content</Card>);
+    expect(container.querySelector('[data-slot="card"]')).toHaveAttribute(
+      'data-contrast',
+      'high',
+    );
+  });
 });
 
 describe(`${componentName} — size smoke`, () => {
@@ -154,4 +170,68 @@ describe(`${componentName} — size smoke`, () => {
       ).not.toThrow();
     },
   );
+});
+
+describe(`${componentName} — archetype smoke`, () => {
+  it('renders noMedia with data rows', () => {
+    expect(() =>
+      render(
+        <Card className="aspect-[3/4]">
+          <CardHeader>
+            <span>Badge</span>
+            <CardAction>More</CardAction>
+          </CardHeader>
+          <CardContent>
+            <CardTitle>Title</CardTitle>
+            <CardDescription>Description</CardDescription>
+          </CardContent>
+          <CardData>
+            <CardDataRow>
+              <CardDataLabel>Last updated</CardDataLabel>
+              <CardDataValue>20/06/2026</CardDataValue>
+            </CardDataRow>
+          </CardData>
+          <CardFooter>
+            <CardStatGroup>
+              <CardStat>21</CardStat>
+            </CardStatGroup>
+          </CardFooter>
+        </Card>,
+      ),
+    ).not.toThrow();
+  });
+
+  it('renders media+cta composition', () => {
+    expect(() =>
+      render(
+        <Card className="aspect-[3/4]">
+          <CardMedia>
+            <CardHeader>
+              <span>Badge</span>
+              <CardAction>More</CardAction>
+            </CardHeader>
+          </CardMedia>
+          <CardContent>
+            <CardAttribution>3 hours ago</CardAttribution>
+            <CardTitle>Title</CardTitle>
+          </CardContent>
+          <CardFooter>
+            <CardAction>CTA</CardAction>
+          </CardFooter>
+        </Card>,
+      ),
+    ).not.toThrow();
+  });
+
+  it('renders custom content shell', () => {
+    expect(() =>
+      render(
+        <Card>
+          <CardContent className="flex-1 p-7">
+            <span>Custom content</span>
+          </CardContent>
+        </Card>,
+      ),
+    ).not.toThrow();
+  });
 });

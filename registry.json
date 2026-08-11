@@ -239,7 +239,7 @@
       "name": "card",
       "type": "registry:ui",
       "title": "Card",
-      "description": "Flexible content card with media, attribution, stats, data rows, and CTA footers. Composition-first; size prop cascades density.",
+      "description": "Flexible content card with noMedia, media+stats, media+cta, and custom archetypes. Composition-first; size and contrast props cascade density and surface fill. Card ratio and title/desc line clamps via className.",
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"

@@ -13,8 +13,7 @@ function useCardSize() {
 
 const cardVariants = cva(
   [
-    'group/card text-fg-primary flex flex-col overflow-clip',
-    'bg-fill-onsurface-ui-1 shadow-elevation-0',
+    'group/card text-fg-primary flex flex-col gap-0 overflow-clip shadow-elevation-0',
   ],
   {
     variants: {
@@ -22,9 +21,14 @@ const cardVariants = cva(
         default: 'pb-7',
         sm: 'pb-6',
       },
+      contrast: {
+        low: 'bg-fill-onsurface-ui-1',
+        high: 'bg-fill-onsurface-ui-2',
+      },
     },
     defaultVariants: {
       size: 'default',
+      contrast: 'low',
     },
   },
 );
@@ -32,6 +36,7 @@ const cardVariants = cva(
 function Card({
   className,
   size = 'default',
+  contrast = 'low',
   ...props
 }: React.ComponentProps<'div'> & VariantProps<typeof cardVariants>) {
   return (
@@ -39,7 +44,8 @@ function Card({
       <div
         data-slot="card"
         data-size={size}
-        className={cn(cardVariants({ size }), className)}
+        data-contrast={contrast}
+        className={cn(cardVariants({ size, contrast }), className)}
         {...props}
       />
     </CardSizeContext.Provider>
@@ -51,9 +57,9 @@ function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
     <div
       data-slot="card-header"
       className={cn(
-        'relative z-1 flex w-full items-center justify-between gap-2',
-        'group-data-[size=default]/card:px-7 group-data-[size=default]/card:pt-7',
-        'group-data-[size=sm]/card:px-6 group-data-[size=sm]/card:pt-6',
+        'relative z-1 flex w-full items-center justify-between gap-2 pt-7',
+        'group-data-[size=default]/card:px-7',
+        'group-data-[size=sm]/card:px-6',
         className,
       )}
       {...props}
@@ -124,8 +130,9 @@ function CardContent({ className, ...props }: React.ComponentProps<'div'>) {
       data-slot="card-content"
       className={cn(
         'flex flex-col',
-        'group-data-[size=default]/card:gap-3 group-data-[size=default]/card:px-7 group-data-[size=default]/card:py-6',
-        'group-data-[size=sm]/card:gap-4 group-data-[size=sm]/card:px-6 group-data-[size=sm]/card:py-5',
+        'group-data-[size=default]/card:gap-4 group-data-[size=default]/card:px-7 group-data-[size=default]/card:pt-7',
+        'group-data-[size=sm]/card:gap-4 group-data-[size=sm]/card:px-6 group-data-[size=sm]/card:pt-6',
+        'group-has-data-[slot=card-media]/card:flex-1 group-has-data-[slot=card-media]/card:gap-3 group-has-data-[slot=card-media]/card:py-6',
         className,
       )}
       {...props}
@@ -137,12 +144,7 @@ function CardAttribution({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="card-attribution"
-      className={cn(
-        'flex w-full items-center gap-2',
-        'group-data-[size=default]/card:pb-3',
-        'group-data-[size=sm]/card:pb-2',
-        className,
-      )}
+      className={cn('flex w-full items-center gap-2 pb-3', className)}
       {...props}
     />
   );
@@ -187,9 +189,9 @@ function CardData({
     <div
       data-slot="card-data"
       className={cn(
-        'flex w-full flex-col',
-        'group-data-[size=default]/card:gap-4 group-data-[size=default]/card:px-7',
-        'group-data-[size=sm]/card:gap-4 group-data-[size=sm]/card:px-6',
+        'flex w-full flex-col gap-4',
+        'group-data-[size=default]/card:px-7 group-data-[size=default]/card:pt-4',
+        'group-data-[size=sm]/card:px-6',
         className,
       )}
       {...props}>
@@ -251,9 +253,10 @@ function CardFooter({ className, ...props }: React.ComponentProps<'div'>) {
     <div
       data-slot="card-footer"
       className={cn(
-        'flex items-center justify-between',
+        'mt-auto flex items-end justify-between',
         'group-data-[size=default]/card:px-7',
         'group-data-[size=sm]/card:px-6',
+        '[[data-slot=card]:not(:has([data-slot=card-media]))_&]:min-h-0 [[data-slot=card]:not(:has([data-slot=card-media]))_&]:flex-1',
         className,
       )}
       {...props}
