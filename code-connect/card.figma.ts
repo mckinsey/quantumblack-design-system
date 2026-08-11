@@ -107,6 +107,15 @@ const swapChildren =
     ? swapConnected.map(n => n.executeTemplate().example).flat()
     : figma.code``;
 
+const typeNote = figma.code`{/* LLM: Figma type="${type}" is composition-only — no type prop on Card.
+  noMedia → Header + Content (+ optional data rows) + Footer
+  media+stats → CardMedia (header overlay) + Content (attribution, title, desc) + Footer (stats)
+  media+cta → CardMedia + Content + Footer CTA
+  custom → CardContent with swapContent; gaps/padding via className
+  title/description lines → className line-clamp-N h-[Nlh] (no lines prop)
+  data rows / stats / attribution → plain markup + className inside Content/Footer (no CardData/CardStat helpers)
+  override inset → className={[--card-inset:--spacing(N)]} on Card */}`;
+
 const headerBlock = hasHeader
   ? figma.code`
       <CardHeader>
@@ -125,6 +134,7 @@ const mediaBlock = hasMedia
 
 const attributionBlock = hasAttribution
   ? figma.code`
+      {/* LLM: attribution is demo markup — Avatar + text; no CardAttribution export */}
       <div className="flex w-full items-center gap-2 pb-3">
         ${attributionChildren}
       </div>
@@ -139,6 +149,7 @@ const descriptionBlock = hasDescription
 
 const dataBlock = hasData
   ? figma.code`
+      {/* LLM: data rows live in CardContent — divider + label/value flex rows via className */}
       <div
         role="separator"
         aria-orientation="horizontal"
@@ -170,6 +181,7 @@ const contentClass =
       : 'gap-4 pt-(--card-inset)';
 
 const customExample = figma.code`
+    ${typeNote}
     <Card${sizeProp}${contrastProp}${classProp}>
       <CardContent className="${contentClass}">
         ${swapChildren}
@@ -178,6 +190,7 @@ const customExample = figma.code`
   `;
 
 const standardExample = figma.code`
+    ${typeNote}
     <Card${sizeProp}${contrastProp}${classProp}>
       ${mediaBlock}
       <CardContent className="${contentClass}">
@@ -198,6 +211,7 @@ export default {
   id: 'card',
   metadata: {
     nestable: true,
-    notes: `type=${type}; ratio/lines via className`,
+    notes:
+      'Card props: size, contrast, className. Figma type/ratio/lines/data/stats/attribution → composition + className. See LLM comments in snippet.',
   },
 };

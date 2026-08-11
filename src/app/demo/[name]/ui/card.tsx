@@ -201,7 +201,6 @@ function ImageCard({
       contrast={contrast}
       className={`aspect-[3/4] ${cardWidth(size)}`}>
       <CardMedia className="aspect-video">
-        <img src={AVATAR} alt="" />
         <CardHeader>
           <Badge outline variant="high-emphasis">
             Featured
@@ -389,21 +388,24 @@ function EdgeToEdgeCard() {
       <CardContent>
         <div className="border-stroke-divider bg-fill-onsurface-ui-2 -mx-(--card-inset) max-h-48 space-y-4 overflow-y-auto border-y px-(--card-inset) py-4">
           <p className="paragraph-regular-primary text-fg-secondary">
-            These terms govern your use of the workspace, including access to
-            shared documents, project files, and collaboration tools.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
           <p className="paragraph-regular-primary text-fg-secondary">
-            You are responsible for the content you upload and for ensuring that
-            your team has the appropriate permissions to view or edit it.
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur.
           </p>
           <p className="paragraph-regular-primary text-fg-secondary">
-            We may update features or limits as the service evolves. When those
-            changes materially affect your workflow, we will notify your
-            workspace administrators.
+            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+            officia deserunt mollit anim id est laborum. Curabitur pretium
+            tincidunt lacus.
           </p>
           <p className="paragraph-regular-primary text-fg-secondary">
-            By continuing, you agree to keep your account credentials secure and
-            to follow your organization&apos;s acceptable use policies.
+            Nulla pulvinar eleifend sem. Cum sociis natoque penatibus et magnis
+            dis parturient montes, nascetur ridiculus mus. Donec quam felis,
+            ultricies nec, pellentesque eu, pretium quis, sem.
           </p>
         </div>
       </CardContent>
@@ -435,7 +437,7 @@ export const examples: DemoExample[] = [
     name: 'CardWithImage',
     title: 'With image',
     description:
-      'Full-bleed media with an overlay badge, supporting text, and a call to action.',
+      'Blank media block (bg-fill-onsurface-ui-2) with an overlay badge, supporting text, and a call to action.',
   },
   {
     name: 'CardWithImageAndData',
