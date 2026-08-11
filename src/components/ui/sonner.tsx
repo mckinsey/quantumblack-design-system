@@ -160,7 +160,19 @@ function createToast(type: ToastType) {
   };
 }
 
-const toast = Object.assign(sonnerToast, {
+type ToastFn = ReturnType<typeof createToast>;
+
+type ToastApi = {
+  success: ToastFn;
+  error: ToastFn;
+  warning: ToastFn;
+  info: ToastFn;
+  default: ToastFn;
+  dismiss: (id?: string | number) => void;
+  custom: typeof sonnerToast.custom;
+};
+
+const toast: ToastApi = Object.assign(sonnerToast, {
   success: createToast('success'),
   error: createToast('error'),
   warning: createToast('warning'),

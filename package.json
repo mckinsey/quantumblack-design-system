@@ -1,7 +1,7 @@
 {
   "name": "quantumblack-design-system",
   "version": "0.0.1-beta.1",
-  "private": false,
+  "private": true,
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -37,7 +37,9 @@
     "skills:link": "symlink-dir .agents/skills/figma-parity .claude/skills/figma-parity && symlink-dir .agents/skills/figma-token-sync .claude/skills/figma-token-sync && symlink-dir .agents/skills/code-connect .claude/skills/code-connect",
     "figma:config": "tsx scripts/generate-figma-config.ts",
     "figma:parse": "npm run figma:config && figma connect parse",
-    "figma:publish": "npm run figma:config && figma connect publish --skip-validation"
+    "figma:publish": "npm run figma:config && figma connect publish --skip-validation",
+    "build:lib": "npm run assets:build && vite build --config vite.lib.config.ts && npx tsc -p tsconfig.lib.json && node --import tsx scripts/rewrite-lib-dts-paths.ts && node --import tsx scripts/copy-lib-styles.ts && node --import tsx scripts/write-lib-package.ts",
+    "pack:lib": "npm run build:lib && npm pack ./dist/lib"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
@@ -113,9 +115,6 @@
     "vite": "^8.0.16",
     "vitest": "^4.1.0"
   },
-  "files": [
-    "public/r/*.json"
-  ],
   "engines": {
     "node": ">=22.22.0"
   },

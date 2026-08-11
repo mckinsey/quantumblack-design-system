@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationMap": true,
+    "outDir": "dist/lib",
+    "rootDir": "src",
+    "types": ["node"]
+  },
+  "include": [
+    "src/package/index.ts",
+    "src/components/ui/**/*.tsx",
+    "src/lib/utils.ts",
+    "src/hooks/use-mobile.ts"
+  ],
+  "exclude": ["node_modules", "dist", "src/**/*.test.ts", "src/**/*.test.tsx"]
+}

@@ -1,8 +1,10 @@
 # QuantumBlack Design System
 
-QuantumBlack Design System provides accessible components built with [Base UI](https://base-ui.com/) and [Radix UI](https://www.radix-ui.com/) primitives and styled with design tokens. You add them to your project as source files through the [shadcn](https://ui.shadcn.com/) registry, not as an NPM package.
+QuantumBlack Design System provides accessible components built with [Base UI](https://base-ui.com/) and [Radix UI](https://www.radix-ui.com/) primitives and styled with design tokens.
 
-With a typical component library, you install a package and import what it exports. Customization often means wrappers, overrides, or working around what the library gives you. QBDS copies the component files into your project instead. You can install only what you need, use components unchanged, or edit them directly.
+**Primary:** add components as source via the [shadcn](https://ui.shadcn.com/) registry — install only what you need, use unchanged, or edit in place.
+
+**Also:** a Vite ESM [NPM package](docs/NPM.md) for import-based consumers (including Figma Make).
 
 **Open sourced** under the [Apache License 2.0](LICENSE.txt). Copyright McKinsey & Company.
 
