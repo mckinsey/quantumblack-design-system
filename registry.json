@@ -239,7 +239,7 @@
       "name": "card",
       "type": "registry:ui",
       "title": "Card",
-      "description": "A flexible content container with header, body, and footer. Adjust size and contrast, add media when needed, and compose the inside to fit the layout.",
+      "description": "A card component with header, body, and footer. Adjust size and contrast, add media when needed, and compose the inside to fit the layout.",
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
