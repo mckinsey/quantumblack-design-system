@@ -34,12 +34,12 @@ function SelectCheck() {
   );
 }
 
-function ToolbarIcon() {
+function ToolbarIcon({ icon }: { icon: string }) {
   const { size } = useToolbar();
 
   return (
     <IconShell size={toolbarIconShellSizeMap[size]} variant="secondary">
-      <Icon icon="crop_free" />
+      <Icon icon={icon} />
     </IconShell>
   );
 }
@@ -50,43 +50,46 @@ function DefaultToolbarItems() {
   return (
     <>
       <ToolbarGroup
-        aria-label="Tool selection"
+        aria-label="Text alignment"
         render={
-          <ToggleGroup defaultValue={['tool-1']} orientation={orientation} />
+          <ToggleGroup
+            defaultValue={['align-left']}
+            orientation={orientation}
+          />
         }>
         <ToolbarButton
-          aria-label="Tool 1"
-          render={<ToggleGroupItem value="tool-1" />}
-          value="tool-1">
-          <ToolbarIcon />
+          aria-label="Align left"
+          render={<ToggleGroupItem value="align-left" />}
+          value="align-left">
+          <ToolbarIcon icon="format_align_left" />
         </ToolbarButton>
         <ToolbarButton
-          aria-label="Tool 2"
-          render={<ToggleGroupItem value="tool-2" />}
-          value="tool-2">
-          <ToolbarIcon />
+          aria-label="Align center"
+          render={<ToggleGroupItem value="align-center" />}
+          value="align-center">
+          <ToolbarIcon icon="format_align_center" />
         </ToolbarButton>
         <ToolbarButton
-          aria-label="Tool 3"
-          render={<ToggleGroupItem value="tool-3" />}
-          value="tool-3">
-          <ToolbarIcon />
+          aria-label="Align right"
+          render={<ToggleGroupItem value="align-right" />}
+          value="align-right">
+          <ToolbarIcon icon="format_align_right" />
         </ToolbarButton>
         <ToolbarButton
-          aria-label="Tool 4"
-          render={<ToggleGroupItem value="tool-4" />}
-          value="tool-4">
-          <ToolbarIcon />
+          aria-label="Justify"
+          render={<ToggleGroupItem value="align-justify" />}
+          value="align-justify">
+          <ToolbarIcon icon="format_align_justify" />
         </ToolbarButton>
       </ToolbarGroup>
 
       <ToolbarSeparator />
 
-      <ToolbarButton aria-label="Tool 5">
-        <ToolbarIcon />
+      <ToolbarButton aria-label="Undo">
+        <ToolbarIcon icon="undo" />
       </ToolbarButton>
-      <ToolbarButton aria-label="Tool 6">
-        <ToolbarIcon />
+      <ToolbarButton aria-label="Redo">
+        <ToolbarIcon icon="redo" />
       </ToolbarButton>
     </>
   );
@@ -94,9 +97,14 @@ function DefaultToolbarItems() {
 
 export function ToolbarDemo() {
   return (
-    <Toolbar aria-label="Editor tools">
-      <DefaultToolbarItems />
-    </Toolbar>
+    <div className="flex flex-col gap-6">
+      <Toolbar aria-label="Circle shape tools" shape="circle">
+        <DefaultToolbarItems />
+      </Toolbar>
+      <Toolbar aria-label="Square shape tools" shape="square">
+        <DefaultToolbarItems />
+      </Toolbar>
+    </div>
   );
 }
 
@@ -233,34 +241,37 @@ export const examples: DemoExample[] = [
     name: 'ToolbarDemo',
     title: 'Default',
     description:
-      'Unboxed horizontal toolbar (default) with toggle group, separator, and icon actions.',
+      'Unboxed circle and square toolbars with text-alignment toggles, a separator, and undo/redo actions.',
   },
   {
     name: 'ToolbarBoxed',
     title: 'Boxed',
     description:
-      'Optional boxed container with elevation; compare with the default unboxed layout.',
+      'Same tools inside an elevated boxed container, shown next to the unboxed layout.',
   },
   {
     name: 'ToolbarShapes',
     title: 'Shapes',
-    description: 'Circle and square container and button shapes.',
+    description:
+      'Boxed toolbars with circle (pill) and square container and button shapes.',
   },
   {
     name: 'ToolbarSizes',
     title: 'Sizes',
-    description: 'Small, default, and large toolbar sizes.',
+    description:
+      'Small, default, and large sizes for icon buttons and spacing.',
   },
   {
     name: 'ToolbarVertical',
     title: 'Vertical',
-    description: 'Vertical orientation with boxed and unboxed variants.',
+    description:
+      'Stacked orientation for side panels — boxed and unboxed side by side.',
   },
   {
     name: 'ToolbarComposition',
     title: 'Composition',
     description:
-      'Toggle group, button group, and font selects composed in one toolbar.',
+      'Mixed controls in one bar: alignment toggles, number format buttons, and font family/size selects.',
   },
 ];
 
