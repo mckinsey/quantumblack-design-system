@@ -6,25 +6,21 @@ import { Button } from '@/components/ui/button';
 import {
   Card,
   CardAction,
-  CardAttribution,
   CardContent,
-  CardData,
-  CardDataLabel,
-  CardDataRow,
-  CardDataValue,
   CardDescription,
   CardFooter,
   CardHeader,
   CardMedia,
-  CardStat,
-  CardStatGroup,
   CardTitle,
 } from '@/components/ui/card';
+import { FieldLabel, FieldSet } from '@/components/ui/field';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
+import { Input } from '@/components/ui/input';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 
 const basePath = import.meta.env.VITE_BASE_PATH ?? '';
+const AVATAR = `${basePath}/users/avatar-1.jpg`;
 
 const TITLE =
   'Descriptive card title that summarises the content in a clear, scannable way.';
@@ -77,11 +73,17 @@ function BookmarkAction({
 
 function StatsFooter({ size = 'default' }: { size?: CardSize }) {
   const isSm = size === 'sm';
+  const statClass = isSm
+    ? 'label-regular-primary text-fg-secondary flex items-center gap-1'
+    : 'label-large-primary text-fg-secondary flex items-center gap-1';
 
   return (
     <>
-      <CardStatGroup>
-        <CardStat>
+      <div
+        className={
+          isSm ? 'flex items-center gap-4' : 'flex items-center gap-5'
+        }>
+        <div className={statClass}>
           <IconShell
             size={isSm ? 'sm' : 'default'}
             type="neutral"
@@ -89,8 +91,8 @@ function StatsFooter({ size = 'default' }: { size?: CardSize }) {
             <Icon icon="visibility" />
           </IconShell>
           21
-        </CardStat>
-        <CardStat>
+        </div>
+        <div className={statClass}>
           <IconShell
             size={isSm ? 'sm' : 'default'}
             type="neutral"
@@ -98,8 +100,8 @@ function StatsFooter({ size = 'default' }: { size?: CardSize }) {
             <Icon icon="favorite" />
           </IconShell>
           8
-        </CardStat>
-        <CardStat>
+        </div>
+        <div className={statClass}>
           <IconShell
             size={isSm ? 'sm' : 'default'}
             type="neutral"
@@ -107,25 +109,12 @@ function StatsFooter({ size = 'default' }: { size?: CardSize }) {
             <Icon icon="download" />
           </IconShell>
           3
-        </CardStat>
-      </CardStatGroup>
+        </div>
+      </div>
       <CardAction>
         <BookmarkAction size={isSm ? 'icon-xs' : 'icon-sm'} />
       </CardAction>
     </>
-  );
-}
-
-function CtaFooter() {
-  return (
-    <CardAction className="gap-3">
-      <Button variant="outline" size="default">
-        Share
-      </Button>
-      <Button variant="default" size="default">
-        Learn more
-      </Button>
-    </CardAction>
   );
 }
 
@@ -137,7 +126,7 @@ function cardWidth(size: CardSize) {
   return size === 'sm' ? 'w-[320px]' : 'w-[360px]';
 }
 
-function NoMediaCard({
+function TextCard({
   size = 'default',
   contrast = 'low',
 }: {
@@ -145,6 +134,12 @@ function NoMediaCard({
   contrast?: CardContrast;
 }) {
   const isSm = size === 'sm';
+  const rowClass = isSm
+    ? 'label-regular-primary flex w-full items-start justify-between'
+    : 'label-large-primary flex w-full items-start justify-between';
+  const valueClass = isSm
+    ? 'paragraph-regular-primary text-fg-primary text-right'
+    : 'paragraph-large-primary text-fg-primary text-right';
 
   return (
     <Card
@@ -157,22 +152,31 @@ function NoMediaCard({
           <MoreAction size={isSm ? 'icon-xs' : 'icon-sm'} />
         </CardAction>
       </CardHeader>
-      <CardContent>
+      <CardContent className="gap-4 pt-(--card-inset)">
         <CardTitle className="line-clamp-3 h-[3lh]">{TITLE}</CardTitle>
         <CardDescription className="line-clamp-3 h-[3lh]">
           {DESCRIPTION}
         </CardDescription>
+        <div
+          role="separator"
+          aria-orientation="horizontal"
+          className="border-stroke-divider h-0 w-12 border-0 border-b border-solid pt-0"
+        />
+        <div className="flex w-full flex-col gap-2">
+          <div className={rowClass}>
+            <span className="text-fg-secondary flex items-center gap-0.5">
+              Last updated
+            </span>
+            <span className={valueClass}>20/06/2026</span>
+          </div>
+          <div className={rowClass}>
+            <span className="text-fg-secondary flex items-center gap-0.5">
+              Date Created
+            </span>
+            <span className={valueClass}>12/04/2026</span>
+          </div>
+        </div>
       </CardContent>
-      <CardData>
-        <CardDataRow>
-          <CardDataLabel>Last updated</CardDataLabel>
-          <CardDataValue>20/06/2026</CardDataValue>
-        </CardDataRow>
-        <CardDataRow>
-          <CardDataLabel>Date Created</CardDataLabel>
-          <CardDataValue>12/04/2026</CardDataValue>
-        </CardDataRow>
-      </CardData>
       <CardFooter>
         <StatsFooter size={size} />
       </CardFooter>
@@ -180,7 +184,41 @@ function NoMediaCard({
   );
 }
 
-function MediaStatsCard({
+function ImageCard({
+  size = 'default',
+  contrast = 'low',
+}: {
+  size?: CardSize;
+  contrast?: CardContrast;
+}) {
+  return (
+    <Card
+      size={size}
+      contrast={contrast}
+      className={`aspect-[3/4] ${cardWidth(size)}`}>
+      <CardMedia className="aspect-video">
+        <img src={AVATAR} alt="" />
+        <CardHeader>
+          <Badge outline variant="high-emphasis">
+            Featured
+          </Badge>
+        </CardHeader>
+      </CardMedia>
+      <CardContent className="gap-3 pt-6">
+        <CardTitle>Design systems meetup</CardTitle>
+        <CardDescription>
+          A practical talk on component APIs, accessibility, and shipping
+          faster.
+        </CardDescription>
+      </CardContent>
+      <CardFooter className="justify-end">
+        <Button>View Event</Button>
+      </CardFooter>
+    </Card>
+  );
+}
+
+function ImageDataCard({
   size = 'default',
   contrast = 'low',
 }: {
@@ -202,10 +240,10 @@ function MediaStatsCard({
           </CardAction>
         </CardHeader>
       </CardMedia>
-      <CardContent>
-        <CardAttribution>
+      <CardContent className="flex-1 gap-3 py-6">
+        <div className="flex w-full items-center gap-2 pb-3">
           <Avatar size={isSm ? 'xs' : 'sm'}>
-            <AvatarImage src={`${basePath}/users/avatar-1.jpg`} />
+            <AvatarImage src={AVATAR} />
             <AvatarFallback>LI</AvatarFallback>
           </Avatar>
           <span
@@ -216,7 +254,7 @@ function MediaStatsCard({
             }>
             3 hours ago
           </span>
-        </CardAttribution>
+        </div>
         <CardTitle className="line-clamp-2 h-[2lh]">{TITLE}</CardTitle>
         <CardDescription className="line-clamp-2 h-[2lh]">
           {DESCRIPTION}
@@ -229,175 +267,223 @@ function MediaStatsCard({
   );
 }
 
-function MediaCtaCard({
-  size = 'default',
-  contrast = 'low',
-  ratio = '3:4',
-}: {
-  size?: CardSize;
-  contrast?: CardContrast;
-  ratio?: '3:4' | 'auto';
-}) {
-  const isSm = size === 'sm';
-  const rootClass =
-    ratio === '3:4' ? `aspect-[3/4] ${cardWidth(size)}` : cardWidth(size);
-
+export function CardDemo() {
   return (
-    <Card size={size} contrast={contrast} className={rootClass}>
-      <CardMedia>
-        <CardHeader>
-          <SignpostBadge />
-          <CardAction>
-            <MoreAction size={isSm ? 'icon-xs' : 'icon-sm'} />
+    <DemoRow>
+      <TextCard />
+    </DemoRow>
+  );
+}
+
+export function CardWithImage() {
+  return (
+    <DemoRow>
+      <ImageCard />
+    </DemoRow>
+  );
+}
+
+export function CardWithImageAndData() {
+  return (
+    <DemoRow>
+      <ImageDataCard />
+    </DemoRow>
+  );
+}
+
+export function CardContrast() {
+  return (
+    <DemoRow>
+      <TextCard contrast="low" />
+      <TextCard contrast="high" />
+    </DemoRow>
+  );
+}
+
+export function CardSize() {
+  return (
+    <DemoRow>
+      <TextCard size="default" />
+      <TextCard size="sm" />
+    </DemoRow>
+  );
+}
+
+export function CardForm() {
+  return (
+    <DemoRow>
+      <Card className="w-[360px]">
+        <CardHeader className="flex-col items-start gap-1">
+          <CardTitle>Login to your account</CardTitle>
+          <CardDescription>
+            Enter your email below to login to your account
+          </CardDescription>
+          <CardAction className="absolute end-(--card-inset) top-(--card-inset)">
+            <Button variant="ghost">Sign Up</Button>
           </CardAction>
         </CardHeader>
-      </CardMedia>
-      <CardContent>
-        <CardAttribution>
-          <Avatar size={isSm ? 'xs' : 'sm'}>
-            <AvatarImage src={`${basePath}/users/avatar-1.jpg`} />
-            <AvatarFallback>LI</AvatarFallback>
-          </Avatar>
-          <span
-            className={
-              isSm
-                ? 'paragraph-regular-primary text-fg-secondary'
-                : 'paragraph-large-primary text-fg-secondary'
-            }>
-            3 hours ago
-          </span>
-        </CardAttribution>
-        {ratio === 'auto' ? (
-          <>
-            <CardTitle>Card title</CardTitle>
-            <CardDescription>Description</CardDescription>
-          </>
-        ) : (
-          <CardTitle className="line-clamp-3 h-[3lh]">{TITLE}</CardTitle>
-        )}
-      </CardContent>
-      <CardFooter className="justify-end">
-        <CtaFooter />
-      </CardFooter>
-    </Card>
-  );
-}
-
-function CustomCard({
-  size = 'default',
-  contrast = 'low',
-}: {
-  size?: CardSize;
-  contrast?: CardContrast;
-}) {
-  return (
-    <Card
-      size={size}
-      contrast={contrast}
-      className={`h-[412px] pb-0 ${cardWidth(size)}`}>
-      <CardContent className={size === 'sm' ? 'flex-1 p-6' : 'flex-1 p-7'}>
-        <div className="bg-fill-subtle border-stroke-secondary flex flex-1 flex-col items-center justify-center gap-2 border border-dashed">
-          <IconShell size="default" type="neutral" variant="secondary">
-            <Icon icon="swap_horiz" />
-          </IconShell>
-          <span className="label-regular-primary text-fg-primary">
-            SWAP WITH YOUR CONTENT
-          </span>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-export function CardSizes() {
-  return (
-    <DemoRow>
-      <NoMediaCard />
-      <NoMediaCard size="sm" />
-      <MediaStatsCard />
-      <MediaStatsCard size="sm" />
+        <CardContent className="gap-4 pt-(--card-inset)">
+          <FieldSet className="gap-2">
+            <FieldLabel htmlFor="card-email">Email</FieldLabel>
+            <Input
+              id="card-email"
+              type="email"
+              placeholder="name@example.com"
+            />
+          </FieldSet>
+          <FieldSet className="gap-2">
+            <div className="flex items-center justify-between gap-2">
+              <FieldLabel htmlFor="card-password">Password</FieldLabel>
+              <Button variant="ghost" size="sm" className="h-auto px-0 py-0">
+                Forgot your password?
+              </Button>
+            </div>
+            <Input id="card-password" type="password" />
+          </FieldSet>
+        </CardContent>
+        <CardFooter className="flex-col items-stretch gap-2">
+          <Button className="w-full">Login</Button>
+          <Button variant="outline" className="w-full">
+            Login with Google
+          </Button>
+        </CardFooter>
+      </Card>
     </DemoRow>
   );
 }
 
-export function CardNoMedia() {
+export function CardOverride() {
   return (
     <DemoRow>
-      <NoMediaCard />
-      <NoMediaCard size="sm" />
-      <NoMediaCard contrast="high" />
-      <NoMediaCard size="sm" contrast="high" />
-    </DemoRow>
-  );
-}
-
-export function CardMediaStats() {
-  return (
-    <DemoRow>
-      <MediaStatsCard />
-      <MediaStatsCard size="sm" />
-      <MediaStatsCard contrast="high" />
-      <MediaStatsCard size="sm" contrast="high" />
-    </DemoRow>
-  );
-}
-
-export function CardMediaCta() {
-  return (
-    <DemoRow>
-      <MediaCtaCard />
-      <MediaCtaCard size="sm" />
-      <MediaCtaCard ratio="auto" />
-      <MediaCtaCard size="sm" ratio="auto" />
-      <MediaCtaCard contrast="high" />
-      <MediaCtaCard size="sm" contrast="high" ratio="auto" />
-    </DemoRow>
-  );
-}
-
-export function CardCustom() {
-  return (
-    <DemoRow>
-      <CustomCard />
-      <CustomCard size="sm" />
-      <CustomCard contrast="high" />
-      <CustomCard size="sm" contrast="high" />
+      <Card className="w-[280px] [--card-inset:--spacing(4)]">
+        <CardHeader className="flex-col items-start gap-1">
+          <CardTitle>Tight inset</CardTitle>
+          <CardDescription>
+            Override with [--card-inset:--spacing(4)].
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="pt-(--card-inset)">
+          <p className="paragraph-regular-primary text-fg-secondary">
+            All regions read the same inset variable.
+          </p>
+        </CardContent>
+        <CardFooter>
+          <Button size="sm">Action</Button>
+        </CardFooter>
+      </Card>
+      <Card className="w-[280px]">
+        <CardHeader className="flex-col items-start gap-1">
+          <CardTitle>Default inset</CardTitle>
+          <CardDescription>
+            size=&quot;default&quot; → spacing(7).
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="pt-(--card-inset)">
+          <p className="paragraph-regular-primary text-fg-secondary">
+            Header, content, and footer share --card-inset.
+          </p>
+        </CardContent>
+        <CardFooter>
+          <Button>Action</Button>
+        </CardFooter>
+      </Card>
+      <Card className="w-[280px] [--card-inset:--spacing(8)]">
+        <CardHeader className="flex-col items-start gap-1">
+          <CardTitle>Roomy inset</CardTitle>
+          <CardDescription>
+            Override with [--card-inset:--spacing(8)].
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="pt-(--card-inset)">
+          <p className="paragraph-regular-primary text-fg-secondary">
+            One class on Card scales the whole composition.
+          </p>
+        </CardContent>
+        <CardFooter>
+          <Button>Action</Button>
+        </CardFooter>
+      </Card>
+      <Card className="w-[360px]">
+        <CardHeader className="flex-col items-start gap-1">
+          <CardTitle>Terms of Service</CardTitle>
+          <CardDescription>
+            Review the terms before accepting the agreement.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="border-stroke-divider max-h-[160px] overflow-y-auto border-y px-0">
+          <div className="space-y-3 px-(--card-inset) py-4">
+            <p className="paragraph-regular-primary text-fg-secondary">
+              These terms govern your use of the workspace, including access to
+              shared documents, project files, and collaboration tools.
+            </p>
+            <p className="paragraph-regular-primary text-fg-secondary">
+              You are responsible for the content you upload and for ensuring
+              that your team has the appropriate permissions to view or edit it.
+            </p>
+            <p className="paragraph-regular-primary text-fg-secondary">
+              We may update features or limits as the service evolves. When
+              those changes materially affect your workflow, we will notify your
+              workspace administrators.
+            </p>
+            <p className="paragraph-regular-primary text-fg-secondary">
+              By continuing, you agree to keep your account credentials secure
+              and to follow your organization&apos;s acceptable use policies.
+            </p>
+          </div>
+        </CardContent>
+        <CardFooter className="justify-end gap-2">
+          <Button variant="outline">Decline</Button>
+          <Button>Accept</Button>
+        </CardFooter>
+      </Card>
     </DemoRow>
   );
 }
 
 export const examples: DemoExample[] = [
   {
-    name: 'CardSizes',
-    title: 'Sizes',
-    description: 'noMedia and media+stats at reg and sm.',
+    name: 'CardDemo',
+    title: 'Card',
+    description: 'Header, content (title, rows), and footer.',
   },
   {
-    name: 'CardNoMedia',
-    title: 'noMedia',
-    description: 'Text-first with data rows, low and high contrast.',
+    name: 'CardWithImage',
+    title: 'Card with image',
+    description: 'Media with overlay header, content, and footer CTA.',
   },
   {
-    name: 'CardMediaStats',
-    title: 'media+stats',
-    description: 'Media block with engagement footer.',
+    name: 'CardWithImageAndData',
+    title: 'Card with image and data',
+    description: 'Media, attribution, title, description, and stats footer.',
   },
   {
-    name: 'CardMediaCta',
-    title: 'media+cta',
-    description: 'Media block with CTA footer; 3:4 and auto ratio.',
+    name: 'CardSize',
+    title: 'Size',
+    description: 'default vs sm (--card-inset + type scale).',
   },
   {
-    name: 'CardCustom',
-    title: 'custom',
-    description: 'Empty content shell for consumer composition.',
+    name: 'CardContrast',
+    title: 'Contrast',
+    description: 'low vs high surface fill.',
+  },
+  {
+    name: 'CardOverride',
+    title: 'Override',
+    description: 'Custom --card-inset and edge-to-edge body.',
+  },
+  {
+    name: 'CardForm',
+    title: 'Form',
+    description: 'Login composition; gaps set on Content in the demo.',
   },
 ];
 
 export const card = createLegacyDemo('card', examples, {
-  CardSizes: <CardSizes />,
-  CardNoMedia: <CardNoMedia />,
-  CardMediaStats: <CardMediaStats />,
-  CardMediaCta: <CardMediaCta />,
-  CardCustom: <CardCustom />,
+  CardDemo: <CardDemo />,
+  CardWithImage: <CardWithImage />,
+  CardWithImageAndData: <CardWithImageAndData />,
+  CardSize: <CardSize />,
+  CardContrast: <CardContrast />,
+  CardOverride: <CardOverride />,
+  CardForm: <CardForm />,
 });

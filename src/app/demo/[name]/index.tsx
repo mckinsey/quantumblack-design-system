@@ -85,11 +85,13 @@ import {
   examples as calendarExamples,
 } from '@/app/demo/[name]/ui/calendar';
 import {
-  CardCustom,
-  CardMediaCta,
-  CardMediaStats,
-  CardNoMedia,
-  CardSizes,
+  CardContrast,
+  CardDemo,
+  CardForm,
+  CardOverride,
+  CardSize,
+  CardWithImage,
+  CardWithImageAndData,
   card,
   examples as cardExamples,
 } from '@/app/demo/[name]/ui/card';
@@ -476,11 +478,13 @@ export const exampleComponentMaps: Record<
     CalendarDisabledDays,
   },
   card: {
-    CardSizes,
-    CardNoMedia,
-    CardMediaStats,
-    CardMediaCta,
-    CardCustom,
+    CardDemo,
+    CardWithImage,
+    CardWithImageAndData,
+    CardSize,
+    CardContrast,
+    CardOverride,
+    CardForm,
   },
   checkbox: {
     CheckboxDemo,

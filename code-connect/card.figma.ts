@@ -125,9 +125,9 @@ const mediaBlock = hasMedia
 
 const attributionBlock = hasAttribution
   ? figma.code`
-      <CardAttribution>
+      <div className="flex w-full items-center gap-2 pb-3">
         ${attributionChildren}
-      </CardAttribution>
+      </div>
     `
   : figma.code``;
 
@@ -139,9 +139,14 @@ const descriptionBlock = hasDescription
 
 const dataBlock = hasData
   ? figma.code`
-      <CardData>
+      <div
+        role="separator"
+        aria-orientation="horizontal"
+        className="border-stroke-divider h-0 w-12 border-0 border-b border-solid"
+      />
+      <div className="flex w-full flex-col gap-2">
         ${dataChildren}
-      </CardData>
+      </div>
     `
   : figma.code``;
 
@@ -157,9 +162,16 @@ const sizeProp = size === 'sm' ? ' size="sm"' : '';
 const contrastProp = contrast === 'high' ? ' contrast="high"' : '';
 const classProp = rootClasses ? ` className="${rootClasses}"` : '';
 
+const contentClass =
+  type === 'custom'
+    ? 'flex-1'
+    : hasMedia
+      ? 'flex-1 gap-3 py-6'
+      : 'gap-4 pt-(--card-inset)';
+
 const customExample = figma.code`
     <Card${sizeProp}${contrastProp}${classProp}>
-      <CardContent className="flex-1 p-7">
+      <CardContent className="${contentClass}">
         ${swapChildren}
       </CardContent>
     </Card>
@@ -168,12 +180,12 @@ const customExample = figma.code`
 const standardExample = figma.code`
     <Card${sizeProp}${contrastProp}${classProp}>
       ${mediaBlock}
-      <CardContent>
+      <CardContent className="${contentClass}">
         ${attributionBlock}
         <CardTitle${titleClass ? ` className="${titleClass}"` : ''}>${titleText}</CardTitle>
         ${descriptionBlock}
+        ${dataBlock}
       </CardContent>
-      ${dataBlock}
       ${footerBlock}
     </Card>
   `;
@@ -181,7 +193,7 @@ const standardExample = figma.code`
 export default {
   example: type === 'custom' ? customExample : standardExample,
   imports: [
-    'import { Card, CardAttribution, CardContent, CardData, CardDescription, CardFooter, CardHeader, CardMedia, CardTitle } from "@/components/ui/card"',
+    'import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardMedia, CardTitle } from "@/components/ui/card"',
   ],
   id: 'card',
   metadata: {

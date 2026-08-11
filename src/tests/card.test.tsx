@@ -6,18 +6,11 @@ import { Renderer } from '@/app/demo/[name]/renderer';
 import {
   Card,
   CardAction,
-  CardAttribution,
   CardContent,
-  CardData,
-  CardDataLabel,
-  CardDataRow,
-  CardDataValue,
   CardDescription,
   CardFooter,
   CardHeader,
   CardMedia,
-  CardStat,
-  CardStatGroup,
   CardTitle,
 } from '@/components/ui/card';
 
@@ -52,21 +45,12 @@ describe(`${componentName} — structure`, () => {
             <CardAction>Action</CardAction>
           </CardHeader>
         </CardMedia>
-        <CardContent>
-          <CardAttribution>Attribution</CardAttribution>
+        <CardContent className="gap-4">
           <CardTitle>Title</CardTitle>
           <CardDescription>Description</CardDescription>
         </CardContent>
-        <CardData>
-          <CardDataRow>
-            <CardDataLabel>Label</CardDataLabel>
-            <CardDataValue>Value</CardDataValue>
-          </CardDataRow>
-        </CardData>
         <CardFooter>
-          <CardStatGroup>
-            <CardStat>21</CardStat>
-          </CardStatGroup>
+          <span>Footer</span>
         </CardFooter>
       </Card>,
     );
@@ -77,17 +61,9 @@ describe(`${componentName} — structure`, () => {
       'card-header',
       'card-action',
       'card-content',
-      'card-attribution',
       'card-title',
       'card-description',
-      'card-data',
-      'card-data-divider',
-      'card-data-row',
-      'card-data-label',
-      'card-data-value',
       'card-footer',
-      'card-stat-group',
-      'card-stat',
     ];
 
     for (const slot of slots) {
@@ -161,9 +137,7 @@ describe(`${componentName} — size smoke`, () => {
               </CardDescription>
             </CardContent>
             <CardFooter>
-              <CardStatGroup>
-                <CardStat>1</CardStat>
-              </CardStatGroup>
+              <span>1</span>
             </CardFooter>
           </Card>,
         ),
@@ -172,8 +146,8 @@ describe(`${componentName} — size smoke`, () => {
   );
 });
 
-describe(`${componentName} — archetype smoke`, () => {
-  it('renders noMedia with data rows', () => {
+describe(`${componentName} — composition smoke`, () => {
+  it('renders card with content rows', () => {
     expect(() =>
       render(
         <Card className="aspect-[3/4]">
@@ -181,27 +155,23 @@ describe(`${componentName} — archetype smoke`, () => {
             <span>Badge</span>
             <CardAction>More</CardAction>
           </CardHeader>
-          <CardContent>
+          <CardContent className="gap-4 pt-(--card-inset)">
             <CardTitle>Title</CardTitle>
             <CardDescription>Description</CardDescription>
+            <div className="flex w-full items-start justify-between">
+              <span>Last updated</span>
+              <span>20/06/2026</span>
+            </div>
           </CardContent>
-          <CardData>
-            <CardDataRow>
-              <CardDataLabel>Last updated</CardDataLabel>
-              <CardDataValue>20/06/2026</CardDataValue>
-            </CardDataRow>
-          </CardData>
           <CardFooter>
-            <CardStatGroup>
-              <CardStat>21</CardStat>
-            </CardStatGroup>
+            <span>21</span>
           </CardFooter>
         </Card>,
       ),
     ).not.toThrow();
   });
 
-  it('renders media+cta composition', () => {
+  it('renders card with image', () => {
     expect(() =>
       render(
         <Card className="aspect-[3/4]">
@@ -211,8 +181,10 @@ describe(`${componentName} — archetype smoke`, () => {
               <CardAction>More</CardAction>
             </CardHeader>
           </CardMedia>
-          <CardContent>
-            <CardAttribution>3 hours ago</CardAttribution>
+          <CardContent className="gap-3 pt-6">
+            <div className="flex w-full items-center gap-2 pb-3">
+              3 hours ago
+            </div>
             <CardTitle>Title</CardTitle>
           </CardContent>
           <CardFooter>
@@ -223,13 +195,25 @@ describe(`${componentName} — archetype smoke`, () => {
     ).not.toThrow();
   });
 
-  it('renders custom content shell', () => {
+  it('renders card with image and data', () => {
     expect(() =>
       render(
-        <Card>
-          <CardContent className="flex-1 p-7">
-            <span>Custom content</span>
+        <Card className="aspect-[3/4]">
+          <CardMedia>
+            <CardHeader>
+              <span>Badge</span>
+            </CardHeader>
+          </CardMedia>
+          <CardContent className="flex-1 gap-3 py-6">
+            <div className="flex w-full items-center gap-2 pb-3">
+              3 hours ago
+            </div>
+            <CardTitle>Title</CardTitle>
+            <CardDescription>Description</CardDescription>
           </CardContent>
+          <CardFooter>
+            <span>21</span>
+          </CardFooter>
         </Card>,
       ),
     ).not.toThrow();
