@@ -92,11 +92,11 @@ export function ButtonVariants() {
 export function ButtonSizes() {
   return (
     <div className="flex flex-wrap items-center gap-4">
-      <Button size="lg">Large</Button>
-      <Button size="default">Default</Button>
-      <Button size="sm">Small</Button>
-      <Button size="xs">Extra Small</Button>
       <Button size="xxs">XXS</Button>
+      <Button size="xs">Extra Small</Button>
+      <Button size="sm">Small</Button>
+      <Button size="default">Default</Button>
+      <Button size="lg">Large</Button>
     </div>
   );
 }
@@ -172,17 +172,7 @@ export function ButtonLoading() {
 export function ButtonIconOnly() {
   return (
     <div className="flex flex-wrap items-center gap-4">
-      <Button size="icon-lg" aria-label="Expand">
-        <IconShell size="default" type="neutral-inverse" hoverable>
-          <Icon icon="crop_free" />
-        </IconShell>
-      </Button>
-      <Button size="icon" aria-label="Expand">
-        <IconShell size="sm" type="neutral-inverse" hoverable>
-          <Icon icon="crop_free" />
-        </IconShell>
-      </Button>
-      <Button size="icon-sm" aria-label="Expand">
+      <Button size="icon-xxs" aria-label="Expand">
         <IconShell size="sm" type="neutral-inverse" hoverable>
           <Icon icon="crop_free" />
         </IconShell>
@@ -192,8 +182,18 @@ export function ButtonIconOnly() {
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
-      <Button size="icon-xxs" aria-label="Expand">
+      <Button size="icon-sm" aria-label="Expand">
         <IconShell size="sm" type="neutral-inverse" hoverable>
+          <Icon icon="crop_free" />
+        </IconShell>
+      </Button>
+      <Button size="icon" aria-label="Expand">
+        <IconShell size="sm" type="neutral-inverse" hoverable>
+          <Icon icon="crop_free" />
+        </IconShell>
+      </Button>
+      <Button size="icon-lg" aria-label="Expand">
+        <IconShell size="default" type="neutral-inverse" hoverable>
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
@@ -205,17 +205,7 @@ export function ButtonIconOnly() {
 export function ButtonIconRounded() {
   return (
     <div className="flex flex-wrap items-center gap-4">
-      <Button size="icon-lg" className="rounded-full" aria-label="Expand">
-        <IconShell size="default" type="neutral-inverse" hoverable>
-          <Icon icon="crop_free" />
-        </IconShell>
-      </Button>
-      <Button size="icon" className="rounded-full" aria-label="Expand">
-        <IconShell size="sm" type="neutral-inverse" hoverable>
-          <Icon icon="crop_free" />
-        </IconShell>
-      </Button>
-      <Button size="icon-sm" className="rounded-full" aria-label="Expand">
+      <Button size="icon-xxs" className="rounded-full" aria-label="Expand">
         <IconShell size="sm" type="neutral-inverse" hoverable>
           <Icon icon="crop_free" />
         </IconShell>
@@ -225,8 +215,18 @@ export function ButtonIconRounded() {
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
-      <Button size="icon-xxs" className="rounded-full" aria-label="Expand">
+      <Button size="icon-sm" className="rounded-full" aria-label="Expand">
         <IconShell size="sm" type="neutral-inverse" hoverable>
+          <Icon icon="crop_free" />
+        </IconShell>
+      </Button>
+      <Button size="icon" className="rounded-full" aria-label="Expand">
+        <IconShell size="sm" type="neutral-inverse" hoverable>
+          <Icon icon="crop_free" />
+        </IconShell>
+      </Button>
+      <Button size="icon-lg" className="rounded-full" aria-label="Expand">
+        <IconShell size="default" type="neutral-inverse" hoverable>
           <Icon icon="crop_free" />
         </IconShell>
       </Button>
@@ -301,11 +301,11 @@ export function ButtonRadiusMode() {
   return (
     <div className="radius-mode flex flex-col gap-4">
       <div className="flex flex-wrap items-center gap-4">
-        <Button size="lg">Large</Button>
-        <Button size="default">Default</Button>
-        <Button size="sm">Small</Button>
-        <Button size="xs">Extra Small</Button>
         <Button size="xxs">XXS</Button>
+        <Button size="xs">Extra Small</Button>
+        <Button size="sm">Small</Button>
+        <Button size="default">Default</Button>
+        <Button size="lg">Large</Button>
       </div>
 
       <div className="flex flex-wrap items-center gap-4">

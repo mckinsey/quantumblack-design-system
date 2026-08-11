@@ -11,11 +11,11 @@ If no Figma URL/node is provided, ask for it (or use the team’s internal/share
 
 ## Sources of truth (read before styling)
 
-1. **[docs/TOKENS.md](docs/TOKENS.md)** — semantic Tailwind utilities; design-name column maps to Figma variables.
-2. **[src/styles/globals.css](src/styles/globals.css)** — CSS variables and `@theme inline`; trace utilities back to semantics (e.g. `bg-fill-*` → `--color-fill-*` → `--fill-*`). Verify **light and dark** (`.dark`); use `-inverse` on dark/accent surfaces.
+1. **[docs/TOKENS.md](../../../docs/TOKENS.md)** — semantic Tailwind utilities; design-name column maps to Figma variables.
+2. **[src/styles/globals.css](../../../src/styles/globals.css)** — CSS variables and `@theme inline`; trace utilities back to semantics (e.g. `bg-fill-*` → `--color-fill-*` → `--fill-*`). Verify **light and dark** (`.dark`); use `-inverse` on dark/accent surfaces.
 3. **Spacing scale** — `gap-1` / `p-1` = 4px, `gap-2` / `p-2` = 8px, `gap-3` / `p-3` = 12px. No `gap-[Npx]`, `text-[#…]`, `bg-[#…]`, or primitives (`slate-*`, `mist-*`) in components.
 
-Match Figma tokens via **[docs/TOKENS.md](docs/TOKENS.md)** (Design name + Tailwind utility). CSS semantics in `globals.css`: `--text-*`, `--border-*`, `--fill-*`, `--surface-*`, `--status-*`, `--stateslayer-*`, `--elevations-*`, `--brand-accents-*` (each has a `-inverse` form where the spec uses inverse surfaces). In components use Tailwind utilities from TOKENS.md — e.g. `text-fg-*` (→ `--color-fg-*` → `--text-*`), `border-stroke-*` (→ `--color-stroke-*` → `--border-*`), `bg-fill-*` — not raw `--fg-*` / `--stroke-*` or primitives.
+Match Figma tokens via **[docs/TOKENS.md](../../../docs/TOKENS.md)** (Design name + Tailwind utility). CSS semantics in `globals.css`: `--text-*`, `--border-*`, `--fill-*`, `--surface-*`, `--status-*`, `--stateslayer-*`, `--elevations-*`, `--brand-accents-*` (each has a `-inverse` form where the spec uses inverse surfaces). In components use Tailwind utilities from TOKENS.md — e.g. `text-fg-*` (→ `--color-fg-*` → `--text-*`), `border-stroke-*` (→ `--color-stroke-*` → `--border-*`), `bg-fill-*` — not raw `--fg-*` / `--stroke-*` or primitives.
 
 **Feedback / status colour (do not flag `text-status-*`):** Figma may bind feedback copy to **`Text/Error`**, **`Text/Warning`**, etc. In QBDS code the established theme utilities are **`text-status-error`**, **`text-status-warning`**, **`text-status-success`**, **`text-status-information`** (same family as fills/borders via `--color-status-*`). That mapping is **correct and intentional** — match sibling demos (`field`, `input`, `alert`, …). Do **not** treat `text-status-*` on feedback, counters, or required markers as a token drift, and do **not** rewrite them to `text-error` / `text-warning` / `text-success` / `text-fg-error`. Use `border-stroke-status-*` / `bg-status-*` for control chrome as today.
 
@@ -84,20 +84,39 @@ If a Code Connect mapping exists, confirm its enum values, size names, and varia
 
 ### 2 — Tokens (every distinct variant × state)
 
-Use `get_variable_defs` on representative nodes: at minimum **enabled**, **hover**, **focus**, **pressed**, **disabled**, plus every other Figma `state` enum value when present — **`dropdown-open`**, **`toggle-on`**, selected/active/loading, etc. Do not stop at focus when the set also has expanded/open cells. Map fill, text, stroke, elevation, radius, and state overlays per **[docs/TOKENS.md](docs/TOKENS.md)**. Check **light and dark**. Flag: wrong `-inverse` prefix; raw hex; primitives; right hex but wrong token name. When Figma shows **`Text/Error`** (etc.) on feedback, accept code that uses **`text-status-error`** (etc.) — do not flag that as a name mismatch.
+Use `get_variable_defs` on representative nodes: at minimum **enabled**, **hover**, **focus**, **pressed**, **disabled**, plus every other Figma `state` enum value when present — **`dropdown-open`**, **`toggle-on`**, selected/active/loading, etc. Do not stop at focus when the set also has expanded/open cells. Map fill, text, stroke, elevation, radius, and state overlays per **[docs/TOKENS.md](../../../docs/TOKENS.md)**. Check **light and dark**. Flag: wrong `-inverse` prefix; raw hex; primitives; right hex but wrong token name. When Figma shows **`Text/Error`** (etc.) on feedback, accept code that uses **`text-status-error`** (etc.) — do not flag that as a name mismatch.
 
 ### 3 — Layout, spacing, typography & states
 
 For **each matrix cell** (every meaningful variant combination), use `get_design_context` or Dev Mode — not only the root frame. For field sets, also pull context on **nested Elements/** frames in that cell.
 
-| Property                      | Figma                                  | Code                                                                                            |
-| ----------------------------- | -------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| Height / min size             | auto-layout                            | `size-*`, `min-h`, padding + line-height                                                        |
-| Padding / gap                 | spacing variables                      | `p-*`, `gap-*` on the scale above                                                               |
-| Icon box                      | icon frame size + IconShell Type/State | `IconShell` size + **type** + opacity; re-read on open/toggle when parent fill flips            |
-| Separators / attached spacers | layout on group                        | avoid double gap; only between items                                                            |
-| Typography (control)          | text style name                        | matching `cta-*` / `paragraph-*` utility                                                        |
-| Typography (field feedback)   | Paragraph/\* + Text/Error (etc.)       | per-size `paragraph-*` + `text-status-error` (etc.) — verify **each size**, not control default |
+| Property                      | Figma                                                           | Code                                                                                            |
+| ----------------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| Height / min size             | auto-layout                                                     | `size-*`, `min-h`, padding + line-height                                                        |
+| Padding / gap                 | spacing variables                                               | `p-*`, `gap-*` on the scale above                                                               |
+| Icon box                      | icon frame size + IconShell Type/State                          | `IconShell` size + **type** + opacity; re-read on open/toggle when parent fill flips            |
+| Separators / attached spacers | layout on group                                                 | avoid double gap; only between items                                                            |
+| Typography (control)          | text style name                                                 | matching `cta-*` / `paragraph-*` utility                                                        |
+| Typography (field feedback)   | Paragraph/\* + Text/Error (etc.)                                | per-size `paragraph-*` + `text-status-error` (etc.) — verify **each size**, not control default |
+| Underline / link CTA          | `CTA/button-*` vs `CTA/button-link-*` (also Paragraph `*-Link`) | see **CTA button vs button-link** below                                                         |
+
+**CTA button vs button-link (underline) — mandatory per variant × state**
+
+Figma text styles encode underline. Do **not** assume one underline rule for all variants.
+
+| Figma text style (enabled / state cell)                      | Code expectation                                                                                                                                        |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `CTA/button-01\|02\|03` (no `-link`) at **enabled**          | No underline at rest. Underline only if **hover / focus / pressed / open** cells switch to `CTA/button-link-*` (e.g. `group-hover:underline` on label). |
+| `CTA/button-link-01\|02\|03` at **enabled**                  | Permanent underline at rest (`cta-button-link-*` or always-on `underline` on the label).                                                                |
+| Disabled cell uses `CTA/button-*` while enabled used `-link` | Drop underline when disabled (`disabled:…:no-underline`).                                                                                               |
+
+**Red flags**
+
+- Shared hover-only underline wrapper for every variant while Figma **ghost** (or similar) binds `CTA/button-link-*` at **enabled**.
+- Always-on underline while Figma enabled cell is plain `CTA/button-*`.
+- Size axis only sets `cta-button-*` with no per-variant link/underline branch when Figma differs by `type`.
+
+Record pass/drift for underline in the variant × state matrix (not only font size/weight).
 
 **Compound spacing:** Derive spacing from Figma **per variant cell**, not from a single axis (e.g. “if boxed, always gap-2”). Size and shape often change gap/padding independently — document or test non-default cells when logic is non-obvious.
 
@@ -137,6 +156,7 @@ Report a **variant × state** matrix: pass / drift (note ≥2px or wrong token).
 - [ ] Field chrome table (when Elements/\* present): label, helper, feedback, counter — typography + color per **size**
 - [ ] Feedback / status copy uses theme utilities `text-status-error|warning|success|information` (Figma `Text/*` → `text-status-*` is OK)
 - [ ] Variant × state matrix: tokens + geometry per cell
+- [ ] CTA `button-*` vs `button-link-*` (underline) checked per variant × state — including ghost/link-like types at **enabled**
 - [ ] Light and dark where the component appears on both
 - [ ] Defaults aligned (Figma, `cva`, registry); demos start simple and cover the full alignment table
 - [ ] Compound spacing from per-cell Figma values (no undocumented single-axis shortcuts)

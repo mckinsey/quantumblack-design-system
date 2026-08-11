@@ -6,8 +6,10 @@ Vite + React Router + shadcn/ui component registry for the QB Design System.
 
 - Vite, React 19, React Router v7, TypeScript, Tailwind CSS v4
 - TanStack Query for data fetching on component detail pages
-- Components built on Radix UI, styled to the QBDS design spec
+- Components built on **Base UI** and **Radix UI** primitives, styled to the QBDS design spec
 - Registry generated via `npx shadcn build` → `public/r/`
+
+**Which primitive to use:** Base UI (`@base-ui/react`) is the target for new components and in-flight migrations. Radix (`@radix-ui/*`) remains in the components not yet migrated. Before adding a primitive, check the imports in the file you're editing and in the closest sibling in `src/components/ui/` — do not switch a component from one to the other unless that migration is the task.
 
 ## Key commands
 

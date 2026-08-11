@@ -471,6 +471,7 @@ function TimeInputTrigger({
   disabled,
   className,
   children,
+  'aria-label': ariaLabel,
   ...props
 }: Readonly<TimeInputTriggerProps>) {
   return (
@@ -479,6 +480,7 @@ function TimeInputTrigger({
       data-slot="time-input-trigger"
       disabled={disabled}
       tabIndex={disabled ? -1 : 0}
+      aria-label={ariaLabel ?? (children ? undefined : 'Choose time')}
       className={cn(
         'inline-flex shrink-0 items-center justify-center',
         'cursor-pointer rounded-none border-0 bg-transparent p-0 outline-none',

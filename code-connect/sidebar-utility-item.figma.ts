@@ -1,6 +1,6 @@
 // url=<QBDS_SIDEBAR_UTILITY_ITEM>
-// source=src/components/ui/sidebar.tsx
-// component=SidebarFooterButton
+// source=src/components/ui/sidebar-nav.tsx
+// component=SidebarNavUtilityButton
 import figma from 'figma';
 
 const instance = figma.selectedInstance;
@@ -22,42 +22,22 @@ if (shell && shell.type === 'INSTANCE' && shell.hasCodeConnect()) {
 const tip = instance.findInstance('Tooltip/OneLine', {
   traverseInstances: true,
 });
-const shellTip =
-  shell && shell.type === 'INSTANCE'
-    ? shell.findInstance('Tooltip/OneLine', { traverseInstances: true })
-    : null;
-const tipNode =
-  tip && tip.type === 'INSTANCE'
-    ? tip
-    : shellTip && shellTip.type === 'INSTANCE'
-      ? shellTip
-      : null;
-
 const tipLabel =
-  tipNode && tipNode.type === 'INSTANCE'
-    ? tipNode.getString('label')
-    : undefined;
-
-const tooltip =
-  tipLabel !== undefined
-    ? figma.helpers.react.object({ children: tipLabel, hidden: false })
-    : undefined;
+  tip && tip.type === 'INSTANCE' ? tip.getString('label') : undefined;
 
 export default {
   example: figma.code`
     <SidebarMenuItem>
-      <SidebarFooterButton${figma.helpers.react.renderProp(
+      <SidebarNavUtilityButton${figma.helpers.react.renderProp(
         'disabled',
         disabled || undefined,
-      )}${tooltip ? figma.helpers.react.renderProp('tooltip', tooltip) : ''}>
+      )}${tipLabel ? figma.helpers.react.renderProp('tooltip', tipLabel) : ''}>
         ${icon}
-      </SidebarFooterButton>
+      </SidebarNavUtilityButton>
     </SidebarMenuItem>
   `,
   imports: [
-    'import { Icon } from "@/components/ui/icon"',
-    'import { IconShell } from "@/components/ui/icon-shell"',
-    'import { SidebarMenuItem, SidebarFooterButton } from "@/components/ui/sidebar"',
+    'import { SidebarMenuItem, SidebarNavUtilityButton } from "@/components/ui/sidebar"',
   ],
   id: 'sidebar-utility-item',
   metadata: { nestable: true },

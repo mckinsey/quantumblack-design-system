@@ -8,6 +8,7 @@ import {
 } from '@/app/demo/[name]/index';
 import { Renderer } from '@/app/demo/[name]/renderer';
 import { ComponentPageLayout } from '@/components/registry/component-page-layout';
+import { getComponentDocs } from '@/lib/docs';
 import { type ComponentAPI, getRegistryItem } from '@/lib/registry';
 
 /**
@@ -146,6 +147,8 @@ export default function RegistryItemPage() {
     </div>
   ) : null;
 
+  const docs = name ? getComponentDocs(name) : undefined;
+
   return (
     <div className="bg-surface-base min-h-screen w-full p-5 md:p-10">
       <div className="mx-auto w-full max-w-[960px]">
@@ -159,6 +162,7 @@ export default function RegistryItemPage() {
           exampleCodeMap={exampleCodeMap || undefined}
           primaryExample={primaryExample}
           primaryExampleCode={primaryExampleCode}
+          docs={docs}
         />
       </div>
     </div>
