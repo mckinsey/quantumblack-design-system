@@ -369,13 +369,6 @@ import {
   examples as toggleExamples,
 } from '@/app/demo/[name]/ui/toggle';
 import {
-  ToggleGroupDemo,
-  ToggleGroupMultiple,
-  ToggleGroupVariants,
-  toggleGroup,
-  examples as toggleGroupExamples,
-} from '@/app/demo/[name]/ui/toggle-group';
-import {
   ToolbarBoxed,
   ToolbarComposition,
   ToolbarDemo,
@@ -703,11 +696,6 @@ export const exampleComponentMaps: Record<
     ToggleSizes,
     ToggleToggled,
   },
-  'toggle-group': {
-    ToggleGroupDemo,
-    ToggleGroupMultiple,
-    ToggleGroupVariants,
-  },
   toolbar: {
     ToolbarDemo,
     ToolbarBoxed,
@@ -765,7 +753,6 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   'time-input': timeInputExamples,
   'time-picker': timePickerExamples,
   toggle: toggleExamples,
-  'toggle-group': toggleGroupExamples,
   toolbar: toolbarExamples,
   tooltip: tooltipExamples,
 };
@@ -966,11 +953,6 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...toggle,
     examples: toggleExamples,
     exampleComponents: exampleComponentMaps.toggle,
-  },
-  'toggle-group': {
-    ...toggleGroup,
-    examples: toggleGroupExamples,
-    exampleComponents: exampleComponentMaps['toggle-group'],
   },
   toolbar: {
     ...toolbar,

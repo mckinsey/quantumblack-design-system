@@ -928,7 +928,7 @@
       "name": "toolbar",
       "type": "registry:ui",
       "title": "Toolbar",
-      "description": "Groups icon-only controls with keyboard navigation. Defaults to an unboxed horizontal layout; also supports optional boxed containers, vertical orientation, circle and square shapes, and sm, default, and lg sizes.",
+      "description": "A container for grouping buttons and controls. Defaults to an unboxed horizontal layout; supports boxed containers, vertical orientation, circle and square shapes, and sm, default, and lg sizes.",
       "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",

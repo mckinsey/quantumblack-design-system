@@ -2,32 +2,13 @@ import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 
-import { exampleComponentMaps } from '@/app/demo/[name]/index';
-import { Renderer } from '@/app/demo/[name]/renderer';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-
-const componentName = 'toggle-group';
 
 afterEach(() => {
   cleanup();
 });
 
-describe(`${componentName} — all examples render`, () => {
-  it.each(Object.entries(exampleComponentMaps[componentName]))(
-    'renders "%s" without crashing',
-    (_, Example) => {
-      expect(() =>
-        render(
-          <Renderer>
-            <Example />
-          </Renderer>,
-        ),
-      ).not.toThrow();
-    },
-  );
-});
-
-describe(`${componentName} — structure & interaction`, () => {
+describe('toggle-group — structure & interaction', () => {
   it('renders with data-slot on group and items', () => {
     render(
       <ToggleGroup aria-label="Options" defaultValue={['a']}>
