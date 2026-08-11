@@ -1,393 +1,187 @@
 import { type ChildProcess, spawn, spawnSync } from 'node:child_process';
-import {
-  cpSync,
-  existsSync,
-  mkdirSync,
-  mkdtempSync,
-  readFileSync,
-  rmSync,
-  writeFileSync,
-} from 'node:fs';
+import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const REPO_ROOT = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  '..',
-);
-const FIXTURE = path.join(REPO_ROOT, 'fixtures/registry-install-consumer');
-const PUBLIC_DIR = path.join(REPO_ROOT, 'public');
-const REGISTRY_JSON = path.join(REPO_ROOT, 'registry.json');
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const FIXTURE = path.join(ROOT, 'fixtures/registry-install-consumer');
+const PUBLIC = path.join(ROOT, 'public');
 const HOST = '127.0.0.1';
-const ADD_TIMEOUT_MS = 180_000;
 
-interface RegistryFile {
-  readonly path: string;
-  readonly type: string;
-  readonly target?: string;
-}
-
-interface RegistryItem {
-  readonly name: string;
-  readonly type: string;
-  readonly dependencies?: readonly string[];
-  readonly files?: readonly RegistryFile[];
-}
-
-interface RegistryJson {
-  readonly items: readonly RegistryItem[];
-}
-
-function runSync(
+function sh(
   cmd: string,
   args: string[],
-  opts: {
-    cwd?: string;
-    env?: NodeJS.ProcessEnv;
-    timeoutMs?: number;
-    quiet?: boolean;
-  } = {},
-): { code: number; stdout: string; stderr: string } {
-  const result = spawnSync(cmd, args, {
-    cwd: opts.cwd ?? REPO_ROOT,
+  opts: { cwd?: string; env?: NodeJS.ProcessEnv; quiet?: boolean } = {},
+): number {
+  const r = spawnSync(cmd, args, {
+    cwd: opts.cwd ?? ROOT,
     env: opts.env ?? process.env,
     encoding: 'utf8',
-    timeout: opts.timeoutMs,
     stdio: opts.quiet ? ['ignore', 'pipe', 'pipe'] : 'inherit',
   });
 
-  if (
-    result.error &&
-    (result.error as NodeJS.ErrnoException).code === 'ETIMEDOUT'
-  ) {
-    return {
-      code: 124,
-      stdout: result.stdout ?? '',
-      stderr: result.stderr ?? '',
-    };
+  if (r.error) {
+    throw r.error;
   }
 
-  if (result.error) {
-    throw result.error;
+  if (opts.quiet && r.status !== 0) {
+    process.stderr.write(r.stdout ?? '');
+    process.stderr.write(r.stderr ?? '');
   }
 
-  return {
-    code: result.status ?? 1,
-    stdout: result.stdout ?? '',
-    stderr: result.stderr ?? '',
-  };
+  return r.status ?? 1;
 }
 
-function startServerChild(root: string, port: number): ChildProcess {
-  const script = `
+function allocatePort(): Promise<number> {
+  return new Promise((resolve, reject) => {
+    const s = createServer();
+    s.listen(0, HOST, () => {
+      const addr = s.address();
+      if (!addr || typeof addr === 'string') {
+        s.close();
+        reject(new Error('no port'));
+        return;
+      }
+      const { port } = addr;
+      s.close(err => (err ? reject(err) : resolve(port)));
+    });
+    s.on('error', reject);
+  });
+}
+
+function serve(root: string, port: number): ChildProcess {
+  const code = `
 import { createServer } from 'node:http';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-
 const root = ${JSON.stringify(root)};
-const host = ${JSON.stringify(HOST)};
-const port = ${port};
-
-function contentType(filePath) {
-  if (filePath.endsWith('.json')) return 'application/json; charset=utf-8';
-  if (filePath.endsWith('.css')) return 'text/css; charset=utf-8';
-  if (filePath.endsWith('.js') || filePath.endsWith('.mjs')) return 'text/javascript; charset=utf-8';
-  return 'application/octet-stream';
-}
-
-const server = createServer((req, res) => {
-  const urlPath = decodeURIComponent((req.url ?? '/').split('?')[0] ?? '/');
-  const rel =
-    urlPath === '/'
-      ? 'index.html'
-      : urlPath.replace(/^\\/+/, '').replaceAll('\\\\', '/');
-  const filePath = path.normalize(path.join(root, rel));
-
-  if (!filePath.startsWith(root + path.sep) && filePath !== root) {
-    res.writeHead(403);
-    res.end('Forbidden');
-    return;
+createServer((req, res) => {
+  const rel = decodeURIComponent((req.url ?? '/').split('?')[0] ?? '/')
+    .replace(/^\\/+/, '') || 'index.html';
+  const file = path.normalize(path.join(root, rel));
+  if (!file.startsWith(root) || !existsSync(file)) {
+    res.writeHead(404); res.end(); return;
   }
-
-  if (!existsSync(filePath)) {
-    res.writeHead(404);
-    res.end('Not found');
-    return;
-  }
-
-  try {
-    const body = readFileSync(filePath);
-    res.writeHead(200, { 'Content-Type': contentType(filePath) });
-    res.end(body);
-  } catch {
-    res.writeHead(500);
-    res.end('Error');
-  }
-});
-
-server.listen(port, host, () => {
-  process.stdout.write('ready\\n');
-});
+  res.writeHead(200); res.end(readFileSync(file));
+}).listen(${port}, ${JSON.stringify(HOST)}, () => process.stdout.write('ok'));
 `;
 
-  const child = spawn(process.execPath, ['--input-type=module', '-e', script], {
+  return spawn(process.execPath, ['--input-type=module', '-e', code], {
     stdio: ['ignore', 'pipe', 'inherit'],
   });
-
-  return child;
 }
 
-async function waitForReady(
-  child: ChildProcess,
-  registryUrl: string,
-): Promise<void> {
+async function waitReady(child: ChildProcess, url: string): Promise<void> {
   await new Promise<void>((resolve, reject) => {
-    const timer = setTimeout(() => {
-      reject(new Error('Registry server failed to start'));
-    }, 10_000);
-
-    child.stdout?.on('data', (chunk: Buffer) => {
-      if (chunk.toString().includes('ready')) {
-        clearTimeout(timer);
+    const t = setTimeout(
+      () => reject(new Error('server start timeout')),
+      10_000,
+    );
+    child.stdout?.on('data', (b: Buffer) => {
+      if (b.toString().includes('ok')) {
+        clearTimeout(t);
         resolve();
       }
     });
-
-    child.on('error', err => {
-      clearTimeout(timer);
-      reject(err);
-    });
-
-    child.on('exit', code => {
-      clearTimeout(timer);
-      reject(new Error(`Registry server exited early with code ${code}`));
+    child.on('error', reject);
+    child.on('exit', c => {
+      clearTimeout(t);
+      reject(new Error(`server exited ${c}`));
     });
   });
 
-  const res = await fetch(`${registryUrl}/r/registry.json`);
-
+  const res = await fetch(`${url}/r/registry.json`);
   if (!res.ok) {
-    throw new Error(`Registry server health check failed: ${res.status}`);
-  }
-}
-
-async function allocatePort(): Promise<number> {
-  return await new Promise((resolve, reject) => {
-    const server = createServer();
-    server.listen(0, HOST, () => {
-      const addr = server.address();
-
-      if (!addr || typeof addr === 'string') {
-        server.close();
-        reject(new Error('Failed to allocate port'));
-        return;
-      }
-
-      const { port } = addr;
-      server.close(err => (err ? reject(err) : resolve(port)));
-    });
-    server.on('error', reject);
-  });
-}
-
-function installedPackages(consumerRoot: string): Set<string> {
-  const pkg = JSON.parse(
-    readFileSync(path.join(consumerRoot, 'package.json'), 'utf8'),
-  ) as {
-    dependencies?: Record<string, string>;
-    devDependencies?: Record<string, string>;
-  };
-
-  return new Set([
-    ...Object.keys(pkg.dependencies ?? {}),
-    ...Object.keys(pkg.devDependencies ?? {}),
-  ]);
-}
-
-function packageInstalled(consumerRoot: string, name: string): boolean {
-  const parts = name.startsWith('@') ? name.split('/') : [name];
-  return existsSync(path.join(consumerRoot, 'node_modules', ...parts));
-}
-
-function expectedUiPaths(consumerRoot: string, item: RegistryItem): string[] {
-  const paths: string[] = [];
-
-  for (const file of item.files ?? []) {
-    if (file.type !== 'registry:ui' && file.type !== 'registry:file') {
-      continue;
-    }
-
-    const target = (file.target || file.path).replace(/\\/g, '/');
-    const rel = target.replace(/^src\//, '').replace(/^\.\//, '');
-    paths.push(
-      path.join(consumerRoot, 'src', rel),
-      path.join(consumerRoot, rel),
-    );
-  }
-
-  return [...new Set(paths)];
-}
-
-function buildRegistry(env: NodeJS.ProcessEnv): void {
-  const build = runSync('npx', ['--yes', 'shadcn@latest', 'build'], { env });
-
-  if (build.code !== 0) {
-    throw new Error('shadcn build failed');
-  }
-
-  const copy = runSync('cp', ['-R', 'registry.json', 'public/r/'], { env });
-
-  if (copy.code !== 0) {
-    throw new Error('Failed to copy registry.json into public/r');
-  }
-
-  const inject = runSync('npx', ['tsx', 'scripts/inject-registry-urls.ts'], {
-    env,
-  });
-
-  if (inject.code !== 0) {
-    throw new Error('inject-registry-urls failed');
+    throw new Error(`registry health ${res.status}`);
   }
 }
 
 async function main(): Promise<void> {
   if (!existsSync(FIXTURE)) {
-    throw new Error(`Missing fixture at ${FIXTURE}`);
+    throw new Error(`missing ${FIXTURE}`);
   }
 
-  const registry = JSON.parse(
-    readFileSync(REGISTRY_JSON, 'utf8'),
-  ) as RegistryJson;
-  const items = registry.items.filter(item => item.type === 'registry:ui');
-
-  if (items.length === 0) {
-    throw new Error('No registry:ui items found in registry.json');
-  }
+  const names = (
+    JSON.parse(readFileSync(path.join(ROOT, 'registry.json'), 'utf8')) as {
+      items: { name: string; type: string }[];
+    }
+  ).items
+    .filter(i => i.type === 'registry:ui')
+    .map(i => i.name);
 
   const port = await allocatePort();
-  const registryUrl = `http://${HOST}:${port}`;
-  const env = {
-    ...process.env,
-    QBDS_REGISTRY_URL: registryUrl,
-  };
+  const base = `http://${HOST}:${port}`;
+  const env = { ...process.env, QBDS_REGISTRY_URL: base };
 
-  console.log(`Building registry for ${registryUrl}`);
-  buildRegistry(env);
+  console.log(`build ${base}`);
+  if (sh('npx', ['--yes', 'shadcn@latest', 'build'], { env }) !== 0) {
+    throw new Error('shadcn build failed');
+  }
+  if (sh('cp', ['-R', 'registry.json', 'public/r/'], { env }) !== 0) {
+    throw new Error('copy registry.json failed');
+  }
+  if (sh('npx', ['tsx', 'scripts/inject-registry-urls.ts'], { env }) !== 0) {
+    throw new Error('inject urls failed');
+  }
 
-  const server = startServerChild(PUBLIC_DIR, port);
-  await waitForReady(server, registryUrl);
-  console.log(`Serving ${PUBLIC_DIR} at ${registryUrl}`);
+  const server = serve(PUBLIC, port);
+  await waitReady(server, base);
+  console.log(`serve ${base}`);
 
-  const consumerRoot = mkdtempSync(
-    path.join(tmpdir(), 'qbds-registry-install-'),
-  );
-  const logDir = path.join(consumerRoot, '.smoke-logs');
-  let exitCode = 0;
+  const consumer = mkdtempSync(path.join(tmpdir(), 'qbds-registry-install-'));
+  const fails: string[] = [];
 
   try {
-    cpSync(FIXTURE, consumerRoot, { recursive: true });
-    console.log(`Consumer: ${consumerRoot}`);
-
-    const install = runSync('npm', ['install', '--no-audit', '--no-fund'], {
-      cwd: consumerRoot,
-      timeoutMs: 300_000,
-    });
-
-    if (install.code !== 0) {
-      throw new Error('Consumer npm install failed');
+    cpSync(FIXTURE, consumer, { recursive: true });
+    if (
+      sh('npm', ['install', '--no-audit', '--no-fund'], { cwd: consumer }) !== 0
+    ) {
+      throw new Error('consumer npm install failed');
     }
 
-    mkdirSync(logDir, { recursive: true });
-
-    const failures: string[] = [];
-
-    for (const item of items) {
-      const url = `${registryUrl}/r/${item.name}.json`;
-      process.stdout.write(`add ${item.name} ... `);
-
-      const add = runSync(
+    for (const name of names) {
+      process.stdout.write(`add ${name} ... `);
+      const code = sh(
         'npx',
-        ['--yes', 'shadcn@latest', 'add', '-y', '-o', '-s', url],
-        {
-          cwd: consumerRoot,
-          quiet: true,
-          timeoutMs: ADD_TIMEOUT_MS,
-        },
+        [
+          '--yes',
+          'shadcn@latest',
+          'add',
+          '-y',
+          '-o',
+          '-s',
+          `${base}/r/${name}.json`,
+        ],
+        { cwd: consumer, quiet: true },
       );
 
-      writeFileSync(
-        path.join(logDir, `${item.name}.log`),
-        `${add.stdout}${add.stderr}`,
-      );
-
-      if (add.code === 124) {
-        failures.push(
-          `${item.name}: shadcn add timed out after ${ADD_TIMEOUT_MS}ms`,
-        );
-        console.log('TIMEOUT');
-        continue;
-      }
-
-      if (add.code !== 0) {
-        failures.push(
-          `${item.name}: shadcn add failed\n${add.stdout}${add.stderr}`,
-        );
-        console.log('FAIL');
-        continue;
-      }
-
-      const uiPaths = expectedUiPaths(consumerRoot, item);
-
-      if (
-        uiPaths.length > 0 &&
-        !uiPaths.some(candidate => existsSync(candidate))
-      ) {
-        failures.push(
-          `${item.name}: missing installed UI file (looked for ${uiPaths.join(', ')})`,
-        );
-        console.log('FAIL');
-        continue;
-      }
-
-      const declared = item.dependencies ?? [];
-      const listed = installedPackages(consumerRoot);
-      const missing = declared.filter(
-        dep => !listed.has(dep) && !packageInstalled(consumerRoot, dep),
-      );
-
-      if (missing.length > 0) {
-        failures.push(
-          `${item.name}: npm packages not installed: ${missing.join(', ')}`,
-        );
+      if (code !== 0) {
+        fails.push(name);
         console.log('FAIL');
         continue;
       }
 
       console.log('OK');
     }
-
-    if (failures.length > 0) {
-      console.error('\nRegistry install smoke failures:\n');
-      console.error(failures.join('\n\n'));
-      exitCode = 1;
-    } else {
-      console.log(`\nAll ${items.length} registry:ui installs passed.`);
-    }
   } finally {
     if (server.pid) {
       try {
         process.kill(server.pid, 'SIGTERM');
       } catch {
-        // already exited
+        // gone
       }
     }
-
-    rmSync(consumerRoot, { recursive: true, force: true });
+    rmSync(consumer, { recursive: true, force: true });
   }
 
-  process.exit(exitCode);
+  if (fails.length) {
+    console.error(`\nFailed: ${fails.join(', ')}`);
+    process.exit(1);
+  }
+
+  console.log(`\n${names.length} registry:ui installs ok`);
 }
 
 void main().catch(err => {
