@@ -50,7 +50,7 @@ function SignpostBadge({ withIcon = true }: { withIcon?: boolean }) {
 function MoreAction({ size = 'icon-sm' }: { size?: 'icon-sm' | 'icon-xs' }) {
   return (
     <Button variant="ghost" size={size} aria-label="More options">
-      <IconShell size="default" type="neutral" variant="secondary">
+      <IconShell hoverable>
         <Icon icon="more_vert" />
       </IconShell>
     </Button>
@@ -63,12 +63,8 @@ function BookmarkAction({
   size?: 'icon-sm' | 'icon-xs';
 }) {
   return (
-    <Button
-      variant="ghost"
-      size={size}
-      className="rounded-full"
-      aria-label="Bookmark">
-      <IconShell size="default" type="neutral" variant="secondary">
+    <Button variant="ghost" size={size} aria-label="Bookmark">
+      <IconShell hoverable>
         <Icon icon="bookmark_add" />
       </IconShell>
     </Button>
@@ -431,35 +427,35 @@ export const examples: DemoExample[] = [
     name: 'CardDemo',
     title: 'Default',
     description:
-      'A text card with header actions, title, description, metadata rows, and a stats footer.',
+      'A text-first card with a header action, title, supporting copy, metadata rows, and a stats footer.',
   },
   {
     name: 'CardWithImage',
     title: 'With image',
     description:
-      'Blank media block (bg-fill-onsurface-ui-2) with an overlay badge, supporting text, and a call to action.',
+      'A media area at the top, an overlay badge, supporting text, and a call to action.',
   },
   {
     name: 'CardWithImageAndData',
     title: 'With image and data',
     description:
-      'Media plus attribution, title, description, and engagement stats in the footer.',
+      'Media with header controls, attribution, title and description, plus engagement stats in the footer.',
   },
   {
     name: 'CardSize',
     title: 'Sizes',
-    description: 'Default and small density side by side.',
+    description: 'Default and small cards side by side to compare density.',
   },
   {
     name: 'CardContrast',
     title: 'Contrast',
-    description: 'Low and high surface contrast for the same composition.',
+    description: 'Low and high surface contrast for the same card layout.',
   },
   {
     name: 'CardOverride',
     title: 'Custom cards',
     description:
-      'Use --card-inset and className to build custom layouts, from tunable padding to edge-to-edge content.',
+      'Adjust padding live, or scroll content that stretches edge to edge above the footer.',
   },
 ];
 
