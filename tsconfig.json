@@ -20,5 +20,11 @@
     "target": "ES2017"
   },
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "dist", "vite.config.ts", "vitest.config.ts"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "fixtures"
+  ]
 }
