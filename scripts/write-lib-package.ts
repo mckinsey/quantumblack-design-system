@@ -75,15 +75,7 @@ const pkg = {
     },
     './styles.css': './styles.css',
   },
-  files: [
-    'package',
-    'components',
-    'hooks',
-    'lib',
-    'styles.css',
-    'LICENSE.txt',
-    'README.md',
-  ],
+  files: ['package', 'components', 'hooks', 'lib', 'styles.css', 'LICENSE.txt'],
   peerDependencies: {
     react: '^19.0.0',
     'react-dom': '^19.0.0',
@@ -111,12 +103,6 @@ const license = path.join(root, 'LICENSE.txt');
 
 if (fs.existsSync(license)) {
   fs.copyFileSync(license, path.join(outDir, 'LICENSE.txt'));
-}
-
-const readme = path.join(root, 'docs/NPM.md');
-
-if (fs.existsSync(readme)) {
-  fs.copyFileSync(readme, path.join(outDir, 'README.md'));
 }
 
 console.log(`Wrote ${path.relative(root, path.join(outDir, 'package.json'))}`);

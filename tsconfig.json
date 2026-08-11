@@ -25,6 +25,7 @@
     "dist",
     "vite.config.ts",
     "vite.lib.config.ts",
-    "vitest.config.ts"
+    "vitest.config.ts",
+    "vitest.lib.config.ts"
   ]
 }

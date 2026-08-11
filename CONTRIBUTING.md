@@ -26,8 +26,6 @@ Base UI is the target for new components and in-flight migrations; Radix remains
 | `npm run build`          | Rebuild registry + Vite production build → `dist/` |
 | `npm run preview`        | Preview production build (port 4123)               |
 | `npm run registry:build` | Rebuild registry files only (`public/r/`)          |
-| `npm run build:lib`      | Build publishable ESM package → `dist/lib/`        |
-| `npm run pack:lib`       | Build lib + `npm pack ./dist/lib` (dry-run)        |
 | `npm run lint`           | Run ESLint and Prettier (check)                    |
 | `npm run lint:eslint`    | Run ESLint only                                    |
 | `npm run prettier`       | Check formatting with Prettier                     |

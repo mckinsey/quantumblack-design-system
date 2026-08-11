@@ -39,7 +39,7 @@
     "figma:parse": "npm run figma:config && figma connect parse",
     "figma:publish": "npm run figma:config && figma connect publish --skip-validation",
     "build:lib": "npm run assets:build && vite build --config vite.lib.config.ts && npx tsc -p tsconfig.lib.json && node --import tsx scripts/rewrite-lib-dts-paths.ts && node --import tsx scripts/copy-lib-styles.ts && node --import tsx scripts/write-lib-package.ts",
-    "pack:lib": "npm run build:lib && npm pack ./dist/lib"
+    "test:lib": "vitest run --config vitest.lib.config.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
