@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -17,6 +17,10 @@ import { FieldLabel, FieldSet } from '@/components/ui/field';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import { Input } from '@/components/ui/input';
+import {
+  SegmentedControls,
+  SegmentedControlsItem,
+} from '@/components/ui/segmented-controls';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 
 const basePath = import.meta.env.VITE_BASE_PATH ?? '';
@@ -309,133 +313,113 @@ export function CardSize() {
   );
 }
 
-export function CardForm() {
+const insetOptions = [
+  { value: '4', label: '16px', className: '[--card-inset:--spacing(4)]' },
+  { value: '5', label: '20px', className: '[--card-inset:--spacing(5)]' },
+  { value: '6', label: '24px', className: '[--card-inset:--spacing(6)]' },
+  { value: '8', label: '32px', className: '[--card-inset:--spacing(8)]' },
+] as const;
+
+function SpacingCard() {
+  const [inset, setInset] = useState('4');
+  const selected = insetOptions.find(o => o.value === inset) ?? insetOptions[0];
+
   return (
-    <DemoRow>
-      <Card className="w-[360px]">
-        <CardHeader className="flex-col items-start gap-1">
+    <div className="flex w-full max-w-sm flex-col items-stretch gap-4">
+      <SegmentedControls
+        value={inset}
+        onValueChange={value => {
+          if (value) setInset(value);
+        }}
+        size="sm"
+        type="ghost"
+        className="w-full justify-center">
+        {insetOptions.map(option => (
+          <SegmentedControlsItem key={option.value} value={option.value}>
+            {option.label}
+          </SegmentedControlsItem>
+        ))}
+      </SegmentedControls>
+      <Card className={`w-full ${selected.className}`}>
+        <CardHeader className="flex-col items-start gap-1 pb-(--card-inset)">
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>
             Enter your email below to login to your account
           </CardDescription>
-          <CardAction className="absolute end-(--card-inset) top-(--card-inset)">
-            <Button variant="ghost">Sign Up</Button>
-          </CardAction>
         </CardHeader>
-        <CardContent className="gap-4 pt-(--card-inset)">
+        <CardContent className="gap-6">
           <FieldSet className="gap-2">
-            <FieldLabel htmlFor="card-email">Email</FieldLabel>
+            <FieldLabel htmlFor="card-inset-email">Email</FieldLabel>
             <Input
-              id="card-email"
+              id="card-inset-email"
               type="email"
               placeholder="name@example.com"
             />
           </FieldSet>
           <FieldSet className="gap-2">
             <div className="flex items-center justify-between gap-2">
-              <FieldLabel htmlFor="card-password">Password</FieldLabel>
+              <FieldLabel htmlFor="card-inset-password">Password</FieldLabel>
               <Button variant="ghost" size="sm" className="h-auto px-0 py-0">
                 Forgot your password?
               </Button>
             </div>
-            <Input id="card-password" type="password" />
+            <Input id="card-inset-password" type="password" />
           </FieldSet>
         </CardContent>
-        <CardFooter className="flex-col items-stretch gap-2">
+        <CardFooter className="flex-col items-stretch gap-2 pt-(--card-inset)">
           <Button className="w-full">Login</Button>
           <Button variant="outline" className="w-full">
-            Login with Google
+            Signup
           </Button>
         </CardFooter>
       </Card>
-    </DemoRow>
+    </div>
+  );
+}
+
+function EdgeToEdgeCard() {
+  return (
+    <Card className="w-full max-w-sm">
+      <CardHeader className="flex-col items-start gap-1 pb-(--card-inset)">
+        <CardTitle>Terms of Service</CardTitle>
+        <CardDescription>
+          Review the terms before accepting the agreement.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="border-stroke-divider bg-fill-onsurface-ui-2 -mx-(--card-inset) max-h-48 space-y-4 overflow-y-auto border-y px-(--card-inset) py-4">
+          <p className="paragraph-regular-primary text-fg-secondary">
+            These terms govern your use of the workspace, including access to
+            shared documents, project files, and collaboration tools.
+          </p>
+          <p className="paragraph-regular-primary text-fg-secondary">
+            You are responsible for the content you upload and for ensuring that
+            your team has the appropriate permissions to view or edit it.
+          </p>
+          <p className="paragraph-regular-primary text-fg-secondary">
+            We may update features or limits as the service evolves. When those
+            changes materially affect your workflow, we will notify your
+            workspace administrators.
+          </p>
+          <p className="paragraph-regular-primary text-fg-secondary">
+            By continuing, you agree to keep your account credentials secure and
+            to follow your organization&apos;s acceptable use policies.
+          </p>
+        </div>
+      </CardContent>
+      <CardFooter className="justify-end gap-2 pt-(--card-inset)">
+        <Button variant="outline">Decline</Button>
+        <Button>Accept</Button>
+      </CardFooter>
+    </Card>
   );
 }
 
 export function CardOverride() {
   return (
     <DemoRow>
-      <Card className="w-[280px] [--card-inset:--spacing(4)]">
-        <CardHeader className="flex-col items-start gap-1">
-          <CardTitle>Tight inset</CardTitle>
-          <CardDescription>
-            Override with [--card-inset:--spacing(4)].
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="pt-(--card-inset)">
-          <p className="paragraph-regular-primary text-fg-secondary">
-            All regions read the same inset variable.
-          </p>
-        </CardContent>
-        <CardFooter>
-          <Button size="sm">Action</Button>
-        </CardFooter>
-      </Card>
-      <Card className="w-[280px]">
-        <CardHeader className="flex-col items-start gap-1">
-          <CardTitle>Default inset</CardTitle>
-          <CardDescription>
-            size=&quot;default&quot; → spacing(7).
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="pt-(--card-inset)">
-          <p className="paragraph-regular-primary text-fg-secondary">
-            Header, content, and footer share --card-inset.
-          </p>
-        </CardContent>
-        <CardFooter>
-          <Button>Action</Button>
-        </CardFooter>
-      </Card>
-      <Card className="w-[280px] [--card-inset:--spacing(8)]">
-        <CardHeader className="flex-col items-start gap-1">
-          <CardTitle>Roomy inset</CardTitle>
-          <CardDescription>
-            Override with [--card-inset:--spacing(8)].
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="pt-(--card-inset)">
-          <p className="paragraph-regular-primary text-fg-secondary">
-            One class on Card scales the whole composition.
-          </p>
-        </CardContent>
-        <CardFooter>
-          <Button>Action</Button>
-        </CardFooter>
-      </Card>
-      <Card className="w-[360px]">
-        <CardHeader className="flex-col items-start gap-1">
-          <CardTitle>Terms of Service</CardTitle>
-          <CardDescription>
-            Review the terms before accepting the agreement.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="border-stroke-divider max-h-[160px] overflow-y-auto border-y px-0">
-          <div className="space-y-3 px-(--card-inset) py-4">
-            <p className="paragraph-regular-primary text-fg-secondary">
-              These terms govern your use of the workspace, including access to
-              shared documents, project files, and collaboration tools.
-            </p>
-            <p className="paragraph-regular-primary text-fg-secondary">
-              You are responsible for the content you upload and for ensuring
-              that your team has the appropriate permissions to view or edit it.
-            </p>
-            <p className="paragraph-regular-primary text-fg-secondary">
-              We may update features or limits as the service evolves. When
-              those changes materially affect your workflow, we will notify your
-              workspace administrators.
-            </p>
-            <p className="paragraph-regular-primary text-fg-secondary">
-              By continuing, you agree to keep your account credentials secure
-              and to follow your organization&apos;s acceptable use policies.
-            </p>
-          </div>
-        </CardContent>
-        <CardFooter className="justify-end gap-2">
-          <Button variant="outline">Decline</Button>
-          <Button>Accept</Button>
-        </CardFooter>
-      </Card>
+      <SpacingCard />
+      <EdgeToEdgeCard />
     </DemoRow>
   );
 }
@@ -443,38 +427,37 @@ export function CardOverride() {
 export const examples: DemoExample[] = [
   {
     name: 'CardDemo',
-    title: 'Card',
-    description: 'Header, content (title, rows), and footer.',
+    title: 'Default',
+    description:
+      'A text card with header actions, title, description, metadata rows, and a stats footer.',
   },
   {
     name: 'CardWithImage',
-    title: 'Card with image',
-    description: 'Media with overlay header, content, and footer CTA.',
+    title: 'With image',
+    description:
+      'Full-bleed media with an overlay badge, supporting text, and a call to action.',
   },
   {
     name: 'CardWithImageAndData',
-    title: 'Card with image and data',
-    description: 'Media, attribution, title, description, and stats footer.',
+    title: 'With image and data',
+    description:
+      'Media plus attribution, title, description, and engagement stats in the footer.',
   },
   {
     name: 'CardSize',
-    title: 'Size',
-    description: 'default vs sm (--card-inset + type scale).',
+    title: 'Sizes',
+    description: 'Default and small density side by side.',
   },
   {
     name: 'CardContrast',
     title: 'Contrast',
-    description: 'low vs high surface fill.',
+    description: 'Low and high surface contrast for the same composition.',
   },
   {
     name: 'CardOverride',
-    title: 'Override',
-    description: 'Custom --card-inset and edge-to-edge body.',
-  },
-  {
-    name: 'CardForm',
-    title: 'Form',
-    description: 'Login composition; gaps set on Content in the demo.',
+    title: 'Custom cards',
+    description:
+      'Use --card-inset and className to build custom layouts, from tunable padding to edge-to-edge content.',
   },
 ];
 
@@ -485,5 +468,4 @@ export const card = createLegacyDemo('card', examples, {
   CardSize: <CardSize />,
   CardContrast: <CardContrast />,
   CardOverride: <CardOverride />,
-  CardForm: <CardForm />,
 });

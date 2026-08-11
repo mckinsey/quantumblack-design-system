@@ -87,7 +87,6 @@ import {
 import {
   CardContrast,
   CardDemo,
-  CardForm,
   CardOverride,
   CardSize,
   CardWithImage,
@@ -484,7 +483,6 @@ export const exampleComponentMaps: Record<
     CardSize,
     CardContrast,
     CardOverride,
-    CardForm,
   },
   checkbox: {
     CheckboxDemo,
