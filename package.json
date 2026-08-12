@@ -24,6 +24,7 @@
     "test:unit": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "test:registry-install": "tsx scripts/registry-install-smoke.ts",
     "test": "concurrently --kill-others-on-fail \"npm run test:unit\" \"npm run typecheck\" \"npm run build\" \"npm run lint\"",
     "typecheck": "tsc --noEmit",
     "lint": "concurrently --kill-others-on-fail -n eslint,prettier \"npm run lint:eslint\" \"npm run prettier\"",
