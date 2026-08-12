@@ -98,9 +98,7 @@ async function main(): Promise<void> {
     JSON.parse(readFileSync(path.join(ROOT, 'registry.json'), 'utf8')) as {
       items: { name: string; type: string }[];
     }
-  ).items
-    .filter(i => i.type === 'registry:ui')
-    .map(i => i.name);
+  ).items.map(i => i.name);
 
   const env = { ...process.env, QBDS_REGISTRY_URL: PUBLIC };
   const consumer = mkdtempSync(path.join(tmpdir(), 'qbds-registry-install-'));
@@ -130,7 +128,7 @@ async function main(): Promise<void> {
     rmSync(consumer, { recursive: true, force: true });
   }
 
-  console.log(`\n${names.length} registry:ui installs ok`);
+  console.log(`\n${names.length} registry installs ok`);
 }
 
 void main().catch(err => {
