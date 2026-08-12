@@ -907,11 +907,29 @@
       ]
     },
     {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "Groups toggle buttons for single or multiple selection.",
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/toggle.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/toggle-group.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "toolbar",
       "type": "registry:ui",
       "title": "Toolbar",
-      "description": "Groups icon-only controls with keyboard navigation. Defaults to an unboxed horizontal layout; also supports optional boxed containers, vertical orientation, circle and square shapes, and sm, reg, and lg sizes.",
-      "dependencies": ["@radix-ui/react-toolbar"],
+      "description": "A container for grouping buttons and controls. Defaults to an unboxed horizontal layout; supports boxed containers, vertical orientation, circle and square shapes, and sm, default, and lg sizes.",
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",

@@ -1,13 +1,13 @@
 'use client';
 
-import * as ToolbarPrimitive from '@radix-ui/react-toolbar';
+import { Toolbar as ToolbarPrimitive } from '@base-ui/react/toolbar';
 import { cva } from 'class-variance-authority';
 import * as React from 'react';
 
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-type ToolbarSize = 'sm' | 'reg' | 'lg';
+type ToolbarSize = 'sm' | 'default' | 'lg';
 type ToolbarShape = 'square' | 'circle';
 
 interface ToolbarContextValue {
@@ -18,7 +18,7 @@ interface ToolbarContextValue {
 }
 
 const ToolbarContext = React.createContext<ToolbarContextValue>({
-  size: 'reg',
+  size: 'default',
   shape: 'circle',
   boxed: false,
   orientation: 'horizontal',
@@ -32,13 +32,10 @@ function toolbarGapClass({
   size,
 }: Pick<ToolbarContextValue, 'boxed' | 'shape' | 'size'>): ToolbarGapClass {
   if (size === 'lg') return 'gap-3';
-  if (size === 'reg' && shape === 'circle' && !boxed) return 'gap-1';
+  if (size === 'default' && shape === 'circle' && !boxed) return 'gap-1';
   return 'gap-2';
 }
 
-// Negative margin cancels the flex gap before the separator (Figma spacer-on-prior-item).
-// Only use between two items — first/last overflows the container. Keys must match
-// every class `toolbarGapClass` can return.
 const toolbarSeparatorGapOffset: Record<
   ToolbarGapClass,
   { horizontal: string; vertical: string }
@@ -58,37 +55,37 @@ function toolbarSeparatorOffsetClass(context: ToolbarContextValue) {
 const toolbarIconSizeMap: Record<ToolbarSize, 'icon-sm' | 'icon' | 'icon-lg'> =
   {
     sm: 'icon-sm',
-    reg: 'icon',
+    default: 'icon',
     lg: 'icon-lg',
   };
 
 const toolbarIconShellSizeMap: Record<ToolbarSize, 'sm' | 'default' | 'lg'> = {
   sm: 'sm',
-  reg: 'sm',
+  default: 'sm',
   lg: 'default',
 };
 
 const toolbarSeparatorLengthMap: Record<ToolbarSize, string> = {
   sm: 'h-5',
-  reg: 'h-7',
+  default: 'h-7',
   lg: 'h-8',
 };
 
 const toolbarSeparatorWidthMap: Record<ToolbarSize, string> = {
   sm: 'w-2',
-  reg: 'w-2',
+  default: 'w-2',
   lg: 'w-3',
 };
 
 const toolbarSeparatorHeightMap: Record<ToolbarSize, string> = {
   sm: 'h-2',
-  reg: 'h-2',
+  default: 'h-2',
   lg: 'h-3',
 };
 
 const toolbarSeparatorCrossSpanMap: Record<ToolbarSize, string> = {
   sm: 'w-6',
-  reg: 'w-7',
+  default: 'w-7',
   lg: 'w-8',
 };
 
@@ -108,21 +105,21 @@ const toolbarVariants = cva('inline-flex w-fit items-center', {
     },
     size: {
       sm: '',
-      reg: '',
+      default: '',
       lg: '',
     },
   },
   compoundVariants: [
     { boxed: true, shape: 'circle', className: 'rounded-full' },
     { boxed: true, shape: 'square', className: 'rounded-md' },
-    { boxed: true, size: ['sm', 'reg'], className: 'p-2' },
+    { boxed: true, size: ['sm', 'default'], className: 'p-2' },
     { boxed: true, size: 'lg', className: 'p-3' },
   ],
   defaultVariants: {
     boxed: false,
     orientation: 'horizontal',
     shape: 'circle',
-    size: 'reg',
+    size: 'default',
   },
 });
 
@@ -137,6 +134,9 @@ function toolbarItemClasses({
       size: toolbarIconSizeMap[size],
     }),
     shape === 'circle' ? 'rounded-full' : 'rounded-md',
+    'data-pressed:bg-fill-active data-pressed:text-fg-primary-inverse',
+    'disabled:data-pressed:text-fg-disabled disabled:data-pressed:bg-transparent',
+    'disabled:data-pressed:hover:bg-transparent disabled:data-pressed:active:bg-transparent',
     className,
   );
 }
@@ -145,9 +145,7 @@ function useToolbar() {
   return React.useContext(ToolbarContext);
 }
 
-interface ToolbarProps extends React.ComponentProps<
-  typeof ToolbarPrimitive.Root
-> {
+interface ToolbarProps extends ToolbarPrimitive.Root.Props {
   size?: ToolbarSize;
   shape?: ToolbarShape;
   boxed?: boolean;
@@ -155,7 +153,7 @@ interface ToolbarProps extends React.ComponentProps<
 
 function Toolbar({
   className,
-  size = 'reg',
+  size = 'default',
   shape = 'circle',
   boxed = false,
   orientation = 'horizontal',
@@ -168,6 +166,7 @@ function Toolbar({
         data-size={size}
         data-shape={shape}
         data-boxed={boxed}
+        data-orientation={orientation}
         orientation={orientation}
         className={cn(
           toolbarVariants({ boxed, orientation, shape, size }),
@@ -180,16 +179,19 @@ function Toolbar({
   );
 }
 
-function ToolbarButton({
-  className,
-  ...props
-}: React.ComponentProps<typeof ToolbarPrimitive.Button>) {
+function ToolbarButton({ className, ...props }: ToolbarPrimitive.Button.Props) {
   const context = useToolbar();
 
   return (
     <ToolbarPrimitive.Button
       data-slot="toolbar-button"
-      className={toolbarItemClasses({ ...context, className })}
+      className={state =>
+        toolbarItemClasses({
+          ...context,
+          className:
+            typeof className === 'function' ? className(state) : className,
+        })
+      }
       {...props}
     />
   );
@@ -198,19 +200,12 @@ function ToolbarButton({
 function ToolbarSeparator({
   className,
   ...props
-}: Omit<
-  React.ComponentProps<typeof ToolbarPrimitive.Separator>,
-  'decorative' | 'orientation'
->) {
+}: ToolbarPrimitive.Separator.Props) {
   const context = useToolbar();
 
   return (
     <ToolbarPrimitive.Separator
       data-slot="toolbar-separator"
-      decorative
-      orientation={
-        context.orientation === 'horizontal' ? 'vertical' : 'horizontal'
-      }
       className={cn(
         'border-stroke-tertiary shrink-0',
         toolbarSeparatorOffsetClass(context),
@@ -232,15 +227,12 @@ function ToolbarSeparator({
   );
 }
 
-function ToolbarToggleGroup({
-  className,
-  ...props
-}: React.ComponentProps<typeof ToolbarPrimitive.ToggleGroup>) {
+function ToolbarGroup({ className, ...props }: ToolbarPrimitive.Group.Props) {
   const { boxed, shape, size, orientation } = useToolbar();
 
   return (
-    <ToolbarPrimitive.ToggleGroup
-      data-slot="toolbar-toggle-group"
+    <ToolbarPrimitive.Group
+      data-slot="toolbar-group"
       className={cn(
         'inline-flex items-center',
         toolbarGapClass({ boxed, shape, size }),
@@ -252,20 +244,13 @@ function ToolbarToggleGroup({
   );
 }
 
-function ToolbarToggleItem({
-  className,
-  ...props
-}: React.ComponentProps<typeof ToolbarPrimitive.ToggleItem>) {
-  const context = useToolbar();
-
+function ToolbarLink({ className, ...props }: ToolbarPrimitive.Link.Props) {
   return (
-    <ToolbarPrimitive.ToggleItem
-      data-slot="toolbar-toggle-item"
+    <ToolbarPrimitive.Link
+      data-slot="toolbar-link"
       className={cn(
-        toolbarItemClasses(context),
-        'data-[state=on]:bg-fill-active data-[state=on]:text-fg-primary-inverse',
-        'disabled:data-[state=on]:text-fg-disabled disabled:data-[state=on]:bg-transparent',
-        'disabled:data-[state=on]:hover:bg-transparent disabled:data-[state=on]:active:bg-transparent',
+        'paragraph-small-primary text-fg-tertiary hover:text-fg-secondary px-2 whitespace-nowrap outline-none',
+        'focus-visible:ring-stroke-status-focus focus-visible:ring-1',
         className,
       )}
       {...props}
@@ -276,9 +261,9 @@ function ToolbarToggleItem({
 export {
   Toolbar,
   ToolbarButton,
+  ToolbarGroup,
+  ToolbarLink,
   ToolbarSeparator,
-  ToolbarToggleGroup,
-  ToolbarToggleItem,
   toolbarIconShellSizeMap,
   useToolbar,
   type ToolbarSize,
