@@ -50,7 +50,7 @@ const COMPONENT_GROUPS: { label: string; names: string[] }[] = [
 ];
 
 const groupedNames = new Set(COMPONENT_GROUPS.flatMap(g => g.names));
-const EXCLUDED_NAMES = new Set(['label']);
+const EXCLUDED_NAMES = new Set(['label', 'toggle-group']);
 
 type SidebarEntry =
   | {

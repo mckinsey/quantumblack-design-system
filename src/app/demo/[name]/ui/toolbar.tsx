@@ -1,59 +1,95 @@
 'use client';
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectItemIndicator,
+  SelectItemText,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import {
   Toolbar,
   ToolbarButton,
+  ToolbarGroup,
   ToolbarSeparator,
-  ToolbarToggleGroup,
-  ToolbarToggleItem,
   toolbarIconShellSizeMap,
   useToolbar,
 } from '@/components/ui/toolbar';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 
-function ToolbarIcon() {
+const toolbarTextButtonClass = 'h-9 w-auto min-w-9 px-2';
+
+function SelectCheck() {
+  return (
+    <SelectItemIndicator>
+      <IconShell size="sm">
+        <Icon icon="check" />
+      </IconShell>
+    </SelectItemIndicator>
+  );
+}
+
+function ToolbarIcon({ icon }: { icon: string }) {
   const { size } = useToolbar();
 
   return (
     <IconShell size={toolbarIconShellSizeMap[size]} variant="secondary">
-      <Icon icon="crop_free" />
+      <Icon icon={icon} />
     </IconShell>
   );
 }
 
 function DefaultToolbarItems() {
+  const { orientation } = useToolbar();
+
   return (
     <>
-      <ToolbarToggleGroup type="single" defaultValue="tool-1">
-        <ToolbarToggleItem aria-label="Tool 1" value="tool-1">
-          <ToolbarIcon />
-        </ToolbarToggleItem>
-        <ToolbarToggleItem aria-label="Tool 2" value="tool-2">
-          <ToolbarIcon />
-        </ToolbarToggleItem>
-        <ToolbarToggleItem aria-label="Tool 3" value="tool-3">
-          <ToolbarIcon />
-        </ToolbarToggleItem>
-        <ToolbarToggleItem aria-label="Tool 4" value="tool-4">
-          <ToolbarIcon />
-        </ToolbarToggleItem>
-      </ToolbarToggleGroup>
+      <ToolbarGroup
+        aria-label="Text alignment"
+        render={
+          <ToggleGroup
+            defaultValue={['align-left']}
+            orientation={orientation}
+          />
+        }>
+        <ToolbarButton
+          aria-label="Align left"
+          render={<ToggleGroupItem value="align-left" />}
+          value="align-left">
+          <ToolbarIcon icon="format_align_left" />
+        </ToolbarButton>
+        <ToolbarButton
+          aria-label="Align center"
+          render={<ToggleGroupItem value="align-center" />}
+          value="align-center">
+          <ToolbarIcon icon="format_align_center" />
+        </ToolbarButton>
+        <ToolbarButton
+          aria-label="Align right"
+          render={<ToggleGroupItem value="align-right" />}
+          value="align-right">
+          <ToolbarIcon icon="format_align_right" />
+        </ToolbarButton>
+        <ToolbarButton
+          aria-label="Justify"
+          render={<ToggleGroupItem value="align-justify" />}
+          value="align-justify">
+          <ToolbarIcon icon="format_align_justify" />
+        </ToolbarButton>
+      </ToolbarGroup>
 
       <ToolbarSeparator />
 
-      <ToolbarButton aria-label="Tool 5">
-        <ToolbarIcon />
+      <ToolbarButton aria-label="Undo">
+        <ToolbarIcon icon="undo" />
       </ToolbarButton>
-      <ToolbarButton aria-label="Tool 6">
-        <ToolbarIcon />
+      <ToolbarButton aria-label="Redo">
+        <ToolbarIcon icon="redo" />
       </ToolbarButton>
     </>
   );
@@ -61,9 +97,14 @@ function DefaultToolbarItems() {
 
 export function ToolbarDemo() {
   return (
-    <Toolbar aria-label="Editor tools">
-      <DefaultToolbarItems />
-    </Toolbar>
+    <div className="flex flex-col gap-6">
+      <Toolbar aria-label="Circle shape tools" shape="circle">
+        <DefaultToolbarItems />
+      </Toolbar>
+      <Toolbar aria-label="Square shape tools" shape="square">
+        <DefaultToolbarItems />
+      </Toolbar>
+    </div>
   );
 }
 
@@ -99,7 +140,7 @@ export function ToolbarSizes() {
       <Toolbar aria-label="Small tools" boxed size="sm">
         <DefaultToolbarItems />
       </Toolbar>
-      <Toolbar aria-label="Regular tools" boxed size="reg">
+      <Toolbar aria-label="Default tools" boxed>
         <DefaultToolbarItems />
       </Toolbar>
       <Toolbar aria-label="Large tools" boxed size="lg">
@@ -122,31 +163,75 @@ export function ToolbarVertical() {
   );
 }
 
-export function ToolbarWithDropdown() {
+export function ToolbarComposition() {
   return (
-    <Toolbar aria-label="Tools with menu" boxed>
-      <ToolbarToggleGroup type="single" defaultValue="tool-1">
-        <ToolbarToggleItem aria-label="Tool 1" value="tool-1">
-          <ToolbarIcon />
-        </ToolbarToggleItem>
-        <ToolbarToggleItem aria-label="Tool 2" value="tool-2">
-          <ToolbarIcon />
-        </ToolbarToggleItem>
-      </ToolbarToggleGroup>
+    <Toolbar aria-label="Document tools" boxed shape="square">
+      <ToggleGroup aria-label="Alignment" defaultValue={['align-left']}>
+        <ToolbarButton
+          aria-label="Align left"
+          className={toolbarTextButtonClass}
+          render={<ToggleGroupItem value="align-left" />}
+          value="align-left">
+          Align Left
+        </ToolbarButton>
+        <ToolbarButton
+          aria-label="Align right"
+          className={toolbarTextButtonClass}
+          render={<ToggleGroupItem value="align-right" />}
+          value="align-right">
+          Align Right
+        </ToolbarButton>
+      </ToggleGroup>
 
       <ToolbarSeparator />
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <ToolbarButton aria-label="Tool 3">
-            <ToolbarIcon />
-          </ToolbarButton>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="start">
-          <DropdownMenuItem>Duplicate</DropdownMenuItem>
-          <DropdownMenuItem>Export</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <ToolbarGroup aria-label="Numerical format">
+        <ToolbarButton aria-label="Format as currency">$</ToolbarButton>
+        <ToolbarButton aria-label="Format as percent">%</ToolbarButton>
+      </ToolbarGroup>
+
+      <ToolbarSeparator />
+
+      <Select defaultValue="helvetica" size="sm">
+        <SelectTrigger aria-label="Font family" className="min-w-28">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="helvetica">
+            <SelectItemText>Helvetica</SelectItemText>
+            <SelectCheck />
+          </SelectItem>
+          <SelectItem value="arial">
+            <SelectItemText>Arial</SelectItemText>
+            <SelectCheck />
+          </SelectItem>
+        </SelectContent>
+      </Select>
+      <ToolbarSeparator />
+
+      <Select defaultValue="14" size="sm">
+        <SelectTrigger aria-label="Font size" className="min-w-16">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="12">
+            <SelectItemText>12</SelectItemText>
+            <SelectCheck />
+          </SelectItem>
+          <SelectItem value="14">
+            <SelectItemText>14</SelectItemText>
+            <SelectCheck />
+          </SelectItem>
+          <SelectItem value="16">
+            <SelectItemText>16</SelectItemText>
+            <SelectCheck />
+          </SelectItem>
+          <SelectItem value="18">
+            <SelectItemText>18</SelectItemText>
+            <SelectCheck />
+          </SelectItem>
+        </SelectContent>
+      </Select>
     </Toolbar>
   );
 }
@@ -156,33 +241,37 @@ export const examples: DemoExample[] = [
     name: 'ToolbarDemo',
     title: 'Default',
     description:
-      'Unboxed horizontal toolbar (default) with toggle group, separator, and icon actions.',
+      'Unboxed circle and square toolbars with text-alignment toggles, a separator, and undo/redo actions.',
   },
   {
     name: 'ToolbarBoxed',
     title: 'Boxed',
     description:
-      'Optional boxed container with elevation; compare with the default unboxed layout.',
+      'Same tools inside an elevated boxed container, shown next to the unboxed layout.',
   },
   {
     name: 'ToolbarShapes',
     title: 'Shapes',
-    description: 'Circle and square container and button shapes.',
+    description:
+      'Boxed toolbars with circle (pill) and square container and button shapes.',
   },
   {
     name: 'ToolbarSizes',
     title: 'Sizes',
-    description: 'Small, regular, and large toolbar sizes.',
+    description:
+      'Small, default, and large sizes for icon buttons and spacing.',
   },
   {
     name: 'ToolbarVertical',
     title: 'Vertical',
-    description: 'Vertical orientation with boxed and unboxed variants.',
+    description:
+      'Stacked orientation for side panels — boxed and unboxed side by side.',
   },
   {
-    name: 'ToolbarWithDropdown',
-    title: 'With Dropdown',
-    description: 'Toolbar button composed with a dropdown menu trigger.',
+    name: 'ToolbarComposition',
+    title: 'Composition',
+    description:
+      'Mixed controls in one bar: alignment toggles, number format buttons, and font family/size selects.',
   },
 ];
 
@@ -192,5 +281,5 @@ export const toolbar = createLegacyDemo('toolbar', examples, {
   ToolbarShapes: <ToolbarShapes />,
   ToolbarSizes: <ToolbarSizes />,
   ToolbarVertical: <ToolbarVertical />,
-  ToolbarWithDropdown: <ToolbarWithDropdown />,
+  ToolbarComposition: <ToolbarComposition />,
 });

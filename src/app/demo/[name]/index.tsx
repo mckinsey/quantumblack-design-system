@@ -370,11 +370,11 @@ import {
 } from '@/app/demo/[name]/ui/toggle';
 import {
   ToolbarBoxed,
+  ToolbarComposition,
   ToolbarDemo,
   ToolbarShapes,
   ToolbarSizes,
   ToolbarVertical,
-  ToolbarWithDropdown,
   toolbar,
   examples as toolbarExamples,
 } from '@/app/demo/[name]/ui/toolbar';
@@ -702,7 +702,7 @@ export const exampleComponentMaps: Record<
     ToolbarShapes,
     ToolbarSizes,
     ToolbarVertical,
-    ToolbarWithDropdown,
+    ToolbarComposition,
   },
   tooltip: {
     TooltipDemo,
