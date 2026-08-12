@@ -1,22 +1,19 @@
 import { spawn } from 'node:child_process';
 import {
   cpSync,
-  existsSync,
   mkdirSync,
   mkdtempSync,
   readFileSync,
   rmSync,
   writeFileSync,
 } from 'node:fs';
-import { createServer } from 'node:http';
-import type { AddressInfo } from 'node:net';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PUBLIC = path.join(ROOT, 'public');
-const HOST = '127.0.0.1';
+const REGISTRY = path.join(PUBLIC, 'r');
 
 const CONSUMER = {
   'package.json': {
@@ -84,40 +81,6 @@ function run(
   });
 }
 
-function serve(root: string): Promise<{ base: string; close: () => void }> {
-  const server = createServer((req, res) => {
-    const rel =
-      decodeURIComponent((req.url ?? '/').split('?')[0] ?? '/').replace(
-        /^\/+/,
-        '',
-      ) || 'index.html';
-    const file = path.normalize(path.join(root, rel));
-
-    if (!file.startsWith(root) || !existsSync(file)) {
-      res.writeHead(404);
-      res.end();
-      return;
-    }
-
-    res.writeHead(200);
-    res.end(readFileSync(file));
-  });
-
-  return new Promise(resolve => {
-    server.listen(0, HOST, () => {
-      const { port } = server.address() as AddressInfo;
-
-      resolve({
-        base: `http://${HOST}:${port}`,
-        close: () => {
-          server.closeAllConnections();
-          server.close();
-        },
-      });
-    });
-  });
-}
-
 function writeConsumer(dir: string): void {
   mkdirSync(path.join(dir, 'src'), { recursive: true });
   writeFileSync(path.join(dir, 'src/index.css'), "@import 'tailwindcss';\n");
@@ -139,15 +102,14 @@ async function main(): Promise<void> {
     .filter(i => i.type === 'registry:ui')
     .map(i => i.name);
 
-  const server = await serve(PUBLIC);
-  const env = { ...process.env, QBDS_REGISTRY_URL: server.base };
+  const env = { ...process.env, QBDS_REGISTRY_URL: PUBLIC };
   const consumer = mkdtempSync(path.join(tmpdir(), 'qbds-registry-install-'));
 
   try {
     await run('npx', ['--yes', 'shadcn@latest', 'build'], { env });
     cpSync(
       path.join(ROOT, 'registry.json'),
-      path.join(PUBLIC, 'r/registry.json'),
+      path.join(REGISTRY, 'registry.json'),
     );
     await run('npx', ['tsx', 'scripts/inject-registry-urls.ts'], { env });
 
@@ -160,12 +122,11 @@ async function main(): Promise<void> {
         'add',
         '-y',
         '-o',
-        ...names.map(name => `${server.base}/r/${name}.json`),
+        ...names.map(name => path.join(REGISTRY, `${name}.json`)),
       ],
       { cwd: consumer, env },
     );
   } finally {
-    server.close();
     rmSync(consumer, { recursive: true, force: true });
   }
 
