@@ -1,4 +1,9 @@
-import { FieldDescription, FieldLabel, FieldSet } from '@/components/ui/field';
+import {
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+  FieldSet,
+} from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
@@ -171,84 +176,103 @@ export function InputStates() {
         'aria-invalid': true,
         placeholder: 'Placeholder',
       } as const,
-      statusDescriptionClass: 'text-status-error',
-      descriptionText: 'Feedback message here',
+      feedback: {
+        tone: 'error' as const,
+        text: 'Feedback message here',
+      },
     },
     {
       label: 'Warning',
       props: {
-        className: '!border-status-warning',
+        className: '!border-stroke-status-warning',
         placeholder: 'Placeholder',
       },
       inlineProps: {
-        className: '!border-b-status-warning',
+        className: '!border-b-stroke-status-warning',
         placeholder: 'Placeholder',
       },
-      statusDescriptionClass: 'text-status-warning',
-      descriptionText: 'Feedback message here',
+      feedback: {
+        tone: 'warning' as const,
+        text: 'Feedback message here',
+      },
     },
     {
       label: 'Success',
       props: {
-        className: '!border-status-success',
+        className: '!border-stroke-status-success',
         placeholder: 'Placeholder',
       },
       inlineProps: {
-        className: '!border-b-status-success',
+        className: '!border-b-stroke-status-success',
         placeholder: 'Placeholder',
       },
-      statusDescriptionClass: 'text-status-success',
-      descriptionText: 'Feedback message here',
+      feedback: {
+        tone: 'success' as const,
+        text: 'Feedback message here',
+      },
     },
   ];
 
+  const feedbackClass = {
+    error: 'text-status-error',
+    warning: 'text-status-warning',
+    success: 'text-status-success',
+  } as const;
+
   return (
     <div className="space-y-6">
-      {states.map(
-        ({
-          label,
-          props,
-          inlineProps,
-          statusDescriptionClass,
-          descriptionText,
-        }) => {
-          const stateIdBase = `input-state-${label.toLowerCase().replaceAll(' ', '-')}`;
+      {states.map(({ label, props, inlineProps, feedback }) => {
+        const stateIdBase = `input-state-${label.toLowerCase().replaceAll(' ', '-')}`;
 
-          return (
-            <div key={label} className="flex gap-6">
-              <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-                <FieldLabel
-                  htmlFor={stateIdBase}
-                  className={getInputLabelClass('default')}>
-                  Label
-                </FieldLabel>
-                <Input id={stateIdBase} {...props} />
-                <FieldDescription
-                  className={`${descriptionClass} ${statusDescriptionClass ?? ''}`}>
-                  {descriptionText ?? 'Helper text'}
-                </FieldDescription>
-              </FieldSet>
-
-              <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-                <FieldLabel
-                  htmlFor={`${stateIdBase}-inline`}
-                  className={getInputLabelClass('default', 'inline')}>
-                  Label
-                </FieldLabel>
-                <Input
-                  id={`${stateIdBase}-inline`}
-                  variant="inline"
-                  {...inlineProps}
-                />
-                <FieldDescription
-                  className={`${descriptionClass} ${statusDescriptionClass ?? ''}`}>
-                  {descriptionText ?? 'Helper text'}
-                </FieldDescription>
-              </FieldSet>
-            </div>
+        const footer = (key: string) =>
+          feedback ? (
+            feedback.tone === 'error' ? (
+              <FieldError
+                key={key}
+                className={`${descriptionClass} ${feedbackClass.error}`}>
+                {feedback.text}
+              </FieldError>
+            ) : (
+              <FieldDescription
+                key={key}
+                className={`${descriptionClass} ${feedbackClass[feedback.tone]}`}>
+                {feedback.text}
+              </FieldDescription>
+            )
+          ) : (
+            <FieldDescription key={key} className={descriptionClass}>
+              Helper text
+            </FieldDescription>
           );
-        },
-      )}
+
+        return (
+          <div key={label} className="flex gap-6">
+            <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
+              <FieldLabel
+                htmlFor={stateIdBase}
+                className={getInputLabelClass('default')}>
+                Label
+              </FieldLabel>
+              <Input id={stateIdBase} {...props} />
+              {footer(`${stateIdBase}-footer`)}
+            </FieldSet>
+
+            <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
+              <FieldLabel
+                htmlFor={`${stateIdBase}-inline`}
+                className={getInputLabelClass('default', 'inline')}>
+                Label
+              </FieldLabel>
+              <Input
+                id={`${stateIdBase}-inline`}
+                variant="inline"
+                {...inlineProps}
+              />
+              {footer(`${stateIdBase}-inline-footer`)}
+            </FieldSet>
+          </div>
+        );
+      })}
     </div>
   );
 }
