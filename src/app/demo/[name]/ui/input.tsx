@@ -184,11 +184,11 @@ export function InputStates() {
     {
       label: 'Warning',
       props: {
-        className: '!border-stroke-status-warning',
+        className: 'border-stroke-status-warning',
         placeholder: 'Placeholder',
       },
       inlineProps: {
-        className: '!border-b-stroke-status-warning',
+        className: 'border-b-stroke-status-warning',
         placeholder: 'Placeholder',
       },
       feedback: {
@@ -199,11 +199,11 @@ export function InputStates() {
     {
       label: 'Success',
       props: {
-        className: '!border-stroke-status-success',
+        className: 'border-stroke-status-success',
         placeholder: 'Placeholder',
       },
       inlineProps: {
-        className: '!border-b-stroke-status-success',
+        className: 'border-b-stroke-status-success',
         placeholder: 'Placeholder',
       },
       feedback: {

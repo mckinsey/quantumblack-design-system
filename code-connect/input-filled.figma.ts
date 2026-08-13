@@ -50,9 +50,9 @@ const hasValue =
 
 const statusClass =
   state === 'warning'
-    ? ' className="!border-stroke-status-warning"'
+    ? ' className="border-stroke-status-warning"'
     : state === 'success'
-      ? ' className="!border-stroke-status-success"'
+      ? ' className="border-stroke-status-success"'
       : '';
 
 const props = [

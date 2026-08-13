@@ -48,9 +48,9 @@ const hasValue =
 
 const statusClass =
   state === 'warning'
-    ? ' className="!border-b-stroke-status-warning"'
+    ? ' className="border-b-stroke-status-warning"'
     : state === 'success'
-      ? ' className="!border-b-stroke-status-success"'
+      ? ' className="border-b-stroke-status-success"'
       : '';
 
 const props = [
