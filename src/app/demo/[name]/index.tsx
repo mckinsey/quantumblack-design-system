@@ -199,6 +199,7 @@ import {
   examples as inputExamples,
 } from '@/app/demo/[name]/ui/input';
 import {
+  InputGroupAffixes,
   InputGroupBothSides,
   InputGroupDeleteOnFocus,
   InputGroupDemo,
@@ -558,6 +559,7 @@ export const exampleComponentMaps: Record<
   },
   'input-group': {
     InputGroupDemo,
+    InputGroupAffixes,
     InputGroupLeadingIcon,
     InputGroupTrailing,
     InputGroupBothSides,
