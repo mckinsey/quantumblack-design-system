@@ -297,38 +297,20 @@ export function InputTypes() {
  * Horizontal — label beside inline input (InputGroup-Horizontal)
  */
 export function InputHorizontal() {
-  const sizes = [
-    { size: 'sm' as const },
-    { size: 'default' as const },
-    { size: 'lg' as const },
-  ];
+  const { label } = inputFieldConfig.default;
 
   return (
-    <div className="space-y-6">
-      {sizes.map(({ size }) => {
-        const id = `input-horizontal-${size}`;
-
-        return (
-          <Field
-            key={size}
-            orientation="horizontal"
-            className="w-fit items-center gap-3">
-            <FieldLabel
-              htmlFor={id}
-              className={cn(inputFieldConfig[size].label, 'shrink-0')}>
-              Field label
-            </FieldLabel>
-            <Input
-              id={id}
-              size={size}
-              variant="inline"
-              placeholder="Hint text"
-              className={FIELD_WIDTH}
-            />
-          </Field>
-        );
-      })}
-    </div>
+    <Field orientation="horizontal" className="w-fit items-center gap-3">
+      <FieldLabel htmlFor="input-horizontal" className={cn(label, 'shrink-0')}>
+        Field label
+      </FieldLabel>
+      <Input
+        id="input-horizontal"
+        variant="inline"
+        placeholder="Hint text"
+        className={FIELD_WIDTH}
+      />
+    </Field>
   );
 }
 
@@ -369,7 +351,7 @@ export const examples = [
     name: 'InputHorizontal',
     title: 'Horizontal',
     description:
-      'Horizontal layout — field label beside inline input across sizes.',
+      'Horizontal layout — field label beside inline input (default size).',
   },
 ];
 

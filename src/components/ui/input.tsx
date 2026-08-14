@@ -40,8 +40,7 @@ export const inputVariantStyles = {
     border: 'border-b-stroke-tertiary',
     text: 'text-fg-primary placeholder:text-fg-tertiary',
     hover: 'hover:border-b-stroke-tertiary-hover',
-    focus:
-      'focus-visible:border-b-stroke-status-focus focus-visible:ring-0 focus-visible:shadow-elevation-0',
+    focus: 'focus-visible:border-b-stroke-status-focus focus-visible:ring-0',
     error:
       'aria-invalid:border-b-stroke-status-error aria-invalid:focus-visible:border-b-stroke-status-error',
     disabled:
@@ -72,6 +71,9 @@ export const inputInlineFocusBorderWidth = {
   default: 'focus-visible:border-b-[1px]',
   lg: 'focus-visible:border-b-[2px]',
 } as const;
+
+const inputInlineLgFocusUnderline =
+  'focus-visible:shadow-[0_1px_0_0_var(--color-stroke-status-focus)] aria-invalid:focus-visible:shadow-[0_1px_0_0_var(--color-stroke-status-error)]';
 
 const inputVariants = cva(
   `flex w-full min-w-0 rounded-none outline-none transition-[border-color,box-shadow,background-color] font-normal ${searchCancelButtonStyles}`,
@@ -116,18 +118,8 @@ const inputVariants = cva(
       { variant: 'default', size: 'lg', className: inputFocusRingWidth.lg },
       {
         variant: 'inline',
-        size: 'sm',
-        className: inputInlineFocusBorderWidth.sm,
-      },
-      {
-        variant: 'inline',
-        size: 'default',
-        className: inputInlineFocusBorderWidth.default,
-      },
-      {
-        variant: 'inline',
         size: 'lg',
-        className: inputInlineFocusBorderWidth.lg,
+        className: inputInlineLgFocusUnderline,
       },
     ],
     defaultVariants: {

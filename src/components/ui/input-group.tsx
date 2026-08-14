@@ -43,7 +43,6 @@ const inlineFocusStyles = [
   'data-[open=true]:shadow-elevation-0',
 ] as const;
 
-// Per-size focus border-bottom width for InputGroup inline variant
 const inputGroupInlineFocusBorderWidth = {
   sm: 'has-[[data-slot=input-group-control]:focus-visible]:border-b-[1px] data-[open=true]:border-b-[1px]',
   default:
