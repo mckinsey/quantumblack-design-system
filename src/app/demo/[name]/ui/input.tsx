@@ -1,4 +1,5 @@
 import {
+  Field,
   FieldDescription,
   FieldError,
   FieldLabel,
@@ -153,32 +154,28 @@ export function InputSizes() {
 }
 
 /**
- * Input states - default and inline variants side by side
+ * Input states — default variant
  */
 export function InputStates() {
   const { description: descriptionClass, gap } = inputFieldConfig.default;
 
   const states = [
     {
-      label: 'With Value',
+      label: 'Filled',
       props: { defaultValue: 'Some text value' },
-      inlineProps: { defaultValue: 'Some text value' },
+      helper: 'Value has been entered',
     },
     {
       label: 'Disabled',
       props: { disabled: true, placeholder: 'Placeholder' },
-      inlineProps: { disabled: true, placeholder: 'Placeholder' },
+      helper: 'This field is disabled',
     },
     {
       label: 'Error',
       props: { 'aria-invalid': true, placeholder: 'Placeholder' } as const,
-      inlineProps: {
-        'aria-invalid': true,
-        placeholder: 'Placeholder',
-      } as const,
       feedback: {
         tone: 'error' as const,
-        text: 'Feedback message here',
+        text: 'Please correct this field',
       },
     },
     {
@@ -187,13 +184,9 @@ export function InputStates() {
         className: 'border-stroke-status-warning',
         placeholder: 'Placeholder',
       },
-      inlineProps: {
-        className: 'border-b-stroke-status-warning',
-        placeholder: 'Placeholder',
-      },
       feedback: {
         tone: 'warning' as const,
-        text: 'Feedback message here',
+        text: 'Please review this value',
       },
     },
     {
@@ -202,13 +195,9 @@ export function InputStates() {
         className: 'border-stroke-status-success',
         placeholder: 'Placeholder',
       },
-      inlineProps: {
-        className: 'border-b-stroke-status-success',
-        placeholder: 'Placeholder',
-      },
       feedback: {
         tone: 'success' as const,
-        text: 'Feedback message here',
+        text: 'Looks good',
       },
     },
   ];
@@ -221,56 +210,35 @@ export function InputStates() {
 
   return (
     <div className="space-y-6">
-      {states.map(({ label, props, inlineProps, feedback }) => {
-        const stateIdBase = `input-state-${label.toLowerCase().replaceAll(' ', '-')}`;
-
-        const footer = (key: string) =>
-          feedback ? (
-            feedback.tone === 'error' ? (
-              <FieldError
-                key={key}
-                className={`${descriptionClass} ${feedbackClass.error}`}>
-                {feedback.text}
-              </FieldError>
-            ) : (
-              <FieldDescription
-                key={key}
-                className={`${descriptionClass} ${feedbackClass[feedback.tone]}`}>
-                {feedback.text}
-              </FieldDescription>
-            )
-          ) : (
-            <FieldDescription key={key} className={descriptionClass}>
-              Helper text
-            </FieldDescription>
-          );
+      {states.map(({ label, props, helper, feedback }) => {
+        const stateId = `input-state-${label.toLowerCase()}`;
 
         return (
-          <div key={label} className="flex gap-6">
-            <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-              <FieldLabel
-                htmlFor={stateIdBase}
-                className={getInputLabelClass('default')}>
-                Label
-              </FieldLabel>
-              <Input id={stateIdBase} {...props} />
-              {footer(`${stateIdBase}-footer`)}
-            </FieldSet>
-
-            <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-              <FieldLabel
-                htmlFor={`${stateIdBase}-inline`}
-                className={getInputLabelClass('default', 'inline')}>
-                Label
-              </FieldLabel>
-              <Input
-                id={`${stateIdBase}-inline`}
-                variant="inline"
-                {...inlineProps}
-              />
-              {footer(`${stateIdBase}-inline-footer`)}
-            </FieldSet>
-          </div>
+          <FieldSet key={label} className={`${FIELD_WIDTH} ${gap}`}>
+            <FieldLabel
+              htmlFor={stateId}
+              className={getInputLabelClass('default')}>
+              {label}
+            </FieldLabel>
+            <Input id={stateId} {...props} />
+            {feedback ? (
+              feedback.tone === 'error' ? (
+                <FieldError
+                  className={`${descriptionClass} ${feedbackClass.error}`}>
+                  {feedback.text}
+                </FieldError>
+              ) : (
+                <FieldDescription
+                  className={`${descriptionClass} ${feedbackClass[feedback.tone]}`}>
+                  {feedback.text}
+                </FieldDescription>
+              )
+            ) : (
+              <FieldDescription className={descriptionClass}>
+                {helper}
+              </FieldDescription>
+            )}
+          </FieldSet>
         );
       })}
     </div>
@@ -278,56 +246,88 @@ export function InputStates() {
 }
 
 /**
- * Input types - default and inline variants side by side
+ * Input types — default variant
  */
 export function InputTypes() {
   const { description, gap } = inputFieldConfig.default;
 
   const types = [
-    { label: 'Email', type: 'email' as const },
-    { label: 'Password', type: 'password' as const },
-    { label: 'Number', type: 'number' as const },
-    { label: 'Search', type: 'search' as const },
+    {
+      label: 'Email',
+      type: 'email' as const,
+      placeholder: 'name@example.com',
+      helper: 'Enter a valid email address',
+    },
+    {
+      label: 'Password',
+      type: 'password' as const,
+      placeholder: 'Enter password',
+      helper: 'Must be at least 8 characters',
+    },
+    {
+      label: 'Number',
+      type: 'number' as const,
+      placeholder: '0',
+      helper: 'Enter a numeric value',
+    },
   ];
 
   return (
     <div className="space-y-6">
-      {types.map(({ type }) => (
-        <div key={type} className="flex gap-6">
-          <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-            <FieldLabel
-              htmlFor={`input-type-${type}`}
-              className={getInputLabelClass('default')}>
-              Label
-            </FieldLabel>
-            <Input
-              id={`input-type-${type}`}
-              type={type}
-              placeholder="Placeholder"
-            />
-            <FieldDescription className={description}>
-              Helper text
-            </FieldDescription>
-          </FieldSet>
-
-          <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-            <FieldLabel
-              htmlFor={`input-type-${type}-inline`}
-              className={getInputLabelClass('default', 'inline')}>
-              Label
-            </FieldLabel>
-            <Input
-              id={`input-type-${type}-inline`}
-              type={type}
-              variant="inline"
-              placeholder="Placeholder"
-            />
-            <FieldDescription className={description}>
-              Helper text
-            </FieldDescription>
-          </FieldSet>
-        </div>
+      {types.map(({ label, type, placeholder, helper }) => (
+        <FieldSet key={type} className={`${FIELD_WIDTH} ${gap}`}>
+          <FieldLabel
+            htmlFor={`input-type-${type}`}
+            className={getInputLabelClass('default')}>
+            {label}
+          </FieldLabel>
+          <Input
+            id={`input-type-${type}`}
+            type={type}
+            placeholder={placeholder}
+          />
+          <FieldDescription className={description}>{helper}</FieldDescription>
+        </FieldSet>
       ))}
+    </div>
+  );
+}
+
+/**
+ * Horizontal — label beside inline input (InputGroup-Horizontal)
+ */
+export function InputHorizontal() {
+  const sizes = [
+    { size: 'sm' as const },
+    { size: 'default' as const },
+    { size: 'lg' as const },
+  ];
+
+  return (
+    <div className="space-y-6">
+      {sizes.map(({ size }) => {
+        const id = `input-horizontal-${size}`;
+
+        return (
+          <Field
+            key={size}
+            orientation="horizontal"
+            className="w-fit items-center gap-3">
+            <FieldLabel
+              htmlFor={id}
+              className={cn(inputFieldConfig[size].label, 'shrink-0')}>
+              Field label
+            </FieldLabel>
+            <Input
+              id={id}
+              size={size}
+              variant="inline"
+              placeholder="Hint text"
+              className={FIELD_WIDTH}
+            />
+          </Field>
+        );
+      })}
     </div>
   );
 }
@@ -357,13 +357,19 @@ export const examples = [
     name: 'InputStates',
     title: 'States',
     description:
-      'Input states (filled, disabled, error, warning, success) with default and inline variants side by side.',
+      'Input states (filled, disabled, error, warning, success) with the default variant.',
   },
   {
     name: 'InputTypes',
     title: 'Input Types',
     description:
-      'Input types (email, password, number, search) with default and inline variants side by side.',
+      'Input types (email, password, number) with the default variant.',
+  },
+  {
+    name: 'InputHorizontal',
+    title: 'Horizontal',
+    description:
+      'Horizontal layout — field label beside inline input across sizes.',
   },
 ];
 
@@ -375,5 +381,6 @@ export const input = {
     Sizes: <InputSizes />,
     States: <InputStates />,
     'Input Types': <InputTypes />,
+    Horizontal: <InputHorizontal />,
   },
 };
