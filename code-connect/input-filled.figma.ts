@@ -32,21 +32,21 @@ instance.getBoolean('showFeedbackMessage');
 instance.getBoolean('showEntryText');
 const showHintText = instance.getBoolean('showHintText');
 
-const placeholderText = instance.getString('placeholderText') || 'Placeholder';
-instance.getString('placeholderActive');
-instance.getString('inputActive');
-const entryFilled = instance.getString('entryFilled') || 'User input text';
+const placeholderText = instance.getString('placeholderText');
+const placeholderActive = instance.getString('placeholderActive');
+const inputActive = instance.getString('inputActive');
+const entryFilled = instance.getString('entryFilled');
 
 const disabled = state === 'disabled';
 const invalid = state === 'error';
-const hasValue =
+const isLive = state === 'active' || state === 'open-typeahead';
+const hasFilledValue =
   state === 'filled' ||
   state === 'error' ||
   state === 'warning' ||
   state === 'success' ||
-  state === 'active' ||
-  state === 'open-typeahead' ||
   state === 'disabled';
+const hasValue = isLive || hasFilledValue;
 
 const statusClass =
   state === 'warning'
@@ -55,18 +55,21 @@ const statusClass =
       ? ' className="border-stroke-status-success"'
       : '';
 
-const props = [
-  `size="${size}"`,
-  disabled ? 'disabled' : '',
-  invalid ? 'aria-invalid' : '',
-  hasValue ? `defaultValue="${entryFilled}"` : '',
-  showHintText || !hasValue ? `placeholder="${placeholderText}"` : '',
-]
-  .filter(Boolean)
-  .join(' ');
+const valueProp = isLive
+  ? figma.code` defaultValue="${inputActive}"`
+  : hasFilledValue
+    ? figma.code` defaultValue="${entryFilled}"`
+    : figma.code``;
+
+const placeholderProp =
+  state === 'focus'
+    ? figma.code` placeholder="${placeholderActive}"`
+    : showHintText || !hasValue
+      ? figma.code` placeholder="${placeholderText}"`
+      : figma.code``;
 
 export default {
-  example: figma.code`<Input ${props}${statusClass} />`,
+  example: figma.code`<Input size="${size}"${disabled ? ' disabled' : ''}${invalid ? ' aria-invalid' : ''}${valueProp}${placeholderProp}${statusClass} />`,
   imports: ['import { Input } from "@/components/ui/input"'],
   id: 'input-filled',
   metadata: { nestable: true },

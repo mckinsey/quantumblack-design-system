@@ -31,20 +31,20 @@ instance.getBoolean('showFeedbackIcon');
 instance.getBoolean('showFeedbackMessage');
 const showHintText = instance.getBoolean('showHintText');
 
-const hintText = instance.getString('hintText') || 'Hint text';
-instance.getString('liveEntry');
-const entryFilled = instance.getString('entryFilled') || 'User input text';
+const hintText = instance.getString('hintText');
+const liveEntry = instance.getString('liveEntry');
+const entryFilled = instance.getString('entryFilled');
 
 const disabled = state === 'disabled';
 const invalid = state === 'error';
-const hasValue =
+const isLive = state === 'active' || state === 'open-typeahead';
+const hasFilledValue =
   state === 'filled' ||
   state === 'error' ||
   state === 'warning' ||
   state === 'success' ||
-  state === 'active' ||
-  state === 'open-typeahead' ||
   state === 'disabled';
+const hasValue = isLive || hasFilledValue;
 
 const statusClass =
   state === 'warning'
@@ -53,19 +53,19 @@ const statusClass =
       ? ' className="border-b-stroke-status-success"'
       : '';
 
-const props = [
-  'variant="inline"',
-  `size="${size}"`,
-  disabled ? 'disabled' : '',
-  invalid ? 'aria-invalid' : '',
-  hasValue ? `defaultValue="${entryFilled}"` : '',
-  showHintText || !hasValue ? `placeholder="${hintText}"` : '',
-]
-  .filter(Boolean)
-  .join(' ');
+const valueProp = isLive
+  ? figma.code` defaultValue="${liveEntry}"`
+  : hasFilledValue
+    ? figma.code` defaultValue="${entryFilled}"`
+    : figma.code``;
+
+const placeholderProp =
+  showHintText || !hasValue
+    ? figma.code` placeholder="${hintText}"`
+    : figma.code``;
 
 export default {
-  example: figma.code`<Input ${props}${statusClass} />`,
+  example: figma.code`<Input variant="inline" size="${size}"${disabled ? ' disabled' : ''}${invalid ? ' aria-invalid' : ''}${valueProp}${placeholderProp}${statusClass} />`,
   imports: ['import { Input } from "@/components/ui/input"'],
   id: 'input-ghost',
   metadata: { nestable: true },
