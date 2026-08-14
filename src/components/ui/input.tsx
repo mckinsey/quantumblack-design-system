@@ -77,6 +77,11 @@ const inputVariants = cva(
   `flex w-full min-w-0 rounded-none outline-none transition-[border-color,box-shadow,background-color] font-normal ${searchCancelButtonStyles}`,
   {
     variants: {
+      size: {
+        sm: inputSizeDefinitions.sm,
+        default: inputSizeDefinitions.default,
+        lg: inputSizeDefinitions.lg,
+      },
       variant: {
         default: [
           inputVariantStyles.default.base,
@@ -90,7 +95,7 @@ const inputVariants = cva(
         ],
         inline: [
           inputVariantStyles.inline.base,
-          'px-0 py-1',
+          'px-0',
           inputVariantStyles.inline.border,
           inputVariantStyles.inline.text,
           'selection:bg-fill-active selection:text-fg-primary-inverse',
@@ -98,13 +103,7 @@ const inputVariants = cva(
           inputVariantStyles.inline.focus,
           inputVariantStyles.inline.error,
           inputVariantStyles.inline.disabled,
-          'px-0!',
         ],
-      },
-      size: {
-        sm: inputSizeDefinitions.sm,
-        default: inputSizeDefinitions.default,
-        lg: inputSizeDefinitions.lg,
       },
     },
     compoundVariants: [
