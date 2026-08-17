@@ -1,4 +1,4 @@
-import { type ReactNode, useState } from 'react';
+import { type ReactNode } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -17,10 +17,6 @@ import { FieldLabel, FieldSet } from '@/components/ui/field';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import { Input } from '@/components/ui/input';
-import {
-  SegmentedControls,
-  SegmentedControlsItem,
-} from '@/components/ui/segmented-controls';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 
 const basePath = import.meta.env.VITE_BASE_PATH ?? '';
@@ -336,67 +332,41 @@ export function CardSize() {
   );
 }
 
-const insetOptions = [
-  { value: '4', label: '16px', className: '[--card-inset:--spacing(4)]' },
-  { value: '5', label: '20px', className: '[--card-inset:--spacing(5)]' },
-  { value: '6', label: '24px', className: '[--card-inset:--spacing(6)]' },
-  { value: '8', label: '32px', className: '[--card-inset:--spacing(8)]' },
-] as const;
-
-function SpacingCard() {
-  const [inset, setInset] = useState('4');
-  const selected = insetOptions.find(o => o.value === inset) ?? insetOptions[0];
-
+function LoginCard() {
   return (
-    <div className="flex w-full max-w-sm flex-col items-stretch gap-4">
-      <SegmentedControls
-        value={inset}
-        onValueChange={value => {
-          if (value) setInset(value);
-        }}
-        size="sm"
-        type="ghost"
-        className="w-full justify-center">
-        {insetOptions.map(option => (
-          <SegmentedControlsItem key={option.value} value={option.value}>
-            {option.label}
-          </SegmentedControlsItem>
-        ))}
-      </SegmentedControls>
-      <Card className={`w-full ${selected.className}`}>
-        <CardHeader className="flex-col items-start justify-start gap-1 pb-(--card-inset)">
-          <CardTitle>Login to your account</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="gap-6">
-          <FieldSet className="gap-2">
-            <FieldLabel htmlFor="card-inset-email">Email</FieldLabel>
-            <Input
-              id="card-inset-email"
-              type="email"
-              placeholder="name@example.com"
-            />
-          </FieldSet>
-          <FieldSet className="gap-2">
-            <div className="flex items-center justify-between gap-2">
-              <FieldLabel htmlFor="card-inset-password">Password</FieldLabel>
-              <Button variant="ghost" size="sm" className="h-auto px-0 py-0">
-                Forgot your password?
-              </Button>
-            </div>
-            <Input id="card-inset-password" type="password" />
-          </FieldSet>
-        </CardContent>
-        <CardFooter className="flex-col items-stretch gap-2 pt-(--card-inset)">
-          <Button className="w-full">Login</Button>
-          <Button variant="outline" className="w-full">
-            Signup
-          </Button>
-        </CardFooter>
-      </Card>
-    </div>
+    <Card className="w-full max-w-sm [--card-inset:--spacing(5)]">
+      <CardHeader className="flex-col items-start justify-start gap-1 pb-(--card-inset)">
+        <CardTitle>Login to your account</CardTitle>
+        <CardDescription>
+          Enter your email below to login to your account
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="gap-6">
+        <FieldSet className="gap-2">
+          <FieldLabel htmlFor="card-inset-email">Email</FieldLabel>
+          <Input
+            id="card-inset-email"
+            type="email"
+            placeholder="name@example.com"
+          />
+        </FieldSet>
+        <FieldSet className="gap-2">
+          <div className="flex items-center justify-between gap-2">
+            <FieldLabel htmlFor="card-inset-password">Password</FieldLabel>
+            <Button variant="ghost" size="sm" className="h-auto px-0 py-0">
+              Forgot your password?
+            </Button>
+          </div>
+          <Input id="card-inset-password" type="password" />
+        </FieldSet>
+      </CardContent>
+      <CardFooter className="flex-col items-stretch gap-2 pt-(--card-inset)">
+        <Button className="w-full">Login</Button>
+        <Button variant="outline" className="w-full">
+          Signup
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }
 
@@ -444,7 +414,7 @@ function EdgeToEdgeCard() {
 export function CardOverride() {
   return (
     <DemoRow>
-      <SpacingCard />
+      <LoginCard />
       <EdgeToEdgeCard />
     </DemoRow>
   );
@@ -483,7 +453,7 @@ export const examples: DemoExample[] = [
     name: 'CardOverride',
     title: 'Custom cards',
     description:
-      'Adjust padding live, or scroll content that stretches edge to edge above the footer.',
+      'Login form with 20px inset, or scroll content that stretches edge to edge above the footer.',
   },
 ];
 
