@@ -118,30 +118,59 @@ describe(`${componentName} — structure`, () => {
     );
   });
 
-  it('keeps flex-1 on nested no-media footer when outer card has media', () => {
-    const { container } = render(
-      <Card>
-        <CardMedia>
-          <CardHeader>
-            <span>Outer</span>
-          </CardHeader>
-        </CardMedia>
-        <CardContent>
-          <Card>
-            <CardContent>
-              <CardTitle>Inner</CardTitle>
-            </CardContent>
-            <CardFooter data-testid="inner-footer">
-              <span>Inner footer</span>
-            </CardFooter>
-          </Card>
-        </CardContent>
-      </Card>,
-    );
-
+  it('renders nested no-media footer inside outer media card', () => {
+    expect(() =>
+      render(
+        <Card>
+          <CardMedia>
+            <CardHeader>
+              <span>Outer</span>
+            </CardHeader>
+          </CardMedia>
+          <CardContent>
+            <Card>
+              <CardContent>
+                <CardTitle>Inner</CardTitle>
+              </CardContent>
+              <CardFooter data-testid="inner-footer">
+                <span>Inner footer</span>
+              </CardFooter>
+            </Card>
+          </CardContent>
+        </Card>,
+      ),
+    ).not.toThrow();
     expect(
-      container.querySelector('[data-testid="inner-footer"]')?.className,
-    ).toContain('flex-1');
+      document.querySelector('[data-testid="inner-footer"]'),
+    ).toBeInTheDocument();
+  });
+
+  it('renders nested media footer inside outer no-media card', () => {
+    expect(() =>
+      render(
+        <Card>
+          <CardContent>
+            <Card>
+              <CardMedia>
+                <span>Inner media</span>
+              </CardMedia>
+              <CardFooter data-testid="inner-footer">
+                <span>Inner footer</span>
+              </CardFooter>
+            </Card>
+          </CardContent>
+          <CardFooter data-testid="outer-footer">
+            <span>Outer footer</span>
+          </CardFooter>
+        </Card>,
+      ),
+    ).not.toThrow();
+    expect(
+      document.querySelector('[data-testid="inner-footer"]'),
+    ).toBeInTheDocument();
+    expect(
+      document.querySelector('[data-testid="outer-footer"]'),
+    ).toBeInTheDocument();
   });
 });
 

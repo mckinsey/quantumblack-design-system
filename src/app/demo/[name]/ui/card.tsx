@@ -248,7 +248,7 @@ export function CardDemo() {
 export function CardWithImage() {
   return (
     <DemoRow>
-      <Card className="aspect-[3/4] w-[360px]">
+      <Card className="w-[360px]">
         <CardMedia>
           <img src={demoImg(640, 320, 'Featured')} alt="" />
           <CardHeader>
@@ -264,8 +264,9 @@ export function CardWithImage() {
             faster.
           </CardDescription>
         </CardContent>
-        <CardFooter className="justify-end">
-          <Button>View Event</Button>
+        <CardFooter className="justify-end gap-2">
+          <Button>Share</Button>
+          <Button variant="outline">View Event</Button>
         </CardFooter>
       </Card>
     </DemoRow>

@@ -126,7 +126,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<'div'>) {
       data-slot="card-footer"
       className={cn(
         'mt-auto flex items-end justify-between px-(--card-inset) pb-(--card-inset)',
-        '[[data-slot=card]:not(:has(>[data-slot=card-media]))_&]:min-h-0 [[data-slot=card]:not(:has(>[data-slot=card-media]))_&]:flex-1',
+        '[[data-slot=card]:not(:has(>[data-slot=card-media]))>_&]:min-h-0 [[data-slot=card]:not(:has(>[data-slot=card-media]))>_&]:flex-1',
         className,
       )}
       {...props}
