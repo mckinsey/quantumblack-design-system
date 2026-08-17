@@ -10,21 +10,15 @@ import { cn } from '@/lib/utils';
 
 const FIELD_WIDTH = 'w-[240px]';
 
-// Per-size field layout config: typography + gap
+// Per-size field layout config:  gap
 const inputFieldConfig = {
   sm: {
-    label: 'label-small-primary text-fg-secondary',
-    description: 'paragraph-small-primary text-fg-tertiary',
     gap: 'gap-2',
   },
   default: {
-    label: 'label-regular-primary text-fg-secondary',
-    description: 'paragraph-regular-primary text-fg-tertiary',
     gap: 'gap-2',
   },
   lg: {
-    label: 'label-large-primary text-fg-secondary',
-    description: 'paragraph-regular-primary text-fg-tertiary',
     gap: 'gap-2',
   },
 } as const;
@@ -33,10 +27,7 @@ const getInputLabelClass = (
   size: keyof typeof inputFieldConfig,
   variant: 'default' | 'inline' = 'default',
 ) => {
-  return cn(
-    inputFieldConfig[size].label,
-    variant === 'inline' && size !== 'sm' && 'mb-[-4px]',
-  );
+  return cn(variant === 'inline' && size !== 'sm' && 'mb-[-4px]');
 };
 
 // ============================================================================
@@ -47,7 +38,7 @@ const getInputLabelClass = (
  * Default input example
  */
 export function InputDemo() {
-  const { description, gap } = inputFieldConfig.default;
+  const { gap } = inputFieldConfig.default;
 
   return (
     <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
@@ -57,7 +48,7 @@ export function InputDemo() {
         Label
       </FieldLabel>
       <Input id="input-demo" placeholder="Placeholder" />
-      <FieldDescription className={description}>Helper text</FieldDescription>
+      <FieldDescription>Helper text</FieldDescription>
     </FieldSet>
   );
 }
@@ -66,7 +57,7 @@ export function InputDemo() {
  * Input variants - default and inline
  */
 export function InputVariants() {
-  const { description, gap } = inputFieldConfig.default;
+  const { gap } = inputFieldConfig.default;
 
   return (
     <div className={`${FIELD_WIDTH} space-y-4`}>
@@ -77,7 +68,7 @@ export function InputVariants() {
           Label
         </FieldLabel>
         <Input id="input-variant-default" placeholder="Placeholder" />
-        <FieldDescription className={description}>Helper text</FieldDescription>
+        <FieldDescription>Helper text</FieldDescription>
       </FieldSet>
 
       <FieldSet className={gap}>
@@ -91,7 +82,7 @@ export function InputVariants() {
           variant="inline"
           placeholder="Placeholder"
         />
-        <FieldDescription className={description}>Helper text</FieldDescription>
+        <FieldDescription>Helper text</FieldDescription>
       </FieldSet>
     </div>
   );
@@ -110,13 +101,14 @@ export function InputSizes() {
   return (
     <div className="space-y-6">
       {sizes.map(({ size }) => {
-        const { description, gap } = inputFieldConfig[size];
+        const { gap } = inputFieldConfig[size];
 
         return (
           <div key={size} className="flex gap-6">
             <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
               <FieldLabel
                 htmlFor={`input-size-${size}`}
+                size={size}
                 className={getInputLabelClass(size)}>
                 Label
               </FieldLabel>
@@ -125,14 +117,13 @@ export function InputSizes() {
                 size={size}
                 placeholder="Placeholder"
               />
-              <FieldDescription className={description}>
-                Helper text
-              </FieldDescription>
+              <FieldDescription size={size}>Helper text</FieldDescription>
             </FieldSet>
 
             <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
               <FieldLabel
                 htmlFor={`input-size-${size}-inline`}
+                size={size}
                 className={getInputLabelClass(size, 'inline')}>
                 Label
               </FieldLabel>
@@ -142,9 +133,7 @@ export function InputSizes() {
                 variant="inline"
                 placeholder="Placeholder"
               />
-              <FieldDescription className={description}>
-                Helper text
-              </FieldDescription>
+              <FieldDescription size={size}>Helper text</FieldDescription>
             </FieldSet>
           </div>
         );
@@ -155,9 +144,12 @@ export function InputSizes() {
 
 /**
  * Input states — default variant
+ *
+ * Focus for error is handled by the input ( focus ring is of the same color as error)
+ * For success and warning, the user can configure the focus state according to their need
  */
 export function InputStates() {
-  const { description: descriptionClass, gap } = inputFieldConfig.default;
+  const { gap } = inputFieldConfig.default;
 
   const states = [
     {
@@ -217,24 +209,25 @@ export function InputStates() {
           <FieldSet key={label} className={`${FIELD_WIDTH} ${gap}`}>
             <FieldLabel
               htmlFor={stateId}
+              disabled={props.disabled ?? false}
               className={getInputLabelClass('default')}>
               {label}
             </FieldLabel>
             <Input id={stateId} {...props} />
             {feedback ? (
               feedback.tone === 'error' ? (
-                <FieldError
-                  className={`${descriptionClass} ${feedbackClass.error}`}>
+                <FieldError className={`${feedbackClass.error}`}>
                   {feedback.text}
                 </FieldError>
               ) : (
                 <FieldDescription
-                  className={`${descriptionClass} ${feedbackClass[feedback.tone]}`}>
+                  className={`${feedbackClass[feedback.tone]}`}
+                  disabled={props.disabled ?? false}>
                   {feedback.text}
                 </FieldDescription>
               )
             ) : (
-              <FieldDescription className={descriptionClass}>
+              <FieldDescription disabled={props.disabled ?? false}>
                 {helper}
               </FieldDescription>
             )}
@@ -249,7 +242,7 @@ export function InputStates() {
  * Input types — default variant
  */
 export function InputTypes() {
-  const { description, gap } = inputFieldConfig.default;
+  const { gap } = inputFieldConfig.default;
 
   const types = [
     {
@@ -286,7 +279,7 @@ export function InputTypes() {
             type={type}
             placeholder={placeholder}
           />
-          <FieldDescription className={description}>{helper}</FieldDescription>
+          <FieldDescription>{helper}</FieldDescription>
         </FieldSet>
       ))}
     </div>
@@ -297,13 +290,9 @@ export function InputTypes() {
  * Horizontal — label beside inline input (InputGroup-Horizontal)
  */
 export function InputHorizontal() {
-  const { label } = inputFieldConfig.default;
-
   return (
     <Field orientation="horizontal" className="w-fit items-center gap-3">
-      <FieldLabel htmlFor="input-horizontal" className={cn(label, 'shrink-0')}>
-        Field label
-      </FieldLabel>
+      <FieldLabel htmlFor="input-horizontal">Field label</FieldLabel>
       <Input
         id="input-horizontal"
         variant="inline"

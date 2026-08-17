@@ -27,13 +27,13 @@ export const inputVariantStyles = {
   default: {
     base: 'border border-transparent bg-fill-onsurface-ui-3 shadow-elevation-0',
     text: 'text-fg-primary placeholder:text-fg-tertiary',
-    hover: 'hover:bg-stateslayer-overlay-hover',
+    hover: 'hover:overlay-hover disabled:hover:overlay-disabled',
     focus:
-      'focus-visible:bg-stateslayer-overlay-active-inverse focus-visible:ring-stroke-status-focus',
+      'focus-visible:[background-image:linear-gradient(var(--color-stateslayer-overlay-active-inverse),var(--color-stateslayer-overlay-active-inverse))] focus-visible:ring-stroke-status-focus',
     error:
       'aria-invalid:border-stroke-status-error aria-invalid:focus-visible:ring-stroke-status-error',
     disabled:
-      'disabled:cursor-not-allowed disabled:bg-stateslayer-overlay-disabled disabled:text-fg-disabled disabled:placeholder:text-fg-disabled',
+      'disabled:cursor-not-allowed disabled:overlay-disabled disabled:text-fg-disabled disabled:placeholder:text-fg-disabled',
   },
   inline: {
     base: 'bg-transparent border-0 border-b-[1px] shadow-none',
@@ -76,7 +76,7 @@ const inputInlineLgFocusUnderline =
   'focus-visible:shadow-[0_1px_0_0_var(--color-stroke-status-focus)] aria-invalid:focus-visible:shadow-[0_1px_0_0_var(--color-stroke-status-error)]';
 
 const inputVariants = cva(
-  `flex w-full min-w-0 rounded-none outline-none transition-[border-color,box-shadow,background-color] font-normal ${searchCancelButtonStyles}`,
+  `flex w-full min-w-0 rounded-none outline-none transition-[border-color,box-shadow,background-color,background-image] font-normal ${searchCancelButtonStyles}`,
   {
     variants: {
       size: {
