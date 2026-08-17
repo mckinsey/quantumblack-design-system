@@ -22,7 +22,7 @@ import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 const basePath = import.meta.env.VITE_BASE_PATH ?? '';
 const AVATAR = `${basePath}/users/avatar-1.jpg`;
 const DUMMY = 'https://placehold.co';
-const PLACEHOLDER_BG = '22232a';
+const PLACEHOLDER_BG = '6e6b6b';
 const PLACEHOLDER_FG = 'FFF';
 
 const TITLE =
