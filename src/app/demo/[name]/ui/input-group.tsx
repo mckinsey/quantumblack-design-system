@@ -23,7 +23,6 @@ import { cn } from '@/lib/utils';
 import { inputGroupFieldConfig } from './input-group-config';
 
 const FIELD_WIDTH = 'w-[240px]';
-const STEPPER_GAP = 'gap-1';
 
 type FieldSize = keyof typeof inputGroupFieldConfig;
 
@@ -276,7 +275,7 @@ export function InputGroupSizes() {
 }
 
 export function InputGroupStatusStates() {
-  const sizes: FieldSize[] = ['sm', 'default', 'lg'];
+  const { gap, iconSize } = inputGroupFieldConfig.default;
 
   const statuses = [
     {
@@ -284,8 +283,7 @@ export function InputGroupStatusStates() {
       icon: 'cancel',
       statusColor: 'text-status-error',
       tone: 'error' as const,
-      defaultGroupClass: '',
-      inlineGroupClass: '',
+      groupClass: '',
       inputProps: { 'aria-invalid': true as const, placeholder: 'Placeholder' },
     },
     {
@@ -293,8 +291,7 @@ export function InputGroupStatusStates() {
       icon: 'info',
       statusColor: 'text-status-warning',
       tone: 'warning' as const,
-      defaultGroupClass: 'border-stroke-status-warning',
-      inlineGroupClass: 'border-b-stroke-status-warning',
+      groupClass: 'border-stroke-status-warning',
       inputProps: { placeholder: 'Placeholder' },
     },
     {
@@ -302,108 +299,49 @@ export function InputGroupStatusStates() {
       icon: 'check_circle',
       statusColor: 'text-status-success',
       tone: 'success' as const,
-      defaultGroupClass: 'border-stroke-status-success',
-      inlineGroupClass: 'border-b-stroke-status-success',
+      groupClass: 'border-stroke-status-success',
       inputProps: { placeholder: 'Placeholder' },
     },
   ];
 
   return (
-    <div className="space-y-8">
-      {sizes.map(size => {
-        const { gap, iconSize } = inputGroupFieldConfig[size];
+    <div className="space-y-6">
+      {statuses.map(
+        ({
+          label,
+          icon: statusIcon,
+          statusColor,
+          tone,
+          groupClass,
+          inputProps,
+        }) => {
+          const fieldId = `ig-status-${tone}`;
 
-        return (
-          <div key={size} className="space-y-6">
-            {statuses.map(
-              ({
-                label,
-                icon: statusIcon,
-                statusColor,
-                tone,
-                defaultGroupClass,
-                inlineGroupClass,
-                inputProps,
-              }) => {
-                const fieldId = `ig-status-${size}-${tone}`;
-
-                return (
-                  <div key={tone} className="flex gap-6">
-                    <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-                      <FieldLabel htmlFor={`${fieldId}-default`} size={size}>
-                        {label}
-                      </FieldLabel>
-                      <InputGroup
-                        size={size}
-                        className={defaultGroupClass || undefined}>
-                        <InputGroupInput
-                          id={`${fieldId}-default`}
-                          size={size}
-                          {...inputProps}
-                        />
-                        <InputGroupAddon align="inline-end">
-                          <IconShell
-                            size={iconSize}
-                            type="custom"
-                            className={statusColor}>
-                            <Icon icon={statusIcon} />
-                          </IconShell>
-                        </InputGroupAddon>
-                      </InputGroup>
-                      {tone === 'error' ? (
-                        <FieldError size={size}>
-                          Feedback message here
-                        </FieldError>
-                      ) : (
-                        <FieldDescription size={size} className={statusColor}>
-                          Feedback message here
-                        </FieldDescription>
-                      )}
-                    </FieldSet>
-
-                    <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-                      <FieldLabel
-                        htmlFor={`${fieldId}-inline`}
-                        size={size}
-                        className={getLabelClass(size, 'inline')}>
-                        {label}
-                      </FieldLabel>
-                      <InputGroup
-                        variant="inline"
-                        size={size}
-                        className={inlineGroupClass || undefined}>
-                        <InputGroupInput
-                          id={`${fieldId}-inline`}
-                          variant="inline"
-                          size={size}
-                          {...inputProps}
-                        />
-                        <InputGroupAddon align="inline-end">
-                          <IconShell
-                            size={iconSize}
-                            type="custom"
-                            className={statusColor}>
-                            <Icon icon={statusIcon} />
-                          </IconShell>
-                        </InputGroupAddon>
-                      </InputGroup>
-                      {tone === 'error' ? (
-                        <FieldError size={size}>
-                          Feedback message here
-                        </FieldError>
-                      ) : (
-                        <FieldDescription size={size} className={statusColor}>
-                          Feedback message here
-                        </FieldDescription>
-                      )}
-                    </FieldSet>
-                  </div>
-                );
-              },
-            )}
-          </div>
-        );
-      })}
+          return (
+            <FieldSet key={tone} className={`${FIELD_WIDTH} ${gap}`}>
+              <FieldLabel htmlFor={fieldId}>{label}</FieldLabel>
+              <InputGroup className={groupClass || undefined}>
+                <InputGroupInput id={fieldId} {...inputProps} />
+                <InputGroupAddon align="inline-end">
+                  <IconShell
+                    size={iconSize}
+                    type="custom"
+                    className={statusColor}>
+                    <Icon icon={statusIcon} />
+                  </IconShell>
+                </InputGroupAddon>
+              </InputGroup>
+              {tone === 'error' ? (
+                <FieldError>Feedback message here</FieldError>
+              ) : (
+                <FieldDescription className={statusColor}>
+                  Feedback message here
+                </FieldDescription>
+              )}
+            </FieldSet>
+          );
+        },
+      )}
     </div>
   );
 }
@@ -494,327 +432,57 @@ export function InputGroupDeleteOnFocus() {
   );
 }
 
-export function InputGroupStepperSizes() {
-  const sizes = [
-    { label: 'Small', size: 'sm' as const, width: 'w-[160px]' },
-    { label: 'Default', size: 'default' as const, width: 'w-[160px]' },
-    { label: 'Large', size: 'lg' as const, width: 'w-[160px]' },
-  ];
-
-  function StepperItem({
-    size,
-    width,
-    variant,
-  }: Readonly<{
-    size: 'sm' | 'default' | 'lg';
-    width: string;
-    variant: 'default' | 'inline';
-  }>) {
-    const { gap } = inputGroupFieldConfig[size];
-    const fieldId = `ig-stepper-${size}-${variant}`;
-    const [value, setValue] = useState(0);
-
-    const increment = () => {
-      setValue(prev => prev + 1);
-    };
-
-    const decrement = () => {
-      setValue(prev => Math.max(0, prev - 1));
-    };
-
-    const buttonSize = size === 'lg' ? 'icon-xs' : 'icon-xxs';
-    const iconShellSize = size === 'lg' ? 'default' : 'sm';
-    const isDecrementDisabled = value === 0;
-
-    return (
-      <FieldSet className={`${width} ${gap}`}>
-        <FieldLabel
-          htmlFor={fieldId}
-          size={size}
-          className={getLabelClass(size, variant)}>
-          Label
-        </FieldLabel>
-        <InputGroup
-          variant={variant}
-          size={size}
-          className={cn(width, STEPPER_GAP)}>
-          <InputGroupAddon align="inline-start">
-            <InputGroupButton
-              size={buttonSize}
-              variant="ghost"
-              onClick={decrement}
-              disabled={isDecrementDisabled}
-              aria-label="Decrease">
-              <IconShell
-                size={iconShellSize}
-                type="neutral"
-                variant="secondary"
-                disabled={isDecrementDisabled}>
-                <Icon icon="remove" />
-              </IconShell>
-            </InputGroupButton>
-          </InputGroupAddon>
-          <InputGroupInput
-            id={fieldId}
-            type="number"
-            variant={variant}
-            size={size}
-            value={value}
-            onChange={e => setValue(Number(e.target.value) || 0)}
-            min={0}
-            className="text-center"
-          />
-          <InputGroupAddon align="inline-end">
-            <InputGroupButton
-              size={buttonSize}
-              variant="ghost"
-              onClick={increment}
-              aria-label="Increase">
-              <IconShell size={iconShellSize} type="neutral" hoverable>
-                <Icon icon="add" />
-              </IconShell>
-            </InputGroupButton>
-          </InputGroupAddon>
-        </InputGroup>
-        <FieldDescription size={size}>Helper text</FieldDescription>
-      </FieldSet>
-    );
-  }
-
-  return (
-    <div className="w-full space-y-6">
-      {sizes.map(({ size, width }) => (
-        <div key={size} className="flex justify-center gap-[200px]">
-          <StepperItem size={size} width={width} variant="default" />
-          <StepperItem size={size} width={width} variant="inline" />
-        </div>
-      ))}
-    </div>
-  );
-}
-
-export function InputGroupStepperStates() {
-  const { gap } = inputGroupFieldConfig.default;
-
-  const stepperStates = [
-    {
-      label: 'Error',
-      status: 'error' as const,
-      statusMessage: 'Feedback here',
-      statusClass: 'text-status-error',
-      defaultInputGroupClass: '',
-      inlineInputGroupClass: '',
-    },
-    {
-      label: 'Warning',
-      status: 'warning' as const,
-      statusMessage: 'Feedback here',
-      statusClass: 'text-status-warning',
-      defaultInputGroupClass: 'border-stroke-status-warning',
-      inlineInputGroupClass: 'border-b-stroke-status-warning',
-    },
-    {
-      label: 'Success',
-      status: 'success' as const,
-      statusMessage: 'Feedback here',
-      statusClass: 'text-status-success',
-      defaultInputGroupClass: 'border-stroke-status-success',
-      inlineInputGroupClass: 'border-b-stroke-status-success',
-    },
-  ];
-
-  function StepperStateItem({
-    status,
-    statusMessage,
-    statusClass,
-    variant,
-    inputGroupClass,
-  }: Readonly<{
-    status: 'error' | 'warning' | 'success';
-    statusMessage: string;
-    statusClass: string;
-    variant: 'default' | 'inline';
-    inputGroupClass: string;
-  }>) {
-    const [value, setValue] = useState(234);
-
-    const increment = () => {
-      setValue(prev => prev + 1);
-    };
-
-    const decrement = () => {
-      setValue(prev => Math.max(0, prev - 1));
-    };
-
-    const buttonSize = 'icon-xxs';
-    const iconShellSize = 'sm';
-    const isDecrementDisabled = value === 0;
-    const fieldId = `ig-stepper-state-${status}-${variant}`;
-
-    return (
-      <FieldSet className={`w-[160px] ${gap}`}>
-        <FieldLabel
-          htmlFor={fieldId}
-          size="default"
-          className={getLabelClass('default', variant)}>
-          Label
-        </FieldLabel>
-        <InputGroup
-          variant={variant}
-          size="default"
-          className={cn('w-[160px]', STEPPER_GAP, inputGroupClass)}>
-          <InputGroupAddon align="inline-start">
-            <InputGroupButton
-              size={buttonSize}
-              variant="ghost"
-              onClick={decrement}
-              disabled={isDecrementDisabled}
-              aria-label="Decrease">
-              <IconShell
-                size={iconShellSize}
-                hoverable
-                disabled={isDecrementDisabled}>
-                <Icon icon="remove" />
-              </IconShell>
-            </InputGroupButton>
-          </InputGroupAddon>
-          <InputGroupInput
-            id={fieldId}
-            type="number"
-            variant={variant}
-            size="default"
-            value={value}
-            onChange={e => setValue(Number(e.target.value) || 0)}
-            min={0}
-            className="text-center"
-            aria-invalid={status === 'error' ? true : undefined}
-          />
-          <InputGroupAddon align="inline-end">
-            <InputGroupButton
-              size={buttonSize}
-              variant="ghost"
-              onClick={increment}
-              aria-label="Increase">
-              <IconShell size={iconShellSize} hoverable>
-                <Icon icon="add" />
-              </IconShell>
-            </InputGroupButton>
-          </InputGroupAddon>
-        </InputGroup>
-        {status === 'error' ? (
-          <FieldError size="default" className={statusClass}>
-            {statusMessage}
-          </FieldError>
-        ) : (
-          <FieldDescription size="default" className={statusClass}>
-            {statusMessage}
-          </FieldDescription>
-        )}
-      </FieldSet>
-    );
-  }
-
-  return (
-    <div className="w-full space-y-6">
-      {stepperStates.map(
-        ({
-          status,
-          statusMessage,
-          statusClass,
-          defaultInputGroupClass,
-          inlineInputGroupClass,
-        }) => (
-          <div key={status} className="flex justify-center gap-[200px]">
-            <StepperStateItem
-              status={status}
-              statusMessage={statusMessage}
-              statusClass={statusClass}
-              variant="default"
-              inputGroupClass={defaultInputGroupClass}
-            />
-
-            <StepperStateItem
-              status={status}
-              statusMessage={statusMessage}
-              statusClass={statusClass}
-              variant="inline"
-              inputGroupClass={inlineInputGroupClass}
-            />
-          </div>
-        ),
-      )}
-    </div>
-  );
-}
-
 export const examples: DemoExample[] = [
   {
     name: 'InputGroupDemo',
     title: 'Default',
-    description: 'Basic input group with search icon.',
-  },
-  {
-    name: 'InputGroupAffixes',
-    title: 'Prefix & Suffix',
-    description:
-      'TextVariant composition: leading icon, PRE, entry, SUF, trailing icon — default and inline.',
+    description: 'Search field with a leading icon.',
   },
   {
     name: 'InputGroupLeadingIcon',
-    title: 'Leading Icons',
-    description: 'Input groups with leading icons.',
+    title: 'Leading icon',
+    description: 'Icon before the input (filled and inline).',
   },
   {
     name: 'InputGroupTrailing',
-    title: 'Trailing Elements',
-    description: 'Input groups with trailing text, buttons, or icons.',
+    title: 'Trailing action',
+    description: 'Text, button, or icon after the input.',
   },
   {
     name: 'InputGroupBothSides',
-    title: 'Both Sides',
-    description: 'Input group with elements on both sides.',
+    title: 'Both sides',
+    description: 'Leading icon and trailing suffix together.',
+  },
+  {
+    name: 'InputGroupAffixes',
+    title: 'Prefix and suffix',
+    description: 'Fixed text before and after the value (with icons).',
   },
   {
     name: 'InputGroupSizes',
     title: 'Sizes',
-    description:
-      'Small, default, and large input group sizes with default and inline variants side by side.',
+    description: 'Small, default, and large (filled and inline).',
   },
   {
     name: 'InputGroupStatusStates',
-    title: 'Status States',
-    description:
-      'Error, warning, and success states with default and inline variants side by side.',
+    title: 'Validation',
+    description: 'Error, warning, and success borders.',
   },
   {
     name: 'InputGroupDeleteOnFocus',
-    title: 'Clear on focus with text',
+    title: 'Clear on focus',
     description:
-      'Trailing backspace control when focused and the field has text — default and inline.',
-  },
-  {
-    name: 'InputGroupStepperSizes',
-    title: 'Stepper Sizes',
-    description:
-      'Stepper input with default and inline variants side by side for all sizes.',
-  },
-  {
-    name: 'InputGroupStepperStates',
-    title: 'Stepper States',
-    description:
-      'Stepper input showing error, success, and warning states with both default and inline variants.',
+      'Backspace control appears when the field is focused and has text.',
   },
 ];
 
 export const inputGroup = createLegacyDemo('input-group', examples, {
   InputGroupDemo: <InputGroupDemo />,
-  InputGroupAffixes: <InputGroupAffixes />,
   InputGroupLeadingIcon: <InputGroupLeadingIcon />,
   InputGroupTrailing: <InputGroupTrailing />,
   InputGroupBothSides: <InputGroupBothSides />,
+  InputGroupAffixes: <InputGroupAffixes />,
   InputGroupSizes: <InputGroupSizes />,
   InputGroupStatusStates: <InputGroupStatusStates />,
   InputGroupDeleteOnFocus: <InputGroupDeleteOnFocus />,
-  InputGroupStepperSizes: <InputGroupStepperSizes />,
-  InputGroupStepperStates: <InputGroupStepperStates />,
 });

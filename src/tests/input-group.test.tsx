@@ -45,6 +45,19 @@ describe(`${componentName} — structure & interaction`, () => {
     expect(
       document.querySelector('[data-slot="input-group-control"]'),
     ).toBeInTheDocument();
+    expect(
+      document.querySelector('[data-slot="input"]'),
+    ).not.toBeInTheDocument();
+  });
+
+  it('renders disabled default group without crashing', () => {
+    render(
+      <InputGroup variant="default">
+        <InputGroupInput disabled aria-label="disabled-group-input" />
+      </InputGroup>,
+    );
+
+    expect(screen.getByRole('textbox')).toBeDisabled();
   });
 
   it('addon click focuses input', async () => {

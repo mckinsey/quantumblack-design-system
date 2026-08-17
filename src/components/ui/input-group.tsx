@@ -1,13 +1,12 @@
 'use client';
 
+import { Input as InputPrimitive } from '@base-ui/react/input';
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
-  Input,
-  type InputProps,
-  inputGroupControlChromeReset,
+  inputGroupDefaultDisabledStyles,
   inputGroupDefaultErrorStyles,
   inputGroupDefaultFocusStyles,
   inputGroupFocusRingWidth,
@@ -16,13 +15,20 @@ import {
   inputGroupInlineFocusStyles,
   inputGroupInlineLgFocusUnderline,
   inputSizeDefinitions,
+  inputSizeStyles,
   inputVariantStyles,
+  searchCancelButtonStyles,
 } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
+const inputGroupControlDisabledTextStyles = {
+  default:
+    'disabled:cursor-not-allowed disabled:text-fg-disabled disabled:placeholder:text-fg-disabled',
+  inline: 'disabled:text-fg-disabled disabled:placeholder:text-fg-disabled',
+} as const;
+
 const inputGroupVariants = cva(
-  'group/input-group relative flex w-full items-center rounded-none border-0 transition-[background-color,box-shadow,border-color] outline-none min-w-0 has-[>textarea]:h-auto',
+  'group/input-group relative flex w-full items-center rounded-none border-0 transition-[background-color,background-image,box-shadow,border-color] outline-none min-w-0 has-[>textarea]:h-auto',
   {
     variants: {
       variant: {
@@ -32,6 +38,7 @@ const inputGroupVariants = cva(
           inputVariantStyles.default.hover,
           ...inputGroupDefaultFocusStyles,
           ...inputGroupDefaultErrorStyles,
+          ...inputGroupDefaultDisabledStyles,
         ],
         inline: [
           'gap-2 px-0!',
@@ -209,32 +216,41 @@ function InputGroupText({ className, ...props }: React.ComponentProps<'span'>) {
   );
 }
 
+export interface InputGroupInputProps extends Omit<
+  React.ComponentProps<typeof InputPrimitive>,
+  'size'
+> {
+  variant?: 'default' | 'inline';
+  size?: 'sm' | 'default' | 'lg';
+}
+
 function InputGroupInput({
   className,
   variant,
-  size,
+  size = 'default',
+  type,
   ...props
-}: Readonly<InputProps>) {
+}: Readonly<InputGroupInputProps>) {
   const isInline = variant === 'inline';
-
-  const baseStyles =
-    'flex-1 h-full rounded-none border-0 bg-transparent px-0! py-0!';
-
-  const inlineVariantStyles = [
-    '!border-0',
-    'hover:!border-0',
-    'focus-visible:!border-0 focus-visible:!mb-0',
-  ];
+  const textStyles = isInline
+    ? inputVariantStyles.inline.text
+    : inputVariantStyles.default.text;
+  const disabledTextStyles = isInline
+    ? inputGroupControlDisabledTextStyles.inline
+    : inputGroupControlDisabledTextStyles.default;
 
   return (
-    <Input
+    <InputPrimitive
+      type={type}
       data-slot="input-group-control"
-      variant={variant}
-      size={size}
       className={cn(
-        baseStyles,
-        inputGroupControlChromeReset,
-        isInline && inlineVariantStyles,
+        'h-full w-full min-w-0 flex-1 rounded-none border-0 bg-transparent px-0! py-0! font-normal shadow-none ring-0 transition-[color] outline-none',
+        searchCancelButtonStyles,
+        'selection:bg-fill-active selection:text-fg-primary-inverse',
+        'file:text-fg-primary file:inline-flex file:border-0 file:bg-transparent file:font-medium',
+        inputSizeStyles[size],
+        textStyles,
+        disabledTextStyles,
         className,
       )}
       {...props}
@@ -247,11 +263,13 @@ function InputGroupTextarea({
   ...props
 }: React.ComponentProps<'textarea'>) {
   return (
-    <Textarea
+    <textarea
       data-slot="input-group-control"
       className={cn(
-        'h-full flex-1 resize-none rounded-none border-0 bg-transparent px-2 py-2',
-        inputGroupControlChromeReset,
+        'h-full min-h-0 flex-1 resize-none rounded-none border-0 bg-transparent px-2 py-2 font-normal shadow-none ring-0 outline-none',
+        'paragraph-regular-primary text-fg-primary placeholder:text-fg-tertiary',
+        'selection:bg-fill-active selection:text-fg-primary-inverse',
+        'disabled:text-fg-disabled disabled:placeholder:text-fg-disabled disabled:cursor-not-allowed',
         className,
       )}
       {...props}
