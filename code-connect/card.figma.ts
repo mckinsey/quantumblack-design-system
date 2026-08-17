@@ -21,9 +21,6 @@ const ratio = instance.getEnum('ratio', {
 });
 
 const type = instance.getEnum('type', {
-  noMedia: 'noMedia',
-  'media+stats': 'media+stats',
-  'media+cta': 'media+cta',
   custom: 'custom',
 });
 
@@ -38,6 +35,21 @@ const rootClasses = [ratio === '3:4' ? 'aspect-[3/4]' : '']
   .filter(Boolean)
   .join(' ');
 
+function linesClass(lines: string | undefined) {
+  if (lines === '2') return 'line-clamp-2 h-[2lh]';
+  if (lines === '3') return 'line-clamp-3 h-[3lh]';
+  if (lines === '5') return 'line-clamp-5 h-[5lh]';
+  return '';
+}
+
+const cardDivider = figma.code`
+  <div
+    role="separator"
+    aria-orientation="horizontal"
+    className="border-stroke-divider h-0 w-12 border-0 border-b border-solid"
+  />
+`;
+
 const titleInst = instance.findInstance('title');
 const titleText =
   titleInst?.type === 'INSTANCE' ? titleInst.getString('text') : '';
@@ -46,14 +58,7 @@ const titleLines =
     ? titleInst.getEnum('lines', { '2': '2', '3': '3', '5': '5' })
     : undefined;
 
-const titleClass =
-  titleLines === '2'
-    ? 'line-clamp-2 h-[2lh]'
-    : titleLines === '3'
-      ? 'line-clamp-3 h-[3lh]'
-      : titleLines === '5'
-        ? 'line-clamp-5 h-[5lh]'
-        : '';
+const titleClass = linesClass(titleLines);
 
 const descInst = instance.findInstance('description');
 const descText =
@@ -63,14 +68,7 @@ const descLines =
     ? descInst.getEnum('lines', { '2': '2', '3': '3', '5': '5' })
     : undefined;
 
-const descClass =
-  descLines === '2'
-    ? 'line-clamp-2 h-[2lh]'
-    : descLines === '3'
-      ? 'line-clamp-3 h-[3lh]'
-      : descLines === '5'
-        ? 'line-clamp-5 h-[5lh]'
-        : '';
+const descClass = linesClass(descLines);
 
 const headerSlot = instance.getSlot('headerSlot');
 const headerConnected = headerSlot?.connectedInstances ?? [];
@@ -143,11 +141,7 @@ const descriptionBlock = hasDescription
 
 const dataBlock = showData
   ? figma.code`
-      <div
-        role="separator"
-        aria-orientation="horizontal"
-        className="border-stroke-divider h-0 w-12 border-0 border-b border-solid"
-      />
+      ${cardDivider}
       <div className="flex w-full flex-col gap-2">
         ${dataChildren}
       </div>
@@ -170,7 +164,7 @@ const contentClass =
   type === 'custom'
     ? 'flex-1'
     : hasMedia
-      ? 'flex-1 gap-3 py-6'
+      ? 'flex-1 gap-3 py-(--card-inset)'
       : 'gap-4 pt-(--card-inset)';
 
 const customExample = figma.code`

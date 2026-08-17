@@ -4,7 +4,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 const cardVariants = cva(
-  'group/card text-fg-primary flex flex-col gap-0 overflow-clip shadow-elevation-0',
+  'group/card text-fg-primary flex flex-col gap-0 shadow-elevation-0',
   {
     variants: {
       size: {
@@ -45,7 +45,7 @@ function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
     <div
       data-slot="card-header"
       className={cn(
-        'relative z-1 flex w-full items-center justify-between gap-2 px-(--card-inset) pt-(--card-inset)',
+        'relative z-10 flex w-full items-center justify-between gap-2 px-(--card-inset) pt-(--card-inset)',
         className,
       )}
       {...props}
@@ -126,7 +126,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<'div'>) {
       data-slot="card-footer"
       className={cn(
         'mt-auto flex items-end justify-between px-(--card-inset) pb-(--card-inset)',
-        '[[data-slot=card]:not(:has([data-slot=card-media]))_&]:min-h-0 [[data-slot=card]:not(:has([data-slot=card-media]))_&]:flex-1',
+        '[[data-slot=card]:not(:has(>[data-slot=card-media]))_&]:min-h-0 [[data-slot=card]:not(:has(>[data-slot=card-media]))_&]:flex-1',
         className,
       )}
       {...props}

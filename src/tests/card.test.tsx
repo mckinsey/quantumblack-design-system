@@ -117,6 +117,32 @@ describe(`${componentName} — structure`, () => {
       'high',
     );
   });
+
+  it('keeps flex-1 on nested no-media footer when outer card has media', () => {
+    const { container } = render(
+      <Card>
+        <CardMedia>
+          <CardHeader>
+            <span>Outer</span>
+          </CardHeader>
+        </CardMedia>
+        <CardContent>
+          <Card>
+            <CardContent>
+              <CardTitle>Inner</CardTitle>
+            </CardContent>
+            <CardFooter data-testid="inner-footer">
+              <span>Inner footer</span>
+            </CardFooter>
+          </Card>
+        </CardContent>
+      </Card>,
+    );
+
+    expect(
+      container.querySelector('[data-testid="inner-footer"]')?.className,
+    ).toContain('flex-1');
+  });
 });
 
 describe(`${componentName} — size smoke`, () => {

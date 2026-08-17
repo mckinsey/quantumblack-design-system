@@ -25,251 +25,233 @@ import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 
 const basePath = import.meta.env.VITE_BASE_PATH ?? '';
 const AVATAR = `${basePath}/users/avatar-1.jpg`;
+const DUMMY = 'https://placehold.co';
 
 const TITLE =
   'Descriptive card title that summarises the content in a clear, scannable way.';
 const DESCRIPTION =
   'A short supporting description that gives readers extra context about the card content.';
 
-type CardSize = 'sm' | 'default';
-type CardContrast = 'low' | 'high';
-
-function SignpostBadge({ withIcon = true }: { withIcon?: boolean }) {
-  return (
-    <Badge outline variant="high-emphasis" withIcon={withIcon}>
-      {withIcon ? (
-        <IconShell size="sm" type="neutral" variant="secondary">
-          <Icon icon="new_releases" />
-        </IconShell>
-      ) : null}
-      Label
-    </Badge>
-  );
-}
-
-function MoreAction({ size = 'icon-sm' }: { size?: 'icon-sm' | 'icon-xs' }) {
-  return (
-    <Button variant="ghost" size={size} aria-label="More options">
-      <IconShell hoverable>
-        <Icon icon="more_vert" />
-      </IconShell>
-    </Button>
-  );
-}
-
-function BookmarkAction({
-  size = 'icon-sm',
-}: {
-  size?: 'icon-sm' | 'icon-xs';
-}) {
-  return (
-    <Button variant="ghost" size={size} aria-label="Bookmark">
-      <IconShell hoverable>
-        <Icon icon="bookmark_add" />
-      </IconShell>
-    </Button>
-  );
-}
-
-function StatsFooter({ size = 'default' }: { size?: CardSize }) {
-  const isSm = size === 'sm';
-  const statClass = isSm
-    ? 'label-regular-primary text-fg-secondary flex items-center gap-1'
-    : 'label-large-primary text-fg-secondary flex items-center gap-1';
-
-  return (
-    <>
-      <div
-        className={
-          isSm ? 'flex items-center gap-4' : 'flex items-center gap-5'
-        }>
-        <div className={statClass}>
-          <IconShell
-            size={isSm ? 'sm' : 'default'}
-            type="neutral"
-            variant="secondary">
-            <Icon icon="visibility" />
-          </IconShell>
-          21
-        </div>
-        <div className={statClass}>
-          <IconShell
-            size={isSm ? 'sm' : 'default'}
-            type="neutral"
-            variant="secondary">
-            <Icon icon="favorite" />
-          </IconShell>
-          8
-        </div>
-        <div className={statClass}>
-          <IconShell
-            size={isSm ? 'sm' : 'default'}
-            type="neutral"
-            variant="secondary">
-            <Icon icon="download" />
-          </IconShell>
-          3
-        </div>
-      </div>
-      <CardAction>
-        <BookmarkAction size={isSm ? 'icon-xs' : 'icon-sm'} />
-      </CardAction>
-    </>
-  );
+function demoImg(w: number, h: number, label: string) {
+  return `${DUMMY}/${w}x${h}?text=${encodeURIComponent(label)}`;
 }
 
 function DemoRow({ children }: { children: ReactNode }) {
   return <div className="flex flex-wrap items-start gap-6">{children}</div>;
 }
 
-function cardWidth(size: CardSize) {
-  return size === 'sm' ? 'w-[320px]' : 'w-[360px]';
-}
-
-function TextCard({
-  size = 'default',
-  contrast = 'low',
-}: {
-  size?: CardSize;
-  contrast?: CardContrast;
-}) {
-  const isSm = size === 'sm';
-  const rowClass = isSm
-    ? 'label-regular-primary flex w-full items-start justify-between'
-    : 'label-large-primary flex w-full items-start justify-between';
-  const valueClass = isSm
-    ? 'paragraph-regular-primary text-fg-primary text-right'
-    : 'paragraph-large-primary text-fg-primary text-right';
-
+function CardDivider() {
   return (
-    <Card
-      size={size}
-      contrast={contrast}
-      className={`aspect-[3/4] ${cardWidth(size)}`}>
-      <CardHeader>
-        <SignpostBadge withIcon={!isSm} />
-        <CardAction>
-          <MoreAction size={isSm ? 'icon-xs' : 'icon-sm'} />
-        </CardAction>
-      </CardHeader>
-      <CardContent className="gap-4 pt-(--card-inset)">
-        <CardTitle className="line-clamp-3 h-[3lh]">{TITLE}</CardTitle>
-        <CardDescription className="line-clamp-3 h-[3lh]">
-          {DESCRIPTION}
-        </CardDescription>
-        <div
-          role="separator"
-          aria-orientation="horizontal"
-          className="border-stroke-divider h-0 w-12 border-0 border-b border-solid pt-0"
-        />
-        <div className="flex w-full flex-col gap-2">
-          <div className={rowClass}>
-            <span className="text-fg-secondary flex items-center gap-0.5">
-              Last updated
-            </span>
-            <span className={valueClass}>20/06/2026</span>
-          </div>
-          <div className={rowClass}>
-            <span className="text-fg-secondary flex items-center gap-0.5">
-              Date Created
-            </span>
-            <span className={valueClass}>12/04/2026</span>
-          </div>
-        </div>
-      </CardContent>
-      <CardFooter>
-        <StatsFooter size={size} />
-      </CardFooter>
-    </Card>
+    <div
+      role="separator"
+      aria-orientation="horizontal"
+      className="border-stroke-divider h-0 w-12 border-0 border-b border-solid"
+    />
   );
 }
 
-function ImageCard({
-  size = 'default',
-  contrast = 'low',
-}: {
-  size?: CardSize;
-  contrast?: CardContrast;
-}) {
+function SignpostBadge() {
   return (
-    <Card
-      size={size}
-      contrast={contrast}
-      className={`aspect-[3/4] ${cardWidth(size)}`}>
-      <CardMedia className="aspect-video">
-        <CardHeader>
-          <Badge outline variant="high-emphasis">
-            Featured
-          </Badge>
-        </CardHeader>
-      </CardMedia>
-      <CardContent className="gap-3 pt-6">
-        <CardTitle>Design systems meetup</CardTitle>
-        <CardDescription>
-          A practical talk on component APIs, accessibility, and shipping
-          faster.
-        </CardDescription>
-      </CardContent>
-      <CardFooter className="justify-end">
-        <Button>View Event</Button>
-      </CardFooter>
-    </Card>
+    <Badge outline variant="high-emphasis" withIcon>
+      <IconShell
+        size="sm"
+        type="neutral"
+        variant="secondary"
+        className="group-data-[size=sm]/card:hidden">
+        <Icon icon="new_releases" />
+      </IconShell>
+      Label
+    </Badge>
   );
 }
 
-function ImageDataCard({
-  size = 'default',
-  contrast = 'low',
-}: {
-  size?: CardSize;
-  contrast?: CardContrast;
-}) {
-  const isSm = size === 'sm';
-
+function MoreAction() {
   return (
-    <Card
-      size={size}
-      contrast={contrast}
-      className={`aspect-[3/4] ${cardWidth(size)}`}>
-      <CardMedia>
-        <CardHeader>
-          <SignpostBadge />
-          <CardAction>
-            <MoreAction size={isSm ? 'icon-xs' : 'icon-sm'} />
-          </CardAction>
-        </CardHeader>
-      </CardMedia>
-      <CardContent className="flex-1 gap-3 py-6">
-        <div className="flex w-full items-center gap-2 pb-3">
-          <Avatar size={isSm ? 'xs' : 'sm'}>
-            <AvatarImage src={AVATAR} />
-            <AvatarFallback>LI</AvatarFallback>
-          </Avatar>
-          <span
-            className={
-              isSm
-                ? 'paragraph-regular-primary text-fg-secondary'
-                : 'paragraph-large-primary text-fg-secondary'
-            }>
-            3 hours ago
-          </span>
+    <>
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        aria-label="More options"
+        className="group-data-[size=sm]/card:hidden">
+        <IconShell hoverable>
+          <Icon icon="more_vert" />
+        </IconShell>
+      </Button>
+      <Button
+        variant="ghost"
+        size="icon-xs"
+        aria-label="More options"
+        className="hidden group-data-[size=sm]/card:inline-flex">
+        <IconShell hoverable>
+          <Icon icon="more_vert" />
+        </IconShell>
+      </Button>
+    </>
+  );
+}
+
+function BookmarkAction() {
+  return (
+    <>
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        aria-label="Bookmark"
+        className="group-data-[size=sm]/card:hidden">
+        <IconShell hoverable>
+          <Icon icon="bookmark_add" />
+        </IconShell>
+      </Button>
+      <Button
+        variant="ghost"
+        size="icon-xs"
+        aria-label="Bookmark"
+        className="hidden group-data-[size=sm]/card:inline-flex">
+        <IconShell hoverable>
+          <Icon icon="bookmark_add" />
+        </IconShell>
+      </Button>
+    </>
+  );
+}
+
+function StatsFooter() {
+  return (
+    <>
+      <div className="flex items-center gap-5 group-data-[size=sm]/card:gap-4">
+        <div className="label-large-primary text-fg-secondary group-data-[size=sm]/card:label-regular-primary flex items-center gap-1">
+          <IconShell
+            size="default"
+            type="neutral"
+            variant="secondary"
+            className="group-data-[size=sm]/card:hidden">
+            <Icon icon="visibility" />
+          </IconShell>
+          <IconShell
+            size="sm"
+            type="neutral"
+            variant="secondary"
+            className="hidden group-data-[size=sm]/card:inline-flex">
+            <Icon icon="visibility" />
+          </IconShell>
+          21
         </div>
-        <CardTitle className="line-clamp-2 h-[2lh]">{TITLE}</CardTitle>
-        <CardDescription className="line-clamp-2 h-[2lh]">
-          {DESCRIPTION}
-        </CardDescription>
-      </CardContent>
-      <CardFooter>
-        <StatsFooter size={size} />
-      </CardFooter>
-    </Card>
+        <div className="label-large-primary text-fg-secondary group-data-[size=sm]/card:label-regular-primary flex items-center gap-1">
+          <IconShell
+            size="default"
+            type="neutral"
+            variant="secondary"
+            className="group-data-[size=sm]/card:hidden">
+            <Icon icon="favorite" />
+          </IconShell>
+          <IconShell
+            size="sm"
+            type="neutral"
+            variant="secondary"
+            className="hidden group-data-[size=sm]/card:inline-flex">
+            <Icon icon="favorite" />
+          </IconShell>
+          8
+        </div>
+        <div className="label-large-primary text-fg-secondary group-data-[size=sm]/card:label-regular-primary flex items-center gap-1">
+          <IconShell
+            size="default"
+            type="neutral"
+            variant="secondary"
+            className="group-data-[size=sm]/card:hidden">
+            <Icon icon="download" />
+          </IconShell>
+          <IconShell
+            size="sm"
+            type="neutral"
+            variant="secondary"
+            className="hidden group-data-[size=sm]/card:inline-flex">
+            <Icon icon="download" />
+          </IconShell>
+          3
+        </div>
+      </div>
+      <CardAction>
+        <BookmarkAction />
+      </CardAction>
+    </>
   );
 }
 
 export function CardDemo() {
   return (
     <DemoRow>
-      <TextCard />
+      <Card className="aspect-[3/4] w-[360px]">
+        <CardHeader>
+          <Badge outline variant="high-emphasis" withIcon>
+            <IconShell size="sm" type="neutral" variant="secondary">
+              <Icon icon="new_releases" />
+            </IconShell>
+            Label
+          </Badge>
+          <CardAction>
+            <Button variant="ghost" size="icon-sm" aria-label="More options">
+              <IconShell hoverable>
+                <Icon icon="more_vert" />
+              </IconShell>
+            </Button>
+          </CardAction>
+        </CardHeader>
+        <CardContent className="gap-4 pt-(--card-inset)">
+          <CardTitle className="line-clamp-3 h-[3lh]">{TITLE}</CardTitle>
+          <CardDescription className="line-clamp-3 h-[3lh]">
+            {DESCRIPTION}
+          </CardDescription>
+          <CardDivider />
+          <div className="flex w-full flex-col gap-2">
+            <div className="label-large-primary flex w-full items-start justify-between">
+              <span className="text-fg-secondary flex items-center gap-0.5">
+                Last updated
+              </span>
+              <span className="paragraph-large-primary text-fg-primary text-right">
+                20/06/2026
+              </span>
+            </div>
+            <div className="label-large-primary flex w-full items-start justify-between">
+              <span className="text-fg-secondary flex items-center gap-0.5">
+                Date Created
+              </span>
+              <span className="paragraph-large-primary text-fg-primary text-right">
+                12/04/2026
+              </span>
+            </div>
+          </div>
+        </CardContent>
+        <CardFooter>
+          <div className="flex items-center gap-5">
+            <div className="label-large-primary text-fg-secondary flex items-center gap-1">
+              <IconShell size="default" type="neutral" variant="secondary">
+                <Icon icon="visibility" />
+              </IconShell>
+              21
+            </div>
+            <div className="label-large-primary text-fg-secondary flex items-center gap-1">
+              <IconShell size="default" type="neutral" variant="secondary">
+                <Icon icon="favorite" />
+              </IconShell>
+              8
+            </div>
+            <div className="label-large-primary text-fg-secondary flex items-center gap-1">
+              <IconShell size="default" type="neutral" variant="secondary">
+                <Icon icon="download" />
+              </IconShell>
+              3
+            </div>
+          </div>
+          <CardAction>
+            <Button variant="ghost" size="icon-sm" aria-label="Bookmark">
+              <IconShell hoverable>
+                <Icon icon="bookmark_add" />
+              </IconShell>
+            </Button>
+          </CardAction>
+        </CardFooter>
+      </Card>
     </DemoRow>
   );
 }
@@ -277,7 +259,26 @@ export function CardDemo() {
 export function CardWithImage() {
   return (
     <DemoRow>
-      <ImageCard />
+      <Card className="aspect-[3/4] w-[360px]">
+        <CardMedia>
+          <img src={demoImg(640, 320, 'Featured')} alt="" />
+          <CardHeader>
+            <Badge outline variant="high-emphasis">
+              Featured
+            </Badge>
+          </CardHeader>
+        </CardMedia>
+        <CardContent className="gap-3 py-(--card-inset)">
+          <CardTitle>Design systems meetup</CardTitle>
+          <CardDescription>
+            A practical talk on component APIs, accessibility, and shipping
+            faster.
+          </CardDescription>
+        </CardContent>
+        <CardFooter className="justify-end">
+          <Button>View Event</Button>
+        </CardFooter>
+      </Card>
     </DemoRow>
   );
 }
@@ -285,7 +286,41 @@ export function CardWithImage() {
 export function CardWithImageAndData() {
   return (
     <DemoRow>
-      <ImageDataCard />
+      <Card className="aspect-[3/4] w-[360px]">
+        <CardMedia>
+          <img src={demoImg(640, 320, 'Card')} alt="" />
+          <CardHeader>
+            <SignpostBadge />
+            <CardAction>
+              <MoreAction />
+            </CardAction>
+          </CardHeader>
+        </CardMedia>
+        <CardContent className="flex-1 gap-3 py-(--card-inset)">
+          <div className="flex w-full items-center gap-2 pb-3">
+            <Avatar size="sm" className="group-data-[size=sm]/card:hidden">
+              <AvatarImage src={AVATAR} />
+              <AvatarFallback>LI</AvatarFallback>
+            </Avatar>
+            <Avatar
+              size="xs"
+              className="hidden group-data-[size=sm]/card:inline-flex">
+              <AvatarImage src={AVATAR} />
+              <AvatarFallback>LI</AvatarFallback>
+            </Avatar>
+            <span className="paragraph-large-primary text-fg-secondary group-data-[size=sm]/card:paragraph-regular-primary">
+              3 hours ago
+            </span>
+          </div>
+          <CardTitle className="line-clamp-2 h-[2lh]">{TITLE}</CardTitle>
+          <CardDescription className="line-clamp-2 h-[2lh]">
+            {DESCRIPTION}
+          </CardDescription>
+        </CardContent>
+        <CardFooter>
+          <StatsFooter />
+        </CardFooter>
+      </Card>
     </DemoRow>
   );
 }
@@ -293,8 +328,78 @@ export function CardWithImageAndData() {
 export function CardContrast() {
   return (
     <DemoRow>
-      <TextCard contrast="low" />
-      <TextCard contrast="high" />
+      <Card contrast="low" className="aspect-[3/4] w-[360px]">
+        <CardHeader>
+          <SignpostBadge />
+          <CardAction>
+            <MoreAction />
+          </CardAction>
+        </CardHeader>
+        <CardContent className="gap-4 pt-(--card-inset)">
+          <CardTitle className="line-clamp-3 h-[3lh]">{TITLE}</CardTitle>
+          <CardDescription className="line-clamp-3 h-[3lh]">
+            {DESCRIPTION}
+          </CardDescription>
+          <CardDivider />
+          <div className="flex w-full flex-col gap-2">
+            <div className="label-large-primary flex w-full items-start justify-between">
+              <span className="text-fg-secondary flex items-center gap-0.5">
+                Last updated
+              </span>
+              <span className="paragraph-large-primary text-fg-primary text-right">
+                20/06/2026
+              </span>
+            </div>
+            <div className="label-large-primary flex w-full items-start justify-between">
+              <span className="text-fg-secondary flex items-center gap-0.5">
+                Date Created
+              </span>
+              <span className="paragraph-large-primary text-fg-primary text-right">
+                12/04/2026
+              </span>
+            </div>
+          </div>
+        </CardContent>
+        <CardFooter>
+          <StatsFooter />
+        </CardFooter>
+      </Card>
+      <Card contrast="high" className="aspect-[3/4] w-[360px]">
+        <CardHeader>
+          <SignpostBadge />
+          <CardAction>
+            <MoreAction />
+          </CardAction>
+        </CardHeader>
+        <CardContent className="gap-4 pt-(--card-inset)">
+          <CardTitle className="line-clamp-3 h-[3lh]">{TITLE}</CardTitle>
+          <CardDescription className="line-clamp-3 h-[3lh]">
+            {DESCRIPTION}
+          </CardDescription>
+          <CardDivider />
+          <div className="flex w-full flex-col gap-2">
+            <div className="label-large-primary flex w-full items-start justify-between">
+              <span className="text-fg-secondary flex items-center gap-0.5">
+                Last updated
+              </span>
+              <span className="paragraph-large-primary text-fg-primary text-right">
+                20/06/2026
+              </span>
+            </div>
+            <div className="label-large-primary flex w-full items-start justify-between">
+              <span className="text-fg-secondary flex items-center gap-0.5">
+                Date Created
+              </span>
+              <span className="paragraph-large-primary text-fg-primary text-right">
+                12/04/2026
+              </span>
+            </div>
+          </div>
+        </CardContent>
+        <CardFooter>
+          <StatsFooter />
+        </CardFooter>
+      </Card>
     </DemoRow>
   );
 }
@@ -302,8 +407,78 @@ export function CardContrast() {
 export function CardSize() {
   return (
     <DemoRow>
-      <TextCard size="default" />
-      <TextCard size="sm" />
+      <Card className="aspect-[3/4] w-[360px]">
+        <CardHeader>
+          <SignpostBadge />
+          <CardAction>
+            <MoreAction />
+          </CardAction>
+        </CardHeader>
+        <CardContent className="gap-4 pt-(--card-inset)">
+          <CardTitle className="line-clamp-3 h-[3lh]">{TITLE}</CardTitle>
+          <CardDescription className="line-clamp-3 h-[3lh]">
+            {DESCRIPTION}
+          </CardDescription>
+          <CardDivider />
+          <div className="flex w-full flex-col gap-2">
+            <div className="label-large-primary flex w-full items-start justify-between">
+              <span className="text-fg-secondary flex items-center gap-0.5">
+                Last updated
+              </span>
+              <span className="paragraph-large-primary text-fg-primary text-right">
+                20/06/2026
+              </span>
+            </div>
+            <div className="label-large-primary flex w-full items-start justify-between">
+              <span className="text-fg-secondary flex items-center gap-0.5">
+                Date Created
+              </span>
+              <span className="paragraph-large-primary text-fg-primary text-right">
+                12/04/2026
+              </span>
+            </div>
+          </div>
+        </CardContent>
+        <CardFooter>
+          <StatsFooter />
+        </CardFooter>
+      </Card>
+      <Card size="sm" className="aspect-[3/4] w-[320px]">
+        <CardHeader>
+          <SignpostBadge />
+          <CardAction>
+            <MoreAction />
+          </CardAction>
+        </CardHeader>
+        <CardContent className="gap-4 pt-(--card-inset)">
+          <CardTitle className="line-clamp-3 h-[3lh]">{TITLE}</CardTitle>
+          <CardDescription className="line-clamp-3 h-[3lh]">
+            {DESCRIPTION}
+          </CardDescription>
+          <CardDivider />
+          <div className="flex w-full flex-col gap-2">
+            <div className="label-regular-primary flex w-full items-start justify-between">
+              <span className="text-fg-secondary flex items-center gap-0.5">
+                Last updated
+              </span>
+              <span className="paragraph-regular-primary text-fg-primary text-right">
+                20/06/2026
+              </span>
+            </div>
+            <div className="label-regular-primary flex w-full items-start justify-between">
+              <span className="text-fg-secondary flex items-center gap-0.5">
+                Date Created
+              </span>
+              <span className="paragraph-regular-primary text-fg-primary text-right">
+                12/04/2026
+              </span>
+            </div>
+          </div>
+        </CardContent>
+        <CardFooter>
+          <StatsFooter />
+        </CardFooter>
+      </Card>
     </DemoRow>
   );
 }
