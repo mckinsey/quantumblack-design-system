@@ -28,8 +28,8 @@ const showLeading = instance.getBoolean('showLeadingIcon');
 const showTrailing = instance.getBoolean('showTrailingIcon');
 const showPrefix = instance.getBoolean('showPrefix');
 const showSuffix = instance.getBoolean('showSuffix');
-const showHintText = instance.getBoolean('showHintText');
-instance.getBoolean('showFeedbackMessage');
+const showHelpText = instance.getBoolean('showHintText');
+const showFeedback = instance.getBoolean('showFeedbackMessage');
 
 const prefix = instance.getString('prefixEntry');
 const suffix = instance.getString('suffixEntry');
@@ -50,9 +50,9 @@ const hasValue = isLive || hasFilledValue;
 
 const statusClass =
   state === 'warning'
-    ? ' className="!border-b-status-warning !border-b"'
+    ? ' className="border-b-stroke-status-warning"'
     : state === 'success'
-      ? ' className="!border-b-status-success !border-b"'
+      ? ' className="border-b-stroke-status-success"'
       : '';
 
 const valueProp = isLive
@@ -62,7 +62,7 @@ const valueProp = isLive
     : figma.code``;
 
 const placeholderProp =
-  showHintText || !hasValue
+  showHelpText && !hasValue
     ? figma.code` placeholder="${hintText}"`
     : figma.code``;
 
@@ -112,6 +112,20 @@ const trailingAddon = showTrailing
   `
   : figma.code``;
 
+const footer =
+  invalid && showFeedback
+    ? figma.code`<FieldError>Feedback message</FieldError>`
+    : showHelpText && !invalid
+      ? figma.code`<FieldDescription>Helper text</FieldDescription>`
+      : figma.code``;
+
+const fieldImports =
+  invalid && showFeedback
+    ? ['import { FieldError } from "@/components/ui/field"']
+    : showHelpText && !invalid
+      ? ['import { FieldDescription } from "@/components/ui/field"']
+      : [];
+
 export default {
   example: figma.code`
     <InputGroup variant="inline" size="${size}"${statusClass}>
@@ -121,9 +135,11 @@ export default {
       ${suffixAddon}
       ${trailingAddon}
     </InputGroup>
+    ${footer}
   `,
   imports: [
     'import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group"',
+    ...fieldImports,
   ],
   id: 'input-group-ghost',
   metadata: { nestable: true },
