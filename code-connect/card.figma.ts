@@ -209,7 +209,7 @@ const attributionAvatar =
         .map(n => n.executeTemplate().example)
         .flat()
     : figma.code`
-        <Avatar size="sm">
+        <Avatar size="${size === 'sm' ? 'xs' : 'sm'}">
           <AvatarImage src="" />
           <AvatarFallback>LI</AvatarFallback>
         </Avatar>

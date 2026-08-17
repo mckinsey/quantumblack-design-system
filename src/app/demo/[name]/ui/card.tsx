@@ -178,80 +178,73 @@ function StatsFooter() {
   );
 }
 
+function DataRows() {
+  return (
+    <div className="flex w-full flex-col gap-2">
+      <div className="label-large-primary group-data-[size=sm]/card:label-regular-primary flex w-full items-start justify-between">
+        <span className="text-fg-secondary flex items-center gap-0.5">
+          Last updated
+        </span>
+        <span className="paragraph-large-primary text-fg-primary group-data-[size=sm]/card:paragraph-regular-primary text-right">
+          20/06/2026
+        </span>
+      </div>
+      <div className="label-large-primary group-data-[size=sm]/card:label-regular-primary flex w-full items-start justify-between">
+        <span className="text-fg-secondary flex items-center gap-0.5">
+          Date Created
+        </span>
+        <span className="paragraph-large-primary text-fg-primary group-data-[size=sm]/card:paragraph-regular-primary text-right">
+          12/04/2026
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function StandardCardContent() {
+  return (
+    <>
+      <CardTitle className="line-clamp-3 h-[3lh]">{TITLE}</CardTitle>
+      <CardDescription className="line-clamp-3 h-[3lh]">
+        {DESCRIPTION}
+      </CardDescription>
+      <CardDivider />
+      <DataRows />
+    </>
+  );
+}
+
+function NoMediaCard({
+  className,
+  contrast,
+  size,
+}: {
+  className?: string;
+  contrast?: 'low' | 'high';
+  size?: 'default' | 'sm';
+}) {
+  return (
+    <Card contrast={contrast} size={size} className={className}>
+      <CardHeader>
+        <SignpostBadge />
+        <CardAction>
+          <MoreAction />
+        </CardAction>
+      </CardHeader>
+      <CardContent className="gap-4 pt-(--card-inset)">
+        <StandardCardContent />
+      </CardContent>
+      <CardFooter>
+        <StatsFooter />
+      </CardFooter>
+    </Card>
+  );
+}
+
 export function CardDemo() {
   return (
     <DemoRow>
-      <Card className="aspect-[3/4] w-[360px]">
-        <CardHeader>
-          <Badge outline variant="high-emphasis" withIcon>
-            <IconShell size="sm" type="neutral" variant="secondary">
-              <Icon icon="new_releases" />
-            </IconShell>
-            Label
-          </Badge>
-          <CardAction>
-            <Button variant="ghost" size="icon-sm" aria-label="More options">
-              <IconShell hoverable>
-                <Icon icon="more_vert" />
-              </IconShell>
-            </Button>
-          </CardAction>
-        </CardHeader>
-        <CardContent className="gap-4 pt-(--card-inset)">
-          <CardTitle className="line-clamp-3 h-[3lh]">{TITLE}</CardTitle>
-          <CardDescription className="line-clamp-3 h-[3lh]">
-            {DESCRIPTION}
-          </CardDescription>
-          <CardDivider />
-          <div className="flex w-full flex-col gap-2">
-            <div className="label-large-primary flex w-full items-start justify-between">
-              <span className="text-fg-secondary flex items-center gap-0.5">
-                Last updated
-              </span>
-              <span className="paragraph-large-primary text-fg-primary text-right">
-                20/06/2026
-              </span>
-            </div>
-            <div className="label-large-primary flex w-full items-start justify-between">
-              <span className="text-fg-secondary flex items-center gap-0.5">
-                Date Created
-              </span>
-              <span className="paragraph-large-primary text-fg-primary text-right">
-                12/04/2026
-              </span>
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter>
-          <div className="flex items-center gap-5">
-            <div className="label-large-primary text-fg-secondary flex items-center gap-1">
-              <IconShell size="default" type="neutral" variant="secondary">
-                <Icon icon="visibility" />
-              </IconShell>
-              21
-            </div>
-            <div className="label-large-primary text-fg-secondary flex items-center gap-1">
-              <IconShell size="default" type="neutral" variant="secondary">
-                <Icon icon="favorite" />
-              </IconShell>
-              8
-            </div>
-            <div className="label-large-primary text-fg-secondary flex items-center gap-1">
-              <IconShell size="default" type="neutral" variant="secondary">
-                <Icon icon="download" />
-              </IconShell>
-              3
-            </div>
-          </div>
-          <CardAction>
-            <Button variant="ghost" size="icon-sm" aria-label="Bookmark">
-              <IconShell hoverable>
-                <Icon icon="bookmark_add" />
-              </IconShell>
-            </Button>
-          </CardAction>
-        </CardFooter>
-      </Card>
+      <NoMediaCard className="aspect-[3/4] w-[360px]" />
     </DemoRow>
   );
 }
@@ -328,78 +321,8 @@ export function CardWithImageAndData() {
 export function CardContrast() {
   return (
     <DemoRow>
-      <Card contrast="low" className="aspect-[3/4] w-[360px]">
-        <CardHeader>
-          <SignpostBadge />
-          <CardAction>
-            <MoreAction />
-          </CardAction>
-        </CardHeader>
-        <CardContent className="gap-4 pt-(--card-inset)">
-          <CardTitle className="line-clamp-3 h-[3lh]">{TITLE}</CardTitle>
-          <CardDescription className="line-clamp-3 h-[3lh]">
-            {DESCRIPTION}
-          </CardDescription>
-          <CardDivider />
-          <div className="flex w-full flex-col gap-2">
-            <div className="label-large-primary flex w-full items-start justify-between">
-              <span className="text-fg-secondary flex items-center gap-0.5">
-                Last updated
-              </span>
-              <span className="paragraph-large-primary text-fg-primary text-right">
-                20/06/2026
-              </span>
-            </div>
-            <div className="label-large-primary flex w-full items-start justify-between">
-              <span className="text-fg-secondary flex items-center gap-0.5">
-                Date Created
-              </span>
-              <span className="paragraph-large-primary text-fg-primary text-right">
-                12/04/2026
-              </span>
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter>
-          <StatsFooter />
-        </CardFooter>
-      </Card>
-      <Card contrast="high" className="aspect-[3/4] w-[360px]">
-        <CardHeader>
-          <SignpostBadge />
-          <CardAction>
-            <MoreAction />
-          </CardAction>
-        </CardHeader>
-        <CardContent className="gap-4 pt-(--card-inset)">
-          <CardTitle className="line-clamp-3 h-[3lh]">{TITLE}</CardTitle>
-          <CardDescription className="line-clamp-3 h-[3lh]">
-            {DESCRIPTION}
-          </CardDescription>
-          <CardDivider />
-          <div className="flex w-full flex-col gap-2">
-            <div className="label-large-primary flex w-full items-start justify-between">
-              <span className="text-fg-secondary flex items-center gap-0.5">
-                Last updated
-              </span>
-              <span className="paragraph-large-primary text-fg-primary text-right">
-                20/06/2026
-              </span>
-            </div>
-            <div className="label-large-primary flex w-full items-start justify-between">
-              <span className="text-fg-secondary flex items-center gap-0.5">
-                Date Created
-              </span>
-              <span className="paragraph-large-primary text-fg-primary text-right">
-                12/04/2026
-              </span>
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter>
-          <StatsFooter />
-        </CardFooter>
-      </Card>
+      <NoMediaCard contrast="low" className="aspect-[3/4] w-[360px]" />
+      <NoMediaCard contrast="high" className="aspect-[3/4] w-[360px]" />
     </DemoRow>
   );
 }
@@ -407,78 +330,8 @@ export function CardContrast() {
 export function CardSize() {
   return (
     <DemoRow>
-      <Card className="aspect-[3/4] w-[360px]">
-        <CardHeader>
-          <SignpostBadge />
-          <CardAction>
-            <MoreAction />
-          </CardAction>
-        </CardHeader>
-        <CardContent className="gap-4 pt-(--card-inset)">
-          <CardTitle className="line-clamp-3 h-[3lh]">{TITLE}</CardTitle>
-          <CardDescription className="line-clamp-3 h-[3lh]">
-            {DESCRIPTION}
-          </CardDescription>
-          <CardDivider />
-          <div className="flex w-full flex-col gap-2">
-            <div className="label-large-primary flex w-full items-start justify-between">
-              <span className="text-fg-secondary flex items-center gap-0.5">
-                Last updated
-              </span>
-              <span className="paragraph-large-primary text-fg-primary text-right">
-                20/06/2026
-              </span>
-            </div>
-            <div className="label-large-primary flex w-full items-start justify-between">
-              <span className="text-fg-secondary flex items-center gap-0.5">
-                Date Created
-              </span>
-              <span className="paragraph-large-primary text-fg-primary text-right">
-                12/04/2026
-              </span>
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter>
-          <StatsFooter />
-        </CardFooter>
-      </Card>
-      <Card size="sm" className="aspect-[3/4] w-[320px]">
-        <CardHeader>
-          <SignpostBadge />
-          <CardAction>
-            <MoreAction />
-          </CardAction>
-        </CardHeader>
-        <CardContent className="gap-4 pt-(--card-inset)">
-          <CardTitle className="line-clamp-3 h-[3lh]">{TITLE}</CardTitle>
-          <CardDescription className="line-clamp-3 h-[3lh]">
-            {DESCRIPTION}
-          </CardDescription>
-          <CardDivider />
-          <div className="flex w-full flex-col gap-2">
-            <div className="label-regular-primary flex w-full items-start justify-between">
-              <span className="text-fg-secondary flex items-center gap-0.5">
-                Last updated
-              </span>
-              <span className="paragraph-regular-primary text-fg-primary text-right">
-                20/06/2026
-              </span>
-            </div>
-            <div className="label-regular-primary flex w-full items-start justify-between">
-              <span className="text-fg-secondary flex items-center gap-0.5">
-                Date Created
-              </span>
-              <span className="paragraph-regular-primary text-fg-primary text-right">
-                12/04/2026
-              </span>
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter>
-          <StatsFooter />
-        </CardFooter>
-      </Card>
+      <NoMediaCard className="aspect-[3/4] w-[360px]" />
+      <NoMediaCard size="sm" className="aspect-[3/4] w-[320px]" />
     </DemoRow>
   );
 }
@@ -511,7 +364,7 @@ function SpacingCard() {
         ))}
       </SegmentedControls>
       <Card className={`w-full ${selected.className}`}>
-        <CardHeader className="flex-col items-start gap-1 pb-(--card-inset)">
+        <CardHeader className="flex-col items-start justify-start gap-1 pb-(--card-inset)">
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>
             Enter your email below to login to your account
@@ -550,7 +403,7 @@ function SpacingCard() {
 function EdgeToEdgeCard() {
   return (
     <Card className="w-full max-w-sm">
-      <CardHeader className="flex-col items-start gap-1 pb-(--card-inset)">
+      <CardHeader className="flex-col items-start justify-start gap-1 pb-(--card-inset)">
         <CardTitle>Terms of Service</CardTitle>
         <CardDescription>
           Review the terms before accepting the agreement.

@@ -37,8 +37,10 @@ const secondaryClass =
     ? 'paragraph-regular-primary text-fg-secondary'
     : 'paragraph-large-primary text-fg-secondary';
 
+const avatarSize = size === 'sm' ? 'xs' : 'sm';
+
 const fallbackAvatar = figma.code`
-  <Avatar size="sm">
+  <Avatar size="${avatarSize}">
     <AvatarImage src="" />
     <AvatarFallback>LI</AvatarFallback>
   </Avatar>
