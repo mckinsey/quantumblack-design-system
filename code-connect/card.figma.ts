@@ -6,6 +6,9 @@
 // Archetypes: noMedia → CardDemo | media+stats → CardWithImageAndData | media+cta → CardWithImage | custom → CardCustom
 import figma from 'figma';
 
+const PLACEHOLDER_BG = '22232a';
+const PLACEHOLDER_FG = 'FFF';
+
 const instance = figma.selectedInstance;
 
 const size = instance.getEnum('size', {
@@ -196,7 +199,7 @@ const mediaHeaderBlock =
 const mediaBlock = showMedia
   ? figma.code`
       <CardMedia>
-        <img alt="" src="https://placehold.co/640x320" />
+        <img alt="" src="https://placehold.co/640x320/${PLACEHOLDER_BG}/${PLACEHOLDER_FG}" />
         ${mediaHeaderBlock}
       </CardMedia>
     `

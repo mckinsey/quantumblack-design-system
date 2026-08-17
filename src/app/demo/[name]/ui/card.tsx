@@ -22,14 +22,16 @@ import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 const basePath = import.meta.env.VITE_BASE_PATH ?? '';
 const AVATAR = `${basePath}/users/avatar-1.jpg`;
 const DUMMY = 'https://placehold.co';
+const PLACEHOLDER_BG = '22232a';
+const PLACEHOLDER_FG = 'FFF';
 
 const TITLE =
   'Descriptive card title that summarises the content in a clear, scannable way.';
 const DESCRIPTION =
   'A short supporting description that gives readers extra context about the card content.';
 
-function demoImg(w: number, h: number, label: string) {
-  return `${DUMMY}/${w}x${h}?text=${encodeURIComponent(label)}`;
+function demoImg(w: number, h: number) {
+  return `${DUMMY}/${w}x${h}/${PLACEHOLDER_BG}/${PLACEHOLDER_FG}`;
 }
 
 function DemoRow({ children }: { children: ReactNode }) {
@@ -250,7 +252,7 @@ export function CardWithImage() {
     <DemoRow>
       <Card className="w-[360px]">
         <CardMedia>
-          <img src={demoImg(640, 320, 'Featured')} alt="" />
+          <img src={demoImg(640, 320)} alt="" />
           <CardHeader>
             <Badge outline variant="high-emphasis">
               Featured
@@ -278,7 +280,7 @@ export function CardWithImageAndData() {
     <DemoRow>
       <Card className="aspect-[3/4] w-[360px]">
         <CardMedia>
-          <img src={demoImg(640, 320, 'Card')} alt="" />
+          <img src={demoImg(640, 320)} alt="" />
           <CardHeader>
             <SignpostBadge />
             <CardAction>
