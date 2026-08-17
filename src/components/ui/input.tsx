@@ -72,8 +72,81 @@ export const inputInlineFocusBorderWidth = {
   lg: 'focus-visible:border-b-[2px]',
 } as const;
 
-const inputInlineLgFocusUnderline =
+export const inputInlineLgFocusUnderline =
   'focus-visible:shadow-[0_1px_0_0_var(--color-stroke-status-focus)] aria-invalid:focus-visible:shadow-[0_1px_0_0_var(--color-stroke-status-error)]';
+
+type InputSize = keyof typeof inputFocusRingWidth;
+
+function toInputGroupHas(inputClass: string) {
+  return inputClass
+    .split(/\s+/)
+    .filter(Boolean)
+    .flatMap(c => {
+      if (c.startsWith('focus-visible:')) {
+        return [
+          `has-[[data-slot=input-group-control]:focus-visible]:${c.slice(14)}`,
+        ];
+      }
+
+      if (c.startsWith('aria-invalid:')) {
+        return [
+          `has-[[data-slot=input-group-control][aria-invalid=true]]:${c.slice(13)}`,
+        ];
+      }
+
+      return [];
+    });
+}
+
+function inputGroupHas(inputClass: string) {
+  return toInputGroupHas(inputClass).join(' ');
+}
+
+function mapInputSizeStyles(sizes: Record<InputSize, string>) {
+  return (Object.keys(sizes) as InputSize[]).reduce(
+    (acc, size) => {
+      acc[size] = inputGroupHas(sizes[size]);
+      return acc;
+    },
+    {} as Record<InputSize, string>,
+  );
+}
+
+export const inputGroupFocusRingWidth = mapInputSizeStyles(inputFocusRingWidth);
+
+export const inputGroupInlineFocusBorderWidth = mapInputSizeStyles(
+  inputInlineFocusBorderWidth,
+);
+
+export const inputGroupDefaultFocusStyles = [
+  ...toInputGroupHas(inputVariantStyles.default.focus),
+  'has-[[data-slot=input-group-control]:focus-visible]:shadow-elevation-0',
+] as const;
+
+export const inputGroupInlineFocusStyles = [
+  ...toInputGroupHas(inputVariantStyles.inline.focus),
+  'has-[[data-slot=input-group-control]:focus-visible]:shadow-elevation-0',
+] as const;
+
+export const inputGroupDefaultErrorStyles = [
+  ...toInputGroupHas(inputVariantStyles.default.error),
+  'has-[[data-slot=input-group-control][aria-invalid=true]]:ring-0',
+] as const;
+
+export const inputGroupInlineErrorStyles = toInputGroupHas(
+  inputVariantStyles.inline.error,
+);
+
+export const inputGroupInlineLgFocusUnderline = inputGroupHas(
+  inputInlineLgFocusUnderline,
+);
+
+export const inputGroupControlChromeReset = [
+  'hover:[background-image:none] hover:bg-transparent hover:!shadow-none',
+  'focus-visible:[background-image:none] focus-visible:bg-transparent focus-visible:ring-0 focus-visible:!shadow-none',
+  'active:[background-image:none]',
+  'aria-invalid:[background-image:none] aria-invalid:ring-0 aria-invalid:!border-0 aria-invalid:!shadow-none',
+] as const;
 
 const inputVariants = cva(
   `flex w-full min-w-0 rounded-none outline-none transition-[border-color,box-shadow,background-color,background-image] font-normal ${searchCancelButtonStyles}`,
