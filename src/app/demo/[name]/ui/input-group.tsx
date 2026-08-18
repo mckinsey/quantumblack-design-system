@@ -1,6 +1,6 @@
 'use client';
 
-import { type FocusEvent, useRef, useState } from 'react';
+import { type FocusEvent, type ReactNode, useRef, useState } from 'react';
 
 import {
   FieldDescription,
@@ -31,13 +31,11 @@ const getLabelClass = (
   variant: 'default' | 'inline' = 'default',
 ) => cn(variant === 'inline' && size !== 'sm' && 'mb-[-4px]');
 
-export { inputGroupFieldConfig } from './input-group-config';
-
-function LeadingIcon({ children }: Readonly<{ children: React.ReactNode }>) {
+function LeadingIcon({ children }: Readonly<{ children: ReactNode }>) {
   return <InputGroupAddon align="inline-start">{children}</InputGroupAddon>;
 }
 
-function TrailingIcon({ children }: Readonly<{ children: React.ReactNode }>) {
+function TrailingIcon({ children }: Readonly<{ children: ReactNode }>) {
   return <InputGroupAddon align="inline-end">{children}</InputGroupAddon>;
 }
 
@@ -471,7 +469,7 @@ export function InputGroupDeleteOnFocus() {
                     setValue('');
                     focusControl();
                   }}>
-                  <IconShell size="sm" type="neutral" hoverable>
+                  <IconShell size="sm" type="neutral" hoverable aria-hidden>
                     <Icon icon="backspace" />
                   </IconShell>
                 </InputGroupButton>
