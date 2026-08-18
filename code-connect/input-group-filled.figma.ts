@@ -16,6 +16,7 @@ const state = instance.getEnum('state', {
   enabled: 'enabled',
   hover: 'hover',
   focus: 'focus',
+  active: 'active',
   'open-typeahead': 'open-typeahead',
   filled: 'filled',
   disabled: 'disabled',
@@ -41,7 +42,7 @@ const inputActive = instance.getString('inputActive');
 
 const disabled = state === 'disabled';
 const invalid = state === 'error';
-const isLive = state === 'open-typeahead';
+const isLive = state === 'active' || state === 'open-typeahead';
 const hasFilledValue =
   state === 'filled' ||
   state === 'error' ||

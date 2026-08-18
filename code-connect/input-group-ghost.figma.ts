@@ -87,7 +87,7 @@ const inputProps = [
   invalid ? 'aria-invalid' : '',
   isLive ? `defaultValue="${liveEntry}"` : '',
   !isLive && hasFilledValue ? `defaultValue="${entryFilled}"` : '',
-  showHelpText && !hasValue ? `placeholder="${hintText}"` : '',
+  showHelpText || !hasValue ? `placeholder="${hintText}"` : '',
 ]
   .filter(Boolean)
   .join(' ');

@@ -170,14 +170,18 @@ const bareStatusClass =
       ? ' className="border-b-stroke-status-success"'
       : '';
 
-const bareExample = figma.code`<Input variant="inline" size="${size}"${disabled ? ' disabled' : ''}${invalid ? ' aria-invalid' : ''}${valueProp}${placeholderProp}${bareStatusClass} />`;
+const bareExampleBody = figma.code`<Input variant="inline" size="${size}"${disabled ? ' disabled' : ''}${invalid ? ' aria-invalid' : ''}${valueProp}${placeholderProp}${bareStatusClass} />`;
+
+const bareExample = hasFooter
+  ? figma.code`<FieldSet className="gap-2">${bareExampleBody}${footer}</FieldSet>`
+  : bareExampleBody;
 
 const example = hasSlots ? slottedExample : bareExample;
 
 const fieldImports =
-  hasSlots && invalid && showFeedback
+  invalid && showFeedback
     ? ['import { FieldError, FieldSet } from "@/components/ui/field"']
-    : hasSlots && showHintText && !invalid
+    : showHintText && !invalid
       ? ['import { FieldDescription, FieldSet } from "@/components/ui/field"']
       : [];
 
@@ -198,7 +202,9 @@ const groupImports = hasSlots
         : []),
       ...fieldImports,
     ]
-  : ['import { Input } from "@/components/ui/input"'];
+  : hasFooter
+    ? ['import { Input } from "@/components/ui/input"', ...fieldImports]
+    : ['import { Input } from "@/components/ui/input"'];
 
 export default {
   example,
