@@ -1,6 +1,7 @@
 // url=<QBDS_INPUT_GROUP_GHOST>
 // source=src/components/ui/input-group.tsx
 // component=InputGroup
+// Figma Field/TextVariant-Ghost → InputGroup variant="inline" with affixes. Use input-ghost for bare inline fields.
 import figma from 'figma';
 
 const instance = figma.selectedInstance;

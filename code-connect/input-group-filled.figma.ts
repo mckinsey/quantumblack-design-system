@@ -1,6 +1,7 @@
 // url=<QBDS_INPUT_GROUP_FILLED>
 // source=src/components/ui/input-group.tsx
 // component=InputGroup
+// Figma Field/TextVariant-Filled → InputGroup with prefix/suffix and optional icons. Use input-filled for bare fields.
 import figma from 'figma';
 
 const instance = figma.selectedInstance;
