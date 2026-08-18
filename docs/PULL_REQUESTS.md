@@ -55,7 +55,22 @@ Component name for component work. Demo name for demo-only fixes.
 
 ```markdown
 ## Summary
-- …
+- Migrate `Input` from Radix to Base UI
+- Align disabled/hover states with Figma via `--surface-*` tokens
+- Add Code Connect mapping for the variant matrix
 ```
 
 1–3 bullets. State what changed and why. No filler — drop hedging, throat-clearing, and restating the title.
+
+### Examples
+
+```markdown
+## Summary
+- Drop `format` prop on `Badge`; pill is the only shape
+```
+
+```markdown
+## Summary
+- Add `docs/PULL_REQUESTS.md`: `<type>(<scope>):` titles, type/scope tables, summary rules
+- Link doc from `CLAUDE.md` pre-PR checklist
+```
