@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { type FocusEvent, useRef, useState } from 'react';
 
 import {
   FieldDescription,
@@ -421,14 +421,25 @@ export function InputGroupDeleteOnFocus() {
       control?.focus();
     };
 
+    const handleFocusCapture = () => setFocused(true);
+
+    const handleBlurCapture = (e: FocusEvent<HTMLDivElement>) => {
+      if (!groupContainerRef.current?.contains(e.relatedTarget as Node)) {
+        setFocused(false);
+      }
+    };
+
     return (
-      <FieldSet className={`w-[240px] ${gap}`}>
+      <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
         <FieldLabel
           htmlFor={fieldId}
           className={getLabelClass('default', variant)}>
           Label
         </FieldLabel>
-        <div ref={groupContainerRef}>
+        <div
+          ref={groupContainerRef}
+          onFocusCapture={handleFocusCapture}
+          onBlurCapture={handleBlurCapture}>
           <InputGroup variant={variant}>
             <InputGroupAddon align="inline-start">
               <IconShell
@@ -446,8 +457,6 @@ export function InputGroupDeleteOnFocus() {
               value={value}
               autoComplete="off"
               onChange={e => setValue(e.target.value)}
-              onFocus={() => setFocused(true)}
-              onBlur={() => setFocused(false)}
             />
             {showDelete ? (
               <InputGroupAddon align="inline-end">
