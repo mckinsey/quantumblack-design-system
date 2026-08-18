@@ -1,3 +1,7 @@
+import { type ReactNode } from 'react';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -6,176 +10,457 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
+  CardMedia,
   CardTitle,
 } from '@/components/ui/card';
+import { FieldLabel, FieldSet } from '@/components/ui/field';
+import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 
-// ============================================================================
-// Example Components (New Format)
-// ============================================================================
+const basePath = import.meta.env.VITE_BASE_PATH ?? '';
+const AVATAR = `${basePath}/users/avatar-1.jpg`;
+const DUMMY = 'https://placehold.co';
+const PLACEHOLDER_BG = '6e6b6b';
+const PLACEHOLDER_FG = 'FFF';
 
-/**
- * Default card with login form
- */
+const TITLE =
+  'Descriptive card title that summarises the content in a clear, scannable way.';
+const DESCRIPTION =
+  'A short supporting description that gives readers extra context about the card content.';
+
+function demoImg(w: number, h: number) {
+  return `${DUMMY}/${w}x${h}/${PLACEHOLDER_BG}/${PLACEHOLDER_FG}`;
+}
+
+function DemoRow({ children }: { children: ReactNode }) {
+  return <div className="flex flex-wrap items-start gap-6">{children}</div>;
+}
+
+function CardDivider() {
+  return (
+    <div
+      role="separator"
+      aria-orientation="horizontal"
+      className="border-stroke-divider h-0 w-12 border-0 border-b border-solid"
+    />
+  );
+}
+
+function SignpostBadge() {
+  return (
+    <Badge outline variant="high-emphasis" withIcon>
+      <IconShell size="sm" type="neutral" variant="secondary">
+        <Icon icon="new_releases" />
+      </IconShell>
+      Label
+    </Badge>
+  );
+}
+
+function MoreAction() {
+  return (
+    <>
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        aria-label="More options"
+        className="group-data-[size=sm]/card:hidden">
+        <IconShell hoverable>
+          <Icon icon="more_vert" />
+        </IconShell>
+      </Button>
+      <Button
+        variant="ghost"
+        size="icon-xs"
+        aria-label="More options"
+        className="hidden group-data-[size=sm]/card:inline-flex">
+        <IconShell hoverable>
+          <Icon icon="more_vert" />
+        </IconShell>
+      </Button>
+    </>
+  );
+}
+
+function BookmarkAction() {
+  return (
+    <>
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        aria-label="Bookmark"
+        className="group-data-[size=sm]/card:hidden">
+        <IconShell hoverable>
+          <Icon icon="bookmark_add" />
+        </IconShell>
+      </Button>
+      <Button
+        variant="ghost"
+        size="icon-xs"
+        aria-label="Bookmark"
+        className="hidden group-data-[size=sm]/card:inline-flex">
+        <IconShell hoverable>
+          <Icon icon="bookmark_add" />
+        </IconShell>
+      </Button>
+    </>
+  );
+}
+
+function StatsFooter() {
+  return (
+    <>
+      <div className="flex items-center gap-5 group-data-[size=sm]/card:gap-4">
+        <div className="label-large-primary text-fg-secondary group-data-[size=sm]/card:label-regular-primary flex items-center gap-1">
+          <IconShell
+            size="default"
+            type="neutral"
+            variant="secondary"
+            className="group-data-[size=sm]/card:hidden">
+            <Icon icon="visibility" />
+          </IconShell>
+          <IconShell
+            size="sm"
+            type="neutral"
+            variant="secondary"
+            className="hidden group-data-[size=sm]/card:inline-flex">
+            <Icon icon="visibility" />
+          </IconShell>
+          21
+        </div>
+        <div className="label-large-primary text-fg-secondary group-data-[size=sm]/card:label-regular-primary flex items-center gap-1">
+          <IconShell
+            size="default"
+            type="neutral"
+            variant="secondary"
+            className="group-data-[size=sm]/card:hidden">
+            <Icon icon="favorite" />
+          </IconShell>
+          <IconShell
+            size="sm"
+            type="neutral"
+            variant="secondary"
+            className="hidden group-data-[size=sm]/card:inline-flex">
+            <Icon icon="favorite" />
+          </IconShell>
+          8
+        </div>
+        <div className="label-large-primary text-fg-secondary group-data-[size=sm]/card:label-regular-primary flex items-center gap-1">
+          <IconShell
+            size="default"
+            type="neutral"
+            variant="secondary"
+            className="group-data-[size=sm]/card:hidden">
+            <Icon icon="download" />
+          </IconShell>
+          <IconShell
+            size="sm"
+            type="neutral"
+            variant="secondary"
+            className="hidden group-data-[size=sm]/card:inline-flex">
+            <Icon icon="download" />
+          </IconShell>
+          3
+        </div>
+      </div>
+      <CardAction>
+        <BookmarkAction />
+      </CardAction>
+    </>
+  );
+}
+
+function DataRows() {
+  return (
+    <div className="flex w-full flex-col gap-2">
+      <div className="label-large-primary group-data-[size=sm]/card:label-regular-primary flex w-full items-start justify-between">
+        <span className="text-fg-secondary flex items-center gap-0.5">
+          Last updated
+        </span>
+        <span className="paragraph-large-primary text-fg-primary group-data-[size=sm]/card:paragraph-regular-primary text-right">
+          20/06/2026
+        </span>
+      </div>
+      <div className="label-large-primary group-data-[size=sm]/card:label-regular-primary flex w-full items-start justify-between">
+        <span className="text-fg-secondary flex items-center gap-0.5">
+          Date Created
+        </span>
+        <span className="paragraph-large-primary text-fg-primary group-data-[size=sm]/card:paragraph-regular-primary text-right">
+          12/04/2026
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function StandardCardContent() {
+  return (
+    <>
+      <CardTitle className="line-clamp-3 h-[3lh]">{TITLE}</CardTitle>
+      <CardDescription className="line-clamp-3 h-[3lh]">
+        {DESCRIPTION}
+      </CardDescription>
+      <CardDivider />
+      <DataRows />
+    </>
+  );
+}
+
+function NoMediaCard({
+  className,
+  contrast,
+  size,
+}: {
+  className?: string;
+  contrast?: 'low' | 'high';
+  size?: 'default' | 'sm';
+}) {
+  return (
+    <Card contrast={contrast} size={size} className={className}>
+      <CardHeader>
+        <SignpostBadge />
+        <CardAction>
+          <MoreAction />
+        </CardAction>
+      </CardHeader>
+      <CardContent className="gap-4 pt-(--card-inset)">
+        <StandardCardContent />
+      </CardContent>
+      <CardFooter>
+        <StatsFooter />
+      </CardFooter>
+    </Card>
+  );
+}
+
 export function CardDemo() {
   return (
-    <Card className="w-full max-w-sm">
-      <CardHeader>
+    <DemoRow>
+      <NoMediaCard className="aspect-[3/4] w-[360px]" />
+    </DemoRow>
+  );
+}
+
+export function CardWithImage() {
+  return (
+    <DemoRow>
+      <Card className="w-[360px]">
+        <CardMedia>
+          <img src={demoImg(640, 320)} alt="" />
+          <CardHeader>
+            <Badge outline variant="high-emphasis">
+              Featured
+            </Badge>
+          </CardHeader>
+        </CardMedia>
+        <CardContent className="gap-3 py-(--card-inset)">
+          <CardTitle>Design systems meetup</CardTitle>
+          <CardDescription>
+            A practical talk on component APIs, accessibility, and shipping
+            faster.
+          </CardDescription>
+        </CardContent>
+        <CardFooter className="justify-end gap-2">
+          <Button>Share</Button>
+          <Button variant="outline">View Event</Button>
+        </CardFooter>
+      </Card>
+    </DemoRow>
+  );
+}
+
+export function CardWithImageAndData() {
+  return (
+    <DemoRow>
+      <Card className="aspect-[3/4] w-[360px]">
+        <CardMedia>
+          <img src={demoImg(640, 320)} alt="" />
+          <CardHeader>
+            <SignpostBadge />
+            <CardAction>
+              <MoreAction />
+            </CardAction>
+          </CardHeader>
+        </CardMedia>
+        <CardContent className="flex-1 gap-3 py-(--card-inset)">
+          <div className="flex w-full items-center gap-2 pb-3">
+            <Avatar size="sm" className="group-data-[size=sm]/card:hidden">
+              <AvatarImage src={AVATAR} />
+              <AvatarFallback>LI</AvatarFallback>
+            </Avatar>
+            <Avatar
+              size="xs"
+              className="hidden group-data-[size=sm]/card:inline-flex">
+              <AvatarImage src={AVATAR} />
+              <AvatarFallback>LI</AvatarFallback>
+            </Avatar>
+            <span className="paragraph-large-primary text-fg-secondary group-data-[size=sm]/card:paragraph-regular-primary">
+              3 hours ago
+            </span>
+          </div>
+          <CardTitle className="line-clamp-2 h-[2lh]">{TITLE}</CardTitle>
+          <CardDescription className="line-clamp-2 h-[2lh]">
+            {DESCRIPTION}
+          </CardDescription>
+        </CardContent>
+        <CardFooter>
+          <StatsFooter />
+        </CardFooter>
+      </Card>
+    </DemoRow>
+  );
+}
+
+export function CardContrast() {
+  return (
+    <DemoRow>
+      <NoMediaCard contrast="low" className="aspect-[3/4] w-[360px]" />
+      <NoMediaCard contrast="high" className="aspect-[3/4] w-[360px]" />
+    </DemoRow>
+  );
+}
+
+export function CardSize() {
+  return (
+    <DemoRow>
+      <NoMediaCard className="aspect-[3/4] w-[360px]" />
+      <NoMediaCard size="sm" className="aspect-[3/4] w-[320px]" />
+    </DemoRow>
+  );
+}
+
+function LoginCard() {
+  return (
+    <Card className="w-full max-w-sm [--card-inset:--spacing(5)]">
+      <CardHeader className="flex-col items-start justify-start gap-1 pb-(--card-inset)">
         <CardTitle>Login to your account</CardTitle>
-        <CardDescription className="w-[80%]">
+        <CardDescription>
           Enter your email below to login to your account
         </CardDescription>
-        <CardAction>
-          <Button variant="ghost" size="sm">
-            Sign Up
-          </Button>
-        </CardAction>
       </CardHeader>
-      <CardContent className="mt-1.5">
-        <form>
-          <div className="flex flex-col gap-6">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                required
-              />
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                <a
-                  href="#"
-                  className="ml-auto inline-block text-sm underline-offset-4 hover:underline">
-                  Forgot your password?
-                </a>
-              </div>
-              <Input id="password" type="password" required />
-            </div>
+      <CardContent className="gap-6">
+        <FieldSet className="gap-2">
+          <FieldLabel htmlFor="card-inset-email">Email</FieldLabel>
+          <Input
+            id="card-inset-email"
+            type="email"
+            placeholder="name@example.com"
+          />
+        </FieldSet>
+        <FieldSet className="gap-2">
+          <div className="flex items-center justify-between gap-2">
+            <FieldLabel htmlFor="card-inset-password">Password</FieldLabel>
+            <Button variant="ghost" size="sm" className="h-auto px-0 py-0">
+              Forgot your password?
+            </Button>
           </div>
-        </form>
+          <Input id="card-inset-password" type="password" />
+        </FieldSet>
       </CardContent>
-      <CardFooter className="mt-4 flex-col gap-2">
-        <Button type="submit" className="w-full">
-          Login
-        </Button>
+      <CardFooter className="flex-col items-stretch gap-2 pt-(--card-inset)">
+        <Button className="w-full">Login</Button>
         <Button variant="outline" className="w-full">
-          Login with Google
+          Signup
         </Button>
       </CardFooter>
     </Card>
   );
 }
 
-/**
- * Simple card with just content
- */
-export function CardSimple() {
+function EdgeToEdgeCard() {
   return (
     <Card className="w-full max-w-sm">
-      <CardHeader>
-        <CardTitle>Notifications</CardTitle>
-        <CardDescription>You have 3 unread messages.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p className="text-fg-secondary text-sm">
-          Check your inbox for the latest updates from your team.
-        </p>
-      </CardContent>
-    </Card>
-  );
-}
-
-/**
- * Card with action button in header
- */
-export function CardWithAction() {
-  return (
-    <Card className="w-full max-w-sm">
-      <CardHeader>
-        <CardTitle>Team Members</CardTitle>
-        <CardDescription>Manage your team members and roles.</CardDescription>
-        <CardAction>
-          <Button size="sm">Add Member</Button>
-        </CardAction>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-sm">John Doe</span>
-            <span className="text-fg-secondary text-xs">Admin</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-sm">Jane Smith</span>
-            <span className="text-fg-secondary text-xs">Member</span>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-/**
- * Card with footer buttons
- */
-export function CardWithFooter() {
-  return (
-    <Card className="w-full max-w-sm">
-      <CardHeader>
-        <CardTitle>Delete Project</CardTitle>
+      <CardHeader className="flex-col items-start justify-start gap-1 pb-(--card-inset)">
+        <CardTitle>Terms of Service</CardTitle>
         <CardDescription>
-          This action cannot be undone. This will permanently delete your
-          project and remove all associated data.
+          Review the terms before accepting the agreement.
         </CardDescription>
       </CardHeader>
-      <CardFooter className="flex justify-end gap-2">
-        <Button variant="outline">Cancel</Button>
-        <Button variant="default">Delete</Button>
+      <CardContent>
+        <div className="border-stroke-divider bg-fill-onsurface-ui-2 -mx-(--card-inset) max-h-48 space-y-4 overflow-y-auto border-y px-(--card-inset) py-4">
+          <p className="paragraph-regular-primary text-fg-secondary">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+          <p className="paragraph-regular-primary text-fg-secondary">
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur.
+          </p>
+          <p className="paragraph-regular-primary text-fg-secondary">
+            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+            officia deserunt mollit anim id est laborum. Curabitur pretium
+            tincidunt lacus.
+          </p>
+          <p className="paragraph-regular-primary text-fg-secondary">
+            Nulla pulvinar eleifend sem. Cum sociis natoque penatibus et magnis
+            dis parturient montes, nascetur ridiculus mus. Donec quam felis,
+            ultricies nec, pellentesque eu, pretium quis, sem.
+          </p>
+        </div>
+      </CardContent>
+      <CardFooter className="justify-end gap-2 pt-(--card-inset)">
+        <Button variant="outline">Decline</Button>
+        <Button>Accept</Button>
       </CardFooter>
     </Card>
   );
 }
 
-// ============================================================================
-// Example Metadata
-// ============================================================================
+export function CardOverride() {
+  return (
+    <DemoRow>
+      <LoginCard />
+      <EdgeToEdgeCard />
+    </DemoRow>
+  );
+}
 
-export const examples = [
+export const examples: DemoExample[] = [
   {
     name: 'CardDemo',
     title: 'Default',
-    description: 'Card with header, content, and footer actions.',
+    description:
+      'A text-first card with a header action, title, supporting copy, metadata rows, and a stats footer.',
   },
   {
-    name: 'CardSimple',
-    title: 'Simple',
-    description: 'Basic card with title, description, and content.',
+    name: 'CardWithImage',
+    title: 'With image',
+    description:
+      'A media area at the top, an overlay badge, supporting text, and a call to action.',
   },
   {
-    name: 'CardWithAction',
-    title: 'With Action',
-    description: 'Card with an action button in the header.',
+    name: 'CardWithImageAndData',
+    title: 'With image and data',
+    description:
+      'Media with header controls, attribution, title and description, plus engagement stats in the footer.',
   },
   {
-    name: 'CardWithFooter',
-    title: 'With Footer',
-    description: 'Card with footer action buttons.',
+    name: 'CardSize',
+    title: 'Sizes',
+    description: 'Default and small cards side by side to compare density.',
+  },
+  {
+    name: 'CardContrast',
+    title: 'Contrast',
+    description: 'Low and high surface contrast for the same card layout.',
+  },
+  {
+    name: 'CardOverride',
+    title: 'Custom cards',
+    description:
+      'Login form with 20px inset, or scroll content that stretches edge to edge above the footer.',
   },
 ];
 
-// ============================================================================
-// Legacy Format (for backwards compatibility)
-// ============================================================================
-
-export const card = {
-  name: 'card',
-  components: {
-    Default: <CardDemo />,
-    Simple: <CardSimple />,
-    'With Action': <CardWithAction />,
-    'With Footer': <CardWithFooter />,
-  },
-};
+export const card = createLegacyDemo('card', examples, {
+  CardDemo: <CardDemo />,
+  CardWithImage: <CardWithImage />,
+  CardWithImageAndData: <CardWithImageAndData />,
+  CardSize: <CardSize />,
+  CardContrast: <CardContrast />,
+  CardOverride: <CardOverride />,
+});

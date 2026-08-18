@@ -85,10 +85,12 @@ import {
   examples as calendarExamples,
 } from '@/app/demo/[name]/ui/calendar';
 import {
+  CardContrast,
   CardDemo,
-  CardSimple,
-  CardWithAction,
-  CardWithFooter,
+  CardOverride,
+  CardSize,
+  CardWithImage,
+  CardWithImageAndData,
   card,
   examples as cardExamples,
 } from '@/app/demo/[name]/ui/card';
@@ -477,9 +479,11 @@ export const exampleComponentMaps: Record<
   },
   card: {
     CardDemo,
-    CardSimple,
-    CardWithAction,
-    CardWithFooter,
+    CardWithImage,
+    CardWithImageAndData,
+    CardSize,
+    CardContrast,
+    CardOverride,
   },
   checkbox: {
     CheckboxDemo,

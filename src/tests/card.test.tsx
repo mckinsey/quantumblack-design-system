@@ -10,34 +10,9 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
+  CardMedia,
   CardTitle,
 } from '@/components/ui/card';
-
-// ---------- Polyfills ----------
-class MockResizeObserver {
-  observe() {}
-  unobserve() {}
-  disconnect() {}
-}
-if (typeof globalThis.ResizeObserver === 'undefined') {
-  (globalThis as unknown as Record<string, unknown>).ResizeObserver =
-    MockResizeObserver;
-}
-if (typeof window !== 'undefined' && !window.matchMedia) {
-  Object.defineProperty(window, 'matchMedia', {
-    writable: true,
-    value: (query: string) => ({
-      matches: false,
-      media: query,
-      onchange: null,
-      addListener: () => {},
-      removeListener: () => {},
-      addEventListener: () => {},
-      removeEventListener: () => {},
-      dispatchEvent: () => false,
-    }),
-  });
-}
 
 const componentName = 'card';
 
@@ -61,50 +36,241 @@ describe(`${componentName} — all examples render`, () => {
 });
 
 describe(`${componentName} — structure`, () => {
-  it('renders card with data-slot="card"', () => {
-    render(<Card>Content</Card>);
-    expect(document.querySelector('[data-slot="card"]')).toBeInTheDocument();
-  });
-
-  it('renders all card sub-components with their data-slots', () => {
-    render(
+  it('exposes data-slot on every sub-component', () => {
+    const { container } = render(
       <Card>
-        <CardHeader>
+        <CardMedia>
+          <CardHeader>
+            <span>Badge</span>
+            <CardAction>Action</CardAction>
+          </CardHeader>
+        </CardMedia>
+        <CardContent className="gap-4">
           <CardTitle>Title</CardTitle>
           <CardDescription>Description</CardDescription>
-          <CardAction>Action</CardAction>
-        </CardHeader>
-        <CardContent>Body</CardContent>
-        <CardFooter>Footer</CardFooter>
+        </CardContent>
+        <CardFooter>
+          <span>Footer</span>
+        </CardFooter>
       </Card>,
     );
+
+    const slots = [
+      'card',
+      'card-media',
+      'card-header',
+      'card-action',
+      'card-content',
+      'card-title',
+      'card-description',
+      'card-footer',
+    ];
+
+    for (const slot of slots) {
+      expect(
+        container.querySelector(`[data-slot="${slot}"]`),
+      ).toBeInTheDocument();
+    }
+  });
+
+  it('renders title and description text', () => {
+    render(
+      <Card>
+        <CardContent>
+          <CardTitle>My Title</CardTitle>
+          <CardDescription>My Description</CardDescription>
+        </CardContent>
+      </Card>,
+    );
+    expect(screen.getByText('My Title')).toBeInTheDocument();
+    expect(screen.getByText('My Description')).toBeInTheDocument();
+  });
+
+  it('applies default size via data-size', () => {
+    const { container } = render(<Card>Content</Card>);
+    expect(container.querySelector('[data-slot="card"]')).toHaveAttribute(
+      'data-size',
+      'default',
+    );
+  });
+
+  it('applies sm size via data-size', () => {
+    const { container } = render(<Card size="sm">Content</Card>);
+    expect(container.querySelector('[data-slot="card"]')).toHaveAttribute(
+      'data-size',
+      'sm',
+    );
+  });
+
+  it('applies default contrast via data-contrast', () => {
+    const { container } = render(<Card>Content</Card>);
+    expect(container.querySelector('[data-slot="card"]')).toHaveAttribute(
+      'data-contrast',
+      'low',
+    );
+  });
+
+  it('applies high contrast via data-contrast', () => {
+    const { container } = render(<Card contrast="high">Content</Card>);
+    expect(container.querySelector('[data-slot="card"]')).toHaveAttribute(
+      'data-contrast',
+      'high',
+    );
+  });
+
+  it('renders nested no-media footer inside outer media card', () => {
+    expect(() =>
+      render(
+        <Card>
+          <CardMedia>
+            <CardHeader>
+              <span>Outer</span>
+            </CardHeader>
+          </CardMedia>
+          <CardContent>
+            <Card>
+              <CardContent>
+                <CardTitle>Inner</CardTitle>
+              </CardContent>
+              <CardFooter data-testid="inner-footer">
+                <span>Inner footer</span>
+              </CardFooter>
+            </Card>
+          </CardContent>
+        </Card>,
+      ),
+    ).not.toThrow();
     expect(
-      document.querySelector('[data-slot="card-header"]'),
-    ).toBeInTheDocument();
-    expect(
-      document.querySelector('[data-slot="card-title"]'),
-    ).toBeInTheDocument();
-    expect(
-      document.querySelector('[data-slot="card-description"]'),
-    ).toBeInTheDocument();
-    expect(
-      document.querySelector('[data-slot="card-content"]'),
-    ).toBeInTheDocument();
-    expect(
-      document.querySelector('[data-slot="card-footer"]'),
+      document.querySelector('[data-testid="inner-footer"]'),
     ).toBeInTheDocument();
   });
 
-  it('renders title and description text correctly', () => {
-    render(
-      <Card>
-        <CardHeader>
-          <CardTitle>My Card</CardTitle>
-          <CardDescription>Card body text</CardDescription>
-        </CardHeader>
-      </Card>,
-    );
-    expect(screen.getByText('My Card')).toBeInTheDocument();
-    expect(screen.getByText('Card body text')).toBeInTheDocument();
+  it('renders nested media footer inside outer no-media card', () => {
+    expect(() =>
+      render(
+        <Card>
+          <CardContent>
+            <Card>
+              <CardMedia>
+                <span>Inner media</span>
+              </CardMedia>
+              <CardFooter data-testid="inner-footer">
+                <span>Inner footer</span>
+              </CardFooter>
+            </Card>
+          </CardContent>
+          <CardFooter data-testid="outer-footer">
+            <span>Outer footer</span>
+          </CardFooter>
+        </Card>,
+      ),
+    ).not.toThrow();
+    expect(
+      document.querySelector('[data-testid="inner-footer"]'),
+    ).toBeInTheDocument();
+    expect(
+      document.querySelector('[data-testid="outer-footer"]'),
+    ).toBeInTheDocument();
+  });
+});
+
+describe(`${componentName} — size smoke`, () => {
+  it.each(['default', 'sm'] as const)(
+    'renders full composition at size="%s"',
+    size => {
+      expect(() =>
+        render(
+          <Card size={size} className="aspect-[3/4]">
+            <CardHeader>
+              <span>Badge</span>
+              <CardAction>More</CardAction>
+            </CardHeader>
+            <CardContent>
+              <CardTitle className="line-clamp-2 h-[2lh]">Title</CardTitle>
+              <CardDescription className="line-clamp-2 h-[2lh]">
+                Description
+              </CardDescription>
+            </CardContent>
+            <CardFooter>
+              <span>1</span>
+            </CardFooter>
+          </Card>,
+        ),
+      ).not.toThrow();
+    },
+  );
+});
+
+describe(`${componentName} — composition smoke`, () => {
+  it('renders card with content rows', () => {
+    expect(() =>
+      render(
+        <Card className="aspect-[3/4]">
+          <CardHeader>
+            <span>Badge</span>
+            <CardAction>More</CardAction>
+          </CardHeader>
+          <CardContent className="gap-4 pt-(--card-inset)">
+            <CardTitle>Title</CardTitle>
+            <CardDescription>Description</CardDescription>
+            <div className="flex w-full items-start justify-between">
+              <span>Last updated</span>
+              <span>20/06/2026</span>
+            </div>
+          </CardContent>
+          <CardFooter>
+            <span>21</span>
+          </CardFooter>
+        </Card>,
+      ),
+    ).not.toThrow();
+  });
+
+  it('renders card with image', () => {
+    expect(() =>
+      render(
+        <Card className="aspect-[3/4]">
+          <CardMedia>
+            <CardHeader>
+              <span>Badge</span>
+              <CardAction>More</CardAction>
+            </CardHeader>
+          </CardMedia>
+          <CardContent className="gap-3 pt-6">
+            <div className="flex w-full items-center gap-2 pb-3">
+              3 hours ago
+            </div>
+            <CardTitle>Title</CardTitle>
+          </CardContent>
+          <CardFooter>
+            <CardAction>CTA</CardAction>
+          </CardFooter>
+        </Card>,
+      ),
+    ).not.toThrow();
+  });
+
+  it('renders card with image and data', () => {
+    expect(() =>
+      render(
+        <Card className="aspect-[3/4]">
+          <CardMedia>
+            <CardHeader>
+              <span>Badge</span>
+            </CardHeader>
+          </CardMedia>
+          <CardContent className="flex-1 gap-3 py-6">
+            <div className="flex w-full items-center gap-2 pb-3">
+              3 hours ago
+            </div>
+            <CardTitle>Title</CardTitle>
+            <CardDescription>Description</CardDescription>
+          </CardContent>
+          <CardFooter>
+            <span>21</span>
+          </CardFooter>
+        </Card>,
+      ),
+    ).not.toThrow();
   });
 });
