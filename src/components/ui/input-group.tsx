@@ -24,7 +24,8 @@ import { cn } from '@/lib/utils';
 const inputGroupControlDisabledTextStyles = {
   default:
     'disabled:cursor-not-allowed disabled:text-fg-disabled disabled:placeholder:text-fg-disabled',
-  inline: 'disabled:text-fg-disabled disabled:placeholder:text-fg-disabled',
+  inline:
+    'disabled:cursor-not-allowed disabled:text-fg-disabled disabled:placeholder:text-fg-disabled',
 } as const;
 
 type InputGroupSize = 'sm' | 'default' | 'lg';
@@ -113,7 +114,7 @@ function InputGroup({ className, variant, size, ...props }: InputGroupProps) {
         data-variant={variant}
         data-size={resolvedSize}
         className={cn(
-          inputGroupVariants({ variant, size }),
+          inputGroupVariants({ variant, size: resolvedSize }),
           'has-[>[data-align=inline-start]]:[&>input]:pl-2',
           'has-[>[data-align=inline-end]]:[&>input]:pr-2',
           'has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-start]]:[&>input]:pb-3',

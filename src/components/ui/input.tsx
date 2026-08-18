@@ -99,17 +99,16 @@ export const inputGroupInlineFocusStyles = [
 ] as const;
 
 export const inputGroupDefaultErrorStyles = [
-  'has-[[data-slot=input-group-control][aria-invalid=true]]:border-stroke-status-error',
-  'has-[[data-slot=input-group-control][aria-invalid=true]:focus-visible]:ring-stroke-status-error',
+  'has-[[data-slot=input-group-control][aria-invalid]]:border-stroke-status-error',
+  'has-[[data-slot=input-group-control][aria-invalid]:focus-visible]:ring-stroke-status-error',
 ] as const;
 
 export const inputGroupInlineErrorStyles = [
-  'has-[[data-slot=input-group-control][aria-invalid=true]]:border-b-stroke-status-error',
-  'has-[[data-slot=input-group-control][aria-invalid=true]:focus-visible]:border-b-stroke-status-error',
+  'has-[[data-slot=input-group-control][aria-invalid]]:border-b-stroke-status-error',
 ] as const;
 
 export const inputGroupInlineLgFocusUnderline =
-  'has-[[data-slot=input-group-control]:focus-visible]:shadow-[0_1px_0_0_var(--color-stroke-status-focus)] has-[[data-slot=input-group-control][aria-invalid=true]:focus-visible]:shadow-[0_1px_0_0_var(--color-stroke-status-error)]';
+  'has-[[data-slot=input-group-control]:focus-visible]:shadow-[0_1px_0_0_var(--color-stroke-status-focus)] has-[[data-slot=input-group-control][aria-invalid]:focus-visible]:shadow-[0_1px_0_0_var(--color-stroke-status-error)]';
 
 export const inputGroupDefaultDisabledStyles = [
   'has-[[data-slot=input-group-control]:disabled]:cursor-not-allowed',
