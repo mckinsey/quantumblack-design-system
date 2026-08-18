@@ -717,6 +717,20 @@
   );
 }
 
+@utility overlay-disabled-inverse {
+  background-image: linear-gradient(
+    var(--color-stateslayer-overlay-disabled-inverse),
+    var(--color-stateslayer-overlay-disabled-inverse)
+  );
+}
+
+@utility overlay-active-inverse {
+  background-image: linear-gradient(
+    var(--color-stateslayer-overlay-active-inverse),
+    var(--color-stateslayer-overlay-active-inverse)
+  );
+}
+
 @utility overlay-hover-inverse {
   background-image: linear-gradient(
     var(--color-stateslayer-overlay-hover-inverse),
@@ -728,13 +742,6 @@
   background-image: linear-gradient(
     var(--color-stateslayer-overlay-pressed-inverse),
     var(--color-stateslayer-overlay-pressed-inverse)
-  );
-}
-
-@utility overlay-disabled-inverse {
-  background-image: linear-gradient(
-    var(--color-stateslayer-overlay-disabled-inverse),
-    var(--color-stateslayer-overlay-disabled-inverse)
   );
 }
 
