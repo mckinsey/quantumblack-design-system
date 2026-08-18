@@ -48,23 +48,12 @@ const hasFilledValue =
   state === 'disabled';
 const hasValue = isLive || hasFilledValue;
 
-const statusClass =
+const statusClassName =
   state === 'warning'
-    ? ' className="border-b-stroke-status-warning"'
+    ? 'border-b-stroke-status-warning'
     : state === 'success'
-      ? ' className="border-b-stroke-status-success"'
+      ? 'border-b-stroke-status-success'
       : '';
-
-const valueProp = isLive
-  ? figma.code` defaultValue="${liveEntry}"`
-  : hasFilledValue
-    ? figma.code` defaultValue="${entryFilled}"`
-    : figma.code``;
-
-const placeholderProp =
-  showHelpText && !hasValue
-    ? figma.code` placeholder="${hintText}"`
-    : figma.code``;
 
 const leading = showLeading ? instance.findInstance('Leading-Icon') : null;
 let leadingCode: figma.ResultSection[] = [];
@@ -80,37 +69,37 @@ if (trailing && trailing.type === 'INSTANCE') {
   trailingCode = trailing.executeTemplate().example;
 }
 
-const leadingAddon = showLeading
-  ? figma.code`
-    <InputGroupAddon align="inline-start">
-      ${leadingCode}
-    </InputGroupAddon>
-  `
+const hasStart = showLeading || showPrefix;
+const hasEnd = showSuffix || showTrailing;
+
+const startAddon = hasStart
+  ? figma.code`<InputGroupAddon align="inline-start">${leadingCode}${showPrefix ? figma.code`<InputGroupText>${prefix}</InputGroupText>` : figma.code``}</InputGroupAddon>`
   : figma.code``;
 
-const prefixAddon = showPrefix
-  ? figma.code`
-    <InputGroupAddon align="inline-start">
-      <InputGroupText>${prefix}</InputGroupText>
-    </InputGroupAddon>
-  `
+const endAddon = hasEnd
+  ? figma.code`<InputGroupAddon align="inline-end">${showSuffix ? figma.code`<InputGroupText>${suffix}</InputGroupText>` : figma.code``}${trailingCode}</InputGroupAddon>`
   : figma.code``;
 
-const suffixAddon = showSuffix
-  ? figma.code`
-    <InputGroupAddon align="inline-end">
-      <InputGroupText>${suffix}</InputGroupText>
-    </InputGroupAddon>
-  `
-  : figma.code``;
+const inputProps = [
+  'variant="inline"',
+  disabled ? 'disabled' : '',
+  invalid ? 'aria-invalid' : '',
+  isLive ? `defaultValue="${liveEntry}"` : '',
+  !isLive && hasFilledValue ? `defaultValue="${entryFilled}"` : '',
+  showHelpText && !hasValue ? `placeholder="${hintText}"` : '',
+]
+  .filter(Boolean)
+  .join(' ');
 
-const trailingAddon = showTrailing
-  ? figma.code`
-    <InputGroupAddon align="inline-end">
-      ${trailingCode}
-    </InputGroupAddon>
-  `
-  : figma.code``;
+const groupProps = [
+  'variant="inline"',
+  `size="${size}"`,
+  statusClassName ? `className="${statusClassName}"` : '',
+]
+  .filter(Boolean)
+  .join(' ');
+
+const groupBody = figma.code`<InputGroup ${groupProps}>${startAddon}<InputGroupInput ${inputProps} />${endAddon}</InputGroup>`;
 
 const footer =
   invalid && showFeedback
@@ -119,24 +108,21 @@ const footer =
       ? figma.code`<FieldDescription>Helper text</FieldDescription>`
       : figma.code``;
 
+const hasFooter = (invalid && showFeedback) || (showHelpText && !invalid);
+
+const example = hasFooter
+  ? figma.code`<FieldSet className="gap-2">${groupBody}${footer}</FieldSet>`
+  : groupBody;
+
 const fieldImports =
   invalid && showFeedback
-    ? ['import { FieldError } from "@/components/ui/field"']
+    ? ['import { FieldError, FieldSet } from "@/components/ui/field"']
     : showHelpText && !invalid
-      ? ['import { FieldDescription } from "@/components/ui/field"']
+      ? ['import { FieldDescription, FieldSet } from "@/components/ui/field"']
       : [];
 
 export default {
-  example: figma.code`
-    <InputGroup variant="inline" size="${size}"${statusClass}>
-      ${leadingAddon}
-      ${prefixAddon}
-      <InputGroupInput variant="inline" size="${size}"${disabled ? ' disabled' : ''}${invalid ? ' aria-invalid' : ''}${valueProp}${placeholderProp} />
-      ${suffixAddon}
-      ${trailingAddon}
-    </InputGroup>
-    ${footer}
-  `,
+  example,
   imports: [
     'import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group"',
     ...fieldImports,

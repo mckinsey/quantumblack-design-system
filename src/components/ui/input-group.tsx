@@ -27,6 +27,10 @@ const inputGroupControlDisabledTextStyles = {
   inline: 'disabled:text-fg-disabled disabled:placeholder:text-fg-disabled',
 } as const;
 
+type InputGroupSize = 'sm' | 'default' | 'lg';
+
+const InputGroupSizeContext = React.createContext<InputGroupSize>('default');
+
 const inputGroupVariants = cva(
   'group/input-group relative flex w-full items-center rounded-none border-0 transition-[background-color,background-image,box-shadow,border-color] outline-none min-w-0 has-[>textarea]:h-auto',
   {
@@ -84,11 +88,6 @@ const inputGroupVariants = cva(
       {
         variant: 'inline',
         size: 'lg',
-        className: inputGroupInlineFocusBorderWidth.lg,
-      },
-      {
-        variant: 'inline',
-        size: 'lg',
         className: inputGroupInlineLgFocusUnderline,
       },
     ],
@@ -105,21 +104,25 @@ export interface InputGroupProps
     VariantProps<typeof inputGroupVariants> {}
 
 function InputGroup({ className, variant, size, ...props }: InputGroupProps) {
+  const resolvedSize = size ?? 'default';
+
   return (
-    <div
-      data-slot="input-group"
-      data-variant={variant}
-      data-size={size}
-      className={cn(
-        inputGroupVariants({ variant, size }),
-        'has-[>[data-align=inline-start]]:[&>input]:pl-2',
-        'has-[>[data-align=inline-end]]:[&>input]:pr-2',
-        'has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-start]]:[&>input]:pb-3',
-        'has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-3',
-        className,
-      )}
-      {...props}
-    />
+    <InputGroupSizeContext.Provider value={resolvedSize}>
+      <div
+        data-slot="input-group"
+        data-variant={variant}
+        data-size={resolvedSize}
+        className={cn(
+          inputGroupVariants({ variant, size }),
+          'has-[>[data-align=inline-start]]:[&>input]:pl-2',
+          'has-[>[data-align=inline-end]]:[&>input]:pr-2',
+          'has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-start]]:[&>input]:pb-3',
+          'has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-3',
+          className,
+        )}
+        {...props}
+      />
+    </InputGroupSizeContext.Provider>
   );
 }
 
@@ -157,7 +160,13 @@ function InputGroupAddon({
           return;
         }
 
-        e.currentTarget.parentElement?.querySelector('input')?.focus();
+        const input = e.currentTarget.parentElement?.querySelector('input');
+
+        if (input instanceof HTMLInputElement && input.disabled) {
+          return;
+        }
+
+        input?.focus();
       }}
       {...props}
     />
@@ -204,11 +213,24 @@ function InputGroupButton({
   );
 }
 
-function InputGroupText({ className, ...props }: React.ComponentProps<'span'>) {
+export interface InputGroupTextProps extends React.ComponentProps<'span'> {
+  size?: InputGroupSize;
+}
+
+function InputGroupText({
+  className,
+  size,
+  ...props
+}: Readonly<InputGroupTextProps>) {
+  const groupSize = React.useContext(InputGroupSizeContext);
+  const resolvedSize = size ?? groupSize;
+
   return (
     <span
       className={cn(
-        "text-fg-secondary paragraph-regular-primary flex items-center gap-2 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4",
+        "text-fg-tertiary flex items-center gap-2 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4",
+        'group-has-[[data-slot=input-group-control]:disabled]/input-group:text-fg-disabled',
+        inputSizeStyles[resolvedSize],
         className,
       )}
       {...props}
@@ -227,10 +249,12 @@ export interface InputGroupInputProps extends Omit<
 function InputGroupInput({
   className,
   variant,
-  size = 'default',
+  size,
   type,
   ...props
 }: Readonly<InputGroupInputProps>) {
+  const groupSize = React.useContext(InputGroupSizeContext);
+  const resolvedSize = size ?? groupSize;
   const isInline = variant === 'inline';
   const textStyles = isInline
     ? inputVariantStyles.inline.text
@@ -248,7 +272,7 @@ function InputGroupInput({
         searchCancelButtonStyles,
         'selection:bg-fill-active selection:text-fg-primary-inverse',
         'file:text-fg-primary file:inline-flex file:border-0 file:bg-transparent file:font-medium',
-        inputSizeStyles[size],
+        inputSizeStyles[resolvedSize],
         textStyles,
         disabledTextStyles,
         className,

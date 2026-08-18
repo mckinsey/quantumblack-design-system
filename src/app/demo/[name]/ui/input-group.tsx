@@ -302,6 +302,14 @@ export function InputGroupStatusStates() {
       groupClass: 'border-stroke-status-success',
       inputProps: { placeholder: 'Placeholder' },
     },
+    {
+      label: 'Disabled',
+      tone: 'disabled' as const,
+      showAffixes: true,
+      groupClass: '',
+      inputProps: { disabled: true, placeholder: 'Placeholder' },
+      helper: 'This field is disabled',
+    },
   ];
 
   return (
@@ -312,27 +320,70 @@ export function InputGroupStatusStates() {
           icon: statusIcon,
           statusColor,
           tone,
+          showAffixes,
           groupClass,
           inputProps,
+          helper,
         }) => {
           const fieldId = `ig-status-${tone}`;
+          const isDisabled = Boolean(inputProps.disabled);
 
           return (
             <FieldSet key={tone} className={`${FIELD_WIDTH} ${gap}`}>
-              <FieldLabel htmlFor={fieldId}>{label}</FieldLabel>
+              <FieldLabel htmlFor={fieldId} disabled={isDisabled}>
+                {label}
+              </FieldLabel>
               <InputGroup className={groupClass || undefined}>
+                {showAffixes ? (
+                  <LeadingIcon>
+                    <IconShell
+                      size={iconSize}
+                      type="neutral"
+                      variant="secondary"
+                      disabled={isDisabled}>
+                      <Icon icon="crop_free" />
+                    </IconShell>
+                  </LeadingIcon>
+                ) : null}
+                {showAffixes ? (
+                  <InputGroupAddon align="inline-start">
+                    <InputGroupText>PRE</InputGroupText>
+                  </InputGroupAddon>
+                ) : null}
                 <InputGroupInput id={fieldId} {...inputProps} />
-                <InputGroupAddon align="inline-end">
-                  <IconShell
-                    size={iconSize}
-                    type="custom"
-                    className={statusColor}>
-                    <Icon icon={statusIcon} />
-                  </IconShell>
-                </InputGroupAddon>
+                {showAffixes ? (
+                  <InputGroupAddon align="inline-end">
+                    <InputGroupText>SUF</InputGroupText>
+                  </InputGroupAddon>
+                ) : null}
+                {showAffixes ? (
+                  <TrailingIcon>
+                    <IconShell
+                      size={iconSize}
+                      type="neutral"
+                      variant="secondary"
+                      disabled={isDisabled}>
+                      <Icon icon="crop_free" />
+                    </IconShell>
+                  </TrailingIcon>
+                ) : statusIcon ? (
+                  <InputGroupAddon align="inline-end">
+                    <IconShell
+                      size={iconSize}
+                      type="custom"
+                      className={statusColor}
+                      disabled={isDisabled}>
+                      <Icon icon={statusIcon} />
+                    </IconShell>
+                  </InputGroupAddon>
+                ) : null}
               </InputGroup>
               {tone === 'error' ? (
                 <FieldError>Feedback message here</FieldError>
+              ) : helper ? (
+                <FieldDescription disabled={isDisabled}>
+                  {helper}
+                </FieldDescription>
               ) : (
                 <FieldDescription className={statusColor}>
                   Feedback message here
@@ -466,7 +517,7 @@ export const examples: DemoExample[] = [
   {
     name: 'InputGroupStatusStates',
     title: 'Validation',
-    description: 'Error, warning, and success borders.',
+    description: 'Error, warning, success, and disabled states.',
   },
   {
     name: 'InputGroupDeleteOnFocus',

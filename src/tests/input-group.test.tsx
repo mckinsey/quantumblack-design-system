@@ -8,6 +8,7 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
+  InputGroupText,
 } from '@/components/ui/input-group';
 
 const componentName = 'input-group';
@@ -60,6 +61,22 @@ describe(`${componentName} — structure & interaction`, () => {
     expect(screen.getByRole('textbox')).toBeDisabled();
   });
 
+  it('renders disabled group with affixes and icons without crashing', () => {
+    expect(() =>
+      render(
+        <InputGroup>
+          <InputGroupAddon align="inline-start">
+            <InputGroupText>PRE</InputGroupText>
+          </InputGroupAddon>
+          <InputGroupInput disabled aria-label="disabled-affix-input" />
+          <InputGroupAddon align="inline-end">
+            <InputGroupText>SUF</InputGroupText>
+          </InputGroupAddon>
+        </InputGroup>,
+      ),
+    ).not.toThrow();
+  });
+
   it('addon click focuses input', async () => {
     const user = userEvent.setup();
 
@@ -87,7 +104,23 @@ describe(`${componentName} — structure & interaction`, () => {
       expect(() =>
         render(
           <InputGroup size={size}>
-            <InputGroupInput size={size} aria-label="sz" />
+            <InputGroupInput aria-label="sz" />
+          </InputGroup>,
+        ),
+      ).not.toThrow();
+    },
+  );
+
+  it.each(['sm', 'default', 'lg'] as const)(
+    'renders InputGroupText at size="%s" without crashing',
+    size => {
+      expect(() =>
+        render(
+          <InputGroup size={size}>
+            <InputGroupAddon align="inline-start">
+              <InputGroupText>PRE</InputGroupText>
+            </InputGroupAddon>
+            <InputGroupInput aria-label="affix" />
           </InputGroup>,
         ),
       ).not.toThrow();
