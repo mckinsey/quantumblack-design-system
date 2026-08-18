@@ -58,6 +58,8 @@ Registry: `npx shadcn add icon` ships `icon.tsx` and appends the Google Fonts `@
 
 ## Before raising a PR
 
+PR title and description: [docs/PULL_REQUESTS.md](docs/PULL_REQUESTS.md) (`<type>(<scope>):` format, types, scopes, summary rules).
+
 - [ ] `npm run build` passes
 - [ ] `npm run lint` passes
 - [ ] `registry.json` updated and `npm run registry:build` run (if component added/changed)
