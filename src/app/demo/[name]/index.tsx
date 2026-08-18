@@ -220,6 +220,14 @@ import {
   examples as labelExamples,
 } from '@/app/demo/[name]/ui/label';
 import {
+  NumberFieldDemo,
+  NumberFieldSizes,
+  NumberFieldStates,
+  NumberFieldVariants,
+  numberField,
+  examples as numberFieldExamples,
+} from '@/app/demo/[name]/ui/number-field';
+import {
   PopoverAlignment,
   PopoverDemo,
   PopoverSimple,
@@ -569,6 +577,12 @@ export const exampleComponentMaps: Record<
     InputGroupStatusStates,
     InputGroupDeleteOnFocus,
   },
+  'number-field': {
+    NumberFieldDemo,
+    NumberFieldVariants,
+    NumberFieldSizes,
+    NumberFieldStates,
+  },
   combobox: {
     ComboboxDemo,
     ComboboxSizes,
@@ -738,6 +752,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   'icon-shell': iconShellExamples,
   input: inputExamples,
   'input-group': inputGroupExamples,
+  'number-field': numberFieldExamples,
   combobox: comboboxExamples,
   label: labelExamples,
   popover: popoverExamples,
@@ -862,6 +877,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...inputGroup,
     examples: inputGroupExamples,
     exampleComponents: exampleComponentMaps['input-group'],
+  },
+  'number-field': {
+    ...numberField,
+    examples: numberFieldExamples,
+    exampleComponents: exampleComponentMaps['number-field'],
   },
   combobox: {
     ...combobox,
