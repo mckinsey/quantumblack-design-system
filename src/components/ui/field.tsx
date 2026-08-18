@@ -101,19 +101,6 @@ function FieldContent({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
-function FieldLabel({
-  className,
-  ...props
-}: React.ComponentProps<typeof Label>) {
-  return (
-    <Label
-      data-slot="field-label"
-      className={cn('flex w-fit items-center gap-2', className)}
-      {...props}
-    />
-  );
-}
-
 const fieldTitleVariants = cva(
   'text-fg-secondary flex w-fit items-center gap-2',
   {
@@ -130,9 +117,26 @@ const fieldTitleVariants = cva(
     },
     defaultVariants: {
       size: 'default',
+      disabled: false,
     },
   },
 );
+
+function FieldLabel({
+  className,
+  size,
+  disabled,
+  ...props
+}: React.ComponentProps<typeof Label> &
+  VariantProps<typeof fieldTitleVariants>) {
+  return (
+    <Label
+      data-slot="field-label"
+      className={cn(fieldTitleVariants({ size, disabled }), className)}
+      {...props}
+    />
+  );
+}
 
 function FieldTitle({
   className,

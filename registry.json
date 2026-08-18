@@ -452,6 +452,7 @@
       "type": "registry:ui",
       "title": "Input",
       "description": "A text input field with support for variants (default, inline) and sizes (small, default, large).",
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"

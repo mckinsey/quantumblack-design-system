@@ -192,6 +192,7 @@ import {
 } from '@/app/demo/[name]/ui/icon-shell';
 import {
   InputDemo,
+  InputHorizontal,
   InputSizes,
   InputStates,
   InputTypes,
@@ -557,6 +558,7 @@ export const exampleComponentMaps: Record<
     InputSizes,
     InputStates,
     InputTypes,
+    InputHorizontal,
   },
   'input-group': {
     InputGroupDemo,
