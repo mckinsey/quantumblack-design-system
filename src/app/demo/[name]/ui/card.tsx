@@ -51,11 +51,7 @@ function CardDivider() {
 function SignpostBadge() {
   return (
     <Badge outline variant="high-emphasis" withIcon>
-      <IconShell
-        size="sm"
-        type="neutral"
-        variant="secondary"
-        className="group-data-[size=sm]/card:hidden">
+      <IconShell size="sm" type="neutral" variant="secondary">
         <Icon icon="new_releases" />
       </IconShell>
       Label
