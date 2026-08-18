@@ -34,20 +34,21 @@ describe(`${componentName} — all examples render`, () => {
 
 describe(`${componentName} — structure & interaction`, () => {
   it('exposes data-slot on group and control', () => {
-    render(
+    const { container } = render(
       <InputGroup>
         <InputGroupInput aria-label="group-input" />
       </InputGroup>,
     );
 
     expect(
-      document.querySelector('[data-slot="input-group"]'),
+      container.querySelector('[data-slot="input-group"]'),
     ).toBeInTheDocument();
+    expect(screen.getByRole('textbox')).toHaveAttribute(
+      'data-slot',
+      'input-group-control',
+    );
     expect(
-      document.querySelector('[data-slot="input-group-control"]'),
-    ).toBeInTheDocument();
-    expect(
-      document.querySelector('[data-slot="input"]'),
+      container.querySelector('[data-slot="input"]'),
     ).not.toBeInTheDocument();
   });
 
@@ -90,24 +91,28 @@ describe(`${componentName} — structure & interaction`, () => {
     );
 
     const input = screen.getByRole('textbox');
-    const addon = document.querySelector('[data-slot="input-group-addon"]');
+    const addon = screen
+      .getByText('Prefix')
+      .closest('[data-slot="input-group-addon"]');
 
-    expect(addon).toBeTruthy();
+    expect(addon).not.toBeNull();
     expect(input).not.toHaveFocus();
-    await user.click(addon!);
+    await user.click(addon as HTMLElement);
     expect(input).toHaveFocus();
   });
 
   it.each(['sm', 'default', 'lg'] as const)(
-    'renders size="%s" without crashing',
+    'applies size="%s" via data-size',
     size => {
-      expect(() =>
-        render(
-          <InputGroup size={size}>
-            <InputGroupInput aria-label="sz" />
-          </InputGroup>,
-        ),
-      ).not.toThrow();
+      const { container } = render(
+        <InputGroup size={size}>
+          <InputGroupInput aria-label="sz" />
+        </InputGroup>,
+      );
+
+      expect(
+        container.querySelector('[data-slot="input-group"]'),
+      ).toHaveAttribute('data-size', size);
     },
   );
 
@@ -128,15 +133,17 @@ describe(`${componentName} — structure & interaction`, () => {
   );
 
   it.each(['default', 'inline'] as const)(
-    'renders variant="%s" without crashing',
+    'applies variant="%s" via data-variant',
     variant => {
-      expect(() =>
-        render(
-          <InputGroup variant={variant}>
-            <InputGroupInput variant={variant} aria-label="vt" />
-          </InputGroup>,
-        ),
-      ).not.toThrow();
+      const { container } = render(
+        <InputGroup variant={variant}>
+          <InputGroupInput variant={variant} aria-label="vt" />
+        </InputGroup>,
+      );
+
+      expect(
+        container.querySelector('[data-slot="input-group"]'),
+      ).toHaveAttribute('data-variant', variant);
     },
   );
 });
