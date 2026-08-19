@@ -68,6 +68,46 @@ describe(`${componentName} — structure & interaction`, () => {
     );
 
     expect(screen.getByLabelText('disabled-quantity')).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Decrease' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Increase' })).toBeDisabled();
+  });
+
+  it('keeps stepper buttons out of the tab order', () => {
+    render(
+      <NumberField defaultValue={5} min={0} max={10}>
+        <NumberFieldGroup>
+          <NumberFieldDecrement />
+          <NumberFieldInput aria-label="quantity" />
+          <NumberFieldIncrement />
+        </NumberFieldGroup>
+      </NumberField>,
+    );
+
+    expect(screen.getByRole('button', { name: 'Decrease' })).toHaveAttribute(
+      'tabindex',
+      '-1',
+    );
+    expect(screen.getByRole('button', { name: 'Increase' })).toHaveAttribute(
+      'tabindex',
+      '-1',
+    );
+  });
+
+  it('renders invalid control without crashing', () => {
+    render(
+      <NumberField defaultValue={5} min={0} max={10}>
+        <NumberFieldGroup>
+          <NumberFieldDecrement />
+          <NumberFieldInput aria-label="invalid-quantity" aria-invalid />
+          <NumberFieldIncrement />
+        </NumberFieldGroup>
+      </NumberField>,
+    );
+
+    expect(screen.getByLabelText('invalid-quantity')).toHaveAttribute(
+      'aria-invalid',
+      'true',
+    );
   });
 
   it('increments value when increment is clicked', async () => {
