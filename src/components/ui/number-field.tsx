@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import {
+  createGroupControlStyles,
   inputSizeDefinitions,
   inputSizeStyles,
   inputVariantStyles,
@@ -17,51 +18,13 @@ import { cn } from '@/lib/utils';
 type NumberFieldSize = 'sm' | 'default' | 'lg';
 type NumberFieldVariant = 'default' | 'inline';
 
+const controlSlot = 'number-field-control';
+
+const numberFieldControlStyles = createGroupControlStyles(controlSlot);
+
 const NumberFieldSizeContext = React.createContext<NumberFieldSize>('default');
 const NumberFieldVariantContext =
   React.createContext<NumberFieldVariant>('default');
-
-const controlSlot = 'number-field-control';
-
-const numberFieldDefaultFocusStyles = [
-  `has-[[data-slot=${controlSlot}]:focus-visible]:overlay-active-inverse`,
-  `has-[[data-slot=${controlSlot}]:focus-visible]:ring-stroke-status-focus`,
-  `has-[[data-slot=${controlSlot}]:focus-visible]:shadow-elevation-0`,
-] as const;
-
-const numberFieldInlineFocusStyles = [
-  `has-[[data-slot=${controlSlot}]:focus-visible]:border-b-stroke-status-focus`,
-  `has-[[data-slot=${controlSlot}]:focus-visible]:ring-0`,
-] as const;
-
-const numberFieldDefaultErrorStyles = [
-  `has-[[data-slot=${controlSlot}][aria-invalid=true]]:border-stroke-status-error`,
-  `has-[[data-slot=${controlSlot}][aria-invalid=true]:focus-visible]:ring-stroke-status-error`,
-] as const;
-
-const numberFieldInlineErrorStyles = [
-  `has-[[data-slot=${controlSlot}][aria-invalid=true]]:border-b-stroke-status-error`,
-  `has-[[data-slot=${controlSlot}][aria-invalid=true]:focus-visible]:border-b-stroke-status-error`,
-] as const;
-
-const numberFieldDefaultDisabledStyles = [
-  `has-[[data-slot=${controlSlot}]:disabled]:cursor-not-allowed`,
-  `has-[[data-slot=${controlSlot}]:disabled]:overlay-disabled`,
-] as const;
-
-const numberFieldFocusRingWidth = {
-  sm: `has-[[data-slot=${controlSlot}]:focus-visible]:ring-[1px]`,
-  default: `has-[[data-slot=${controlSlot}]:focus-visible]:ring-[1px]`,
-  lg: `has-[[data-slot=${controlSlot}]:focus-visible]:ring-[2px]`,
-} as const;
-
-const numberFieldInlineFocusBorderWidth = {
-  sm: `has-[[data-slot=${controlSlot}]:focus-visible]:border-b-[1px]`,
-  default: `has-[[data-slot=${controlSlot}]:focus-visible]:border-b-[1px]`,
-  lg: `has-[[data-slot=${controlSlot}]:focus-visible]:border-b-[2px]`,
-} as const;
-
-const numberFieldInlineLgFocusUnderline = `has-[[data-slot=${controlSlot}]:focus-visible]:shadow-[0_1px_0_0_var(--color-stroke-status-focus)] has-[[data-slot=${controlSlot}][aria-invalid=true]:focus-visible]:shadow-[0_1px_0_0_var(--color-stroke-status-error)]`;
 
 const numberFieldControlDisabledTextStyles = {
   default:
@@ -75,26 +38,37 @@ const stepperButtonClass = {
   lg: 'size-5 rounded-[calc(var(--radius)-5px)] p-0 has-[>svg]:p-0',
 } as const;
 
+const stepperButtonStyles = [
+  'paragraph-regular-primary shadow-none',
+  'focus-visible:ring-0 focus-visible:ring-offset-0',
+  'group-has-[[data-slot=number-field-control]:disabled]/number-field:pointer-events-none',
+  'group-has-[[data-slot=number-field-control]:disabled]/number-field:hover:bg-transparent',
+  'group-has-[[data-slot=number-field-control]:disabled]/number-field:hover:text-fg-secondary',
+  'group-has-[[data-slot=number-field-control]:disabled]/number-field:active:bg-transparent',
+] as const;
+
 const numberFieldGroupVariants = cva(
-  'group/number-field relative flex w-full min-w-0 items-center rounded-none border-0 transition-[background-color,background-image,box-shadow,border-color] outline-none',
+  'group/number-field relative flex min-w-0 items-center rounded-none border-0 transition-[background-color,background-image,box-shadow,border-color] outline-none',
   {
     variants: {
       variant: {
         default: [
+          'w-[120px]',
           'gap-1',
           inputVariantStyles.default.base,
           inputVariantStyles.default.hover,
-          ...numberFieldDefaultFocusStyles,
-          ...numberFieldDefaultErrorStyles,
-          ...numberFieldDefaultDisabledStyles,
+          ...numberFieldControlStyles.defaultFocusStyles,
+          ...numberFieldControlStyles.defaultErrorStyles,
+          ...numberFieldControlStyles.defaultDisabledStyles,
         ],
         inline: [
+          'w-[96px]',
           'gap-1 px-0!',
           inputVariantStyles.inline.base,
           inputVariantStyles.inline.border,
           inputVariantStyles.inline.hover,
-          ...numberFieldInlineFocusStyles,
-          ...numberFieldInlineErrorStyles,
+          ...numberFieldControlStyles.inlineFocusStyles,
+          ...numberFieldControlStyles.inlineErrorStyles,
         ],
       },
       size: {
@@ -107,32 +81,32 @@ const numberFieldGroupVariants = cva(
       {
         variant: 'default',
         size: 'sm',
-        className: numberFieldFocusRingWidth.sm,
+        className: numberFieldControlStyles.focusRingWidth.sm,
       },
       {
         variant: 'default',
         size: 'default',
-        className: numberFieldFocusRingWidth.default,
+        className: numberFieldControlStyles.focusRingWidth.default,
       },
       {
         variant: 'default',
         size: 'lg',
-        className: numberFieldFocusRingWidth.lg,
+        className: numberFieldControlStyles.focusRingWidth.lg,
       },
       {
         variant: 'inline',
         size: 'sm',
-        className: numberFieldInlineFocusBorderWidth.sm,
+        className: numberFieldControlStyles.inlineFocusBorderWidth.sm,
       },
       {
         variant: 'inline',
         size: 'default',
-        className: numberFieldInlineFocusBorderWidth.default,
+        className: numberFieldControlStyles.inlineFocusBorderWidth.default,
       },
       {
         variant: 'inline',
         size: 'lg',
-        className: numberFieldInlineLgFocusUnderline,
+        className: numberFieldControlStyles.inlineLgFocusUnderline,
       },
     ],
     defaultVariants: {
@@ -142,11 +116,15 @@ const numberFieldGroupVariants = cva(
   },
 );
 
+function focusNumberFieldControl(group: HTMLElement | null) {
+  group?.querySelector<HTMLElement>(`[data-slot="${controlSlot}"]`)?.focus();
+}
+
 function NumberField({ className, ...props }: NumberFieldPrimitive.Root.Props) {
   return (
     <NumberFieldPrimitive.Root
       data-slot="number-field"
-      className={cn('w-full', className)}
+      className={cn('w-fit', className)}
       {...props}
     />
   );
@@ -245,6 +223,7 @@ function NumberFieldDecrement({
   className,
   size,
   children,
+  onClick,
   ...props
 }: Readonly<NumberFieldDecrementProps>) {
   const groupSize = React.useContext(NumberFieldSizeContext);
@@ -253,13 +232,23 @@ function NumberFieldDecrement({
   return (
     <NumberFieldPrimitive.Decrement
       data-slot="number-field-decrement"
+      onClick={event => {
+        onClick?.(event);
+
+        if (!event.defaultPrevented) {
+          focusNumberFieldControl(
+            event.currentTarget.closest('[data-slot="number-field-group"]'),
+          );
+        }
+      }}
       render={
         <Button
           variant="ghost"
           size="icon-xxs"
+          tabIndex={-1}
           aria-label="Decrease"
           className={cn(
-            'paragraph-regular-primary shadow-none',
+            stepperButtonStyles,
             stepperButtonClass[resolvedSize],
             className,
           )}
@@ -280,6 +269,7 @@ function NumberFieldIncrement({
   className,
   size,
   children,
+  onClick,
   ...props
 }: Readonly<NumberFieldIncrementProps>) {
   const groupSize = React.useContext(NumberFieldSizeContext);
@@ -288,13 +278,23 @@ function NumberFieldIncrement({
   return (
     <NumberFieldPrimitive.Increment
       data-slot="number-field-increment"
+      onClick={event => {
+        onClick?.(event);
+
+        if (!event.defaultPrevented) {
+          focusNumberFieldControl(
+            event.currentTarget.closest('[data-slot="number-field-group"]'),
+          );
+        }
+      }}
       render={
         <Button
           variant="ghost"
           size="icon-xxs"
+          tabIndex={-1}
           aria-label="Increase"
           className={cn(
-            'paragraph-regular-primary shadow-none',
+            stepperButtonStyles,
             stepperButtonClass[resolvedSize],
             className,
           )}
