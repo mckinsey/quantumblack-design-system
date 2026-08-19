@@ -161,13 +161,24 @@ function InputGroupAddon({
           return;
         }
 
-        const input = e.currentTarget.parentElement?.querySelector('input');
+        const control =
+          e.currentTarget.parentElement?.querySelector<HTMLElement>(
+            '[data-slot="input-group-control"], input, textarea',
+          );
 
-        if (input instanceof HTMLInputElement && input.disabled) {
+        if (!control) {
           return;
         }
 
-        input?.focus();
+        const isDisabled =
+          (control instanceof HTMLInputElement && control.disabled) ||
+          (control instanceof HTMLTextAreaElement && control.disabled);
+
+        if (isDisabled) {
+          return;
+        }
+
+        control.focus();
       }}
       {...props}
     />
