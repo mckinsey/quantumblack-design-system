@@ -8,10 +8,17 @@ import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import {
-  createGroupControlStyles,
   inputSizeDefinitions,
   inputSizeStyles,
   inputVariantStyles,
+  numberFieldGroupDefaultDisabledStyles,
+  numberFieldGroupDefaultErrorStyles,
+  numberFieldGroupDefaultFocusStyles,
+  numberFieldGroupFocusRingWidth,
+  numberFieldGroupInlineErrorStyles,
+  numberFieldGroupInlineFocusBorderWidth,
+  numberFieldGroupInlineFocusStyles,
+  numberFieldGroupInlineLgFocusUnderline,
 } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
@@ -19,8 +26,6 @@ type NumberFieldSize = 'sm' | 'default' | 'lg';
 type NumberFieldVariant = 'default' | 'inline';
 
 const controlSlot = 'number-field-control';
-
-const numberFieldControlStyles = createGroupControlStyles(controlSlot);
 
 const NumberFieldSizeContext = React.createContext<NumberFieldSize>('default');
 const NumberFieldVariantContext =
@@ -45,6 +50,8 @@ const stepperButtonStyles = [
   'group-has-[[data-slot=number-field-control]:disabled]/number-field:hover:bg-transparent',
   'group-has-[[data-slot=number-field-control]:disabled]/number-field:hover:text-fg-secondary',
   'group-has-[[data-slot=number-field-control]:disabled]/number-field:active:bg-transparent',
+  'group-has-[[data-slot=number-field-control]:disabled]/number-field:[&_[data-slot=icon-shell]]:opacity-50',
+  'disabled:hover:bg-transparent disabled:pointer-events-none',
 ] as const;
 
 const numberFieldGroupVariants = cva(
@@ -57,9 +64,9 @@ const numberFieldGroupVariants = cva(
           'gap-1',
           inputVariantStyles.default.base,
           inputVariantStyles.default.hover,
-          ...numberFieldControlStyles.defaultFocusStyles,
-          ...numberFieldControlStyles.defaultErrorStyles,
-          ...numberFieldControlStyles.defaultDisabledStyles,
+          ...numberFieldGroupDefaultFocusStyles,
+          ...numberFieldGroupDefaultErrorStyles,
+          ...numberFieldGroupDefaultDisabledStyles,
         ],
         inline: [
           'w-[96px]',
@@ -67,8 +74,8 @@ const numberFieldGroupVariants = cva(
           inputVariantStyles.inline.base,
           inputVariantStyles.inline.border,
           inputVariantStyles.inline.hover,
-          ...numberFieldControlStyles.inlineFocusStyles,
-          ...numberFieldControlStyles.inlineErrorStyles,
+          ...numberFieldGroupInlineFocusStyles,
+          ...numberFieldGroupInlineErrorStyles,
         ],
       },
       size: {
@@ -81,32 +88,32 @@ const numberFieldGroupVariants = cva(
       {
         variant: 'default',
         size: 'sm',
-        className: numberFieldControlStyles.focusRingWidth.sm,
+        className: numberFieldGroupFocusRingWidth.sm,
       },
       {
         variant: 'default',
         size: 'default',
-        className: numberFieldControlStyles.focusRingWidth.default,
+        className: numberFieldGroupFocusRingWidth.default,
       },
       {
         variant: 'default',
         size: 'lg',
-        className: numberFieldControlStyles.focusRingWidth.lg,
+        className: numberFieldGroupFocusRingWidth.lg,
       },
       {
         variant: 'inline',
         size: 'sm',
-        className: numberFieldControlStyles.inlineFocusBorderWidth.sm,
+        className: numberFieldGroupInlineFocusBorderWidth.sm,
       },
       {
         variant: 'inline',
         size: 'default',
-        className: numberFieldControlStyles.inlineFocusBorderWidth.default,
+        className: numberFieldGroupInlineFocusBorderWidth.default,
       },
       {
         variant: 'inline',
         size: 'lg',
-        className: numberFieldControlStyles.inlineLgFocusUnderline,
+        className: numberFieldGroupInlineLgFocusUnderline,
       },
     ],
     defaultVariants: {
