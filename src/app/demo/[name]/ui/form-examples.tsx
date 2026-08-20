@@ -40,7 +40,6 @@ import { TimePickerListContent } from '@/components/ui/time-picker';
 import { cn } from '@/lib/utils';
 
 import { dateInputClassName } from './date-picker';
-import { inputGroupFieldConfig } from './input-group-config';
 import { TimePickerColumn, sampleHours, sampleMinutes } from './time-picker';
 
 // ============================================================================
@@ -112,10 +111,7 @@ const formCopy = {
 // Layout shell + label/description style maps
 // ============================================================================
 
-const formFieldDefault = inputGroupFieldConfig.default;
-const formFieldDefaultLabel = formFieldDefault.label;
-const formFieldDefaultDescription = formFieldDefault.description;
-const formFieldInlineLabel = cn(formFieldDefault.label, 'mb-[-4px]');
+const formFieldInlineLabel = 'mb-[-4px]';
 
 /** Match {@link DatePickerDemo} label styling */
 const datePickerLabel = 'label-regular-primary';
@@ -322,8 +318,7 @@ function TextFieldRow({
   onBlur,
   variant = 'default',
 }: Readonly<TextLikeRowProps>) {
-  const labelClass =
-    variant === 'inline' ? formFieldInlineLabel : formFieldDefaultLabel;
+  const labelClass = variant === 'inline' ? formFieldInlineLabel : undefined;
 
   return (
     <Field data-invalid={invalid} className="gap-2">
@@ -343,9 +338,7 @@ function TextFieldRow({
       {errorMessage ? (
         <FieldError>{errorMessage}</FieldError>
       ) : description ? (
-        <FieldDescription className={formFieldDefaultDescription}>
-          {description}
-        </FieldDescription>
+        <FieldDescription>{description}</FieldDescription>
       ) : null}
     </Field>
   );
@@ -481,8 +474,7 @@ function TimeFieldRow({
   onBlur,
   variant = 'default',
 }: Readonly<TimeRowProps>) {
-  const labelClass =
-    variant === 'inline' ? formFieldInlineLabel : formFieldDefaultLabel;
+  const labelClass = variant === 'inline' ? formFieldInlineLabel : undefined;
   const { hour, minute } = parseTimeFieldString(value);
   const [open, setOpen] = React.useState(false);
 
@@ -545,9 +537,7 @@ function TimeFieldRow({
       {errorMessage ? (
         <FieldError>{errorMessage}</FieldError>
       ) : description ? (
-        <FieldDescription className={formFieldDefaultDescription}>
-          {description}
-        </FieldDescription>
+        <FieldDescription>{description}</FieldDescription>
       ) : null}
     </Field>
   );
@@ -586,10 +576,7 @@ function TextareaFieldRow({
       <div className="flex flex-col gap-2">
         <FieldLabel
           htmlFor={id}
-          className={cn(
-            formFieldDefaultLabel,
-            'flex w-full items-center justify-between',
-          )}>
+          className="flex w-full items-center justify-between">
           {label}
           <FormBioCharCount current={length} max={maxChars} />
         </FieldLabel>
@@ -607,9 +594,7 @@ function TextareaFieldRow({
       {displayedMessage ? (
         <FieldError>{displayedMessage}</FieldError>
       ) : description ? (
-        <FieldDescription className={formFieldDefaultDescription}>
-          {description}
-        </FieldDescription>
+        <FieldDescription>{description}</FieldDescription>
       ) : null}
     </Field>
   );

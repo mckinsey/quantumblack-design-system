@@ -201,14 +201,13 @@ import {
   examples as inputExamples,
 } from '@/app/demo/[name]/ui/input';
 import {
+  InputGroupAffixes,
   InputGroupBothSides,
   InputGroupDeleteOnFocus,
   InputGroupDemo,
   InputGroupLeadingIcon,
   InputGroupSizes,
   InputGroupStatusStates,
-  InputGroupStepperSizes,
-  InputGroupStepperStates,
   InputGroupTrailing,
   inputGroup,
   examples as inputGroupExamples,
@@ -565,11 +564,10 @@ export const exampleComponentMaps: Record<
     InputGroupLeadingIcon,
     InputGroupTrailing,
     InputGroupBothSides,
+    InputGroupAffixes,
     InputGroupSizes,
     InputGroupStatusStates,
     InputGroupDeleteOnFocus,
-    InputGroupStepperSizes,
-    InputGroupStepperStates,
   },
   combobox: {
     ComboboxDemo,

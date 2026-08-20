@@ -1,5 +1,15 @@
-import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';
+'use client';
+
+import { type FocusEvent, type ReactNode, useRef, useState } from 'react';
+
+import {
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+  FieldSet,
+} from '@/components/ui/field';
 import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
 import {
   InputGroup,
   InputGroupAddon,
@@ -10,185 +20,382 @@ import {
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 import { cn } from '@/lib/utils';
 
-import { inputGroupFieldConfig } from './input-group-config';
 import {
-  InputGroupDeleteOnFocus,
-  InputGroupStepperSizes,
-  InputGroupStepperStates,
-} from './input-group-examples';
+  type DemoAxis,
+  DemoAxisRow,
+  DemoExpandControls,
+  DemoExpandSlot,
+  useDemoExpandState,
+} from './demo-expand-controls';
+import { inputGroupFieldConfig } from './input-group-config';
 
 const FIELD_WIDTH = 'w-[240px]';
 
-export { inputGroupFieldConfig } from './input-group-config';
+const variantAxis: DemoAxis<'default' | 'inline'> = {
+  key: 'variant',
+  label: 'All Variants',
+  options: ['default', 'inline'],
+  defaultOption: 'default',
+};
 
-// Re-export client-side components
-export {
-  InputGroupDeleteOnFocus,
-  InputGroupStepperSizes,
-  InputGroupStepperStates,
-} from './input-group-examples';
+type FieldSize = keyof typeof inputGroupFieldConfig;
 
-/** Leading icon addon shorthand */
-function LeadingIcon({ children }: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <InputGroupAddon align="inline-start">
-      <InputGroupText>{children}</InputGroupText>
-    </InputGroupAddon>
-  );
+const getLabelClass = (
+  size: FieldSize,
+  variant: 'default' | 'inline' = 'default',
+) => cn(variant === 'inline' && size !== 'sm' && 'mb-[-4px]');
+
+function LeadingIcon({ children }: Readonly<{ children: ReactNode }>) {
+  return <InputGroupAddon align="inline-start">{children}</InputGroupAddon>;
 }
 
-/** Default input group with search icon */
-export function InputGroupDemo() {
-  const { label, description, gap, iconSize } = inputGroupFieldConfig.default;
+function TrailingIcon({ children }: Readonly<{ children: ReactNode }>) {
+  return <InputGroupAddon align="inline-end">{children}</InputGroupAddon>;
+}
+
+function DeleteOnFocusField({
+  variant,
+  fieldId,
+}: Readonly<{
+  variant: 'default' | 'inline';
+  fieldId: string;
+}>) {
+  const { gap, iconSize } = inputGroupFieldConfig.default;
+  const [value, setValue] = useState('Search text');
+  const [focused, setFocused] = useState(false);
+  const groupContainerRef = useRef<HTMLDivElement>(null);
+  const showDelete = focused && value.length > 0;
+
+  const focusControl = () => {
+    const control = groupContainerRef.current?.querySelector<HTMLInputElement>(
+      '[data-slot=input-group-control]',
+    );
+
+    control?.focus();
+  };
+
+  const handleFocusCapture = () => setFocused(true);
+
+  const handleBlurCapture = (e: FocusEvent<HTMLDivElement>) => {
+    const next = e.relatedTarget;
+
+    if (next instanceof Node && !groupContainerRef.current?.contains(next)) {
+      setFocused(false);
+    }
+  };
 
   return (
     <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-      <FieldTitle className={label}>Label</FieldTitle>
-      <InputGroup>
-        <LeadingIcon>
-          <Icon icon="search" size={iconSize} className="icon" />
-        </LeadingIcon>
-        <InputGroupInput placeholder="Placeholder" />
-      </InputGroup>
-      <FieldDescription className={description}>Helper text</FieldDescription>
+      <FieldLabel
+        htmlFor={fieldId}
+        className={getLabelClass('default', variant)}>
+        Label
+      </FieldLabel>
+      <div
+        ref={groupContainerRef}
+        onFocusCapture={handleFocusCapture}
+        onBlurCapture={handleBlurCapture}>
+        <InputGroup variant={variant}>
+          <InputGroupAddon align="inline-start">
+            <IconShell
+              size={iconSize}
+              type="neutral"
+              variant="secondary"
+              aria-hidden>
+              <Icon icon="search" />
+            </IconShell>
+          </InputGroupAddon>
+          <InputGroupInput
+            id={fieldId}
+            variant={variant}
+            placeholder="Search…"
+            value={value}
+            autoComplete="off"
+            onChange={e => setValue(e.target.value)}
+          />
+          {showDelete ? (
+            <InputGroupAddon align="inline-end">
+              <InputGroupButton
+                type="button"
+                size="icon-xs"
+                variant="ghost"
+                aria-label="Delete entered text"
+                className="hover:bg-transparent active:bg-transparent"
+                onMouseDown={e => e.preventDefault()}
+                onClick={() => {
+                  setValue('');
+                  focusControl();
+                }}>
+                <IconShell size="sm" type="neutral" hoverable aria-hidden>
+                  <Icon icon="backspace" />
+                </IconShell>
+              </InputGroupButton>
+            </InputGroupAddon>
+          ) : null}
+        </InputGroup>
+      </div>
+      <FieldDescription>Helper text</FieldDescription>
     </FieldSet>
   );
 }
 
-/** Input group with leading icon */
+export function InputGroupDemo() {
+  const { gap, iconSize } = inputGroupFieldConfig.default;
+
+  return (
+    <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
+      <FieldLabel htmlFor="ig-demo-default">Label</FieldLabel>
+      <InputGroup>
+        <LeadingIcon>
+          <IconShell
+            size={iconSize}
+            type="neutral"
+            variant="secondary"
+            aria-hidden>
+            <Icon icon="search" />
+          </IconShell>
+        </LeadingIcon>
+        <InputGroupInput id="ig-demo-default" placeholder="Placeholder" />
+      </InputGroup>
+      <FieldDescription>Helper text</FieldDescription>
+    </FieldSet>
+  );
+}
+
+export function InputGroupAffixes() {
+  const { gap, iconSize } = inputGroupFieldConfig.default;
+
+  function AffixField({
+    variant,
+    fieldId,
+  }: Readonly<{
+    variant: 'default' | 'inline';
+    fieldId: string;
+  }>) {
+    return (
+      <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
+        <FieldLabel
+          htmlFor={fieldId}
+          className={getLabelClass('default', variant)}>
+          Label
+        </FieldLabel>
+        <InputGroup variant={variant}>
+          <LeadingIcon>
+            <IconShell
+              size={iconSize}
+              type="neutral"
+              variant="secondary"
+              aria-hidden>
+              <Icon icon="crop_free" />
+            </IconShell>
+          </LeadingIcon>
+          <InputGroupAddon align="inline-start">
+            <InputGroupText>PRE</InputGroupText>
+          </InputGroupAddon>
+          <InputGroupInput
+            id={fieldId}
+            variant={variant}
+            placeholder="Hint text"
+          />
+          <InputGroupAddon align="inline-end">
+            <InputGroupText>SUF</InputGroupText>
+          </InputGroupAddon>
+          <TrailingIcon>
+            <IconShell
+              size={iconSize}
+              type="neutral"
+              variant="secondary"
+              aria-hidden>
+              <Icon icon="crop_free" />
+            </IconShell>
+          </TrailingIcon>
+        </InputGroup>
+        <FieldDescription>Helper text</FieldDescription>
+      </FieldSet>
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-6">
+      <AffixField variant="default" fieldId="ig-affix-default" />
+      <AffixField variant="inline" fieldId="ig-affix-inline" />
+    </div>
+  );
+}
+
 export function InputGroupLeadingIcon() {
-  const { label, description, gap, iconSize } = inputGroupFieldConfig.default;
+  const { gap, iconSize } = inputGroupFieldConfig.default;
 
   return (
     <div className={`${FIELD_WIDTH} space-y-4`}>
       <FieldSet className={gap}>
-        <FieldTitle className={label}>Label</FieldTitle>
+        <FieldLabel htmlFor="ig-leading-email">Label</FieldLabel>
         <InputGroup>
           <LeadingIcon>
-            <Icon icon="mail" size={iconSize} className="icon" />
+            <IconShell
+              size={iconSize}
+              type="neutral"
+              variant="secondary"
+              aria-hidden>
+              <Icon icon="mail" />
+            </IconShell>
           </LeadingIcon>
-          <InputGroupInput type="email" placeholder="Placeholder" />
+          <InputGroupInput
+            id="ig-leading-email"
+            type="email"
+            placeholder="Placeholder"
+          />
         </InputGroup>
-        <FieldDescription className={description}>Helper text</FieldDescription>
+        <FieldDescription>Helper text</FieldDescription>
       </FieldSet>
 
       <FieldSet className={gap}>
-        <FieldTitle className={label}>Label</FieldTitle>
+        <FieldLabel htmlFor="ig-leading-person">Label</FieldLabel>
         <InputGroup>
           <LeadingIcon>
-            <Icon icon="person" size={iconSize} className="icon" />
+            <IconShell
+              size={iconSize}
+              type="neutral"
+              variant="secondary"
+              aria-hidden>
+              <Icon icon="person" />
+            </IconShell>
           </LeadingIcon>
-          <InputGroupInput placeholder="Placeholder" />
+          <InputGroupInput id="ig-leading-person" placeholder="Placeholder" />
         </InputGroup>
-        <FieldDescription className={description}>Helper text</FieldDescription>
+        <FieldDescription>Helper text</FieldDescription>
       </FieldSet>
     </div>
   );
 }
 
-/** Input group with trailing elements */
 export function InputGroupTrailing() {
-  const { label, description, gap, iconSize } = inputGroupFieldConfig.default;
+  const { gap, iconSize } = inputGroupFieldConfig.default;
 
   return (
     <div className={`${FIELD_WIDTH} space-y-4`}>
       <FieldSet className={gap}>
-        <FieldTitle className={label}>Label</FieldTitle>
+        <FieldLabel htmlFor="ig-trailing-usd">Label</FieldLabel>
         <InputGroup>
-          <InputGroupInput placeholder="Placeholder" />
+          <InputGroupInput id="ig-trailing-usd" placeholder="Placeholder" />
           <InputGroupAddon align="inline-end">
             <InputGroupText>USD</InputGroupText>
           </InputGroupAddon>
         </InputGroup>
-        <FieldDescription className={description}>Helper text</FieldDescription>
+        <FieldDescription>Helper text</FieldDescription>
       </FieldSet>
 
       <FieldSet className={gap}>
-        <FieldTitle className={label}>Label</FieldTitle>
+        <FieldLabel htmlFor="ig-trailing-send">Label</FieldLabel>
         <InputGroup>
-          <InputGroupInput placeholder="Placeholder" />
+          <InputGroupInput id="ig-trailing-send" placeholder="Placeholder" />
           <InputGroupAddon align="inline-end">
-            <InputGroupButton size="icon-xs" variant="ghost">
-              <Icon icon="send" size={iconSize} className="icon" />
+            <InputGroupButton size="icon-xs" variant="ghost" aria-label="Send">
+              <IconShell size={iconSize} type="neutral" hoverable aria-hidden>
+                <Icon icon="send" />
+              </IconShell>
             </InputGroupButton>
           </InputGroupAddon>
         </InputGroup>
-        <FieldDescription className={description}>Helper text</FieldDescription>
+        <FieldDescription>Helper text</FieldDescription>
       </FieldSet>
     </div>
   );
 }
 
-/** Input group with both sides */
 export function InputGroupBothSides() {
-  const { label, description, gap, iconSize } = inputGroupFieldConfig.default;
+  const { gap, iconSize } = inputGroupFieldConfig.default;
 
   return (
     <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-      <FieldTitle className={label}>Label</FieldTitle>
+      <FieldLabel htmlFor="ig-both-sides">Label</FieldLabel>
       <InputGroup>
         <LeadingIcon>
-          <Icon icon="attach_money" size={iconSize} className="icon" />
+          <IconShell
+            size={iconSize}
+            type="neutral"
+            variant="secondary"
+            aria-hidden>
+            <Icon icon="attach_money" />
+          </IconShell>
         </LeadingIcon>
-        <InputGroupInput type="number" placeholder="Placeholder" />
+        <InputGroupInput
+          id="ig-both-sides"
+          type="number"
+          placeholder="Placeholder"
+        />
         <InputGroupAddon align="inline-end">
           <InputGroupText>USD</InputGroupText>
         </InputGroupAddon>
       </InputGroup>
-      <FieldDescription className={description}>Helper text</FieldDescription>
+      <FieldDescription>Helper text</FieldDescription>
     </FieldSet>
   );
 }
 
-/** Input group sizes - default and inline variants side by side */
 export function InputGroupSizes() {
-  const sizes = [
-    { label: 'Small', size: 'sm' as const },
-    { label: 'Default', size: 'default' as const },
-    { label: 'Large', size: 'lg' as const },
+  const sizes: Array<{ size: FieldSize }> = [
+    { size: 'sm' },
+    { size: 'default' },
+    { size: 'lg' },
   ];
 
   return (
     <div className="space-y-6">
       {sizes.map(({ size }) => {
-        const {
-          label: labelClass,
-          description,
-          gap,
-          iconSize,
-        } = inputGroupFieldConfig[size];
-        const inlineLabelClass = cn(labelClass, size !== 'sm' && 'mb-[-4px]');
+        const { gap, iconSize } = inputGroupFieldConfig[size];
+        const fieldId = `ig-size-${size}`;
 
         return (
           <div key={size} className="flex gap-6">
             <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-              <FieldTitle className={labelClass}>Label</FieldTitle>
+              <FieldLabel htmlFor={`${fieldId}-default`} size={size}>
+                Label
+              </FieldLabel>
               <InputGroup size={size}>
                 <LeadingIcon>
-                  <Icon icon="search" size={iconSize} className="icon" />
+                  <IconShell
+                    size={iconSize}
+                    type="neutral"
+                    variant="secondary"
+                    aria-hidden>
+                    <Icon icon="search" />
+                  </IconShell>
                 </LeadingIcon>
-                <InputGroupInput size={size} placeholder="Placeholder" />
+                <InputGroupInput
+                  id={`${fieldId}-default`}
+                  size={size}
+                  placeholder="Placeholder"
+                />
               </InputGroup>
-              <FieldDescription className={description}>
-                Helper text
-              </FieldDescription>
+              <FieldDescription size={size}>Helper text</FieldDescription>
             </FieldSet>
 
             <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-              <FieldTitle className={inlineLabelClass}>Label</FieldTitle>
+              <FieldLabel
+                htmlFor={`${fieldId}-inline`}
+                size={size}
+                className={getLabelClass(size, 'inline')}>
+                Label
+              </FieldLabel>
               <InputGroup variant="inline" size={size}>
                 <LeadingIcon>
-                  <Icon icon="search" size={iconSize} className="icon" />
+                  <IconShell
+                    size={iconSize}
+                    type="neutral"
+                    variant="secondary"
+                    aria-hidden>
+                    <Icon icon="search" />
+                  </IconShell>
                 </LeadingIcon>
                 <InputGroupInput
+                  id={`${fieldId}-inline`}
                   variant="inline"
                   size={size}
                   placeholder="Placeholder"
                 />
               </InputGroup>
-              <FieldDescription className={description}>
-                Helper text
-              </FieldDescription>
+              <FieldDescription size={size}>Helper text</FieldDescription>
             </FieldSet>
           </div>
         );
@@ -197,109 +404,175 @@ export function InputGroupSizes() {
   );
 }
 
-/** Input group status states - error, warning, success with default and inline side by side */
 export function InputGroupStatusStates() {
-  const {
-    label: labelClass,
-    description: descriptionClass,
-    gap,
-    iconSize,
-  } = inputGroupFieldConfig.default;
-  const inlineLabelClass = cn(labelClass, 'mb-[-4px]');
+  const { gap, iconSize } = inputGroupFieldConfig.default;
+  const { expanded, setAxisExpanded } = useDemoExpandState([variantAxis]);
+  const showInline = expanded.variant ?? false;
 
   const statuses = [
     {
       label: 'Error',
       icon: 'cancel',
       statusColor: 'text-status-error',
-      defaultInputProps: {
-        'aria-invalid': true,
-        placeholder: 'Placeholder',
-      } as const,
-      inlineInputProps: {
-        'aria-invalid': true,
-        placeholder: 'Placeholder',
-      } as const,
+      tone: 'error' as const,
       defaultGroupClass: '',
       inlineGroupClass: '',
+      inputProps: { 'aria-invalid': true as const, placeholder: 'Placeholder' },
     },
     {
       label: 'Warning',
       icon: 'info',
       statusColor: 'text-status-warning',
-      defaultInputProps: { placeholder: 'Placeholder' },
-      inlineInputProps: { placeholder: 'Placeholder' },
-      defaultGroupClass: '!border-status-warning !border',
-      inlineGroupClass: '!border-b-status-warning !border-b',
+      tone: 'warning' as const,
+      defaultGroupClass: 'border-stroke-status-warning',
+      inlineGroupClass: 'border-b-stroke-status-warning',
+      inputProps: { placeholder: 'Placeholder' },
     },
     {
       label: 'Success',
       icon: 'check_circle',
       statusColor: 'text-status-success',
-      defaultInputProps: { placeholder: 'Placeholder' },
-      inlineInputProps: { placeholder: 'Placeholder' },
-      defaultGroupClass: '!border-status-success !border',
-      inlineGroupClass: '!border-b-status-success !border-b',
+      tone: 'success' as const,
+      defaultGroupClass: 'border-stroke-status-success',
+      inlineGroupClass: 'border-b-stroke-status-success',
+      inputProps: { placeholder: 'Placeholder' },
+    },
+    {
+      label: 'Disabled',
+      tone: 'disabled' as const,
+      showAffixes: true,
+      defaultGroupClass: '',
+      inlineGroupClass: '',
+      inputProps: { disabled: true, placeholder: 'Placeholder' },
+      helper: 'This field is disabled',
     },
   ];
 
   return (
-    <div className="space-y-6">
-      {statuses.map(
-        ({
-          label,
-          icon: statusIcon,
-          statusColor,
-          defaultInputProps,
-          inlineInputProps,
-          defaultGroupClass,
-          inlineGroupClass,
-        }) => (
-          <div key={label} className="flex gap-6">
-            <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-              <FieldTitle className={labelClass}>Label</FieldTitle>
-              <InputGroup className={defaultGroupClass || undefined}>
-                <InputGroupInput {...defaultInputProps} />
-                <InputGroupAddon align="inline-end">
-                  <InputGroupText>
-                    <Icon
-                      icon={statusIcon}
-                      size={iconSize}
-                      className={statusColor}
-                    />
-                  </InputGroupText>
-                </InputGroupAddon>
-              </InputGroup>
-              <FieldDescription
-                className={`${descriptionClass} ${statusColor}`}>
-                Feedback message here
-              </FieldDescription>
-            </FieldSet>
+    <div className="relative w-full self-stretch">
+      <DemoExpandControls
+        axes={[variantAxis]}
+        expanded={expanded}
+        onExpandedChange={setAxisExpanded}
+      />
 
-            <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-              <FieldTitle className={inlineLabelClass}>Label</FieldTitle>
-              <InputGroup
-                variant="inline"
-                className={inlineGroupClass || undefined}>
-                <InputGroupInput variant="inline" {...inlineInputProps} />
-                <InputGroupAddon align="inline-end">
-                  <InputGroupText>
-                    <Icon
-                      icon={statusIcon}
-                      size={iconSize}
-                      className={statusColor}
+      <div className="flex flex-col items-center gap-6 pt-10">
+        {statuses.map(
+          ({
+            label,
+            icon: statusIcon,
+            statusColor,
+            tone,
+            showAffixes,
+            defaultGroupClass,
+            inlineGroupClass,
+            inputProps,
+            helper,
+          }) => {
+            const isDisabled = Boolean(inputProps.disabled);
+
+            const renderField = (variant: 'default' | 'inline') => {
+              const fieldId = `ig-status-${tone}-${variant}`;
+              const groupClass =
+                variant === 'inline' ? inlineGroupClass : defaultGroupClass;
+
+              return (
+                <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
+                  <FieldLabel
+                    htmlFor={fieldId}
+                    disabled={isDisabled}
+                    className={getLabelClass('default', variant)}>
+                    {label}
+                  </FieldLabel>
+                  <InputGroup
+                    variant={variant}
+                    className={groupClass || undefined}>
+                    {showAffixes ? (
+                      <LeadingIcon>
+                        <IconShell
+                          size={iconSize}
+                          type="neutral"
+                          variant="secondary"
+                          disabled={isDisabled}
+                          aria-hidden>
+                          <Icon icon="crop_free" />
+                        </IconShell>
+                      </LeadingIcon>
+                    ) : null}
+                    {showAffixes ? (
+                      <InputGroupAddon align="inline-start">
+                        <InputGroupText>PRE</InputGroupText>
+                      </InputGroupAddon>
+                    ) : null}
+                    <InputGroupInput
+                      id={fieldId}
+                      variant={variant}
+                      {...inputProps}
                     />
-                  </InputGroupText>
-                </InputGroupAddon>
-              </InputGroup>
-              <FieldDescription
-                className={`${descriptionClass} ${statusColor}`}>
-                Feedback message here
-              </FieldDescription>
-            </FieldSet>
-          </div>
-        ),
-      )}
+                    {showAffixes ? (
+                      <InputGroupAddon align="inline-end">
+                        <InputGroupText>SUF</InputGroupText>
+                      </InputGroupAddon>
+                    ) : null}
+                    {showAffixes ? (
+                      <TrailingIcon>
+                        <IconShell
+                          size={iconSize}
+                          type="neutral"
+                          variant="secondary"
+                          disabled={isDisabled}
+                          aria-hidden>
+                          <Icon icon="crop_free" />
+                        </IconShell>
+                      </TrailingIcon>
+                    ) : statusIcon ? (
+                      <InputGroupAddon align="inline-end">
+                        <IconShell
+                          size={iconSize}
+                          type="custom"
+                          className={statusColor}
+                          disabled={isDisabled}
+                          aria-hidden>
+                          <Icon icon={statusIcon} />
+                        </IconShell>
+                      </InputGroupAddon>
+                    ) : null}
+                  </InputGroup>
+                  {tone === 'error' ? (
+                    <FieldError>Feedback message here</FieldError>
+                  ) : helper ? (
+                    <FieldDescription disabled={isDisabled}>
+                      {helper}
+                    </FieldDescription>
+                  ) : (
+                    <FieldDescription className={statusColor}>
+                      Feedback message here
+                    </FieldDescription>
+                  )}
+                </FieldSet>
+              );
+            };
+
+            return (
+              <DemoAxisRow key={tone}>
+                {renderField('default')}
+                <DemoExpandSlot open={showInline}>
+                  {renderField('inline')}
+                </DemoExpandSlot>
+              </DemoAxisRow>
+            );
+          },
+        )}
+      </div>
+    </div>
+  );
+}
+
+export function InputGroupDeleteOnFocus() {
+  return (
+    <div className="flex flex-col gap-6">
+      <DeleteOnFocusField variant="default" fieldId="ig-delete-default" />
+      <DeleteOnFocusField variant="inline" fieldId="ig-delete-inline" />
     </div>
   );
 }
@@ -308,52 +581,44 @@ export const examples: DemoExample[] = [
   {
     name: 'InputGroupDemo',
     title: 'Default',
-    description: 'Basic input group with search icon.',
+    description: 'Search field with a leading icon.',
   },
   {
     name: 'InputGroupLeadingIcon',
-    title: 'Leading Icons',
-    description: 'Input groups with leading icons.',
+    title: 'Leading icon',
+    description: 'Icon before the input (filled and inline).',
   },
   {
     name: 'InputGroupTrailing',
-    title: 'Trailing Elements',
-    description: 'Input groups with trailing text, buttons, or icons.',
+    title: 'Trailing action',
+    description: 'Text, button, or icon after the input.',
   },
   {
     name: 'InputGroupBothSides',
-    title: 'Both Sides',
-    description: 'Input group with elements on both sides.',
+    title: 'Both sides',
+    description: 'Leading icon and trailing suffix together.',
+  },
+  {
+    name: 'InputGroupAffixes',
+    title: 'Prefix and suffix',
+    description: 'Fixed text before and after the value (with icons).',
   },
   {
     name: 'InputGroupSizes',
     title: 'Sizes',
-    description:
-      'Small, default, and large input group sizes with default and inline variants side by side.',
+    description: 'Small, default, and large (filled and inline).',
   },
   {
     name: 'InputGroupStatusStates',
-    title: 'Status States',
+    title: 'Validation',
     description:
-      'Error, warning, and success states with default and inline variants side by side.',
+      'Error, warning, success, and disabled states. Toggle Variants to compare default and inline.',
   },
   {
     name: 'InputGroupDeleteOnFocus',
-    title: 'Input with delete icon on focus',
+    title: 'Clear on focus',
     description:
-      'Trailing delete control (Backspace icon) shown with CSS :focus-within — control stays mounted for predictable focus; default and inline, stacked vertically.',
-  },
-  {
-    name: 'InputGroupStepperSizes',
-    title: 'Stepper Sizes',
-    description:
-      'Stepper input with default and inline variants side by side for all sizes.',
-  },
-  {
-    name: 'InputGroupStepperStates',
-    title: 'Stepper States',
-    description:
-      'Stepper input showing error, success, and warning states with both default and inline variants.',
+      'Backspace control appears when the field is focused and has text.',
   },
 ];
 
@@ -362,9 +627,8 @@ export const inputGroup = createLegacyDemo('input-group', examples, {
   InputGroupLeadingIcon: <InputGroupLeadingIcon />,
   InputGroupTrailing: <InputGroupTrailing />,
   InputGroupBothSides: <InputGroupBothSides />,
+  InputGroupAffixes: <InputGroupAffixes />,
   InputGroupSizes: <InputGroupSizes />,
   InputGroupStatusStates: <InputGroupStatusStates />,
   InputGroupDeleteOnFocus: <InputGroupDeleteOnFocus />,
-  InputGroupStepperSizes: <InputGroupStepperSizes />,
-  InputGroupStepperStates: <InputGroupStepperStates />,
 });
