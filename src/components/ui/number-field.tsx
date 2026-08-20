@@ -8,24 +8,24 @@ import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import {
+  inputGroupDefaultDisabledStyles,
+  inputGroupDefaultErrorStyles,
+  inputGroupDefaultFocusStyles,
+  inputGroupFocusRingWidth,
+  inputGroupInlineErrorStyles,
+  inputGroupInlineFocusBorderWidth,
+  inputGroupInlineFocusStyles,
+  inputGroupInlineLgFocusUnderline,
   inputSizeDefinitions,
   inputSizeStyles,
   inputVariantStyles,
-  numberFieldGroupDefaultDisabledStyles,
-  numberFieldGroupDefaultErrorStyles,
-  numberFieldGroupDefaultFocusStyles,
-  numberFieldGroupFocusRingWidth,
-  numberFieldGroupInlineErrorStyles,
-  numberFieldGroupInlineFocusBorderWidth,
-  numberFieldGroupInlineFocusStyles,
-  numberFieldGroupInlineLgFocusUnderline,
 } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
 type NumberFieldSize = 'sm' | 'default' | 'lg';
 type NumberFieldVariant = 'default' | 'inline';
 
-const controlSlot = 'number-field-control';
+const controlSlot = 'input-group-control';
 
 const NumberFieldSizeContext = React.createContext<NumberFieldSize>('default');
 const NumberFieldVariantContext =
@@ -46,11 +46,11 @@ const stepperButtonClass = {
 const stepperButtonStyles = [
   'paragraph-regular-primary shadow-none',
   'focus-visible:ring-0 focus-visible:ring-offset-0',
-  'group-has-[[data-slot=number-field-control]:disabled]/number-field:pointer-events-none',
-  'group-has-[[data-slot=number-field-control]:disabled]/number-field:hover:bg-transparent',
-  'group-has-[[data-slot=number-field-control]:disabled]/number-field:hover:text-fg-secondary',
-  'group-has-[[data-slot=number-field-control]:disabled]/number-field:active:bg-transparent',
-  'group-has-[[data-slot=number-field-control]:disabled]/number-field:[&_[data-slot=icon-shell]]:opacity-50',
+  'group-has-[[data-slot=input-group-control]:disabled]/number-field:pointer-events-none',
+  'group-has-[[data-slot=input-group-control]:disabled]/number-field:hover:bg-transparent',
+  'group-has-[[data-slot=input-group-control]:disabled]/number-field:hover:text-fg-secondary',
+  'group-has-[[data-slot=input-group-control]:disabled]/number-field:active:bg-transparent',
+  'group-has-[[data-slot=input-group-control]:disabled]/number-field:[&_[data-slot=icon-shell]]:opacity-50',
   'disabled:hover:bg-transparent disabled:pointer-events-none',
 ] as const;
 
@@ -64,9 +64,10 @@ const numberFieldGroupVariants = cva(
           'gap-1',
           inputVariantStyles.default.base,
           inputVariantStyles.default.hover,
-          ...numberFieldGroupDefaultFocusStyles,
-          ...numberFieldGroupDefaultErrorStyles,
-          ...numberFieldGroupDefaultDisabledStyles,
+          ...inputGroupDefaultFocusStyles,
+          ...inputGroupDefaultErrorStyles,
+          'data-[invalid]:border-stroke-status-error',
+          ...inputGroupDefaultDisabledStyles,
         ],
         inline: [
           'w-[96px]',
@@ -74,8 +75,9 @@ const numberFieldGroupVariants = cva(
           inputVariantStyles.inline.base,
           inputVariantStyles.inline.border,
           inputVariantStyles.inline.hover,
-          ...numberFieldGroupInlineFocusStyles,
-          ...numberFieldGroupInlineErrorStyles,
+          ...inputGroupInlineFocusStyles,
+          ...inputGroupInlineErrorStyles,
+          'data-[invalid]:border-b-stroke-status-error',
         ],
       },
       size: {
@@ -88,32 +90,32 @@ const numberFieldGroupVariants = cva(
       {
         variant: 'default',
         size: 'sm',
-        className: numberFieldGroupFocusRingWidth.sm,
+        className: inputGroupFocusRingWidth.sm,
       },
       {
         variant: 'default',
         size: 'default',
-        className: numberFieldGroupFocusRingWidth.default,
+        className: inputGroupFocusRingWidth.default,
       },
       {
         variant: 'default',
         size: 'lg',
-        className: numberFieldGroupFocusRingWidth.lg,
+        className: inputGroupFocusRingWidth.lg,
       },
       {
         variant: 'inline',
         size: 'sm',
-        className: numberFieldGroupInlineFocusBorderWidth.sm,
+        className: inputGroupInlineFocusBorderWidth.sm,
       },
       {
         variant: 'inline',
         size: 'default',
-        className: numberFieldGroupInlineFocusBorderWidth.default,
+        className: inputGroupInlineFocusBorderWidth.default,
       },
       {
         variant: 'inline',
         size: 'lg',
-        className: numberFieldGroupInlineLgFocusUnderline,
+        className: inputGroupInlineLgFocusUnderline,
       },
     ],
     defaultVariants: {
