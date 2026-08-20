@@ -108,7 +108,11 @@ export function DemoExpandControls({
 }
 
 export function DemoAxisRow({ children }: Readonly<{ children: ReactNode }>) {
-  return <div className="flex flex-wrap items-start gap-6">{children}</div>;
+  return (
+    <div className="flex flex-wrap items-start justify-center gap-6">
+      {children}
+    </div>
+  );
 }
 
 type DemoExpandSlotProps = {

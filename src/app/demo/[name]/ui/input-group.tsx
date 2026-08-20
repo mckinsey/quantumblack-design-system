@@ -456,7 +456,7 @@ export function InputGroupStatusStates() {
         onExpandedChange={setAxisExpanded}
       />
 
-      <div className="space-y-6 pt-10">
+      <div className="flex flex-col items-center gap-6 pt-10">
         {statuses.map(
           ({
             label,
