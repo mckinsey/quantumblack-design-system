@@ -52,7 +52,7 @@ describe(`${componentName} — structure & interaction`, () => {
       document.querySelector('[data-slot="number-field-group"]'),
     ).toBeInTheDocument();
     expect(
-      document.querySelector('[data-slot="number-field-control"]'),
+      document.querySelector('[data-slot="input-group-control"]'),
     ).toBeInTheDocument();
   });
 
