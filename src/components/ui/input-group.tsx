@@ -1,71 +1,39 @@
 'use client';
 
+import { Input as InputPrimitive } from '@base-ui/react/input';
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
-  Input,
-  type InputProps,
+  inputGroupDefaultDisabledStyles,
+  inputGroupDefaultErrorStyles,
+  inputGroupDefaultFocusStyles,
+  inputGroupFocusRingWidth,
+  inputGroupInlineErrorStyles,
+  inputGroupInlineFocusBorderWidth,
+  inputGroupInlineFocusStyles,
+  inputGroupInlineLgFocusUnderline,
   inputSizeDefinitions,
+  inputSizeStyles,
   inputVariantStyles,
+  searchCancelButtonStyles,
 } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 
-// Focus state wrapper styles for default variant
-// Triggered by child input focus-visible OR data-open="true" on the wrapper
-const defaultFocusStyles = [
-  'has-[[data-slot=input-group-control]:focus-visible]:bg-stateslayer-overlay-active-inverse',
-  'has-[[data-slot=input-group-control]:focus-visible]:ring-stroke-status-focus',
-  'has-[[data-slot=input-group-control]:focus-visible]:shadow-elevation-0',
-  'data-[open=true]:bg-stateslayer-overlay-active-inverse',
-  'data-[open=true]:ring-stroke-status-focus',
-  'data-[open=true]:shadow-elevation-0',
-] as const;
-
-// Per-size focus ring width for InputGroup default variant
-const inputGroupFocusRingWidth = {
-  sm: 'has-[[data-slot=input-group-control]:focus-visible]:ring-[1px] data-[open=true]:ring-[1px]',
+const inputGroupControlDisabledTextStyles = {
   default:
-    'has-[[data-slot=input-group-control]:focus-visible]:ring-[1px] data-[open=true]:ring-[1px]',
-  lg: 'has-[[data-slot=input-group-control]:focus-visible]:ring-[2px] data-[open=true]:ring-[2px]',
+    'disabled:cursor-not-allowed disabled:text-fg-disabled disabled:placeholder:text-fg-disabled',
+  inline:
+    'disabled:cursor-not-allowed disabled:text-fg-disabled disabled:placeholder:text-fg-disabled',
 } as const;
 
-// Focus state wrapper styles for inline variant
-// Triggered by child input focus-visible OR data-open="true" on the wrapper
-const inlineFocusStyles = [
-  'has-[[data-slot=input-group-control]:focus-visible]:border-b-stroke-status-focus',
-  'has-[[data-slot=input-group-control]:focus-visible]:ring-0',
-  'has-[[data-slot=input-group-control]:focus-visible]:shadow-elevation-0',
-  'data-[open=true]:border-b-stroke-status-focus',
-  'data-[open=true]:ring-0',
-  'data-[open=true]:shadow-elevation-0',
-] as const;
+type InputGroupSize = 'sm' | 'default' | 'lg';
 
-const inputGroupInlineFocusBorderWidth = {
-  sm: 'has-[[data-slot=input-group-control]:focus-visible]:border-b-[1px] data-[open=true]:border-b-[1px]',
-  default:
-    'has-[[data-slot=input-group-control]:focus-visible]:border-b-[1px] data-[open=true]:border-b-[1px]',
-  lg: 'has-[[data-slot=input-group-control]:focus-visible]:border-b-[2px] data-[open=true]:border-b-[2px]',
-} as const;
-
-// Error state wrapper styles for default variant
-const defaultErrorStyles = [
-  'has-[[data-slot][aria-invalid=true]]:!border',
-  'has-[[data-slot][aria-invalid=true]]:border-status-error',
-  'has-[[data-slot][aria-invalid=true]]:ring-0',
-] as const;
-
-// Error state wrapper styles for inline variant
-const inlineErrorStyles = [
-  'has-[[data-slot][aria-invalid=true]]:!border-b',
-  'has-[[data-slot][aria-invalid=true]]:border-b-status-error',
-  'has-[[data-slot][aria-invalid=true]]:ring-0',
-] as const;
+const InputGroupSizeContext = React.createContext<InputGroupSize>('default');
 
 const inputGroupVariants = cva(
-  'group/input-group relative flex w-full items-center rounded-none border-0 transition-[background-color,box-shadow,border-color] outline-none min-w-0 has-[>textarea]:h-auto',
+  'group/input-group relative flex w-full items-center rounded-none border-0 transition-[background-color,background-image,box-shadow,border-color] outline-none min-w-0 has-[>textarea]:h-auto',
   {
     variants: {
       variant: {
@@ -73,16 +41,17 @@ const inputGroupVariants = cva(
           'gap-1',
           inputVariantStyles.default.base,
           inputVariantStyles.default.hover,
-          ...defaultFocusStyles,
-          ...defaultErrorStyles,
+          ...inputGroupDefaultFocusStyles,
+          ...inputGroupDefaultErrorStyles,
+          ...inputGroupDefaultDisabledStyles,
         ],
         inline: [
           'gap-2 px-0!',
           inputVariantStyles.inline.base,
           inputVariantStyles.inline.border,
           inputVariantStyles.inline.hover,
-          ...inlineFocusStyles,
-          ...inlineErrorStyles,
+          ...inputGroupInlineFocusStyles,
+          ...inputGroupInlineErrorStyles,
         ],
       },
       size: {
@@ -120,7 +89,7 @@ const inputGroupVariants = cva(
       {
         variant: 'inline',
         size: 'lg',
-        className: inputGroupInlineFocusBorderWidth.lg,
+        className: inputGroupInlineLgFocusUnderline,
       },
     ],
     defaultVariants: {
@@ -136,27 +105,30 @@ export interface InputGroupProps
     VariantProps<typeof inputGroupVariants> {}
 
 function InputGroup({ className, variant, size, ...props }: InputGroupProps) {
+  const resolvedSize = size ?? 'default';
+
   return (
-    <div
-      data-slot="input-group"
-      data-variant={variant}
-      data-size={size}
-      className={cn(
-        inputGroupVariants({ variant, size }),
-        // Variants based on alignment.
-        'has-[>[data-align=inline-start]]:[&>input]:pl-2',
-        'has-[>[data-align=inline-end]]:[&>input]:pr-2',
-        'has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-start]]:[&>input]:pb-3',
-        'has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-3',
-        className,
-      )}
-      {...props}
-    />
+    <InputGroupSizeContext.Provider value={resolvedSize}>
+      <div
+        data-slot="input-group"
+        data-variant={variant}
+        data-size={resolvedSize}
+        className={cn(
+          inputGroupVariants({ variant, size: resolvedSize }),
+          'has-[>[data-align=inline-start]]:[&>input]:pl-2',
+          'has-[>[data-align=inline-end]]:[&>input]:pr-2',
+          'has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-start]]:[&>input]:pb-3',
+          'has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-3',
+          className,
+        )}
+        {...props}
+      />
+    </InputGroupSizeContext.Provider>
   );
 }
 
 const inputGroupAddonVariants = cva(
-  "text-fg-secondary flex h-auto cursor-text items-center justify-center gap-2 py-1 text-sm font-medium select-none [&>svg:not([class*='size-'])]:size-4 [&>kbd]:rounded-[calc(var(--radius)-5px)] group-data-[disabled=true]/input-group:opacity-50",
+  "text-fg-secondary paragraph-regular-primary flex h-auto cursor-text items-center justify-center gap-2 py-1 select-none [&>svg:not([class*='size-'])]:size-4 [&>kbd]:rounded-[calc(var(--radius)-5px)] group-data-[disabled=true]/input-group:opacity-50",
   {
     variants: {
       align: {
@@ -189,7 +161,24 @@ function InputGroupAddon({
           return;
         }
 
-        e.currentTarget.parentElement?.querySelector('input')?.focus();
+        const control =
+          e.currentTarget.parentElement?.querySelector<HTMLElement>(
+            '[data-slot="input-group-control"], input, textarea',
+          );
+
+        if (!control) {
+          return;
+        }
+
+        const isDisabled =
+          (control instanceof HTMLInputElement && control.disabled) ||
+          (control instanceof HTMLTextAreaElement && control.disabled);
+
+        if (isDisabled) {
+          return;
+        }
+
+        control.focus();
       }}
       {...props}
     />
@@ -197,16 +186,12 @@ function InputGroupAddon({
 }
 
 const inputGroupButtonVariants = cva(
-  'text-sm shadow-none flex gap-2 items-center',
+  'paragraph-regular-primary shadow-none flex gap-2 items-center',
   {
     variants: {
       size: {
         xs: "h-6 gap-1 px-2 rounded-[calc(var(--radius)-5px)] [&>svg:not([class*='size-'])]:size-3.5 has-[>svg]:px-2",
         sm: 'h-8 px-2.5 gap-1.5 rounded-md has-[>svg]:px-2.5',
-        // Icon button sizes per design spec:
-        // icon-xxs: 16px
-        // icon-xs: 20px (sm & default input groups)
-        // icon-sm: 24px (large input groups)
         'icon-xxs':
           'size-4 rounded-[calc(var(--radius)-5px)] p-0 has-[>svg]:p-0',
         'icon-xs':
@@ -240,11 +225,24 @@ function InputGroupButton({
   );
 }
 
-function InputGroupText({ className, ...props }: React.ComponentProps<'span'>) {
+export interface InputGroupTextProps extends React.ComponentProps<'span'> {
+  size?: InputGroupSize;
+}
+
+function InputGroupText({
+  className,
+  size,
+  ...props
+}: Readonly<InputGroupTextProps>) {
+  const groupSize = React.useContext(InputGroupSizeContext);
+  const resolvedSize = size ?? groupSize;
+
   return (
     <span
       className={cn(
-        "text-fg-secondary flex items-center gap-2 text-sm [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4",
+        "text-fg-tertiary flex items-center gap-2 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4",
+        'group-has-[[data-slot=input-group-control]:disabled]/input-group:text-fg-disabled',
+        inputSizeStyles[resolvedSize],
         className,
       )}
       {...props}
@@ -252,49 +250,43 @@ function InputGroupText({ className, ...props }: React.ComponentProps<'span'>) {
   );
 }
 
+export interface InputGroupInputProps extends Omit<
+  React.ComponentProps<typeof InputPrimitive>,
+  'size'
+> {
+  variant?: 'default' | 'inline';
+  size?: 'sm' | 'default' | 'lg';
+}
+
 function InputGroupInput({
   className,
   variant,
   size,
+  type,
   ...props
-}: Readonly<InputProps>) {
+}: Readonly<InputGroupInputProps>) {
+  const groupSize = React.useContext(InputGroupSizeContext);
+  const resolvedSize = size ?? groupSize;
   const isInline = variant === 'inline';
-
-  // Common base styles for all variants
-  const baseStyles = 'flex-1';
-
-  // Default variant: remove input's own styling since wrapper provides it
-  const defaultVariantStyles = [
-    'h-full rounded-none border-0 bg-transparent',
-    'px-0! py-0!',
-    '!shadow-none [box-shadow:none]',
-    // Focus state
-    'focus-visible:bg-transparent focus-visible:ring-0',
-    'focus-visible:!shadow-none focus-visible:[box-shadow:none]',
-    // Hover state
-    'hover:bg-transparent hover:!shadow-none',
-    // Error state
-    'aria-invalid:bg-transparent aria-invalid:ring-0 aria-invalid:!shadow-none',
-  ];
-
-  // Inline variant: remove all borders and shadows since wrapper provides them
-  const inlineVariantStyles = [
-    'px-0! py-0!',
-    '!border-0',
-    'hover:!border-0',
-    'focus-visible:!border-0 focus-visible:!mb-0',
-    'focus-visible:!shadow-none focus-visible:[box-shadow:none]',
-    'aria-invalid:!border-0',
-  ];
+  const textStyles = isInline
+    ? inputVariantStyles.inline.text
+    : inputVariantStyles.default.text;
+  const disabledTextStyles = isInline
+    ? inputGroupControlDisabledTextStyles.inline
+    : inputGroupControlDisabledTextStyles.default;
 
   return (
-    <Input
+    <InputPrimitive
+      type={type}
       data-slot="input-group-control"
-      variant={variant}
-      size={size}
       className={cn(
-        baseStyles,
-        isInline ? inlineVariantStyles : defaultVariantStyles,
+        'h-full w-full min-w-0 flex-1 rounded-none border-0 bg-transparent px-0! py-0! font-normal shadow-none ring-0 transition-[color] outline-none',
+        searchCancelButtonStyles,
+        'selection:bg-fill-active selection:text-fg-primary-inverse',
+        'file:text-fg-primary file:inline-flex file:border-0 file:bg-transparent file:font-medium',
+        inputSizeStyles[resolvedSize],
+        textStyles,
+        disabledTextStyles,
         className,
       )}
       {...props}
@@ -307,14 +299,13 @@ function InputGroupTextarea({
   ...props
 }: React.ComponentProps<'textarea'>) {
   return (
-    <Textarea
+    <textarea
       data-slot="input-group-control"
       className={cn(
-        // Remove textarea's own styling since the wrapper provides it
-        'h-full flex-1 resize-none rounded-none border-0 bg-transparent px-2 py-2 !shadow-none [box-shadow:none]',
-        'focus-visible:bg-transparent focus-visible:!shadow-none focus-visible:ring-0 focus-visible:[box-shadow:none]',
-        'hover:bg-transparent hover:!shadow-none',
-        'aria-invalid:bg-transparent aria-invalid:!shadow-none aria-invalid:ring-0',
+        'h-full min-h-0 flex-1 resize-none rounded-none border-0 bg-transparent px-2 py-2 font-normal shadow-none ring-0 outline-none',
+        'paragraph-regular-primary text-fg-primary placeholder:text-fg-tertiary',
+        'selection:bg-fill-active selection:text-fg-primary-inverse',
+        'disabled:text-fg-disabled disabled:placeholder:text-fg-disabled disabled:cursor-not-allowed',
         className,
       )}
       {...props}
