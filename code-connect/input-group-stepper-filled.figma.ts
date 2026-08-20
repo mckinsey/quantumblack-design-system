@@ -42,11 +42,11 @@ const hasFilledValue =
   state === 'disabled';
 const hasValue = isLive || hasFilledValue;
 
-const statusClass =
+const statusClassName =
   state === 'warning'
-    ? ' !border !border-stroke-status-warning'
+    ? 'border-stroke-status-warning'
     : state === 'success'
-      ? ' !border !border-stroke-status-success'
+      ? 'border-stroke-status-success'
       : '';
 
 const valueProp = isLive
@@ -78,9 +78,11 @@ if (trailingShell && trailingShell.type === 'INSTANCE') {
   trailingCode = trailingShell.executeTemplate().example;
 }
 
+const groupClassName = statusClassName ? `gap-1 ${statusClassName}` : 'gap-1';
+
 export default {
   example: figma.code`
-    <InputGroup size="${size}" className="gap-1${statusClass}">
+    <InputGroup size="${size}" className="${groupClassName}">
       <InputGroupAddon align="inline-start">
         <InputGroupButton type="button" size="${buttonSize}" variant="ghost" aria-label="Decrease"${disabled ? ' disabled' : ''}>
           ${leadingCode}

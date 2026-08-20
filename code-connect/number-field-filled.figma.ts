@@ -24,9 +24,9 @@ const state = instance.getEnum('state', {
   warning: 'warning',
 });
 
-instance.getBoolean('showEntryInput');
-instance.getBoolean('showFeedbackMessage');
-instance.getBoolean('showHelpText');
+const showEntryInput = instance.getBoolean('showEntryInput');
+const showFeedback = instance.getBoolean('showFeedbackMessage');
+const showHelpText = instance.getBoolean('showHelpText');
 
 const hintText = instance.getString('hintText');
 const entryFilled = instance.getString('entryFilled');
@@ -43,22 +43,23 @@ const hasFilledValue =
   state === 'disabled';
 const hasValue = isLive || hasFilledValue;
 
-const statusClass =
+const statusClassName =
   state === 'warning'
-    ? ' border-stroke-status-warning'
+    ? 'border-stroke-status-warning'
     : state === 'success'
-      ? ' border-stroke-status-success'
+      ? 'border-stroke-status-success'
       : '';
 
 const valueProp = isLive
-  ? figma.code` defaultValue={${entryActive.replace('|', '')}}`
+  ? figma.code` defaultValue="${entryActive}"`
   : hasFilledValue
-    ? figma.code` defaultValue={${entryFilled}}`
+    ? figma.code` defaultValue="${entryFilled}"`
     : figma.code``;
 
-const placeholderProp = !hasValue
-  ? figma.code` placeholder="${hintText}"`
-  : figma.code``;
+const placeholderProp =
+  showHelpText || !hasValue
+    ? figma.code` placeholder="${hintText}"`
+    : figma.code``;
 
 const shells = instance.findConnectedInstances(
   n => n.codeConnectId() === 'icon-shell',
@@ -87,20 +88,49 @@ const incrementIcon =
     ? trailingCode
     : figma.code`<IconShell size="sm" type="neutral" variant="secondary"><Icon icon="add" /></IconShell>`;
 
+const inputCode = showEntryInput
+  ? figma.code`<NumberFieldInput className="text-center"${invalid ? ' aria-invalid' : ''}${placeholderProp} />`
+  : figma.code``;
+
+const groupClassName = statusClassName ? ` className="${statusClassName}"` : '';
+
+const fieldBody = figma.code`
+  <NumberField min={0} max={999}${disabled ? ' disabled' : ''}${valueProp}>
+    <NumberFieldGroup size="${size}"${groupClassName}>
+      <NumberFieldDecrement>${decrementIcon}</NumberFieldDecrement>
+      ${inputCode}
+      <NumberFieldIncrement>${incrementIcon}</NumberFieldIncrement>
+    </NumberFieldGroup>
+  </NumberField>
+`;
+
+const footer =
+  invalid && showFeedback
+    ? figma.code`<FieldError>Feedback message</FieldError>`
+    : showHelpText && !invalid
+      ? figma.code`<FieldDescription>Helper text</FieldDescription>`
+      : figma.code``;
+
+const hasFooter = (invalid && showFeedback) || (showHelpText && !invalid);
+
+const example = hasFooter
+  ? figma.code`<FieldSet className="gap-2">${fieldBody}${footer}</FieldSet>`
+  : fieldBody;
+
+const fieldImports =
+  invalid && showFeedback
+    ? ['import { FieldError, FieldSet } from "@/components/ui/field"']
+    : showHelpText && !invalid
+      ? ['import { FieldDescription, FieldSet } from "@/components/ui/field"']
+      : [];
+
 export default {
-  example: figma.code`
-    <NumberField min={0} max={999}${disabled ? ' disabled' : ''}${valueProp}>
-      <NumberFieldGroup size="${size}" className="${statusClass}">
-        <NumberFieldDecrement>${decrementIcon}</NumberFieldDecrement>
-        <NumberFieldInput className="text-center"${invalid ? ' aria-invalid' : ''}${placeholderProp} />
-        <NumberFieldIncrement>${incrementIcon}</NumberFieldIncrement>
-      </NumberFieldGroup>
-    </NumberField>
-  `,
+  example,
   imports: [
     'import { NumberField, NumberFieldGroup, NumberFieldInput, NumberFieldDecrement, NumberFieldIncrement } from "@/components/ui/number-field"',
     'import { IconShell } from "@/components/ui/icon-shell"',
     'import { Icon } from "@/components/ui/icon"',
+    ...fieldImports,
   ],
   id: 'number-field-stepper-filled',
   metadata: { nestable: true },
