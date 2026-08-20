@@ -16,7 +16,22 @@ import {
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 import { cn } from '@/lib/utils';
 
+import {
+  type DemoAxis,
+  DemoAxisRow,
+  DemoExpandControls,
+  DemoExpandSlot,
+  useDemoExpandState,
+} from './demo-expand-controls';
+
 const FIELD_WIDTH = 'w-[240px]';
+
+const variantAxis: DemoAxis<'default' | 'inline'> = {
+  key: 'variant',
+  label: 'All Variants',
+  options: ['default', 'inline'],
+  defaultOption: 'default',
+};
 
 const numberFieldFieldConfig = {
   sm: { gap: 'gap-2' },
@@ -153,37 +168,8 @@ export function NumberFieldSizes() {
 
 export function NumberFieldStates() {
   const { gap } = numberFieldFieldConfig.default;
-
-  const states = [
-    {
-      label: 'Filled',
-      fieldProps: { defaultValue: 234 },
-      helper: 'Value has been entered',
-    },
-    {
-      label: 'Disabled',
-      fieldProps: { defaultValue: 234, disabled: true },
-      helper: 'This field is disabled',
-    },
-    {
-      label: 'Error',
-      fieldProps: { defaultValue: 234 },
-      inputProps: { 'aria-invalid': true as const },
-      feedback: { tone: 'error' as const, text: 'Please correct this field' },
-    },
-    {
-      label: 'Warning',
-      fieldProps: { defaultValue: 234 },
-      groupClass: 'border-stroke-status-warning',
-      feedback: { tone: 'warning' as const, text: 'Please review this value' },
-    },
-    {
-      label: 'Success',
-      fieldProps: { defaultValue: 234 },
-      groupClass: 'border-stroke-status-success',
-      feedback: { tone: 'success' as const, text: 'Looks good' },
-    },
-  ];
+  const { expanded, setAxisExpanded } = useDemoExpandState([variantAxis]);
+  const showInline = expanded.variant ?? false;
 
   const feedbackClass = {
     error: 'text-status-error',
@@ -191,47 +177,119 @@ export function NumberFieldStates() {
     success: 'text-status-success',
   } as const;
 
-  return (
-    <div className="space-y-6">
-      {states.map(
-        ({ label, fieldProps, helper, inputProps, groupClass, feedback }) => {
-          const fieldId = `number-field-state-${label.toLowerCase()}`;
-          const isDisabled = Boolean(fieldProps.disabled);
+  const states = [
+    {
+      label: 'Error',
+      tone: 'error' as const,
+      defaultGroupClass: '',
+      inlineGroupClass: '',
+      inputProps: { 'aria-invalid': true as const },
+      feedback: { tone: 'error' as const, text: 'Please correct this field' },
+    },
+    {
+      label: 'Warning',
+      tone: 'warning' as const,
+      defaultGroupClass: 'border-stroke-status-warning',
+      inlineGroupClass: 'border-b-stroke-status-warning',
+      feedback: { tone: 'warning' as const, text: 'Please review this value' },
+    },
+    {
+      label: 'Success',
+      tone: 'success' as const,
+      defaultGroupClass: 'border-stroke-status-success',
+      inlineGroupClass: 'border-b-stroke-status-success',
+      feedback: { tone: 'success' as const, text: 'Looks good' },
+    },
+    {
+      label: 'Disabled',
+      tone: 'disabled' as const,
+      defaultGroupClass: '',
+      inlineGroupClass: '',
+      disabled: true,
+      helper: 'This field is disabled',
+    },
+  ];
 
-          return (
-            <FieldSet key={label} className={`${FIELD_WIDTH} ${gap}`}>
-              <FieldLabel
-                htmlFor={fieldId}
-                disabled={isDisabled}
-                className={getLabelClass('default')}>
-                {label}
-              </FieldLabel>
-              <NumberField id={fieldId} min={0} max={999} {...fieldProps}>
-                <NumberFieldGroup className={groupClass}>
-                  <NumberFieldDecrement />
-                  <NumberFieldInput placeholder="000" {...inputProps} />
-                  <NumberFieldIncrement />
-                </NumberFieldGroup>
-              </NumberField>
-              {feedback ? (
-                feedback.tone === 'error' ? (
-                  <FieldError className={feedbackClass.error}>
-                    {feedback.text}
-                  </FieldError>
-                ) : (
-                  <FieldDescription className={feedbackClass[feedback.tone]}>
-                    {feedback.text}
-                  </FieldDescription>
-                )
-              ) : (
-                <FieldDescription disabled={isDisabled}>
-                  {helper}
-                </FieldDescription>
-              )}
-            </FieldSet>
-          );
-        },
-      )}
+  return (
+    <div className="relative w-full self-stretch">
+      <DemoExpandControls
+        axes={[variantAxis]}
+        expanded={expanded}
+        onExpandedChange={setAxisExpanded}
+      />
+
+      <div className="flex flex-col items-center gap-6 pt-10">
+        {states.map(
+          ({
+            label,
+            tone,
+            defaultGroupClass,
+            inlineGroupClass,
+            disabled,
+            inputProps,
+            feedback,
+            helper,
+          }) => {
+            const isDisabled = Boolean(disabled);
+
+            const renderField = (variant: 'default' | 'inline') => {
+              const fieldId = `number-field-state-${tone}-${variant}`;
+              const groupClass =
+                variant === 'inline' ? inlineGroupClass : defaultGroupClass;
+
+              return (
+                <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
+                  <FieldLabel
+                    htmlFor={fieldId}
+                    disabled={isDisabled}
+                    className={getLabelClass('default', variant)}>
+                    {label}
+                  </FieldLabel>
+                  <NumberField
+                    id={fieldId}
+                    defaultValue={234}
+                    min={0}
+                    max={999}
+                    disabled={isDisabled}>
+                    <NumberFieldGroup
+                      variant={variant}
+                      className={groupClass || undefined}>
+                      <NumberFieldDecrement />
+                      <NumberFieldInput placeholder="000" {...inputProps} />
+                      <NumberFieldIncrement />
+                    </NumberFieldGroup>
+                  </NumberField>
+                  {feedback ? (
+                    feedback.tone === 'error' ? (
+                      <FieldError className={feedbackClass.error}>
+                        {feedback.text}
+                      </FieldError>
+                    ) : (
+                      <FieldDescription
+                        className={feedbackClass[feedback.tone]}>
+                        {feedback.text}
+                      </FieldDescription>
+                    )
+                  ) : (
+                    <FieldDescription disabled={isDisabled}>
+                      {helper}
+                    </FieldDescription>
+                  )}
+                </FieldSet>
+              );
+            };
+
+            return (
+              <DemoAxisRow key={tone}>
+                {renderField('default')}
+                <DemoExpandSlot open={showInline}>
+                  {renderField('inline')}
+                </DemoExpandSlot>
+              </DemoAxisRow>
+            );
+          },
+        )}
+      </div>
     </div>
   );
 }
@@ -255,7 +313,8 @@ export const examples: DemoExample[] = [
   {
     name: 'NumberFieldStates',
     title: 'Validation',
-    description: 'Error, warning, success, and disabled states.',
+    description:
+      'Error, warning, success, and disabled states. Toggle Variants to compare filled and ghost.',
   },
 ];
 
