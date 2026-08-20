@@ -72,7 +72,7 @@ const valueProp = isLive
     : figma.code``;
 
 const placeholderProp =
-  state === 'focus'
+  state === 'focus' || state === 'open-typeahead'
     ? figma.code` placeholder="${placeholderActive}"`
     : showHintText || !hasValue
       ? figma.code` placeholder="${placeholderText}"`
@@ -83,7 +83,7 @@ const inputAttrs = [
   invalid ? 'aria-invalid' : '',
   isLive ? `defaultValue="${inputActive}"` : '',
   !isLive && hasFilledValue ? `defaultValue="${entryFilled}"` : '',
-  state === 'focus'
+  state === 'focus' || state === 'open-typeahead'
     ? `placeholder="${placeholderActive}"`
     : showHintText || !hasValue
       ? `placeholder="${placeholderText}"`
@@ -117,7 +117,7 @@ if (trailingBtn && trailingBtn.type === 'INSTANCE') {
   trailingBtnCode = trailingBtn.executeTemplate().example;
 }
 
-const clearBtnFallback = figma.code`<IconShell size="sm" type="neutral" hoverable><Icon icon="backspace" /></IconShell>`;
+const clearBtnFallback = figma.code`<IconShell size="sm" type="neutral" hoverable aria-hidden><Icon icon="backspace" /></IconShell>`;
 
 const statusIconFallback =
   state === 'error'
@@ -142,7 +142,7 @@ const startAddon = showLeading
   : figma.code``;
 
 const endAddon = useTrailingButton
-  ? figma.code`<InputGroupAddon align="inline-end"><InputGroupButton type="button" size="icon-xs" variant="ghost" aria-label="Clear entered text">${trailingBtnCode.length > 0 ? trailingBtnCode : clearBtnFallback}</InputGroupButton></InputGroupAddon>`
+  ? figma.code`<InputGroupAddon align="inline-end"><InputGroupButton type="button" size="icon-xs" variant="ghost" aria-label="Delete entered text"${disabled ? ' disabled' : ''}>${trailingBtnCode.length > 0 ? trailingBtnCode : clearBtnFallback}</InputGroupButton></InputGroupAddon>`
   : useTrailingIcon && hasTrailingContent
     ? figma.code`<InputGroupAddon align="inline-end">${trailingContent}</InputGroupAddon>`
     : figma.code``;
@@ -191,16 +191,14 @@ const fieldImports =
       ? ['import { FieldDescription, FieldSet } from "@/components/ui/field"']
       : [];
 
+const needsIconFallbackImports =
+  (useTrailingButton && trailingBtnCode.length === 0) ||
+  (useTrailingIcon && trailingCode.length === 0 && showStatusIconByState);
+
 const groupImports = hasSlots
   ? [
       'import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from "@/components/ui/input-group"',
-      ...(useTrailingButton && trailingBtnCode.length === 0
-        ? [
-            'import { Icon } from "@/components/ui/icon"',
-            'import { IconShell } from "@/components/ui/icon-shell"',
-          ]
-        : []),
-      ...(useTrailingIcon && trailingCode.length === 0 && showStatusIconByState
+      ...(needsIconFallbackImports
         ? [
             'import { Icon } from "@/components/ui/icon"',
             'import { IconShell } from "@/components/ui/icon-shell"',

@@ -90,7 +90,7 @@ const inputProps = [
   !isLive && hasFilledValue ? `defaultValue="${entryFilled}"` : '',
   state === 'focus' || state === 'open-typeahead'
     ? `placeholder="${hintFocus}"`
-    : showHelpText && !hasValue
+    : showHelpText || !hasValue
       ? `placeholder="${hintText}"`
       : '',
 ]

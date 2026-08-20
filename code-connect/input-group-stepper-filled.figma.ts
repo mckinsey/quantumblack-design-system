@@ -44,9 +44,9 @@ const hasValue = isLive || hasFilledValue;
 
 const statusClass =
   state === 'warning'
-    ? ' !border !border-status-warning'
+    ? ' !border !border-stroke-status-warning'
     : state === 'success'
-      ? ' !border !border-status-success'
+      ? ' !border !border-stroke-status-success'
       : '';
 
 const valueProp = isLive
@@ -82,13 +82,13 @@ export default {
   example: figma.code`
     <InputGroup size="${size}" className="gap-1${statusClass}">
       <InputGroupAddon align="inline-start">
-        <InputGroupButton size="${buttonSize}" variant="ghost" aria-label="Decrease"${disabled ? ' disabled' : ''}>
+        <InputGroupButton type="button" size="${buttonSize}" variant="ghost" aria-label="Decrease"${disabled ? ' disabled' : ''}>
           ${leadingCode}
         </InputGroupButton>
       </InputGroupAddon>
       <InputGroupInput type="number" size="${size}" className="text-center"${disabled ? ' disabled' : ''}${invalid ? ' aria-invalid' : ''}${valueProp}${placeholderProp} />
       <InputGroupAddon align="inline-end">
-        <InputGroupButton size="${buttonSize}" variant="ghost" aria-label="Increase"${disabled ? ' disabled' : ''}>
+        <InputGroupButton type="button" size="${buttonSize}" variant="ghost" aria-label="Increase"${disabled ? ' disabled' : ''}>
           ${trailingCode}
         </InputGroupButton>
       </InputGroupAddon>
