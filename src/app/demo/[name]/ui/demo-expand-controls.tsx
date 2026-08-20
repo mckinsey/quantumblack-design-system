@@ -1,9 +1,10 @@
 'use client';
 
-import { type ReactNode, useState } from 'react';
+import { type CSSProperties, type ReactNode, useState } from 'react';
 
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
 
 export type DemoAxis<T extends string> = {
   key: string;
@@ -13,6 +14,9 @@ export type DemoAxis<T extends string> = {
 };
 
 export type ExpandedState = Record<string, boolean>;
+
+export const demoExpandControlsClass =
+  'absolute top-0 right-0 z-10 flex flex-wrap items-center gap-4';
 
 export function resolveAxisOptions<T extends string>(
   axis: DemoAxis<T>,
@@ -33,6 +37,37 @@ export function useDemoExpandState(axes: DemoAxis<string>[]) {
   return { expanded, setAxisExpanded };
 }
 
+export function useDemoExpandMotion(showAll: boolean) {
+  const prefersReducedMotion =
+    typeof window !== 'undefined'
+      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      : false;
+
+  const ease = 'cubic-bezier(0.23, 1, 0.32, 1)';
+  const duration = showAll ? '220ms' : '160ms';
+
+  const expandTransition = prefersReducedMotion
+    ? undefined
+    : `grid-template-columns ${duration} ${ease}`;
+
+  const fadeTransition = prefersReducedMotion
+    ? undefined
+    : `opacity ${duration} ${ease}, transform ${duration} ${ease}`;
+
+  const expandStyle: CSSProperties = {
+    gridTemplateColumns: showAll ? '1fr' : '0fr',
+    transition: expandTransition,
+  };
+
+  const fadeClass = cn(
+    showAll ? 'translate-x-0 opacity-100' : '-translate-x-2 opacity-0',
+  );
+
+  const fadeStyle: CSSProperties = { transition: fadeTransition };
+
+  return { expandStyle, fadeClass, fadeStyle, showAll };
+}
+
 type DemoExpandControlsProps = {
   axes: DemoAxis<string>[];
   expanded: ExpandedState;
@@ -47,7 +82,7 @@ export function DemoExpandControls({
   className,
 }: Readonly<DemoExpandControlsProps>) {
   return (
-    <div className={className ?? 'flex flex-wrap items-center gap-4'}>
+    <div className={className ?? demoExpandControlsClass}>
       {axes.map(axis => {
         const id = `demo-expand-${axis.key}`;
 
@@ -73,5 +108,30 @@ export function DemoExpandControls({
 }
 
 export function DemoAxisRow({ children }: Readonly<{ children: ReactNode }>) {
-  return <div className="flex flex-wrap gap-6">{children}</div>;
+  return <div className="flex flex-wrap items-start gap-6">{children}</div>;
+}
+
+type DemoExpandSlotProps = {
+  open: boolean;
+  children: ReactNode;
+};
+
+export function DemoExpandSlot({
+  open,
+  children,
+}: Readonly<DemoExpandSlotProps>) {
+  const { expandStyle, fadeClass, fadeStyle } = useDemoExpandMotion(open);
+
+  return (
+    <div
+      className="grid min-w-0 overflow-hidden"
+      style={expandStyle}
+      aria-hidden={!open}>
+      <div className={cn('min-w-0', !open && 'pointer-events-none')}>
+        <div className={fadeClass} style={fadeStyle}>
+          {children}
+        </div>
+      </div>
+    </div>
+  );
 }

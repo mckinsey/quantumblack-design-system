@@ -24,7 +24,7 @@ import {
   type DemoAxis,
   DemoAxisRow,
   DemoExpandControls,
-  resolveAxisOptions,
+  DemoExpandSlot,
   useDemoExpandState,
 } from './demo-expand-controls';
 import { inputGroupFieldConfig } from './input-group-config';
@@ -33,7 +33,7 @@ const FIELD_WIDTH = 'w-[240px]';
 
 const variantAxis: DemoAxis<'default' | 'inline'> = {
   key: 'variant',
-  label: 'Variants',
+  label: 'Variant',
   options: ['default', 'inline'],
   defaultOption: 'default',
 };
@@ -407,7 +407,7 @@ export function InputGroupSizes() {
 export function InputGroupStatusStates() {
   const { gap, iconSize } = inputGroupFieldConfig.default;
   const { expanded, setAxisExpanded } = useDemoExpandState([variantAxis]);
-  const variants = resolveAxisOptions(variantAxis, expanded.variant ?? false);
+  const showInline = expanded.variant ?? false;
 
   const statuses = [
     {
@@ -449,7 +449,7 @@ export function InputGroupStatusStates() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="relative space-y-6 pt-10">
       <DemoExpandControls
         axes={[variantAxis]}
         expanded={expanded}
@@ -470,89 +470,94 @@ export function InputGroupStatusStates() {
         }) => {
           const isDisabled = Boolean(inputProps.disabled);
 
+          const renderField = (variant: 'default' | 'inline') => {
+            const fieldId = `ig-status-${tone}-${variant}`;
+            const groupClass =
+              variant === 'inline' ? inlineGroupClass : defaultGroupClass;
+
+            return (
+              <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
+                <FieldLabel
+                  htmlFor={fieldId}
+                  disabled={isDisabled}
+                  className={getLabelClass('default', variant)}>
+                  {label}
+                </FieldLabel>
+                <InputGroup
+                  variant={variant}
+                  className={groupClass || undefined}>
+                  {showAffixes ? (
+                    <LeadingIcon>
+                      <IconShell
+                        size={iconSize}
+                        type="neutral"
+                        variant="secondary"
+                        disabled={isDisabled}
+                        aria-hidden>
+                        <Icon icon="crop_free" />
+                      </IconShell>
+                    </LeadingIcon>
+                  ) : null}
+                  {showAffixes ? (
+                    <InputGroupAddon align="inline-start">
+                      <InputGroupText>PRE</InputGroupText>
+                    </InputGroupAddon>
+                  ) : null}
+                  <InputGroupInput
+                    id={fieldId}
+                    variant={variant}
+                    {...inputProps}
+                  />
+                  {showAffixes ? (
+                    <InputGroupAddon align="inline-end">
+                      <InputGroupText>SUF</InputGroupText>
+                    </InputGroupAddon>
+                  ) : null}
+                  {showAffixes ? (
+                    <TrailingIcon>
+                      <IconShell
+                        size={iconSize}
+                        type="neutral"
+                        variant="secondary"
+                        disabled={isDisabled}
+                        aria-hidden>
+                        <Icon icon="crop_free" />
+                      </IconShell>
+                    </TrailingIcon>
+                  ) : statusIcon ? (
+                    <InputGroupAddon align="inline-end">
+                      <IconShell
+                        size={iconSize}
+                        type="custom"
+                        className={statusColor}
+                        disabled={isDisabled}
+                        aria-hidden>
+                        <Icon icon={statusIcon} />
+                      </IconShell>
+                    </InputGroupAddon>
+                  ) : null}
+                </InputGroup>
+                {tone === 'error' ? (
+                  <FieldError>Feedback message here</FieldError>
+                ) : helper ? (
+                  <FieldDescription disabled={isDisabled}>
+                    {helper}
+                  </FieldDescription>
+                ) : (
+                  <FieldDescription className={statusColor}>
+                    Feedback message here
+                  </FieldDescription>
+                )}
+              </FieldSet>
+            );
+          };
+
           return (
             <DemoAxisRow key={tone}>
-              {variants.map(variant => {
-                const fieldId = `ig-status-${tone}-${variant}`;
-                const groupClass =
-                  variant === 'inline' ? inlineGroupClass : defaultGroupClass;
-
-                return (
-                  <FieldSet key={variant} className={`${FIELD_WIDTH} ${gap}`}>
-                    <FieldLabel
-                      htmlFor={fieldId}
-                      disabled={isDisabled}
-                      className={getLabelClass('default', variant)}>
-                      {label}
-                    </FieldLabel>
-                    <InputGroup
-                      variant={variant}
-                      className={groupClass || undefined}>
-                      {showAffixes ? (
-                        <LeadingIcon>
-                          <IconShell
-                            size={iconSize}
-                            type="neutral"
-                            variant="secondary"
-                            disabled={isDisabled}
-                            aria-hidden>
-                            <Icon icon="crop_free" />
-                          </IconShell>
-                        </LeadingIcon>
-                      ) : null}
-                      {showAffixes ? (
-                        <InputGroupAddon align="inline-start">
-                          <InputGroupText>PRE</InputGroupText>
-                        </InputGroupAddon>
-                      ) : null}
-                      <InputGroupInput
-                        id={fieldId}
-                        variant={variant}
-                        {...inputProps}
-                      />
-                      {showAffixes ? (
-                        <InputGroupAddon align="inline-end">
-                          <InputGroupText>SUF</InputGroupText>
-                        </InputGroupAddon>
-                      ) : null}
-                      {showAffixes ? (
-                        <TrailingIcon>
-                          <IconShell
-                            size={iconSize}
-                            type="neutral"
-                            variant="secondary"
-                            disabled={isDisabled}
-                            aria-hidden>
-                            <Icon icon="crop_free" />
-                          </IconShell>
-                        </TrailingIcon>
-                      ) : statusIcon ? (
-                        <InputGroupAddon align="inline-end">
-                          <IconShell
-                            size={iconSize}
-                            type="custom"
-                            className={statusColor}
-                            disabled={isDisabled}
-                            aria-hidden>
-                            <Icon icon={statusIcon} />
-                          </IconShell>
-                        </InputGroupAddon>
-                      ) : null}
-                    </InputGroup>
-                    {tone === 'error' ? (
-                      <FieldError>Feedback message here</FieldError>
-                    ) : helper ? (
-                      <FieldDescription disabled={isDisabled}>
-                        {helper}
-                      </FieldDescription>
-                    ) : (
-                      <FieldDescription className={statusColor}>
-                        Feedback message here
-                      </FieldDescription>
-                    )}
-                  </FieldSet>
-                );
-              })}
+              {renderField('default')}
+              <DemoExpandSlot open={showInline}>
+                {renderField('inline')}
+              </DemoExpandSlot>
             </DemoAxisRow>
           );
         },
