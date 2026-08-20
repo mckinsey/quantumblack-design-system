@@ -1,14 +1,16 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { exampleComponentMaps } from '@/app/demo/[name]/index';
 import { Renderer } from '@/app/demo/[name]/renderer';
 import {
   InputGroup,
   InputGroupAddon,
+  InputGroupButton,
   InputGroupInput,
   InputGroupText,
+  InputGroupTextarea,
 } from '@/components/ui/input-group';
 
 const componentName = 'input-group';
@@ -99,6 +101,93 @@ describe(`${componentName} — structure & interaction`, () => {
     expect(input).not.toHaveFocus();
     await user.click(addon as HTMLElement);
     expect(input).toHaveFocus();
+  });
+
+  it('addon click does not steal focus from a nested button', async () => {
+    const user = userEvent.setup();
+    const onButtonClick = vi.fn();
+
+    render(
+      <InputGroup>
+        <InputGroupInput aria-label="addon-button-target" />
+        <InputGroupAddon align="inline-end">
+          <InputGroupButton onClick={onButtonClick}>Clear</InputGroupButton>
+        </InputGroupAddon>
+      </InputGroup>,
+    );
+
+    const input = screen.getByRole('textbox');
+    const button = screen.getByRole('button', { name: 'Clear' });
+
+    await user.click(button);
+
+    expect(onButtonClick).toHaveBeenCalledOnce();
+    expect(input).not.toHaveFocus();
+  });
+
+  it('addon click does not focus a disabled control', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <InputGroup>
+        <InputGroupAddon align="inline-start">
+          <span>Prefix</span>
+        </InputGroupAddon>
+        <InputGroupInput disabled aria-label="disabled-addon-target" />
+      </InputGroup>,
+    );
+
+    const input = screen.getByRole('textbox');
+    const addon = screen
+      .getByText('Prefix')
+      .closest('[data-slot="input-group-addon"]');
+
+    await user.click(addon as HTMLElement);
+    expect(input).not.toHaveFocus();
+  });
+
+  it.each(['inline-start', 'inline-end', 'block-start', 'block-end'] as const)(
+    'exposes data-align="%s" on addon',
+    align => {
+      const { container } = render(
+        <InputGroup>
+          <InputGroupAddon align={align}>
+            <span>Addon</span>
+          </InputGroupAddon>
+          <InputGroupInput aria-label="align-target" />
+        </InputGroup>,
+      );
+
+      expect(
+        container.querySelector('[data-slot="input-group-addon"]'),
+      ).toHaveAttribute('data-align', align);
+    },
+  );
+
+  it('renders InputGroupButton with data-size', () => {
+    render(
+      <InputGroup>
+        <InputGroupInput aria-label="button-sibling" />
+        <InputGroupAddon align="inline-end">
+          <InputGroupButton size="icon-xs" aria-label="clear">
+            X
+          </InputGroupButton>
+        </InputGroupAddon>
+      </InputGroup>,
+    );
+
+    expect(screen.getByRole('button', { name: 'clear' })).toHaveAttribute(
+      'data-size',
+      'icon-xs',
+    );
+  });
+
+  it('renders InputGroupTextarea with data-slot and honors disabled', () => {
+    render(<InputGroupTextarea disabled aria-label="group-textarea" />);
+
+    const textarea = screen.getByRole('textbox');
+    expect(textarea).toHaveAttribute('data-slot', 'input-group-control');
+    expect(textarea).toBeDisabled();
   });
 
   it.each(['sm', 'default', 'lg'] as const)(
