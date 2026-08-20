@@ -20,9 +20,23 @@ import {
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 import { cn } from '@/lib/utils';
 
+import {
+  type DemoAxis,
+  DemoAxisRow,
+  DemoExpandControls,
+  resolveAxisOptions,
+  useDemoExpandState,
+} from './demo-expand-controls';
 import { inputGroupFieldConfig } from './input-group-config';
 
 const FIELD_WIDTH = 'w-[240px]';
+
+const variantAxis: DemoAxis<'default' | 'inline'> = {
+  key: 'variant',
+  label: 'Variants',
+  options: ['default', 'inline'],
+  defaultOption: 'default',
+};
 
 type FieldSize = keyof typeof inputGroupFieldConfig;
 
@@ -39,6 +53,92 @@ function TrailingIcon({ children }: Readonly<{ children: ReactNode }>) {
   return <InputGroupAddon align="inline-end">{children}</InputGroupAddon>;
 }
 
+function DeleteOnFocusField({
+  variant,
+  fieldId,
+}: Readonly<{
+  variant: 'default' | 'inline';
+  fieldId: string;
+}>) {
+  const { gap, iconSize } = inputGroupFieldConfig.default;
+  const [value, setValue] = useState('Search text');
+  const [focused, setFocused] = useState(false);
+  const groupContainerRef = useRef<HTMLDivElement>(null);
+  const showDelete = focused && value.length > 0;
+
+  const focusControl = () => {
+    const control = groupContainerRef.current?.querySelector<HTMLInputElement>(
+      '[data-slot=input-group-control]',
+    );
+
+    control?.focus();
+  };
+
+  const handleFocusCapture = () => setFocused(true);
+
+  const handleBlurCapture = (e: FocusEvent<HTMLDivElement>) => {
+    const next = e.relatedTarget;
+
+    if (next instanceof Node && !groupContainerRef.current?.contains(next)) {
+      setFocused(false);
+    }
+  };
+
+  return (
+    <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
+      <FieldLabel
+        htmlFor={fieldId}
+        className={getLabelClass('default', variant)}>
+        Label
+      </FieldLabel>
+      <div
+        ref={groupContainerRef}
+        onFocusCapture={handleFocusCapture}
+        onBlurCapture={handleBlurCapture}>
+        <InputGroup variant={variant}>
+          <InputGroupAddon align="inline-start">
+            <IconShell
+              size={iconSize}
+              type="neutral"
+              variant="secondary"
+              aria-hidden>
+              <Icon icon="search" />
+            </IconShell>
+          </InputGroupAddon>
+          <InputGroupInput
+            id={fieldId}
+            variant={variant}
+            placeholder="Search…"
+            value={value}
+            autoComplete="off"
+            onChange={e => setValue(e.target.value)}
+          />
+          {showDelete ? (
+            <InputGroupAddon align="inline-end">
+              <InputGroupButton
+                type="button"
+                size="icon-xs"
+                variant="ghost"
+                aria-label="Delete entered text"
+                className="hover:bg-transparent active:bg-transparent"
+                onMouseDown={e => e.preventDefault()}
+                onClick={() => {
+                  setValue('');
+                  focusControl();
+                }}>
+                <IconShell size="sm" type="neutral" hoverable aria-hidden>
+                  <Icon icon="backspace" />
+                </IconShell>
+              </InputGroupButton>
+            </InputGroupAddon>
+          ) : null}
+        </InputGroup>
+      </div>
+      <FieldDescription>Helper text</FieldDescription>
+    </FieldSet>
+  );
+}
+
 export function InputGroupDemo() {
   const { gap, iconSize } = inputGroupFieldConfig.default;
 
@@ -47,7 +147,11 @@ export function InputGroupDemo() {
       <FieldLabel htmlFor="ig-demo-default">Label</FieldLabel>
       <InputGroup>
         <LeadingIcon>
-          <IconShell size={iconSize} type="neutral" variant="secondary">
+          <IconShell
+            size={iconSize}
+            type="neutral"
+            variant="secondary"
+            aria-hidden>
             <Icon icon="search" />
           </IconShell>
         </LeadingIcon>
@@ -77,7 +181,11 @@ export function InputGroupAffixes() {
         </FieldLabel>
         <InputGroup variant={variant}>
           <LeadingIcon>
-            <IconShell size={iconSize} type="neutral" variant="secondary">
+            <IconShell
+              size={iconSize}
+              type="neutral"
+              variant="secondary"
+              aria-hidden>
               <Icon icon="crop_free" />
             </IconShell>
           </LeadingIcon>
@@ -93,7 +201,11 @@ export function InputGroupAffixes() {
             <InputGroupText>SUF</InputGroupText>
           </InputGroupAddon>
           <TrailingIcon>
-            <IconShell size={iconSize} type="neutral" variant="secondary">
+            <IconShell
+              size={iconSize}
+              type="neutral"
+              variant="secondary"
+              aria-hidden>
               <Icon icon="crop_free" />
             </IconShell>
           </TrailingIcon>
@@ -120,7 +232,11 @@ export function InputGroupLeadingIcon() {
         <FieldLabel htmlFor="ig-leading-email">Label</FieldLabel>
         <InputGroup>
           <LeadingIcon>
-            <IconShell size={iconSize} type="neutral" variant="secondary">
+            <IconShell
+              size={iconSize}
+              type="neutral"
+              variant="secondary"
+              aria-hidden>
               <Icon icon="mail" />
             </IconShell>
           </LeadingIcon>
@@ -137,7 +253,11 @@ export function InputGroupLeadingIcon() {
         <FieldLabel htmlFor="ig-leading-person">Label</FieldLabel>
         <InputGroup>
           <LeadingIcon>
-            <IconShell size={iconSize} type="neutral" variant="secondary">
+            <IconShell
+              size={iconSize}
+              type="neutral"
+              variant="secondary"
+              aria-hidden>
               <Icon icon="person" />
             </IconShell>
           </LeadingIcon>
@@ -170,8 +290,8 @@ export function InputGroupTrailing() {
         <InputGroup>
           <InputGroupInput id="ig-trailing-send" placeholder="Placeholder" />
           <InputGroupAddon align="inline-end">
-            <InputGroupButton size="icon-xs" variant="ghost">
-              <IconShell size={iconSize} type="neutral" hoverable>
+            <InputGroupButton size="icon-xs" variant="ghost" aria-label="Send">
+              <IconShell size={iconSize} type="neutral" hoverable aria-hidden>
                 <Icon icon="send" />
               </IconShell>
             </InputGroupButton>
@@ -191,7 +311,11 @@ export function InputGroupBothSides() {
       <FieldLabel htmlFor="ig-both-sides">Label</FieldLabel>
       <InputGroup>
         <LeadingIcon>
-          <IconShell size={iconSize} type="neutral" variant="secondary">
+          <IconShell
+            size={iconSize}
+            type="neutral"
+            variant="secondary"
+            aria-hidden>
             <Icon icon="attach_money" />
           </IconShell>
         </LeadingIcon>
@@ -230,7 +354,11 @@ export function InputGroupSizes() {
               </FieldLabel>
               <InputGroup size={size}>
                 <LeadingIcon>
-                  <IconShell size={iconSize} type="neutral" variant="secondary">
+                  <IconShell
+                    size={iconSize}
+                    type="neutral"
+                    variant="secondary"
+                    aria-hidden>
                     <Icon icon="search" />
                   </IconShell>
                 </LeadingIcon>
@@ -252,7 +380,11 @@ export function InputGroupSizes() {
               </FieldLabel>
               <InputGroup variant="inline" size={size}>
                 <LeadingIcon>
-                  <IconShell size={iconSize} type="neutral" variant="secondary">
+                  <IconShell
+                    size={iconSize}
+                    type="neutral"
+                    variant="secondary"
+                    aria-hidden>
                     <Icon icon="search" />
                   </IconShell>
                 </LeadingIcon>
@@ -274,6 +406,8 @@ export function InputGroupSizes() {
 
 export function InputGroupStatusStates() {
   const { gap, iconSize } = inputGroupFieldConfig.default;
+  const { expanded, setAxisExpanded } = useDemoExpandState([variantAxis]);
+  const variants = resolveAxisOptions(variantAxis, expanded.variant ?? false);
 
   const statuses = [
     {
@@ -281,7 +415,8 @@ export function InputGroupStatusStates() {
       icon: 'cancel',
       statusColor: 'text-status-error',
       tone: 'error' as const,
-      groupClass: '',
+      defaultGroupClass: '',
+      inlineGroupClass: '',
       inputProps: { 'aria-invalid': true as const, placeholder: 'Placeholder' },
     },
     {
@@ -289,7 +424,8 @@ export function InputGroupStatusStates() {
       icon: 'info',
       statusColor: 'text-status-warning',
       tone: 'warning' as const,
-      groupClass: 'border-stroke-status-warning',
+      defaultGroupClass: 'border-stroke-status-warning',
+      inlineGroupClass: 'border-b-stroke-status-warning',
       inputProps: { placeholder: 'Placeholder' },
     },
     {
@@ -297,14 +433,16 @@ export function InputGroupStatusStates() {
       icon: 'check_circle',
       statusColor: 'text-status-success',
       tone: 'success' as const,
-      groupClass: 'border-stroke-status-success',
+      defaultGroupClass: 'border-stroke-status-success',
+      inlineGroupClass: 'border-b-stroke-status-success',
       inputProps: { placeholder: 'Placeholder' },
     },
     {
       label: 'Disabled',
       tone: 'disabled' as const,
       showAffixes: true,
-      groupClass: '',
+      defaultGroupClass: '',
+      inlineGroupClass: '',
       inputProps: { disabled: true, placeholder: 'Placeholder' },
       helper: 'This field is disabled',
     },
@@ -312,6 +450,12 @@ export function InputGroupStatusStates() {
 
   return (
     <div className="space-y-6">
+      <DemoExpandControls
+        axes={[variantAxis]}
+        expanded={expanded}
+        onExpandedChange={setAxisExpanded}
+      />
+
       {statuses.map(
         ({
           label,
@@ -319,75 +463,97 @@ export function InputGroupStatusStates() {
           statusColor,
           tone,
           showAffixes,
-          groupClass,
+          defaultGroupClass,
+          inlineGroupClass,
           inputProps,
           helper,
         }) => {
-          const fieldId = `ig-status-${tone}`;
           const isDisabled = Boolean(inputProps.disabled);
 
           return (
-            <FieldSet key={tone} className={`${FIELD_WIDTH} ${gap}`}>
-              <FieldLabel htmlFor={fieldId} disabled={isDisabled}>
-                {label}
-              </FieldLabel>
-              <InputGroup className={groupClass || undefined}>
-                {showAffixes ? (
-                  <LeadingIcon>
-                    <IconShell
-                      size={iconSize}
-                      type="neutral"
-                      variant="secondary"
-                      disabled={isDisabled}>
-                      <Icon icon="crop_free" />
-                    </IconShell>
-                  </LeadingIcon>
-                ) : null}
-                {showAffixes ? (
-                  <InputGroupAddon align="inline-start">
-                    <InputGroupText>PRE</InputGroupText>
-                  </InputGroupAddon>
-                ) : null}
-                <InputGroupInput id={fieldId} {...inputProps} />
-                {showAffixes ? (
-                  <InputGroupAddon align="inline-end">
-                    <InputGroupText>SUF</InputGroupText>
-                  </InputGroupAddon>
-                ) : null}
-                {showAffixes ? (
-                  <TrailingIcon>
-                    <IconShell
-                      size={iconSize}
-                      type="neutral"
-                      variant="secondary"
-                      disabled={isDisabled}>
-                      <Icon icon="crop_free" />
-                    </IconShell>
-                  </TrailingIcon>
-                ) : statusIcon ? (
-                  <InputGroupAddon align="inline-end">
-                    <IconShell
-                      size={iconSize}
-                      type="custom"
-                      className={statusColor}
-                      disabled={isDisabled}>
-                      <Icon icon={statusIcon} />
-                    </IconShell>
-                  </InputGroupAddon>
-                ) : null}
-              </InputGroup>
-              {tone === 'error' ? (
-                <FieldError>Feedback message here</FieldError>
-              ) : helper ? (
-                <FieldDescription disabled={isDisabled}>
-                  {helper}
-                </FieldDescription>
-              ) : (
-                <FieldDescription className={statusColor}>
-                  Feedback message here
-                </FieldDescription>
-              )}
-            </FieldSet>
+            <DemoAxisRow key={tone}>
+              {variants.map(variant => {
+                const fieldId = `ig-status-${tone}-${variant}`;
+                const groupClass =
+                  variant === 'inline' ? inlineGroupClass : defaultGroupClass;
+
+                return (
+                  <FieldSet key={variant} className={`${FIELD_WIDTH} ${gap}`}>
+                    <FieldLabel
+                      htmlFor={fieldId}
+                      disabled={isDisabled}
+                      className={getLabelClass('default', variant)}>
+                      {label}
+                    </FieldLabel>
+                    <InputGroup
+                      variant={variant}
+                      className={groupClass || undefined}>
+                      {showAffixes ? (
+                        <LeadingIcon>
+                          <IconShell
+                            size={iconSize}
+                            type="neutral"
+                            variant="secondary"
+                            disabled={isDisabled}
+                            aria-hidden>
+                            <Icon icon="crop_free" />
+                          </IconShell>
+                        </LeadingIcon>
+                      ) : null}
+                      {showAffixes ? (
+                        <InputGroupAddon align="inline-start">
+                          <InputGroupText>PRE</InputGroupText>
+                        </InputGroupAddon>
+                      ) : null}
+                      <InputGroupInput
+                        id={fieldId}
+                        variant={variant}
+                        {...inputProps}
+                      />
+                      {showAffixes ? (
+                        <InputGroupAddon align="inline-end">
+                          <InputGroupText>SUF</InputGroupText>
+                        </InputGroupAddon>
+                      ) : null}
+                      {showAffixes ? (
+                        <TrailingIcon>
+                          <IconShell
+                            size={iconSize}
+                            type="neutral"
+                            variant="secondary"
+                            disabled={isDisabled}
+                            aria-hidden>
+                            <Icon icon="crop_free" />
+                          </IconShell>
+                        </TrailingIcon>
+                      ) : statusIcon ? (
+                        <InputGroupAddon align="inline-end">
+                          <IconShell
+                            size={iconSize}
+                            type="custom"
+                            className={statusColor}
+                            disabled={isDisabled}
+                            aria-hidden>
+                            <Icon icon={statusIcon} />
+                          </IconShell>
+                        </InputGroupAddon>
+                      ) : null}
+                    </InputGroup>
+                    {tone === 'error' ? (
+                      <FieldError>Feedback message here</FieldError>
+                    ) : helper ? (
+                      <FieldDescription disabled={isDisabled}>
+                        {helper}
+                      </FieldDescription>
+                    ) : (
+                      <FieldDescription className={statusColor}>
+                        Feedback message here
+                      </FieldDescription>
+                    )}
+                  </FieldSet>
+                );
+              })}
+            </DemoAxisRow>
           );
         },
       )}
@@ -396,92 +562,6 @@ export function InputGroupStatusStates() {
 }
 
 export function InputGroupDeleteOnFocus() {
-  const { gap, iconSize } = inputGroupFieldConfig.default;
-
-  function DeleteOnFocusField({
-    variant,
-    fieldId,
-  }: Readonly<{
-    variant: 'default' | 'inline';
-    fieldId: string;
-  }>) {
-    const [value, setValue] = useState('Search text');
-    const [focused, setFocused] = useState(false);
-    const groupContainerRef = useRef<HTMLDivElement>(null);
-    const showDelete = focused && value.length > 0;
-
-    const focusControl = () => {
-      const control =
-        groupContainerRef.current?.querySelector<HTMLInputElement>(
-          '[data-slot=input-group-control]',
-        );
-
-      control?.focus();
-    };
-
-    const handleFocusCapture = () => setFocused(true);
-
-    const handleBlurCapture = (e: FocusEvent<HTMLDivElement>) => {
-      if (!groupContainerRef.current?.contains(e.relatedTarget as Node)) {
-        setFocused(false);
-      }
-    };
-
-    return (
-      <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-        <FieldLabel
-          htmlFor={fieldId}
-          className={getLabelClass('default', variant)}>
-          Label
-        </FieldLabel>
-        <div
-          ref={groupContainerRef}
-          onFocusCapture={handleFocusCapture}
-          onBlurCapture={handleBlurCapture}>
-          <InputGroup variant={variant}>
-            <InputGroupAddon align="inline-start">
-              <IconShell
-                size={iconSize}
-                type="neutral"
-                variant="secondary"
-                aria-hidden>
-                <Icon icon="search" />
-              </IconShell>
-            </InputGroupAddon>
-            <InputGroupInput
-              id={fieldId}
-              variant={variant}
-              placeholder="Search…"
-              value={value}
-              autoComplete="off"
-              onChange={e => setValue(e.target.value)}
-            />
-            {showDelete ? (
-              <InputGroupAddon align="inline-end">
-                <InputGroupButton
-                  type="button"
-                  size="icon-xs"
-                  variant="ghost"
-                  aria-label="Delete entered text"
-                  className="hover:bg-transparent active:bg-transparent"
-                  onMouseDown={e => e.preventDefault()}
-                  onClick={() => {
-                    setValue('');
-                    focusControl();
-                  }}>
-                  <IconShell size="sm" type="neutral" hoverable aria-hidden>
-                    <Icon icon="backspace" />
-                  </IconShell>
-                </InputGroupButton>
-              </InputGroupAddon>
-            ) : null}
-          </InputGroup>
-        </div>
-        <FieldDescription>Helper text</FieldDescription>
-      </FieldSet>
-    );
-  }
-
   return (
     <div className="flex flex-col gap-6">
       <DeleteOnFocusField variant="default" fieldId="ig-delete-default" />
@@ -524,7 +604,8 @@ export const examples: DemoExample[] = [
   {
     name: 'InputGroupStatusStates',
     title: 'Validation',
-    description: 'Error, warning, success, and disabled states.',
+    description:
+      'Error, warning, success, and disabled states. Toggle Variants to compare default and inline.',
   },
   {
     name: 'InputGroupDeleteOnFocus',
