@@ -488,7 +488,7 @@
       "type": "registry:ui",
       "title": "Number Field",
       "description": "Numeric stepper input with increment and decrement controls. Supports filled and inline variants.",
-      "dependencies": ["@base-ui/react"],
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
