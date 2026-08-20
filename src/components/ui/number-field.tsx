@@ -35,7 +35,8 @@ const NumberFieldDisabledContext = React.createContext<boolean>(false);
 const numberFieldControlDisabledTextStyles = {
   default:
     'disabled:cursor-not-allowed disabled:text-fg-disabled disabled:placeholder:text-fg-disabled',
-  inline: 'disabled:text-fg-disabled disabled:placeholder:text-fg-disabled',
+  inline:
+    'disabled:cursor-not-allowed disabled:text-fg-disabled disabled:placeholder:text-fg-disabled',
 } as const;
 
 const stepperButtonClass = {
@@ -75,6 +76,8 @@ const numberFieldGroupVariants = cva(
           inputVariantStyles.inline.base,
           inputVariantStyles.inline.border,
           inputVariantStyles.inline.hover,
+          'has-[[data-slot=input-group-control]:disabled]:cursor-not-allowed',
+          'has-[[data-slot=input-group-control]:disabled]:hover:border-b-stroke-tertiary',
           ...inputGroupInlineFocusStyles,
           ...inputGroupInlineErrorStyles,
           'data-[invalid]:border-b-stroke-status-error',
