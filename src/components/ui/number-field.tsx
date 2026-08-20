@@ -30,6 +30,7 @@ const controlSlot = 'input-group-control';
 const NumberFieldSizeContext = React.createContext<NumberFieldSize>('default');
 const NumberFieldVariantContext =
   React.createContext<NumberFieldVariant>('default');
+const NumberFieldDisabledContext = React.createContext<boolean>(false);
 
 const numberFieldControlDisabledTextStyles = {
   default:
@@ -50,7 +51,6 @@ const stepperButtonStyles = [
   'group-has-[[data-slot=input-group-control]:disabled]/number-field:hover:bg-transparent',
   'group-has-[[data-slot=input-group-control]:disabled]/number-field:hover:text-fg-secondary',
   'group-has-[[data-slot=input-group-control]:disabled]/number-field:active:bg-transparent',
-  'group-has-[[data-slot=input-group-control]:disabled]/number-field:[&_[data-slot=icon-shell]]:opacity-50',
   'disabled:hover:bg-transparent disabled:pointer-events-none',
 ] as const;
 
@@ -129,13 +129,20 @@ function focusNumberFieldControl(group: HTMLElement | null) {
   group?.querySelector<HTMLElement>(`[data-slot="${controlSlot}"]`)?.focus();
 }
 
-function NumberField({ className, ...props }: NumberFieldPrimitive.Root.Props) {
+function NumberField({
+  className,
+  disabled,
+  ...props
+}: NumberFieldPrimitive.Root.Props) {
   return (
-    <NumberFieldPrimitive.Root
-      data-slot="number-field"
-      className={cn('w-fit', className)}
-      {...props}
-    />
+    <NumberFieldDisabledContext.Provider value={disabled ?? false}>
+      <NumberFieldPrimitive.Root
+        data-slot="number-field"
+        className={cn('w-fit', className)}
+        disabled={disabled}
+        {...props}
+      />
+    </NumberFieldDisabledContext.Provider>
   );
 }
 
@@ -207,17 +214,17 @@ function NumberFieldInput({
   );
 }
 
-function NumberFieldStepperIcon() {
+function NumberFieldStepperIcon({ disabled }: { disabled?: boolean }) {
   return (
-    <IconShell size="sm" type="neutral" variant="secondary">
+    <IconShell size="sm" type="neutral" variant="secondary" disabled={disabled}>
       <Icon icon="remove" />
     </IconShell>
   );
 }
 
-function NumberFieldStepperIconIncrement() {
+function NumberFieldStepperIconIncrement({ disabled }: { disabled?: boolean }) {
   return (
-    <IconShell size="sm" type="neutral" variant="secondary">
+    <IconShell size="sm" type="neutral" variant="secondary" disabled={disabled}>
       <Icon icon="add" />
     </IconShell>
   );
@@ -236,6 +243,7 @@ function NumberFieldDecrement({
   ...props
 }: Readonly<NumberFieldDecrementProps>) {
   const groupSize = React.useContext(NumberFieldSizeContext);
+  const disabled = React.useContext(NumberFieldDisabledContext);
   const resolvedSize = size ?? groupSize;
 
   return (
@@ -264,7 +272,7 @@ function NumberFieldDecrement({
         />
       }
       {...props}>
-      {children ?? <NumberFieldStepperIcon />}
+      {children ?? <NumberFieldStepperIcon disabled={disabled} />}
     </NumberFieldPrimitive.Decrement>
   );
 }
@@ -282,6 +290,7 @@ function NumberFieldIncrement({
   ...props
 }: Readonly<NumberFieldIncrementProps>) {
   const groupSize = React.useContext(NumberFieldSizeContext);
+  const disabled = React.useContext(NumberFieldDisabledContext);
   const resolvedSize = size ?? groupSize;
 
   return (
@@ -310,7 +319,7 @@ function NumberFieldIncrement({
         />
       }
       {...props}>
-      {children ?? <NumberFieldStepperIconIncrement />}
+      {children ?? <NumberFieldStepperIconIncrement disabled={disabled} />}
     </NumberFieldPrimitive.Increment>
   );
 }
