@@ -39,6 +39,7 @@ const COMPONENT_GROUPS: { label: string; names: string[] }[] = [
       'field',
       'input',
       'input-group',
+      'number-field',
       'radio-group',
       'select',
       'slider',
