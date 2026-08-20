@@ -72,6 +72,36 @@ describe(`${componentName} — structure & interaction`, () => {
     expect(screen.getByRole('button', { name: 'Increase' })).toBeDisabled();
   });
 
+  it('disables only the increment button at the max bound', () => {
+    render(
+      <NumberField defaultValue={10} min={0} max={10}>
+        <NumberFieldGroup>
+          <NumberFieldDecrement />
+          <NumberFieldInput aria-label="at-max" />
+          <NumberFieldIncrement />
+        </NumberFieldGroup>
+      </NumberField>,
+    );
+
+    expect(screen.getByRole('button', { name: 'Increase' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Decrease' })).toBeEnabled();
+  });
+
+  it('disables only the decrement button at the min bound', () => {
+    render(
+      <NumberField defaultValue={0} min={0} max={10}>
+        <NumberFieldGroup>
+          <NumberFieldDecrement />
+          <NumberFieldInput aria-label="at-min" />
+          <NumberFieldIncrement />
+        </NumberFieldGroup>
+      </NumberField>,
+    );
+
+    expect(screen.getByRole('button', { name: 'Decrease' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Increase' })).toBeEnabled();
+  });
+
   it('keeps stepper buttons out of the tab order', () => {
     render(
       <NumberField defaultValue={5} min={0} max={10}>
