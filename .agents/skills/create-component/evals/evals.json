@@ -1,0 +1,408 @@
+{
+  "skill_name": "create-component",
+  "evals": [
+    {
+      "id": "e2e-tag",
+      "mode": "e2e",
+      "component": "tag",
+      "codeConnect": ["tag"],
+      "files": ["fixtures/tag"],
+      "prompt": "Add a new QBDS Tag component from the Figma component set Tag-Dismissable. Use the create-component skill and follow its steps strictly in order (1 Spec \u2192 2 Prior art \u2192 3 API \u2192 4 Build \u2192 5 Demo \u2192 6 Tests \u2192 7 Code Connect \u2192 8 Registry). After completing each step, append exactly one line to evals-out/steps.md in this form: `N <Name>` (e.g. `1 Spec`, `4 Build`). Do not skip steps or reorder them. For Spec, use only evals-fixture/ (SOURCE.md, props/alignment.md, composition/slots.md, mcp/) as Figma MCP stand-ins \u2014 do not call live Figma MCP. Do not restore deleted component/demo/test/code-connect/registry paths from git \u2014 implement from evals-fixture/ and docs. Stay inside this worktree cwd \u2014 do not copy the component from a parent checkout.",
+      "expected_output": "evals-out/steps.md (ordered 1\u20138), src/components/ui/tag.tsx, demo, functional tests, Code Connect template, registry.json entry.",
+      "expectations": [
+        "evals-out/steps.md exists with exactly eight lines for steps 1\u20138 in order: Spec, Prior art, API, Build, Demo, Tests, Code Connect, Registry (no skips/reorders)",
+        "src/components/ui/tag.tsx exists with named exports only (no default export)",
+        "Root has data-slot=\"tag\"; size prop uses default (not reg/md); style axis is variant (not type); no show* props",
+        "Leading icon and remove are children/parts, not boolean show props",
+        "Demo at src/app/demo/[name]/ui/tag.tsx covers variants, sizes, pill, disabled; simplest example first; wired in index.tsx",
+        "src/tests/tag.test.tsx asserts roles/aria/data-slot/interaction \u2014 no Tailwind class or colour assertions",
+        "code-connect/tag.figma.ts uses a <QBDS_*> url token, not an inline Figma URL",
+        "registry.json has a tag entry with theme + utils registryDependencies"
+      ]
+    },
+    {
+      "id": "props-button",
+      "mode": "unit",
+      "focus": "props",
+      "component": "button",
+      "files": ["fixtures/button"],
+      "prompt": "Choose the React prop API for button. Follow docs/components/props.md. Use evals-fixture/mcp/ (and props/alignment.md if present) as Figma MCP stand-ins \u2014 no live Figma MCP. Treat Figma component description / axes as Spec; ignore Code Connect snippets. When src/components/ui/button.tsx already exists, match that shipped API. Write evals-out/props-api.md with a prop table, one line per Figma axis (prop | hard-code | composition), and omitted props.",
+      "expected_output": "evals-out/props-api.md",
+      "expectations": [
+        "evals-out/props-api.md exists",
+        "variant is default|accent|secondary|outline|ghost; default is default; maps primary\u2192default, primary-accent\u2192accent, secondary-filled\u2192secondary, secondary-outline\u2192outline, ghost\u2192ghost",
+        "size is xxs|xs|sm|default|lg|icon-xxs|icon-xs|icon-sm|icon|icon-lg; default is default (Figma xxsm/xsm/sm/reg/lg \u2192 xxs/xs/sm/default/lg; icon-* for icon-only)",
+        "showLabel / showLeadingIcon / showTrailingIcon / menus / tooltips / label marked composition or children \u2014 not show* or label props",
+        "no public state=\"\u2026\" enum and no loading prop; disabled via disabled; hover/focus/pressed/open/loading via CSS, data-state, or children"
+      ]
+    },
+    {
+      "id": "props-tag",
+      "mode": "unit",
+      "focus": "props",
+      "component": "tag",
+      "files": ["fixtures/tag"],
+      "prompt": "Choose the React prop API for tag. Follow docs/components/props.md. Use evals-fixture/mcp/ (and props/alignment.md if present) as Figma MCP stand-ins \u2014 no live Figma MCP. Treat Figma component description / axes as Spec; ignore Code Connect snippets. When src/components/ui/tag.tsx already exists, match that shipped API. Write evals-out/props-api.md with a prop table, one line per Figma axis (prop | hard-code | composition), and omitted props.",
+      "expected_output": "evals-out/props-api.md",
+      "expectations": [
+        "evals-out/props-api.md exists",
+        "variant is primary|secondary|accent|outline|accent-outline; default is primary (not shadcn default); high-emphasis\u2192secondary; outline folded into variant",
+        "size is xs|sm|default|lg; default is default (Figma xsm/sm/reg/lg)",
+        "pill is a boolean (default false); showLeadingIcon and label marked composition/children \u2014 not show* or label props",
+        "dismiss via onRemove (no showRemove); no public state=\"\u2026\" enum; disabled via disabled"
+      ]
+    },
+    {
+      "id": "props-textarea",
+      "mode": "unit",
+      "focus": "props",
+      "component": "textarea",
+      "files": ["fixtures/textarea"],
+      "prompt": "Choose the React prop API for textarea. Follow docs/components/props.md. Use evals-fixture/mcp/ (and props/alignment.md if present) as Figma MCP stand-ins \u2014 no live Figma MCP. Treat Figma component description / axes as Spec; ignore Code Connect snippets. When src/components/ui/textarea.tsx already exists, match that shipped API. Write evals-out/props-api.md with a prop table, one line per Figma axis (prop | hard-code | composition), and omitted props.",
+      "expected_output": "evals-out/props-api.md",
+      "expectations": [
+        "evals-out/props-api.md exists",
+        "Textarea size is sm|default|lg; default is default (Figma reg\u2192default); variant is default only",
+        "exports include TextareaRoot (maxCharacters, size) and TextareaCounter",
+        "showLabel / showHelpText / showFeedbackMessage / counter marked Field + TextareaRoot/Counter composition \u2014 not show* props; hint\u2192placeholder",
+        "no public state=\"\u2026\" enum; error via aria-invalid; disabled via disabled; isResizable/scrollbar not show* props"
+      ]
+    },
+    {
+      "id": "props-select",
+      "mode": "unit",
+      "focus": "props",
+      "component": "select",
+      "files": ["fixtures/select"],
+      "prompt": "Choose the React prop API for select. Follow docs/components/props.md. Use evals-fixture/mcp/ (and props/alignment.md if present) as Figma MCP stand-ins \u2014 no live Figma MCP. Treat Figma component description / axes as Spec; ignore Code Connect snippets. When src/components/ui/select.tsx already exists, match that shipped API. Write evals-out/props-api.md with a prop table, one line per Figma axis (prop | hard-code | composition), and omitted props.",
+      "expected_output": "evals-out/props-api.md",
+      "expectations": [
+        "evals-out/props-api.md exists",
+        "Select size is sm|default|lg; default is default (Figma reg\u2192default); SelectTrigger variant is default|inline (filled vs ghost)",
+        "parts SelectTrigger / SelectValue / SelectContent / SelectItem (composition); showLeadingIcon / entry / feedback not show* props",
+        "placeholder via SelectValue; no public state=\"\u2026\" enum; open/hover/focus via CSS or data-popup-open; error via aria-invalid; disabled via Select disabled"
+      ]
+    },
+    {
+      "id": "composition-tag",
+      "mode": "unit",
+      "focus": "composition",
+      "component": "tag",
+      "files": ["fixtures/tag"],
+      "prompt": "Propose composition for tag. Follow docs/components/composition.md. Use only evals-fixture/ (no Figma MCP). Write evals-out/composition.md.",
+      "expected_output": "evals-out/composition.md",
+      "expectations": [
+        "evals-out/composition.md exists",
+        "No showLeadingIcon / showRemove / show* React props proposed",
+        "Leading icon is children or a named part (e.g. TagLeadingIcon / IconShell child)",
+        "Dismiss is a part, callback (onRemove), or composed control \u2014 not a showRemove boolean",
+        "Shared size/variant axes live on the root (context or root props), not repeated on every part"
+      ]
+    },
+    {
+      "id": "registry-tag",
+      "mode": "unit",
+      "focus": "registry",
+      "setup": "drop-registry",
+      "component": "tag",
+      "prompt": "Tag exists at src/components/ui/tag.tsx. Add only the missing registry.json entry. Follow docs/components/registry.md.",
+      "expected_output": "registry.json tag entry",
+      "expectations": [
+        "registry.json has a tag item with type registry:ui",
+        "registryDependencies includes __REGISTRY_URL__/r/theme.json and __REGISTRY_URL__/r/utils.json",
+        "registryDependencies covers QBDS imports from src/components/ui/tag.tsx (e.g. icon, icon-shell when imported)",
+        "dependencies lists npm packages imported by that file (cva / class-variance-authority when used; omit unused)",
+        "files lists src/components/ui/tag.tsx as registry:ui; no separate tag-demo entry"
+      ]
+    },
+    {
+      "id": "tests-button",
+      "mode": "unit",
+      "focus": "tests",
+      "setup": "drop-tests",
+      "component": "button",
+      "prompt": "Write src/tests/button.test.tsx following docs/components/tests.md. Button exists and demos are wired. Do not change the component or demos.",
+      "expected_output": "src/tests/button.test.tsx",
+      "expectations": [
+        "src/tests/button.test.tsx exists with Vitest + Testing Library and afterEach(cleanup)",
+        "Block 1: imports exampleComponentMaps + Renderer; it.each over exampleComponentMaps['button'] renders each example without throwing",
+        "Block 2: onClick fires on click; onClick does not fire when disabled; queries getByRole('button')",
+        "No Tailwind class strings, colour tokens, or cva()/iconVariants() assertions; no exhaustive keyboard matrix"
+      ]
+    },
+    {
+      "id": "tests-tag",
+      "mode": "unit",
+      "focus": "tests",
+      "setup": "drop-tests",
+      "component": "tag",
+      "prompt": "Write src/tests/tag.test.tsx following docs/components/tests.md. Tag exists and demos are wired. Do not change the component or demos.",
+      "expected_output": "src/tests/tag.test.tsx",
+      "expectations": [
+        "src/tests/tag.test.tsx exists with Vitest + Testing Library and afterEach(cleanup)",
+        "Block 1: imports exampleComponentMaps + Renderer; it.each over exampleComponentMaps['tag'] renders each example without throwing",
+        "Block 2: data-slot + label; Remove tag getByRole; onRemove without onClick bubble; variant it.each smoke",
+        "No Tailwind class strings, colour tokens, or cva()/iconVariants() assertions; no exhaustive keyboard matrix"
+      ]
+    },
+    {
+      "id": "e2e-switch",
+      "mode": "e2e",
+      "component": "switch",
+      "codeConnect": ["switch"],
+      "files": ["fixtures/switch"],
+      "prompt": "Add a new QBDS Switch component from the Figma component set Switch. Use the create-component skill and follow its steps strictly in order (1 Spec \u2192 2 Prior art \u2192 3 API \u2192 4 Build \u2192 5 Demo \u2192 6 Tests \u2192 7 Code Connect \u2192 8 Registry). Write evals-out/steps.md with exactly eight lines `N <Name>` (one per step, never duplicate or reorder). For Spec, use only evals-fixture/ (SOURCE.md, props/alignment.md, composition/slots.md if present, mcp/) as Figma MCP stand-ins \u2014 do not call live Figma MCP. Do not restore deleted component/demo/test/code-connect/registry paths from git \u2014 implement from evals-fixture/ and docs. Stay inside this worktree cwd \u2014 do not copy the component from a parent checkout.",
+      "expected_output": "evals-out/steps.md (ordered 1\u20138), src/components/ui/switch.tsx, demo, functional tests, Code Connect template, registry.json entry.",
+      "expectations": [
+        "evals-out/steps.md has exactly eight lines, steps 1\u20138 once each in order: Spec, Prior art, API, Build, Demo, Tests, Code Connect, Registry",
+        "src/components/ui/switch.tsx exists with named export Switch only (no default export); built on @base-ui/react/switch",
+        "size is sm|default|lg; default is default (Figma reg\u2192default); root has data-slot=\"switch\"",
+        "checked/defaultChecked/onCheckedChange and disabled come from the Base UI primitive \u2014 no showLeftLabel/showRightLabel/leftEntry/rightEntry props on Switch",
+        "Demo at src/app/demo/[name]/ui/switch.tsx: labels via Label composition outside Switch (htmlFor/id); covers size/checked/disabled; wired in index.tsx (maps + meta + demos)",
+        "src/tests/switch.test.tsx: demo smoke via exampleComponentMaps+Renderer AND behaviour (data-slot, checked/unchecked, disabled, toggle, no toggle when disabled); PointerEvent polyfill when needed; no Tailwind/colour/cva assertions",
+        "code-connect/switch.figma.ts uses // url=<QBDS_SWITCH> token, not an inline Figma URL; labels composed with Label when Figma showLeftLabel/showRightLabel",
+        "registry.json has switch as registry:ui with dependencies @base-ui/react and registryDependencies theme + utils; files lists switch.tsx; no switch-demo entry"
+      ]
+    },
+    {
+      "id": "e2e-button",
+      "mode": "e2e",
+      "component": "button",
+      "codeConnect": ["button-text", "button-icon"],
+      "files": ["fixtures/button"],
+      "prompt": "Add a new QBDS Button component from the Figma component sets Button (text) and Button icon. Use the create-component skill and follow its steps strictly in order (1 Spec \u2192 2 Prior art \u2192 3 API \u2192 4 Build \u2192 5 Demo \u2192 6 Tests \u2192 7 Code Connect \u2192 8 Registry). Write evals-out/steps.md with exactly eight lines `N <Name>` (one per step, never duplicate or reorder). For Spec, use only evals-fixture/ (SOURCE.md, props/alignment.md, mcp/) as Figma MCP stand-ins \u2014 do not call live Figma MCP. Do not restore deleted component/demo/test/code-connect/registry paths from git \u2014 implement from evals-fixture/ and docs. Stay inside this worktree cwd \u2014 do not copy the component from a parent checkout.",
+      "expected_output": "evals-out/steps.md (ordered 1\u20138), src/components/ui/button.tsx, demo, functional tests, Code Connect templates, registry.json entry.",
+      "expectations": [
+        "evals-out/steps.md has exactly eight lines, steps 1\u20138 once each in order: Spec, Prior art, API, Build, Demo, Tests, Code Connect, Registry",
+        "src/components/ui/button.tsx exists with named exports only (no default export); built on @base-ui/react/button",
+        "variant is default|accent|secondary|outline|ghost; default is default; size includes xxs|xs|sm|default|lg and icon-xxs|icon-xs|icon-sm|icon|icon-lg; default size is default",
+        "showLabel / showLeadingIcon / showTrailingIcon / menus / tooltips marked composition or children \u2014 not show* or label props; no loading prop or state=\"\u2026\" enum",
+        "Demo at src/app/demo/[name]/ui/button.tsx: simplest first; covers variant/size/icon sizes; wired in index.tsx (maps + meta + demos)",
+        "src/tests/button.test.tsx: demo smoke via exampleComponentMaps+Renderer AND onClick / disabled behaviour; getByRole('button'); no Tailwind/colour/cva assertions",
+        "code-connect/button-text.figma.ts and button-icon.figma.ts use // url=<QBDS_BUTTON_TEXT> and // url=<QBDS_BUTTON_ICON> tokens, not inline Figma URLs",
+        "registry.json has button as registry:ui with theme + utils registryDependencies; files lists button.tsx; no button-demo entry"
+      ]
+    },
+    {
+      "id": "e2e-textarea",
+      "mode": "e2e",
+      "component": "textarea",
+      "codeConnect": ["textarea"],
+      "files": ["fixtures/textarea"],
+      "prompt": "Add a new QBDS Textarea component from the Figma Textarea / Textarea-Input set. Use the create-component skill and follow its steps strictly in order (1 Spec \u2192 2 Prior art \u2192 3 API \u2192 4 Build \u2192 5 Demo \u2192 6 Tests \u2192 7 Code Connect \u2192 8 Registry). Write evals-out/steps.md with exactly eight lines `N <Name>` (one per step, never duplicate or reorder). For Spec, use only evals-fixture/ (SOURCE.md, props/alignment.md, mcp/) as Figma MCP stand-ins \u2014 do not call live Figma MCP. Do not restore deleted component/demo/test/code-connect/registry paths from git \u2014 implement from evals-fixture/ and docs. Stay inside this worktree cwd \u2014 do not copy the component from a parent checkout.",
+      "expected_output": "evals-out/steps.md (ordered 1\u20138), src/components/ui/textarea.tsx, demo, functional tests, Code Connect template, registry.json entry.",
+      "expectations": [
+        "evals-out/steps.md has exactly eight lines, steps 1\u20138 once each in order: Spec, Prior art, API, Build, Demo, Tests, Code Connect, Registry",
+        "src/components/ui/textarea.tsx exports Textarea, TextareaRoot, TextareaCounter (named exports only); size sm|default|lg default default",
+        "Textarea has data-slot=\"textarea\"; showLabel/showHelpText/showFeedbackMessage/counter via Field + TextareaRoot/TextareaCounter composition \u2014 not show* props",
+        "Demo at src/app/demo/[name]/ui/textarea.tsx: Field composition for label/help/error; counter via TextareaRoot; wired in index.tsx",
+        "src/tests/textarea.test.tsx: demo smoke via exampleComponentMaps+Renderer AND behaviour (data-slot / disabled / typing as needed); no Tailwind/colour/cva assertions",
+        "code-connect/textarea.figma.ts uses // url=<QBDS_TEXTAREA> token, not an inline Figma URL",
+        "registry.json has textarea as registry:ui with registryDependencies theme + input + utils; files lists textarea.tsx; no textarea-demo entry"
+      ]
+    },
+    {
+      "id": "e2e-select",
+      "mode": "e2e",
+      "component": "select",
+      "codeConnect": ["select", "select-ghost"],
+      "files": ["fixtures/select"],
+      "prompt": "Add a new QBDS Select component from the Figma Select / Field select sets. Use the create-component skill and follow its steps strictly in order (1 Spec \u2192 2 Prior art \u2192 3 API \u2192 4 Build \u2192 5 Demo \u2192 6 Tests \u2192 7 Code Connect \u2192 8 Registry). Write evals-out/steps.md with exactly eight lines `N <Name>` (one per step, never duplicate or reorder). For Spec, use only evals-fixture/ (SOURCE.md, props/alignment.md, mcp/) as Figma MCP stand-ins \u2014 do not call live Figma MCP. Do not restore deleted component/demo/test/code-connect/registry paths from git \u2014 implement from evals-fixture/ and docs. Stay inside this worktree cwd \u2014 do not copy the component from a parent checkout.",
+      "expected_output": "evals-out/steps.md (ordered 1\u20138), src/components/ui/select.tsx, demo, functional tests, Code Connect template, registry.json entry.",
+      "expectations": [
+        "evals-out/steps.md has exactly eight lines, steps 1\u20138 once each in order: Spec, Prior art, API, Build, Demo, Tests, Code Connect, Registry",
+        "src/components/ui/select.tsx exports Select, SelectTrigger, SelectValue, SelectContent, SelectItem (and related parts) as named exports; built on @base-ui/react/select",
+        "Select size sm|default|lg default default; SelectTrigger variant default|inline; showLeadingIcon/entry/feedback via composition \u2014 not show* props",
+        "Demo at src/app/demo/[name]/ui/select.tsx: covers sizes and trigger variants; wired in index.tsx",
+        "src/tests/select.test.tsx: demo smoke and/or role/data-slot behaviour; no Tailwind/colour/cva assertions",
+        "code-connect/select.figma.ts (and select-ghost if present) use // url=<QBDS_*> tokens, not inline Figma URLs",
+        "registry.json has select as registry:ui with registryDependencies theme + utils + icon + icon-shell + input; files lists select.tsx; no select-demo entry"
+      ]
+    },
+    {
+      "id": "props-switch",
+      "mode": "unit",
+      "focus": "props",
+      "component": "switch",
+      "files": ["fixtures/switch"],
+      "prompt": "Choose the React prop API for switch. Follow docs/components/props.md. Use evals-fixture/mcp/ (and props/alignment.md if present) as Figma MCP stand-ins \u2014 no live Figma MCP. Treat Figma component description / axes as Spec; ignore Code Connect snippets. When src/components/ui/switch.tsx already exists, match that shipped API. Write evals-out/props-api.md with a prop table, one line per Figma axis (prop | hard-code | composition), and omitted props.",
+      "expected_output": "evals-out/props-api.md",
+      "expectations": [
+        "evals-out/props-api.md exists",
+        "size is sm|default|lg; default is default (Figma reg\u2192default)",
+        "on (true/false) maps to checked/defaultChecked/onCheckedChange on the Base UI Switch primitive \u2014 not a separate on prop",
+        "showLeftLabel / showRightLabel / leftEntry / rightEntry marked Label composition outside Switch \u2014 not show* or entry props on Switch",
+        "no public state=\"\u2026\" enum; disabled via disabled; focused via CSS/focus-visible; no show* props on Switch"
+      ]
+    },
+    {
+      "id": "composition-switch",
+      "mode": "unit",
+      "focus": "composition",
+      "component": "switch",
+      "files": ["fixtures/switch"],
+      "prompt": "Propose composition for switch. Follow docs/components/composition.md. Use only evals-fixture/ (no Figma MCP). Write evals-out/composition.md.",
+      "expected_output": "evals-out/composition.md",
+      "expectations": [
+        "evals-out/composition.md exists",
+        "No showLeftLabel / showRightLabel / leftEntry / rightEntry React props proposed on Switch",
+        "Optional left/right labels are composed with Label (htmlFor + Switch id) in a flex wrapper \u2014 not Switch props",
+        "Label typography/gap follow size in the demo/layout layer, not show* booleans on Switch",
+        "Shared size axis lives on Switch root; checked/disabled stay on the primitive"
+      ]
+    },
+    {
+      "id": "composition-button",
+      "mode": "unit",
+      "focus": "composition",
+      "component": "button",
+      "files": ["fixtures/button"],
+      "prompt": "Propose composition for button. Follow docs/components/composition.md. Use only evals-fixture/ (no Figma MCP). Write evals-out/composition.md.",
+      "expected_output": "evals-out/composition.md",
+      "expectations": [
+        "evals-out/composition.md exists",
+        "No showLabel / showLeadingIcon / showTrailingIcon / show*Menu / showTooltip* React props proposed",
+        "Label text and leading/trailing icons are children or IconShell-wrapped Icon \u2014 not show* booleans",
+        "Dropdown/split/menus compose sibling controls \u2014 not Button show* props",
+        "Shared variant/size axes live on Button root; loading/spinner is a child or CSS \u2014 not a loading prop"
+      ]
+    },
+    {
+      "id": "composition-textarea",
+      "mode": "unit",
+      "focus": "composition",
+      "component": "textarea",
+      "files": ["fixtures/textarea"],
+      "prompt": "Propose composition for textarea. Follow docs/components/composition.md. Use only evals-fixture/ (no Figma MCP). Write evals-out/composition.md.",
+      "expected_output": "evals-out/composition.md",
+      "expectations": [
+        "evals-out/composition.md exists",
+        "No showLabel / showHelpText / showHintText / showFeedbackMessage React props proposed on Textarea",
+        "Label/help/error via Field composition \u2014 not show* props",
+        "Character counter via TextareaRoot + TextareaCounter \u2014 not a showCounter boolean",
+        "Shared size on TextareaRoot/Textarea; hint maps to placeholder"
+      ]
+    },
+    {
+      "id": "composition-select",
+      "mode": "unit",
+      "focus": "composition",
+      "component": "select",
+      "files": ["fixtures/select"],
+      "prompt": "Propose composition for select. Follow docs/components/composition.md. Use only evals-fixture/ (no Figma MCP). Write evals-out/composition.md.",
+      "expected_output": "evals-out/composition.md",
+      "expectations": [
+        "evals-out/composition.md exists",
+        "No showLeadingIcon / showEntryText / showFeedback* React props proposed",
+        "SelectTrigger / SelectValue / SelectContent / SelectItem are composed parts; placeholder via SelectValue",
+        "Leading icon and feedback are children or parts \u2014 not show* booleans",
+        "Shared size on Select; trigger variant default|inline on SelectTrigger"
+      ]
+    },
+    {
+      "id": "registry-switch",
+      "mode": "unit",
+      "focus": "registry",
+      "setup": "drop-registry",
+      "component": "switch",
+      "prompt": "Switch exists at src/components/ui/switch.tsx. Add only the missing registry.json entry. Follow docs/components/registry.md.",
+      "expected_output": "registry.json switch entry",
+      "expectations": [
+        "registry.json has a switch item with type registry:ui",
+        "registryDependencies includes __REGISTRY_URL__/r/theme.json and __REGISTRY_URL__/r/utils.json",
+        "dependencies lists @base-ui/react",
+        "files lists src/components/ui/switch.tsx as registry:ui only; no separate switch-demo entry"
+      ]
+    },
+    {
+      "id": "registry-button",
+      "mode": "unit",
+      "focus": "registry",
+      "setup": "drop-registry",
+      "component": "button",
+      "prompt": "Button exists at src/components/ui/button.tsx. Add only the missing registry.json entry. Follow docs/components/registry.md.",
+      "expected_output": "registry.json button entry",
+      "expectations": [
+        "registry.json has a button item with type registry:ui",
+        "registryDependencies includes __REGISTRY_URL__/r/theme.json and __REGISTRY_URL__/r/utils.json",
+        "dependencies lists npm packages imported by button.tsx (@base-ui/react; class-variance-authority when cva is used)",
+        "files lists src/components/ui/button.tsx as registry:ui; no separate button-demo entry"
+      ]
+    },
+    {
+      "id": "registry-textarea",
+      "mode": "unit",
+      "focus": "registry",
+      "setup": "drop-registry",
+      "component": "textarea",
+      "prompt": "Textarea exists at src/components/ui/textarea.tsx. Add only the missing registry.json entry. Follow docs/components/registry.md.",
+      "expected_output": "registry.json textarea entry",
+      "expectations": [
+        "registry.json has a textarea item with type registry:ui",
+        "registryDependencies includes __REGISTRY_URL__/r/theme.json, __REGISTRY_URL__/r/input.json, and __REGISTRY_URL__/r/utils.json",
+        "files lists src/components/ui/textarea.tsx as registry:ui; no separate textarea-demo entry"
+      ]
+    },
+    {
+      "id": "registry-select",
+      "mode": "unit",
+      "focus": "registry",
+      "setup": "drop-registry",
+      "component": "select",
+      "prompt": "Select exists at src/components/ui/select.tsx. Add only the missing registry.json entry. Follow docs/components/registry.md.",
+      "expected_output": "registry.json select entry",
+      "expectations": [
+        "registry.json has a select item with type registry:ui",
+        "registryDependencies includes theme, utils, icon, icon-shell, and input under __REGISTRY_URL__/r/",
+        "dependencies lists @base-ui/react (and class-variance-authority when cva is used)",
+        "files lists src/components/ui/select.tsx as registry:ui; no separate select-demo entry"
+      ]
+    },
+    {
+      "id": "tests-switch",
+      "mode": "unit",
+      "focus": "tests",
+      "setup": "drop-tests",
+      "component": "switch",
+      "prompt": "Write src/tests/switch.test.tsx following docs/components/tests.md. Switch exists and demos are wired. Do not change the component or demos.",
+      "expected_output": "src/tests/switch.test.tsx",
+      "expectations": [
+        "src/tests/switch.test.tsx exists with Vitest + Testing Library and afterEach(cleanup)",
+        "Block 1: imports exampleComponentMaps + Renderer; it.each over exampleComponentMaps['switch'] renders each example without throwing",
+        "Block 2: getByRole('switch'); data-slot; checked/unchecked; disabled; click toggles; disabled blocks onCheckedChange",
+        "PointerEvent polyfill included when globalThis.PointerEvent is undefined",
+        "No Tailwind class strings, colour tokens, or cva()/iconVariants() assertions; no exhaustive keyboard matrix"
+      ]
+    },
+    {
+      "id": "tests-textarea",
+      "mode": "unit",
+      "focus": "tests",
+      "setup": "drop-tests",
+      "component": "textarea",
+      "prompt": "Write src/tests/textarea.test.tsx following docs/components/tests.md. Textarea exists and demos are wired. Do not change the component or demos.",
+      "expected_output": "src/tests/textarea.test.tsx",
+      "expectations": [
+        "src/tests/textarea.test.tsx exists with Vitest + Testing Library and afterEach(cleanup)",
+        "Block 1: imports exampleComponentMaps + Renderer; it.each over exampleComponentMaps['textarea'] renders each example without throwing",
+        "Block 2: data-slot and/or disabled/placeholder/typing behaviour as appropriate; size smoke optional",
+        "No Tailwind class strings, colour tokens, or cva()/iconVariants() assertions; no exhaustive keyboard matrix"
+      ]
+    },
+    {
+      "id": "tests-select",
+      "mode": "unit",
+      "focus": "tests",
+      "setup": "drop-tests",
+      "component": "select",
+      "prompt": "Write src/tests/select.test.tsx following docs/components/tests.md. Select exists and demos are wired. Do not change the component or demos.",
+      "expected_output": "src/tests/select.test.tsx",
+      "expectations": [
+        "src/tests/select.test.tsx exists with Vitest + Testing Library and afterEach(cleanup)",
+        "Block 1: demo smoke via exampleComponentMaps['select'] + Renderer (or equivalent demo renders without throwing)",
+        "Block 2: data-slot and/or open/select interaction; size/variant smoke optional",
+        "No Tailwind class strings, colour tokens, or cva()/iconVariants() assertions; no exhaustive keyboard matrix"
+      ]
+    }
+  ]
+}

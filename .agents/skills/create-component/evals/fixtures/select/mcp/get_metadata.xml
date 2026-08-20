@@ -1,0 +1,35 @@
+<frame id="40240:45135" name="Field/SingleSelect-Filled" x="360" y="480" width="912" height="1500">
+  <symbol id="40240:45306" name="size=reg, state=enabled" x="48" y="48" width="240" height="36" />
+  <symbol id="40240:45136" name="size=lg, state=enabled" x="624" y="48" width="240" height="48" />
+  <symbol id="40240:45142" name="size=lg, state=filled" x="624" y="604" width="240" height="48" />
+  <symbol id="40240:45148" name="size=lg, state=filled-hover" x="624" y="716" width="240" height="48" />
+  <symbol id="40240:45154" name="size=sm, state=filled" x="336" y="604" width="240" height="28" />
+  <symbol id="40240:45160" name="size=sm, state=filled-hover" x="336" y="716" width="240" height="28" />
+  <symbol id="40240:45166" name="size=reg, state=filled" x="48" y="604" width="240" height="36" />
+  <symbol id="40240:45172" name="size=reg, state=filled-hover" x="48" y="716" width="240" height="36" />
+  <symbol id="40240:45178" name="size=sm, state=disabled" x="336" y="1048" width="240" height="28" />
+  <symbol id="40240:45184" name="size=lg, state=disabled" x="624" y="1048" width="240" height="48" />
+  <symbol id="40240:45190" name="size=sm, state=error" x="336" y="1160" width="240" height="28" />
+  <symbol id="40240:45197" name="size=reg, state=disabled" x="48" y="1048" width="240" height="36" />
+  <symbol id="40240:45203" name="size=sm, state=warning" x="336" y="1268" width="240" height="28" />
+  <symbol id="40240:45210" name="size=lg, state=error" x="624" y="1160" width="240" height="48" />
+  <symbol id="40240:45217" name="size=sm, state=success" x="336" y="1376" width="240" height="28" />
+  <symbol id="40240:45224" name="size=reg, state=error" x="48" y="1160" width="240" height="36" />
+  <symbol id="40240:45231" name="size=sm, state=hover" x="336" y="160" width="240" height="28" />
+  <symbol id="40240:45237" name="size=sm, state=enabled" x="336" y="48" width="240" height="28" />
+  <symbol id="40240:45243" name="size=lg, state=warning" x="624" y="1268" width="240" height="48" />
+  <symbol id="40240:45250" name="size=sm, state=focus" x="336" y="272" width="240" height="28" />
+  <symbol id="40240:45256" name="size=reg, state=warning" x="48" y="1268" width="240" height="36" />
+  <symbol id="40240:45263" name="size=lg, state=success" x="624" y="1376" width="240" height="48" />
+  <symbol id="40240:45270" name="size=sm, state=open" x="336" y="384" width="240" height="28" />
+  <symbol id="40240:45277" name="size=sm, state=filled-open" x="336" y="828" width="240" height="28" />
+  <symbol id="40240:45287" name="size=reg, state=success" x="48" y="1376" width="240" height="36" />
+  <symbol id="40240:45294" name="size=lg, state=hover" x="624" y="160" width="240" height="48" />
+  <symbol id="40240:45300" name="size=reg, state=hover" x="48" y="160" width="240" height="36" />
+  <symbol id="40240:45312" name="size=lg, state=focus" x="624" y="272" width="240" height="48" />
+  <symbol id="40240:45318" name="size=reg, state=focus" x="48" y="272" width="240" height="36" />
+  <symbol id="40240:45324" name="size=lg, state=open" x="624" y="384" width="240" height="48" />
+  <symbol id="40240:45332" name="size=lg, state=filled-open" x="624" y="828" width="240" height="48" />
+  <symbol id="40240:45342" name="size=reg, state=open" x="48" y="384" width="240" height="36" />
+  <symbol id="40240:45350" name="size=reg, state=filled-open" x="48" y="828" width="240" height="36" />
+</frame>

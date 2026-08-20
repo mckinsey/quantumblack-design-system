@@ -55,3 +55,6 @@ figma.config.json
 
 .migration
 docs/migrations/
+
+/.evals-runs/
+/evals/results/
