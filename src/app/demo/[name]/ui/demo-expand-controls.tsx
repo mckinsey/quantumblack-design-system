@@ -16,7 +16,7 @@ export type DemoAxis<T extends string> = {
 export type ExpandedState = Record<string, boolean>;
 
 export const demoExpandControlsClass =
-  'absolute top-0 right-0 z-10 flex flex-wrap items-center gap-4';
+  'absolute top-0 right-0 z-10 flex shrink-0 items-center gap-2';
 
 export function resolveAxisOptions<T extends string>(
   axis: DemoAxis<T>,
