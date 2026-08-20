@@ -52,9 +52,9 @@ const statusClassName =
       : '';
 
 const valueProp = isLive
-  ? figma.code` defaultValue="${inputActive}"`
+  ? figma.code` defaultValue={${inputActive}}`
   : hasFilledValue
-    ? figma.code` defaultValue="${entryFilled}"`
+    ? figma.code` defaultValue={${entryFilled}}`
     : figma.code``;
 
 const placeholderProp =

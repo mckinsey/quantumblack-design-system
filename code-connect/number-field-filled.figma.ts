@@ -51,9 +51,9 @@ const statusClassName =
       : '';
 
 const valueProp = isLive
-  ? figma.code` defaultValue="${entryActive}"`
+  ? figma.code` defaultValue={${entryActive}}`
   : hasFilledValue
-    ? figma.code` defaultValue="${entryFilled}"`
+    ? figma.code` defaultValue={${entryFilled}}`
     : figma.code``;
 
 const placeholderProp =
