@@ -33,7 +33,7 @@ export function CalendarSizes() {
   ] as const;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-wrap items-start gap-6">
       {sizes.map(({ key, label }) => (
         <FieldSet key={key} className="gap-2">
           <FieldTitle className="label-large-primary">{label}</FieldTitle>

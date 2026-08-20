@@ -89,6 +89,7 @@ function CalendarDayButton({
   const baseStyles = cn(
     typographyClass,
     'cursor-pointer outline-none',
+    'transition-[background-color,color,box-shadow] duration-200 ease-out',
     'relative',
     'flex aspect-square size-auto w-full min-w-(--cell-size)',
     'flex-col items-center justify-center',
@@ -120,20 +121,12 @@ function CalendarDayButton({
   const rangeStartStyles = cn(
     'data-[range-start=true]:bg-stateslayer-overlay-active',
     'data-[range-start=true]:text-fg-primary-inverse',
-    'data-[range-start=true]:underline',
-    'data-[range-start=true]:decoration-solid',
-    'data-[range-start=true]:decoration-skip-ink-none',
-    'data-[range-start=true]:[text-underline-position:from-font]',
     'data-[range-start=true]:rounded-none',
   );
 
   const rangeEndStyles = cn(
     'data-[range-end=true]:bg-stateslayer-overlay-active',
     'data-[range-end=true]:text-fg-primary-inverse',
-    'data-[range-end=true]:underline',
-    'data-[range-end=true]:decoration-solid',
-    'data-[range-end=true]:decoration-skip-ink-none',
-    'data-[range-end=true]:[text-underline-position:from-font]',
     'data-[range-end=true]:rounded-none',
   );
 
@@ -183,7 +176,7 @@ function CalendarDayButton({
       {isToday && (
         <span
           className={cn(
-            'bg-fill-active absolute left-1/2 size-1 -translate-x-1/2 rounded-full',
+            'bg-fill-primary absolute left-1/2 size-1 -translate-x-1/2 rounded-full',
             calendarSize === 'lg' ? 'bottom-2' : 'bottom-1',
             (isSelected || isRangeStart || isRangeEnd) && 'hidden',
           )}
@@ -252,7 +245,9 @@ function Calendar({
           weekdays: cn('flex ', defaultClassNames.weekdays),
           weekday: cn(
             'flex text-fg-secondary flex-1 select-none size-(--cell-size) justify-center items-center',
-            size === 'lg' ? 'paragraph-large-primary' : 'label-large-primary',
+            size === 'lg'
+              ? 'paragraph-large-primary'
+              : 'paragraph-small-primary',
             defaultClassNames.weekday,
           ),
           week: cn('flex w-full', defaultClassNames.week),
@@ -307,7 +302,7 @@ function Calendar({
                 {...restProps}>
                 <IconShell
                   type="neutral"
-                  variant="primary"
+                  variant="secondary"
                   size={size === 'lg' ? 'lg' : 'default'}>
                   <Icon icon="chevron_right" />
                 </IconShell>
@@ -326,7 +321,7 @@ function Calendar({
                 {...restProps}>
                 <IconShell
                   type="neutral"
-                  variant="primary"
+                  variant="secondary"
                   size={size === 'lg' ? 'lg' : 'default'}>
                   <Icon icon="chevron_left" />
                 </IconShell>
@@ -421,10 +416,7 @@ function Calendar({
               );
             }
 
-            const inputTypography =
-              size === 'lg'
-                ? 'paragraph-large-primary'
-                : 'paragraph-regular-primary';
+            const inputSize = size === 'lg' ? 'lg' : 'sm';
 
             const separatorTypography =
               size === 'lg' ? 'label-large-primary' : 'label-regular-primary';
@@ -437,9 +429,9 @@ function Calendar({
                     variant="inline"
                     value={monthValue}
                     onChange={handleMonthInputChange}
+                    size={inputSize}
                     className={cn(
-                      inputTypography,
-                      'text-fg-primary pointer-events-auto h-full p-0 text-center uppercase',
+                      'pointer-events-auto h-full uppercase',
                       size === 'lg' ? 'w-10' : 'w-9',
                     )}
                     maxLength={3}
@@ -453,9 +445,9 @@ function Calendar({
                     variant="inline"
                     value={yearValue}
                     onChange={handleYearInputChange}
+                    size={inputSize}
                     className={cn(
-                      inputTypography,
-                      'text-fg-primary pointer-events-auto h-full p-0 text-center',
+                      'pointer-events-auto h-full uppercase',
                       size === 'lg' ? 'w-10' : 'w-9',
                     )}
                     maxLength={4}
