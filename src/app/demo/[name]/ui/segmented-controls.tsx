@@ -53,7 +53,7 @@ export function SegmentedControlsGhost() {
 export function SegmentedControlsSizes() {
   return (
     <div className="flex flex-col items-start gap-4">
-      <SegmentedControls defaultValue="week" size="reg">
+      <SegmentedControls defaultValue="week" size="default">
         <SegmentedControlsItem value="day">Day</SegmentedControlsItem>
         <SegmentedControlsItem value="week">Week</SegmentedControlsItem>
         <SegmentedControlsItem value="month">Month</SegmentedControlsItem>
@@ -65,7 +65,7 @@ export function SegmentedControlsSizes() {
         <SegmentedControlsItem value="month">Month</SegmentedControlsItem>
       </SegmentedControls>
 
-      <SegmentedControls defaultValue="week" size="xsm">
+      <SegmentedControls defaultValue="week" size="xs">
         <SegmentedControlsItem value="day">Day</SegmentedControlsItem>
         <SegmentedControlsItem value="week">Week</SegmentedControlsItem>
         <SegmentedControlsItem value="month">Month</SegmentedControlsItem>
@@ -137,7 +137,7 @@ export const examples: DemoExample[] = [
   {
     name: 'SegmentedControlsSizes',
     title: 'Sizes',
-    description: 'Reg, sm, xsm, and xxs sizes.',
+    description: 'Default, sm, xs, and xxs sizes.',
   },
   {
     name: 'SegmentedControlsIconOnly',
