@@ -1,0 +1,23 @@
+<frame id="15990:112587" name="Textarea-Input" x="360" y="480" width="1248" height="1556">
+  <symbol id="22719:203384" name="size=reg, state=enabled" x="48" y="48" width="320" height="164" />
+  <symbol id="22654:148380" name="size=reg, state=filled" x="48" y="896" width="320" height="164" />
+  <symbol id="40816:83267" name="size=sm, state=filled" x="464" y="896" width="320" height="156" />
+  <symbol id="36749:37043" name="size=lg, state=filled" x="880" y="896" width="320" height="164" />
+  <symbol id="41658:145712" name="size=lg, state=error" x="880" y="1096" width="320" height="164" />
+  <symbol id="22719:203273" name="size=reg, state=active" x="48" y="684" width="320" height="164" />
+  <symbol id="40816:83276" name="size=sm, state=active" x="464" y="684" width="320" height="156" />
+  <symbol id="36749:37052" name="size=lg, state=active" x="880" y="684" width="320" height="168" />
+  <symbol id="22719:203310" name="size=reg, state=focus" x="48" y="472" width="320" height="164" />
+  <symbol id="40816:83285" name="size=sm, state=focus" x="464" y="472" width="320" height="156" />
+  <symbol id="36749:37061" name="size=lg, state=focus" x="880" y="472" width="320" height="164" />
+  <symbol id="40816:83294" name="size=sm, state=enabled" x="464" y="48" width="320" height="156" />
+  <symbol id="36749:37070" name="size=lg, state=enabled" x="880" y="48" width="320" height="168" />
+  <symbol id="22719:203451" name="size=reg, state=disabled" x="48" y="1344" width="320" height="164" />
+  <symbol id="40816:83303" name="size=sm, state=disabled" x="464" y="1344" width="320" height="156" />
+  <symbol id="36749:37079" name="size=lg, state=disabled" x="880" y="1344" width="320" height="168" />
+  <symbol id="22719:203347" name="size=reg, state=hover" x="48" y="260" width="320" height="164" />
+  <symbol id="40816:83312" name="size=sm, state=hover" x="464" y="260" width="320" height="156" />
+  <symbol id="36749:37088" name="size=lg, state=hover" x="880" y="260" width="320" height="164" />
+  <symbol id="22719:203236" name="size=reg, state=error" x="48" y="1108" width="320" height="164" />
+  <symbol id="40816:83321" name="size=sm, state=error" x="464" y="1108" width="320" height="156" />
+</frame>

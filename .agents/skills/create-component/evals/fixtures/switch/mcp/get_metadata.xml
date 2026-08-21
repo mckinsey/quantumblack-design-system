@@ -1,0 +1,20 @@
+<frame id="34082:106669" name="Switch" x="360" y="480" width="408" height="360">
+  <symbol id="34082:106751" name="on=true, size=sm, state=enabled" x="56" y="84" width="24" height="12" />
+  <symbol id="34082:106755" name="on=true, size=sm, state=focused" x="192" y="84" width="24" height="12" />
+  <symbol id="34082:106760" name="on=true, size=sm, state=disabled" x="328" y="84" width="24" height="12" />
+  <symbol id="34082:106764" name="on=false, size=sm, state=enabled" x="52" y="144" width="24" height="12" />
+  <symbol id="34082:106768" name="on=false, size=sm, state=focused" x="192" y="48" width="24" height="12" />
+  <symbol id="34082:106773" name="on=false, size=sm, state=disabled" x="328" y="48" width="24" height="12" />
+  <symbol id="34082:106777" name="on=true, size=reg, state=enabled" x="52" y="184" width="32" height="16" />
+  <symbol id="34082:106781" name="on=true, size=reg, state=focused" x="188" y="184" width="32" height="16" />
+  <symbol id="34082:106786" name="on=true, size=reg, state=disabled" x="324" y="184" width="32" height="16" />
+  <symbol id="34082:106790" name="on=true, size=lg, state=enabled" x="48" y="292" width="40" height="20" />
+  <symbol id="34082:106794" name="on=true, size=lg, state=focused" x="184" y="292" width="40" height="20" />
+  <symbol id="34082:106799" name="on=true, size=lg, state=disabled" x="320" y="292" width="40" height="20" />
+  <symbol id="34082:106803" name="on=false, size=lg, state=enabled" x="48" y="248" width="40" height="20" />
+  <symbol id="34082:106808" name="on=false, size=lg, state=focused" x="184" y="248" width="40" height="20" />
+  <symbol id="34082:106814" name="on=false, size=lg, state=disabled" x="320" y="248" width="40" height="20" />
+  <symbol id="34082:106819" name="on=false, size=reg, state=enabled" x="56" y="48" width="32" height="16" />
+  <symbol id="34082:106823" name="on=false, size=reg, state=focused" x="188" y="144" width="32" height="16" />
+  <symbol id="34082:106828" name="on=false, size=reg, state=disabled" x="324" y="144" width="32" height="16" />
+</frame>

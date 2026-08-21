@@ -1,0 +1,972 @@
+{
+  "skill_name": "create-component",
+  "preamble": "Use only evals-fixture/ and the repo docs as Figma stand-ins — no live Figma MCP. Treat the Figma component description / axes as Spec; ignore Code Connect snippets. Do not restore deleted paths from git, do not read public/r/*.json as a source template, and stay inside this worktree cwd — do not copy from a parent checkout.",
+  "preamble_e2e": "Use the create-component skill and follow its steps strictly in order (1 Spec → 2 Prior art → 3 API → 4 Build → 5 Demo → 6 Tests → 7 Code Connect → 8 Registry). After completing each step, append exactly one line to evals-out/steps.md in this form: `N <Name>` (e.g. `1 Spec`, `4 Build`). Do not skip steps or reorder them.",
+  "evals": [
+    {
+      "id": "e2e-tag",
+      "mode": "e2e",
+      "component": "tag",
+      "codeConnect": ["tag"],
+      "files": ["fixtures/tag"],
+      "prompt": "Add a new QBDS Tag component from the Figma component set Tag-Dismissable.",
+      "expected_output": "evals-out/steps.md (ordered 1–8), src/components/ui/tag.tsx, demo, functional tests, Code Connect template, registry.json entry.",
+      "expectations": [
+        "size prop uses default (not reg/md); style axis is variant (not type)",
+        "Leading icon and remove are children/parts, not boolean show props",
+        "Demo at src/app/demo/[name]/ui/tag.tsx covers variants, sizes, pill, disabled; simplest example first",
+        "src/tests/tag.test.tsx asserts roles/aria/data-slot/interaction"
+      ],
+      "gate": true,
+      "checks": [
+        {
+          "type": "stepsLog"
+        },
+        {
+          "type": "fileExists",
+          "path": "src/components/ui/tag.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/components/ui/tag.tsx",
+          "pattern": "export default",
+          "match": false
+        },
+        {
+          "type": "grep",
+          "path": "src/components/ui/tag.tsx",
+          "pattern": "data-slot=\"tag\""
+        },
+        {
+          "type": "grep",
+          "path": "src/components/ui/tag.tsx",
+          "pattern": "show[A-Z]\\w*\\??:",
+          "match": false
+        },
+        {
+          "type": "fileExists",
+          "path": "src/app/demo/[name]/ui/tag.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/app/demo/[name]/index.tsx",
+          "pattern": "ui/tag'"
+        },
+        {
+          "type": "fileExists",
+          "path": "src/tests/tag.test.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/tag.test.tsx",
+          "pattern": "toHaveClass",
+          "match": false
+        },
+        {
+          "type": "registryEntry",
+          "name": "tag",
+          "requires": ["theme", "utils"]
+        },
+        {
+          "type": "fileExists",
+          "path": "code-connect/tag.figma.ts"
+        },
+        {
+          "type": "grep",
+          "path": "code-connect/tag.figma.ts",
+          "pattern": "figma\\.com",
+          "match": false
+        }
+      ]
+    },
+    {
+      "id": "props-button",
+      "mode": "unit",
+      "focus": "props",
+      "component": "button",
+      "files": ["fixtures/button"],
+      "prompt": "Choose the React prop API for button. Follow docs/components/props.md. Write evals-out/props-api.md with a prop table, one line per Figma axis (prop | hard-code | composition), and omitted props.",
+      "expected_output": "evals-out/props-api.md",
+      "expectations": [
+        "variant is default|accent|secondary|outline|ghost; default is default; maps primary→default, primary-accent→accent, secondary-filled→secondary, secondary-outline→outline, ghost→ghost",
+        "size is xxs|xs|sm|default|lg|icon-xxs|icon-xs|icon-sm|icon|icon-lg; default is default (Figma xxsm/xsm/sm/reg/lg → xxs/xs/sm/default/lg; icon-* for icon-only)",
+        "showLabel / showLeadingIcon / showTrailingIcon / menus / tooltips / label marked composition or children — not show* or label props",
+        "no public state=\"…\" enum and no loading prop; disabled via disabled; hover/focus/pressed/open/loading via CSS, data-state, or children"
+      ],
+      "setup": "strip",
+      "checks": [
+        {
+          "type": "fileExists",
+          "path": "evals-out/props-api.md"
+        }
+      ]
+    },
+    {
+      "id": "props-tag",
+      "mode": "unit",
+      "focus": "props",
+      "component": "tag",
+      "files": ["fixtures/tag"],
+      "prompt": "Choose the React prop API for tag. Follow docs/components/props.md. Write evals-out/props-api.md with a prop table, one line per Figma axis (prop | hard-code | composition), and omitted props.",
+      "expected_output": "evals-out/props-api.md",
+      "expectations": [
+        "variant is primary|secondary|accent|outline|accent-outline; default is primary (not shadcn default); high-emphasis→secondary; outline folded into variant",
+        "size is xs|sm|default|lg; default is default (Figma xsm/sm/reg/lg)",
+        "pill is a boolean (default false); showLeadingIcon and label marked composition/children — not show* or label props",
+        "dismiss via onRemove (no showRemove); no public state=\"…\" enum; disabled via disabled"
+      ],
+      "setup": "strip",
+      "checks": [
+        {
+          "type": "fileExists",
+          "path": "evals-out/props-api.md"
+        }
+      ]
+    },
+    {
+      "id": "props-textarea",
+      "mode": "unit",
+      "focus": "props",
+      "component": "textarea",
+      "files": ["fixtures/textarea"],
+      "prompt": "Choose the React prop API for textarea. Follow docs/components/props.md. Write evals-out/props-api.md with a prop table, one line per Figma axis (prop | hard-code | composition), and omitted props.",
+      "expected_output": "evals-out/props-api.md",
+      "expectations": [
+        "Textarea size is sm|default|lg; default is default (Figma reg→default); variant is default only",
+        "exports include TextareaRoot (maxCharacters, size) and TextareaCounter",
+        "showLabel / showHelpText / showFeedbackMessage / counter marked Field + TextareaRoot/Counter composition — not show* props; hint→placeholder",
+        "no public state=\"…\" enum; error via aria-invalid; disabled via disabled; isResizable/scrollbar not show* props"
+      ],
+      "setup": "strip",
+      "checks": [
+        {
+          "type": "fileExists",
+          "path": "evals-out/props-api.md"
+        }
+      ]
+    },
+    {
+      "id": "props-select",
+      "mode": "unit",
+      "focus": "props",
+      "component": "select",
+      "files": ["fixtures/select"],
+      "prompt": "Choose the React prop API for select. Follow docs/components/props.md. Write evals-out/props-api.md with a prop table, one line per Figma axis (prop | hard-code | composition), and omitted props.",
+      "expected_output": "evals-out/props-api.md",
+      "expectations": [
+        "Select size is sm|default|lg; default is default (Figma reg→default); SelectTrigger variant is default|inline (filled vs ghost)",
+        "parts SelectTrigger / SelectValue / SelectContent / SelectItem (composition); showLeadingIcon / entry / feedback not show* props",
+        "placeholder via SelectValue; no public state=\"…\" enum; open/hover/focus via CSS or data-popup-open; error via aria-invalid; disabled via Select disabled"
+      ],
+      "setup": "strip",
+      "checks": [
+        {
+          "type": "fileExists",
+          "path": "evals-out/props-api.md"
+        }
+      ]
+    },
+    {
+      "id": "composition-tag",
+      "mode": "unit",
+      "focus": "composition",
+      "component": "tag",
+      "files": ["fixtures/tag"],
+      "prompt": "Propose composition for tag. Follow docs/components/composition.md. Write evals-out/composition.md.",
+      "expected_output": "evals-out/composition.md",
+      "expectations": [
+        "No showLeadingIcon / showRemove / show* React props proposed",
+        "Leading icon is children or a named part (e.g. TagLeadingIcon / IconShell child)",
+        "Dismiss is a part, callback (onRemove), or composed control — not a showRemove boolean",
+        "Shared size/variant axes live on the root (context or root props), not repeated on every part"
+      ],
+      "setup": "strip",
+      "checks": [
+        {
+          "type": "fileExists",
+          "path": "evals-out/composition.md"
+        }
+      ]
+    },
+    {
+      "id": "registry-tag",
+      "mode": "unit",
+      "focus": "registry",
+      "setup": "drop-registry",
+      "component": "tag",
+      "prompt": "Tag exists at src/components/ui/tag.tsx. Add only the missing registry.json entry. Follow docs/components/registry.md.",
+      "expected_output": "registry.json tag entry",
+      "expectations": [
+        "dependencies lists npm packages imported by that file (cva / class-variance-authority when used; omit unused)"
+      ],
+      "checks": [
+        {
+          "type": "registryEntry",
+          "name": "tag",
+          "requires": ["theme", "utils"]
+        },
+        {
+          "type": "grep",
+          "path": "registry.json",
+          "pattern": "\"tag-demo\"",
+          "match": false
+        }
+      ],
+      "gate": true
+    },
+    {
+      "id": "tests-button",
+      "mode": "unit",
+      "focus": "tests",
+      "setup": "drop-tests",
+      "component": "button",
+      "prompt": "Write src/tests/button.test.tsx following docs/components/tests.md. Button exists and demos are wired. Do not change the component or demos.",
+      "expected_output": "src/tests/button.test.tsx",
+      "expectations": [
+        "Block 2: onClick fires on click; onClick does not fire when disabled; queries getByRole('button')",
+        "No colour tokens, or cva()/iconVariants() assertions; no exhaustive keyboard matrix"
+      ],
+      "checks": [
+        {
+          "type": "fileExists",
+          "path": "src/tests/button.test.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/button.test.tsx",
+          "pattern": "afterEach\\(\\s*cleanup\\s*\\)"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/button.test.tsx",
+          "pattern": "exampleComponentMaps"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/button.test.tsx",
+          "pattern": "it\\.each"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/button.test.tsx",
+          "pattern": "toHaveClass",
+          "match": false
+        }
+      ],
+      "gate": true
+    },
+    {
+      "id": "tests-tag",
+      "mode": "unit",
+      "focus": "tests",
+      "setup": "drop-tests",
+      "component": "tag",
+      "prompt": "Write src/tests/tag.test.tsx following docs/components/tests.md. Tag exists and demos are wired. Do not change the component or demos.",
+      "expected_output": "src/tests/tag.test.tsx",
+      "expectations": [
+        "Block 2: data-slot + label; Remove tag getByRole; onRemove without onClick bubble; variant it.each smoke",
+        "No colour tokens, or cva()/iconVariants() assertions; no exhaustive keyboard matrix"
+      ],
+      "checks": [
+        {
+          "type": "fileExists",
+          "path": "src/tests/tag.test.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/tag.test.tsx",
+          "pattern": "afterEach\\(\\s*cleanup\\s*\\)"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/tag.test.tsx",
+          "pattern": "exampleComponentMaps"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/tag.test.tsx",
+          "pattern": "it\\.each"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/tag.test.tsx",
+          "pattern": "toHaveClass",
+          "match": false
+        }
+      ],
+      "gate": true
+    },
+    {
+      "id": "e2e-switch",
+      "mode": "e2e",
+      "component": "switch",
+      "codeConnect": ["switch"],
+      "files": ["fixtures/switch"],
+      "prompt": "Add a new QBDS Switch component from the Figma component set Switch. Write evals-out/steps.md with exactly eight lines `N <Name>` (one per step, never duplicate or reorder).",
+      "expected_output": "evals-out/steps.md (ordered 1–8), src/components/ui/switch.tsx, demo, functional tests, Code Connect template, registry.json entry.",
+      "expectations": [
+        "evals-out/steps.md has exactly eight lines, steps 1–8 once each in order: Spec, Prior art, API, Build, Demo, Tests, Code Connect, Registry",
+        "src/components/ui/switch.tsx exists with named export Switch only (no default export); built on @base-ui/react/switch",
+        "size is sm|default|lg; default is default (Figma reg→default); root has data-slot=\"switch\"",
+        "checked/defaultChecked/onCheckedChange and disabled come from the Base UI primitive — no showLeftLabel/showRightLabel/leftEntry/rightEntry props on Switch",
+        "Demo at src/app/demo/[name]/ui/switch.tsx: labels via Label composition outside Switch (htmlFor/id); covers size/checked/disabled (maps + meta + demos)",
+        "src/tests/switch.test.tsx: demo smoke via exampleComponentMaps+Renderer AND behaviour (data-slot, checked/unchecked, disabled, toggle, no toggle when disabled); PointerEvent polyfill when needed; no Tailwind/colour/cva assertions",
+        "code-connect/switch.figma.ts uses // url=<QBDS_SWITCH> token, not an inline Figma URL; labels composed with Label when Figma showLeftLabel/showRightLabel",
+        "registry.json has switch as registry:ui with dependencies @base-ui/react and registryDependencies theme + utils; files lists switch.tsx; no switch-demo entry"
+      ],
+      "gate": true,
+      "checks": [
+        {
+          "type": "stepsLog"
+        },
+        {
+          "type": "fileExists",
+          "path": "src/components/ui/switch.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/components/ui/switch.tsx",
+          "pattern": "export default",
+          "match": false
+        },
+        {
+          "type": "grep",
+          "path": "src/components/ui/switch.tsx",
+          "pattern": "data-slot=\"switch\""
+        },
+        {
+          "type": "grep",
+          "path": "src/components/ui/switch.tsx",
+          "pattern": "show[A-Z]\\w*\\??:",
+          "match": false
+        },
+        {
+          "type": "fileExists",
+          "path": "src/app/demo/[name]/ui/switch.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/app/demo/[name]/index.tsx",
+          "pattern": "ui/switch'"
+        },
+        {
+          "type": "fileExists",
+          "path": "src/tests/switch.test.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/switch.test.tsx",
+          "pattern": "toHaveClass",
+          "match": false
+        },
+        {
+          "type": "registryEntry",
+          "name": "switch",
+          "requires": ["theme", "utils"]
+        },
+        {
+          "type": "fileExists",
+          "path": "code-connect/switch.figma.ts"
+        },
+        {
+          "type": "grep",
+          "path": "code-connect/switch.figma.ts",
+          "pattern": "figma\\.com",
+          "match": false
+        }
+      ]
+    },
+    {
+      "id": "e2e-button",
+      "mode": "e2e",
+      "component": "button",
+      "codeConnect": ["button-text", "button-icon"],
+      "files": ["fixtures/button"],
+      "prompt": "Add a new QBDS Button component from the Figma component sets Button (text) and Button icon. Write evals-out/steps.md with exactly eight lines `N <Name>` (one per step, never duplicate or reorder).",
+      "expected_output": "evals-out/steps.md (ordered 1–8), src/components/ui/button.tsx, demo, functional tests, Code Connect templates, registry.json entry.",
+      "expectations": [
+        "evals-out/steps.md has exactly eight lines, steps 1–8 once each in order: Spec, Prior art, API, Build, Demo, Tests, Code Connect, Registry",
+        "variant is default|accent|secondary|outline|ghost; default is default; size includes xxs|xs|sm|default|lg and icon-xxs|icon-xs|icon-sm|icon|icon-lg; default size is default",
+        "showLabel / showLeadingIcon / showTrailingIcon / menus / tooltips marked composition or children — not show* or label props; no loading prop or state=\"…\" enum",
+        "Demo at src/app/demo/[name]/ui/button.tsx: simplest first; covers variant/size/icon sizes (maps + meta + demos)",
+        "src/tests/button.test.tsx: demo smoke via exampleComponentMaps+Renderer AND onClick / disabled behaviour; getByRole('button'); no Tailwind/colour/cva assertions",
+        "code-connect/button-text.figma.ts and button-icon.figma.ts use // url=<QBDS_BUTTON_TEXT> and // url=<QBDS_BUTTON_ICON> tokens, not inline Figma URLs",
+        "registry.json has button as registry:ui with theme + utils registryDependencies; files lists button.tsx; no button-demo entry"
+      ],
+      "gate": true,
+      "checks": [
+        {
+          "type": "stepsLog"
+        },
+        {
+          "type": "fileExists",
+          "path": "src/components/ui/button.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/components/ui/button.tsx",
+          "pattern": "export default",
+          "match": false
+        },
+        {
+          "type": "grep",
+          "path": "src/components/ui/button.tsx",
+          "pattern": "data-slot=\"button\""
+        },
+        {
+          "type": "grep",
+          "path": "src/components/ui/button.tsx",
+          "pattern": "show[A-Z]\\w*\\??:",
+          "match": false
+        },
+        {
+          "type": "fileExists",
+          "path": "src/app/demo/[name]/ui/button.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/app/demo/[name]/index.tsx",
+          "pattern": "ui/button'"
+        },
+        {
+          "type": "fileExists",
+          "path": "src/tests/button.test.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/button.test.tsx",
+          "pattern": "toHaveClass",
+          "match": false
+        },
+        {
+          "type": "registryEntry",
+          "name": "button",
+          "requires": ["theme", "utils"]
+        },
+        {
+          "type": "fileExists",
+          "path": "code-connect/button-text.figma.ts"
+        },
+        {
+          "type": "grep",
+          "path": "code-connect/button-text.figma.ts",
+          "pattern": "figma\\.com",
+          "match": false
+        },
+        {
+          "type": "fileExists",
+          "path": "code-connect/button-icon.figma.ts"
+        },
+        {
+          "type": "grep",
+          "path": "code-connect/button-icon.figma.ts",
+          "pattern": "figma\\.com",
+          "match": false
+        }
+      ]
+    },
+    {
+      "id": "e2e-textarea",
+      "mode": "e2e",
+      "component": "textarea",
+      "codeConnect": ["textarea"],
+      "files": ["fixtures/textarea"],
+      "prompt": "Add a new QBDS Textarea component from the Figma Textarea / Textarea-Input set. Write evals-out/steps.md with exactly eight lines `N <Name>` (one per step, never duplicate or reorder).",
+      "expected_output": "evals-out/steps.md (ordered 1–8), src/components/ui/textarea.tsx, demo, functional tests, Code Connect template, registry.json entry.",
+      "expectations": [
+        "evals-out/steps.md has exactly eight lines, steps 1–8 once each in order: Spec, Prior art, API, Build, Demo, Tests, Code Connect, Registry",
+        "src/components/ui/textarea.tsx exports Textarea, TextareaRoot, TextareaCounter (named exports only); size sm|default|lg default default",
+        "Textarea has data-slot=\"textarea\"; showLabel/showHelpText/showFeedbackMessage/counter via Field + TextareaRoot/TextareaCounter composition — not show* props",
+        "Demo at src/app/demo/[name]/ui/textarea.tsx: Field composition for label/help/error; counter via TextareaRoot",
+        "src/tests/textarea.test.tsx: demo smoke via exampleComponentMaps+Renderer AND behaviour (data-slot / disabled / typing as needed); no Tailwind/colour/cva assertions",
+        "code-connect/textarea.figma.ts uses // url=<QBDS_TEXTAREA> token, not an inline Figma URL",
+        "registry.json has textarea as registry:ui with registryDependencies theme + input + utils; files lists textarea.tsx; no textarea-demo entry"
+      ],
+      "gate": true,
+      "checks": [
+        {
+          "type": "stepsLog"
+        },
+        {
+          "type": "fileExists",
+          "path": "src/components/ui/textarea.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/components/ui/textarea.tsx",
+          "pattern": "export default",
+          "match": false
+        },
+        {
+          "type": "grep",
+          "path": "src/components/ui/textarea.tsx",
+          "pattern": "data-slot=\"textarea\""
+        },
+        {
+          "type": "grep",
+          "path": "src/components/ui/textarea.tsx",
+          "pattern": "show[A-Z]\\w*\\??:",
+          "match": false
+        },
+        {
+          "type": "fileExists",
+          "path": "src/app/demo/[name]/ui/textarea.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/app/demo/[name]/index.tsx",
+          "pattern": "ui/textarea'"
+        },
+        {
+          "type": "fileExists",
+          "path": "src/tests/textarea.test.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/textarea.test.tsx",
+          "pattern": "toHaveClass",
+          "match": false
+        },
+        {
+          "type": "registryEntry",
+          "name": "textarea",
+          "requires": ["theme", "utils"]
+        },
+        {
+          "type": "fileExists",
+          "path": "code-connect/textarea.figma.ts"
+        },
+        {
+          "type": "grep",
+          "path": "code-connect/textarea.figma.ts",
+          "pattern": "figma\\.com",
+          "match": false
+        }
+      ]
+    },
+    {
+      "id": "e2e-select",
+      "mode": "e2e",
+      "component": "select",
+      "codeConnect": ["select", "select-ghost"],
+      "files": ["fixtures/select"],
+      "prompt": "Add a new QBDS Select component from the Figma Select / Field select sets. Write evals-out/steps.md with exactly eight lines `N <Name>` (one per step, never duplicate or reorder).",
+      "expected_output": "evals-out/steps.md (ordered 1–8), src/components/ui/select.tsx, demo, functional tests, Code Connect template, registry.json entry.",
+      "expectations": [
+        "evals-out/steps.md has exactly eight lines, steps 1–8 once each in order: Spec, Prior art, API, Build, Demo, Tests, Code Connect, Registry",
+        "src/components/ui/select.tsx exports Select, SelectTrigger, SelectValue, SelectContent, SelectItem (and related parts) as named exports; built on @base-ui/react/select",
+        "Select size sm|default|lg default default; SelectTrigger variant default|inline; showLeadingIcon/entry/feedback via composition — not show* props",
+        "Demo at src/app/demo/[name]/ui/select.tsx: covers sizes and trigger variants",
+        "src/tests/select.test.tsx: demo smoke and/or role/data-slot behaviour; no Tailwind/colour/cva assertions",
+        "code-connect/select.figma.ts (and select-ghost if present) use // url=<QBDS_*> tokens, not inline Figma URLs",
+        "registry.json has select as registry:ui with registryDependencies theme + utils + icon + icon-shell + input; files lists select.tsx; no select-demo entry"
+      ],
+      "gate": true,
+      "checks": [
+        {
+          "type": "stepsLog"
+        },
+        {
+          "type": "fileExists",
+          "path": "src/components/ui/select.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/components/ui/select.tsx",
+          "pattern": "export default",
+          "match": false
+        },
+        {
+          "type": "grep",
+          "path": "src/components/ui/select.tsx",
+          "pattern": "data-slot=\"select\""
+        },
+        {
+          "type": "grep",
+          "path": "src/components/ui/select.tsx",
+          "pattern": "show[A-Z]\\w*\\??:",
+          "match": false
+        },
+        {
+          "type": "fileExists",
+          "path": "src/app/demo/[name]/ui/select.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/app/demo/[name]/index.tsx",
+          "pattern": "ui/select'"
+        },
+        {
+          "type": "fileExists",
+          "path": "src/tests/select.test.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/select.test.tsx",
+          "pattern": "toHaveClass",
+          "match": false
+        },
+        {
+          "type": "registryEntry",
+          "name": "select",
+          "requires": ["theme", "utils", "icon", "icon-shell"]
+        },
+        {
+          "type": "fileExists",
+          "path": "code-connect/select.figma.ts"
+        },
+        {
+          "type": "grep",
+          "path": "code-connect/select.figma.ts",
+          "pattern": "figma\\.com",
+          "match": false
+        },
+        {
+          "type": "fileExists",
+          "path": "code-connect/select-ghost.figma.ts"
+        },
+        {
+          "type": "grep",
+          "path": "code-connect/select-ghost.figma.ts",
+          "pattern": "figma\\.com",
+          "match": false
+        }
+      ]
+    },
+    {
+      "id": "props-switch",
+      "mode": "unit",
+      "focus": "props",
+      "component": "switch",
+      "files": ["fixtures/switch"],
+      "prompt": "Choose the React prop API for switch. Follow docs/components/props.md. Write evals-out/props-api.md with a prop table, one line per Figma axis (prop | hard-code | composition), and omitted props.",
+      "expected_output": "evals-out/props-api.md",
+      "expectations": [
+        "size is sm|default|lg; default is default (Figma reg→default)",
+        "on (true/false) maps to checked/defaultChecked/onCheckedChange on the Base UI Switch primitive — not a separate on prop",
+        "showLeftLabel / showRightLabel / leftEntry / rightEntry marked Label composition outside Switch — not show* or entry props on Switch",
+        "no public state=\"…\" enum; disabled via disabled; focused via CSS/focus-visible; no show* props on Switch"
+      ],
+      "setup": "strip",
+      "checks": [
+        {
+          "type": "fileExists",
+          "path": "evals-out/props-api.md"
+        }
+      ]
+    },
+    {
+      "id": "composition-switch",
+      "mode": "unit",
+      "focus": "composition",
+      "component": "switch",
+      "files": ["fixtures/switch"],
+      "prompt": "Propose composition for switch. Follow docs/components/composition.md. Write evals-out/composition.md.",
+      "expected_output": "evals-out/composition.md",
+      "expectations": [
+        "No showLeftLabel / showRightLabel / leftEntry / rightEntry React props proposed on Switch",
+        "Optional left/right labels are composed with Label (htmlFor + Switch id) in a flex wrapper — not Switch props",
+        "Label typography/gap follow size in the demo/layout layer, not show* booleans on Switch",
+        "Shared size axis lives on Switch root; checked/disabled stay on the primitive"
+      ],
+      "setup": "strip",
+      "checks": [
+        {
+          "type": "fileExists",
+          "path": "evals-out/composition.md"
+        }
+      ]
+    },
+    {
+      "id": "composition-button",
+      "mode": "unit",
+      "focus": "composition",
+      "component": "button",
+      "files": ["fixtures/button"],
+      "prompt": "Propose composition for button. Follow docs/components/composition.md. Write evals-out/composition.md.",
+      "expected_output": "evals-out/composition.md",
+      "expectations": [
+        "No showLabel / showLeadingIcon / showTrailingIcon / show*Menu / showTooltip* React props proposed",
+        "Label text and leading/trailing icons are children or IconShell-wrapped Icon — not show* booleans",
+        "Dropdown/split/menus compose sibling controls — not Button show* props",
+        "Shared variant/size axes live on Button root; loading/spinner is a child or CSS — not a loading prop"
+      ],
+      "setup": "strip",
+      "checks": [
+        {
+          "type": "fileExists",
+          "path": "evals-out/composition.md"
+        }
+      ]
+    },
+    {
+      "id": "composition-textarea",
+      "mode": "unit",
+      "focus": "composition",
+      "component": "textarea",
+      "files": ["fixtures/textarea"],
+      "prompt": "Propose composition for textarea. Follow docs/components/composition.md. Write evals-out/composition.md.",
+      "expected_output": "evals-out/composition.md",
+      "expectations": [
+        "No showLabel / showHelpText / showHintText / showFeedbackMessage React props proposed on Textarea",
+        "Label/help/error via Field composition — not show* props",
+        "Character counter via TextareaRoot + TextareaCounter — not a showCounter boolean",
+        "Shared size on TextareaRoot/Textarea; hint maps to placeholder"
+      ],
+      "setup": "strip",
+      "checks": [
+        {
+          "type": "fileExists",
+          "path": "evals-out/composition.md"
+        }
+      ]
+    },
+    {
+      "id": "composition-select",
+      "mode": "unit",
+      "focus": "composition",
+      "component": "select",
+      "files": ["fixtures/select"],
+      "prompt": "Propose composition for select. Follow docs/components/composition.md. Write evals-out/composition.md.",
+      "expected_output": "evals-out/composition.md",
+      "expectations": [
+        "No showLeadingIcon / showEntryText / showFeedback* React props proposed",
+        "SelectTrigger / SelectValue / SelectContent / SelectItem are composed parts; placeholder via SelectValue",
+        "Leading icon and feedback are children or parts — not show* booleans",
+        "Shared size on Select; trigger variant default|inline on SelectTrigger"
+      ],
+      "setup": "strip",
+      "checks": [
+        {
+          "type": "fileExists",
+          "path": "evals-out/composition.md"
+        }
+      ]
+    },
+    {
+      "id": "registry-switch",
+      "mode": "unit",
+      "focus": "registry",
+      "setup": "drop-registry",
+      "component": "switch",
+      "prompt": "Switch exists at src/components/ui/switch.tsx. Add only the missing registry.json entry. Follow docs/components/registry.md.",
+      "expected_output": "registry.json switch entry",
+      "expectations": ["dependencies lists @base-ui/react"],
+      "checks": [
+        {
+          "type": "registryEntry",
+          "name": "switch",
+          "requires": ["theme", "utils"]
+        },
+        {
+          "type": "grep",
+          "path": "registry.json",
+          "pattern": "\"switch-demo\"",
+          "match": false
+        }
+      ],
+      "gate": true
+    },
+    {
+      "id": "registry-button",
+      "mode": "unit",
+      "focus": "registry",
+      "setup": "drop-registry",
+      "component": "button",
+      "prompt": "Button exists at src/components/ui/button.tsx. Add only the missing registry.json entry. Follow docs/components/registry.md.",
+      "expected_output": "registry.json button entry",
+      "expectations": [
+        "dependencies lists npm packages imported by button.tsx (@base-ui/react; class-variance-authority when cva is used)"
+      ],
+      "checks": [
+        {
+          "type": "registryEntry",
+          "name": "button",
+          "requires": ["theme", "utils"]
+        },
+        {
+          "type": "grep",
+          "path": "registry.json",
+          "pattern": "\"button-demo\"",
+          "match": false
+        }
+      ],
+      "gate": true
+    },
+    {
+      "id": "registry-textarea",
+      "mode": "unit",
+      "focus": "registry",
+      "setup": "drop-registry",
+      "component": "textarea",
+      "prompt": "Textarea exists at src/components/ui/textarea.tsx. Add only the missing registry.json entry. Follow docs/components/registry.md.",
+      "expected_output": "registry.json textarea entry",
+      "expectations": [],
+      "checks": [
+        {
+          "type": "registryEntry",
+          "name": "textarea",
+          "requires": ["theme", "utils"]
+        },
+        {
+          "type": "grep",
+          "path": "registry.json",
+          "pattern": "\"textarea-demo\"",
+          "match": false
+        }
+      ],
+      "gate": true
+    },
+    {
+      "id": "registry-select",
+      "mode": "unit",
+      "focus": "registry",
+      "setup": "drop-registry",
+      "component": "select",
+      "prompt": "Select exists at src/components/ui/select.tsx. Add only the missing registry.json entry. Follow docs/components/registry.md.",
+      "expected_output": "registry.json select entry",
+      "expectations": [
+        "registryDependencies includes theme, utils, icon, icon-shell, and input under __REGISTRY_URL__/r/",
+        "dependencies lists @base-ui/react (and class-variance-authority when cva is used)"
+      ],
+      "checks": [
+        {
+          "type": "registryEntry",
+          "name": "select",
+          "requires": ["theme", "utils", "icon", "icon-shell"]
+        },
+        {
+          "type": "grep",
+          "path": "registry.json",
+          "pattern": "\"select-demo\"",
+          "match": false
+        }
+      ],
+      "gate": true
+    },
+    {
+      "id": "tests-switch",
+      "mode": "unit",
+      "focus": "tests",
+      "setup": "drop-tests",
+      "component": "switch",
+      "prompt": "Write src/tests/switch.test.tsx following docs/components/tests.md. Switch exists and demos are wired. Do not change the component or demos.",
+      "expected_output": "src/tests/switch.test.tsx",
+      "expectations": [
+        "Block 2: getByRole('switch'); data-slot; checked/unchecked; disabled; click toggles; disabled blocks onCheckedChange",
+        "PointerEvent polyfill included when globalThis.PointerEvent is undefined",
+        "No colour tokens, or cva()/iconVariants() assertions; no exhaustive keyboard matrix"
+      ],
+      "checks": [
+        {
+          "type": "fileExists",
+          "path": "src/tests/switch.test.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/switch.test.tsx",
+          "pattern": "afterEach\\(\\s*cleanup\\s*\\)"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/switch.test.tsx",
+          "pattern": "exampleComponentMaps"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/switch.test.tsx",
+          "pattern": "it\\.each"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/switch.test.tsx",
+          "pattern": "toHaveClass",
+          "match": false
+        }
+      ],
+      "gate": true
+    },
+    {
+      "id": "tests-textarea",
+      "mode": "unit",
+      "focus": "tests",
+      "setup": "drop-tests",
+      "component": "textarea",
+      "prompt": "Write src/tests/textarea.test.tsx following docs/components/tests.md. Textarea exists and demos are wired. Do not change the component or demos.",
+      "expected_output": "src/tests/textarea.test.tsx",
+      "expectations": [
+        "Block 2: data-slot and/or disabled/placeholder/typing behaviour as appropriate; size smoke optional",
+        "No colour tokens, or cva()/iconVariants() assertions; no exhaustive keyboard matrix"
+      ],
+      "checks": [
+        {
+          "type": "fileExists",
+          "path": "src/tests/textarea.test.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/textarea.test.tsx",
+          "pattern": "afterEach\\(\\s*cleanup\\s*\\)"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/textarea.test.tsx",
+          "pattern": "exampleComponentMaps"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/textarea.test.tsx",
+          "pattern": "it\\.each"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/textarea.test.tsx",
+          "pattern": "toHaveClass",
+          "match": false
+        }
+      ],
+      "gate": true
+    },
+    {
+      "id": "tests-select",
+      "mode": "unit",
+      "focus": "tests",
+      "setup": "drop-tests",
+      "component": "select",
+      "prompt": "Write src/tests/select.test.tsx following docs/components/tests.md. Select exists and demos are wired. Do not change the component or demos.",
+      "expected_output": "src/tests/select.test.tsx",
+      "expectations": [
+        "Block 2: data-slot and/or open/select interaction; size/variant smoke optional",
+        "No colour tokens, or cva()/iconVariants() assertions; no exhaustive keyboard matrix"
+      ],
+      "checks": [
+        {
+          "type": "fileExists",
+          "path": "src/tests/select.test.tsx"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/select.test.tsx",
+          "pattern": "afterEach\\(\\s*cleanup\\s*\\)"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/select.test.tsx",
+          "pattern": "exampleComponentMaps"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/select.test.tsx",
+          "pattern": "it\\.each"
+        },
+        {
+          "type": "grep",
+          "path": "src/tests/select.test.tsx",
+          "pattern": "toHaveClass",
+          "match": false
+        }
+      ],
+      "gate": true
+    }
+  ]
+}
