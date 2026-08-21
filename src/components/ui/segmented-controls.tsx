@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 
 type SegmentedControlsType = 'secondary-filled' | 'ghost';
 
-type SegmentedControlsSize = 'reg' | 'sm' | 'xsm' | 'xxs';
+type SegmentedControlsSize = 'default' | 'sm' | 'xs' | 'xxs';
 
 /**
  * State overlay gradients for the secondary-filled variant.
@@ -33,14 +33,14 @@ const segmentedControlsVariants = cva(
   {
     variants: {
       size: {
-        reg: 'gap-1',
+        default: 'gap-1',
         sm: 'gap-0.5',
-        xsm: 'gap-0.5',
+        xs: 'gap-0.5',
         xxs: 'gap-0.5',
       },
     },
     defaultVariants: {
-      size: 'reg',
+      size: 'default',
     },
   },
 );
@@ -76,15 +76,15 @@ const segmentedControlsItemVariants = cva(
         ],
       },
       size: {
-        reg: 'min-h-9 p-2 gap-2 cta-button-02',
+        default: 'min-h-9 p-2 gap-2 cta-button-02',
         sm: 'min-h-7 px-2 py-1 gap-1 cta-button-02',
-        xsm: 'h-6 px-1 py-0.5 gap-0.5 cta-button-03',
+        xs: 'h-6 px-1 py-0.5 gap-0.5 cta-button-03',
         xxs: 'h-5 px-1 py-0.5 gap-0.5 cta-button-03',
       },
     },
     defaultVariants: {
       type: 'secondary-filled',
-      size: 'reg',
+      size: 'default',
     },
   },
 );
@@ -97,7 +97,7 @@ interface SegmentedControlsContextValue {
 const SegmentedControlsContext =
   React.createContext<SegmentedControlsContextValue>({
     type: 'secondary-filled',
-    size: 'reg',
+    size: 'default',
   });
 
 // Single-select only: Radix's own `type`/`value`/`onValueChange` are pinned to the
@@ -116,7 +116,7 @@ interface SegmentedControlsProps extends Omit<
 function SegmentedControls({
   className,
   type = 'secondary-filled',
-  size = 'reg',
+  size = 'default',
   children,
   ...props
 }: SegmentedControlsProps) {

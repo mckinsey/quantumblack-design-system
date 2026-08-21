@@ -185,11 +185,11 @@ export function TableSizes() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead size="small">Invoice</TableHead>
-              <TableHead size="small">Users</TableHead>
-              <TableHead size="small">Status</TableHead>
-              <TableHead size="small">Amount</TableHead>
-              <TableHead size="small" className="text-right">
+              <TableHead size="sm">Invoice</TableHead>
+              <TableHead size="sm">Users</TableHead>
+              <TableHead size="sm">Status</TableHead>
+              <TableHead size="sm">Amount</TableHead>
+              <TableHead size="sm" className="text-right">
                 Actions
               </TableHead>
             </TableRow>
@@ -197,10 +197,10 @@ export function TableSizes() {
           <TableBody>
             {invoices.slice(0, 3).map(invoice => (
               <TableRow key={invoice.invoice}>
-                <TableCell size="small" className="font-medium">
+                <TableCell size="sm" className="font-medium">
                   {invoice.invoice}
                 </TableCell>
-                <TableCell size="small">
+                <TableCell size="sm">
                   <AvatarGroup>
                     {invoice.avatars.map(src => (
                       <Avatar key={src} size="xs">
@@ -210,9 +210,9 @@ export function TableSizes() {
                     ))}
                   </AvatarGroup>
                 </TableCell>
-                <TableCell size="small">{invoice.paymentStatus}</TableCell>
-                <TableCell size="small">{invoice.totalAmount}</TableCell>
-                <TableCell size="small" className="text-right">
+                <TableCell size="sm">{invoice.paymentStatus}</TableCell>
+                <TableCell size="sm">{invoice.totalAmount}</TableCell>
+                <TableCell size="sm" className="text-right">
                   <Button variant="outline" size="sm">
                     Label
                   </Button>
@@ -579,7 +579,7 @@ export const examples = [
   {
     name: 'TableSizes',
     title: 'Size Comparison',
-    description: 'Default and small table sizes side by side.',
+    description: 'Default and sm table sizes side by side.',
   },
   {
     name: 'DataTableDemo',

@@ -54,7 +54,7 @@ function TableRow({ className, selected = false, ...props }: TableRowProps) {
 }
 
 interface TableHeadProps extends React.ComponentProps<'th'> {
-  size?: 'small' | 'default';
+  size?: 'sm' | 'default';
   selected?: boolean;
 }
 
@@ -76,7 +76,7 @@ function TableHead({
         'label-regular-primary',
         'pt-3 pb-4',
         {
-          'px-3': size === 'small',
+          'px-3': size === 'sm',
           'px-4': size === 'default',
         },
         className,
@@ -87,7 +87,7 @@ function TableHead({
 }
 
 interface TableCellProps extends React.ComponentProps<'td'> {
-  size?: 'small' | 'default';
+  size?: 'sm' | 'default';
 }
 
 function TableCell({ className, size = 'default', ...props }: TableCellProps) {
@@ -103,7 +103,7 @@ function TableCell({ className, size = 'default', ...props }: TableCellProps) {
         'pt-2 pb-2',
         'h-[60px]',
         {
-          'px-3': size === 'small',
+          'px-3': size === 'sm',
           'px-4': size === 'default',
         },
         className,
