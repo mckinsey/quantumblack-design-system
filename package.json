@@ -38,7 +38,10 @@
     "skills:link": "symlink-dir .agents/skills/figma-parity .claude/skills/figma-parity && symlink-dir .agents/skills/figma-token-sync .claude/skills/figma-token-sync && symlink-dir .agents/skills/code-connect .claude/skills/code-connect && symlink-dir .agents/skills/create-component .claude/skills/create-component",
     "figma:config": "tsx scripts/generate-figma-config.ts",
     "figma:parse": "npm run figma:config && figma connect parse",
-    "figma:publish": "npm run figma:config && figma connect publish --skip-validation"
+    "figma:publish": "npm run figma:config && figma connect publish --skip-validation",
+    "eval": "tsx evals/run.ts",
+    "eval:unit": "tsx evals/run.ts --suite unit",
+    "eval:e2e": "tsx evals/run.ts --suite e2e"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
@@ -74,6 +77,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@cursor/sdk": "^1.0.28",
     "@babel/generator": "^7.29.7",
     "@babel/parser": "^7.25.3",
     "@babel/traverse": "^7.25.3",
