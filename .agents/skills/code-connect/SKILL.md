@@ -80,6 +80,10 @@ The component `Props` in `src/components/ui/<name>.tsx` is the source of truth. 
 
 If nothing represents it, omit it and tell the user. Keep `example` close to the demo (`src/app/demo/[name]/ui/<name>.tsx`).
 
+**Map Figma prop types faithfully.** Use `figma.enum` / `getEnum` where the Figma property is an enum — do not collapse it to a boolean. Figma `on` and `state` are commonly enums (`state=enabled|hover|disabled`, not `false`); `getBoolean` is only for a genuine Figma boolean.
+
+**Compose labels with the shipped `Label` API** — typography via `className`, gap by size. Do not invent a `size` prop on `Label` that the component does not have.
+
 ### 3b — Field footer: helper XOR feedback
 
 Figma inputs often expose `showHelpText` and `showFeedbackMessage` as separate booleans. React composes **one** footer message:
