@@ -286,6 +286,16 @@ import {
   examples as sonnerExamples,
 } from '@/app/demo/[name]/ui/sonner';
 import {
+  StatisticAlignments,
+  StatisticDemo,
+  StatisticMinimal,
+  StatisticSizes,
+  StatisticTrendSentiments,
+  StatisticUnitPositions,
+  statistic,
+  examples as statisticExamples,
+} from '@/app/demo/[name]/ui/statistic';
+import {
   SwitchChecked,
   SwitchDemo,
   SwitchDisabled,
@@ -635,6 +645,14 @@ export const exampleComponentMaps: Record<
     SonnerPersistent,
     SonnerMinWidth,
   },
+  statistic: {
+    StatisticDemo,
+    StatisticMinimal,
+    StatisticSizes,
+    StatisticUnitPositions,
+    StatisticAlignments,
+    StatisticTrendSentiments,
+  },
   switch: {
     SwitchDemo,
     SwitchSizes,
@@ -747,6 +765,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   sidebar: sidebarExamples,
   slider: sliderExamples,
   sonner: sonnerExamples,
+  statistic: statisticExamples,
   switch: switchExamples,
   table: tableExamples,
   tabs: tabsExamples,
@@ -907,6 +926,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...sonner,
     examples: sonnerExamples,
     exampleComponents: exampleComponentMaps.sonner,
+  },
+  statistic: {
+    ...statistic,
+    examples: statisticExamples,
+    exampleComponents: exampleComponentMaps.statistic,
   },
   switch: {
     ...switchComponent,

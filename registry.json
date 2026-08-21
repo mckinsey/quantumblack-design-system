@@ -736,6 +736,25 @@
       ]
     },
     {
+      "name": "statistic",
+      "type": "registry:ui",
+      "title": "Statistic",
+      "description": "Displays a KPI value with optional label, icon, unit, and trend row. Compose with StatisticLabel, StatisticValue, StatisticUnit, and StatisticTrend parts.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/statistic.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "switch",
       "type": "registry:ui",
       "title": "Switch",

@@ -283,6 +283,8 @@
   --color-fg-tertiary-inverse: var(--text-tertiary-inverse);
   --color-fg-disabled-inverse: var(--text-disabled-inverse);
   --color-fg-error: var(--text-error);
+  --color-fg-trend-positive: var(--text-trend-positive);
+  --color-fg-trend-negative: var(--text-trend-negative);
 
   /*** Stroke (Border) Tokens */
 
@@ -436,6 +438,8 @@
   --text-error: var(--color-red-700);
   --text-warning: var(--color-amber-700);
   --text-success: var(--color-green-700);
+  --text-trend-positive: #0f766e;
+  --text-trend-negative: #be123c;
 
   /** Light mode border tokens */
 
@@ -547,6 +551,8 @@
   --text-error: var(--color-red-400);
   --text-warning: var(--color-amber-400);
   --text-success: var(--color-green-400);
+  --text-trend-positive: #2dd4bf;
+  --text-trend-negative: #fb7185;
 
   /** Dark mode border tokens */
 
