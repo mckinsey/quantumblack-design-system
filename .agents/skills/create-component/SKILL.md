@@ -14,47 +14,37 @@ Owns **order**. Rules live in the linked docs — read them; do not invent paral
 ```mermaid
 flowchart TD
     A[Figma component-set URL] --> B[1 Spec · figma-parity]
-    B --> C[2 Prior art · shadcn + Base UI + sibling]
+    B --> C[2 Prior art · shadcn + primitive + sibling]
     C --> D[3 API · props + composition]
     D --> E[4 Build · sibling + TOKENS]
     E --> F[5 Demo]
     F --> G[6 Tests]
     G --> H[7 Code Connect]
     H --> I[8 Registry]
-    I --> J{lint · typecheck · test:unit · figma:parse}
+    I --> J{exit gate}
     J -- fail --> D
     J -- pass --> K[Ready for PR]
 ```
 
 ## Steps
 
-1. **Spec** — [figma-parity](../figma-parity/SKILL.md) steps 1–3 on the **component set**. Stop at alignment table + variant × state matrix. No code. No URL → ask. Offline evals may supply `evals-fixture/` instead of MCP.
-   - When calling Figma MCP `get_design_context`, pass **`disableCodeConnect: true`**. Spec must come from Figma component description / axes / structure — **not** Code Connect snippets (they can be stale). Write Code Connect later in step 7.
-2. **Prior art** — `npx shadcn@latest search|docs|view <name>`, Base UI at `https://base-ui.com/react/components/<name>`, closest `src/components/ui/` sibling. Prefer Base UI; Radix only if the sibling already uses it. Structure ← sibling, naming ← shadcn, behaviour ← primitive.
-3. **API** — [props.md](../../../docs/components/props.md) (**how to choose**) + [composition.md](../../../docs/components/composition.md) (**how to compose**). Show prop table and part list before building. Diverging from shadcn needs a one-line Figma reason.
-4. **Build** — `src/components/ui/<name>.tsx`. Tokens from [TOKENS.md](../../../docs/TOKENS.md). Match the **closest sibling's patterns** (cva vs `data-*` size attrs, `group/` naming, hit-area pseudos, export surface). Do not invent `render` / `nativeButton` wrappers unless the sibling or Base UI recipe in-repo does.
-5. **Demo** — [demos.md](../../../docs/components/demos.md). Keep one-line `/** … */` docstrings; Label/Field chrome stays outside the leaf.
-6. **Tests** — [tests.md](../../../docs/components/tests.md). Both blocks required: demo smoke (`exampleComponentMaps` + `Renderer`) and behaviour.
-7. **Code Connect** — [code-connect](../code-connect/SKILL.md). Map Figma prop **types** faithfully (`getEnum` vs `getBoolean`). Compose labels with existing `Label` APIs (typography `className`, not invented `size` props).
-8. **Registry** — [registry.md](../../../docs/components/registry.md) (**how to write**), then `npm run registry:build`. Only list npm deps you actually import.
+Each step's rules live in its linked doc. Read the doc; do not restate or extend it here.
 
-## Gotchas (from eval diffs)
-
-| Area                | Drift agents make                                                                                         | Fix                                                                                                                                  |
-| ------------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| Build / Switch-like | Rewrite sizes with new `cva`, wrong thumb travel, wrong fill/stroke tokens, extra `nativeButton`/`render` | Copy structure from closest sibling; map sizes with `data-size` + Tailwind like Toggle/Switch peers; tokens from TOKENS + Figma vars |
-| Build exports       | Export `*Variants` helpers that siblings do not                                                           | Export only what demos/consumers need (usually the root + documented parts)                                                          |
-| Composition         | `showLeftLabel` / entry props on the control                                                              | Labels via `Label` + `htmlFor`/`id` outside the leaf                                                                                 |
-| Demo                | Drop example docstrings; under-cover axes                                                                 | One `/** … */` per example; size + checked + disabled minimum for Switch                                                             |
-| Tests               | Skip disabled→no-callback; skip `PointerEvent` polyfill                                                   | Assert change callbacks do not fire when `disabled`; polyfill when Base UI needs it                                                  |
-| Code Connect        | Treat Figma `on`/`state` as booleans; invent `Label size=`                                                | Use `getEnum` where Figma is an enum; Label `className` typography + gap by size                                                     |
-| Registry            | Add `class-variance-authority` without importing `cva`                                                    | Dependencies = imports in the ui file only                                                                                           |
-| Eval integrity      | Restore from git / `public/r/*.json` / parent repo                                                        | Implement from `evals-fixture/` + docs + in-tree siblings only                                                                       |
+1. **Spec** — [figma-parity](../figma-parity/SKILL.md), phases _Structure & variants_ → _Tokens_ → _Layout, spacing, typography & states_, run on the **component set**. Stop at the alignment table + variant × state matrix; that skill's visual pass needs a rendered demo, so it happens after step 5. No code. No URL → ask. Offline evals supply `evals-fixture/` instead of MCP.
+2. **Prior art** — `npx shadcn@latest search|docs|view <name>`, the primitive's own docs (Base UI: `https://base-ui.com/react/components/<name>`), closest `src/components/ui/` sibling. Structure ← sibling, naming ← shadcn, behaviour ← primitive. Base UI vs Radix: [CLAUDE.md](../../../CLAUDE.md).
+3. **API** — [props.md](../../../docs/components/props.md) (**how to choose**) + [composition.md](../../../docs/components/composition.md) (**how to compose**). Show the prop table and part list before building. Diverging from shadcn needs a one-line Figma reason.
+4. **Build** — [build.md](../../../docs/components/build.md).
+5. **Demo** — [demos.md](../../../docs/components/demos.md).
+6. **Tests** — [tests.md](../../../docs/components/tests.md).
+7. **Code Connect** — [code-connect](../code-connect/SKILL.md).
+8. **Registry** — [registry.md](../../../docs/components/registry.md).
 
 ## Exit gate
 
+Canonical for all component work — [figma-parity](../figma-parity/SKILL.md) defers to this.
+
 ```bash
-npm run lint && npm run typecheck && npm run test:unit && npm run figma:parse
+npm run lint && npm run typecheck && npm run test:unit && npm run registry:build && npm run figma:parse
 ```
 
 Ask before continuing when: a Figma axis has no sensible React expression, sibling contradicts shadcn naming, or a new token is needed.
