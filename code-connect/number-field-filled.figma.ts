@@ -44,11 +44,13 @@ const hasFilledValue =
 const hasValue = isLive || hasFilledValue;
 
 const statusClassName =
-  state === 'warning'
-    ? 'border-stroke-status-warning'
-    : state === 'success'
-      ? 'border-stroke-status-success'
-      : '';
+  state === 'error'
+    ? 'border-stroke-status-error'
+    : state === 'warning'
+      ? 'border-stroke-status-warning'
+      : state === 'success'
+        ? 'border-stroke-status-success'
+        : '';
 
 const valueProp = isLive
   ? figma.code` defaultValue={${entryActive}}`
@@ -78,15 +80,15 @@ if (trailingShell && trailingShell.type === 'INSTANCE') {
   trailingCode = trailingShell.executeTemplate().example;
 }
 
-const decrementIcon =
+const decrementCode =
   leadingCode.length > 0
-    ? leadingCode
-    : figma.code`<IconShell size="sm" type="neutral" variant="secondary"><Icon icon="remove" /></IconShell>`;
+    ? figma.code`<NumberFieldDecrement>${leadingCode}</NumberFieldDecrement>`
+    : figma.code`<NumberFieldDecrement />`;
 
-const incrementIcon =
+const incrementCode =
   trailingCode.length > 0
-    ? trailingCode
-    : figma.code`<IconShell size="sm" type="neutral" variant="secondary"><Icon icon="add" /></IconShell>`;
+    ? figma.code`<NumberFieldIncrement>${trailingCode}</NumberFieldIncrement>`
+    : figma.code`<NumberFieldIncrement />`;
 
 const inputCode = showEntryInput
   ? figma.code`<NumberFieldInput className="text-center"${invalid ? ' aria-invalid' : ''}${placeholderProp} />`
@@ -97,9 +99,9 @@ const groupClassName = statusClassName ? ` className="${statusClassName}"` : '';
 const fieldBody = figma.code`
   <NumberField min={0} max={999}${disabled ? ' disabled' : ''}${valueProp}>
     <NumberFieldGroup size="${size}"${groupClassName}>
-      <NumberFieldDecrement>${decrementIcon}</NumberFieldDecrement>
+      ${decrementCode}
       ${inputCode}
-      <NumberFieldIncrement>${incrementIcon}</NumberFieldIncrement>
+      ${incrementCode}
     </NumberFieldGroup>
   </NumberField>
 `;
@@ -124,12 +126,18 @@ const fieldImports =
       ? ['import { FieldDescription, FieldSet } from "@/components/ui/field"']
       : [];
 
+const useCustomIcons = leadingCode.length > 0 || trailingCode.length > 0;
+
 export default {
   example,
   imports: [
     'import { NumberField, NumberFieldGroup, NumberFieldInput, NumberFieldDecrement, NumberFieldIncrement } from "@/components/ui/number-field"',
-    'import { IconShell } from "@/components/ui/icon-shell"',
-    'import { Icon } from "@/components/ui/icon"',
+    ...(useCustomIcons
+      ? [
+          'import { IconShell } from "@/components/ui/icon-shell"',
+          'import { Icon } from "@/components/ui/icon"',
+        ]
+      : []),
     ...fieldImports,
   ],
   id: 'number-field-stepper-filled',
