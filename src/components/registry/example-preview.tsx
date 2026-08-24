@@ -88,8 +88,8 @@ export function ExamplePreview({
         </div>
       )}
 
-      {/* Preview */}
       <div
+        data-demo-preview
         className={cn(
           'bg-surface-primary flex w-full items-center justify-center p-6',
           featured ? 'min-h-[200px]' : 'min-h-[120px]',

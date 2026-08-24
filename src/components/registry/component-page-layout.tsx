@@ -72,7 +72,9 @@ export function ComponentPageLayout({
         />
 
         {useLegacyPreview && legacyPreviewContent ? (
-          <div className="border-stroke-tertiary bg-surface-primary border p-6">
+          <div
+            data-demo-preview
+            className="border-stroke-tertiary bg-surface-primary border p-6">
             {legacyPreviewContent}
           </div>
         ) : primaryExample && primaryExampleCode ? (
@@ -109,7 +111,9 @@ export function ComponentPageLayout({
         </Section>
       ) : useLegacyPreview && legacyPreviewContent ? (
         <Section title="Preview">
-          <div className="border-stroke-tertiary bg-surface-primary overflow-auto border p-6">
+          <div
+            data-demo-preview
+            className="border-stroke-tertiary bg-surface-primary overflow-auto border p-6">
             {legacyPreviewContent}
           </div>
           {legacyDemoCode && (

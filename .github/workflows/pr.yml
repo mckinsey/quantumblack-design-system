@@ -117,7 +117,7 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: E2E smoke
+      - name: E2E and accessibility
         run: npm run test:e2e
 
   registry-install:
