@@ -54,6 +54,12 @@ describe(`${componentName} — structure & interaction`, () => {
     expect(
       document.querySelector('[data-slot="input-group-control"]'),
     ).toBeInTheDocument();
+    expect(
+      document.querySelector('[data-slot="number-field-decrement"]'),
+    ).toBeInTheDocument();
+    expect(
+      document.querySelector('[data-slot="number-field-increment"]'),
+    ).toBeInTheDocument();
   });
 
   it('renders disabled field without crashing', () => {
@@ -140,6 +146,26 @@ describe(`${componentName} — structure & interaction`, () => {
     );
   });
 
+  it('stepper click refocuses input', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <NumberField defaultValue={5} min={0} max={10}>
+        <NumberFieldGroup>
+          <NumberFieldDecrement />
+          <NumberFieldInput aria-label="refocus-target" />
+          <NumberFieldIncrement />
+        </NumberFieldGroup>
+      </NumberField>,
+    );
+
+    const input = screen.getByLabelText('refocus-target');
+
+    expect(input).not.toHaveFocus();
+    await user.click(screen.getByRole('button', { name: 'Increase' }));
+    expect(input).toHaveFocus();
+  });
+
   it('increments value when increment is clicked', async () => {
     const user = userEvent.setup();
 
@@ -178,6 +204,27 @@ describe(`${componentName} — structure & interaction`, () => {
     expect(input).toHaveValue('5');
     await user.click(screen.getByRole('button', { name: 'Decrease' }));
     expect(input).toHaveValue('4');
+  });
+
+  it('clamps typed value to max on blur', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <NumberField defaultValue={5} min={0} max={10}>
+        <NumberFieldGroup>
+          <NumberFieldDecrement />
+          <NumberFieldInput aria-label="clamp-target" />
+          <NumberFieldIncrement />
+        </NumberFieldGroup>
+      </NumberField>,
+    );
+
+    const input = screen.getByLabelText('clamp-target');
+
+    await user.clear(input);
+    await user.type(input, '99');
+    await user.tab();
+    expect(input).toHaveValue('10');
   });
 
   it('steps value with arrow keys', async () => {
