@@ -30,7 +30,6 @@ const controlSlot = 'input-group-control';
 const NumberFieldSizeContext = React.createContext<NumberFieldSize>('default');
 const NumberFieldVariantContext =
   React.createContext<NumberFieldVariant>('default');
-const NumberFieldDisabledContext = React.createContext<boolean>(false);
 
 const numberFieldControlDisabledTextStyles = {
   default:
@@ -138,14 +137,12 @@ function NumberField({
   ...props
 }: NumberFieldPrimitive.Root.Props) {
   return (
-    <NumberFieldDisabledContext.Provider value={disabled ?? false}>
-      <NumberFieldPrimitive.Root
-        data-slot="number-field"
-        className={cn('w-fit', className)}
-        disabled={disabled}
-        {...props}
-      />
-    </NumberFieldDisabledContext.Provider>
+    <NumberFieldPrimitive.Root
+      data-slot="number-field"
+      className={cn('w-fit', className)}
+      disabled={disabled}
+      {...props}
+    />
   );
 }
 
@@ -231,7 +228,7 @@ function NumberFieldStepperIcon({
   disabled?: boolean;
 }) {
   return (
-    <IconShell size="sm" type="neutral" variant="secondary" disabled={disabled}>
+    <IconShell size="sm" type="neutral" hoverable disabled={disabled}>
       <Icon icon={icon} />
     </IconShell>
   );
@@ -270,7 +267,7 @@ function NumberFieldDecrement({
           variant="ghost"
           size="icon-xxs"
           tabIndex={-1}
-          aria-label="Decrease"
+          aria-label={btnProps['aria-label'] ?? 'Decrease'}
           className={cn(
             stepperButtonStyles,
             stepperButtonClass[resolvedSize],
@@ -320,7 +317,7 @@ function NumberFieldIncrement({
           variant="ghost"
           size="icon-xxs"
           tabIndex={-1}
-          aria-label="Increase"
+          aria-label={btnProps['aria-label'] ?? 'Increase'}
           className={cn(
             stepperButtonStyles,
             stepperButtonClass[resolvedSize],
