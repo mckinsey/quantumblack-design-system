@@ -1,4 +1,5 @@
-import { Slot } from '@radix-ui/react-slot';
+import { mergeProps } from '@base-ui/react/merge-props';
+import { useRender } from '@base-ui/react/use-render';
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
@@ -105,11 +106,12 @@ const badgeVariants = cva(
 );
 
 export type BadgeProps = Omit<
-  React.ComponentProps<'span'>,
-  keyof VariantProps<typeof badgeVariants>
+  useRender.ComponentProps<'span'>,
+  keyof VariantProps<typeof badgeVariants> | 'render'
 > &
   Omit<VariantProps<typeof badgeVariants>, 'withIcon' | 'withDot'> & {
     asChild?: boolean;
+    render?: useRender.ComponentProps<'span'>['render'];
     withIcon?: boolean;
     withDot?: boolean;
   };
@@ -122,30 +124,40 @@ function Badge({
   withIcon = false,
   withDot = false,
   asChild = false,
+  render,
+  children,
   ...props
 }: BadgeProps) {
-  const Comp = asChild ? Slot : 'span';
-
   const resolvedSize = size ?? 'default';
+  const resolvedRender =
+    render ??
+    (asChild ? (React.Children.only(children) as React.ReactElement) : undefined);
 
-  return (
-    <Comp
-      data-slot="badge"
-      className={cn(
-        badgeVariants({
-          variant,
-          size: resolvedSize,
-          outline,
-          withIcon,
-          withDot,
-        }),
-        getBadgePadding(resolvedSize, withIcon, withDot),
-        withIcon && resolvedSize === 'sm' && !outline && 'gap-0.5',
-        className,
-      )}
-      {...props}
-    />
-  );
+  return useRender({
+    defaultTagName: 'span',
+    render: resolvedRender,
+    state: {
+      slot: 'badge',
+    },
+    props: mergeProps<'span'>(
+      {
+        className: cn(
+          badgeVariants({
+            variant,
+            size: resolvedSize,
+            outline,
+            withIcon,
+            withDot,
+          }),
+          getBadgePadding(resolvedSize, withIcon, withDot),
+          withIcon && resolvedSize === 'sm' && !outline && 'gap-0.5',
+          className,
+        ),
+        children: asChild ? undefined : children,
+      },
+      props,
+    ),
+  });
 }
 
 const numericBadgeVariants = cva(

@@ -92,7 +92,7 @@
       "type": "registry:ui",
       "title": "Badge",
       "description": "A badge component.",
-      "dependencies": ["@radix-ui/react-slot"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -434,7 +434,7 @@
       "type": "registry:ui",
       "title": "Icon Shell",
       "description": "Wraps Icon with QBDS size, tone, and opacity. variant for static icons; hoverable for icon-only buttons. disabled overrides styling.",
-      "dependencies": ["@radix-ui/react-slot"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
