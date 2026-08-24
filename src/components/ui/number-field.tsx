@@ -52,7 +52,7 @@ const stepperButtonStyles = [
   'group-has-[[data-slot=input-group-control]:disabled]/number-field:hover:bg-transparent',
   'group-has-[[data-slot=input-group-control]:disabled]/number-field:hover:text-fg-secondary',
   'group-has-[[data-slot=input-group-control]:disabled]/number-field:active:bg-transparent',
-  'disabled:hover:bg-transparent disabled:pointer-events-none',
+  'disabled:cursor-not-allowed disabled:hover:bg-transparent',
 ] as const;
 
 const numberFieldGroupVariants = cva(
