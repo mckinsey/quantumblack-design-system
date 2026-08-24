@@ -25,7 +25,6 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "test:e2e:a11y": "playwright test e2e/a11y-contrast.spec.ts",
-    "test:e2e:a11y:baseline": "UPDATE_A11Y_BASELINE=1 playwright test e2e/a11y-contrast.spec.ts",
     "test:registry-install": "tsx scripts/registry-install-smoke.ts",
     "test": "concurrently --kill-others-on-fail \"npm run test:unit\" \"npm run typecheck\" \"npm run build\" \"npm run lint\"",
     "typecheck": "tsc --noEmit",

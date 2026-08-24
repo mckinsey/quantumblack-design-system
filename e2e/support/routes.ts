@@ -63,7 +63,3 @@ export function getSiteRoutes(): SiteRoute[] {
 
   return [...docs, ...registry];
 }
-
-export function baselineKey(label: string, theme: string) {
-  return `${label}|${theme}`;
-}
