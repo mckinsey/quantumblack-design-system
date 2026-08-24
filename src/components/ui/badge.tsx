@@ -1,4 +1,5 @@
-import { Slot } from '@radix-ui/react-slot';
+import { mergeProps } from '@base-ui/react/merge-props';
+import { useRender } from '@base-ui/react/use-render';
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
@@ -104,12 +105,8 @@ const badgeVariants = cva(
   },
 );
 
-export type BadgeProps = Omit<
-  React.ComponentProps<'span'>,
-  keyof VariantProps<typeof badgeVariants>
-> &
+export type BadgeProps = useRender.ComponentProps<'span'> &
   Omit<VariantProps<typeof badgeVariants>, 'withIcon' | 'withDot'> & {
-    asChild?: boolean;
     withIcon?: boolean;
     withDot?: boolean;
   };
@@ -121,31 +118,38 @@ function Badge({
   outline,
   withIcon = false,
   withDot = false,
-  asChild = false,
+  render,
   ...props
 }: BadgeProps) {
-  const Comp = asChild ? Slot : 'span';
-
   const resolvedSize = size ?? 'default';
 
-  return (
-    <Comp
-      data-slot="badge"
-      className={cn(
-        badgeVariants({
-          variant,
-          size: resolvedSize,
-          outline,
-          withIcon,
-          withDot,
-        }),
-        getBadgePadding(resolvedSize, withIcon, withDot),
-        withIcon && resolvedSize === 'sm' && !outline && 'gap-0.5',
-        className,
-      )}
-      {...props}
-    />
-  );
+  return useRender({
+    defaultTagName: 'span',
+    props: mergeProps<'span'>(
+      {
+        className: cn(
+          badgeVariants({
+            variant,
+            size: resolvedSize,
+            outline,
+            withIcon,
+            withDot,
+          }),
+          getBadgePadding(resolvedSize, withIcon, withDot),
+          withIcon && resolvedSize === 'sm' && !outline && 'gap-0.5',
+          className,
+        ),
+      } as React.ComponentProps<'span'>,
+      props,
+    ),
+    render,
+    state: {
+      slot: 'badge',
+      variant,
+      size: resolvedSize,
+      outline: outline ? true : undefined,
+    },
+  });
 }
 
 const numericBadgeVariants = cva(
