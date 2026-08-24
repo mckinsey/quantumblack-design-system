@@ -12,20 +12,55 @@ The docs are the artifact under optimization; the shipped components are the fix
 npm run eval / eval:unit / eval:e2e
         │
         ▼
-   evals/run.ts          ← Cursor @cursor/sdk Agent.prompt
+   evals/run.ts              ← CLI entry (~40 lines)
         │
-        ├─ git worktree   → /tmp/qbds-evals-runs/<run-id>  (outside repo)
-        ├─ overlay docs   → docs/components/*.md + skills
-        ├─ seed .env      → QBDS_REGISTRY_URL (registry:build needs it)
-        ├─ seed fixture   → evals-fixture/  (from evals/fixtures/<comp>/)
-        ├─ strip          → whatever encodes the answer for this case
-        ├─ orphan commit  → baseline so git checkout cannot restore gold
-        ├─ agent run      → short prompt; rules live in docs/skills
-        ├─ tier 1         → deterministic checks[] + the exit gate
-        └─ tier 2         → Agent.prompt judge over expectations[]
+        ▼
+   evals/lib/runner.ts        ← orchestration loop
+        │
+        ├─ evals/lib/worktree.ts   git worktree → /tmp/qbds-evals-runs/<run-id>
+        ├─ evals/qbds.ts           overlay, strip, seed, QBDS checks
+        ├─ evals/lib/agent.ts      Cursor @cursor/sdk Agent.prompt
+        ├─ evals/lib/checks.ts     tier 1 — fileExists, grep, …
+        ├─ evals/lib/gate.ts       tier 1b — exit gate shell command
+        └─ evals/lib/judge.ts      tier 2 — Agent.prompt judge
 ```
 
-**Suite:** `.agents/skills/create-component/evals/evals.json` — flat Agent Skills shape `{ skill_name, preamble, preamble_e2e, evals: [...] }`, 25 cases over 5 components (tag, button, textarea, select, switch).
+**Suite data:** `.agents/skills/create-component/evals/evals.json` — flat Agent Skills shape `{ skill_name, preamble, preamble_e2e, evals: [...] }`, 25 cases over 5 components (tag, button, textarea, select, switch).
+
+## Module layout
+
+```text
+evals/
+  run.ts              CLI — parseArgs, wire qbdsPlugin, call runner
+  qbds.ts             create-component plugin (strip, overlay, registryEntry, stepsLog)
+  README.md
+  results/            gitignored run output
+  lib/
+    types.ts          EvalCase, Check, Plugin interface
+    worktree.ts       create/remove worktree, orphan baseline commit
+    checks.ts         built-in checks + plugin.checks dispatch
+    gate.ts           shell gate runner
+    agent.ts          Cursor SDK agent + heartbeat
+    judge.ts          LLM judge prompt + JSON parse
+    runner.ts         load suite, filter, loop, results JSON
+```
+
+Generic code lives in `evals/lib/` — no QBDS paths or component names. Domain hooks register through the `Plugin` type in `evals/qbds.ts`:
+
+| Hook                             | Purpose                                          |
+| -------------------------------- | ------------------------------------------------ |
+| `overlay(dir, root)`             | Copy docs + skills into the worktree             |
+| `seed(dir, evalCase, evalsRoot)` | `.env`, fixture → `evals-fixture/`               |
+| `applySetup(dir, evalCase)`      | strip / drop-registry / drop-tests               |
+| `checks`                         | Custom check types (`registryEntry`, `stepsLog`) |
+| `gate`                           | Default exit-gate shell command                  |
+
+## Add a second skill suite
+
+1. Add `.agents/skills/<skill>/evals/evals.json` + fixtures (same shape as create-component).
+2. Create `evals/<skill>.ts` exporting a `Plugin` — copy `qbds.ts` as a template, edit paths and setup hooks.
+3. Point `evals/run.ts` at the new plugin and suite paths (or add a `--skill` flag when a second suite exists).
+4. Reuse `evals/lib/*` unchanged.
 
 ## Strip rule
 
