@@ -7,7 +7,6 @@ export async function withHeartbeat<T>(
   task: () => Promise<T>,
 ): Promise<T> {
   const start = Date.now();
-  console.log(`  ${label}…`);
 
   const tick = setInterval(() => {
     const sec = Math.round((Date.now() - start) / 1000);

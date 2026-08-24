@@ -5,6 +5,7 @@ import { CursorAgentError, runAgent } from './agent.js';
 import { runChecks } from './checks.js';
 import { runGate } from './gate.js';
 import { grade } from './judge.js';
+import { resetSteps, step, stepDetail } from './log.js';
 import type {
   CaseLog,
   CheckResult,
@@ -63,6 +64,10 @@ export async function run(config: RunConfig): Promise<number> {
     return 1;
   }
 
+  console.log(
+    `Running ${evals.length} case${evals.length === 1 ? '' : 's'} · model ${opts.model}${opts.dryRun ? ' · dry-run' : ''}`,
+  );
+
   let failed = false;
   const started = new Date().toISOString().replace(/[:.]/g, '-');
   const log: CaseLog[] = [];
@@ -82,56 +87,99 @@ export async function run(config: RunConfig): Promise<number> {
   };
 
   for (const evalCase of evals) {
-    const label = evalCase.focus ?? evalCase.component;
     const runId = `${file.skill_name}-${evalCase.id}`;
-    const dir = worktree(root, runsDir, runId);
 
+    resetSteps();
+
+    console.log(
+      `\n▶ ${runId} (${evalCase.mode}${evalCase.focus ? ` · ${evalCase.focus}` : ''} · ${evalCase.component})`,
+    );
+
+    step('worktree');
+    const dir = worktree(root, runsDir, runId);
+    stepDetail(dir);
+
+    step('overlay');
     plugin.overlay?.(dir, root);
+
+    step('seed');
+    if (evalCase.fixture) {
+      stepDetail(`fixture → evals-fixture/ (${evalCase.fixture})`);
+    } else {
+      stepDetail('env only');
+    }
     plugin.seed?.(dir, evalCase, evalsRoot);
-    plugin.applySetup?.(dir, evalCase);
 
     if (evalCase.mode === 'e2e') {
-      console.log(`▶ ${runId} (strip ${evalCase.component})`);
-      commitBaseline(dir, `eval strip ${evalCase.component}`);
+      step(`setup · strip ${evalCase.component}`);
+    } else if (evalCase.setup) {
+      step(`setup · ${evalCase.setup} ${evalCase.component}`);
     } else {
-      console.log(`▶ ${runId} (unit ${label})`);
-      commitBaseline(dir, `eval setup ${evalCase.id}`);
+      step('setup · none');
     }
+    plugin.applySetup?.(dir, evalCase);
+
+    step('baseline commit');
+    commitBaseline(
+      dir,
+      evalCase.mode === 'e2e'
+        ? `eval strip ${evalCase.component}`
+        : `eval setup ${evalCase.id}`,
+    );
 
     if (opts.dryRun) {
+      step(`checks · ${evalCase.checks?.length ?? 0} deterministic`);
+
       for (const check of runChecks(dir, evalCase, plugin)) {
         console.log(`  ${check.ok ? '✓' : '·'} ${check.id}: ${check.detail}`);
       }
 
       if (evalCase.gate && plugin.gate) {
+        step('gate');
+        stepDetail(plugin.gate);
         const g = runGate(dir, plugin.gate);
 
         console.log(`  ${g.ok ? '✓' : '·'} gate: ${g.detail.split('\n')[0]}`);
       }
 
       if (opts.keep) {
-        console.log(`  kept → ${dir}`);
+        step('keep worktree');
+        stepDetail(dir);
       } else {
+        step('cleanup worktree');
         removeWorktree(root, dir);
       }
 
       continue;
     }
 
+    step(`agent · ${opts.model}`);
+    stepDetail(evalCase.prompt.split('\n').find(Boolean) ?? evalCase.prompt);
+
     const agent = await runAgent(evalCase.prompt, dir, opts.model);
 
     if (!agent.ok) {
       record(evalCase, [{ id: 'agent', ok: false, detail: agent.detail }]);
 
-      if (!opts.keep) removeWorktree(root, dir);
+      if (!opts.keep) {
+        step('cleanup worktree');
+        removeWorktree(root, dir);
+      }
 
       continue;
     }
 
+    step(`checks · ${evalCase.checks?.length ?? 0} deterministic`);
     const checks: CheckResult[] = runChecks(dir, evalCase, plugin);
 
     if (evalCase.gate && plugin.gate) {
+      step('gate');
+      stepDetail(plugin.gate);
       checks.push(runGate(dir, plugin.gate));
+    }
+
+    if (evalCase.expectations.length) {
+      step(`judge · ${evalCase.expectations.length} expectations`);
     }
 
     try {
@@ -157,7 +205,13 @@ export async function run(config: RunConfig): Promise<number> {
 
     record(evalCase, checks);
 
-    if (!opts.keep) removeWorktree(root, dir);
+    if (opts.keep) {
+      step('keep worktree');
+      stepDetail(dir);
+    } else {
+      step('cleanup worktree');
+      removeWorktree(root, dir);
+    }
   }
 
   if (opts.dryRun) {
