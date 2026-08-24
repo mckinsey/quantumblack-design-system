@@ -220,6 +220,7 @@ import {
   examples as labelExamples,
 } from '@/app/demo/[name]/ui/label';
 import {
+  NumberFieldBounds,
   NumberFieldDemo,
   NumberFieldSizes,
   NumberFieldStates,
@@ -579,6 +580,7 @@ export const exampleComponentMaps: Record<
   },
   'number-field': {
     NumberFieldDemo,
+    NumberFieldBounds,
     NumberFieldVariants,
     NumberFieldSizes,
     NumberFieldStates,

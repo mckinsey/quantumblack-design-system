@@ -294,6 +294,43 @@ export function NumberFieldStates() {
   );
 }
 
+export function NumberFieldBounds() {
+  const { gap } = numberFieldFieldConfig.default;
+
+  const bounds = [
+    {
+      label: 'At minimum',
+      id: 'number-field-at-min',
+      defaultValue: 0,
+      helper: 'Decrement disabled at 0',
+    },
+    {
+      label: 'At maximum',
+      id: 'number-field-at-max',
+      defaultValue: 10,
+      helper: 'Increment disabled at 10',
+    },
+  ] as const;
+
+  return (
+    <div className="flex flex-wrap items-start justify-center gap-6">
+      {bounds.map(({ label, id, defaultValue, helper }) => (
+        <FieldSet key={id} className={`${FIELD_WIDTH} ${gap}`}>
+          <FieldLabel htmlFor={id}>{label}</FieldLabel>
+          <NumberField id={id} defaultValue={defaultValue} min={0} max={10}>
+            <NumberFieldGroup>
+              <NumberFieldDecrement />
+              <NumberFieldInput placeholder="0" />
+              <NumberFieldIncrement />
+            </NumberFieldGroup>
+          </NumberField>
+          <FieldDescription>{helper}</FieldDescription>
+        </FieldSet>
+      ))}
+    </div>
+  );
+}
+
 export const examples: DemoExample[] = [
   {
     name: 'NumberFieldDemo',
@@ -311,6 +348,12 @@ export const examples: DemoExample[] = [
     description: 'Small, default, and large in both variants.',
   },
   {
+    name: 'NumberFieldBounds',
+    title: 'Min / Max',
+    description:
+      'Stepper buttons disable at bounds. Decrement at min, increment at max.',
+  },
+  {
     name: 'NumberFieldStates',
     title: 'Validation',
     description:
@@ -322,5 +365,6 @@ export const numberField = createLegacyDemo('number-field', examples, {
   NumberFieldDemo: <NumberFieldDemo />,
   NumberFieldVariants: <NumberFieldVariants />,
   NumberFieldSizes: <NumberFieldSizes />,
+  NumberFieldBounds: <NumberFieldBounds />,
   NumberFieldStates: <NumberFieldStates />,
 });

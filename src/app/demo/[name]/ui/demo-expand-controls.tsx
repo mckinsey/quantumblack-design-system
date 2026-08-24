@@ -130,7 +130,8 @@ export function DemoExpandSlot({
     <div
       className="grid min-w-0 overflow-hidden"
       style={expandStyle}
-      aria-hidden={!open}>
+      aria-hidden={!open}
+      inert={!open || undefined}>
       <div className={cn('min-w-0', !open && 'pointer-events-none')}>
         <div className={fadeClass} style={fadeStyle}>
           {children}
