@@ -170,7 +170,13 @@ function NumberFieldGroup({
           data-slot="number-field-group"
           data-variant={resolvedVariant}
           data-size={resolvedSize}
-          className={cn(numberFieldGroupVariants({ variant, size }), className)}
+          className={cn(
+            numberFieldGroupVariants({
+              variant: resolvedVariant,
+              size: resolvedSize,
+            }),
+            className,
+          )}
           {...props}
         />
       </NumberFieldVariantContext.Provider>
@@ -217,18 +223,16 @@ function NumberFieldInput({
   );
 }
 
-function NumberFieldStepperIcon({ disabled }: { disabled?: boolean }) {
+function NumberFieldStepperIcon({
+  icon,
+  disabled,
+}: {
+  icon: 'remove' | 'add';
+  disabled?: boolean;
+}) {
   return (
     <IconShell size="sm" type="neutral" variant="secondary" disabled={disabled}>
-      <Icon icon="remove" />
-    </IconShell>
-  );
-}
-
-function NumberFieldStepperIconIncrement({ disabled }: { disabled?: boolean }) {
-  return (
-    <IconShell size="sm" type="neutral" variant="secondary" disabled={disabled}>
-      <Icon icon="add" />
+      <Icon icon={icon} />
     </IconShell>
   );
 }
@@ -246,7 +250,6 @@ function NumberFieldDecrement({
   ...props
 }: Readonly<NumberFieldDecrementProps>) {
   const groupSize = React.useContext(NumberFieldSizeContext);
-  const disabled = React.useContext(NumberFieldDisabledContext);
   const resolvedSize = size ?? groupSize;
 
   return (
@@ -261,8 +264,9 @@ function NumberFieldDecrement({
           );
         }
       }}
-      render={
+      render={(btnProps, state) => (
         <Button
+          {...btnProps}
           variant="ghost"
           size="icon-xxs"
           tabIndex={-1}
@@ -271,12 +275,15 @@ function NumberFieldDecrement({
             stepperButtonStyles,
             stepperButtonClass[resolvedSize],
             className,
+            btnProps.className,
+          )}>
+          {children ?? (
+            <NumberFieldStepperIcon icon="remove" disabled={state.disabled} />
           )}
-        />
-      }
-      {...props}>
-      {children ?? <NumberFieldStepperIcon disabled={disabled} />}
-    </NumberFieldPrimitive.Decrement>
+        </Button>
+      )}
+      {...props}
+    />
   );
 }
 
@@ -293,7 +300,6 @@ function NumberFieldIncrement({
   ...props
 }: Readonly<NumberFieldIncrementProps>) {
   const groupSize = React.useContext(NumberFieldSizeContext);
-  const disabled = React.useContext(NumberFieldDisabledContext);
   const resolvedSize = size ?? groupSize;
 
   return (
@@ -308,8 +314,9 @@ function NumberFieldIncrement({
           );
         }
       }}
-      render={
+      render={(btnProps, state) => (
         <Button
+          {...btnProps}
           variant="ghost"
           size="icon-xxs"
           tabIndex={-1}
@@ -318,12 +325,15 @@ function NumberFieldIncrement({
             stepperButtonStyles,
             stepperButtonClass[resolvedSize],
             className,
+            btnProps.className,
+          )}>
+          {children ?? (
+            <NumberFieldStepperIcon icon="add" disabled={state.disabled} />
           )}
-        />
-      }
-      {...props}>
-      {children ?? <NumberFieldStepperIconIncrement disabled={disabled} />}
-    </NumberFieldPrimitive.Increment>
+        </Button>
+      )}
+      {...props}
+    />
   );
 }
 
