@@ -613,7 +613,7 @@
       "type": "registry:ui",
       "title": "Separator",
       "description": "A visual divider that separates content. Supports horizontal and vertical orientation.",
-      "dependencies": ["@radix-ui/react-separator"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
