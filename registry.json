@@ -484,6 +484,27 @@
       ]
     },
     {
+      "name": "number-field",
+      "type": "registry:ui",
+      "title": "Number Field",
+      "description": "Numeric stepper input with increment and decrement controls. Supports filled and inline variants.",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/input.json",
+        "__REGISTRY_URL__/r/button.json",
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/number-field.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "combobox",
       "type": "registry:ui",
       "title": "Combobox",

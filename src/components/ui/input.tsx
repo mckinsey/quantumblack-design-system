@@ -88,6 +88,7 @@ export const inputGroupInlineFocusBorderWidth = {
 } as const;
 
 export const inputGroupDefaultFocusStyles = [
+  'has-[[data-slot=input-group-control]:focus]:overlay-active-inverse',
   'has-[[data-slot=input-group-control]:focus-visible]:overlay-active-inverse',
   'has-[[data-slot=input-group-control]:focus-visible]:ring-stroke-status-focus',
   'has-[[data-slot=input-group-control]:focus-visible]:shadow-elevation-0',
@@ -113,6 +114,7 @@ export const inputGroupInlineLgFocusUnderline =
 export const inputGroupDefaultDisabledStyles = [
   'has-[[data-slot=input-group-control]:disabled]:cursor-not-allowed',
   'has-[[data-slot=input-group-control]:disabled]:overlay-disabled',
+  'has-[[data-slot=input-group-control]:disabled]:hover:overlay-disabled',
 ] as const;
 
 const inputVariants = cva(
