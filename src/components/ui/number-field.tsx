@@ -66,7 +66,6 @@ const numberFieldGroupVariants = cva(
           inputVariantStyles.default.hover,
           ...inputGroupDefaultFocusStyles,
           ...inputGroupDefaultErrorStyles,
-          'data-[invalid]:border-stroke-status-error',
           ...inputGroupDefaultDisabledStyles,
         ],
         inline: [
@@ -79,7 +78,6 @@ const numberFieldGroupVariants = cva(
           'has-[[data-slot=input-group-control]:disabled]:hover:border-b-stroke-tertiary',
           ...inputGroupInlineFocusStyles,
           ...inputGroupInlineErrorStyles,
-          'data-[invalid]:border-b-stroke-status-error',
         ],
       },
       size: {
