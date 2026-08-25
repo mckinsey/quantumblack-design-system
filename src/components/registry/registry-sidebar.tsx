@@ -149,7 +149,7 @@ export function RegistrySidebar() {
                             <Icon
                               icon="keyboard_arrow_down"
                               size="sm"
-                              className="flex-shrink-0 transition-transform duration-200 group-data-[state=open]/subgroup:rotate-180"
+                              className="flex-shrink-0 transition-transform duration-200 group-data-open/subgroup:rotate-180"
                             />
                           </SidebarMenuButton>
                         </CollapsibleTrigger>
