@@ -1,31 +1,34 @@
 'use client';
 
-import * as CollapsiblePrimitive from '@radix-ui/react-collapsible';
-import type * as React from 'react';
+import { Collapsible as CollapsiblePrimitive } from '@base-ui/react/collapsible';
+import * as React from 'react';
 
-function Collapsible({
-  ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.Root>) {
+function Collapsible({ ...props }: CollapsiblePrimitive.Root.Props) {
   return <CollapsiblePrimitive.Root data-slot="collapsible" {...props} />;
 }
 
 function CollapsibleTrigger({
+  asChild = false,
+  children,
   ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleTrigger>) {
+}: CollapsiblePrimitive.Trigger.Props & { asChild?: boolean }) {
+  const child = asChild && React.isValidElement(children) ? children : null;
+
   return (
-    <CollapsiblePrimitive.CollapsibleTrigger
+    <CollapsiblePrimitive.Trigger
       data-slot="collapsible-trigger"
       suppressHydrationWarning
-      {...props}
-    />
+      nativeButton={!child}
+      render={child ?? undefined}
+      {...props}>
+      {child ? null : children}
+    </CollapsiblePrimitive.Trigger>
   );
 }
 
-function CollapsibleContent({
-  ...props
-}: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleContent>) {
+function CollapsibleContent({ ...props }: CollapsiblePrimitive.Panel.Props) {
   return (
-    <CollapsiblePrimitive.CollapsibleContent
+    <CollapsiblePrimitive.Panel
       data-slot="collapsible-content"
       suppressHydrationWarning
       {...props}
