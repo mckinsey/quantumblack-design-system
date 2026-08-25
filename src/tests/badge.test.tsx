@@ -56,4 +56,20 @@ describe(`${componentName} — structure`, () => {
     render(<Badge>Pill</Badge>);
     expect(screen.getByText('Pill')).toHaveClass('rounded-full');
   });
+
+  it('renders with render prop composition', () => {
+    render(
+      <Badge
+        className="custom-badge"
+        render={<a href="#" data-testid="badge-link" />}>
+        Link
+      </Badge>,
+    );
+
+    const link = screen.getByTestId('badge-link');
+    expect(link).toHaveTextContent('Link');
+    expect(link).toHaveAttribute('data-slot', 'badge');
+    expect(link).toHaveClass('custom-badge');
+    expect(link).toHaveClass('rounded-full');
+  });
 });
