@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { TimeInput } from '@/components/ui/time-input';
 import {
   TimePickerItem,
@@ -87,6 +87,7 @@ export function TimePickerColumn({
             </TimePickerItem>
           ))}
         </TimePickerList>
+        <ScrollBar />
       </ScrollArea>
     </div>
   );
