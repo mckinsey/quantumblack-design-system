@@ -616,7 +616,7 @@
       "name": "scroll-area",
       "type": "registry:ui",
       "title": "Scroll Area",
-      "description": "A scrollable viewport with custom scrollbars, built on Radix Scroll Area primitives.",
+      "description": "A scrollable viewport with custom scrollbars, built on Base UI scroll-area primitives.",
       "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
