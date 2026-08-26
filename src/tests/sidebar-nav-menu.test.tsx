@@ -183,7 +183,9 @@ describe('SidebarNavMenu — collapsible group', () => {
 
     await user.click(trigger);
     expect(trigger).toHaveAttribute('aria-expanded', 'true');
-    expect(trigger).toHaveAttribute('data-panel-open', '');
+    expect(trigger.closest('[data-slot="collapsible"]')).toHaveAttribute(
+      'data-open',
+    );
     expect(screen.getByText('Sub-item')).toBeInTheDocument();
   });
 });
