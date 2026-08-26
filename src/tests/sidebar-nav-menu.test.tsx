@@ -162,9 +162,9 @@ describe('SidebarNavMenu — collapsible group', () => {
         <SidebarNavMenu mode="inline">
           <Collapsible className="group/collapsible">
             <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                <SidebarNavMenuButton>Group</SidebarNavMenuButton>
-              </CollapsibleTrigger>
+              <CollapsibleTrigger
+                render={<SidebarNavMenuButton>Group</SidebarNavMenuButton>}
+              />
               <CollapsibleContent>
                 <SidebarNavMenuSub>
                   <SidebarMenuSubItem>
@@ -183,7 +183,9 @@ describe('SidebarNavMenu — collapsible group', () => {
 
     await user.click(trigger);
     expect(trigger).toHaveAttribute('aria-expanded', 'true');
-    expect(trigger).toHaveAttribute('data-state', 'open');
+    expect(trigger.closest('[data-slot="collapsible"]')).toHaveAttribute(
+      'data-open',
+    );
     expect(screen.getByText('Sub-item')).toBeInTheDocument();
   });
 });
