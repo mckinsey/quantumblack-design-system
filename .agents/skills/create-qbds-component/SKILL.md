@@ -5,7 +5,7 @@ description: End-to-end workflow for adding a new QBDS component from a Figma sp
 
 # Create a QBDS component
 
-Self-contained — everything you need is below. [figma-to-react-code](../figma-to-react-code/SKILL.md) is the portable, host-agnostic copy of this workflow: reference only, not a dependency.
+The eight-step workflow lives in [figma-to-react-code](../figma-to-react-code/SKILL.md) — single home for the generic rules. This file binds it to QBDS: paths, tokens, primitive, guardrails, exit gate.
 
 For updates to an existing component, use [figma-parity](../figma-parity/SKILL.md) instead.
 
@@ -26,6 +26,7 @@ For updates to an existing component, use [figma-parity](../figma-parity/SKILL.m
 Copy this into your reply and tick items off as you go:
 
 ```
+- [ ] Read figma-to-react-code/SKILL.md — generic rules for steps 1–8
 - [ ] 0 Confirmed src/components/ui/<name>.tsx does not exist
 - [ ] 1 Spec — alignment table + variant × state matrix   (NO CODE YET)
 - [ ] 2 Reference implementations — shadcn, Base UI, sibling
@@ -33,8 +34,8 @@ Copy this into your reply and tick items off as you go:
 - [ ] 4 Build
 - [ ] 5 Demo
 - [ ] 6 Tests
-- [ ] 7 Code Connect
-- [ ] 8 Registry
+- [ ] 7 Design-tool bridge — Code Connect
+- [ ] 8 Publish — registry
 - [ ] Exit gate passes clean
 ```
 
@@ -47,27 +48,20 @@ Copy this into your reply and tick items off as you go:
 
 **0. Exists?** — `ls src/components/ui/<name>.tsx`. If it exists, **stop** and use [figma-parity](../figma-parity/SKILL.md) instead; this skill is for new components only.
 
-1. **Spec** — [figma-parity](../figma-parity/SKILL.md): _Structure & variants_ → _Tokens_ → _Layout, spacing, typography & states_ on the component set. Stop at alignment table + variant × state matrix; visual pass after step 5. No code.
-2. **Reference implementations** — shadcn (`npx shadcn@latest search <name>`, then `docs` / `view` on the match), Base UI docs (`https://base-ui.com/react/components/<name>`), closest sibling in `src/components/ui/`. Structure from sibling, naming from shadcn, behaviour from primitive.
-3. **API** — [props.md](../../../docs/components/props.md) + [composition.md](../../../docs/components/composition.md). Show prop table and part list before building. Diverging from shadcn needs a one-line Figma reason.
-   - Prefer React/shadcn prop names over Figma property names.
-   - `show*` booleans and slot instances → children or named parts, never new props.
-   - No public `state="…"` enum — interaction states belong in CSS and `data-*` attributes.
-   - Figma style axis → `variant`; size axis → `size`.
-   - Shared axes (`size`, `variant`, …) → root props or context; parts read them.
-   - Dismiss and actions → a part plus callback, not a show boolean.
-   - Group frames in Figma → demo composition only, never a leaf prop.
-4. **Build** — [build.md](../../../docs/components/build.md).
-5. **Demo** — [demos.md](../../../docs/components/demos.md).
-   - `examples[0]` = simplest usable form; one example per axis.
-   - Cover every row in the alignment table.
-6. **Tests** — [tests.md](../../../docs/components/tests.md).
-   - Demo smoke: render every demo example without crashing.
-   - Behaviour: click, disabled, remove, `data-*` attributes as needed.
-   - Assert roles, aria, callbacks.
-   - Skip CSS classes, colours, `cva` output, keyboard matrices.
-7. **Code Connect** — [code-connect](../code-connect/SKILL.md).
-8. **Registry** — [registry.md](../../../docs/components/registry.md).
+Then **read [figma-to-react-code](../figma-to-react-code/SKILL.md) in full** — it owns the rules and the order for steps 1–8. Bind each of its steps to QBDS with this table:
+
+| Step                        | QBDS                                                                                                                                                                                 |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1 Spec                      | [figma-parity](../figma-parity/SKILL.md): _Structure & variants_ → _Tokens_ → _Layout, spacing, typography & states_ on the component set                                            |
+| 2 Reference implementations | shadcn (`npx shadcn@latest search <name>`, then `docs` / `view` on the match), Base UI docs (`https://base-ui.com/react/components/<name>`), closest sibling in `src/components/ui/` |
+| 3 API                       | [props.md](../../../docs/components/props.md) + [composition.md](../../../docs/components/composition.md)                                                                            |
+| 4 Build                     | [build.md](../../../docs/components/build.md)                                                                                                                                        |
+| 5 Demo                      | [demos.md](../../../docs/components/demos.md)                                                                                                                                        |
+| 6 Tests                     | [tests.md](../../../docs/components/tests.md)                                                                                                                                        |
+| 7 Design-tool bridge        | [code-connect](../code-connect/SKILL.md)                                                                                                                                             |
+| 8 Publish                   | [registry.md](../../../docs/components/registry.md)                                                                                                                                  |
+
+Diverging from shadcn naming needs a one-line Figma reason.
 
 ## Exit gate
 

@@ -1,11 +1,12 @@
 ---
 name: figma-to-react-code
 description: Generic workflow for turning a design-tool component set into a component-library component — spec, reference implementations, API, build, demo, tests, design-tool bridge, publish. This is the portable layer only. Do not use it directly in a repo that ships its own binding skill — in QBDS use create-qbds-component instead, which carries the paths, primitive choice, and exit gate this file leaves blank. Do not use when updating an existing component or for token sync only.
+disable-model-invocation: true
 ---
 
 # Design tool → component library
 
-Portable copy. In QBDS, [create-qbds-component](../create-qbds-component/SKILL.md) is canonical — when the two diverge, it wins.
+Generic layer — the single home for these rules. In QBDS, [create-qbds-component](../create-qbds-component/SKILL.md) binds them to real paths, tokens, primitive and exit gate; start there for QBDS work.
 
 Turn a design-tool component set into a shippable library component. Your job is to walk eight steps in order — spec through publish — and pass the host exit gate.
 
