@@ -162,9 +162,9 @@ describe('SidebarNavMenu — collapsible group', () => {
         <SidebarNavMenu mode="inline">
           <Collapsible className="group/collapsible">
             <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                <SidebarNavMenuButton>Group</SidebarNavMenuButton>
-              </CollapsibleTrigger>
+              <CollapsibleTrigger
+                render={<SidebarNavMenuButton>Group</SidebarNavMenuButton>}
+              />
               <CollapsibleContent>
                 <SidebarNavMenuSub>
                   <SidebarMenuSubItem>

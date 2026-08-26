@@ -143,16 +143,19 @@ export function RegistrySidebar() {
                       <Collapsible
                         defaultOpen={true}
                         className="group/subgroup w-full">
-                        <CollapsibleTrigger asChild className="cursor-pointer">
-                          <SidebarMenuButton className="flex w-full items-center justify-between">
-                            <span>{entry.group.label}</span>
-                            <Icon
-                              icon="keyboard_arrow_down"
-                              size="sm"
-                              className="flex-shrink-0 transition-transform duration-200 group-data-open/subgroup:rotate-180"
-                            />
-                          </SidebarMenuButton>
-                        </CollapsibleTrigger>
+                        <CollapsibleTrigger
+                          className="cursor-pointer"
+                          render={
+                            <SidebarMenuButton className="flex w-full items-center justify-between">
+                              <span>{entry.group.label}</span>
+                              <Icon
+                                icon="keyboard_arrow_down"
+                                size="sm"
+                                className="flex-shrink-0 transition-transform duration-200 group-data-open/subgroup:rotate-180"
+                              />
+                            </SidebarMenuButton>
+                          }
+                        />
                         <CollapsibleContent>
                           <SidebarMenuSub>
                             {entry.groupItems.map(item => (
