@@ -1,5 +1,7 @@
 # Building the component
 
+QBDS binding for step 4 (Build). Generic build principles live in [figma-to-component](../../.agents/skills/figma-to-component/SKILL.md#steps).
+
 Implement `src/components/ui/<name>.tsx` by copying the closest sibling — same file shape, tokens, and primitive wiring.
 
 Pick colours and surfaces from [TOKENS.md](../TOKENS.md). Geometry (thumb travel, insets, hit areas) comes from your Figma variant × state matrix, not from the primitive's defaults.

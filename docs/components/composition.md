@@ -1,17 +1,15 @@
 # Component composition
 
-Map Figma slots and optional chrome to React structure — parts and children, not boolean toggles.
+QBDS binding for step 3 (API). Generic composition principles live in [figma-to-component](../../.agents/skills/figma-to-component/SKILL.md#steps).
+
+Map Figma slots to QBDS parts and children.
 
 ## Guidelines
 
-1. Optional chrome is structure, not props. Prefer `show*` booleans only in Code Connect templates, not on the React API.
-2. Content (icon, label, avatar) → `children` or a named part (`<TagRemove>`, `<ButtonIcon>`, …).
-3. Shared axes (`size`, `variant`, …) → root props or context; parts read them — don't repeat on every part.
-4. Dismiss and actions → a part plus callback (`onRemove`) or a composed control.
-5. Form-control labels → sibling `<Label htmlFor>` + control `id`, outside the leaf — not a `label` prop or `showLeftLabel` on the control.
-6. Host swap → Base UI `render` on the element that owns focus.
-7. Field footer → `FieldDescription` or `FieldError`, not both.
-8. Figma group frames (button groups, tag lists) → demo composition only, not a leaf prop.
+1. Optional chrome is structure, not props. Use `show*` booleans only in Code Connect templates, not on the React API.
+2. Form-control labels → sibling `<Label htmlFor>` + control `id`, outside the leaf — not a `label` prop or `showLeftLabel` on the control.
+3. Host swap → Base UI `render` on the element that owns focus.
+4. Field footer → `FieldDescription` or `FieldError`, not both.
 
 ## Example
 

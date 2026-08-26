@@ -1,6 +1,8 @@
 # Registry entries
 
-Add one `registry:ui` entry so consumers can `npx shadcn add <name>`. Copy the nearest sibling entry and adjust — don't invent a new shape.
+QBDS binding for step 8 (Publish). Generic publish principles live in [figma-to-component](../../.agents/skills/figma-to-component/SKILL.md#steps).
+
+One `registry:ui` entry per component (name = file). Copy the nearest sibling entry and adjust — don't invent a new shape.
 
 No separate `<name>-demo` entry.
 

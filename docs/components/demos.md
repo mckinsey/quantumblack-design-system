@@ -1,15 +1,15 @@
 # Component demos
 
-Prove every Figma variant in the demo registry so reviewers and the visual pass have something to compare against.
+QBDS binding for step 5 (Demo). Generic demo principles live in [figma-to-component](../../.agents/skills/figma-to-component/SKILL.md#steps).
 
-File: `src/app/demo/[name]/ui/<name>.tsx` — named exports plus `examples: DemoExample[]`. First example = simplest usable form; add one example per Figma axis.
+File: `src/app/demo/[name]/ui/<name>.tsx` — named exports plus `examples: DemoExample[]`.
 
 Wire into `index.tsx` in all four places: import, `exampleComponentMaps`, `examplesMeta`, `demos`.
 
 ## Guidelines
 
 1. Keep the one-line `/** … */` docstring on each example.
-2. Cover every Figma axis from the alignment table. For a control, size × checked/selected × disabled is the minimum.
+2. For a control, size × checked/selected × disabled is the minimum.
 3. Label and Field chrome stay **outside** the leaf component.
 
 ## Example

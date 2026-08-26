@@ -5,32 +5,27 @@ description: End-to-end workflow for adding a new QBDS component from a Figma sp
 
 # Create a QBDS component
 
-Add a new component from a Figma component-set URL. Your job is to walk eight steps in order — spec through registry — and pass the exit gate.
+QBDS binding of [figma-to-component](../figma-to-component/SKILL.md). Read that for the workflow and principles; this file is the wiring.
 
 For updates to an existing component, use [figma-parity](../figma-parity/SKILL.md) instead.
 
-Each step has its own doc in `docs/components/`. Read that doc at each step; don't invent parallel rules.
+## Bindings
 
-```mermaid
-flowchart TD
-    A[Figma component-set URL] --> B[1 Spec · figma-parity]
-    B --> C[2 Prior art · shadcn + primitive + sibling]
-    C --> D[3 API · props + composition]
-    D --> E[4 Build · sibling + TOKENS]
-    E --> F[5 Demo]
-    F --> G[6 Tests]
-    G --> H[7 Code Connect]
-    H --> I[8 Registry]
-    I --> J{exit gate}
-    J -- fail --> D
-    J -- pass --> K[Ready for PR]
-```
+| Slot      | QBDS                                                                  |
+| --------- | --------------------------------------------------------------------- |
+| Component | `src/components/ui/<name>.tsx`                                        |
+| Demo      | `src/app/demo/[name]/ui/<name>.tsx`                                   |
+| Tests     | `src/tests/<name>.test.tsx`                                           |
+| Primitive | Base UI (migration in progress — see [CLAUDE.md](../../../CLAUDE.md)) |
+| Styling   | Tailwind + `cva` + [docs/TOKENS.md](../../../docs/TOKENS.md)          |
+| Publish   | `registry.json` → `npm run registry:build`                            |
+| Exit gate | see below                                                             |
 
 ## Steps
 
-1. **Spec** — [figma-parity](../figma-parity/SKILL.md): run _Structure & variants_ → _Tokens_ → _Layout, spacing, typography & states_ on the **component set**. Stop at the alignment table + variant × state matrix; the visual pass happens after step 5 when a demo exists. No code yet. No URL → ask.
-2. **Prior art** — Look up shadcn (`npx shadcn@latest search|docs|view <name>`), the primitive docs (Base UI: `https://base-ui.com/react/components/<name>`), and the closest sibling in `src/components/ui/`. Structure from the sibling, naming from shadcn, behaviour from the primitive. Base UI vs Radix: [CLAUDE.md](../../../CLAUDE.md).
-3. **API** — [props.md](../../../docs/components/props.md) + [composition.md](../../../docs/components/composition.md). Show the prop table and part list before building. Diverging from shadcn needs a one-line Figma reason.
+1. **Spec** — [figma-parity](../figma-parity/SKILL.md): _Structure & variants_ → _Tokens_ → _Layout, spacing, typography & states_ on the component set. Stop at alignment table + variant × state matrix; visual pass after step 5. No code. No URL → ask.
+2. **Prior art** — shadcn (`npx shadcn@latest search|docs|view <name>`), Base UI docs (`https://base-ui.com/react/components/<name>`), closest sibling in `src/components/ui/`. Structure from sibling, naming from shadcn, behaviour from primitive.
+3. **API** — [props.md](../../../docs/components/props.md) + [composition.md](../../../docs/components/composition.md). Show prop table and part list before building. Diverging from shadcn needs a one-line Figma reason.
 4. **Build** — [build.md](../../../docs/components/build.md).
 5. **Demo** — [demos.md](../../../docs/components/demos.md).
 6. **Tests** — [tests.md](../../../docs/components/tests.md).
