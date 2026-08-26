@@ -6,16 +6,16 @@ import { cn } from '@/lib/utils';
 
 const hoverGradient = {
   normal:
-    'hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-hover),var(--color-stateslayer-overlay-hover))] disabled:hover:[background-image:none]',
+    'hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-hover),var(--color-stateslayer-overlay-hover))] disabled:hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled),var(--color-stateslayer-overlay-disabled))]!',
   inverse:
-    'hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-hover-inverse),var(--color-stateslayer-overlay-hover-inverse))] disabled:hover:[background-image:none]',
+    'hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-hover-inverse),var(--color-stateslayer-overlay-hover-inverse))] disabled:hover:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled),var(--color-stateslayer-overlay-disabled))]!',
 } as const;
 
 const activeGradient = {
   normal:
-    'active:[background-image:linear-gradient(var(--color-stateslayer-overlay-pressed),var(--color-stateslayer-overlay-pressed))] disabled:active:[background-image:none]',
+    'active:[background-image:linear-gradient(var(--color-stateslayer-overlay-pressed),var(--color-stateslayer-overlay-pressed))] disabled:active:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled),var(--color-stateslayer-overlay-disabled))]!',
   inverse:
-    'active:[background-image:linear-gradient(var(--color-stateslayer-overlay-pressed-inverse),var(--color-stateslayer-overlay-pressed-inverse))] disabled:active:[background-image:none]',
+    'active:[background-image:linear-gradient(var(--color-stateslayer-overlay-pressed-inverse),var(--color-stateslayer-overlay-pressed-inverse))] disabled:active:[background-image:linear-gradient(var(--color-stateslayer-overlay-disabled),var(--color-stateslayer-overlay-disabled))]!',
 } as const;
 
 const disabledOverlayGradient =
@@ -68,7 +68,7 @@ const buttonVariants = cva(
         ],
         outline: [
           'inset-ring inset-ring-stroke-secondary bg-fill-muted-inverse text-fg-primary',
-          'hover:inset-ring-stroke-primary',
+          'hover:inset-ring-stroke-primary disabled:hover:inset-ring-stroke-tertiary disabled:active:inset-ring-stroke-tertiary',
           'focus-visible:inset-ring-0 data-[state=open]:inset-ring-0',
           hoverGradient.normal,
           activeGradient.normal,
@@ -193,7 +193,7 @@ function wrapTextNodes(children: React.ReactNode): React.ReactNode {
       return (
         <span
           data-slot="button-label"
-          className="[text-underline-position:from-font] group-hover/button:underline group-focus/button:underline group-active/button:underline group-disabled/button:no-underline group-aria-disabled/button:no-underline group-data-[state=open]/button:underline"
+          className="[text-underline-position:from-font] group-hover/button:underline group-focus/button:underline group-active/button:underline group-disabled/button:no-underline! group-aria-disabled/button:no-underline! group-data-[state=open]/button:underline"
           key={String(child)}>
           {child}
         </span>
