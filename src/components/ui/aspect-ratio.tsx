@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 function AspectRatio({
   ratio,
   className,
+  style,
   ...props
 }: React.ComponentProps<'div'> & { ratio: number }) {
   return (
@@ -13,6 +14,7 @@ function AspectRatio({
       style={
         {
           '--ratio': ratio,
+          ...style,
         } as React.CSSProperties
       }
       className={cn('relative aspect-(--ratio)', className)}
