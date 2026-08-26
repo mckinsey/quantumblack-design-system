@@ -7,7 +7,7 @@ import {
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 import { Icon } from '@/components/ui/icon';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import {
   Sidebar,
   SidebarContent,
@@ -194,6 +194,7 @@ export function RegistrySidebar() {
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
+          <ScrollBar />
         </ScrollArea>
       </SidebarContent>
     </Sidebar>
