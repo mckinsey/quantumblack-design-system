@@ -43,7 +43,6 @@ const buttonVariants = cva(
       variant: {
         default: [
           'bg-fill-primary text-fg-primary-inverse',
-          'hover:text-fg-primary-inverse active:text-fg-primary-inverse focus-visible:text-fg-primary-inverse data-[state=open]:text-fg-primary-inverse',
           hoverGradient.inverse,
           activeGradient.inverse,
           'focus-visible:bg-stateslayer-overlay-active',
@@ -53,7 +52,6 @@ const buttonVariants = cva(
         ],
         accent: [
           'bg-brand-accents-qb-accent text-[var(--slate-900-opacity-88)]',
-          'hover:text-[var(--slate-900-opacity-88)] active:text-[var(--slate-900-opacity-88)] focus-visible:text-[var(--slate-900-opacity-88)] data-[state=open]:text-[var(--slate-900-opacity-88)]',
           hoverGradient.normal,
           activeGradient.normal,
           'data-[state=open]:bg-stateslayer-overlay-active-inverse',
@@ -62,7 +60,6 @@ const buttonVariants = cva(
         ],
         secondary: [
           'bg-fill-muted text-fg-primary',
-          'hover:text-fg-primary active:text-fg-primary focus-visible:text-fg-primary data-[state=open]:text-fg-primary',
           hoverGradient.normal,
           activeGradient.normal,
           'data-[state=open]:bg-stateslayer-overlay-active-inverse',
@@ -71,7 +68,6 @@ const buttonVariants = cva(
         ],
         outline: [
           'inset-ring inset-ring-stroke-secondary bg-fill-muted-inverse text-fg-primary',
-          'hover:text-fg-primary active:text-fg-primary focus-visible:text-fg-primary data-[state=open]:text-fg-primary',
           'hover:inset-ring-stroke-primary',
           'focus-visible:inset-ring-0 data-[state=open]:inset-ring-0',
           hoverGradient.normal,
@@ -82,7 +78,6 @@ const buttonVariants = cva(
         ],
         ghost: [
           'bg-transparent text-fg-primary',
-          'hover:text-fg-primary active:text-fg-primary focus-visible:text-fg-primary data-[state=open]:text-fg-primary',
           '[&>span:not([data-slot^=icon])]:underline disabled:[&>span:not([data-slot^=icon])]:no-underline aria-disabled:[&>span:not([data-slot^=icon])]:no-underline',
           'hover:bg-stateslayer-overlay-hover active:bg-stateslayer-overlay-pressed',
           'focus-visible:bg-stateslayer-overlay-active-inverse data-[state=open]:bg-stateslayer-overlay-active-inverse',
