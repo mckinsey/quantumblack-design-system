@@ -1,6 +1,6 @@
 ---
 name: figma-to-react-code
-description: Generic workflow for turning a design-tool component set into a component-library component — spec, prior art, API, build, demo, tests, design-tool bridge, publish. This is the portable layer only. Do not use it directly in a repo that ships its own binding skill — in QBDS use create-qbds-component instead, which carries the paths, primitive choice, and exit gate this file leaves blank. Do not use when updating an existing component or for token sync only.
+description: Generic workflow for turning a design-tool component set into a component-library component — spec, reference implementations, API, build, demo, tests, design-tool bridge, publish. This is the portable layer only. Do not use it directly in a repo that ships its own binding skill — in QBDS use create-qbds-component instead, which carries the paths, primitive choice, and exit gate this file leaves blank. Do not use when updating an existing component or for token sync only.
 ---
 
 # Design tool → component library
@@ -14,7 +14,7 @@ For updates to an existing component, use the host's parity/review skill instead
 ```mermaid
 flowchart TD
     A[Component-set URL] --> B[1 Spec]
-    B --> C[2 Prior art]
+    B --> C[2 Reference implementations]
     C --> D[3 API]
     D --> E[4 Build]
     E --> F[5 Demo]
@@ -30,7 +30,7 @@ flowchart TD
 
 1. **Spec** — Read the component set before writing code. Build an alignment table (design axes ↔ React props) and a variant × state matrix. Stop before implementation; the visual pass needs a rendered demo (step 5). No URL → ask.
 
-2. **Prior art** — Look up the nearest library recipe, the headless primitive docs, and the closest sibling in the host repo. Structure from the sibling, naming from the library convention, behaviour from the primitive.
+2. **Reference implementations** — Look up the nearest library recipe, the headless primitive docs, and the closest sibling in the host repo. Structure from the sibling, naming from the library convention, behaviour from the primitive.
 
 3. **API** — Decide props and composition from the alignment table. Show the prop table and part list before building.
    - Prefer library prop names over design-tool property names.

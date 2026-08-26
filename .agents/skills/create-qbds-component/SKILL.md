@@ -1,6 +1,6 @@
 ---
 name: create-qbds-component
-description: End-to-end workflow for adding a new QBDS component from a Figma spec — parity, prior art, props/composition, demos, tests, Code Connect, registry. Use when creating a component that does not exist yet in src/components/ui/. Triggers — "add a new component", "create the <name> component", "build <name> from Figma", or a figma.com component-set URL for a missing ui file. Do not use for updates to an existing component (figma-parity), token sync only (figma-token-sync), or Code Connect-only edits (code-connect).
+description: End-to-end workflow for adding a new QBDS component from a Figma spec — parity, reference implementations, props/composition, demos, tests, Code Connect, registry. Use when creating a component that does not exist yet in src/components/ui/. Triggers — "add a new component", "create the <name> component", "build <name> from Figma", or a figma.com component-set URL for a missing ui file. Do not use for updates to an existing component (figma-parity), token sync only (figma-token-sync), or Code Connect-only edits (code-connect).
 ---
 
 # Create a QBDS component
@@ -28,7 +28,7 @@ Copy this into your reply and tick items off as you go:
 ```
 - [ ] 0 Confirmed src/components/ui/<name>.tsx does not exist
 - [ ] 1 Spec — alignment table + variant × state matrix   (NO CODE YET)
-- [ ] 2 Prior art — shadcn, Base UI, closest sibling
+- [ ] 2 Reference implementations — shadcn, Base UI, sibling
 - [ ] 3 API — prop table + part list SHOWN to the user
 - [ ] 4 Build
 - [ ] 5 Demo
@@ -48,7 +48,7 @@ Copy this into your reply and tick items off as you go:
 **0. Exists?** — `ls src/components/ui/<name>.tsx`. If it exists, **stop** and use [figma-parity](../figma-parity/SKILL.md) instead; this skill is for new components only.
 
 1. **Spec** — [figma-parity](../figma-parity/SKILL.md): _Structure & variants_ → _Tokens_ → _Layout, spacing, typography & states_ on the component set. Stop at alignment table + variant × state matrix; visual pass after step 5. No code.
-2. **Prior art** — shadcn (`npx shadcn@latest search <name>`, then `docs` / `view` on the match), Base UI docs (`https://base-ui.com/react/components/<name>`), closest sibling in `src/components/ui/`. Structure from sibling, naming from shadcn, behaviour from primitive.
+2. **Reference implementations** — shadcn (`npx shadcn@latest search <name>`, then `docs` / `view` on the match), Base UI docs (`https://base-ui.com/react/components/<name>`), closest sibling in `src/components/ui/`. Structure from sibling, naming from shadcn, behaviour from primitive.
 3. **API** — [props.md](../../../docs/components/props.md) + [composition.md](../../../docs/components/composition.md). Show prop table and part list before building. Diverging from shadcn needs a one-line Figma reason.
    - Prefer React/shadcn prop names over Figma property names.
    - `show*` booleans and slot instances → children or named parts, never new props.
