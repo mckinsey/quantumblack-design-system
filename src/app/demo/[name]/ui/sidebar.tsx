@@ -107,21 +107,23 @@ function NavMenuGroupRow({
       }}
       className={cn('group/collapsible', groupActive && 'bg-fill-muted')}>
       <SidebarMenuItem>
-        <CollapsibleTrigger asChild>
-          <SidebarNavMenuButton showChevron isActive={groupActive}>
-            {withIcons ? navIcon(group.icon, groupActive, iconSize) : null}
-            <span>{group.label}</span>
-            {group.badge ? (
-              <Badge
-                size="sm"
-                variant="high-emphasis"
-                outline
-                className="ml-auto">
-                {group.badge}
-              </Badge>
-            ) : null}
-          </SidebarNavMenuButton>
-        </CollapsibleTrigger>
+        <CollapsibleTrigger
+          render={
+            <SidebarNavMenuButton showChevron isActive={groupActive}>
+              {withIcons ? navIcon(group.icon, groupActive, iconSize) : null}
+              <span>{group.label}</span>
+              {group.badge ? (
+                <Badge
+                  size="sm"
+                  variant="high-emphasis"
+                  outline
+                  className="ml-auto">
+                  {group.badge}
+                </Badge>
+              ) : null}
+            </SidebarNavMenuButton>
+          }
+        />
         <CollapsibleContent>
           <SidebarNavMenuSub>
             {group.items.map(item => {

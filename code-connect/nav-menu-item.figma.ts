@@ -104,9 +104,7 @@ export default {
         ? figma.code`
             <Collapsible${isExpanded ? ' defaultOpen' : ''} className="group/collapsible">
               <SidebarMenuItem>
-                <CollapsibleTrigger asChild>
-                  ${groupButton}
-                </CollapsibleTrigger>
+                <CollapsibleTrigger render={${groupButton}} />
                 <CollapsibleContent>
                   <SidebarNavMenuSub>
                     ${figma.helpers.react.renderChildren(subItems)}
