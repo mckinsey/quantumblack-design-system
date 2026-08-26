@@ -1,6 +1,6 @@
 # Component demos
 
-QBDS binding for step 5 (Demo). Generic demo principles live in [figma-to-component](../../.agents/skills/figma-to-component/SKILL.md#steps).
+QBDS binding for step 5 (Demo).
 
 File: `src/app/demo/[name]/ui/<name>.tsx` — named exports plus `examples: DemoExample[]`.
 

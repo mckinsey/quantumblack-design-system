@@ -1,6 +1,6 @@
 # Component tests
 
-QBDS binding for step 6 (Tests). Generic test principles live in [figma-to-component](../../.agents/skills/figma-to-component/SKILL.md#steps).
+QBDS binding for step 6 (Tests).
 
 Write tests in `src/tests/<name>.test.tsx`. Use Vitest + Testing Library. `afterEach(cleanup)`. Query by role first.
 

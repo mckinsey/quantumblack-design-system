@@ -1,6 +1,6 @@
 # Component props
 
-QBDS binding for step 3 (API). Generic prop principles live in [figma-to-component](../../.agents/skills/figma-to-component/SKILL.md#steps).
+QBDS binding for step 3 (API).
 
 Decide the React prop surface from your Figma alignment table. Prefer shadcn names; the goal is a small, familiar API — not a 1:1 mirror of every Figma boolean.
 

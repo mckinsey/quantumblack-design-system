@@ -1,9 +1,11 @@
 ---
-name: figma-to-component
-description: Generic workflow for turning a design-tool component set into a component-library component — spec, prior art, API, build, demo, tests, design-tool bridge, publish. This is the portable layer; for repo-specific work use the host binding skill (e.g. create-component in QBDS). Do not use when updating an existing component or for token sync only.
+name: figma-to-react-code
+description: Generic workflow for turning a design-tool component set into a component-library component — spec, prior art, API, build, demo, tests, design-tool bridge, publish. This is the portable layer only. Do not use it directly in a repo that ships its own binding skill — in QBDS use create-qbds-component instead, which carries the paths, primitive choice, and exit gate this file leaves blank. Do not use when updating an existing component or for token sync only.
 ---
 
 # Design tool → component library
+
+Portable copy. In QBDS, [create-qbds-component](../create-qbds-component/SKILL.md) is canonical — when the two diverge, it wins.
 
 Turn a design-tool component set into a shippable library component. Your job is to walk eight steps in order — spec through publish — and pass the host exit gate.
 
@@ -57,7 +59,7 @@ flowchart TD
 
 ## Host bindings
 
-A host repo fills these slots — see its binding skill (e.g. `create-component`):
+A host repo fills these slots — see its binding skill (e.g. `create-qbds-component`):
 
 | Slot              | What the host provides                      |
 | ----------------- | ------------------------------------------- |

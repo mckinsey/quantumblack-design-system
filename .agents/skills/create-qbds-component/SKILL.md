@@ -1,11 +1,11 @@
 ---
-name: create-component
+name: create-qbds-component
 description: End-to-end workflow for adding a new QBDS component from a Figma spec — parity, prior art, props/composition, demos, tests, Code Connect, registry. Use when creating a component that does not exist yet in src/components/ui/. Triggers — "add a new component", "create the <name> component", "build <name> from Figma", or a figma.com component-set URL for a missing ui file. Do not use for updates to an existing component (figma-parity), token sync only (figma-token-sync), or Code Connect-only edits (code-connect).
 ---
 
 # Create a QBDS component
 
-QBDS binding of [figma-to-component](../figma-to-component/SKILL.md). Read that for the workflow and principles; this file is the wiring.
+QBDS binding of [figma-to-react-code](../figma-to-react-code/SKILL.md). Read that for the workflow and principles; this file is the wiring.
 
 For updates to an existing component, use [figma-parity](../figma-parity/SKILL.md) instead.
 

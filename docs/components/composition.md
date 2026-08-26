@@ -1,6 +1,6 @@
 # Component composition
 
-QBDS binding for step 3 (API). Generic composition principles live in [figma-to-component](../../.agents/skills/figma-to-component/SKILL.md#steps).
+QBDS binding for step 3 (API).
 
 Map Figma slots to QBDS parts and children.
 
