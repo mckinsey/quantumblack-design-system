@@ -242,7 +242,7 @@ function SidebarNavMenuButton({
               size={chevronShellSize}
               type="neutral"
               variant={shellVariant}
-              className="group-data-[state=open]/collapsible:hidden">
+              className="group-data-open/collapsible:hidden">
               <Icon icon="chevron_right" />
             </IconShell>
             <IconShell
@@ -250,7 +250,7 @@ function SidebarNavMenuButton({
               size={chevronShellSize}
               type="neutral"
               variant={shellVariant}
-              className="hidden group-data-[state=open]/collapsible:inline-flex">
+              className="hidden group-data-open/collapsible:inline-flex">
               <Icon icon="expand_more" />
             </IconShell>
           </>
