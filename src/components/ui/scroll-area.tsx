@@ -46,7 +46,7 @@ function ScrollBar({
       data-orientation={orientation}
       orientation={orientation}
       className={cn(
-        'flex touch-none p-px transition-colors select-none',
+        'pointer-events-none flex touch-none p-px opacity-0 transition-opacity select-none data-scrolling:pointer-events-auto data-scrolling:opacity-100 data-scrolling:duration-0',
         orientation === 'vertical' &&
           'h-full w-1.25 border-l border-l-transparent',
         orientation === 'horizontal' &&
