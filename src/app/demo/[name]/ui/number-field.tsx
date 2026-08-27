@@ -16,22 +16,7 @@ import {
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 import { cn } from '@/lib/utils';
 
-import {
-  type DemoAxis,
-  DemoAxisRow,
-  DemoExpandControls,
-  DemoExpandSlot,
-  useDemoExpandState,
-} from './demo-expand-controls';
-
 const FIELD_WIDTH = 'w-[240px]';
-
-const variantAxis: DemoAxis<'default' | 'inline'> = {
-  key: 'variant',
-  label: 'All Variants',
-  options: ['default', 'inline'],
-  defaultOption: 'default',
-};
 
 const numberFieldFieldConfig = {
   sm: { gap: 'gap-2' },
@@ -168,8 +153,6 @@ export function NumberFieldSizes() {
 
 export function NumberFieldStates() {
   const { gap } = numberFieldFieldConfig.default;
-  const { expanded, setAxisExpanded } = useDemoExpandState([variantAxis]);
-  const showInline = expanded.variant ?? false;
 
   const feedbackClass = {
     error: 'text-status-error',
@@ -211,14 +194,7 @@ export function NumberFieldStates() {
   ];
 
   return (
-    <div className="relative w-full self-stretch">
-      <DemoExpandControls
-        axes={[variantAxis]}
-        expanded={expanded}
-        onExpandedChange={setAxisExpanded}
-      />
-
-      <div className="flex flex-col items-center gap-6 pt-10">
+    <div className="flex w-full flex-col items-center gap-6 self-stretch">
         {states.map(
           ({
             label,
@@ -280,16 +256,15 @@ export function NumberFieldStates() {
             };
 
             return (
-              <DemoAxisRow key={tone}>
+              <div
+                key={tone}
+                className="flex flex-wrap items-start justify-center gap-6">
                 {renderField('default')}
-                <DemoExpandSlot open={showInline}>
-                  {renderField('inline')}
-                </DemoExpandSlot>
-              </DemoAxisRow>
+                {renderField('inline')}
+              </div>
             );
           },
         )}
-      </div>
     </div>
   );
 }
@@ -357,7 +332,7 @@ export const examples: DemoExample[] = [
     name: 'NumberFieldStates',
     title: 'Validation',
     description:
-      'Error, warning, success, and disabled states. Toggle Variants to compare filled and ghost.',
+      'Error, warning, success, and disabled states in filled and ghost variants.',
   },
 ];
 

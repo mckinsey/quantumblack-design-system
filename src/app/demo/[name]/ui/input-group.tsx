@@ -20,23 +20,9 @@ import {
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 import { cn } from '@/lib/utils';
 
-import {
-  type DemoAxis,
-  DemoAxisRow,
-  DemoExpandControls,
-  DemoExpandSlot,
-  useDemoExpandState,
-} from './demo-expand-controls';
 import { inputGroupFieldConfig } from './input-group-config';
 
 const FIELD_WIDTH = 'w-[240px]';
-
-const variantAxis: DemoAxis<'default' | 'inline'> = {
-  key: 'variant',
-  label: 'All Variants',
-  options: ['default', 'inline'],
-  defaultOption: 'default',
-};
 
 type FieldSize = keyof typeof inputGroupFieldConfig;
 
@@ -406,8 +392,6 @@ export function InputGroupSizes() {
 
 export function InputGroupStatusStates() {
   const { gap, iconSize } = inputGroupFieldConfig.default;
-  const { expanded, setAxisExpanded } = useDemoExpandState([variantAxis]);
-  const showInline = expanded.variant ?? false;
 
   const statuses = [
     {
@@ -449,14 +433,7 @@ export function InputGroupStatusStates() {
   ];
 
   return (
-    <div className="relative w-full self-stretch">
-      <DemoExpandControls
-        axes={[variantAxis]}
-        expanded={expanded}
-        onExpandedChange={setAxisExpanded}
-      />
-
-      <div className="flex flex-col items-center gap-6 pt-10">
+    <div className="flex w-full flex-col items-center gap-6 self-stretch">
         {statuses.map(
           ({
             label,
@@ -554,16 +531,15 @@ export function InputGroupStatusStates() {
             };
 
             return (
-              <DemoAxisRow key={tone}>
+              <div
+                key={tone}
+                className="flex flex-wrap items-start justify-center gap-6">
                 {renderField('default')}
-                <DemoExpandSlot open={showInline}>
-                  {renderField('inline')}
-                </DemoExpandSlot>
-              </DemoAxisRow>
+                {renderField('inline')}
+              </div>
             );
           },
         )}
-      </div>
     </div>
   );
 }
@@ -612,7 +588,7 @@ export const examples: DemoExample[] = [
     name: 'InputGroupStatusStates',
     title: 'Validation',
     description:
-      'Error, warning, success, and disabled states. Toggle Variants to compare default and inline.',
+      'Error, warning, success, and disabled states in default and inline variants.',
   },
   {
     name: 'InputGroupDeleteOnFocus',
