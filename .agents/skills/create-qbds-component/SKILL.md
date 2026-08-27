@@ -7,8 +7,6 @@ description: End-to-end QBDS skill — spec through registry for a new component
 
 QBDS skill executor. Steps **1–4** and **6** follow [figma-to-react-code](../figma-to-react-code/SKILL.md). This skill adds **5, 7, 8** (demo, Code Connect, publish).
 
-For updates, use [figma-parity](../figma-parity/SKILL.md).
-
 ## Checklist
 
 ```
@@ -42,8 +40,6 @@ For updates, use [figma-parity](../figma-parity/SKILL.md).
 Run `demo` before `tests` — tests smoke-render every demo example.
 
 ## exit_gate
-
-Canonical — [figma-parity](../figma-parity/SKILL.md) defers here.
 
 ```bash
 npm run lint && npm run typecheck && npm run test:unit && npm run registry:build && npm run figma:parse
