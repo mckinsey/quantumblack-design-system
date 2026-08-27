@@ -30,7 +30,7 @@ For updates, use [figma-parity](../figma-parity/SKILL.md).
 
 | Step           | Doc                                                                                                                                                                                                |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `spec`         | [react-components/spec.md](../../../docs/react-components/spec.md) + [qbds-react-components/spec.md](../../../docs/qbds-react-components/spec.md) + [figma-parity](../figma-parity/SKILL.md)       |
+| `spec`         | [react-components/spec.md](../../../docs/react-components/spec.md) + [qbds-react-components/spec.md](../../../docs/qbds-react-components/spec.md)                                                  |
 | `reference`    | [react-components/reference.md](../../../docs/react-components/reference.md) + [qbds-react-components/reference.md](../../../docs/qbds-react-components/reference.md)                              |
 | `api`          | [react-components/api.md](../../../docs/react-components/api.md) + [props.md](../../../docs/qbds-react-components/props.md) + [composition.md](../../../docs/qbds-react-components/composition.md) |
 | `build`        | [react-components/build.md](../../../docs/react-components/build.md) + [build.md](../../../docs/qbds-react-components/build.md)                                                                    |
