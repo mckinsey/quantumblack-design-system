@@ -4,22 +4,33 @@
 
 QBDS binding for step `api` (parts). Pair with [props.md](./props.md).
 
+Authority for export vs slot vs Figma frame — other docs link here; do not redefine.
+
 ## Prompt
 
 Map Figma slots and `show*` booleans to QBDS parts and children for `{name}`.
 
-Rules:
+### Export decision tree (SLOT or nested instance)
 
-1. Figma `show*` booleans → structure (children / named parts), never React props — Code Connect templates may use `show*`; the public API must not
-2. Figma SLOT props → composable children or named sub-components
-3. Form labels → sibling `<Label htmlFor>` + control `id`, outside the leaf
-4. Host swap → Base UI `render` on the element that owns focus
-5. Field footer → `FieldDescription` or `FieldError`, not both
-6. Group frames in the Figma file → demo composition only, not a leaf prop
+1. Does the closest shadcn sibling already expose a part for this region (`Header`, `Footer`, `Title`, `Content`, …)?
+   → **Yes:** slot content = `children` of that part. Do not add a new export.
+2. Is it a distinct consumer primitive with its own props or behavior (`CardMedia`, `AlertIcon`, …)?
+   → **Yes:** add a named export, demo example, and test.
+3. Is it a Figma group frame, auto-layout wrapper, or slot container with no standalone meaning?
+   → **No export.** Style via the parent part's classes or demo markup (`className`, typography utilities).
 
-Return the part list alongside the prop table.
+### Other rules
 
-Do not write files until both prop table and part list are shown.
+1. Figma `show*` booleans → structure only (include/omit children). Never a React prop — see [props.md](./props.md). Code Connect templates may use `show*`.
+2. Form labels → sibling `<Label htmlFor>` + control `id`, outside the leaf
+3. Host swap → Base UI `render` on the element that owns focus
+4. Field footer → `FieldDescription` or `FieldError`, not both
+
+### Step `api` output
+
+Prop table + part list. Map each Figma axis to one of: **prop | child | demo-only | no export**.
+
+Do not write files until both are shown.
 
 ## Output
 

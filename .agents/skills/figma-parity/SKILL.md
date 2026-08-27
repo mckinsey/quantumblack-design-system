@@ -22,17 +22,18 @@ Match Figma tokens via **[docs/TOKENS.md](../../../docs/TOKENS.md)** (Design nam
 ## Repo patterns (match siblings, do not reinvent)
 
 - **Component**: `src/components/ui/<name>.tsx` — primitive + `cva` + context + `data-slot`; copy structure from the closest sibling, not from scratch. Base UI vs Radix: see **Which primitive to use** in [CLAUDE.md](../../../CLAUDE.md) — the library is mid-migration, so check the imports in the file you are editing.
-- **Demo**: `src/app/demo/[name]/ui/<name>.tsx` — named exports + `examples: DemoExample[]` (canonical; `createLegacyDemo` is a legacy wrapper some demos additionally export — do not add it to new demos). Cover every Figma variant axis or document manual gaps. No extra demo backgrounds unless the spec requires a surface contrast (match other demos).
+- **Demo**: `src/app/demo/[name]/ui/<name>.tsx` — named exports + `examples: DemoExample[]` (canonical; `createLegacyDemo` is a legacy wrapper some demos additionally export — do not add it to new demos). Follow [demos.md](../../../docs/qbds-react-components/demos.md); covering a Figma axis does not require a separate example per optional slot toggle.
 - **Registry**: `registry.json` + `npm run registry:build` → `public/r/`.
 - **Tests**: `src/tests/<name>.test.tsx` — a11y roles, `data-*` attrs, interaction; assert key variant outputs where helpers exist.
 - **Icons**: `<IconShell>` + `<Icon icon="snake_case" />`; shell owns colour — pair sizes with the parent control per sibling demos. When the parent surface flips (dropdown-open, toggle-on, inverse fill), re-check nested IconShell **Type** (`neutral` vs `neutral-inverse`) and **State**/opacity (`primary` vs `secondary`) — size alone is not enough.
 - **Typography**: globals utilities (`cta-*`, `paragraph-*`, …) — not hand-rolled `text-sm` / `font-*` / `leading-*`.
 - **Interactive states**: match the nearest button-like sibling — state overlays, disabled fills, focus rings; do not let variant branches override size-level focus treatment.
-- **Slots**: Figma SLOT props → composable children, named sub-components, Base UI `render`, or Radix `asChild` / `Slot` on not-yet-migrated siblings; mark seams with `data-slot`.
+- **Slots**: follow [composition.md](../../../docs/qbds-react-components/composition.md) export decision tree — SLOT → children of existing parts first; new export only when the tree says so. Mark seams with `data-slot`.
 - **Field footer**: `FieldDescription` (helper) and `FieldError` (feedback) are **mutually exclusive** — one per field. Error/invalid → `FieldError` only; otherwise `FieldDescription` when helper is shown. Never both in demo or Code Connect.
 - **Horizontal Field lists**: `Field` is `w-full`; horizontal labels use `flex-auto`. Inside horizontal `CheckboxGroup` / `RadioGroup`, that stretches items and makes density gaps look wrong. Shrink-wrap on the group (`[&>[data-slot=field]]:w-auto` + label `flex-none`). Do not change Field globals.
 - **Primitive composition**: The primitive that owns focus and keyboard behavior must be the **rendered** element — Base UI `render`, or Radix `asChild` on the outer primitive wrapping the styled QBDS sub-component (not the reverse). Verify keyboard navigation in the demo.
-- **Public API**: Every exported sub-component needs a demo example and at least one test, or remove it from the public API.
+- **Public API**: follow [composition.md](../../../docs/qbds-react-components/composition.md). Figma parity verifies styling of exported parts, not that every Figma layer becomes an export. Every exported sub-component needs a demo example and at least one test, or remove it from the public API — do not export Figma-internal frames to satisfy this rule.
+- **Size drift red flag**: the same axis on both `data-*` and React Context without a documented reason in the alignment table.
 - **Field-composed controls** (input, textarea, select, date/time pickers, …): Figma nests **Elements/** instances (Label, Help-Text, Status-Messages, Characters-Counter). Match **each slot** per size × state in the demo — copy the per-size `fieldConfig` pattern from the nearest sibling (e.g. `input.tsx`). Do **not** assume shared `Field*` defaults match the parent set’s spec.
 
 ## Workflow (run in order)
