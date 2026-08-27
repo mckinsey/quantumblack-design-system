@@ -2,21 +2,15 @@
 
 ## Description
 
-QBDS binding for step `demo`. Run before step `tests`.
+Create `src/app/demo/{name}/ui/{name}.tsx` — named exports plus `examples: DemoExample[]`.
+
+Wire into `index.tsx`: import, `exampleComponentMaps`, `examplesMeta`, `demos`.
 
 ## Prompt
 
-Create `src/app/demo/{name}/ui/{name}.tsx` — named exports plus `examples: DemoExample[]`.
-
-Wire into `index.tsx` in all four places: import, `exampleComponentMaps`, `examplesMeta`, `demos`.
-
-Guidelines:
-
-1. One-line `/** … */` docstring on each example
-2. Controls: size × checked/selected × disabled minimum
-3. Label and Field chrome **outside** the leaf component
-
-First example = simplest usable form. Cover every alignment-table row.
+1. `examples[0]` = simplest usable form
+2. Cover every row in the alignment table — variant axes, meaningful states, composition slots
+3. Avoid duplciation of demos in mutliple sections.
 
 ## Output
 
