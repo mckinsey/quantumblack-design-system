@@ -166,7 +166,7 @@ Report a **variant × state** matrix: pass / drift (note ≥2px or wrong token).
 - [ ] Exported sub-components: demo + test, or not exported
 - [ ] Composed primitives: correct `asChild` direction; keyboard nav verified
 - [ ] Visual pass: no undocumented ≥2px gaps
-- [ ] Exit gate passes — see [create-component](../create-component/SKILL.md#exit-gate)
+- [ ] Exit gate passes — see [create-qbds-component](../create-qbds-component/SKILL.md#exit-gate)
 
 ## User only shares a URL
 
