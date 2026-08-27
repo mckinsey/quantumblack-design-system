@@ -54,7 +54,8 @@ For field-composed controls: derive **`errorClass`** (and warning/success/info) 
 1. **Component description (Figma)** — On the **component set** root (not a single variant instance), read the designer-written **description** in Dev Mode, or from `get_design_context` on that node (follow **component documentation** links and **design annotations** in the response when present). QBDS descriptions often state the **default layout** and which variant axes exist (e.g. “Defaults to unboxed horizontal… also supports boxed, vertical, …”). Treat this as the narrative source of truth for defaults and scope before inferring from one frame.
 2. `get_metadata` (or Dev Mode) on the component set — list every variant, boolean, text, and SLOT property; note which property values are the set’s **default** selections.
 3. Read `src/components/ui/<name>.tsx` — `cva` keys, props, `data-slot`, exports.
-4. Build an alignment table from **Figma + React API** (never from Code Connect); flag **asymmetric** coverage (Figma-only or code-only values). The **Code Connect** column records what the mapping claims — a mismatch there is a mapping bug to fix, not a reason to change the spec:
+4. Prop naming: [props.md](../../../docs/qbds-react-components/props.md) — map Figma sizes to React vocabulary (`reg`→`default`, `xlg`→`xl`, …); `variant` uses `default` not `primary`.
+5. Build an alignment table from **Figma + React API** (never from Code Connect); flag **asymmetric** coverage (Figma-only or code-only values). The **Code Connect** column records what the mapping claims — a mismatch there is a mapping bug to fix, not a reason to change the spec:
 
 | Axis              | Figma values                 | React values                                            | Code Connect (verify) | Aligned? | Notes                    |
 | ----------------- | ---------------------------- | ------------------------------------------------------- | --------------------- | -------- | ------------------------ |
@@ -68,7 +69,7 @@ For field-composed controls: derive **`errorClass`** (and warning/success/info) 
 
 If a Code Connect mapping exists, confirm its enum values, size names, and variant→prop mapping match the Figma + React columns above. Fix the mapping (via the `code-connect` skill) when it drifts.
 
-5. **Field chrome table** (required when Figma nests Elements/\* or booleans `showLabel`, `showHelpText`, `showFeedbackMessage`, `showCounter`): inspect **each text slot** at sm, reg/default, and lg (and error/disabled states). Shared primitives (`FieldError`, `FieldDescription`) often ship generic defaults — override in demo/Code Connect when Figma differs.
+6. **Field chrome table** (required when Figma nests Elements/\* or booleans `showLabel`, `showHelpText`, `showFeedbackMessage`, `showCounter`): inspect **each text slot** at sm, reg/default, and lg (and error/disabled states). Shared primitives (`FieldError`, `FieldDescription`) often ship generic defaults — override in demo/Code Connect when Figma differs.
 
 | Slot     | Figma node                  | sm (type + color) | default | lg  | Code target                  |
 | -------- | --------------------------- | ----------------- | ------- | --- | ---------------------------- |
@@ -79,7 +80,7 @@ If a Code Connect mapping exists, confirm its enum values, size names, and varia
 
 **Red flags:** label/description are per-size in demo but error/feedback is not; bare `<FieldError>` with no `className` on a sized field set; wrong `paragraph-*` (e.g. `paragraph-regular-primary` when Figma shows `Paragraph/Large-Primary`). **Not a red flag:** `text-status-*` on feedback / counter / required `*` (see Text vs status note above).
 
-6. **Defaults & demos:**
+7. **Defaults & demos:**
    - **Defaults:** Figma description, `cva` defaults, and `registry.json` must agree.
    - **Demos:** Start `examples[0]` simple — developer's choice, not necessarily the Figma default. Cover every alignment-table row across `examples[]`. Include at least one **error/feedback** example per size when typography differs.
 

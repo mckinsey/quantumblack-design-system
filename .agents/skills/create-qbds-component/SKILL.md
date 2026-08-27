@@ -26,16 +26,16 @@ QBDS skill executor. Steps **1–4** and **6** follow [figma-to-react-code](../f
 
 **0. exists** — `ls src/components/ui/{name}.tsx`. If present, stop → [figma-parity](../figma-parity/SKILL.md).
 
-| Step           | Doc                                                                                                                                                                                                |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `spec`         | [react-components/spec.md](../../../docs/react-components/spec.md) + [qbds-react-components/spec.md](../../../docs/qbds-react-components/spec.md)                                                  |
-| `reference`    | [react-components/reference.md](../../../docs/react-components/reference.md) + [qbds-react-components/reference.md](../../../docs/qbds-react-components/reference.md)                              |
-| `api`          | [react-components/api.md](../../../docs/react-components/api.md) + [props.md](../../../docs/qbds-react-components/props.md) + [composition.md](../../../docs/qbds-react-components/composition.md) |
-| `build`        | [react-components/build.md](../../../docs/react-components/build.md) + [build.md](../../../docs/qbds-react-components/build.md)                                                                    |
-| `demo`         | [demos.md](../../../docs/qbds-react-components/demos.md)                                                                                                                                           |
-| `tests`        | [react-components/tests.md](../../../docs/react-components/tests.md) + [tests.md](../../../docs/qbds-react-components/tests.md)                                                                    |
-| `code_connect` | [code-connect](../code-connect/SKILL.md)                                                                                                                                                           |
-| `publish`      | [registry.md](../../../docs/qbds-react-components/registry.md)                                                                                                                                     |
+| Step           | Doc                                                                                                                                                                                                                              |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `spec`         | [react-components/spec.md](../../../docs/react-components/spec.md) + [qbds-react-components/spec.md](../../../docs/qbds-react-components/spec.md)                                                                                |
+| `reference`    | [react-components/reference.md](../../../docs/react-components/reference.md) + [qbds-react-components/reference.md](../../../docs/qbds-react-components/reference.md)                                                            |
+| `api`          | [react-components/api.md](../../../docs/react-components/api.md) + [props.md](../../../docs/qbds-react-components/props.md) + [composition.md](../../../docs/qbds-react-components/composition.md) — apply props.md naming rules |
+| `build`        | [react-components/build.md](../../../docs/react-components/build.md) + [build.md](../../../docs/qbds-react-components/build.md)                                                                                                  |
+| `demo`         | [demos.md](../../../docs/qbds-react-components/demos.md)                                                                                                                                                                         |
+| `tests`        | [react-components/tests.md](../../../docs/react-components/tests.md) + [tests.md](../../../docs/qbds-react-components/tests.md)                                                                                                  |
+| `code_connect` | [code-connect](../code-connect/SKILL.md)                                                                                                                                                                                         |
+| `publish`      | [registry.md](../../../docs/qbds-react-components/registry.md)                                                                                                                                                                   |
 
 Run `demo` before `tests` — tests smoke-render every demo example.
 
@@ -45,6 +45,6 @@ Run `demo` before `tests` — tests smoke-render every demo example.
 npm run lint && npm run typecheck && npm run test:unit && npm run registry:build && npm run figma:parse
 ```
 
-Fix until all five pass. Triage individually when `&&` hides failures. `npm run prettier:fix` for format. Prop surface change → return to `api`, re-show table, continue forward.
+Fix until all five pass. Triage individually when `&&` hides failures. `npm run prettier:fix` for format. Prop surface change → return to `api`, re-show prop list, continue forward.
 
 Ask before continuing when: Figma axis has no sensible React expression, sibling contradicts shadcn naming, or a new token is needed.

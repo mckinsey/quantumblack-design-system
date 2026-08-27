@@ -1,28 +1,25 @@
 # api — props
 
-## Description
+Prop rules for step `api`. Parts/slots → [composition.md](./composition.md).
 
-QBDS binding for step `api` (props). Pair with [composition.md](./composition.md).
+- Prefer shadcn prop names
+- Small API — don't mirror every Figma boolean
 
-## Prompt
+**Size**
 
-From the Figma alignment table for `{name}`, decide the React prop surface.
+React sizes: `xxs`, `xs`, `sm`, `md`, `default`, `lg`, `xl`
 
-Prefer shadcn names. Small familiar API — not a 1:1 mirror of every Figma boolean.
+- Each component ships the subset its Figma set lists — map Figma sizes to the closest React size above
+- Common Figma → React: `reg` → `default`, `xlg` → `xl`, `xxsm` → `xxs`, `xsm` → `xs`
+- Never use Figma size names in code, demos, or Code Connect
 
-| Figma axis        | React prop       | Notes                                                           |
-| ----------------- | ---------------- | --------------------------------------------------------------- |
-| `type` / style    | `variant`        | Figma `primary` → `default` for new APIs                        |
-| `size` (`reg`)    | `size="default"` | Ship every size Figma lists                                     |
-| `state=disabled`  | `disabled`       | Other states via CSS / `data-state`                             |
-| `show*` booleans  | —                | Map to children or named parts — not props (see composition.md) |
-| `showLeadingIcon` | —                | Icon as child or named part                                     |
-| `showRemove`      | —                | Remove part + callback                                          |
+**Variant**
 
-Dismiss and actions → part + callback, not a show boolean.
+- For `variant`, use `default` instead of `primary`
 
-Show prop table before step `build`.
+**Don't prop these**
 
-## Output
-
-Prop table in the combined `api` artifact.
+- `show*` booleans → children or named parts
+- Icons → child or named part
+- Slots → children or sub-components
+- Interaction states → CSS / `data-state` (except `disabled`)
