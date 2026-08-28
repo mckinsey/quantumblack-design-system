@@ -195,76 +195,75 @@ export function NumberFieldStates() {
 
   return (
     <div className="flex w-full flex-col items-center gap-6 self-stretch">
-        {states.map(
-          ({
-            label,
-            tone,
-            defaultGroupClass,
-            inlineGroupClass,
-            disabled,
-            inputProps,
-            feedback,
-            helper,
-          }) => {
-            const isDisabled = Boolean(disabled);
+      {states.map(
+        ({
+          label,
+          tone,
+          defaultGroupClass,
+          inlineGroupClass,
+          disabled,
+          inputProps,
+          feedback,
+          helper,
+        }) => {
+          const isDisabled = Boolean(disabled);
 
-            const renderField = (variant: 'default' | 'inline') => {
-              const fieldId = `number-field-state-${tone}-${variant}`;
-              const groupClass =
-                variant === 'inline' ? inlineGroupClass : defaultGroupClass;
-
-              return (
-                <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
-                  <FieldLabel
-                    htmlFor={fieldId}
-                    disabled={isDisabled}
-                    className={getLabelClass('default', variant)}>
-                    {label}
-                  </FieldLabel>
-                  <NumberField
-                    id={fieldId}
-                    defaultValue={234}
-                    min={0}
-                    max={999}
-                    disabled={isDisabled}>
-                    <NumberFieldGroup
-                      variant={variant}
-                      className={groupClass || undefined}>
-                      <NumberFieldDecrement />
-                      <NumberFieldInput placeholder="000" {...inputProps} />
-                      <NumberFieldIncrement />
-                    </NumberFieldGroup>
-                  </NumberField>
-                  {feedback ? (
-                    feedback.tone === 'error' ? (
-                      <FieldError className={feedbackClass.error}>
-                        {feedback.text}
-                      </FieldError>
-                    ) : (
-                      <FieldDescription
-                        className={feedbackClass[feedback.tone]}>
-                        {feedback.text}
-                      </FieldDescription>
-                    )
-                  ) : (
-                    <FieldDescription disabled={isDisabled}>
-                      {helper}
-                    </FieldDescription>
-                  )}
-                </FieldSet>
-              );
-            };
+          const renderField = (variant: 'default' | 'inline') => {
+            const fieldId = `number-field-state-${tone}-${variant}`;
+            const groupClass =
+              variant === 'inline' ? inlineGroupClass : defaultGroupClass;
 
             return (
-              <div
-                key={tone}
-                className="flex flex-wrap items-start justify-center gap-6">
-                {renderField('default')}
-                {renderField('inline')}
-              </div>
+              <FieldSet className={`${FIELD_WIDTH} ${gap}`}>
+                <FieldLabel
+                  htmlFor={fieldId}
+                  disabled={isDisabled}
+                  className={getLabelClass('default', variant)}>
+                  {label}
+                </FieldLabel>
+                <NumberField
+                  id={fieldId}
+                  defaultValue={234}
+                  min={0}
+                  max={999}
+                  disabled={isDisabled}>
+                  <NumberFieldGroup
+                    variant={variant}
+                    className={groupClass || undefined}>
+                    <NumberFieldDecrement />
+                    <NumberFieldInput placeholder="000" {...inputProps} />
+                    <NumberFieldIncrement />
+                  </NumberFieldGroup>
+                </NumberField>
+                {feedback ? (
+                  feedback.tone === 'error' ? (
+                    <FieldError className={feedbackClass.error}>
+                      {feedback.text}
+                    </FieldError>
+                  ) : (
+                    <FieldDescription className={feedbackClass[feedback.tone]}>
+                      {feedback.text}
+                    </FieldDescription>
+                  )
+                ) : (
+                  <FieldDescription disabled={isDisabled}>
+                    {helper}
+                  </FieldDescription>
+                )}
+              </FieldSet>
             );
-          },
-        )}
+          };
+
+          return (
+            <div
+              key={tone}
+              className="flex flex-wrap items-start justify-center gap-6">
+              {renderField('default')}
+              {renderField('inline')}
+            </div>
+          );
+        },
+      )}
     </div>
   );
 }
