@@ -22,7 +22,7 @@ Match Figma tokens via **[docs/TOKENS.md](../../../docs/TOKENS.md)** (Design nam
 ## Repo patterns (match siblings, do not reinvent)
 
 - **Component**: `src/components/ui/<name>.tsx` — primitive + `cva` + context + `data-slot`; copy structure from the closest sibling, not from scratch. Base UI vs Radix: see **Which primitive to use** in [CLAUDE.md](../../../CLAUDE.md) — the library is mid-migration, so check the imports in the file you are editing.
-- **Demo**: `src/app/demo/[name]/ui/<name>.tsx` — named exports + `examples: DemoExample[]` (canonical; `createLegacyDemo` is a legacy wrapper some demos additionally export — do not add it to new demos). Follow [demos.md](../../../docs/qbds-react-components/demos.md); covering a Figma axis does not require a separate example per optional slot toggle.
+- **Demo**: `src/app/demo/[name]/ui/<name>.tsx` — named exports + `examples: DemoExample[]` (canonical; `createLegacyDemo` is a legacy wrapper still exported by many existing demos — do not add it to new demos). Follow [demos.md](../../../docs/qbds-react-components/demos.md); covering a Figma axis does not require a separate example per optional slot toggle.
 - **Registry**: `registry.json` + `npm run registry:build` → `public/r/`.
 - **Tests**: `src/tests/<name>.test.tsx` — a11y roles, `data-*` attrs, interaction; assert key variant outputs where helpers exist.
 - **Icons**: `<IconShell>` + `<Icon icon="snake_case" />`; shell owns colour — pair sizes with the parent control per sibling demos. When the parent surface flips (dropdown-open, toggle-on, inverse fill), re-check nested IconShell **Type** (`neutral` vs `neutral-inverse`) and **State**/opacity (`primary` vs `secondary`) — size alone is not enough.
