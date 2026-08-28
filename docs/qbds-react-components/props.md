@@ -1,15 +1,14 @@
 # api — props
 
-Prop rules for step `api`. Parts/slots → [composition.md](./composition.md).
+QBDS binding for step `api`. Generic rules: [react-components/props.md](../react-components/props.md). Parts/slots → [composition.md](./composition.md).
 
 - Prefer shadcn prop names
 - Small API — don't mirror every Figma boolean
 
 **Size**
 
-React sizes: `xxs`, `xs`, `sm`, `md`, `default`, `lg`, `xl`
-
-- Each component ships the subset its Figma set lists — map Figma sizes to the closest React size above
+- React sizes: `xxs`, `xs`, `sm`, `md`, `default`, `lg`, `xl`
+- Ship the subset the Figma set lists — map to the closest React size above
 - Common Figma → React: `reg` → `default`, `xlg` → `xl`, `xxsm` → `xxs`, `xsm` → `xs`
 - Never use Figma size names in code, demos, or Code Connect
 

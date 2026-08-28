@@ -16,12 +16,12 @@ spec → reference → api → build → tests → {host exit gate}
 
 ## Steps
 
-| Step        | Description                                                       | Doc                                                         |
-| ----------- | ----------------------------------------------------------------- | ----------------------------------------------------------- |
-| `spec`      | Fetch the component set; alignment table + variant × state matrix | [spec.md](../../../docs/react-components/spec.md)           |
-| `reference` | Library recipe, primitive docs, sibling                           | [reference.md](../../../docs/react-components/reference.md) |
-| `api`       | Prop table + part list — show before build                        | [api.md](../../../docs/react-components/api.md)             |
-| `build`     | Implement the component file                                      | [build.md](../../../docs/react-components/build.md)         |
-| `tests`     | Functional smoke + behaviour                                      | [tests.md](../../../docs/react-components/tests.md)         |
+| Step        | Description                                                       | Doc                                                                                                                   |
+| ----------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `spec`      | Fetch the component set; alignment table + variant × state matrix | [spec.md](../../../docs/react-components/spec.md)                                                                     |
+| `reference` | Library recipe, primitive docs, sibling                           | [reference.md](../../../docs/react-components/reference.md)                                                           |
+| `api`       | Prop table + part list — show before build                        | [props.md](../../../docs/react-components/props.md) + [composition.md](../../../docs/react-components/composition.md) |
+| `build`     | Implement the component file                                      | [build.md](../../../docs/react-components/build.md)                                                                   |
+| `tests`     | Functional smoke + behaviour                                      | [tests.md](../../../docs/react-components/tests.md)                                                                   |
 
 Ask before continuing when: a design axis has no sensible React expression, sibling contradicts library naming, or a new token is needed.
