@@ -7,6 +7,7 @@
 - Variant and size axes → **one example each** — all values in the same section (grid, row, or `.map()`). No separate `examples[]` entry per size or variant
 - Separate examples only for different interaction or layout modes (disabled, error, horizontal vs vertical). Not for individual size/variant values or Figma `show*` toggles
 - Overlay components (dialog, sheet, popover, portaled dropdown): closed by default; each size/variant gets its own trigger
+- Trigger labels may use Figma variant names when the example documents Figma naming — component props still use the React API values
 - Cover every alignment-table row without repeating the same axis across sections
 - Follow siblings: `button.tsx` (variants), `avatar.tsx` / `combobox.tsx` (sizes)
 

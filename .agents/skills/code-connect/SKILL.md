@@ -132,12 +132,47 @@ Do not call `executeTemplate()` on the slot itself — only on each `connectedIn
 
 Do **not** hand-roll nested snippets (e.g. inline `<Tag>` / `<NumericBadge>` inside Select) when those children already have Code Connect. Prefer `executeTemplate()` so the child’s mapping owns the snippet and imports. Only hand-roll when the child has no mapping, or `executeTemplate()` fails for that node.
 
+### 5 — Template safety
+
+**Enum fallback** — `getEnum` can return `undefined`. Always guard with `?? '<fallback>'` and type the result. Map Figma enum keys to React prop values faithfully — QBDS size sets often use `reg: 'default'` as the Figma key; that is intentional, not a typo.
+
+```ts
+const size = (instance.getEnum('size', {
+  sm: 'sm',
+  reg: 'default',
+  lg: 'lg',
+}) ?? 'default') as Size;
+```
+
+**Instance strings** — never interpolate raw `getString` values into JSX text. `JSON.stringify` the value and emit as a JSX expression `{${var}}`:
+
+```ts
+const label = JSON.stringify(instance.getString('label') ?? 'Default label');
+// in figma.code:
+<PartTitle>{${label}}</PartTitle>
+```
+
+**Slot children type** — connected slot results are always arrays. Interpolate with `figma.helpers.react.renderChildren()` — do not assign arrays and `figma.code`` to the same variable.
+
+**Optional Figma-only regions** — when `getBoolean` toggles control optional UI (header slots, footer actions, etc.):
+
+- Omit the entire part when the toggle is off — no placeholder elements
+- Emit wrapper parts (footer, toolbar, etc.) only when at least one child toggle is on
+- When only one side of a split layout is shown, use layout classes (e.g. `ml-auto`) on the visible side — do not insert empty nodes for alignment
+
+**Default props in snippets** — omit props that match the component default.
+
+**Fallback copy** — placeholder strings must match the demo exactly, including punctuation. Source: `src/app/demo/[name]/ui/<name>.tsx`.
+
 ## Reference examples
 
 Read existing templates in `code-connect/` before writing a new one:
 
 - `button-text.figma.ts`, `button-icon.figma.ts` — token header, variant split, Figma-only props
-- `radio-group-list-vertical.figma.ts` — SLOT via `getSlot().connectedInstances` with `properties.children` fallback
+- `radio-group-list-vertical.figma.ts` — enum `??` fallback, `reg: 'default'`, SLOT via `getSlot().connectedInstances`
+- `sonner.figma.ts` — `JSON.stringify` for instance strings
+- `dialog.figma.ts` — optional region toggles, conditional wrapper parts, `renderChildren`
+- `card.figma.ts` — omit default prop values in generated snippet
 - `button-group.figma.ts`, `tag-group-dismissable.figma.ts` — older `properties.children` pattern
 
 ## Validate & publish
