@@ -10,11 +10,8 @@ import {
   DialogBody,
   DialogClose,
   DialogContent,
-  DialogContextLabel,
   DialogDescription,
   DialogFooter,
-  DialogFooterActions,
-  DialogFooterLink,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -50,19 +47,19 @@ describe(`${componentName} — structure`, () => {
         <DialogTrigger render={<Button>Open</Button>} />
         <DialogContent size="default" data-testid="dialog-content">
           <DialogHeader>
-            <DialogContextLabel>Label</DialogContextLabel>
+            <p>Label</p>
             <DialogTitle>Title</DialogTitle>
           </DialogHeader>
           <DialogBody>
             <DialogDescription>Description</DialogDescription>
           </DialogBody>
           <DialogFooter>
-            <DialogFooterLink>
+            <div className="flex shrink-0 items-center">
               <span>Link</span>
-            </DialogFooterLink>
-            <DialogFooterActions>
+            </div>
+            <div className="ml-auto flex shrink-0 items-center">
               <span>Actions</span>
-            </DialogFooterActions>
+            </div>
           </DialogFooter>
         </DialogContent>
       </Dialog>,
@@ -75,20 +72,11 @@ describe(`${componentName} — structure`, () => {
       'default',
     );
     expect(document.querySelector('[data-slot="dialog-header"]')).toBeTruthy();
-    expect(
-      document.querySelector('[data-slot="dialog-context-label"]'),
-    ).toBeTruthy();
     expect(document.querySelector('[data-slot="dialog-body"]')).toBeTruthy();
     expect(
       document.querySelector('[data-slot="dialog-description"]'),
     ).toBeTruthy();
     expect(document.querySelector('[data-slot="dialog-footer"]')).toBeTruthy();
-    expect(
-      document.querySelector('[data-slot="dialog-footer-link"]'),
-    ).toBeTruthy();
-    expect(
-      document.querySelector('[data-slot="dialog-footer-actions"]'),
-    ).toBeTruthy();
   });
 
   it('xs and lg size props smoke render', async () => {
@@ -181,9 +169,9 @@ describe(`${componentName} — behaviour`, () => {
             <DialogTitle>Closable</DialogTitle>
           </DialogHeader>
           <DialogFooter>
-            <DialogFooterActions>
+            <div className="ml-auto flex shrink-0 items-center">
               <DialogClose render={<Button>Done</Button>} />
-            </DialogFooterActions>
+            </div>
           </DialogFooter>
         </DialogContent>
       </Dialog>,
