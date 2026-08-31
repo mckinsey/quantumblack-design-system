@@ -10,6 +10,7 @@ import {
   DialogBody,
   DialogClose,
   DialogContent,
+  DialogContextLabel,
   DialogDescription,
   DialogFooter,
   DialogHeader,
@@ -47,7 +48,7 @@ describe(`${componentName} — structure`, () => {
         <DialogTrigger render={<Button>Open</Button>} />
         <DialogContent size="default" data-testid="dialog-content">
           <DialogHeader>
-            <p>Label</p>
+            <DialogContextLabel>Label</DialogContextLabel>
             <DialogTitle>Title</DialogTitle>
           </DialogHeader>
           <DialogBody>
@@ -72,6 +73,9 @@ describe(`${componentName} — structure`, () => {
       'default',
     );
     expect(document.querySelector('[data-slot="dialog-header"]')).toBeTruthy();
+    expect(
+      document.querySelector('[data-slot="dialog-context-label"]'),
+    ).toBeTruthy();
     expect(document.querySelector('[data-slot="dialog-body"]')).toBeTruthy();
     expect(
       document.querySelector('[data-slot="dialog-description"]'),
