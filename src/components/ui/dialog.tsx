@@ -126,53 +126,20 @@ function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
-function DialogContextLabel({
-  className,
-  ...props
-}: React.ComponentProps<'p'>) {
+function DialogTitle({ className, ...props }: DialogPrimitive.Title.Props) {
   return (
-    <p
-      data-slot="dialog-context-label"
+    <DialogPrimitive.Title
+      data-slot="dialog-title"
       className={cn(
-        'text-fg-secondary shrink-0',
-        'group-data-[size=xs]/dialog:paragraph-small-primary',
-        'group-data-[size=sm]/dialog:paragraph-regular-primary',
-        'group-data-[size=default]/dialog:paragraph-regular-primary',
-        'group-data-[size=lg]/dialog:paragraph-regular-primary',
+        'text-fg-primary min-w-0 truncate pt-2',
+        'group-data-[size=xs]/dialog:headings-h3-regular',
+        'group-data-[size=sm]/dialog:headings-h2-regular',
+        'group-data-[size=default]/dialog:headings-h2-regular',
+        'group-data-[size=lg]/dialog:headings-h2-regular',
         className,
       )}
       {...props}
     />
-  );
-}
-
-function DialogTitle({
-  className,
-  icon,
-  children,
-  ...props
-}: DialogPrimitive.Title.Props & {
-  icon?: React.ReactNode;
-}) {
-  return (
-    <div
-      data-slot="dialog-title-row"
-      className="flex w-full min-w-0 items-start gap-3 pt-2">
-      {icon}
-      <DialogPrimitive.Title
-        data-slot="dialog-title"
-        className={cn(
-          'text-fg-primary min-w-0 flex-1 truncate',
-          'group-data-[size=xs]/dialog:headings-h3-regular',
-          'group-data-[size=sm]/dialog:headings-h2-regular',
-          'group-data-[size=default]/dialog:headings-h2-regular',
-          'group-data-[size=lg]/dialog:headings-h2-regular',
-          className,
-        )}
-        {...props}>
-        {children}
-      </DialogPrimitive.Title>
-    </div>
   );
 }
 
@@ -228,46 +195,16 @@ function DialogFooter({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
-function DialogFooterLink({
-  className,
-  ...props
-}: React.ComponentProps<'div'>) {
-  return (
-    <div
-      data-slot="dialog-footer-link"
-      className={cn('flex shrink-0 items-center', className)}
-      {...props}
-    />
-  );
-}
-
-function DialogFooterActions({
-  className,
-  ...props
-}: React.ComponentProps<'div'>) {
-  return (
-    <div
-      data-slot="dialog-footer-actions"
-      className={cn('ml-auto flex shrink-0 items-center', className)}
-      {...props}
-    />
-  );
-}
-
 export {
   Dialog,
   DialogBody,
   DialogClose,
   DialogContent,
-  DialogContextLabel,
   DialogDescription,
   DialogFooter,
-  DialogFooterActions,
-  DialogFooterLink,
   DialogHeader,
   DialogOverlay,
   DialogPortal,
   DialogTitle,
   DialogTrigger,
-  dialogContentVariants,
 };
