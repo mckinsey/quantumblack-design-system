@@ -33,6 +33,9 @@ const dialogContentVariants = cva(
   },
 );
 
+const dialogHeaderGap =
+  'group-data-[size=xs]/dialog:gap-4 group-data-[size=sm]/dialog:gap-4 group-data-[size=default]/dialog:gap-5 group-data-[size=lg]/dialog:gap-6';
+
 const dialogInsetX =
   'group-data-[size=xs]/dialog:px-6 group-data-[size=sm]/dialog:px-8 group-data-[size=default]/dialog:px-10 group-data-[size=lg]/dialog:px-10';
 
@@ -117,7 +120,8 @@ function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
     <div
       data-slot="dialog-header"
       className={cn(
-        'text-fg-primary flex w-full shrink-0 flex-col gap-2 pt-8 pb-3',
+        'text-fg-primary flex w-full shrink-0 flex-col pt-8 pb-3',
+        dialogHeaderGap,
         'group-data-[size=default]/dialog:pt-10',
         'group-data-[size=lg]/dialog:pt-10',
         dialogInsetX,
@@ -153,7 +157,7 @@ function DialogTitle({ className, ...props }: DialogPrimitive.Title.Props) {
     <DialogPrimitive.Title
       data-slot="dialog-title"
       className={cn(
-        'text-fg-primary headings-h2-regular min-w-0 truncate pt-2',
+        'text-fg-primary headings-h2-regular min-w-0 truncate',
         'group-data-[size=xs]/dialog:headings-h3-regular',
         className,
       )}
