@@ -6,6 +6,9 @@ import figma from 'figma';
 const LOREM =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.';
 
+const CONTEXT_LABEL_CLASS =
+  'text-fg-secondary shrink-0 group-data-[size=xs]/dialog:paragraph-small-primary group-data-[size=sm]/dialog:paragraph-regular-primary group-data-[size=default]/dialog:paragraph-regular-primary group-data-[size=lg]/dialog:paragraph-regular-primary';
+
 const instance = figma.selectedInstance;
 
 const size = instance.getEnum('size', {
@@ -88,19 +91,17 @@ const footerActionsNodes =
     : footerActionsFallback;
 
 const contextLabel = hasContextLabel
-  ? figma.code`<DialogContextLabel>CONTEXT LABEL</DialogContextLabel>`
+  ? figma.code`<p className="${CONTEXT_LABEL_CLASS}">CONTEXT LABEL</p>`
   : figma.code``;
 
 const titleBlock = hasIcon
   ? figma.code`
-      <DialogTitle
-        icon={
-          <IconShell size="${iconShellSize}" type="neutral" variant="primary">
-            <Icon icon="backup" />
-          </IconShell>
-        }>
-        ${title}
-      </DialogTitle>
+      <div className="flex w-full min-w-0 items-start gap-3">
+        <IconShell size="${iconShellSize}" type="neutral" variant="primary">
+          <Icon icon="backup" />
+        </IconShell>
+        <DialogTitle>${title}</DialogTitle>
+      </div>
     `
   : figma.code`<DialogTitle>${title}</DialogTitle>`;
 
@@ -120,18 +121,18 @@ const bodyContent =
 const footerLinkBlock = hasFooterLink
   ? footerLinkConnected.length > 0
     ? figma.code`
-        <DialogFooterLink>
+        <div className="flex shrink-0 items-center">
           ${figma.helpers.react.renderChildren(
             footerLinkConnected.map(n => n.executeTemplate().example).flat(),
           )}
-        </DialogFooterLink>
+        </div>
       `
     : figma.code`
-        <DialogFooterLink>
+        <div className="flex shrink-0 items-center">
           <Button variant="ghost" size="${btnSize}">
             Learn more
           </Button>
-        </DialogFooterLink>
+        </div>
       `
   : figma.code``;
 
@@ -139,12 +140,12 @@ const footerActionsBlock = hasFooterActions
   ? footerActionsConnected.length > 0 ||
     (Array.isArray(footerActionsFallback) && footerActionsFallback.length > 0)
     ? figma.code`
-        <DialogFooterActions>
+        <div className="ml-auto flex shrink-0 items-center">
           ${figma.helpers.react.renderChildren(footerActionsNodes)}
-        </DialogFooterActions>
+        </div>
       `
     : figma.code`
-        <DialogFooterActions>
+        <div className="ml-auto flex shrink-0 items-center">
           <ButtonGroup spacing="spaced">
             <DialogClose render={<Button variant="outline" size="${btnSize}" />}>
               Close
@@ -153,7 +154,7 @@ const footerActionsBlock = hasFooterActions
               Submit
             </DialogClose>
           </ButtonGroup>
-        </DialogFooterActions>
+        </div>
       `
   : figma.code``;
 
@@ -177,7 +178,7 @@ export default {
   imports: [
     'import { Button } from "@/components/ui/button"',
     'import { ButtonGroup } from "@/components/ui/button-group"',
-    'import { DialogBody, DialogClose, DialogContent, DialogContextLabel, DialogDescription, DialogFooter, DialogFooterActions, DialogFooterLink, DialogHeader, DialogTitle } from "@/components/ui/dialog"',
+    'import { DialogBody, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"',
     'import { Icon } from "@/components/ui/icon"',
     'import { IconShell } from "@/components/ui/icon-shell"',
   ],

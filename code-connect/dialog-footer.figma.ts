@@ -31,18 +31,18 @@ const footerActionsNodes =
 const footerLinkBlock = hasFooterLink
   ? footerLinkConnected.length > 0
     ? figma.code`
-        <DialogFooterLink>
+        <div className="flex shrink-0 items-center">
           ${figma.helpers.react.renderChildren(
             footerLinkConnected.map(n => n.executeTemplate().example).flat(),
           )}
-        </DialogFooterLink>
+        </div>
       `
     : figma.code`
-        <DialogFooterLink>
+        <div className="flex shrink-0 items-center">
           <Button variant="ghost" size="${btnSize}">
             Learn more
           </Button>
-        </DialogFooterLink>
+        </div>
       `
   : figma.code``;
 
@@ -50,12 +50,12 @@ const footerActionsBlock = hasFooterActions
   ? footerActionsConnected.length > 0 ||
     (Array.isArray(footerActionsFallback) && footerActionsFallback.length > 0)
     ? figma.code`
-        <DialogFooterActions>
+        <div className="ml-auto flex shrink-0 items-center">
           ${figma.helpers.react.renderChildren(footerActionsNodes)}
-        </DialogFooterActions>
+        </div>
       `
     : figma.code`
-        <DialogFooterActions>
+        <div className="ml-auto flex shrink-0 items-center">
           <ButtonGroup spacing="spaced">
             <DialogClose render={<Button variant="outline" size="${btnSize}" />}>
               Close
@@ -64,7 +64,7 @@ const footerActionsBlock = hasFooterActions
               Submit
             </DialogClose>
           </ButtonGroup>
-        </DialogFooterActions>
+        </div>
       `
   : figma.code``;
 
@@ -78,7 +78,7 @@ export default {
   imports: [
     'import { Button } from "@/components/ui/button"',
     'import { ButtonGroup } from "@/components/ui/button-group"',
-    'import { DialogClose, DialogFooter, DialogFooterActions, DialogFooterLink } from "@/components/ui/dialog"',
+    'import { DialogClose, DialogFooter } from "@/components/ui/dialog"',
   ],
   id: 'dialog-footer',
   metadata: { nestable: true },
