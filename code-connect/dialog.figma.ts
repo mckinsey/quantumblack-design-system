@@ -6,9 +6,6 @@ import figma from 'figma';
 const LOREM =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.';
 
-const CONTEXT_LABEL_CLASS =
-  'text-fg-secondary shrink-0 group-data-[size=xs]/dialog:paragraph-small-primary group-data-[size=sm]/dialog:paragraph-regular-primary group-data-[size=default]/dialog:paragraph-regular-primary group-data-[size=lg]/dialog:paragraph-regular-primary';
-
 const instance = figma.selectedInstance;
 
 const size = instance.getEnum('size', {
@@ -91,7 +88,7 @@ const footerActionsNodes =
     : footerActionsFallback;
 
 const contextLabel = hasContextLabel
-  ? figma.code`<p className="${CONTEXT_LABEL_CLASS}">CONTEXT LABEL</p>`
+  ? figma.code`<DialogContextLabel>CONTEXT LABEL</DialogContextLabel>`
   : figma.code``;
 
 const titleBlock = hasIcon
@@ -178,7 +175,7 @@ export default {
   imports: [
     'import { Button } from "@/components/ui/button"',
     'import { ButtonGroup } from "@/components/ui/button-group"',
-    'import { DialogBody, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"',
+    'import { DialogBody, DialogClose, DialogContent, DialogContextLabel, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"',
     'import { Icon } from "@/components/ui/icon"',
     'import { IconShell } from "@/components/ui/icon-shell"',
   ],

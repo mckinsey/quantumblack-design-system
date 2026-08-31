@@ -3,9 +3,6 @@
 // component=DialogHeader
 import figma from 'figma';
 
-const CONTEXT_LABEL_CLASS =
-  'text-fg-secondary shrink-0 group-data-[size=xs]/dialog:paragraph-small-primary group-data-[size=sm]/dialog:paragraph-regular-primary group-data-[size=default]/dialog:paragraph-regular-primary group-data-[size=lg]/dialog:paragraph-regular-primary';
-
 const instance = figma.selectedInstance;
 
 const size = instance.getEnum('size', {
@@ -29,7 +26,7 @@ const contextLabel = hasContextLabel
     ? figma.helpers.react.renderChildren(
         contextConnected.map(n => n.executeTemplate().example).flat(),
       )
-    : figma.code`<p className="${CONTEXT_LABEL_CLASS}">CONTEXT LABEL</p>`
+    : figma.code`<DialogContextLabel>CONTEXT LABEL</DialogContextLabel>`
   : figma.code``;
 
 const titleBlock = hasIcon
@@ -51,7 +48,7 @@ export default {
     </DialogHeader>
   `,
   imports: [
-    'import { DialogHeader, DialogTitle } from "@/components/ui/dialog"',
+    'import { DialogContextLabel, DialogHeader, DialogTitle } from "@/components/ui/dialog"',
     'import { Icon } from "@/components/ui/icon"',
     'import { IconShell } from "@/components/ui/icon-shell"',
   ],
