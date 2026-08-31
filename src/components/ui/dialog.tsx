@@ -103,6 +103,7 @@ function DialogContent({
               <Button
                 variant="ghost"
                 size="icon-sm"
+                type="button"
                 className="absolute top-4 right-4"
                 aria-label="Close"
               />
