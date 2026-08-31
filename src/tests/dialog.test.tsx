@@ -39,9 +39,7 @@ describe(`${componentName} — behaviour`, () => {
   it('renders a trigger button', () => {
     render(
       <Dialog>
-        <DialogTrigger asChild>
-          <Button>Open</Button>
-        </DialogTrigger>
+        <DialogTrigger render={<Button>Open</Button>} />
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Title</DialogTitle>
@@ -56,9 +54,7 @@ describe(`${componentName} — behaviour`, () => {
   it('dialog content is not visible before trigger click', () => {
     render(
       <Dialog>
-        <DialogTrigger asChild>
-          <Button>Open</Button>
-        </DialogTrigger>
+        <DialogTrigger render={<Button>Open</Button>} />
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Hidden Title</DialogTitle>
@@ -73,9 +69,7 @@ describe(`${componentName} — behaviour`, () => {
     const user = userEvent.setup();
     render(
       <Dialog>
-        <DialogTrigger asChild>
-          <Button>Open Dialog</Button>
-        </DialogTrigger>
+        <DialogTrigger render={<Button>Open Dialog</Button>} />
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Visible Title</DialogTitle>
@@ -92,9 +86,7 @@ describe(`${componentName} — behaviour`, () => {
     const user = userEvent.setup();
     render(
       <Dialog>
-        <DialogTrigger asChild>
-          <Button>Open</Button>
-        </DialogTrigger>
+        <DialogTrigger render={<Button>Open</Button>} />
         <DialogContent>
           <DialogHeader>
             <DialogTitle>T</DialogTitle>

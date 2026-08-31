@@ -22,9 +22,7 @@ import { Label } from '@/components/ui/label';
 export function DialogDemo() {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">Edit Profile</Button>
-      </DialogTrigger>
+      <DialogTrigger render={<Button variant="outline">Edit Profile</Button>} />
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
@@ -43,9 +41,7 @@ export function DialogDemo() {
           </div>
         </div>
         <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
+          <DialogClose render={<Button variant="outline">Cancel</Button>} />
           <Button type="button">Save changes</Button>
         </DialogFooter>
       </DialogContent>
@@ -59,9 +55,7 @@ export function DialogDemo() {
 export function DialogConfirmation() {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">Delete Item</Button>
-      </DialogTrigger>
+      <DialogTrigger render={<Button variant="outline">Delete Item</Button>} />
       <DialogContent className="sm:max-w-[400px]">
         <DialogHeader>
           <DialogTitle>Are you sure?</DialogTitle>
@@ -71,9 +65,7 @@ export function DialogConfirmation() {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
+          <DialogClose render={<Button variant="outline">Cancel</Button>} />
           <Button variant="default">Delete</Button>
         </DialogFooter>
       </DialogContent>
@@ -87,9 +79,7 @@ export function DialogConfirmation() {
 export function DialogCustomContent() {
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button>Share</Button>
-      </DialogTrigger>
+      <DialogTrigger render={<Button>Share</Button>} />
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Share document</DialogTitle>
@@ -113,11 +103,13 @@ export function DialogCustomContent() {
           </Button>
         </div>
         <DialogFooter className="sm:justify-start">
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Close
-            </Button>
-          </DialogClose>
+          <DialogClose
+            render={
+              <Button type="button" variant="secondary">
+                Close
+              </Button>
+            }
+          />
         </DialogFooter>
       </DialogContent>
     </Dialog>

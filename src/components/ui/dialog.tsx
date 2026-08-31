@@ -33,6 +33,12 @@ const dialogContentVariants = cva(
   },
 );
 
+const dialogInsetX =
+  'group-data-[size=xs]/dialog:px-6 group-data-[size=sm]/dialog:px-8 group-data-[size=default]/dialog:px-10 group-data-[size=lg]/dialog:px-10';
+
+const dialogDescriptionPb =
+  'group-data-[size=xs]/dialog:pb-4 group-data-[size=sm]/dialog:pb-6 group-data-[size=default]/dialog:pb-6 group-data-[size=lg]/dialog:pb-6';
+
 function Dialog({ ...props }: DialogPrimitive.Root.Props) {
   return <DialogPrimitive.Root data-slot="dialog" {...props} />;
 }
@@ -111,11 +117,8 @@ function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
     <div
       data-slot="dialog-header"
       className={cn(
-        'text-fg-primary flex w-full shrink-0 flex-col',
-        'group-data-[size=xs]/dialog:gap-2 group-data-[size=xs]/dialog:px-8 group-data-[size=xs]/dialog:pt-8 group-data-[size=xs]/dialog:pb-3',
-        'group-data-[size=sm]/dialog:gap-2 group-data-[size=sm]/dialog:px-8 group-data-[size=sm]/dialog:pt-8 group-data-[size=sm]/dialog:pb-3',
-        'group-data-[size=default]/dialog:gap-2 group-data-[size=default]/dialog:px-10 group-data-[size=default]/dialog:pt-10 group-data-[size=default]/dialog:pb-3',
-        'group-data-[size=lg]/dialog:gap-3 group-data-[size=lg]/dialog:px-10 group-data-[size=lg]/dialog:pt-10 group-data-[size=lg]/dialog:pb-3',
+        'text-fg-primary flex w-full shrink-0 flex-col gap-2 pt-8 pb-3',
+        dialogInsetX,
         className,
       )}
       {...props}
@@ -154,11 +157,7 @@ function DialogTitle({
   return (
     <div
       data-slot="dialog-title-row"
-      className={cn(
-        'flex w-full min-w-0 items-start gap-3',
-        'group-data-[size=sm]/dialog:pt-2 group-data-[size=xs]/dialog:pt-2',
-        'group-data-[size=default]/dialog:pt-3 group-data-[size=lg]/dialog:pt-3',
-      )}>
+      className="flex w-full min-w-0 items-start gap-3 pt-2">
       {icon}
       <DialogPrimitive.Title
         data-slot="dialog-title"
@@ -183,10 +182,7 @@ function DialogBody({ className, ...props }: React.ComponentProps<'div'>) {
       data-slot="dialog-body"
       className={cn(
         'flex min-h-0 w-full flex-1 flex-col overflow-y-auto',
-        'group-data-[size=xs]/dialog:gap-4 group-data-[size=xs]/dialog:px-6',
-        'group-data-[size=sm]/dialog:px-8',
-        'group-data-[size=default]/dialog:px-10',
-        'group-data-[size=lg]/dialog:px-10',
+        dialogInsetX,
         className,
       )}
       {...props}
@@ -203,10 +199,11 @@ function DialogDescription({
       data-slot="dialog-description"
       className={cn(
         'text-fg-secondary shrink-0 overflow-hidden text-ellipsis',
-        'group-data-[size=xs]/dialog:paragraph-regular-primary group-data-[size=xs]/dialog:pb-6',
-        'group-data-[size=sm]/dialog:paragraph-regular-primary group-data-[size=sm]/dialog:pb-6',
-        'group-data-[size=default]/dialog:paragraph-large-primary group-data-[size=default]/dialog:pb-6',
-        'group-data-[size=lg]/dialog:paragraph-large-primary group-data-[size=lg]/dialog:pb-6',
+        'group-data-[size=xs]/dialog:paragraph-regular-primary',
+        'group-data-[size=sm]/dialog:paragraph-regular-primary',
+        'group-data-[size=default]/dialog:paragraph-large-primary',
+        'group-data-[size=lg]/dialog:paragraph-large-primary',
+        dialogDescriptionPb,
         className,
       )}
       {...props}
