@@ -87,8 +87,16 @@ const footerActionsNodes =
     ? footerActionsConnected.map(n => n.executeTemplate().example).flat()
     : footerActionsFallback;
 
+const headerHandle = headerInst?.type === 'INSTANCE' ? headerInst : undefined;
+const contextSlot = headerHandle?.getSlot('contextLabelSlot');
+const contextConnected = contextSlot?.connectedInstances ?? [];
+
 const contextLabel = hasContextLabel
-  ? figma.code`<DialogContextLabel>CONTEXT LABEL</DialogContextLabel>`
+  ? contextConnected.length > 0
+    ? figma.helpers.react.renderChildren(
+        contextConnected.map(n => n.executeTemplate().example).flat(),
+      )
+    : figma.code`<DialogContextLabel>CONTEXT LABEL</DialogContextLabel>`
   : figma.code``;
 
 const titleBlock = hasIcon
@@ -155,6 +163,16 @@ const footerActionsBlock = hasFooterActions
       `
   : figma.code``;
 
+const footerBlock =
+  hasFooterLink || hasFooterActions
+    ? figma.code`
+        <DialogFooter>
+          ${footerLinkBlock}
+          ${footerActionsBlock}
+        </DialogFooter>
+      `
+    : figma.code``;
+
 export default {
   example: figma.code`
     <DialogContent size="${size}">
@@ -166,10 +184,7 @@ export default {
         ${descriptionBlock}
         ${bodyContent}
       </DialogBody>
-      <DialogFooter>
-        ${footerLinkBlock}
-        ${footerActionsBlock}
-      </DialogFooter>
+      ${footerBlock}
     </DialogContent>
   `,
   imports: [
