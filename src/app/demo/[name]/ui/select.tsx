@@ -27,7 +27,6 @@ import {
   useSelectContext,
 } from '@/components/ui/select';
 import { Tag } from '@/components/ui/tag';
-import { Toggle } from '@/components/ui/toggle';
 import { cn } from '@/lib/utils';
 
 const fieldConfig = {
@@ -227,85 +226,11 @@ export function SelectDemo() {
 }
 
 export function SelectInline() {
-  const [showAllSizes, setShowAllSizes] = React.useState(false);
-  const prefersReducedMotion =
-    typeof window !== 'undefined'
-      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      : false;
-
-  const ease = 'cubic-bezier(0.23, 1, 0.32, 1)';
-  const duration = showAllSizes ? '220ms' : '160ms';
-
-  const expandTransition = prefersReducedMotion
-    ? undefined
-    : `grid-template-rows ${duration} ${ease}`;
-
-  const fadeTransition = prefersReducedMotion
-    ? undefined
-    : `opacity ${duration} ${ease}, transform ${duration} ${ease}`;
-
   return (
-    <div className="relative w-full">
-      <Toggle
-        variant="ghost"
-        size="xs"
-        pressed={showAllSizes}
-        onPressedChange={setShowAllSizes}
-        className="absolute top-0 right-0 z-10"
-        aria-label={showAllSizes ? 'Hide all sizes' : 'Show all sizes'}>
-        {showAllSizes ? 'Hide all sizes' : 'Show all sizes'}
-      </Toggle>
-
-      <div className="mx-auto w-full max-w-sm pt-10">
-        <div
-          className="grid overflow-hidden"
-          style={{
-            gridTemplateRows: showAllSizes ? '1fr' : '0fr',
-            transition: expandTransition,
-          }}
-          aria-hidden={!showAllSizes}>
-          <div
-            className={cn('min-h-0', !showAllSizes && 'pointer-events-none')}>
-            <div
-              className={cn(
-                'pb-4',
-                showAllSizes
-                  ? 'translate-y-0 opacity-100'
-                  : '-translate-y-1 opacity-0',
-              )}
-              style={{ transition: fadeTransition }}>
-              <InlineField size="sm" label="Small" />
-            </div>
-          </div>
-        </div>
-
-        <InlineField
-          size="default"
-          label={showAllSizes ? 'Default' : 'Label'}
-        />
-
-        <div
-          className="grid overflow-hidden"
-          style={{
-            gridTemplateRows: showAllSizes ? '1fr' : '0fr',
-            transition: expandTransition,
-          }}
-          aria-hidden={!showAllSizes}>
-          <div
-            className={cn('min-h-0', !showAllSizes && 'pointer-events-none')}>
-            <div
-              className={cn(
-                'pt-4',
-                showAllSizes
-                  ? 'translate-y-0 opacity-100'
-                  : 'translate-y-1 opacity-0',
-              )}
-              style={{ transition: fadeTransition }}>
-              <InlineField size="lg" label="Large" />
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="mx-auto w-full max-w-sm space-y-4">
+      <InlineField size="sm" label="Small" />
+      <InlineField size="default" label="Default" />
+      <InlineField size="lg" label="Large" />
     </div>
   );
 }
@@ -778,7 +703,7 @@ export const examples = [
   {
     name: 'SelectInline',
     title: 'Inline',
-    description: 'Ghost / underline select (Field/SingleSelect-Ghost).',
+    description: 'Ghost / underline select in small, default, and large sizes.',
   },
   {
     name: 'SelectSizes',
