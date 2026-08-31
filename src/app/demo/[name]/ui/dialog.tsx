@@ -22,13 +22,13 @@ import { IconShell } from '@/components/ui/icon-shell';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
 import { cn } from '@/lib/utils';
 
-const CONTEXT = 'Project settings';
-const TITLE = 'Save configuration';
+const CONTEXT = 'CONTEXT LABEL';
+const TITLE = 'Modal title';
 const INTRO =
-  'Review your changes before applying them to this project. Unsaved edits will be lost if you close without saving.';
+  'Optional intro message that appears above the body slot. Use it to set context for the action or summarise concisely the important details';
 
 const BODY =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.';
 
 const LONG_BODY = Array.from(
   { length: 12 },
