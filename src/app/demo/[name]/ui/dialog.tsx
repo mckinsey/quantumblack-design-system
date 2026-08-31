@@ -7,6 +7,7 @@ import {
   DialogBody,
   DialogClose,
   DialogContent,
+  DialogContextLabel,
   DialogDescription,
   DialogFooter,
   DialogHeader,
@@ -45,16 +46,6 @@ function bodyTextClass(size: DialogSize) {
   return size === 'default' || size === 'lg'
     ? 'paragraph-large-primary'
     : 'paragraph-regular-primary';
-}
-
-function contextLabelClass() {
-  return cn(
-    'text-fg-secondary shrink-0',
-    'group-data-[size=xs]/dialog:paragraph-small-primary',
-    'group-data-[size=sm]/dialog:paragraph-regular-primary',
-    'group-data-[size=default]/dialog:paragraph-regular-primary',
-    'group-data-[size=lg]/dialog:paragraph-regular-primary',
-  );
 }
 
 function DialogTitleIcon({ size }: { size: DialogSize }) {
@@ -113,7 +104,7 @@ function DialogComposition({
   return (
     <>
       <DialogHeader>
-        {showContextLabel && <p className={contextLabelClass()}>{CONTEXT}</p>}
+        {showContextLabel && <DialogContextLabel>{CONTEXT}</DialogContextLabel>}
         {showIcon ? (
           <div className="flex w-full min-w-0 items-start gap-3">
             <DialogTitleIcon size={size} />
