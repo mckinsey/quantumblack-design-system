@@ -118,7 +118,29 @@ function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
       data-slot="dialog-header"
       className={cn(
         'text-fg-primary flex w-full shrink-0 flex-col gap-2 pt-8 pb-3',
+        'group-data-[size=default]/dialog:pt-10',
+        'group-data-[size=lg]/dialog:pt-10',
         dialogInsetX,
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function DialogContextLabel({
+  className,
+  ...props
+}: React.ComponentProps<'p'>) {
+  return (
+    <p
+      data-slot="dialog-context-label"
+      className={cn(
+        'text-fg-secondary shrink-0',
+        'group-data-[size=xs]/dialog:paragraph-small-primary',
+        'group-data-[size=sm]/dialog:paragraph-regular-primary',
+        'group-data-[size=default]/dialog:paragraph-regular-primary',
+        'group-data-[size=lg]/dialog:paragraph-regular-primary',
         className,
       )}
       {...props}
@@ -131,11 +153,8 @@ function DialogTitle({ className, ...props }: DialogPrimitive.Title.Props) {
     <DialogPrimitive.Title
       data-slot="dialog-title"
       className={cn(
-        'text-fg-primary min-w-0 truncate pt-2',
+        'text-fg-primary headings-h2-regular min-w-0 truncate pt-2',
         'group-data-[size=xs]/dialog:headings-h3-regular',
-        'group-data-[size=sm]/dialog:headings-h2-regular',
-        'group-data-[size=default]/dialog:headings-h2-regular',
-        'group-data-[size=lg]/dialog:headings-h2-regular',
         className,
       )}
       {...props}
@@ -184,10 +203,10 @@ function DialogFooter({ className, ...props }: React.ComponentProps<'div'>) {
       data-slot="dialog-footer"
       className={cn(
         'text-fg-primary flex w-full shrink-0 items-end justify-between',
-        'group-data-[size=xs]/dialog:min-h-[84px] group-data-[size=xs]/dialog:p-6',
-        'group-data-[size=sm]/dialog:min-h-[100px] group-data-[size=sm]/dialog:p-8',
-        'group-data-[size=default]/dialog:min-h-[112px] group-data-[size=default]/dialog:px-10 group-data-[size=default]/dialog:py-8',
-        'group-data-[size=lg]/dialog:p-9',
+        'group-data-[size=xs]/dialog:p-6',
+        'group-data-[size=sm]/dialog:p-8',
+        'group-data-[size=default]/dialog:px-10 group-data-[size=default]/dialog:py-8',
+        'group-data-[size=lg]/dialog:px-10 group-data-[size=lg]/dialog:py-9',
         className,
       )}
       {...props}
@@ -200,6 +219,7 @@ export {
   DialogBody,
   DialogClose,
   DialogContent,
+  DialogContextLabel,
   DialogDescription,
   DialogFooter,
   DialogHeader,
