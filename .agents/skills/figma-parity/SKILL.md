@@ -21,18 +21,19 @@ Match Figma tokens via **[docs/TOKENS.md](../../../docs/TOKENS.md)** (Design nam
 
 ## Repo patterns (match siblings, do not reinvent)
 
-- **Component**: `src/components/ui/<name>.tsx` — Radix + `cva` + context + `data-slot`; copy structure from the closest sibling, not from scratch.
-- **Demo**: `src/app/demo/[name]/ui/<name>.tsx` — `createLegacyDemo`, `examples[]`; cover every Figma variant axis or document manual gaps. No extra demo backgrounds unless the spec requires a surface contrast (match other demos).
+- **Component**: `src/components/ui/<name>.tsx` — primitive + `cva` + context + `data-slot`; copy structure from the closest sibling, not from scratch. Base UI vs Radix: see **Which primitive to use** in [CLAUDE.md](../../../CLAUDE.md) — the library is mid-migration, so check the imports in the file you are editing.
+- **Demo**: `src/app/demo/[name]/ui/<name>.tsx` — named exports + `examples: DemoExample[]` (canonical; `createLegacyDemo` is a legacy wrapper still exported by many existing demos — do not add it to new demos). Follow [demos.md](../../../docs/qbds-react-components/demos.md); covering a Figma axis does not require a separate example per optional slot toggle.
 - **Registry**: `registry.json` + `npm run registry:build` → `public/r/`.
 - **Tests**: `src/tests/<name>.test.tsx` — a11y roles, `data-*` attrs, interaction; assert key variant outputs where helpers exist.
 - **Icons**: `<IconShell>` + `<Icon icon="snake_case" />`; shell owns colour — pair sizes with the parent control per sibling demos. When the parent surface flips (dropdown-open, toggle-on, inverse fill), re-check nested IconShell **Type** (`neutral` vs `neutral-inverse`) and **State**/opacity (`primary` vs `secondary`) — size alone is not enough.
 - **Typography**: globals utilities (`cta-*`, `paragraph-*`, …) — not hand-rolled `text-sm` / `font-*` / `leading-*`.
 - **Interactive states**: match the nearest button-like sibling — state overlays, disabled fills, focus rings; do not let variant branches override size-level focus treatment.
-- **Slots**: Figma SLOT props → composable children, named sub-components, or Radix `asChild` / `Slot`; mark seams with `data-slot`.
+- **Slots**: follow [composition.md](../../../docs/qbds-react-components/composition.md) export decision tree — SLOT → children of existing parts first; new export only when the tree says so. Mark seams with `data-slot`.
 - **Field footer**: `FieldDescription` (helper) and `FieldError` (feedback) are **mutually exclusive** — one per field. Error/invalid → `FieldError` only; otherwise `FieldDescription` when helper is shown. Never both in demo or Code Connect.
 - **Horizontal Field lists**: `Field` is `w-full`; horizontal labels use `flex-auto`. Inside horizontal `CheckboxGroup` / `RadioGroup`, that stretches items and makes density gaps look wrong. Shrink-wrap on the group (`[&>[data-slot=field]]:w-auto` + label `flex-none`). Do not change Field globals.
-- **Radix composition**: The primitive that owns focus and keyboard behavior must be the **rendered** element — put `asChild` on the outer primitive and wrap the styled QBDS sub-component, not the reverse. Verify keyboard navigation in the demo.
-- **Public API**: Every exported sub-component needs a demo example and at least one test, or remove it from the public API.
+- **Primitive composition**: The primitive that owns focus and keyboard behavior must be the **rendered** element — Base UI `render`, or Radix `asChild` on the outer primitive wrapping the styled QBDS sub-component (not the reverse). Verify keyboard navigation in the demo.
+- **Public API**: follow [composition.md](../../../docs/qbds-react-components/composition.md). Figma parity verifies styling of exported parts, not that every Figma layer becomes an export. Every exported sub-component needs a demo example and at least one test, or remove it from the public API — do not export Figma-internal frames to satisfy this rule.
+- **Size drift red flag**: the same axis on both `data-*` and React Context without a documented reason in the alignment table.
 - **Field-composed controls** (input, textarea, select, date/time pickers, …): Figma nests **Elements/** instances (Label, Help-Text, Status-Messages, Characters-Counter). Match **each slot** per size × state in the demo — copy the per-size `fieldConfig` pattern from the nearest sibling (e.g. `input.tsx`). Do **not** assume shared `Field*` defaults match the parent set’s spec.
 
 ## Workflow (run in order)
@@ -45,6 +46,7 @@ Match Figma tokens via **[docs/TOKENS.md](../../../docs/TOKENS.md)** (Design nam
 - Build the alignment table from those first, **then** check the mapping against it (see step 4). Any mismatch — enum values, size names, variant→prop mapping — is a **Code Connect bug to fix**, not a spec to follow.
 - If Figma has a `dropdown-open` (or similar expanded) state and Code Connect maps it to `false`, omits open fill/icon changes, or documents a static IconShell type with no open override — that is a **mapping bug to flag**, not proof that open equals enabled.
 - To create or update a mapping, use the **`code-connect`** skill — it owns the mechanics and QBDS conventions.
+- When calling `get_design_context`, pass **`disableCodeConnect: true`** so the response cannot seed the spec with a stale mapping.
 
 For field-composed controls: derive **`errorClass`** (and warning/success/info) the same way as **`labelClass`** / **`descClass`** — pass explicit `className` on `<FieldError>` when Figma typography varies by size.
 
@@ -53,7 +55,8 @@ For field-composed controls: derive **`errorClass`** (and warning/success/info) 
 1. **Component description (Figma)** — On the **component set** root (not a single variant instance), read the designer-written **description** in Dev Mode, or from `get_design_context` on that node (follow **component documentation** links and **design annotations** in the response when present). QBDS descriptions often state the **default layout** and which variant axes exist (e.g. “Defaults to unboxed horizontal… also supports boxed, vertical, …”). Treat this as the narrative source of truth for defaults and scope before inferring from one frame.
 2. `get_metadata` (or Dev Mode) on the component set — list every variant, boolean, text, and SLOT property; note which property values are the set’s **default** selections.
 3. Read `src/components/ui/<name>.tsx` — `cva` keys, props, `data-slot`, exports.
-4. Build an alignment table from **Figma + React API** (never from Code Connect); flag **asymmetric** coverage (Figma-only or code-only values). The **Code Connect** column records what the mapping claims — a mismatch there is a mapping bug to fix, not a reason to change the spec:
+4. Prop naming: [props.md](../../../docs/qbds-react-components/props.md) — map Figma sizes to React vocabulary (`reg`→`default`, `xlg`→`xl`, …); `variant` uses `default` not `primary`.
+5. Build an alignment table from **Figma + React API** (never from Code Connect); flag **asymmetric** coverage (Figma-only or code-only values). The **Code Connect** column records what the mapping claims — a mismatch there is a mapping bug to fix, not a reason to change the spec:
 
 | Axis              | Figma values                 | React values                                            | Code Connect (verify) | Aligned? | Notes                    |
 | ----------------- | ---------------------------- | ------------------------------------------------------- | --------------------- | -------- | ------------------------ |
@@ -67,7 +70,7 @@ For field-composed controls: derive **`errorClass`** (and warning/success/info) 
 
 If a Code Connect mapping exists, confirm its enum values, size names, and variant→prop mapping match the Figma + React columns above. Fix the mapping (via the `code-connect` skill) when it drifts.
 
-5. **Field chrome table** (required when Figma nests Elements/\* or booleans `showLabel`, `showHelpText`, `showFeedbackMessage`, `showCounter`): inspect **each text slot** at sm, reg/default, and lg (and error/disabled states). Shared primitives (`FieldError`, `FieldDescription`) often ship generic defaults — override in demo/Code Connect when Figma differs.
+6. **Field chrome table** (required when Figma nests Elements/\* or booleans `showLabel`, `showHelpText`, `showFeedbackMessage`, `showCounter`): inspect **each text slot** at sm, reg/default, and lg (and error/disabled states). Shared primitives (`FieldError`, `FieldDescription`) often ship generic defaults — override in demo/Code Connect when Figma differs.
 
 | Slot     | Figma node                  | sm (type + color) | default | lg  | Code target                  |
 | -------- | --------------------------- | ----------------- | ------- | --- | ---------------------------- |
@@ -78,7 +81,7 @@ If a Code Connect mapping exists, confirm its enum values, size names, and varia
 
 **Red flags:** label/description are per-size in demo but error/feedback is not; bare `<FieldError>` with no `className` on a sized field set; wrong `paragraph-*` (e.g. `paragraph-regular-primary` when Figma shows `Paragraph/Large-Primary`). **Not a red flag:** `text-status-*` on feedback / counter / required `*` (see Text vs status note above).
 
-6. **Defaults & demos:**
+7. **Defaults & demos:**
    - **Defaults:** Figma description, `cva` defaults, and `registry.json` must agree.
    - **Demos:** Start `examples[0]` simple — developer's choice, not necessarily the Figma default. Cover every alignment-table row across `examples[]`. Include at least one **error/feedback** example per size when typography differs.
 
@@ -165,7 +168,7 @@ Report a **variant × state** matrix: pass / drift (note ≥2px or wrong token).
 - [ ] Exported sub-components: demo + test, or not exported
 - [ ] Composed primitives: correct `asChild` direction; keyboard nav verified
 - [ ] Visual pass: no undocumented ≥2px gaps
-- [ ] `npm run lint`, tests pass; `registry:build` if registry touched
+- [ ] Exit gate passes — see [create-qbds-component](../create-qbds-component/SKILL.md#exit-gate)
 
 ## User only shares a URL
 
