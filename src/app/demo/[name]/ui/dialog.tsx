@@ -7,11 +7,8 @@ import {
   DialogBody,
   DialogClose,
   DialogContent,
-  DialogContextLabel,
   DialogDescription,
   DialogFooter,
-  DialogFooterActions,
-  DialogFooterLink,
   DialogHeader,
   type DialogSize,
   DialogTitle,
@@ -48,6 +45,16 @@ function bodyTextClass(size: DialogSize) {
   return size === 'default' || size === 'lg'
     ? 'paragraph-large-primary'
     : 'paragraph-regular-primary';
+}
+
+function contextLabelClass() {
+  return cn(
+    'text-fg-secondary shrink-0',
+    'group-data-[size=xs]/dialog:paragraph-small-primary',
+    'group-data-[size=sm]/dialog:paragraph-regular-primary',
+    'group-data-[size=default]/dialog:paragraph-regular-primary',
+    'group-data-[size=lg]/dialog:paragraph-regular-primary',
+  );
 }
 
 function DialogTitleIcon({ size }: { size: DialogSize }) {
@@ -106,11 +113,15 @@ function DialogComposition({
   return (
     <>
       <DialogHeader>
-        {showContextLabel && <DialogContextLabel>{CONTEXT}</DialogContextLabel>}
-        <DialogTitle
-          icon={showIcon ? <DialogTitleIcon size={size} /> : undefined}>
-          {TITLE}
-        </DialogTitle>
+        {showContextLabel && <p className={contextLabelClass()}>{CONTEXT}</p>}
+        {showIcon ? (
+          <div className="flex w-full min-w-0 items-start gap-3">
+            <DialogTitleIcon size={size} />
+            <DialogTitle>{TITLE}</DialogTitle>
+          </div>
+        ) : (
+          <DialogTitle>{TITLE}</DialogTitle>
+        )}
       </DialogHeader>
       <DialogBody>
         {showDescription && <DialogDescription>{INTRO}</DialogDescription>}
@@ -127,13 +138,13 @@ function DialogComposition({
       </DialogBody>
       <DialogFooter>
         {showFooterLink && (
-          <DialogFooterLink>
+          <div className="flex shrink-0 items-center">
             <DialogFooterLinkButton size={size} />
-          </DialogFooterLink>
+          </div>
         )}
-        <DialogFooterActions>
+        <div className="ml-auto flex shrink-0 items-center">
           <DialogFooterButtons size={size} />
-        </DialogFooterActions>
+        </div>
       </DialogFooter>
     </>
   );
