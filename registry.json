@@ -276,14 +276,12 @@
       "type": "registry:ui",
       "title": "Dialog",
       "description": "QBDS modal dialog with size variants and composed header, body, and footer regions.",
-      "dependencies": ["@base-ui/react"],
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/icon.json",
-        "__REGISTRY_URL__/r/icon-shell.json",
-        "__REGISTRY_URL__/r/button.json",
-        "__REGISTRY_URL__/r/button-group.json"
+        "__REGISTRY_URL__/r/button.json"
       ],
       "files": [
         {
