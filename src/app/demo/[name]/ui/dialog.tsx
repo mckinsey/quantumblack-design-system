@@ -1,152 +1,211 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
+import { ButtonGroup } from '@/components/ui/button-group';
 import {
   Dialog,
+  DialogBody,
   DialogClose,
   DialogContent,
+  DialogContextLabel,
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  type DialogSize,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Icon } from '@/components/ui/icon';
+import { IconShell } from '@/components/ui/icon-shell';
+import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
+import { cn } from '@/lib/utils';
 
-// ============================================================================
-// Example Components (New Format)
-// ============================================================================
+const CONTEXT = 'CONTEXT LABEL';
+const TITLE = 'Modal title';
+const INTRO =
+  'Optional intro message that appears above the body slot. Use it to set context for the action or summarise concisely the important details';
 
-/**
- * Default dialog with form
- */
+const BODY =
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.';
+
+const LONG_BODY = Array.from(
+  { length: 12 },
+  (_, i) =>
+    `Section ${i + 1}. ${BODY} Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`,
+).join('\n\n');
+
+function dialogBtnSize(size: DialogSize) {
+  return size === 'lg' ? 'lg' : 'default';
+}
+
+function dialogIconShellSize(size: DialogSize) {
+  return size === 'default' || size === 'lg' ? 'lg' : 'default';
+}
+
+function bodyTextClass(size: DialogSize) {
+  return size === 'default' || size === 'lg'
+    ? 'paragraph-large-primary'
+    : 'paragraph-regular-primary';
+}
+
+function DialogTitleIcon({ size }: { size: DialogSize }) {
+  return (
+    <IconShell
+      size={dialogIconShellSize(size)}
+      type="neutral"
+      variant="primary">
+      <Icon icon="backup" />
+    </IconShell>
+  );
+}
+
+function DialogFooterButtons({ size }: { size: DialogSize }) {
+  const btnSize = dialogBtnSize(size);
+
+  return (
+    <ButtonGroup spacing="spaced">
+      <DialogClose render={<Button variant="outline" size={btnSize} />}>
+        Close
+      </DialogClose>
+      <DialogClose render={<Button variant="default" size={btnSize} />}>
+        Submit
+      </DialogClose>
+    </ButtonGroup>
+  );
+}
+
+function DialogFooterLinkButton({ size }: { size: DialogSize }) {
+  return (
+    <Button variant="ghost" size={dialogBtnSize(size)}>
+      Learn more
+    </Button>
+  );
+}
+
+function DialogComposition({
+  size = 'default',
+  showContextLabel = true,
+  showIcon = true,
+  showDescription = true,
+  showBody = true,
+  showFooterLink = true,
+  bodyText = BODY,
+  bodyClassName,
+}: {
+  size?: DialogSize;
+  showContextLabel?: boolean;
+  showIcon?: boolean;
+  showDescription?: boolean;
+  showBody?: boolean;
+  showFooterLink?: boolean;
+  bodyText?: string;
+  bodyClassName?: string;
+}) {
+  return (
+    <>
+      <DialogHeader>
+        {showContextLabel && <DialogContextLabel>{CONTEXT}</DialogContextLabel>}
+        {showIcon ? (
+          <div className="flex w-full min-w-0 items-start gap-3">
+            <DialogTitleIcon size={size} />
+            <DialogTitle>{TITLE}</DialogTitle>
+          </div>
+        ) : (
+          <DialogTitle>{TITLE}</DialogTitle>
+        )}
+      </DialogHeader>
+      <DialogBody>
+        {showDescription && <DialogDescription>{INTRO}</DialogDescription>}
+        {showBody && (
+          <p
+            className={cn(
+              bodyTextClass(size),
+              'text-fg-primary',
+              bodyClassName,
+            )}>
+            {bodyText}
+          </p>
+        )}
+      </DialogBody>
+      <DialogFooter>
+        {showFooterLink && (
+          <div className="flex shrink-0 items-center">
+            <DialogFooterLinkButton size={size} />
+          </div>
+        )}
+        <div className="ml-auto flex shrink-0 items-center">
+          <DialogFooterButtons size={size} />
+        </div>
+      </DialogFooter>
+    </>
+  );
+}
+
 export function DialogDemo() {
   return (
     <Dialog>
-      <DialogTrigger render={<Button variant="outline">Edit Profile</Button>} />
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4">
-          <div className="grid gap-3">
-            <Label htmlFor="name">Name</Label>
-            <Input id="name" defaultValue="Pedro Duarte" />
-          </div>
-          <div className="grid gap-3">
-            <Label htmlFor="username">Username</Label>
-            <Input id="username" defaultValue="@peduarte" />
-          </div>
-        </div>
-        <DialogFooter>
-          <DialogClose render={<Button variant="outline">Cancel</Button>} />
-          <Button type="button">Save changes</Button>
-        </DialogFooter>
+      <DialogTrigger render={<Button variant="outline">Open Dialog</Button>} />
+      <DialogContent size="default">
+        <DialogComposition size="default" />
       </DialogContent>
     </Dialog>
   );
 }
 
-/**
- * Simple confirmation dialog
- */
-export function DialogConfirmation() {
+export function DialogScrollableContent() {
   return (
     <Dialog>
-      <DialogTrigger render={<Button variant="outline">Delete Item</Button>} />
-      <DialogContent className="sm:max-w-[400px]">
-        <DialogHeader>
-          <DialogTitle>Are you sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete the item
-            from your account.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <DialogClose render={<Button variant="outline">Cancel</Button>} />
-          <Button variant="default">Delete</Button>
-        </DialogFooter>
+      <DialogTrigger
+        render={<Button variant="outline">Open scrollable dialog</Button>}
+      />
+      <DialogContent size="default">
+        <DialogComposition size="default" bodyText={LONG_BODY} />
       </DialogContent>
     </Dialog>
   );
 }
 
-/**
- * Dialog with custom content
- */
-export function DialogCustomContent() {
+export function DialogSizes() {
+  const sizes: DialogSize[] = ['xs', 'sm', 'default', 'lg'];
+
   return (
-    <Dialog>
-      <DialogTrigger render={<Button>Share</Button>} />
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Share document</DialogTitle>
-          <DialogDescription>
-            Anyone with the link can view this document.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="flex items-center space-x-2">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="link" className="sr-only">
-              Link
-            </Label>
-            <Input
-              id="link"
-              defaultValue="https://example.com/share/abc123"
-              readOnly
-            />
-          </div>
-          <Button type="button" size="sm" className="px-3">
-            Copy
-          </Button>
-        </div>
-        <DialogFooter className="sm:justify-start">
-          <DialogClose
-            render={
-              <Button type="button" variant="secondary">
-                Close
-              </Button>
-            }
+    <div className="flex flex-wrap items-center gap-4">
+      {sizes.map(size => (
+        <Dialog key={size}>
+          <DialogTrigger
+            render={<Button variant="outline">{`Open ${size}`}</Button>}
           />
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          <DialogContent size={size}>
+            <DialogComposition size={size} />
+          </DialogContent>
+        </Dialog>
+      ))}
+    </div>
   );
 }
 
-// ============================================================================
-// Example Metadata
-// ============================================================================
-
-export const examples = [
+export const examples: DemoExample[] = [
   {
     name: 'DialogDemo',
     title: 'Default',
-    description: 'Dialog with form inputs and footer actions.',
+    description:
+      'Default-size dialog with context label, icon, intro, body, and footer actions.',
   },
   {
-    name: 'DialogConfirmation',
-    title: 'Confirmation',
-    description: 'Simple confirmation dialog for destructive actions.',
+    name: 'DialogSizes',
+    title: 'Sizes',
+    description: 'xs, sm, default, and lg width variants.',
   },
   {
-    name: 'DialogCustomContent',
-    title: 'Custom Content',
-    description: 'Dialog with custom content layout.',
+    name: 'DialogScrollableContent',
+    title: 'Scrollable content',
+    description:
+      'Long body scrolls inside the dialog while header and footer stay fixed.',
   },
 ];
 
-// ============================================================================
-// Legacy Format (for backwards compatibility)
-// ============================================================================
-
-export const dialog = {
-  name: 'dialog',
-  components: {
-    Default: <DialogDemo />,
-    Confirmation: <DialogConfirmation />,
-    'Custom Content': <DialogCustomContent />,
-  },
-};
+export const dialog = createLegacyDemo('dialog', examples, {
+  DialogDemo: <DialogDemo />,
+  DialogSizes: <DialogSizes />,
+  DialogScrollableContent: <DialogScrollableContent />,
+});

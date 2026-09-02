@@ -139,9 +139,9 @@ import {
   examples as datePickerExamples,
 } from '@/app/demo/[name]/ui/date-picker';
 import {
-  DialogConfirmation,
-  DialogCustomContent,
   DialogDemo,
+  DialogScrollableContent,
+  DialogSizes,
   dialog,
   examples as dialogExamples,
 } from '@/app/demo/[name]/ui/dialog';
@@ -521,8 +521,8 @@ export const exampleComponentMaps: Record<
   },
   dialog: {
     DialogDemo,
-    DialogConfirmation,
-    DialogCustomContent,
+    DialogSizes,
+    DialogScrollableContent,
   },
   'context-menu': {
     ContextMenuDemo,
