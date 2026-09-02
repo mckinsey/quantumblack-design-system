@@ -155,6 +155,7 @@ export function getUIPrimitivesByCategory() {
     Feedback: ['alert', 'progress', 'badge', 'tag'],
     Display: [
       'avatar',
+      'statistic',
       'table',
       'calendar',
       'chart',
