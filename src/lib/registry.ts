@@ -162,6 +162,7 @@ export function getUIPrimitivesByCategory() {
       'date-picker',
       'time-input',
       'time-picker',
+      'statistic',
     ],
     Overlay: [
       'dialog',
