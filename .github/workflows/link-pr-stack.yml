@@ -1,0 +1,25 @@
+name: Link PR stack
+
+on:
+  workflow_dispatch:
+    inputs:
+      pull_requests:
+        description: Comma-separated PR numbers bottom-to-top (e.g. 184,185,186)
+        required: true
+        type: string
+
+permissions:
+  pull-requests: write
+
+jobs:
+  link:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create stack
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          PRS: ${{ inputs.pull_requests }}
+        run: |
+          json=$(printf '%s' "$PRS" | tr ',' '\n' | jq -R 'tonumber' | jq -s '.')
+          gh api --method POST "repos/$GH_REPO/stacks" -f "pull_requests=$json"
