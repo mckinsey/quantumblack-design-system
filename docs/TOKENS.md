@@ -66,17 +66,20 @@ Text fills only. For status-text colours, use `text-information|error|warning|su
 
 The QBDS source-of-truth variables live under `--text-*`; the Tailwind bridge exposes them as `--color-fg-*` so the utility names use the `fg-` prefix.
 
-| CSS variable         | Tailwind            | Use for                                                            | Design name        |
-| -------------------- | ------------------- | ------------------------------------------------------------------ | ------------------ |
-| `--text-primary`     | `text-fg-primary`   | Body copy, data entries, headers.                                  | `Text/Primary`     |
-| `--text-secondary`   | `text-fg-secondary` | Secondary text, additional descriptors, input labels, data labels. | `Text/Secondary`   |
-| `--text-tertiary`    | `text-fg-tertiary`  | Placeholder, hint text, tertiary content.                          | `Text/Tertiary`    |
-| `--text-disabled`    | `text-fg-disabled`  | Disabled content.                                                  | `Text/Disabled`    |
-| `--text-*-inverse`   | `text-fg-*-inverse` | Same usage on high-contrast backgrounds or accent elements.        | `Text/*-Inverse`   |
-| `--text-information` | `text-information`  | Status generic info text. AA-compliant 4.5:1.                      | `Text/Information` |
-| `--text-error`       | `text-error`        | Status error text. AA-compliant 4.5:1.                             | `Text/Error`       |
-| `--text-warning`     | `text-warning`      | Status warning text. AA-compliant 4.5:1.                           | `Text/Warning`     |
-| `--text-success`     | `text-success`      | Status success text. AA-compliant 4.5:1.                           | `Text/Success`     |
+| CSS variable            | Tailwind                 | Use for                                                            | Design name           |
+| ----------------------- | ------------------------ | ------------------------------------------------------------------ | --------------------- |
+| `--text-primary`        | `text-fg-primary`        | Body copy, data entries, headers.                                  | `Text/Primary`        |
+| `--text-secondary`      | `text-fg-secondary`      | Secondary text, additional descriptors, input labels, data labels. | `Text/Secondary`      |
+| `--text-tertiary`       | `text-fg-tertiary`       | Placeholder, hint text, tertiary content.                          | `Text/Tertiary`       |
+| `--text-disabled`       | `text-fg-disabled`       | Disabled content.                                                  | `Text/Disabled`       |
+| `--text-*-inverse`      | `text-fg-*-inverse`      | Same usage on high-contrast backgrounds or accent elements.        | `Text/*-Inverse`      |
+| `--text-information`    | `text-information`       | Status generic info text. AA-compliant 4.5:1.                      | `Text/Information`    |
+| `--text-error`          | `text-error`             | Status error text. AA-compliant 4.5:1.                             | `Text/Error`          |
+| `--text-warning`        | `text-warning`           | Status warning text. AA-compliant 4.5:1.                           | `Text/Warning`        |
+| `--text-success`        | `text-success`           | Status success text. AA-compliant 4.5:1.                           | `Text/Success`        |
+| `--text-trend-positive` | `text-fg-trend-positive` | Positive trend / KPI delta text.                                   | `Text/Trend-Positive` |
+| `--text-trend-negative` | `text-fg-trend-negative` | Negative trend / KPI delta text.                                   | `Text/Trend-Negative` |
+| `--text-trend-mono`     | `text-fg-trend-mono`     | Neutral trend context text.                                        | `Text/Trend-Mono`     |
 
 ## Border / Stroke
 
