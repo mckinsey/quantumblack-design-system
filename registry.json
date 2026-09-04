@@ -761,6 +761,25 @@
       ]
     },
     {
+      "name": "statistic",
+      "type": "registry:ui",
+      "title": "Statistic",
+      "description": "KPI card for dashboards. Compose StatisticLabel, StatisticIcon, StatisticValue, and StatisticTrend for metric summaries with optional trend context.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/icon-shell.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/statistic.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "switch",
       "type": "registry:ui",
       "title": "Switch",
