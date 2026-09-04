@@ -108,6 +108,24 @@ describe(`${componentName} — structure`, () => {
     expect(screen.getByText('since last reading')).toBeInTheDocument();
   });
 
+  it('renders formatter output instead of raw value', () => {
+    render(
+      <Statistic>
+        <StatisticValue value={1234} formatter={v => `$${v}`} />
+      </Statistic>,
+    );
+    expect(screen.getByText('$1234')).toBeInTheDocument();
+  });
+
+  it('renders zero value', () => {
+    render(
+      <Statistic>
+        <StatisticValue value={0} />
+      </Statistic>,
+    );
+    expect(screen.getByText('0')).toBeInTheDocument();
+  });
+
   it('applies default size via data-size', () => {
     const { container } = render(
       <Statistic>
