@@ -15,14 +15,13 @@ const sentimentText = {
   neutral: 'text-fg-trend-mono',
 } as const;
 
-const markSizeClasses =
-  'group-data-[size=xl]/statistic:size-8 group-data-[size=xl]/statistic:text-[32px] group-data-[size=lg]/statistic:size-8 group-data-[size=lg]/statistic:text-[32px] group-data-[size=default]/statistic:size-6 group-data-[size=default]/statistic:text-[24px] group-data-[size=sm]/statistic:size-4 group-data-[size=sm]/statistic:text-[16px] group-data-[size=xs]/statistic:size-4 group-data-[size=xs]/statistic:text-[16px]';
-
 const trendValuePrimaryClasses =
   'group-data-[size=xl]/statistic:headings-h3-semibold group-data-[size=xl]/statistic:text-xl group-data-[size=xl]/statistic:leading-7 group-data-[size=lg]/statistic:headings-h3-semibold group-data-[size=lg]/statistic:text-xl group-data-[size=lg]/statistic:leading-7 group-data-[size=default]/statistic:headings-h4-semibold group-data-[size=sm]/statistic:paragraph-regular-emphasised-600 group-data-[size=xs]/statistic:paragraph-regular-emphasised-600';
 
 const trendValueSecondaryClasses =
   'group-data-[size=xl]/statistic:headings-h3-regular group-data-[size=lg]/statistic:headings-h3-regular group-data-[size=default]/statistic:headings-h4-regular group-data-[size=sm]/statistic:paragraph-regular-primary group-data-[size=xs]/statistic:paragraph-regular-primary font-normal';
+
+const SizeContext = React.createContext<StatisticSize>('default');
 
 const TrendContext = React.createContext<{
   sentiment: StatisticSentiment;
@@ -30,6 +29,18 @@ const TrendContext = React.createContext<{
 
 function useTrendContext() {
   return React.useContext(TrendContext);
+}
+
+function markIconSize(size: StatisticSize) {
+  if (size === 'xs' || size === 'sm') {
+    return 'sm';
+  }
+
+  if (size === 'lg' || size === 'xl') {
+    return 'lg';
+  }
+
+  return 'default';
 }
 
 function resolveSentiment(
@@ -69,15 +80,17 @@ function Statistic({
     unitPosition?: StatisticUnitPosition;
   }) {
   return (
-    <div
-      role="group"
-      data-slot="statistic"
-      data-size={size}
-      data-align={align}
-      data-unit-position={unitPosition}
-      className={cn(statisticVariants({ align }), className)}
-      {...props}
-    />
+    <SizeContext.Provider value={size}>
+      <div
+        role="group"
+        data-slot="statistic"
+        data-size={size}
+        data-align={align}
+        data-unit-position={unitPosition}
+        className={cn(statisticVariants({ align }), className)}
+        {...props}
+      />
+    </SizeContext.Provider>
   );
 }
 
@@ -223,6 +236,7 @@ function StatisticMark({
   sentiment?: StatisticSentiment;
 }) {
   const ctx = useTrendContext();
+  const size = React.useContext(SizeContext);
   const resolved = resolveSentiment(sentiment, ctx);
 
   return (
@@ -234,7 +248,8 @@ function StatisticMark({
       <IconShell
         type="custom"
         variant="primary"
-        className={cn(sentimentText[resolved], markSizeClasses)}>
+        size={markIconSize(size)}
+        className={sentimentText[resolved]}>
         {children}
       </IconShell>
     </div>
@@ -302,10 +317,10 @@ function StatisticTrendValue({
         className,
       )}
       {...props}>
-      {value ? (
+      {value !== undefined ? (
         <StatisticTrendValueItem>{value}</StatisticTrendValueItem>
       ) : null}
-      {percentage ? (
+      {percentage !== undefined ? (
         <StatisticTrendValueItem variant="secondary">
           {percentage}
         </StatisticTrendValueItem>
