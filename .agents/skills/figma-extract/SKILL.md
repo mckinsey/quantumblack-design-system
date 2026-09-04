@@ -9,4 +9,4 @@ description: Inventories components, properties, and structure from a Figma URL.
 2. [Extract component properties](reference/extract-component-information.md) for `components[]`.
 3. [Extract component structure](reference/extract-structure-for-components.md) for `mainComponents[]`.
 
-Show the output to the user json format mentioned in the refernce documents
+Show the output to the user in the JSON format described in the reference documents.

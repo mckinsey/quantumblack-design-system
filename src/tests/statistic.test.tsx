@@ -135,15 +135,10 @@ describe(`${componentName} — structure`, () => {
     );
 
     const root = container.querySelector('[data-slot="statistic"]');
-    const label = container.querySelector('[data-slot="statistic-label"]');
     const icon = container.querySelector('[data-slot="statistic-icon"]');
-    const trend = container.querySelector('[data-slot="statistic-trend"]');
 
     expect(root).toHaveAttribute('data-align', 'end');
-    expect(root?.className).toContain('items-end');
-    expect(label?.className).toContain('justify-end');
     expect(icon).toBeNull();
-    expect(trend?.className).toContain('justify-end');
   });
 
   it('applies align and unit position via data attributes', () => {

@@ -6,7 +6,7 @@ description: End-to-end QBDS skill — spec through registry for a new component
 # Workflow
 
 Execute the following steps strictly in order. Do not start Step 2 until Step 1 is fully completed and verified.
-After each step, stop show the output to user, take permission and then go to the next step
+After each step, pause, show the output to the user, and wait for confirmation before continuing.
 
 1. Run [figma-extract](../figma-extract/SKILL.md) skill and use the output for the next step.
 2. [reference](../../../docs/qbds-react-components/reference.md)

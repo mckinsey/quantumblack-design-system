@@ -1,4 +1,4 @@
-Use `get_metadata` from the desktop Figma MCP. For each name in `mainComponent` from step 1, walk the matching layers and `components` to build a JSX-like hierarchy (element names from Figma layer names, nesting from parent/child order).
+Use `get_metadata` from the desktop Figma MCP. For each name in `mainComponents` from step 1, walk the matching layers and `components` to build a JSX-like hierarchy (element names from Figma layer names, nesting from parent/child order).
 
 ## Output format
 
@@ -11,4 +11,4 @@ Use `get_metadata` from the desktop Figma MCP. For each name in `mainComponent` 
 ]
 ```
 
-- `name` — entry from `mainComponent` in step 1
+- `name` — entry from `mainComponents` in step 1
