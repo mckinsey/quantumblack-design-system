@@ -300,7 +300,6 @@ import {
   StatisticSizes,
   StatisticTrendSentiments,
   StatisticUnitPosition,
-  statistic,
   examples as statisticExamples,
 } from '@/app/demo/[name]/ui/statistic';
 import {
@@ -943,7 +942,7 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     exampleComponents: exampleComponentMaps.slider,
   },
   statistic: {
-    ...statistic,
+    name: 'statistic',
     examples: statisticExamples,
     exampleComponents: exampleComponentMaps.statistic,
   },

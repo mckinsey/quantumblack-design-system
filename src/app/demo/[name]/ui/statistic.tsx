@@ -12,7 +12,7 @@ import {
   StatisticTrendValue,
   StatisticValue,
 } from '@/components/ui/statistic';
-import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
+import { type DemoExample } from '@/lib/demo-utils';
 
 const sizes = [
   'xs',
@@ -172,11 +172,3 @@ export const examples: DemoExample[] = [
     description: 'Positive, negative, and neutral trend rows.',
   },
 ];
-
-export const statistic = createLegacyDemo('statistic', examples, {
-  StatisticDemo: <StatisticDemo />,
-  StatisticSizes: <StatisticSizes />,
-  StatisticAlign: <StatisticAlign />,
-  StatisticUnitPosition: <StatisticUnitPosition />,
-  StatisticTrendSentiments: <StatisticTrendSentiments />,
-});
