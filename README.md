@@ -1,5 +1,8 @@
 # QuantumBlack Design System
 
+<img width="1200" height="563" alt="hero" src="https://github.com/user-attachments/assets/ff16271b-798f-4ee6-9878-e334f820d248" />
+
+
 QuantumBlack Design System provides accessible components built with [Base UI](https://base-ui.com/) and [Radix UI](https://www.radix-ui.com/) primitives and styled with design tokens. You add them to your project as source files through the [shadcn](https://ui.shadcn.com/) registry, not as an NPM package.
 
 With a typical component library, you install a package and import what it exports. Customization often means wrappers, overrides, or working around what the library gives you. QBDS copies the component files into your project instead. You can install only what you need, use components unchanged, or edit them directly.
