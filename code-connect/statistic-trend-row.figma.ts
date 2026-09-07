@@ -47,7 +47,13 @@ const markBlock = hasTrendMark
 let valueBlock = figma.code``;
 
 if (hasTrendValue && trendValueInst?.type === 'INSTANCE') {
-  const val = JSON.stringify(trendValueInst.getString(valueKey) ?? '+234');
+  const fallback =
+    sentiment === 'negative'
+      ? '-234'
+      : sentiment === 'neutral'
+        ? '00.00'
+        : '+234';
+  const val = JSON.stringify(trendValueInst.getString(valueKey) ?? fallback);
   const pct = trendValueInst.getString(pctKey);
 
   valueBlock = pct
