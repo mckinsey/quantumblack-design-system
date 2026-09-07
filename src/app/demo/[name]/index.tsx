@@ -295,6 +295,14 @@ import {
   examples as sonnerExamples,
 } from '@/app/demo/[name]/ui/sonner';
 import {
+  StatisticAlign,
+  StatisticDemo,
+  StatisticSizes,
+  StatisticTrendSentiments,
+  StatisticUnitPosition,
+  examples as statisticExamples,
+} from '@/app/demo/[name]/ui/statistic';
+import {
   SwitchChecked,
   SwitchDemo,
   SwitchDisabled,
@@ -643,6 +651,13 @@ export const exampleComponentMaps: Record<
     SliderStepsLabeled,
     SliderStepsLabeledRange,
   },
+  statistic: {
+    StatisticDemo,
+    StatisticSizes,
+    StatisticAlign,
+    StatisticUnitPosition,
+    StatisticTrendSentiments,
+  },
   sonner: {
     SonnerDemo,
     SonnerVariants,
@@ -763,6 +778,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   select: selectExamples,
   sidebar: sidebarExamples,
   slider: sliderExamples,
+  statistic: statisticExamples,
   sonner: sonnerExamples,
   switch: switchExamples,
   table: tableExamples,
@@ -924,6 +940,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...slider,
     examples: sliderExamples,
     exampleComponents: exampleComponentMaps.slider,
+  },
+  statistic: {
+    name: 'statistic',
+    examples: statisticExamples,
+    exampleComponents: exampleComponentMaps.statistic,
   },
   sonner: {
     ...sonner,
