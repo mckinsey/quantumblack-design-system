@@ -6,6 +6,7 @@ import { Renderer } from '@/app/demo/[name]/renderer';
 import { Icon } from '@/components/ui/icon';
 import {
   Statistic,
+  StatisticIcon,
   StatisticLabel,
   StatisticMark,
   StatisticPeriodRange,
@@ -52,6 +53,9 @@ describe(`${componentName} — structure`, () => {
     const { container } = render(
       <Statistic>
         <StatisticLabel>Energy output</StatisticLabel>
+        <StatisticIcon>
+          <Icon icon="energy_savings_leaf" />
+        </StatisticIcon>
         <StatisticValue value="99.43" unit="MWh" />
         <StatisticTrend sentiment="positive">
           <StatisticMark>
@@ -73,6 +77,7 @@ describe(`${componentName} — structure`, () => {
     const slots = [
       'statistic',
       'statistic-label',
+      'statistic-icon',
       'statistic-value',
       'statistic-trend',
       'statistic-mark',
@@ -138,7 +143,7 @@ describe(`${componentName} — structure`, () => {
     );
   });
 
-  it('applies end alignment to child slots via group-data', () => {
+  it('sets data-align on root when align is end', () => {
     const { container } = render(
       <Statistic align="end">
         <StatisticLabel>Right aligned</StatisticLabel>
@@ -191,7 +196,7 @@ describe(`${componentName} — structure`, () => {
     );
     expect(
       container.querySelector('[data-slot="statistic-mark"]'),
-    ).toHaveAttribute('aria-hidden');
+    ).toHaveAttribute('aria-hidden', 'true');
   });
 
   it('renders trend value items with variant data attributes', () => {

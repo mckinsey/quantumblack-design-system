@@ -2,6 +2,7 @@ import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import {
   Statistic,
+  type StatisticAlign,
   StatisticIcon,
   StatisticLabel,
   StatisticMark,
@@ -10,6 +11,7 @@ import {
   StatisticTrend,
   StatisticTrendContext,
   StatisticTrendValue,
+  type StatisticUnitPosition,
   StatisticValue,
 } from '@/components/ui/statistic';
 import { type DemoExample } from '@/lib/demo-utils';
@@ -52,8 +54,8 @@ function KpiStat({
   withTrend = true,
 }: {
   size?: StatisticSize;
-  align?: 'start' | 'end';
-  unitPosition?: 'inline' | 'stacked';
+  align?: StatisticAlign;
+  unitPosition?: StatisticUnitPosition;
   label?: string;
   value?: string;
   unit?: string;
