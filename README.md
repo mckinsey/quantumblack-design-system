@@ -1,7 +1,7 @@
 # QuantumBlack Design System
 
 <img
-  src="https://github.com/user-attachments/assets/ff16271b-798f-4ee6-9878-e334f820d248"
+  src=".github/images/hero.gif"
   alt="QuantumBlack Design System showcase"
   width="100%" />
 
