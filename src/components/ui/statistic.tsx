@@ -244,7 +244,7 @@ function StatisticMark({
     <div
       data-slot="statistic-mark"
       aria-hidden
-      className={cn('shrink-0', className)}
+      className={cn('inline-flex shrink-0 items-center', className)}
       {...props}>
       <IconShell
         type="custom"
