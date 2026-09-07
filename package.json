@@ -35,7 +35,7 @@
     "precommit": "concurrently --kill-others-on-fail -n lint,typecheck,test,secrets \"npm run lint\" \"npm run typecheck\" \"npm run test:unit\" \"npm run secretscan\"",
     "start": "vite preview --host 0.0.0.0 --port 3000",
     "prepare": "husky && npm run skills:link",
-    "skills:link": "symlink-dir .agents/skills/figma-parity .claude/skills/figma-parity && symlink-dir .agents/skills/figma-token-sync .claude/skills/figma-token-sync && symlink-dir .agents/skills/code-connect .claude/skills/code-connect && symlink-dir .agents/skills/figma-to-react-code .claude/skills/figma-to-react-code && symlink-dir .agents/skills/create-qbds-component .claude/skills/create-qbds-component",
+    "skills:link": "symlink-dir .agents/skills/figma-parity .claude/skills/figma-parity && symlink-dir .agents/skills/figma-token-sync .claude/skills/figma-token-sync && symlink-dir .agents/skills/code-connect .claude/skills/code-connect && symlink-dir .agents/skills/figma-to-react-code .claude/skills/figma-to-react-code && symlink-dir .agents/skills/create-qbds-component .claude/skills/create-qbds-component && symlink-dir .agents/skills/figma-extract .claude/skills/figma-extract",
     "figma:config": "tsx scripts/generate-figma-config.ts",
     "figma:parse": "npm run figma:config && figma connect parse",
     "figma:publish": "npm run figma:config && figma connect publish --skip-validation"
