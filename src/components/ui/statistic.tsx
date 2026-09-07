@@ -1,3 +1,5 @@
+'use client';
+
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
@@ -156,24 +158,23 @@ function StatisticValue({
   unit?: string;
   formatter?: (value: string | number) => React.ReactNode;
 }) {
-  if (children) {
+  const layoutClass = cn(
+    'flex gap-1',
+    'group-data-[unit-position=inline]/statistic:items-end',
+    'group-data-[unit-position=stacked]/statistic:flex-col group-data-[unit-position=stacked]/statistic:items-start',
+    className,
+  );
+
+  if (React.Children.count(children) > 0) {
     return (
-      <div data-slot="statistic-value" className={className} {...props}>
+      <div data-slot="statistic-value" className={layoutClass} {...props}>
         {children}
       </div>
     );
   }
 
   return (
-    <div
-      data-slot="statistic-value"
-      className={cn(
-        'flex gap-1',
-        'group-data-[unit-position=inline]/statistic:items-end',
-        'group-data-[unit-position=stacked]/statistic:flex-col group-data-[unit-position=stacked]/statistic:items-start',
-        className,
-      )}
-      {...props}>
+    <div data-slot="statistic-value" className={layoutClass} {...props}>
       <span
         className={cn(
           'text-fg-primary [word-break:break-word] whitespace-nowrap',
@@ -268,6 +269,7 @@ function StatisticTrendValueItem({
       data-slot="statistic-trend-value-item"
       data-variant={variant}
       className={cn(
+        'inline-flex items-center',
         variant === 'primary'
           ? trendValuePrimaryClasses
           : trendValueSecondaryClasses,
@@ -292,31 +294,23 @@ function StatisticTrendValue({
 }) {
   const ctx = useTrendContext();
   const resolved = resolveSentiment(sentiment, ctx);
+  const layoutClass = cn(
+    'flex items-center gap-1',
+    '[&_[data-slot=statistic-trend-value-item]]:leading-none',
+    sentimentText[resolved],
+    className,
+  );
 
-  if (children) {
+  if (React.Children.count(children) > 0) {
     return (
-      <div
-        data-slot="statistic-trend-value"
-        className={cn(
-          'flex items-center gap-1',
-          sentimentText[resolved],
-          className,
-        )}
-        {...props}>
+      <div data-slot="statistic-trend-value" className={layoutClass} {...props}>
         {children}
       </div>
     );
   }
 
   return (
-    <div
-      data-slot="statistic-trend-value"
-      className={cn(
-        'flex items-center gap-1',
-        sentimentText[resolved],
-        className,
-      )}
-      {...props}>
+    <div data-slot="statistic-trend-value" className={layoutClass} {...props}>
       {value !== undefined ? (
         <StatisticTrendValueItem>{value}</StatisticTrendValueItem>
       ) : null}
