@@ -22,11 +22,11 @@ const disabled = instance.getEnum('state', {
   disabled: true,
 });
 
-const showPhoto = instance.getBoolean('showPhoto');
-const showUserInitials = instance.getBoolean('showUserInitials');
-const showIcon = instance.getBoolean('showIcon');
-const showCounterTop = instance.getBoolean('showCounterTop');
-const showStatus = instance.getBoolean('showStatus');
+const showPhoto = instance.getBoolean('hasPhoto');
+const showUserInitials = instance.getBoolean('hasUserInitials');
+const showIcon = instance.getBoolean('hasIcon');
+const showCounterTop = instance.getBoolean('hasCounterTop');
+const showStatus = instance.getBoolean('hasStatus');
 
 const initials =
   size === 'xxs'

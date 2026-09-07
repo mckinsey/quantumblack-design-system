@@ -5,17 +5,17 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const inlineInput = instance.getEnum('inline-input', {
+const inlineInput = instance.getEnum('inlineInput', {
   true: true,
   false: false,
 });
 
-const showLabel = instance.getBoolean('showLabel');
-const showValue = instance.getBoolean('showValue');
+const showLabel = instance.getBoolean('hasLabel');
+const showValue = instance.getBoolean('hasValue');
 const markActiveEntry = instance.getString('markActiveEntry');
 
-const showLeading = instance.getBoolean('showLeadingIcon');
-const showTrailing = instance.getBoolean('showTrailingIcon');
+const showLeading = instance.getBoolean('hasLeadingIcon');
+const showTrailing = instance.getBoolean('hasTrailingIcon');
 
 const shells = instance.findConnectedInstances(
   n => n.type === 'INSTANCE' && n.codeConnectId() === 'icon-shell',

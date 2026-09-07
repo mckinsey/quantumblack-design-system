@@ -21,10 +21,10 @@ const state = instance.getEnum('state', {
   disabled: 'disabled',
 });
 
-const showLabel = instance.getBoolean('showLabel');
-const showHelpText = instance.getBoolean('showHelpText');
-const showHintText = instance.getBoolean('showHintText');
-const showFeedback = instance.getBoolean('showFeedbackMessage');
+const showLabel = instance.getBoolean('hasLabel');
+const showHelpText = instance.getBoolean('hasHelpText');
+const showHintText = instance.getBoolean('hasHintText');
+const showFeedback = instance.getBoolean('hasFeedbackMessage');
 const entryFilled = instance.getString('entryFilled');
 
 const labelInst = instance.findInstance('Elements/Label', {
@@ -32,11 +32,11 @@ const labelInst = instance.findInstance('Elements/Label', {
 });
 const showCounter =
   labelInst && labelInst.type === 'INSTANCE'
-    ? labelInst.getBoolean('showCounter')
+    ? labelInst.getBoolean('hasCounter')
     : false;
 const labelField =
   labelInst && labelInst.type === 'INSTANCE'
-    ? labelInst.getString('labelField')
+    ? labelInst.getString('label')
     : 'Label';
 
 const helpInst = instance.findInstance('Elements/Help-Text', {
@@ -60,7 +60,7 @@ const counterInst = instance.findInstance('Elements/Characters-Counter', {
 });
 const rawMax =
   counterInst && counterInst.type === 'INSTANCE'
-    ? counterInst.getString('Max') || counterInst.getString('Max+1')
+    ? counterInst.getString('exceededCount') || counterInst.getString('max')
     : '';
 
 const disabled = state === 'disabled';

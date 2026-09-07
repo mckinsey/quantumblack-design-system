@@ -5,20 +5,20 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const size = instance.getEnum('Size', {
+const size = instance.getEnum('size', {
   '16': 'sm',
   '24': 'default',
   '32': 'lg',
 });
 
-const figmaType = instance.getEnum('Type', {
+const figmaType = instance.getEnum('type', {
   neutral: 'neutral',
   'neutral-inverse': 'neutral-inverse',
   accent: 'accent',
   'accent-inverse': 'accent-inverse',
 });
 
-const state = instance.getEnum('State', {
+const state = instance.getEnum('state', {
   primary: 'primary',
   secondary: 'secondary',
   disabled: 'disabled',
@@ -42,7 +42,7 @@ const resolvedType = type ?? 'neutral';
 
 const customClass = customClassByType[figmaType ?? ''];
 
-const swapBySize = instance.getEnum('Size', {
+const swapBySize = instance.getEnum('size', {
   '16': 'IconSwap-16',
   '24': 'IconSwap-24',
   '32': 'IconSwap-32',

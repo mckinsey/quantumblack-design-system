@@ -3,9 +3,9 @@ import figma from '@figma/code-connect/react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 figma.connect(AspectRatio, '<QBDS_ASPECT_RATIO>', {
-  variant: { Portrait: 'False' },
+  variant: { orientation: 'landscape' },
   props: {
-    ratio: figma.enum('Aspect ratio', {
+    ratio: figma.enum('aspectRatio', {
       '1:1': 1,
       '5:4': 1.25,
       '4:3': 1.33,
@@ -23,9 +23,9 @@ figma.connect(AspectRatio, '<QBDS_ASPECT_RATIO>', {
 });
 
 figma.connect(AspectRatio, '<QBDS_ASPECT_RATIO>', {
-  variant: { Portrait: 'True' },
+  variant: { orientation: 'portrait' },
   props: {
-    ratio: figma.enum('Aspect ratio', {
+    ratio: figma.enum('aspectRatio', {
       '1:1': 1,
       '5:4': 0.8,
       '4:3': 0.75,

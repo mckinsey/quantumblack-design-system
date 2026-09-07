@@ -22,8 +22,8 @@ const disabled = instance.getEnum('state', {
   disabled: true,
 });
 
-const showLeft = instance.getBoolean('showLeftLabel');
-const showRight = instance.getBoolean('showRightLabel');
+const showLeft = instance.getBoolean('hasLeftLabel');
+const showRight = instance.getBoolean('hasRightLabel');
 const left = instance.getString('leftEntry');
 const right = instance.getString('rightEntry');
 

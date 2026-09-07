@@ -5,7 +5,7 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const showOverflow = instance.getBoolean('showOverflowCounter');
+const showOverflow = instance.getBoolean('hasOverflowCounter');
 
 const avatars = figma.properties.children(['Avatar']);
 

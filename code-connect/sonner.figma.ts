@@ -14,8 +14,8 @@ const type = instance.getEnum('type', {
 });
 
 const message = JSON.stringify(instance.getString('primaryMessage'));
-const isDismissable = instance.getBoolean('isDismissable');
-const showIcon = instance.getBoolean('showNotificationIcon');
+const hasDismiss = instance.getBoolean('hasDismiss');
+const showIcon = instance.getBoolean('hasNotificationIcon');
 
 const iconShell = showIcon ? instance.findInstance('IconShell') : null;
 let iconCode: figma.ResultSection[] = [];
@@ -36,15 +36,15 @@ const setup = figma.code`
 
 let call = figma.code`toast.${type}(${message})`;
 
-if (showIcon && isDismissable && iconCode.length) {
+if (showIcon && hasDismiss && iconCode.length) {
   call = figma.code`toast.${type}(${message}, { icon: ${iconCode} })`;
-} else if (showIcon && !isDismissable && iconCode.length) {
+} else if (showIcon && !hasDismiss && iconCode.length) {
   call = figma.code`toast.${type}(${message}, { icon: ${iconCode}, cancel: null })`;
-} else if (showIcon && !isDismissable) {
+} else if (showIcon && !hasDismiss) {
   call = figma.code`toast.${type}(${message}, { cancel: null })`;
-} else if (!showIcon && isDismissable) {
+} else if (!showIcon && hasDismiss) {
   call = figma.code`toast.${type}(${message}, { icon: null })`;
-} else if (!showIcon && !isDismissable) {
+} else if (!showIcon && !hasDismiss) {
   call = figma.code`toast.${type}(${message}, { icon: null, cancel: null })`;
 }
 

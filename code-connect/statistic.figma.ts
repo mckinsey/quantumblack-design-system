@@ -48,7 +48,7 @@ let labelBlock = figma.code``;
 if (hasLabel) {
   if (labelInst?.type === 'INSTANCE') {
     const label = JSON.stringify(
-      labelInst.getString('labelField') ?? 'Energy output',
+      labelInst.getString('label') ?? 'Energy output',
     );
     const disabled =
       labelInst.getEnum('state', {

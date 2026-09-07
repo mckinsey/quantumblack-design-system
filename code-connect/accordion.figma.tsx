@@ -15,8 +15,8 @@ figma.connect(Accordion, '<QBDS_ACCORDION>', {
       lg: 'lg',
     }),
     expandAlign: figma.enum('expandAlign', {
-      right: 'right',
-      left: 'left',
+      end: 'right',
+      start: 'left',
     }),
     items: figma.children('baseItems-Accordion*'),
   },
@@ -27,10 +27,10 @@ figma.connect(Accordion, '<QBDS_ACCORDION>', {
   ),
 });
 
-// Title-only row (showTrailing = false): the label is the trigger child, no
+// Title-only row (hasTrailing = false): the label is the trigger child, no
 // extra layout needed.
 figma.connect(AccordionItem, '<QBDS_ACCORDION_ITEM>', {
-  variant: { showTrailing: false },
+  variant: { hasTrailing: false },
   props: {
     disabled: figma.enum('state', {
       enabled: false,
@@ -39,7 +39,7 @@ figma.connect(AccordionItem, '<QBDS_ACCORDION_ITEM>', {
     }),
     label: figma.textContent('Item label'),
     description: figma.string('description'),
-    content: figma.boolean('showContent', {
+    content: figma.boolean('hasContent', {
       true: figma.slot('contentSlot'),
       false: undefined,
     }),
@@ -56,12 +56,12 @@ figma.connect(AccordionItem, '<QBDS_ACCORDION_ITEM>', {
   ),
 });
 
-// Row with a trailing element (showTrailing = true): wrap the label and the
+// Row with a trailing element (hasTrailing = true): wrap the label and the
 // trailing slot in a space-between flex row so the trailing item aligns to the
 // end of the header and dims when the row is disabled. `figma.slot` renders
 // whatever component sits in the Figma `trailingSlot` via its own Code Connect.
 figma.connect(AccordionItem, '<QBDS_ACCORDION_ITEM>', {
-  variant: { showTrailing: true },
+  variant: { hasTrailing: true },
   props: {
     disabled: figma.enum('state', {
       enabled: false,
@@ -71,7 +71,7 @@ figma.connect(AccordionItem, '<QBDS_ACCORDION_ITEM>', {
     label: figma.textContent('Item label'),
     description: figma.string('description'),
     trailing: figma.slot('trailingSlot'),
-    content: figma.boolean('showContent', {
+    content: figma.boolean('hasContent', {
       true: figma.slot('contentSlot'),
       false: undefined,
     }),

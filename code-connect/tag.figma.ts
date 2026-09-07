@@ -22,7 +22,7 @@ const size = instance.getEnum('size', {
   lg: 'lg',
 });
 
-const pill = instance.getBoolean('pill');
+const pill = instance.getEnum('shape', { rounded: false, pill: true });
 const label = instance.getString('label');
 
 const disabled = instance.getEnum('state', {
@@ -33,7 +33,7 @@ const disabled = instance.getEnum('state', {
   disabled: true,
 });
 
-const showLeading = instance.getBoolean('showLeadingIcon');
+const showLeading = instance.getBoolean('hasLeadingIcon');
 const leading = showLeading ? instance.findInstance('Leading-Icon') : null;
 
 let icon = 'style';

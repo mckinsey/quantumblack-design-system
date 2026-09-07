@@ -21,7 +21,7 @@ const disabled = instance.getEnum('state', {
 
 const label = instance.getString('tabEntry');
 
-const showLeading = instance.getBoolean('showLeadingIcon');
+const showLeading = instance.getBoolean('hasLeadingIcon');
 const leadingNames = ['Icon/Leading/Small', 'Icon/Leading/Regular'];
 let leadingCode: figma.ResultSection[] = [];
 
