@@ -75,5 +75,5 @@ Component name for component work. Demo name for demo-only fixes.
 ## Summary
 
 - Add `docs/PULL_REQUESTS.md`: `<type>(<scope>):` titles, type/scope tables, summary rules
-- Link doc from `CLAUDE.md` pre-PR checklist
+- Link doc from `AGENTS.md` pre-PR checklist
 ```
