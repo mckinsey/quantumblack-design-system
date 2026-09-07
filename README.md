@@ -1,9 +1,15 @@
 # QuantumBlack Design System
 
-<img
-  src=".github/images/hero.gif"
-  alt="QuantumBlack Design System showcase"
-  width="100%" />
+<video
+  autoplay
+  loop
+  muted
+  playsinline
+  poster=".github/images/hero-poster.png"
+  width="100%"
+  aria-label="QuantumBlack Design System showcase">
+  <source src=".github/images/hero.mp4" type="video/mp4" />
+</video>
 
 QuantumBlack Design System provides accessible components built with [Base UI](https://base-ui.com/) and [Radix UI](https://www.radix-ui.com/) primitives and styled with design tokens. You add them to your project as source files through the [shadcn](https://ui.shadcn.com/) registry, not as an NPM package.
 
