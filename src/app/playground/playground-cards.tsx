@@ -19,7 +19,7 @@ export function PlaygroundCards({
         <p className="paragraph-small text-fg-secondary max-w-2xl">{body}</p>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="flex flex-wrap gap-6">
         {Array.from({ length: cardCount }, (_, i) => (
           <DefaultCard key={i} />
         ))}
