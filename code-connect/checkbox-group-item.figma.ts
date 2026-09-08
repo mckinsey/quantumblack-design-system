@@ -3,6 +3,18 @@
 // component=Checkbox
 import figma from 'figma';
 
+function textProp(node: figma.InstanceHandle, ...names: string[]) {
+  for (const name of names) {
+    const value = node.getString(name);
+
+    if (typeof value === 'string' && value) {
+      return value;
+    }
+  }
+
+  return '';
+}
+
 const instance = figma.selectedInstance;
 
 const size =
@@ -27,8 +39,16 @@ const disabled =
   }) ?? false;
 
 const showItemCount = instance.getBoolean('hasItemCount');
-const label = String(instance.getString('label') ?? 'Checkbox label');
-const itemCount = String(instance.getString('itemCount') ?? '');
+
+const fromProp = textProp(instance, 'label');
+const labelNode = fromProp ? null : instance.findText('Checkbox label');
+const labelRaw =
+  fromProp ||
+  (labelNode?.type === 'TEXT' && labelNode.textContent
+    ? labelNode.textContent
+    : 'Checkbox label');
+const label = JSON.stringify(labelRaw);
+const itemCount = JSON.stringify(textProp(instance, 'itemCount') || '1');
 
 const checkboxSize = size === 'lg' ? 'lg' : 'default';
 const labelTone = disabled ? 'text-fg-disabled' : 'text-fg-secondary';
@@ -49,7 +69,7 @@ const checkedProp =
 const disabledProp = disabled ? ' disabled' : '';
 
 const countNode = showItemCount
-  ? figma.code`<span className="${labelClass}" aria-hidden>${itemCount}</span>`
+  ? figma.code`<span className="${labelClass}" aria-hidden>{${itemCount}}</span>`
   : figma.code``;
 
 export default {
@@ -57,8 +77,8 @@ export default {
     <Field orientation="horizontal" className="gap-2">
       <FieldLabel
         className="${labelClass} flex min-w-0 flex-1 cursor-pointer items-center gap-2">
-        <Checkbox size="${checkboxSize}" value="${label}"${checkedProp}${disabledProp} />
-        <span className="min-w-0 flex-1">${label}</span>
+        <Checkbox size="${checkboxSize}" value={${label}}${checkedProp}${disabledProp} />
+        <span className="min-w-0 flex-1">{${label}}</span>
       </FieldLabel>
       ${countNode}
     </Field>
