@@ -60,7 +60,7 @@ const counterInst = instance.findInstance('Elements/Characters-Counter', {
 });
 const rawMax =
   counterInst && counterInst.type === 'INSTANCE'
-    ? counterInst.getString('exceededCount') || counterInst.getString('max')
+    ? counterInst.getString('max')
     : '';
 
 const disabled = state === 'disabled';
