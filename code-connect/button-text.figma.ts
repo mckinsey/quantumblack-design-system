@@ -44,7 +44,7 @@ const openNote =
 
 const label = instance.getString('label');
 
-const showLeading = instance.getBoolean('showLeadingIcon');
+const showLeading = instance.getBoolean('hasLeadingIcon');
 const leading = showLeading ? instance.findInstance('Leading-Icon') : null;
 let leadingCode: figma.ResultSection[] = [];
 
@@ -52,7 +52,7 @@ if (leading && leading.type === 'INSTANCE') {
   leadingCode = leading.executeTemplate().example;
 }
 
-const showTrailing = instance.getBoolean('showTrailingIcon');
+const showTrailing = instance.getBoolean('hasTrailingIcon');
 const trailing = showTrailing ? instance.findInstance('Trailing-Icon') : null;
 let trailingCode: figma.ResultSection[] = [];
 

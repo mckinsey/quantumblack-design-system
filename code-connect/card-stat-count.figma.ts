@@ -10,7 +10,7 @@ const size = instance.getEnum('size', {
   reg: 'default',
 });
 
-const value = instance.getString('value') || '21';
+const value = JSON.stringify(String(instance.getString('value') ?? '21'));
 
 const iconShell = instance.findInstance('IconShell');
 let iconCode: figma.ResultSection[] = [];
@@ -28,7 +28,7 @@ export default {
   example: figma.code`
     <div className="${statClass}">
       ${iconCode}
-      ${value}
+      {${value}}
     </div>
   `,
   imports: [

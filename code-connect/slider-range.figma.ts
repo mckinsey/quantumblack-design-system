@@ -5,7 +5,7 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const showLabel = instance.getBoolean('showLabel');
+const showLabel = instance.getBoolean('hasLabel');
 const markLeftEntry = instance.getString('markLeftEntry');
 const markRightEntry = instance.getString('markRightEntry');
 

@@ -4,11 +4,11 @@
 import figma from 'figma';
 
 const instance = figma.selectedInstance;
-const text = instance.getString('Text');
+const text = JSON.stringify(String(instance.getString('Text') ?? 'Section'));
 
 export default {
   example: figma.code`
-    <SidebarGroupLabel>${text}</SidebarGroupLabel>
+    <SidebarGroupLabel>{${text}}</SidebarGroupLabel>
   `,
   imports: ['import { SidebarGroupLabel } from "@/components/ui/sidebar"'],
   id: 'nav-menu-header',
