@@ -294,7 +294,7 @@
       "name": "context-menu",
       "type": "registry:ui",
       "title": "Context Menu",
-      "description": "Displays a menu of actions triggered by a right click.",
+      "description": "Displays a menu of actions triggered by a right-click.",
       "dependencies": ["@radix-ui/react-context-menu"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
