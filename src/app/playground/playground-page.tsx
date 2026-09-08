@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 
 import { type NavId } from '@/app/demo/[name]/ui/sidebar-demo-data';
@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 import { SidebarInset } from '@/components/ui/sidebar';
+import { toast } from '@/components/ui/sonner';
 
 import { PlaygroundCards } from './playground-cards';
 import { PlaygroundSettingsForm } from './playground-settings-form';
@@ -97,11 +98,20 @@ function PlaygroundHeader({ onOpenSettings }: { onOpenSettings: () => void }) {
 export function PlaygroundPage() {
   const [activeNav, setActiveNav] = useState<NavId>('dashboard');
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [dashboardAlertDismissed, setDashboardAlertDismissed] = useState(false);
+  const dashboardToastShown = useRef(false);
 
   const page = primaryNav.find(item => item.id === activeNav) ?? primaryNav[0];
-  const dashboardAlertOpen =
-    activeNav === 'dashboard' && !dashboardAlertDismissed;
+
+  useEffect(() => {
+    if (activeNav !== 'dashboard' || dashboardToastShown.current) {
+      return;
+    }
+
+    dashboardToastShown.current = true;
+    toast.info(
+      'Conversion is up 4.2% week over week. Pipeline coverage sits at 1.4× target.',
+    );
+  }, [activeNav]);
 
   return (
     <div className="bg-surface-secondary flex h-svh min-h-svh w-full flex-col overflow-hidden">
@@ -119,8 +129,6 @@ export function PlaygroundPage() {
             title={page.title}
             subtitle={page.subtitle}
             body={page.body}
-            welcomeAlertOpen={dashboardAlertOpen}
-            onWelcomeAlertClose={() => setDashboardAlertDismissed(true)}
           />
         </SidebarInset>
       </div>
