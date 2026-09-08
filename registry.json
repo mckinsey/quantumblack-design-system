@@ -8,10 +8,7 @@
       "type": "registry:lib",
       "title": "QBDS Utilities",
       "description": "Utilities for merging Tailwind CSS classes.",
-      "dependencies": [
-        "clsx",
-        "tailwind-merge"
-      ],
+      "dependencies": ["clsx", "tailwind-merge"],
       "files": [
         {
           "path": "src/lib/utils.ts",
@@ -43,9 +40,7 @@
       "type": "registry:ui",
       "title": "Accordion",
       "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -82,9 +77,7 @@
       "type": "registry:ui",
       "title": "Avatar",
       "description": "An image element with a fallback for representing the user.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -102,9 +95,7 @@
       "type": "registry:ui",
       "title": "Badge",
       "description": "Displays a badge or a component that looks like a badge.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -121,9 +112,7 @@
       "type": "registry:ui",
       "title": "Button",
       "description": "Displays a button or a component that looks like a button.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -140,10 +129,7 @@
       "type": "registry:ui",
       "title": "Button Group",
       "description": "A container that groups related buttons together with consistent styling.",
-      "dependencies": [
-        "class-variance-authority",
-        "@base-ui/react"
-      ],
+      "dependencies": ["class-variance-authority", "@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -161,10 +147,7 @@
       "type": "registry:ui",
       "title": "Calendar",
       "description": "A calendar component that allows users to select a date or a range of dates.",
-      "dependencies": [
-        "react-day-picker",
-        "date-fns"
-      ],
+      "dependencies": ["react-day-picker", "date-fns"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -185,10 +168,7 @@
       "type": "registry:ui",
       "title": "Date Picker",
       "description": "A date picker component with range and presets.",
-      "dependencies": [
-        "react-day-picker",
-        "date-fns"
-      ],
+      "dependencies": ["react-day-picker", "date-fns"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -279,10 +259,7 @@
       "type": "registry:ui",
       "title": "Checkbox",
       "description": "A control that allows the user to toggle between checked and not checked.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -299,10 +276,7 @@
       "type": "registry:ui",
       "title": "Dialog",
       "description": "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -321,9 +295,7 @@
       "type": "registry:ui",
       "title": "Context Menu",
       "description": "Displays a menu of actions triggered by a right click.",
-      "dependencies": [
-        "@radix-ui/react-context-menu"
-      ],
+      "dependencies": ["@radix-ui/react-context-menu"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -347,9 +319,7 @@
       "type": "registry:ui",
       "title": "Dropdown Menu",
       "description": "Displays a menu to the user, such as a set of actions or functions, triggered by a button.",
-      "dependencies": [
-        "@radix-ui/react-dropdown-menu"
-      ],
+      "dependencies": ["@radix-ui/react-dropdown-menu"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -375,9 +345,7 @@
       "type": "registry:ui",
       "title": "Field",
       "description": "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -470,9 +438,7 @@
       "type": "registry:ui",
       "title": "Icon Shell",
       "description": "Wraps Icon with QBDS size, tone, and opacity.",
-      "dependencies": [
-        "@radix-ui/react-slot"
-      ],
+      "dependencies": ["@radix-ui/react-slot"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -490,9 +456,7 @@
       "type": "registry:ui",
       "title": "Input",
       "description": "A text input component for forms and user data entry.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -528,10 +492,7 @@
       "type": "registry:ui",
       "title": "Number Field",
       "description": "Numeric input with increment and decrement controls.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -552,9 +513,7 @@
       "type": "registry:ui",
       "title": "Combobox",
       "description": "Autocomplete input with a list of suggestions.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -591,9 +550,7 @@
       "type": "registry:ui",
       "title": "Popover",
       "description": "Displays rich content in a portal, triggered by a button.",
-      "dependencies": [
-        "@radix-ui/react-popover"
-      ],
+      "dependencies": ["@radix-ui/react-popover"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -610,10 +567,7 @@
       "type": "registry:ui",
       "title": "Radio Group",
       "description": "A set of checkable buttons, known as radio buttons, where no more than one can be checked at a time.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -630,9 +584,7 @@
       "type": "registry:ui",
       "title": "Segmented Controls",
       "description": "Single-select control with segmented button options.",
-      "dependencies": [
-        "@radix-ui/react-toggle-group"
-      ],
+      "dependencies": ["@radix-ui/react-toggle-group"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -649,9 +601,7 @@
       "type": "registry:ui",
       "title": "Select",
       "description": "Displays a list of options for the user to pick from, triggered by a button.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -671,9 +621,7 @@
       "type": "registry:ui",
       "title": "Scroll Area",
       "description": "Augments native scroll functionality for custom, cross-browser styling.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -690,9 +638,7 @@
       "type": "registry:ui",
       "title": "Separator",
       "description": "Visually or semantically separates content.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -709,9 +655,7 @@
       "type": "registry:ui",
       "title": "Sheet",
       "description": "Extends the Dialog component to display content that complements the main content of the screen.",
-      "dependencies": [
-        "@radix-ui/react-dialog"
-      ],
+      "dependencies": ["@radix-ui/react-dialog"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -783,9 +727,7 @@
       "type": "registry:ui",
       "title": "Slider",
       "description": "An input where the user selects a value from within a given range.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -810,10 +752,7 @@
         "__REGISTRY_URL__/r/icon.json",
         "__REGISTRY_URL__/r/icon-shell.json"
       ],
-      "dependencies": [
-        "sonner",
-        "next-themes"
-      ],
+      "dependencies": ["sonner", "next-themes"],
       "files": [
         {
           "path": "src/components/ui/sonner.tsx",
@@ -826,9 +765,7 @@
       "type": "registry:ui",
       "title": "Statistic",
       "description": "Displays a key metric with optional label, icon, and trend.",
-      "dependencies": [
-        "class-variance-authority"
-      ],
+      "dependencies": ["class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -847,9 +784,7 @@
       "type": "registry:ui",
       "title": "Switch",
       "description": "A control that allows the user to toggle between checked and not checked.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -883,9 +818,7 @@
       "type": "registry:ui",
       "title": "Tabs",
       "description": "A set of layered sections of content, known as tab panels, that are displayed one at a time.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -932,9 +865,7 @@
       "type": "registry:ui",
       "title": "Tooltip",
       "description": "A popup that displays information when an element is hovered or focused.",
-      "dependencies": [
-        "@radix-ui/react-tooltip"
-      ],
+      "dependencies": ["@radix-ui/react-tooltip"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -989,9 +920,7 @@
       "type": "registry:ui",
       "title": "Tag Toggle",
       "description": "A tag that toggles between selected and unselected states.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -1009,9 +938,7 @@
       "type": "registry:ui",
       "title": "Toggle",
       "description": "A two-state button that can be either on or off.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -1029,9 +956,7 @@
       "type": "registry:ui",
       "title": "Toggle Group",
       "description": "A set of two-state buttons that can be toggled on or off.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -1049,9 +974,7 @@
       "type": "registry:ui",
       "title": "Toolbar",
       "description": "A container for grouping related buttons and controls.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
