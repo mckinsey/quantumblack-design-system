@@ -108,9 +108,7 @@ export function PlaygroundPage() {
     }
 
     dashboardToastShown.current = true;
-    toast.info(
-      'Conversion is up 4.2% week over week. Pipeline coverage sits at 1.4× target.',
-    );
+    toast.info('Conversion is up 4.2% week over week.');
   }, [activeNav]);
 
   return (
