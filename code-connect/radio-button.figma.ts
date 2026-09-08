@@ -17,7 +17,7 @@ const disabled = instance.getEnum('state', {
   disabled: true,
 });
 
-const selected = instance.getBoolean('isSelected');
+const selected = instance.getBoolean('hasSelected');
 
 export default {
   example: figma.code`

@@ -31,8 +31,8 @@ figma.connect(ContextMenuItem, '<QBDS_MENU_ITEM_CONTEXT>', {
       hover: false,
       disabled: true,
     }),
-    label: figma.string('Label'),
-    shortcut: figma.boolean('showShortcut', {
+    label: figma.string('label'),
+    shortcut: figma.boolean('hasShortcut', {
       true: figma.string('shortcutEntry'),
       false: undefined,
     }),
@@ -51,7 +51,7 @@ figma.connect(ContextMenuSubTrigger, '<QBDS_MENU_ITEM_SUBTRIGGER>', {
       true: true,
       false: false,
     }),
-    label: figma.string('Label'),
+    label: figma.string('label'),
   },
   example: ({ inset, label }) => (
     <ContextMenuSubTrigger inset={inset}>{label}</ContextMenuSubTrigger>

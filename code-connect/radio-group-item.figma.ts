@@ -18,7 +18,7 @@ const disabled = instance.getEnum('state', {
   disabled: true,
 });
 
-const label = instance.getString('Label-Radio') || 'option';
+const label = String(instance.getString('label') ?? 'option');
 const id = label
   .toLowerCase()
   .replace(/[^a-z0-9]+/g, '-')

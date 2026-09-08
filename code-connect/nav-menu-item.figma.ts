@@ -47,12 +47,15 @@ const withChildren =
     false: false,
   }) ?? false;
 
-const label =
-  hierarchy === 'primary'
-    ? instance.getString('Header')
-    : instance.getString('label');
+const label = JSON.stringify(
+  String(
+    hierarchy === 'primary'
+      ? (instance.getString('Header') ?? instance.getString('label') ?? 'Item')
+      : (instance.getString('label') ?? 'Item'),
+  ),
+);
 
-const showTrailing = instance.getBoolean('showTrailingSlot');
+const showTrailing = instance.getBoolean('hasTrailingSlot');
 const trailingSlot = showTrailing ? instance.getSlot('trailingSlot') : null;
 const trailingConnected = trailingSlot?.connectedInstances ?? [];
 const trailing =
@@ -87,13 +90,13 @@ const groupButton = figma.code`
     'showChevron',
     withChildren || undefined,
   )}>
-    ${iconCode}<span>${label}</span>${figma.helpers.react.renderChildren(trailing)}
+    ${iconCode}<span>{${label}}</span>${figma.helpers.react.renderChildren(trailing)}
   </SidebarNavMenuButton>
 `;
 
 const subButton = figma.code`
   <SidebarNavMenuSubButton${buttonProps}>
-    ${iconCode}<span>${label}</span>
+    ${iconCode}<span>{${label}}</span>
   </SidebarNavMenuSubButton>
 `;
 

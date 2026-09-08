@@ -25,7 +25,7 @@ const size = (instance.getEnum('size', {
   lg: 'lg',
 }) ?? 'default') as GroupSize;
 
-const showLabel = instance.getBoolean('showLabel');
+const showLabel = instance.getBoolean('hasLabel');
 
 const swapName =
   size === 'sm'
@@ -45,10 +45,13 @@ const labelNode = showLabel
   ? instance.findInstance('Elements/Label', { traverseInstances: true })
   : null;
 
-const labelText =
-  labelNode && labelNode.type === 'INSTANCE'
-    ? labelNode.getString('labelField')
-    : '';
+const labelText = JSON.stringify(
+  String(
+    labelNode && labelNode.type === 'INSTANCE'
+      ? (labelNode.getString('label') ?? '')
+      : '',
+  ),
+);
 
 const titleClass = labelClass(size);
 
@@ -57,7 +60,7 @@ export default {
     <Field orientation="horizontal" className="w-fit items-center gap-3">
       ${
         showLabel
-          ? figma.code`<FieldLabel htmlFor="select" className="${titleClass}">${labelText}</FieldLabel>`
+          ? figma.code`<FieldLabel htmlFor="select" className="${titleClass}">{${labelText}}</FieldLabel>`
           : figma.code``
       }
       ${fieldCode}

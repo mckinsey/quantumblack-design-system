@@ -17,7 +17,7 @@ const padded = instance.getEnum('padding', {
 });
 
 const align = instance.getEnum('align', {
-  left: 'left',
+  start: 'left',
   center: 'center',
 });
 

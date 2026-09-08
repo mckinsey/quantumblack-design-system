@@ -5,7 +5,7 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const arrowPosition = instance.getEnum('arrow-position', {
+const arrowPosition = instance.getEnum('arrowPosition', {
   'top-left': 'top-left',
   'top-center': 'top-center',
   'top-right': 'top-right',

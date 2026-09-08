@@ -15,13 +15,13 @@ const size = instance.getEnum('size', {
   lg: 'lg',
 });
 
-const headerInst = instance.findInstance('baseDialog/Header', {
+const headerInst = instance.findInstance('base/dialog/Header', {
   traverseInstances: true,
 });
-const contentInst = instance.findInstance('baseDialog/Content', {
+const contentInst = instance.findInstance('base/dialog/Content', {
   traverseInstances: true,
 });
-const footerInst = instance.findInstance('baseDialog/Footer', {
+const footerInst = instance.findInstance('base/dialog/Footer', {
   traverseInstances: true,
 });
 
