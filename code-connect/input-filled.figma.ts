@@ -31,7 +31,6 @@ const showTrailing = instance.getBoolean('hasTrailingIcon');
 const showTrailingButton = instance.getBoolean('hasTrailingButton');
 const showFeedbackIcon = instance.getBoolean('hasFeedbackIcon');
 const showFeedback = instance.getBoolean('hasFeedbackMessage');
-instance.getBoolean('hasEntryText');
 const showHintText = instance.getBoolean('hasHintText');
 
 const showClearByState = state === 'active' || state === 'open-typeahead';

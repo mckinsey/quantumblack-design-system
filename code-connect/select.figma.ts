@@ -62,7 +62,6 @@ const optionSelectedLit = JSON.stringify(optionSelected);
 const showLeading = instance.getBoolean('hasLeadingIcon');
 const showFeedback = instance.getBoolean('hasFeedbackMessage');
 const showFeedbackIcon = instance.getBoolean('hasFeedbackIcon');
-instance.getBoolean('hasEntryText');
 
 const leading = showLeading ? instance.findInstance('Leading-Icon') : null;
 let leadingCode: figma.ResultSection[] = [];

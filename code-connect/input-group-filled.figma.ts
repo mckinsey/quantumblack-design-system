@@ -29,7 +29,6 @@ const showLeading = instance.getBoolean('hasLeadingIcon');
 const showTrailing = instance.getBoolean('hasTrailingIcon');
 const showPrefix = instance.getBoolean('hasPrefix');
 const showSuffix = instance.getBoolean('hasSuffix');
-instance.getBoolean('hasEntryText');
 const showHelpText = instance.getBoolean('hasHintText');
 const showFeedback = instance.getBoolean('hasFeedbackMessage');
 

@@ -17,9 +17,9 @@ const hasTrendMark = instance.getBoolean('hasTrendMark');
 const hasTrendValue = instance.getBoolean('hasTrendValue');
 const hasTrendContext = instance.getBoolean('hasTrendContext');
 
-const trendValueInst =
-  instance.findInstance('trendValue', { traverseInstances: true }) ??
-  instance.findInstance('.base/stat/TrendValue', { traverseInstances: true });
+const trendValueInst = instance.findInstance('trendValue', {
+  traverseInstances: true,
+});
 const contextInst = instance.findInstance('.base/stat/TrendContext', {
   traverseInstances: true,
 });
