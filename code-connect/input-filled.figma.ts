@@ -26,13 +26,13 @@ const state = instance.getEnum('state', {
   disabled: 'disabled',
 });
 
-const showLeading = instance.getBoolean('showLeadingIcon');
-const showTrailing = instance.getBoolean('showTrailingIcon');
-const showTrailingButton = instance.getBoolean('showTrailingButton');
-const showFeedbackIcon = instance.getBoolean('showFeedbackIcon');
-const showFeedback = instance.getBoolean('showFeedbackMessage');
-instance.getBoolean('showEntryText');
-const showHintText = instance.getBoolean('showHintText');
+const showLeading = instance.getBoolean('hasLeadingIcon');
+const showTrailing = instance.getBoolean('hasTrailingIcon');
+const showTrailingButton = instance.getBoolean('hasTrailingButton');
+const showFeedbackIcon = instance.getBoolean('hasFeedbackIcon');
+const showFeedback = instance.getBoolean('hasFeedbackMessage');
+instance.getBoolean('hasEntryText');
+const showHintText = instance.getBoolean('hasHintText');
 
 const showClearByState = state === 'active' || state === 'open-typeahead';
 const showStatusIconByState =
@@ -41,10 +41,18 @@ const showStatusIconByState =
 const useTrailingButton = showTrailingButton || showClearByState;
 const useTrailingIcon = showTrailing || showStatusIconByState;
 
-const placeholderText = instance.getString('placeholderText');
-const placeholderActive = instance.getString('placeholderActive');
-const inputActive = instance.getString('inputActive');
-const entryFilled = instance.getString('entryFilled');
+const placeholderText = JSON.stringify(
+  String(instance.getString('placeholderText') ?? 'Hint text'),
+);
+const placeholderActive = JSON.stringify(
+  String(instance.getString('placeholderActive') ?? 'Hint text'),
+);
+const inputActive = JSON.stringify(
+  String(instance.getString('inputActive') ?? ''),
+);
+const entryFilled = JSON.stringify(
+  String(instance.getString('entryFilled') ?? ''),
+);
 
 const disabled = state === 'disabled';
 const invalid = state === 'error';
@@ -66,27 +74,27 @@ const statusClassName =
       : '';
 
 const valueProp = isLive
-  ? figma.code` defaultValue="${inputActive}"`
+  ? figma.code` defaultValue={${inputActive}}`
   : hasFilledValue
-    ? figma.code` defaultValue="${entryFilled}"`
+    ? figma.code` defaultValue={${entryFilled}}`
     : figma.code``;
 
 const placeholderProp =
   state === 'focus' || state === 'open-typeahead'
-    ? figma.code` placeholder="${placeholderActive}"`
+    ? figma.code` placeholder={${placeholderActive}}`
     : showHintText || !hasValue
-      ? figma.code` placeholder="${placeholderText}"`
+      ? figma.code` placeholder={${placeholderText}}`
       : figma.code``;
 
 const inputAttrs = [
   disabled ? 'disabled' : '',
   invalid ? 'aria-invalid' : '',
-  isLive ? `defaultValue="${inputActive}"` : '',
-  !isLive && hasFilledValue ? `defaultValue="${entryFilled}"` : '',
+  isLive ? `defaultValue={${inputActive}}` : '',
+  !isLive && hasFilledValue ? `defaultValue={${entryFilled}}` : '',
   state === 'focus' || state === 'open-typeahead'
-    ? `placeholder="${placeholderActive}"`
+    ? `placeholder={${placeholderActive}}`
     : showHintText || !hasValue
-      ? `placeholder="${placeholderText}"`
+      ? `placeholder={${placeholderText}}`
       : '',
 ]
   .filter(Boolean)

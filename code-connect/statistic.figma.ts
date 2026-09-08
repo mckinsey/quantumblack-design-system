@@ -48,7 +48,7 @@ let labelBlock = figma.code``;
 if (hasLabel) {
   if (labelInst?.type === 'INSTANCE') {
     const label = JSON.stringify(
-      labelInst.getString('label') ?? 'Energy output',
+      String(labelInst.getString('label') ?? 'Energy output'),
     );
     const disabled =
       labelInst.getEnum('state', {
@@ -57,6 +57,8 @@ if (hasLabel) {
       }) === 'disabled';
     const labelAlign =
       labelInst.getEnum('align', {
+        start: 'start',
+        end: 'end',
         left: 'start',
         right: 'end',
       }) ?? 'start';
@@ -90,13 +92,13 @@ const iconBlock = hasStatIcon
 let valueBlock = figma.code`<StatisticValue value="99.43" unit="MWh" />`;
 
 if (valueInst?.type === 'INSTANCE') {
-  const val = JSON.stringify(valueInst.getString('value') ?? '99.43');
+  const val = JSON.stringify(String(valueInst.getString('value') ?? '99.43'));
   const unit = valueInst.getString('unit');
   const hasUnit = valueInst.getBoolean('hasUnit');
 
   valueBlock =
     hasUnit && unit
-      ? figma.code`<StatisticValue value={${val}} unit={${JSON.stringify(unit)}} />`
+      ? figma.code`<StatisticValue value={${val}} unit={${JSON.stringify(String(unit))}} />`
       : figma.code`<StatisticValue value={${val}} />`;
 }
 

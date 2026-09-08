@@ -5,11 +5,12 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const size = instance.getEnum('size', {
-  sm: 'sm',
-  reg: 'default',
-  lg: 'lg',
-});
+const size =
+  instance.getEnum('size', {
+    sm: 'sm',
+    reg: 'default',
+    lg: 'lg',
+  }) ?? 'default';
 
 const disabled = instance.getEnum('state', {
   enabled: false,
@@ -53,11 +54,15 @@ const filled = instance.getEnum('state', {
   disabled: true,
 });
 
-const placeholder = instance.getString('placeholderText');
-const optionSelected = instance.getString('optionSelected');
-const showLeading = instance.getBoolean('showLeadingIcon');
-const showFeedback = instance.getBoolean('showFeedbackMessage');
-const showFeedbackIcon = instance.getBoolean('showFeedbackIcon');
+const placeholder = JSON.stringify(
+  String(instance.getString('placeholderText') ?? 'Select an option'),
+);
+const optionSelected = String(instance.getString('optionSelected') ?? '');
+const optionSelectedLit = JSON.stringify(optionSelected);
+const showLeading = instance.getBoolean('hasLeadingIcon');
+const showFeedback = instance.getBoolean('hasFeedbackMessage');
+const showFeedbackIcon = instance.getBoolean('hasFeedbackIcon');
+instance.getBoolean('hasEntryText');
 
 const leading = showLeading ? instance.findInstance('Leading-Icon') : null;
 let leadingCode: figma.ResultSection[] = [];
@@ -69,10 +74,13 @@ if (leading && leading.type === 'INSTANCE') {
 const statusInst = instance.findInstance('Elements/Status-Messages', {
   traverseInstances: true,
 });
-const statusMessage =
-  statusInst && statusInst.type === 'INSTANCE'
-    ? statusInst.getString('statusMessage')
-    : 'Feedback message';
+const statusMessage = JSON.stringify(
+  String(
+    statusInst && statusInst.type === 'INSTANCE'
+      ? (statusInst.getString('statusMessage') ?? 'Feedback message')
+      : 'Feedback message',
+  ),
+);
 
 const menuInst = instance.findInstance('Menu/Select', {
   traverseInstances: true,
@@ -85,8 +93,15 @@ const connectedItems = menuSlot?.connectedInstances ?? [];
 
 const itemLabels = connectedItems
   .filter((node): node is figma.InstanceHandle => node.type === 'INSTANCE')
-  .map(node => node.getString('Label') || node.getString('ItemLabel'))
-  .filter((label): label is string => Boolean(label));
+  .map(node =>
+    String(
+      node.getString('label') ??
+        node.getString('Label') ??
+        node.getString('ItemLabel') ??
+        '',
+    ),
+  )
+  .filter(label => Boolean(label));
 
 const labels =
   itemLabels.length > 0 ? itemLabels : ['Option 1', 'Option 2', 'Option 3'];
@@ -100,8 +115,9 @@ const statusClass =
 
 const invalidProp = status === 'error' ? ' aria-invalid' : '';
 const valueProp =
-  filled && optionSelected ? ` defaultValue="${optionSelected}"` : '';
+  filled && optionSelected ? ` defaultValue={${optionSelectedLit}}` : '';
 const triggerClassProp = statusClass ? ` className="${statusClass}"` : '';
+const sizeProp = size === 'default' ? '' : ` size="${size}"`;
 
 const iconSize = size === 'lg' ? 'default' : 'sm';
 const feedbackGlyph =
@@ -133,25 +149,26 @@ const errorClass = `${paragraphClass} text-status-error`;
 const warningClass = `${paragraphClass} text-status-warning`;
 const successClass = `${paragraphClass} text-status-success`;
 
-const selectItems = labels.map(
-  label =>
-    figma.code`
-    <SelectItem value="${label}">
-      <SelectItemText>${label}</SelectItemText>
+const selectItems = labels.map(label => {
+  const lit = JSON.stringify(label);
+
+  return figma.code`
+    <SelectItem value={${lit}}>
+      <SelectItemText>{${lit}}</SelectItemText>
       <SelectItemIndicator>
         <IconShell size="${iconSize}" variant="primary">
           <Icon icon="done" size="${iconSize}" />
         </IconShell>
       </SelectItemIndicator>
     </SelectItem>
-  `,
-);
+  `;
+});
 
 const selectBody = figma.code`
-  <Select size="${size}"${disabled ? ' disabled' : ''}${valueProp}>
+  <Select${sizeProp}${disabled ? ' disabled' : ''}${valueProp}>
     <SelectTrigger${triggerClassProp}${invalidProp}>
       ${leadingCode}
-      <SelectValue placeholder="${placeholder}" />
+      <SelectValue placeholder={${placeholder}} />
       ${feedbackIcon}
     </SelectTrigger>
     <SelectContent>
@@ -174,21 +191,21 @@ const example = showError
   ? figma.code`
       <FieldSet className="gap-2">
         ${selectBody}
-        <FieldError className="${errorClass}">${statusMessage}</FieldError>
+        <FieldError className="${errorClass}">{${statusMessage}}</FieldError>
       </FieldSet>
     `
   : showWarning
     ? figma.code`
         <FieldSet className="gap-2">
           ${selectBody}
-          <FieldDescription className="${warningClass}">${statusMessage}</FieldDescription>
+          <FieldDescription className="${warningClass}">{${statusMessage}}</FieldDescription>
         </FieldSet>
       `
     : showSuccess
       ? figma.code`
           <FieldSet className="gap-2">
             ${selectBody}
-            <FieldDescription className="${successClass}">${statusMessage}</FieldDescription>
+            <FieldDescription className="${successClass}">{${statusMessage}}</FieldDescription>
           </FieldSet>
         `
       : selectBody;

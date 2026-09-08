@@ -45,7 +45,7 @@ const allValues = connected.map((n, i) => {
     return `option-${i + 1}`;
   }
 
-  return n.getString('ListItem-Label') || `option-${i + 1}`;
+  return String(n.getString('label') ?? `option-${i + 1}`);
 });
 
 const defaultValue = connected
@@ -77,7 +77,7 @@ const listLabelNode = instance.findInstance('Elements/Label', {
 });
 const listLabel =
   listLabelNode && listLabelNode.type === 'INSTANCE'
-    ? listLabelNode.getString('labelField')
+    ? String(listLabelNode.getString('label') ?? '')
     : '';
 
 const legendClass =
@@ -102,17 +102,17 @@ const parentItem = showHeader
 
 const parentLabel =
   parentItem && parentItem.type === 'INSTANCE'
-    ? parentItem.getString('ListItem-Label')
+    ? String(parentItem.getString('label') ?? '')
     : '';
 
 const parentShowCount =
   parentItem && parentItem.type === 'INSTANCE'
-    ? parentItem.getBoolean('showItemCount')
+    ? parentItem.getBoolean('hasItemCount')
     : false;
 
 const parentItemCount =
   parentItem && parentItem.type === 'INSTANCE'
-    ? parentItem.getString('itemCount')
+    ? String(parentItem.getString('itemCount') ?? '')
     : '';
 
 const parentCountNode = parentShowCount

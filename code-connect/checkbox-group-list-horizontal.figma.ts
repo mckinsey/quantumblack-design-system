@@ -37,7 +37,7 @@ const values = connected.map((n, i) => {
     return `option-${i + 1}`;
   }
 
-  return n.getString('ListItem-Label') || `option-${i + 1}`;
+  return String(n.getString('label') ?? `option-${i + 1}`);
 });
 
 const defaultValue = connected
@@ -67,7 +67,7 @@ const listLabelNode = instance.findInstance('Elements/Label', {
 });
 const listLabel =
   listLabelNode && listLabelNode.type === 'INSTANCE'
-    ? listLabelNode.getString('labelField')
+    ? String(listLabelNode.getString('label') ?? '')
     : '';
 
 const legendClass =

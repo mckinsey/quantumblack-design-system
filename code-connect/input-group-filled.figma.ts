@@ -25,20 +25,28 @@ const state = instance.getEnum('state', {
   warning: 'warning',
 });
 
-const showLeading = instance.getBoolean('showLeadingIcon');
-const showTrailing = instance.getBoolean('showTrailingIcon');
-const showPrefix = instance.getBoolean('showPrefix');
-const showSuffix = instance.getBoolean('showSuffix');
-instance.getBoolean('showEntryText');
-const showHelpText = instance.getBoolean('showHintText');
-const showFeedback = instance.getBoolean('showFeedbackMessage');
+const showLeading = instance.getBoolean('hasLeadingIcon');
+const showTrailing = instance.getBoolean('hasTrailingIcon');
+const showPrefix = instance.getBoolean('hasPrefix');
+const showSuffix = instance.getBoolean('hasSuffix');
+instance.getBoolean('hasEntryText');
+const showHelpText = instance.getBoolean('hasHintText');
+const showFeedback = instance.getBoolean('hasFeedbackMessage');
 
-const prefix = instance.getString('prefix');
-const suffix = instance.getString('suffix');
-const hintText = instance.getString('hintText');
-const hintFocus = instance.getString('hintFocus');
-const entryFilled = instance.getString('entryFilled');
-const inputActive = instance.getString('inputActive');
+const prefix = JSON.stringify(String(instance.getString('prefix') ?? ''));
+const suffix = JSON.stringify(String(instance.getString('suffix') ?? ''));
+const hintText = JSON.stringify(
+  String(instance.getString('hintText') ?? 'Hint text'),
+);
+const hintFocus = JSON.stringify(
+  String(instance.getString('hintFocus') ?? 'Hint text'),
+);
+const entryFilled = JSON.stringify(
+  String(instance.getString('entryFilled') ?? ''),
+);
+const inputActive = JSON.stringify(
+  String(instance.getString('inputActive') ?? ''),
+);
 
 const disabled = state === 'disabled';
 const invalid = state === 'error';
@@ -76,22 +84,22 @@ const hasStart = showLeading || showPrefix;
 const hasEnd = showSuffix || showTrailing;
 
 const startAddon = hasStart
-  ? figma.code`<InputGroupAddon align="inline-start">${leadingCode}${showPrefix ? figma.code`<InputGroupText>${prefix}</InputGroupText>` : figma.code``}</InputGroupAddon>`
+  ? figma.code`<InputGroupAddon align="inline-start">${leadingCode}${showPrefix ? figma.code`<InputGroupText>{${prefix}}</InputGroupText>` : figma.code``}</InputGroupAddon>`
   : figma.code``;
 
 const endAddon = hasEnd
-  ? figma.code`<InputGroupAddon align="inline-end">${showSuffix ? figma.code`<InputGroupText>${suffix}</InputGroupText>` : figma.code``}${trailingCode}</InputGroupAddon>`
+  ? figma.code`<InputGroupAddon align="inline-end">${showSuffix ? figma.code`<InputGroupText>{${suffix}}</InputGroupText>` : figma.code``}${trailingCode}</InputGroupAddon>`
   : figma.code``;
 
 const inputProps = [
   disabled ? 'disabled' : '',
   invalid ? 'aria-invalid' : '',
-  isLive ? `defaultValue="${inputActive}"` : '',
-  !isLive && hasFilledValue ? `defaultValue="${entryFilled}"` : '',
+  isLive ? `defaultValue={${inputActive}}` : '',
+  !isLive && hasFilledValue ? `defaultValue={${entryFilled}}` : '',
   state === 'focus' || state === 'open-typeahead'
-    ? `placeholder="${hintFocus}"`
+    ? `placeholder={${hintFocus}}`
     : showHelpText || !hasValue
-      ? `placeholder="${hintText}"`
+      ? `placeholder={${hintText}}`
       : '',
 ]
   .filter(Boolean)

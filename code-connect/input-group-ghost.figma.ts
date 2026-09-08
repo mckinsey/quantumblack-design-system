@@ -25,18 +25,22 @@ const state = instance.getEnum('state', {
   warning: 'warning',
 });
 
-const showLeading = instance.getBoolean('showLeadingIcon');
-const showTrailing = instance.getBoolean('showTrailingIcon');
-const showPrefix = instance.getBoolean('showPrefix');
-const showSuffix = instance.getBoolean('showSuffix');
-const showHelpText = instance.getBoolean('showHintText');
-const showFeedback = instance.getBoolean('showFeedbackMessage');
+const showLeading = instance.getBoolean('hasLeadingIcon');
+const showTrailing = instance.getBoolean('hasTrailingIcon');
+const showPrefix = instance.getBoolean('hasPrefix');
+const showSuffix = instance.getBoolean('hasSuffix');
+const showHelpText = instance.getBoolean('hasHintText');
+const showFeedback = instance.getBoolean('hasFeedbackMessage');
 
-const prefix = instance.getString('prefixEntry');
-const suffix = instance.getString('suffixEntry');
-const hintText = instance.getString('hintText');
-const entryFilled = instance.getString('entryFilled');
-const liveEntry = instance.getString('liveEntry');
+const prefix = JSON.stringify(String(instance.getString('prefixEntry') ?? ''));
+const suffix = JSON.stringify(String(instance.getString('suffixEntry') ?? ''));
+const hintText = JSON.stringify(
+  String(instance.getString('hintText') ?? 'Hint text'),
+);
+const entryFilled = JSON.stringify(
+  String(instance.getString('entryFilled') ?? ''),
+);
+const liveEntry = JSON.stringify(String(instance.getString('liveEntry') ?? ''));
 
 const disabled = state === 'disabled';
 const invalid = state === 'error';
@@ -74,20 +78,20 @@ const hasStart = showLeading || showPrefix;
 const hasEnd = showSuffix || showTrailing;
 
 const startAddon = hasStart
-  ? figma.code`<InputGroupAddon align="inline-start">${leadingCode}${showPrefix ? figma.code`<InputGroupText>${prefix}</InputGroupText>` : figma.code``}</InputGroupAddon>`
+  ? figma.code`<InputGroupAddon align="inline-start">${leadingCode}${showPrefix ? figma.code`<InputGroupText>{${prefix}}</InputGroupText>` : figma.code``}</InputGroupAddon>`
   : figma.code``;
 
 const endAddon = hasEnd
-  ? figma.code`<InputGroupAddon align="inline-end">${showSuffix ? figma.code`<InputGroupText>${suffix}</InputGroupText>` : figma.code``}${trailingCode}</InputGroupAddon>`
+  ? figma.code`<InputGroupAddon align="inline-end">${showSuffix ? figma.code`<InputGroupText>{${suffix}}</InputGroupText>` : figma.code``}${trailingCode}</InputGroupAddon>`
   : figma.code``;
 
 const inputProps = [
   'variant="inline"',
   disabled ? 'disabled' : '',
   invalid ? 'aria-invalid' : '',
-  isLive ? `defaultValue="${liveEntry}"` : '',
-  !isLive && hasFilledValue ? `defaultValue="${entryFilled}"` : '',
-  showHelpText || !hasValue ? `placeholder="${hintText}"` : '',
+  isLive ? `defaultValue={${liveEntry}}` : '',
+  !isLive && hasFilledValue ? `defaultValue={${entryFilled}}` : '',
+  showHelpText || !hasValue ? `placeholder={${hintText}}` : '',
 ]
   .filter(Boolean)
   .join(' ');

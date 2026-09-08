@@ -23,7 +23,7 @@ const size = instance.getEnum('size', {
 });
 
 const pill = instance.getEnum('shape', { rounded: false, pill: true });
-const label = instance.getString('label');
+const label = JSON.stringify(String(instance.getString('label') ?? 'Tag'));
 
 const disabled = instance.getEnum('state', {
   enabled: false,
@@ -35,6 +35,7 @@ const disabled = instance.getEnum('state', {
 
 const showLeading = instance.getBoolean('hasLeadingIcon');
 const leading = showLeading ? instance.findInstance('Leading-Icon') : null;
+const iconType = variant === 'secondary' ? 'neutral-inverse' : 'neutral';
 
 let icon = 'style';
 
@@ -57,17 +58,17 @@ export default {
       ${
         showLeading
           ? figma.code`
-      <IconShell size="sm" type={tagIconTone['${variant}']} variant="primary"${disabled ? ' disabled' : ''}>
+      <IconShell size="sm" type="${iconType}" variant="primary"${disabled ? ' disabled' : ''}>
         <Icon icon="${icon}" />
       </IconShell>
       `
           : ''
       }
-      ${label}
+      {${label}}
     </Tag>
   `,
   imports: [
-    'import { Tag, tagIconTone } from "@/components/ui/tag"',
+    'import { Tag } from "@/components/ui/tag"',
     'import { IconShell } from "@/components/ui/icon-shell"',
     'import { Icon } from "@/components/ui/icon"',
   ],

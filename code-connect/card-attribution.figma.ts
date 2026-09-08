@@ -17,8 +17,12 @@ const layout = instance.getEnum('layout', {
 
 const hasVisual = instance.getBoolean('hasVisual');
 const hasSecondary = instance.getBoolean('hasSecondary');
-const primary = instance.getString('primary') || 'Alex Rivera';
-const secondary = instance.getString('secondary') || '3 hours ago';
+const primary = JSON.stringify(
+  String(instance.getString('primary') ?? 'Alex Rivera'),
+);
+const secondary = JSON.stringify(
+  String(instance.getString('secondary') ?? '3 hours ago'),
+);
 
 const artworkSlot = instance.getSlot('artworkSlot');
 const artworkConnected = artworkSlot?.connectedInstances ?? [];
@@ -51,20 +55,20 @@ const artworkVisual =
 
 const inlineText = hasSecondary
   ? figma.code`
-      <span className="${primaryClass}">${primary}</span>
-      <span className="${secondaryClass}">· ${secondary}</span>
+      <span className="${primaryClass}">{${primary}}</span>
+      <span className="${secondaryClass}">· {${secondary}}</span>
     `
   : figma.code`
-      <span className="${secondaryClass}">${secondary}</span>
+      <span className="${secondaryClass}">{${secondary}}</span>
     `;
 
 const stackedText = hasSecondary
   ? figma.code`
-      <span className="${primaryClass}">${primary}</span>
-      <span className="${secondaryClass}">${secondary}</span>
+      <span className="${primaryClass}">{${primary}}</span>
+      <span className="${secondaryClass}">{${secondary}}</span>
     `
   : figma.code`
-      <span className="${secondaryClass}">${secondary}</span>
+      <span className="${secondaryClass}">{${secondary}}</span>
     `;
 
 export default {

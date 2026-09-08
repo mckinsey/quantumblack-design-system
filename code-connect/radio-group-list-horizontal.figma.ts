@@ -23,7 +23,7 @@ const density =
     comfortable: 'comfortable',
   }) ?? 'default';
 
-const showListLabel = instance.getBoolean('showListLabel');
+const showListLabel = instance.getBoolean('hasListLabel');
 
 const slot = instance.getSlot('itemsSlot');
 const connected = slot?.connectedInstances ?? [];
@@ -35,7 +35,7 @@ const items =
 const firstItem = connected[0];
 const defaultValue =
   firstItem && firstItem.type === 'INSTANCE'
-    ? firstItem.getString('Label-Radio') || 'option'
+    ? String(firstItem.getString('label') ?? 'option')
     : 'option';
 
 const listLabelNode = showListLabel
@@ -43,7 +43,7 @@ const listLabelNode = showListLabel
   : null;
 const listLabel =
   listLabelNode && listLabelNode.type === 'INSTANCE'
-    ? listLabelNode.getString('labelField')
+    ? String(listLabelNode.getString('label') ?? '')
     : '';
 
 const legendClass = radioGroupLegendClass(size);

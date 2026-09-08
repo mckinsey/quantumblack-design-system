@@ -26,9 +26,9 @@ const disabled =
     disabled: true,
   }) ?? false;
 
-const showItemCount = instance.getBoolean('showItemCount');
-const label = instance.getString('ListItem-Label');
-const itemCount = instance.getString('itemCount');
+const showItemCount = instance.getBoolean('hasItemCount');
+const label = String(instance.getString('label') ?? 'Checkbox label');
+const itemCount = String(instance.getString('itemCount') ?? '');
 
 const checkboxSize = size === 'lg' ? 'lg' : 'default';
 const labelTone = disabled ? 'text-fg-disabled' : 'text-fg-secondary';

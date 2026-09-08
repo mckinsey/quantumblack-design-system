@@ -88,8 +88,13 @@ const cardDivider = figma.code`
 `;
 
 const titleInst = instance.findInstance('title');
-const titleText =
-  titleInst?.type === 'INSTANCE' ? titleInst.getString('text') : '';
+const titleText = JSON.stringify(
+  String(
+    titleInst?.type === 'INSTANCE'
+      ? (titleInst.getString('text') ?? 'Card title')
+      : 'Card title',
+  ),
+);
 const titleLines =
   titleInst?.type === 'INSTANCE'
     ? titleInst.getEnum('lines', { '2': '2', '3': '3', '5': '5' })
@@ -98,8 +103,14 @@ const titleLines =
 const titleClass = linesClass(titleLines);
 
 const descInst = instance.findInstance('description');
-const descText =
-  descInst?.type === 'INSTANCE' ? descInst.getString('text') : '';
+const descText = JSON.stringify(
+  String(
+    descInst?.type === 'INSTANCE'
+      ? (descInst.getString('text') ??
+        'Card description goes here with supporting detail.')
+      : 'Card description goes here with supporting detail.',
+  ),
+);
 const descLines =
   descInst?.type === 'INSTANCE'
     ? descInst.getEnum('lines', { '2': '2', '3': '3', '5': '5' })
@@ -250,7 +261,7 @@ const fallbackData = figma.code`
 
 const descriptionBlock = hasDescription
   ? figma.code`
-      <CardDescription${descClass ? ` className="${descClass}"` : ''}>${descText}</CardDescription>
+      <CardDescription${descClass ? ` className="${descClass}"` : ''}>{${descText}}</CardDescription>
     `
   : figma.code``;
 
@@ -373,7 +384,7 @@ const standardExample = figma.code`
     ${mediaBlock}
     <CardContent className="${contentClass}">
       ${attributionBlock}
-      <CardTitle${titleClass ? ` className="${titleClass}"` : ''}>${titleText}</CardTitle>
+      <CardTitle${titleClass ? ` className="${titleClass}"` : ''}>{${titleText}}</CardTitle>
       ${descriptionBlock}
       ${dataBlock}
     </CardContent>

@@ -10,13 +10,20 @@ const layout = (instance.getEnum('layout', {
   stacked: 'stacked',
 }) ?? 'stacked') as 'inline' | 'stacked';
 
-const title = instance.getString('Title');
-const descriptor = instance.getString('Descriptor');
+const title = JSON.stringify(
+  String(instance.getString('title') ?? 'Form Title Goes Here'),
+);
+const descriptor = JSON.stringify(
+  String(
+    instance.getString('description') ??
+      'Form description text goes here. Keep it concise.',
+  ),
+);
 
 const headerTitle = instance.getBoolean('hasTitle', {
   true: figma.code`
     <h2 className="headings-h2-regular text-fg-primary">
-      ${title}
+      {${title}}
     </h2>
   `,
   false: undefined,
@@ -25,7 +32,7 @@ const headerTitle = instance.getBoolean('hasTitle', {
 const headerDescriptor = instance.getBoolean('hasDescriptor', {
   true: figma.code`
     <p className="paragraph-large-primary text-fg-secondary">
-      ${descriptor}
+      {${descriptor}}
     </p>
   `,
   false: undefined,
@@ -41,22 +48,22 @@ const header = instance.getBoolean('hasHeader', {
   false: undefined,
 });
 
-const slot1Nodes = instance.getBoolean('showSlot1', {
+const slot1Nodes = instance.getBoolean('hasSlot1', {
   true: figma.properties.children(['InputGroup-Vertical']),
   false: undefined,
 });
 
-const slot2Nodes = instance.getBoolean('showSlot2', {
+const slot2Nodes = instance.getBoolean('hasSlot2', {
   true: figma.properties.children(['PickerGroup/Vertical']),
   false: undefined,
 });
 
-const slot3Nodes = instance.getBoolean('showSlot3', {
+const slot3Nodes = instance.getBoolean('hasSlot3', {
   true: figma.properties.children(['Textarea-Input']),
   false: undefined,
 });
 
-const showSlot4 = instance.getBoolean('showSlot4');
+const showSlot4 = instance.getBoolean('hasSlot4');
 
 const checkboxItems = showSlot4
   ? instance

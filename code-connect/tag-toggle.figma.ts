@@ -15,7 +15,7 @@ const size = instance.getEnum('size', {
 });
 
 const pill = instance.getEnum('shape', { rounded: false, pill: true });
-const label = instance.getString('label');
+const label = JSON.stringify(String(instance.getString('label') ?? 'Tag'));
 const showLeading = instance.getBoolean('hasLeadingIcon');
 const leading = showLeading ? instance.findInstance('Leading-Icon') : null;
 let leadingCode: figma.ResultSection[] = [];
@@ -44,7 +44,7 @@ export default {
   example: figma.code`
     <TagToggle variant="${variant}" size="${size}" pill={${pill}} pressed={${pressed}}${disabled ? ' disabled' : ''}>
       ${leadingCode}
-      ${label}
+      {${label}}
     </TagToggle>
   `,
   imports: ['import { TagToggle } from "@/components/ui/tag-toggle"'],
