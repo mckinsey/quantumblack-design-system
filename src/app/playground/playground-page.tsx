@@ -95,10 +95,13 @@ function PlaygroundHeader({ onOpenSettings }: { onOpenSettings: () => void }) {
 }
 
 export function PlaygroundPage() {
-  const [activeNav, setActiveNav] = useState<NavId>('home');
+  const [activeNav, setActiveNav] = useState<NavId>('dashboard');
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [dashboardAlertDismissed, setDashboardAlertDismissed] = useState(false);
 
   const page = primaryNav.find(item => item.id === activeNav) ?? primaryNav[0];
+  const dashboardAlertOpen =
+    activeNav === 'dashboard' && !dashboardAlertDismissed;
 
   return (
     <div className="bg-surface-secondary flex h-svh min-h-svh w-full flex-col overflow-hidden">
@@ -116,6 +119,8 @@ export function PlaygroundPage() {
             title={page.title}
             subtitle={page.subtitle}
             body={page.body}
+            welcomeAlertOpen={dashboardAlertOpen}
+            onWelcomeAlertClose={() => setDashboardAlertDismissed(true)}
           />
         </SidebarInset>
       </div>
