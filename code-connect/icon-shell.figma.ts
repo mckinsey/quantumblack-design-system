@@ -60,6 +60,21 @@ for (const name of swaps) {
   }
 }
 
+if (icon === 'crop_free') {
+  const nested = instance.findLayers(
+    node =>
+      node.type === 'INSTANCE' &&
+      !!node.name &&
+      node.name !== instance.name &&
+      !String(node.name).startsWith('Tooltip'),
+  );
+  const glyph = nested[0];
+
+  if (glyph && glyph.type === 'INSTANCE' && glyph.name) {
+    icon = glyph.name.replace(/\s+/g, '_').toLowerCase();
+  }
+}
+
 export default {
   example: figma.code`
     <IconShell size="${resolvedSize}" type="${resolvedType}"${variant ? ` variant="${variant}"` : ''}${disabled ? ' disabled' : ''}${customClass ? ` className="${customClass}"` : ''}>

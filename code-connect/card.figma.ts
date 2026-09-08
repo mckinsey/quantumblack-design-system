@@ -107,7 +107,7 @@ const descText = JSON.stringify(
   String(
     descInst?.type === 'INSTANCE'
       ? (descInst.getString('text') ??
-        'Card description goes here with supporting detail.')
+          'Card description goes here with supporting detail.')
       : 'Card description goes here with supporting detail.',
   ),
 );
@@ -136,7 +136,7 @@ const headerEndChildren =
         .flat()
     : figma.code``;
 
-const attributionSlot = instance.getSlot('cardAttribution');
+const attributionSlot = instance.getSlot('cardAttributionSlot');
 const attributionConnected = attributionSlot?.connectedInstances ?? [];
 
 const dataSlot = instance.getSlot('dataSlot');
@@ -153,7 +153,7 @@ const footerChildren =
     ? footerConnected.map(n => n.executeTemplate().example).flat()
     : figma.code``;
 
-const swapSlot = instance.getSlot('swapContent');
+const swapSlot = instance.getSlot('swapContentSlot');
 const swapConnected = swapSlot?.connectedInstances ?? [];
 const swapChildren =
   swapConnected.length > 0

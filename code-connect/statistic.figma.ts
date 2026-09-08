@@ -2,7 +2,7 @@
 // source=src/components/ui/statistic.tsx
 // component=Statistic
 //
-// Figma-only: hasLabel, hasStatIcon, hasTrend, statIcon slot
+// Figma-only: hasLabel, hasStatIcon, hasTrend, statIconSlot
 import figma from 'figma';
 
 const instance = figma.selectedInstance;
@@ -31,10 +31,16 @@ const hasLabel = instance.getBoolean('hasLabel');
 const hasStatIcon = instance.getBoolean('hasStatIcon');
 const hasTrend = instance.getBoolean('hasTrend');
 
-const labelInst = instance.findInstance('baseStat/Label');
-const valueInst = instance.findInstance('baseStat/StatValue');
-const trendInst = instance.findInstance('baseStat/TrendRow');
-const statIconSlot = instance.getSlot('statIcon');
+const labelInst = instance.findInstance('base/stat/Label', {
+  traverseInstances: true,
+});
+const valueInst = instance.findInstance('base/stat/Value', {
+  traverseInstances: true,
+});
+const trendInst = instance.findInstance('base/stat/TrendRow', {
+  traverseInstances: true,
+});
+const statIconSlot = instance.getSlot('statIconSlot');
 const statIconConnected = statIconSlot?.connectedInstances ?? [];
 const statIconChildren =
   statIconConnected.length > 0
@@ -48,7 +54,7 @@ let labelBlock = figma.code``;
 if (hasLabel) {
   if (labelInst?.type === 'INSTANCE') {
     const label = JSON.stringify(
-      String(labelInst.getString('label') ?? 'Energy output'),
+      String(labelInst.getString('label') ?? 'Stat label'),
     );
     const disabled =
       labelInst.getEnum('state', {
@@ -67,7 +73,8 @@ if (hasLabel) {
 
     labelBlock = figma.code`<StatisticLabel${alignProp}${disabledProp}>{${label}}</StatisticLabel>`;
   } else {
-    labelBlock = figma.code`<StatisticLabel>Energy output</StatisticLabel>`;
+    const fallbackLabel = JSON.stringify('Stat label');
+    labelBlock = figma.code`<StatisticLabel>{${fallbackLabel}}</StatisticLabel>`;
   }
 }
 

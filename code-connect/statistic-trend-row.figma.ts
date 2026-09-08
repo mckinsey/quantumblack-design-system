@@ -2,7 +2,7 @@
 // source=src/components/ui/statistic.tsx
 // component=StatisticTrend
 //
-// Figma: baseStat/TrendRow — hasTrendMark, hasTrendValue, hasTrendContext
+// Figma: base/stat/TrendRow — hasTrendMark, hasTrendValue, hasTrendContext
 import figma from 'figma';
 
 const instance = figma.selectedInstance;
@@ -17,8 +17,12 @@ const hasTrendMark = instance.getBoolean('hasTrendMark');
 const hasTrendValue = instance.getBoolean('hasTrendValue');
 const hasTrendContext = instance.getBoolean('hasTrendContext');
 
-const trendValueInst = instance.findInstance('baseStat/TrendValue');
-const contextInst = instance.findInstance('baseStat/TrendContext');
+const trendValueInst =
+  instance.findInstance('trendValue', { traverseInstances: true }) ??
+  instance.findInstance('.base/stat/TrendValue', { traverseInstances: true });
+const contextInst = instance.findInstance('.base/stat/TrendContext', {
+  traverseInstances: true,
+});
 
 const valueKey =
   sentiment === 'negative'
@@ -54,7 +58,8 @@ if (hasTrendValue && trendValueInst?.type === 'INSTANCE') {
         ? '00.00'
         : '+234';
   const val = JSON.stringify(trendValueInst.getString(valueKey) ?? fallback);
-  const pct = trendValueInst.getString(pctKey);
+  const showPct = trendValueInst.getBoolean('hasPercentage');
+  const pct = showPct ? trendValueInst.getString(pctKey) : null;
 
   valueBlock = pct
     ? figma.code`<StatisticTrendValue value={${val}} percentage={${JSON.stringify(pct)}} />`
@@ -64,8 +69,11 @@ if (hasTrendValue && trendValueInst?.type === 'INSTANCE') {
 let contextBlock = figma.code``;
 
 if (hasTrendContext && contextInst?.type === 'INSTANCE') {
+  const contextText = contextInst.findText('context');
   const context = JSON.stringify(
-    contextInst.getString('context') ?? 'since last reading',
+    contextText?.type === 'TEXT' && contextText.textContent
+      ? contextText.textContent
+      : 'since last reading',
   );
   contextBlock = figma.code`<StatisticTrendContext>{${context}}</StatisticTrendContext>`;
 }

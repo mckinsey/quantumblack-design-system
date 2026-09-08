@@ -34,7 +34,7 @@ const showCounter =
   labelInst && labelInst.type === 'INSTANCE'
     ? labelInst.getBoolean('hasCounter')
     : false;
-const labelField =
+const label =
   labelInst && labelInst.type === 'INSTANCE'
     ? labelInst.getString('label')
     : 'Label';
@@ -102,11 +102,11 @@ const labelRow = showLabel
   ? showCounter
     ? figma.code`
         <div className="flex items-center justify-between">
-          <FieldTitle className="${labelClass}">${labelField}</FieldTitle>
+          <FieldTitle className="${labelClass}">${label}</FieldTitle>
           <TextareaCounter className="${counterClass}" />
         </div>
       `
-    : figma.code`<FieldTitle className="${labelClass}">${labelField}</FieldTitle>`
+    : figma.code`<FieldTitle className="${labelClass}">${label}</FieldTitle>`
   : showCounter
     ? figma.code`<div className="flex justify-end"><TextareaCounter className="${counterClass}" /></div>`
     : figma.code``;

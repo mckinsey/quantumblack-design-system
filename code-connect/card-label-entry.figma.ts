@@ -12,9 +12,7 @@ const size = instance.getEnum('size', {
 
 const label = JSON.stringify(
   String(
-    instance.getString('KPI Label') ??
-      instance.getString('label') ??
-      'Label',
+    instance.getString('KPI Label') ?? instance.getString('label') ?? 'Label',
   ),
 );
 const value = JSON.stringify(String(instance.getString('value') ?? 'Entry'));

@@ -14,7 +14,7 @@ const size = instance.getEnum('size', {
   lg: 'lg',
 });
 
-const pill = instance.getEnum('shape', { rounded: false, pill: true });
+const pill = instance.getEnum('shape', { rounded: false, pill: true }) ?? false;
 const label = JSON.stringify(String(instance.getString('label') ?? 'Tag'));
 const showLeading = instance.getBoolean('hasLeadingIcon');
 const leading = showLeading ? instance.findInstance('Leading-Icon') : null;

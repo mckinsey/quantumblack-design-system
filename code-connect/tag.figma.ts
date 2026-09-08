@@ -22,7 +22,7 @@ const size = instance.getEnum('size', {
   lg: 'lg',
 });
 
-const pill = instance.getEnum('shape', { rounded: false, pill: true });
+const pill = instance.getEnum('shape', { rounded: false, pill: true }) ?? false;
 const label = JSON.stringify(String(instance.getString('label') ?? 'Tag'));
 
 const disabled = instance.getEnum('state', {
