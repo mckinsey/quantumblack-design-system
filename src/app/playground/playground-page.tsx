@@ -112,6 +112,7 @@ export function PlaygroundPage() {
 
         <SidebarInset className="bg-surface-base min-h-0 overflow-auto">
           <PlaygroundCards
+            navId={activeNav}
             title={page.title}
             subtitle={page.subtitle}
             body={page.body}
