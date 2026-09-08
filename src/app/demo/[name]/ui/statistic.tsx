@@ -40,7 +40,7 @@ function trendIcon(sentiment: StatisticSentiment) {
   return 'arrow_circle_up';
 }
 
-export function KpiStat({
+function KpiStat({
   size = 'default',
   align = 'start',
   unitPosition = 'inline',
