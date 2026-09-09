@@ -33,7 +33,7 @@ function PlaygroundHeader({ onOpenSettings }: { onOpenSettings: () => void }) {
           nativeButton={false}>
           Back to docs
         </Button>
-        <ModeToggle variant="ghost" />
+        <ModeToggle />
         <Button
           variant="ghost"
           size="icon"

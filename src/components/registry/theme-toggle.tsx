@@ -1,24 +1,17 @@
 'use client';
 
-import { type VariantProps } from 'class-variance-authority';
 import { useEffect, useState } from 'react';
 
-import { Button, type buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 
-export function ModeToggle({
-  variant = 'outline',
-}: {
-  variant?: VariantProps<typeof buttonVariants>['variant'];
-}) {
+export function ModeToggle() {
   const [isDark, setIsDark] = useState(false);
 
-  // Initialize theme from localStorage on mount
   useEffect(() => {
     const initializeTheme = () => {
       const savedTheme = localStorage.getItem('theme');
-      // Default to dark mode if no saved preference
       const shouldBeDark = savedTheme ? savedTheme === 'dark' : true;
 
       setIsDark(shouldBeDark);
@@ -34,7 +27,6 @@ export function ModeToggle({
 
     initializeTheme();
 
-    // Listen for storage events (cross-tab sync)
     const handleStorage = (e: StorageEvent) => {
       if (e.key === 'theme') {
         const newIsDark = e.newValue === 'dark';
@@ -65,7 +57,7 @@ export function ModeToggle({
   };
 
   return (
-    <Button variant={variant} size="icon" onClick={toggleTheme}>
+    <Button variant="outline" size="icon" onClick={toggleTheme}>
       {isDark ? (
         <IconShell type="neutral" hoverable size="sm">
           <Icon icon="light_mode" />
