@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
-import { IconShell } from '@/components/ui/icon-shell';
 
 export function ModeToggle() {
   const [isDark, setIsDark] = useState(false);
@@ -57,17 +56,12 @@ export function ModeToggle() {
   };
 
   return (
-    <Button variant="outline" size="icon" onClick={toggleTheme}>
-      {isDark ? (
-        <IconShell type="neutral" hoverable size="sm">
-          <Icon icon="light_mode" />
-        </IconShell>
-      ) : (
-        <IconShell type="neutral" hoverable size="sm">
-          <Icon icon="dark_mode" />
-        </IconShell>
-      )}
-      <span className="sr-only">Toggle theme</span>
+    <Button
+      variant="outline"
+      size="icon"
+      onClick={toggleTheme}
+      aria-label="Toggle theme">
+      <Icon icon={isDark ? 'light_mode' : 'dark_mode'} size="sm" />
     </Button>
   );
 }
