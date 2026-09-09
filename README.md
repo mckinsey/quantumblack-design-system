@@ -18,7 +18,7 @@ Unlike a typical component library, where you install a package and import what 
 
 **Open sourced** under the [Apache License 2.0](LICENSE.txt). Copyright McKinsey & Company.
 
-## Get started!
+## Get started
 
 Head to the [documentation](https://designsystem.quantumblack.com/) to browse components, follow the installation guide, and look up design tokens:
 
