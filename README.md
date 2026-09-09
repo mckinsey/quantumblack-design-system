@@ -15,7 +15,7 @@
   
 QuantumBlack Design System provides accessible components built with [Base UI](https://base-ui.com/) and [Radix UI](https://www.radix-ui.com/) primitives and styled with design tokens. You add them to your project as source files through the [shadcn](https://ui.shadcn.com/) registry, not as an NPM package.
 
-Unlike a typical component library, where you install a package and import what it exports, QBDS copies the component files directly into your project. You install only what you need, and can use components unchanged, or edit them directly. With QBDS, there is no need for wrappers, overrides, or working around what the library gives you. 
+Unlike a typical component library, where you install a package and import what it exports, QBDS copies the component files directly into your project. You install only what you need, and can use components unchanged, or edit them directly. With QBDS, there is no need for wrappers, overrides, or working around what the library gives you.
 
 **Open sourced** under the [Apache License 2.0](LICENSE.txt). Copyright McKinsey & Company.
 
@@ -63,7 +63,7 @@ Contributions welcome. Before opening an issue or pull request, read the [Code o
 ## Report a security vulnerability
 
 Security is very important for QuantumBlack Design System and its community.
-Find out how to submit a report from [SECURITY.md](./security.md).
+Find out how to submit a report from [SECURITY.md](./SECURITY.md).
 
 ## License
 
