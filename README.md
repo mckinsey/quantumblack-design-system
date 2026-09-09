@@ -40,13 +40,13 @@ This repository contains the registry site and component source.
 
 3. Open [http://localhost:4123](http://localhost:4123).
 
-`npm run dev` rebuilds the registry before starting the server. To rebuild registry files without starting the server, run:
+   `npm run dev` rebuilds the registry before starting the server. To rebuild registry files without starting the server, run:
 
    ```bash
    npm run registry:build
    ```
 
-For prerequisites, environment setup, and adding components, see the [contributing guide](CONTRIBUTING.md).
+   For prerequisites, environment setup, and adding components, see the [contributing guide](CONTRIBUTING.md).
 
 ## Contribute
 
