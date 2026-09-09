@@ -42,9 +42,9 @@ This repository contains the registry site and component source.
 
 `npm run dev` rebuilds the registry before starting the server. To rebuild registry files without starting the server, run:
 
-    ```bash
-    npm run registry:build
-    ```
+   ```bash
+   npm run registry:build
+   ```
 
 For prerequisites, environment setup, and adding components, see the [contributing guide](CONTRIBUTING.md).
 
