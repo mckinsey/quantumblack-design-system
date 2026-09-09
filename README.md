@@ -7,13 +7,13 @@
 
 QuantumBlack Design System provides accessible components built with [Base UI](https://base-ui.com/) and [Radix UI](https://www.radix-ui.com/) primitives and styled with design tokens. You add them to your project as source files through the [shadcn](https://ui.shadcn.com/) registry, not as an NPM package.
 
-With a typical component library, you install a package and import what it exports. Customization often means wrappers, overrides, or working around what the library gives you. QBDS copies the component files into your project instead. You can install only what you need, use components unchanged, or edit them directly.
+Unlike a typical component library, where you install a package and import what it exports, QBDS copies the component files directly into your project. You install only what you need, and can use components unchanged, or edit them directly. With QBDS, there is no need for wrappers, overrides, or working around what the library gives you. 
 
 **Open sourced** under the [Apache License 2.0](LICENSE.txt). Copyright McKinsey & Company.
 
-## Install components in your project
+## Get started!
 
-Head to the documentation site to browse components, follow the installation guide, and look up design tokens:
+Head to the [documentation](https://designsystem.quantumblack.com/) to browse components, follow the installation guide, and look up design tokens:
 
 <p align="center">
   <a href="https://designsystem.quantumblack.com">
@@ -42,15 +42,20 @@ This repository contains the registry site and component source.
 
 `npm run dev` rebuilds the registry before starting the server. To rebuild registry files without starting the server, run:
 
-```bash
-npm run registry:build
-```
+    ```bash
+    npm run registry:build
+    ```
 
 For prerequisites, environment setup, and adding components, see the [contributing guide](CONTRIBUTING.md).
 
 ## Contribute
 
 Contributions welcome. Before opening an issue or pull request, read the [Code of Conduct](CODE_OF_CONDUCT.md) and [security policy](SECURITY.md).
+
+## Report a security vulnerability
+
+Security is very important for QuantumBlack Design System and its community.
+Find out how to submit a report from [SECURITY.md](./security.md).
 
 ## License
 
