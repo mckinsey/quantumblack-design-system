@@ -1,6 +1,5 @@
 # QuantumBlack Design System
 
-  
 <p align="center">
   <a href="https://designsystem.quantumblack.com">
     <img
