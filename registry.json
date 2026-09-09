@@ -7,7 +7,7 @@
       "name": "utils",
       "type": "registry:lib",
       "title": "QBDS Utilities",
-      "description": "Utilities for merging Tailwind CSS classes.",
+      "description": "Utilities for merging Tailwind CSS classes, including QBDS typography styles.",
       "dependencies": ["clsx", "tailwind-merge"],
       "files": [
         {
