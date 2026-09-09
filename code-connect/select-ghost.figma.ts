@@ -5,11 +5,12 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const size = instance.getEnum('size', {
-  sm: 'sm',
-  reg: 'default',
-  lg: 'lg',
-});
+const size =
+  instance.getEnum('size', {
+    sm: 'sm',
+    reg: 'default',
+    lg: 'lg',
+  }) ?? 'default';
 
 const disabled = instance.getEnum('state', {
   enabled: false,
@@ -53,11 +54,16 @@ const filled = instance.getEnum('state', {
   disabled: true,
 });
 
-const placeholder = instance.getString('placeholderText');
-const optionSelected = instance.getString('optionSelected') || 'Option 2';
-const showLeading = instance.getBoolean('showLeadingIcon');
-const showHint = instance.getBoolean('showHintText');
-const showFeedback = instance.getBoolean('showFeedbackMessage');
+const placeholder = JSON.stringify(
+  String(instance.getString('placeholderText') ?? 'Select an option'),
+);
+const optionSelected = String(
+  instance.getString('optionSelected') ?? 'Option 2',
+);
+const optionSelectedLit = JSON.stringify(optionSelected);
+const showLeading = instance.getBoolean('hasLeadingIcon');
+const showHint = instance.getBoolean('hasHintText');
+const showFeedback = instance.getBoolean('hasFeedbackMessage');
 
 const leading = showLeading ? instance.findInstance('Leading-Icon') : null;
 let leadingCode: figma.ResultSection[] = [];
@@ -69,10 +75,13 @@ if (leading && leading.type === 'INSTANCE') {
 const statusInst = instance.findInstance('Elements/Status-Messages', {
   traverseInstances: true,
 });
-const statusMessage =
-  statusInst && statusInst.type === 'INSTANCE'
-    ? statusInst.getString('statusMessage')
-    : 'Feedback message';
+const statusMessage = JSON.stringify(
+  String(
+    statusInst && statusInst.type === 'INSTANCE'
+      ? (statusInst.getString('statusMessage') ?? 'Feedback message')
+      : 'Feedback message',
+  ),
+);
 
 const menuItems = instance
   .findConnectedInstances(node => node.name === 'MenuItem/Select', {
@@ -82,20 +91,24 @@ const menuItems = instance
 
 let itemLabels =
   menuItems.length > 0
-    ? menuItems.map(item => item.getString('Label') || 'Option')
+    ? menuItems.map(item =>
+        String(item.getString('label') ?? item.getString('Label') ?? 'Option'),
+      )
     : [optionSelected];
 
 if (filled && !itemLabels.includes(optionSelected)) {
   itemLabels = [optionSelected, ...itemLabels];
 }
 
-const itemSections = itemLabels.map(
-  label => figma.code`
-      <SelectItem value="${label}">
-        <SelectItemText>${label}</SelectItemText>
+const itemSections = itemLabels.map(label => {
+  const lit = JSON.stringify(label);
+
+  return figma.code`
+      <SelectItem value={${lit}}>
+        <SelectItemText>{${lit}}</SelectItemText>
       </SelectItem>
-    `,
-);
+    `;
+});
 
 const statusClass =
   status === 'warning'
@@ -106,8 +119,9 @@ const statusClass =
 
 const triggerClassProp = statusClass ? ` className="${statusClass}"` : '';
 const invalidProp = status === 'error' ? ' aria-invalid' : '';
-const valueProp = filled ? ` defaultValue="${optionSelected}"` : '';
-const placeholderProp = showHint ? ` placeholder="${placeholder}"` : '';
+const valueProp = filled ? ` defaultValue={${optionSelectedLit}}` : '';
+const placeholderProp = showHint ? ` placeholder={${placeholder}}` : '';
+const sizeProp = size === 'default' ? '' : ` size="${size}"`;
 
 const iconSize = size === 'lg' ? 'default' : 'sm';
 const feedbackGlyph =
@@ -135,7 +149,7 @@ const errorClass =
       : 'paragraph-regular-primary text-status-error';
 
 const selectBody = figma.code`
-  <Select size="${size}"${disabled ? ' disabled' : ''}${valueProp}>
+  <Select${sizeProp}${disabled ? ' disabled' : ''}${valueProp}>
     <SelectTrigger variant="inline"${triggerClassProp}${invalidProp}>
       ${leadingCode}
       <SelectValue${placeholderProp} />
@@ -164,7 +178,7 @@ export default {
     ? figma.code`
         <FieldSet className="gap-2">
           ${selectBody}
-          <FieldError className="${errorClass}">${statusMessage}</FieldError>
+          <FieldError className="${errorClass}">{${statusMessage}}</FieldError>
         </FieldSet>
       `
     : selectBody,

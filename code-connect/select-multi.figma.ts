@@ -5,11 +5,12 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const size = instance.getEnum('size', {
-  sm: 'sm',
-  reg: 'default',
-  lg: 'lg',
-});
+const size =
+  instance.getEnum('size', {
+    sm: 'sm',
+    reg: 'default',
+    lg: 'lg',
+  }) ?? 'default';
 
 const disabled = instance.getEnum('state', {
   enabled: false,
@@ -91,11 +92,13 @@ const tagsWrap = instance.getEnum('state', {
   disabled: false,
 });
 
-const placeholder = instance.getString('placeholderText');
-const optionSelected = instance.getString('optionSelected');
-const showLeading = instance.getBoolean('showLeadingIcon');
-const showFeedback = instance.getBoolean('showFeedbackMessage');
-const showFeedbackIcon = instance.getBoolean('showFeedbackIcon');
+const placeholder = JSON.stringify(
+  String(instance.getString('placeholderText') ?? 'Select options'),
+);
+const optionSelected = String(instance.getString('optionSelected') ?? '');
+const showLeading = instance.getBoolean('hasLeadingIcon');
+const showFeedback = instance.getBoolean('hasFeedbackMessage');
+const showFeedbackIcon = instance.getBoolean('hasFeedbackIcon');
 
 const leading = showLeading ? instance.findInstance('Leading-Icon') : null;
 let leadingCode: figma.ResultSection[] = [];
@@ -107,10 +110,13 @@ if (leading && leading.type === 'INSTANCE') {
 const statusInst = instance.findInstance('Elements/Status-Messages', {
   traverseInstances: true,
 });
-const statusMessage =
-  statusInst && statusInst.type === 'INSTANCE'
-    ? statusInst.getString('statusMessage')
-    : 'Feedback message';
+const statusMessage = JSON.stringify(
+  String(
+    statusInst && statusInst.type === 'INSTANCE'
+      ? (statusInst.getString('statusMessage') ?? 'Feedback message')
+      : 'Feedback message',
+  ),
+);
 
 function connectedExamples(
   nodes: figma.InstanceHandle[],
@@ -146,9 +152,10 @@ if (valueCode.length === 0 && (showTags || showCounter)) {
 }
 
 const showSummary = showCounter && !showTags && Boolean(optionSelected);
+const summaryLit = JSON.stringify(optionSelected);
 const summaryCode = showSummary
   ? figma.code`
-      <span>${optionSelected}</span>
+      <span>{${summaryLit}}</span>
     `
   : [];
 
@@ -185,6 +192,7 @@ const wrapClass = tagsWrap
 const triggerClass = [wrapClass, statusClass].filter(Boolean).join(' ');
 const triggerClassProp = triggerClass ? ` className="${triggerClass}"` : '';
 const invalidProp = validationState === 'error' ? ' aria-invalid' : '';
+const sizeProp = size === 'default' ? '' : ` size="${size}"`;
 
 const errorClass =
   size === 'sm'
@@ -196,13 +204,13 @@ const errorClass =
 const value =
   valueCode.length > 0 || showSummary
     ? figma.code`
-        <SelectValue placeholder="${placeholder}">
+        <SelectValue placeholder={${placeholder}}>
           ${valueCode}
           ${summaryCode}
         </SelectValue>
       `
     : figma.code`
-        <SelectValue placeholder="${placeholder}" />
+        <SelectValue placeholder={${placeholder}} />
       `;
 
 const menu = instance.findInstance('Menu/Select', { traverseInstances: true });
@@ -217,12 +225,17 @@ const selectItems =
           (node): node is figma.InstanceHandle => node.type === 'INSTANCE',
         )
         .map((node, i) => {
-          const label = node.getString('Label') || `Option ${i + 1}`;
+          const label = String(
+            node.getString('label') ??
+              node.getString('Label') ??
+              `Option ${i + 1}`,
+          );
+          const lit = JSON.stringify(label);
           const valueKey = `option-${i + 1}`;
 
           return figma.code`
             <SelectItem value="${valueKey}">
-              <SelectItemText>${label}</SelectItemText>
+              <SelectItemText>{${lit}}</SelectItemText>
             </SelectItem>
           `;
         })
@@ -241,7 +254,7 @@ const selectContent =
       `;
 
 const selectBody = figma.code`
-  <Select multiple size="${size}"${disabled ? ' disabled' : ''}>
+  <Select multiple${sizeProp}${disabled ? ' disabled' : ''}>
     <SelectTrigger${triggerClassProp}${invalidProp}>
       ${leadingCode}
       ${value}
@@ -269,7 +282,7 @@ export default {
     ? figma.code`
         <FieldSet className="gap-2">
           ${selectBody}
-          <FieldError className="${errorClass}">${statusMessage}</FieldError>
+          <FieldError className="${errorClass}">{${statusMessage}}</FieldError>
         </FieldSet>
       `
     : selectBody,

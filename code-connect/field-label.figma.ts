@@ -17,15 +17,15 @@ const disabled = instance.getEnum('state', {
 });
 
 const align = instance.getEnum('align', {
-  left: 'left',
-  right: 'right',
+  start: 'left',
+  end: 'right',
 });
 
-const isRequired = instance.getBoolean('isRequired');
-const showInfoLeft = instance.getBoolean('showInfoLeft');
-const showCounter = instance.getBoolean('showCounter');
-const showMisc = instance.getBoolean('showMiscInfoSlot');
-const label = instance.getString('labelField') || 'Field label';
+const hasRequired = instance.getBoolean('hasRequired');
+const showInfoLeft = instance.getBoolean('hasInfoLeft');
+const showCounter = instance.getBoolean('hasCounter');
+const showMisc = instance.getBoolean('hasMiscInfoSlot');
+const label = instance.getString('label') || 'Field label';
 
 let infoCode: figma.ResultSection[] = [];
 
@@ -37,7 +37,7 @@ if (showInfoLeft) {
   }
 }
 
-const requiredMark = isRequired
+const requiredMark = hasRequired
   ? figma.code`
       <span className="text-status-error" aria-hidden>*</span>
     `

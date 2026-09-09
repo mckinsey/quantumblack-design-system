@@ -26,12 +26,12 @@ const state = instance.getEnum('state', {
   disabled: 'disabled',
 });
 
-const showLeading = instance.getBoolean('showLeadingIcon');
-const showTrailing = instance.getBoolean('showTrailingIcon');
-const showTrailingButton = instance.getBoolean('showTrailingButton');
-const showFeedbackIcon = instance.getBoolean('showFeedbackIcon');
-const showFeedback = instance.getBoolean('showFeedbackMessage');
-const showHintText = instance.getBoolean('showHintText');
+const showLeading = instance.getBoolean('hasLeadingIcon');
+const showTrailing = instance.getBoolean('hasTrailingIcon');
+const showTrailingButton = instance.getBoolean('hasTrailingButton');
+const showFeedbackIcon = instance.getBoolean('hasFeedbackIcon');
+const showFeedback = instance.getBoolean('hasFeedbackMessage');
+const showHintText = instance.getBoolean('hasHintText');
 
 const showClearByState = state === 'active' || state === 'open-typeahead';
 const showStatusIconByState =
@@ -40,9 +40,13 @@ const showStatusIconByState =
 const useTrailingButton = showTrailingButton || showClearByState;
 const useTrailingIcon = showTrailing || showStatusIconByState;
 
-const hintText = instance.getString('hintText');
-const liveEntry = instance.getString('liveEntry');
-const entryFilled = instance.getString('entryFilled');
+const hintText = JSON.stringify(
+  String(instance.getString('hintText') ?? 'Hint text'),
+);
+const liveEntry = JSON.stringify(String(instance.getString('liveEntry') ?? ''));
+const entryFilled = JSON.stringify(
+  String(instance.getString('entryFilled') ?? ''),
+);
 
 const disabled = state === 'disabled';
 const invalid = state === 'error';
@@ -64,23 +68,23 @@ const statusClassName =
       : '';
 
 const valueProp = isLive
-  ? figma.code` defaultValue="${liveEntry}"`
+  ? figma.code` defaultValue={${liveEntry}}`
   : hasFilledValue
-    ? figma.code` defaultValue="${entryFilled}"`
+    ? figma.code` defaultValue={${entryFilled}}`
     : figma.code``;
 
 const placeholderProp =
   showHintText || !hasValue
-    ? figma.code` placeholder="${hintText}"`
+    ? figma.code` placeholder={${hintText}}`
     : figma.code``;
 
 const inputAttrs = [
   'variant="inline"',
   disabled ? 'disabled' : '',
   invalid ? 'aria-invalid' : '',
-  isLive ? `defaultValue="${liveEntry}"` : '',
-  !isLive && hasFilledValue ? `defaultValue="${entryFilled}"` : '',
-  showHintText || !hasValue ? `placeholder="${hintText}"` : '',
+  isLive ? `defaultValue={${liveEntry}}` : '',
+  !isLive && hasFilledValue ? `defaultValue={${entryFilled}}` : '',
+  showHintText || !hasValue ? `placeholder={${hintText}}` : '',
 ]
   .filter(Boolean)
   .join(' ');

@@ -13,24 +13,30 @@ const size = (instance.getEnum('size', {
   lg: 'lg',
 }) ?? 'default') as GroupSize;
 
-const showLabel = instance.getBoolean('showLabel');
-const showHelperText = instance.getBoolean('showHelperText');
+const showLabel = instance.getBoolean('hasLabel');
+const showHelperText = instance.getBoolean('hasHelperText');
 
 const labelInst = showLabel
   ? instance.findInstance('Elements/Label', { traverseInstances: true })
   : null;
-const label =
-  labelInst && labelInst.type === 'INSTANCE'
-    ? labelInst.getString('labelField') || 'Label'
-    : 'Label';
+const label = JSON.stringify(
+  String(
+    labelInst && labelInst.type === 'INSTANCE'
+      ? (labelInst.getString('label') ?? 'Label')
+      : 'Label',
+  ),
+);
 
 const helpInst = showHelperText
   ? instance.findInstance('Elements/Help-Text', { traverseInstances: true })
   : null;
-const helperText =
-  helpInst && helpInst.type === 'INSTANCE'
-    ? helpInst.getString('helperText') || 'Helper text'
-    : 'Helper text';
+const helperText = JSON.stringify(
+  String(
+    helpInst && helpInst.type === 'INSTANCE'
+      ? (helpInst.getString('helperText') ?? 'Helper text')
+      : 'Helper text',
+  ),
+);
 
 const swapName =
   size === 'sm'
@@ -90,9 +96,9 @@ const selectBody = fieldCode.length > 0 ? fieldCode : fallbackSelect;
 export default {
   example: figma.code`
     <FieldSet className="gap-2">
-      ${showLabel ? figma.code`<FieldLabel htmlFor="select" className="${labelClass}">${label}</FieldLabel>` : figma.code``}
+      ${showLabel ? figma.code`<FieldLabel htmlFor="select" className="${labelClass}">{${label}}</FieldLabel>` : figma.code``}
       ${selectBody}
-      ${showHelperText ? figma.code`<FieldDescription className="${descClass}">${helperText}</FieldDescription>` : figma.code``}
+      ${showHelperText ? figma.code`<FieldDescription className="${descClass}">{${helperText}}</FieldDescription>` : figma.code``}
     </FieldSet>
   `,
   imports: [

@@ -22,9 +22,9 @@ const outline = figma.selectedInstance.getEnum('outline', {
   false: false,
 });
 
-const withIcon = figma.selectedInstance.getBoolean('showLeadingIcon');
+const withIcon = figma.selectedInstance.getBoolean('hasLeadingIcon');
 
-const icon = figma.selectedInstance.getBoolean('showLeadingIcon', {
+const icon = figma.selectedInstance.getBoolean('hasLeadingIcon', {
   true: figma.properties.children(['Leading-Icon*']),
   false: undefined,
 });

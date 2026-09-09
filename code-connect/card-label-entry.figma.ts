@@ -3,6 +3,18 @@
 // component=Card
 import figma from 'figma';
 
+function textProp(node: figma.InstanceHandle, ...names: string[]) {
+  for (const name of names) {
+    const value = node.getString(name);
+
+    if (typeof value === 'string' && value) {
+      return value;
+    }
+  }
+
+  return '';
+}
+
 const instance = figma.selectedInstance;
 
 const size = instance.getEnum('size', {
@@ -10,9 +22,8 @@ const size = instance.getEnum('size', {
   reg: 'default',
 });
 
-const label =
-  instance.getString('KPI Label') || instance.getString('label') || 'Label';
-const value = instance.getString('value') || 'Entry';
+const label = JSON.stringify(textProp(instance, 'label') || 'Label');
+const value = JSON.stringify(textProp(instance, 'value') || 'Entry');
 
 const rowClass =
   size === 'sm'
@@ -27,8 +38,8 @@ const valueClass =
 export default {
   example: figma.code`
     <div className="${rowClass}">
-      <span className="text-fg-secondary flex items-center gap-0.5">${label}</span>
-      <span className="${valueClass}">${value}</span>
+      <span className="text-fg-secondary flex items-center gap-0.5">{${label}}</span>
+      <span className="${valueClass}">{${value}}</span>
     </div>
   `,
   imports: [],
