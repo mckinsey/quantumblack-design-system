@@ -1,12 +1,17 @@
 'use client';
 
+import { type VariantProps } from 'class-variance-authority';
 import { useEffect, useState } from 'react';
 
-import { Button } from '@/components/ui/button';
+import { Button, type buttonVariants } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 
-export function ModeToggle() {
+export function ModeToggle({
+  variant = 'outline',
+}: {
+  variant?: VariantProps<typeof buttonVariants>['variant'];
+}) {
   const [isDark, setIsDark] = useState(false);
 
   // Initialize theme from localStorage on mount
@@ -60,7 +65,7 @@ export function ModeToggle() {
   };
 
   return (
-    <Button variant="outline" size="icon" onClick={toggleTheme}>
+    <Button variant={variant} size="icon" onClick={toggleTheme}>
       {isDark ? (
         <IconShell type="neutral" hoverable size="sm">
           <Icon icon="light_mode" />

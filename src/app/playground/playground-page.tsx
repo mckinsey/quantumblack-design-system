@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 
 import { type NavId } from '@/app/demo/[name]/ui/sidebar-demo-data';
 import { RegistryLogo } from '@/components/registry/registry-logo';
+import { ModeToggle } from '@/components/registry/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
@@ -12,54 +13,6 @@ import { toast } from '@/components/ui/sonner';
 import { PlaygroundCards } from './playground-cards';
 import { PlaygroundSettingsForm } from './playground-settings-form';
 import { PlaygroundSidebar, primaryNav } from './playground-sidebar';
-
-function PlaygroundThemeToggle() {
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    const shouldBeDark = savedTheme ? savedTheme === 'dark' : true;
-
-    setIsDark(shouldBeDark);
-
-    if (shouldBeDark) {
-      document.documentElement.classList.add('dark');
-
-      if (!savedTheme) {
-        localStorage.setItem('theme', 'dark');
-      }
-    } else {
-      document.documentElement.classList.remove('dark');
-
-      if (!savedTheme) {
-        localStorage.setItem('theme', 'light');
-      }
-    }
-  }, []);
-
-  function toggleTheme() {
-    const next = !isDark;
-
-    setIsDark(next);
-
-    if (next) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  }
-
-  return (
-    <Button variant="ghost" size="icon" onClick={toggleTheme}>
-      <IconShell type="neutral" hoverable size="sm">
-        <Icon icon={isDark ? 'light_mode' : 'dark_mode'} />
-      </IconShell>
-      <span className="sr-only">Toggle theme</span>
-    </Button>
-  );
-}
 
 function PlaygroundHeader({ onOpenSettings }: { onOpenSettings: () => void }) {
   return (
@@ -80,7 +33,7 @@ function PlaygroundHeader({ onOpenSettings }: { onOpenSettings: () => void }) {
           nativeButton={false}>
           Back to docs
         </Button>
-        <PlaygroundThemeToggle />
+        <ModeToggle variant="ghost" />
         <Button
           variant="ghost"
           size="icon"
