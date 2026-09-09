@@ -22,6 +22,8 @@ import {
 
 const basePath = import.meta.env.VITE_BASE_PATH ?? '';
 
+const playgroundUtilityNav = utilityNav.filter(item => item.label !== 'Theme');
+
 function NavRail({
   active,
   onActive,
@@ -59,7 +61,7 @@ function NavRail({
       <SidebarFooter>
         <SidebarSeparator className="mb-4" />
         <SidebarMenu className="items-center gap-4">
-          {utilityNav.map(item => (
+          {playgroundUtilityNav.map(item => (
             <SidebarMenuItem key={item.label}>
               <SidebarNavUtilityButton tooltip={item.label}>
                 <IconShell size="default" hoverable>
