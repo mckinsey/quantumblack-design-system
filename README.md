@@ -55,7 +55,7 @@ Contributions welcome. Before opening an issue or pull request, read the [Code o
 ## Report a security vulnerability
 
 Security is very important for QuantumBlack Design System and its community.
-Find out how to submit a report from [SECURITY.md](./security.md).
+Find out how to submit a report from [SECURITY.md](./SECURITY.md).
 
 ## License
 
