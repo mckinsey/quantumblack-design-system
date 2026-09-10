@@ -9,6 +9,9 @@ import {
   Popover,
   PopoverAnchor,
   PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
   PopoverTrigger,
 } from '@/components/ui/popover';
 
@@ -69,6 +72,34 @@ describe(`${componentName} — structure & interaction`, () => {
 
     await user.click(screen.getByRole('button', { name: 'Open popover' }));
     expect(await screen.findByText('Popover body')).toBeInTheDocument();
+  });
+
+  it('renders header, title, and description slots', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <Popover>
+        <PopoverTrigger>Open</PopoverTrigger>
+        <PopoverContent>
+          <PopoverHeader>
+            <PopoverTitle>Title</PopoverTitle>
+            <PopoverDescription>Description</PopoverDescription>
+          </PopoverHeader>
+        </PopoverContent>
+      </Popover>,
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Open' }));
+
+    expect(
+      document.querySelector('[data-slot="popover-header"]'),
+    ).toBeInTheDocument();
+    expect(
+      document.querySelector('[data-slot="popover-title"]'),
+    ).toBeInTheDocument();
+    expect(
+      document.querySelector('[data-slot="popover-description"]'),
+    ).toBeInTheDocument();
   });
 
   it('renders PopoverAnchor without crashing', () => {
