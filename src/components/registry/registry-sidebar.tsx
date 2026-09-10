@@ -29,7 +29,13 @@ const uiItems = getUIPrimitives();
 const COMPONENT_GROUPS: { label: string; names: string[] }[] = [
   {
     label: 'Date & Time',
-    names: ['calendar', 'date-picker', 'time-input', 'time-picker'],
+    names: [
+      'calendar',
+      'date-input',
+      'date-picker',
+      'time-input',
+      'time-picker',
+    ],
   },
   {
     label: 'Form Controls',
