@@ -1,6 +1,6 @@
 'use client';
 
-import { isValid } from 'date-fns';
+import { format, isValid, parse } from 'date-fns';
 import * as React from 'react';
 import type {
   DateRange,
@@ -14,67 +14,43 @@ import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
 import { Popover, PopoverContent } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
-type Parts = {
-  day: number | null;
-  month: number | null;
-  year: number | null;
-};
-
-const emptyParts = (): Parts => ({ day: null, month: null, year: null });
-
-const toParts = (date?: Date): Parts => {
-  if (!date || !isValid(date)) return emptyParts();
-
-  return {
-    day: date.getDate(),
-    month: date.getMonth() + 1,
-    year: date.getFullYear(),
-  };
-};
-
-const fromParts = (parts: Parts): Date | undefined => {
-  const { day, month, year } = parts;
-
-  if (day === null || month === null || year === null) return undefined;
-
-  const date = new Date(year, month - 1, day);
-
-  if (
-    !isValid(date) ||
-    date.getFullYear() !== year ||
-    date.getMonth() !== month - 1 ||
-    date.getDate() !== day
-  ) {
-    return undefined;
-  }
-
-  return date;
-};
-
 function useDatePicker() {
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
-  const [parts, setParts] = React.useState<Parts>(emptyParts);
+  const [value, setValue] = React.useState('');
   const [month, setMonth] = React.useState<Date | undefined>(undefined);
+  const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const anchorRef = React.useRef<HTMLDivElement>(null);
 
-  const patch = (next: Partial<Parts>) => {
-    setParts(prev => {
-      const merged = { ...prev, ...next };
-      const parsed = fromParts(merged);
+  React.useEffect(() => {
+    setValue(date ? format(date, 'yyyy-MM-dd') : '');
+
+    if (date) {
+      setMonth(date);
+    }
+  }, [date]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const text = e.target.value;
+    setValue(text);
+
+    if (!text) {
+      setDate(undefined);
+      return;
+    }
+
+    const parsed = parse(text, 'yyyy-MM-dd', new Date());
+
+    if (isValid(parsed)) {
       setDate(parsed);
-
-      if (parsed) setMonth(parsed);
-
-      return merged;
-    });
+      setMonth(parsed);
+    } else {
+      setDate(undefined);
+    }
   };
 
   const handleCalendarSelect = (selected?: Date) => {
     setDate(selected);
-    setParts(toParts(selected));
-
-    if (selected) setMonth(selected);
-
     setOpen(false);
   };
 
@@ -82,10 +58,12 @@ function useDatePicker() {
     open,
     setOpen,
     date,
-    parts,
-    patch,
+    value,
     month,
     setMonth,
+    triggerRef,
+    anchorRef,
+    handleInputChange,
     handleCalendarSelect,
   };
 }
@@ -93,40 +71,63 @@ function useDatePicker() {
 function useDateRangePicker() {
   const [open, setOpen] = React.useState(false);
   const [range, setRange] = React.useState<DateRange | undefined>(undefined);
-  const [start, setStart] = React.useState<Parts>(emptyParts);
-  const [end, setEnd] = React.useState<Parts>(emptyParts);
+  const [startValue, setStartValue] = React.useState('');
+  const [endValue, setEndValue] = React.useState('');
   const [month, setMonth] = React.useState<Date | undefined>(undefined);
+  const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const anchorRef = React.useRef<HTMLDivElement>(null);
 
-  const syncRange = (nextStart: Parts, nextEnd: Parts) => {
-    const from = fromParts(nextStart);
-    const to = fromParts(nextEnd);
-    setRange(from || to ? { from, to } : undefined);
+  React.useEffect(() => {
+    setStartValue(range?.from ? format(range.from, 'yyyy-MM-dd') : '');
+    setEndValue(range?.to ? format(range.to, 'yyyy-MM-dd') : '');
 
-    if (from) setMonth(from);
-    else if (to) setMonth(to);
+    if (range?.from) {
+      setMonth(range.from);
+    } else if (range?.to) {
+      setMonth(range.to);
+    }
+  }, [range]);
+
+  const updateField = (
+    prev: DateRange | undefined,
+    field: 'from' | 'to',
+    next: Date | undefined,
+  ): DateRange | undefined => ({
+    from: field === 'from' ? next : prev?.from,
+    to: field === 'to' ? next : prev?.to,
+  });
+
+  const createHandler = (
+    field: 'from' | 'to',
+    setFieldValue: (value: string) => void,
+  ) => {
+    return (e: React.ChangeEvent<HTMLInputElement>) => {
+      const text = e.target.value;
+      setFieldValue(text);
+
+      if (!text) {
+        setRange(prev => updateField(prev, field, undefined));
+        return;
+      }
+
+      const parsed = parse(text, 'yyyy-MM-dd', new Date());
+
+      if (isValid(parsed)) {
+        setRange(prev => updateField(prev, field, parsed));
+        setMonth(parsed);
+      } else {
+        setRange(prev => updateField(prev, field, undefined));
+      }
+    };
   };
 
-  const patchStart = (next: Partial<Parts>) => {
-    setStart(prev => {
-      const merged = { ...prev, ...next };
-      syncRange(merged, end);
-      return merged;
-    });
-  };
-
-  const patchEnd = (next: Partial<Parts>) => {
-    setEnd(prev => {
-      const merged = { ...prev, ...next };
-      syncRange(start, merged);
-      return merged;
-    });
-  };
+  const handleStartChange = createHandler('from', setStartValue);
+  const handleEndChange = createHandler('to', setEndValue);
 
   const handleSelect: OnSelectHandler<DateRange | undefined> = selected => {
     if (range?.from && !range.to) {
       setRange(selected);
-      setStart(toParts(selected?.from));
-      setEnd(toParts(selected?.to));
+      setOpen(false);
     }
   };
 
@@ -134,20 +135,20 @@ function useDateRangePicker() {
     if (range?.from && !range.to) return;
 
     setRange({ from: day });
-    setStart(toParts(day));
-    setEnd(emptyParts());
   };
 
   return {
     open,
     setOpen,
-    start,
-    end,
-    patchStart,
-    patchEnd,
+    startValue,
+    endValue,
     month,
     setMonth,
     range,
+    triggerRef,
+    anchorRef,
+    handleStartChange,
+    handleEndChange,
     handleSelect,
     handleDayClick,
   };
@@ -158,38 +159,41 @@ export function DatePickerDemo() {
     open,
     setOpen,
     date,
-    parts,
-    patch,
+    value,
     month,
     setMonth,
+    triggerRef,
+    anchorRef,
+    handleInputChange,
     handleCalendarSelect,
   } = useDatePicker();
-  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field className="w-fit gap-2">
-      <FieldLabel className="label-regular-primary">Select Date</FieldLabel>
+      <FieldLabel htmlFor="date-input" className="label-regular-primary">
+        Select Date
+      </FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
         <DateInput
           ref={anchorRef}
+          triggerRef={triggerRef}
+          id="date-input"
           open={open}
-          day={parts.day}
-          month={parts.month}
-          year={parts.year}
-          onDayChange={day => patch({ day })}
-          onMonthChange={m => patch({ month: m })}
-          onYearChange={year => patch({ year })}
+          value={value}
+          onChange={handleInputChange}
           onTriggerClick={() => setOpen(v => !v)}
-          className="w-fit"
         />
         <PopoverContent
           anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          initialFocus={false}>
+          initialFocus={false}
+          finalFocus={triggerRef}>
           <Calendar
+            key={open ? 'open' : 'closed'}
+            autoFocus={open}
             mode="single"
             selected={date}
             month={month}
@@ -208,49 +212,48 @@ export function DatePickerRange() {
   const {
     open,
     setOpen,
-    start,
-    end,
-    patchStart,
-    patchEnd,
+    startValue,
+    endValue,
     month,
     setMonth,
     range,
+    triggerRef,
+    anchorRef,
+    handleStartChange,
+    handleEndChange,
     handleSelect,
     handleDayClick,
   } = useDateRangePicker();
-  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field className="w-fit gap-2">
-      <FieldLabel className="label-regular-primary">Date Range</FieldLabel>
+      <FieldLabel htmlFor="date-range-start" className="label-regular-primary">
+        Date Range
+      </FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
         <DateInput
           ref={anchorRef}
+          triggerRef={triggerRef}
+          id="date-range-start"
           mode="range"
           open={open}
-          day={start.day}
-          month={start.month}
-          year={start.year}
-          onDayChange={day => patchStart({ day })}
-          onMonthChange={m => patchStart({ month: m })}
-          onYearChange={year => patchStart({ year })}
-          endDay={end.day}
-          endMonth={end.month}
-          endYear={end.year}
-          onEndDayChange={day => patchEnd({ day })}
-          onEndMonthChange={m => patchEnd({ month: m })}
-          onEndYearChange={year => patchEnd({ year })}
+          value={startValue}
+          endValue={endValue}
+          onChange={handleStartChange}
+          onEndChange={handleEndChange}
           onTriggerClick={() => setOpen(v => !v)}
-          className="w-fit"
         />
         <PopoverContent
           anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          initialFocus={false}>
+          initialFocus={false}
+          finalFocus={triggerRef}>
           <Calendar
+            key={open ? 'open' : 'closed'}
+            autoFocus={open}
             mode="range"
             numberOfMonths={2}
             selected={range}
@@ -270,15 +273,13 @@ export function DatePickerRange() {
 export function DatePickerDisabled() {
   return (
     <Field className="w-fit gap-2">
-      <FieldLabel className="label-regular-primary">Select Date</FieldLabel>
+      <FieldLabel
+        htmlFor="date-input-disabled"
+        className="label-regular-primary">
+        Select Date
+      </FieldLabel>
 
-      <DateInput
-        disabled
-        day={null}
-        month={null}
-        year={null}
-        className="w-fit"
-      />
+      <DateInput id="date-input-disabled" disabled value="" />
 
       <FieldDescription>Helper text</FieldDescription>
     </Field>
@@ -302,40 +303,44 @@ function DatePickerSized({
     open,
     setOpen,
     date,
-    parts,
-    patch,
+    value,
     month,
     setMonth,
+    triggerRef,
+    anchorRef,
+    handleInputChange,
     handleCalendarSelect,
   } = useDatePicker();
-  const anchorRef = React.useRef<HTMLDivElement>(null);
+  const id = `date-size-${variant}-${size}`;
 
   return (
     <Field className="w-fit gap-2">
-      <FieldLabel className={labelClass}>{label}</FieldLabel>
+      <FieldLabel htmlFor={id} className={labelClass}>
+        {label}
+      </FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
         <DateInput
           ref={anchorRef}
+          triggerRef={triggerRef}
+          id={id}
           size={size}
           variant={variant}
           open={open}
-          day={parts.day}
-          month={parts.month}
-          year={parts.year}
-          onDayChange={day => patch({ day })}
-          onMonthChange={m => patch({ month: m })}
-          onYearChange={year => patch({ year })}
+          value={value}
+          onChange={handleInputChange}
           onTriggerClick={() => setOpen(v => !v)}
-          className="w-fit"
         />
         <PopoverContent
           anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          initialFocus={false}>
+          initialFocus={false}
+          finalFocus={triggerRef}>
           <Calendar
+            key={open ? 'open' : 'closed'}
+            autoFocus={open}
             mode="single"
             size={size === 'lg' ? 'lg' : 'default'}
             selected={date}
@@ -403,12 +408,14 @@ export function DatePickerInlineSizes() {
 }
 
 function DatePickerValidationItem({
+  id,
   label,
   message,
   messageClass,
   borderClass,
   isError,
 }: Readonly<{
+  id: string;
   label: string;
   message: string;
   messageClass: string;
@@ -419,39 +426,43 @@ function DatePickerValidationItem({
     open,
     setOpen,
     date,
-    parts,
-    patch,
+    value,
     month,
     setMonth,
+    triggerRef,
+    anchorRef,
+    handleInputChange,
     handleCalendarSelect,
   } = useDatePicker();
-  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field className="w-fit gap-2">
-      <FieldLabel className="label-regular-primary">{label}</FieldLabel>
+      <FieldLabel htmlFor={`date-${id}`} className="label-regular-primary">
+        {label}
+      </FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
         <DateInput
           ref={anchorRef}
+          triggerRef={triggerRef}
+          id={`date-${id}`}
           open={open}
-          day={parts.day}
-          month={parts.month}
-          year={parts.year}
-          onDayChange={day => patch({ day })}
-          onMonthChange={m => patch({ month: m })}
-          onYearChange={year => patch({ year })}
+          value={value}
+          onChange={handleInputChange}
           onTriggerClick={() => setOpen(v => !v)}
           aria-invalid={isError || undefined}
-          className={cn('w-fit', borderClass)}
+          className={cn(borderClass || undefined)}
         />
         <PopoverContent
           anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          initialFocus={false}>
+          initialFocus={false}
+          finalFocus={triggerRef}>
           <Calendar
+            key={open ? 'open' : 'closed'}
+            autoFocus={open}
             mode="single"
             selected={date}
             month={month}
@@ -470,6 +481,7 @@ export function DatePickerValidation() {
   return (
     <div className="flex flex-col gap-6">
       <DatePickerValidationItem
+        id="error"
         label="Error"
         message="Feedback message here"
         messageClass="text-status-error"
@@ -477,6 +489,7 @@ export function DatePickerValidation() {
         isError
       />
       <DatePickerValidationItem
+        id="warning"
         label="Warning"
         message="Feedback message here"
         messageClass="text-status-warning"
@@ -484,6 +497,7 @@ export function DatePickerValidation() {
         isError={false}
       />
       <DatePickerValidationItem
+        id="success"
         label="Success"
         message="Feedback message here"
         messageClass="text-status-success"
@@ -498,52 +512,51 @@ export function DatePickerRangeInline() {
   const {
     open,
     setOpen,
-    start,
-    end,
-    patchStart,
-    patchEnd,
+    startValue,
+    endValue,
     month,
     setMonth,
     range,
+    triggerRef,
+    anchorRef,
+    handleStartChange,
+    handleEndChange,
     handleSelect,
     handleDayClick,
   } = useDateRangePicker();
-  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field className="w-fit gap-2">
-      <FieldLabel className="label-regular-primary mb-[-4px]">
+      <FieldLabel
+        htmlFor="date-range-inline-start"
+        className="label-regular-primary mb-[-4px]">
         Date Range
       </FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
         <DateInput
           ref={anchorRef}
+          triggerRef={triggerRef}
+          id="date-range-inline-start"
           mode="range"
           variant="inline"
           open={open}
-          day={start.day}
-          month={start.month}
-          year={start.year}
-          onDayChange={day => patchStart({ day })}
-          onMonthChange={m => patchStart({ month: m })}
-          onYearChange={year => patchStart({ year })}
-          endDay={end.day}
-          endMonth={end.month}
-          endYear={end.year}
-          onEndDayChange={day => patchEnd({ day })}
-          onEndMonthChange={m => patchEnd({ month: m })}
-          onEndYearChange={year => patchEnd({ year })}
+          value={startValue}
+          endValue={endValue}
+          onChange={handleStartChange}
+          onEndChange={handleEndChange}
           onTriggerClick={() => setOpen(v => !v)}
-          className="w-fit"
         />
         <PopoverContent
           anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          initialFocus={false}>
+          initialFocus={false}
+          finalFocus={triggerRef}>
           <Calendar
+            key={open ? 'open' : 'closed'}
+            autoFocus={open}
             mode="range"
             numberOfMonths={2}
             selected={range}

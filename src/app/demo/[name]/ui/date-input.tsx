@@ -36,16 +36,12 @@ const getLabelClassName = (
   );
 };
 
-type Parts = {
-  day: number | null;
-  month: number | null;
-  year: number | null;
-};
-
-export function DateInputDemo() {
-  const [s, setS] = useState<Parts>({ day: 16, month: 4, year: 2025 });
-  const [d, setD] = useState<Parts>({ day: 16, month: 4, year: 2025 });
-  const [l, setL] = useState<Parts>({ day: 16, month: 4, year: 2025 });
+function SizeStack({
+  variant = 'default',
+}: Readonly<{ variant?: 'default' | 'inline' }>) {
+  const [s, setS] = useState('2025-04-16');
+  const [d, setD] = useState('2025-04-16');
+  const [l, setL] = useState('2025-04-16');
 
   const sizes = [
     { label: 'Small', size: 'sm' as const, value: s, set: setS },
@@ -54,67 +50,21 @@ export function DateInputDemo() {
   ];
 
   return (
-    <div className="flex flex-wrap items-end gap-8">
+    <div className="flex flex-col gap-6">
       {sizes.map(({ label, size, value, set }) => {
         const cfg = fieldConfig[size];
 
         return (
           <FieldSet key={size} className={cfg.gap}>
-            <FieldTitle className={getLabelClassName(size)}>{label}</FieldTitle>
-
-            <DateInput
-              size={size}
-              day={value.day}
-              month={value.month}
-              year={value.year}
-              onDayChange={day => set(p => ({ ...p, day }))}
-              onMonthChange={month => set(p => ({ ...p, month }))}
-              onYearChange={year => set(p => ({ ...p, year }))}
-              className="w-fit"
-            />
-
-            <FieldDescription className={cfg.description}>
-              Helper text
-            </FieldDescription>
-          </FieldSet>
-        );
-      })}
-    </div>
-  );
-}
-
-export function DateInputInline() {
-  const [s, setS] = useState<Parts>({ day: 16, month: 4, year: 2025 });
-  const [d, setD] = useState<Parts>({ day: 16, month: 4, year: 2025 });
-  const [l, setL] = useState<Parts>({ day: 16, month: 4, year: 2025 });
-
-  const sizes = [
-    { label: 'Small', size: 'sm' as const, value: s, set: setS },
-    { label: 'Default', size: 'default' as const, value: d, set: setD },
-    { label: 'Large', size: 'lg' as const, value: l, set: setL },
-  ];
-
-  return (
-    <div className="flex flex-wrap items-end gap-8">
-      {sizes.map(({ label, size, value, set }) => {
-        const cfg = fieldConfig[size];
-
-        return (
-          <FieldSet key={size} className={cfg.gap}>
-            <FieldTitle className={getLabelClassName(size, 'inline')}>
+            <FieldTitle className={getLabelClassName(size, variant)}>
               {label}
             </FieldTitle>
 
             <DateInput
-              variant="inline"
+              variant={variant}
               size={size}
-              day={value.day}
-              month={value.month}
-              year={value.year}
-              onDayChange={day => set(p => ({ ...p, day }))}
-              onMonthChange={month => set(p => ({ ...p, month }))}
-              onYearChange={year => set(p => ({ ...p, year }))}
-              className="w-fit"
+              value={value}
+              onChange={e => set(e.target.value)}
             />
 
             <FieldDescription className={cfg.description}>
@@ -127,13 +77,17 @@ export function DateInputInline() {
   );
 }
 
+export function DateInputDemo() {
+  return <SizeStack />;
+}
+
+export function DateInputInline() {
+  return <SizeStack variant="inline" />;
+}
+
 export function DateInputRange() {
-  const [start, setStart] = useState<Parts>({
-    day: 1,
-    month: 4,
-    year: 2025,
-  });
-  const [end, setEnd] = useState<Parts>({ day: 16, month: 4, year: 2025 });
+  const [start, setStart] = useState('2025-04-01');
+  const [end, setEnd] = useState('2025-04-16');
   const { label, description, gap } = fieldConfig.default;
 
   return (
@@ -142,19 +96,10 @@ export function DateInputRange() {
 
       <DateInput
         mode="range"
-        day={start.day}
-        month={start.month}
-        year={start.year}
-        onDayChange={day => setStart(p => ({ ...p, day }))}
-        onMonthChange={month => setStart(p => ({ ...p, month }))}
-        onYearChange={year => setStart(p => ({ ...p, year }))}
-        endDay={end.day}
-        endMonth={end.month}
-        endYear={end.year}
-        onEndDayChange={day => setEnd(p => ({ ...p, day }))}
-        onEndMonthChange={month => setEnd(p => ({ ...p, month }))}
-        onEndYearChange={year => setEnd(p => ({ ...p, year }))}
-        className="w-fit"
+        value={start}
+        endValue={end}
+        onChange={e => setStart(e.target.value)}
+        onEndChange={e => setEnd(e.target.value)}
       />
 
       <FieldDescription className={description}>Helper text</FieldDescription>
@@ -169,7 +114,7 @@ export function DateInputDisabled() {
     <FieldSet className={gap}>
       <FieldTitle className={label}>Disabled</FieldTitle>
 
-      <DateInput disabled day={16} month={4} year={2025} className="w-fit" />
+      <DateInput disabled value="2025-04-16" />
 
       <FieldDescription className={description}>Helper text</FieldDescription>
     </FieldSet>
@@ -180,17 +125,11 @@ export function DateInputValidation() {
   const { label, description, gap } = fieldConfig.default;
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       <FieldSet className={gap}>
         <FieldTitle className={label}>Error</FieldTitle>
 
-        <DateInput
-          day={16}
-          month={4}
-          year={2025}
-          aria-invalid
-          className="w-fit"
-        />
+        <DateInput value="2025-04-16" aria-invalid />
 
         <FieldDescription className={description}>
           This field is required
@@ -201,10 +140,8 @@ export function DateInputValidation() {
         <FieldTitle className={label}>Warning</FieldTitle>
 
         <DateInput
-          day={16}
-          month={4}
-          year={2025}
-          className="border-stroke-status-warning w-fit"
+          value="2025-04-16"
+          className="border-stroke-status-warning"
         />
 
         <FieldDescription className={description}>
@@ -216,10 +153,8 @@ export function DateInputValidation() {
         <FieldTitle className={label}>Success</FieldTitle>
 
         <DateInput
-          day={16}
-          month={4}
-          year={2025}
-          className="border-stroke-status-success w-fit"
+          value="2025-04-16"
+          className="border-stroke-status-success"
         />
 
         <FieldDescription className={description}>
@@ -234,17 +169,17 @@ export const examples = [
   {
     name: 'DateInputDemo',
     title: 'Default',
-    description: 'All sizes — small, default, and large.',
+    description: 'All sizes stacked — small, default, and large.',
   },
   {
     name: 'DateInputInline',
     title: 'Inline Variant',
-    description: 'All sizes — inline styling.',
+    description: 'All sizes stacked — inline styling.',
   },
   {
     name: 'DateInputRange',
     title: 'Range',
-    description: 'Start and end date segments in one field.',
+    description: 'Start and end native date inputs in one field.',
   },
   {
     name: 'DateInputDisabled',

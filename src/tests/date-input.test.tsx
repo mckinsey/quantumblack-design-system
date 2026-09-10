@@ -27,41 +27,37 @@ describe(`${componentName} — all examples render`, () => {
 });
 
 describe(`${componentName} — structure`, () => {
-  it('renders root and trigger', () => {
-    render(<DateInput day={1} month={4} year={2025} />);
+  it('renders root and choose-date trigger', () => {
+    render(<DateInput value="2025-04-01" />);
 
     expect(
-      document.querySelector('[data-slot="date-input-root"]'),
+      document.querySelector('[data-slot="date-input"]'),
     ).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: 'Choose date' }),
-    ).toBeInTheDocument();
+
+    const trigger = screen.getByRole('button', {
+      name: 'Change date, 2025-04-01',
+    });
+
+    expect(trigger).toHaveAttribute('aria-haspopup', 'dialog');
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
   });
 
-  it('renders range separator in range mode', () => {
-    render(
-      <DateInput
-        mode="range"
-        day={1}
-        month={4}
-        year={2025}
-        endDay={16}
-        endMonth={4}
-        endYear={2025}
-      />,
-    );
+  it('renders range end input in range mode', () => {
+    render(<DateInput mode="range" value="2025-04-01" endValue="2025-04-16" />);
 
-    expect(
-      document.querySelector('[data-slot="date-range-separator"]'),
-    ).toBeInTheDocument();
+    expect(screen.getByLabelText('Start date')).toBeInTheDocument();
+    expect(screen.getByLabelText('End date')).toBeInTheDocument();
   });
 
   it('respects disabled', () => {
-    render(<DateInput disabled day={1} month={4} year={2025} />);
+    render(<DateInput disabled value="2025-04-01" />);
 
+    expect(document.querySelector('[data-slot="date-input"]')).toHaveAttribute(
+      'data-disabled',
+      'true',
+    );
     expect(
-      document.querySelector('[data-slot="date-input-root"]'),
-    ).toHaveAttribute('data-disabled', 'true');
-    expect(screen.getByRole('button', { name: 'Choose date' })).toBeDisabled();
+      screen.getByRole('button', { name: 'Change date, 2025-04-01' }),
+    ).toBeDisabled();
   });
 });

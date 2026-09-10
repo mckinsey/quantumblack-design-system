@@ -41,52 +41,121 @@ const hasFilled =
 
 const statusClass =
   state === 'warning'
-    ? ' border-stroke-status-warning'
+    ? 'border-stroke-status-warning'
     : state === 'success'
-      ? ' border-stroke-status-success'
+      ? 'border-stroke-status-success'
       : '';
 
-const day = hasFilled ? 16 : null;
-const month = hasFilled ? 4 : null;
-const year = hasFilled ? 2025 : null;
+const sizeProp = size === 'default' ? '' : ` size="${size}"`;
+const valueProp = hasFilled ? ' value="2025-04-16"' : '';
+const classProp = statusClass ? ` className="${statusClass}"` : '';
+const openProp = open ? ' open' : '';
 
-const footer =
-  invalid && showFeedback
-    ? figma.code`<FieldError>Feedback message</FieldError>`
-    : showHintText && !invalid
-      ? figma.code`<FieldDescription>Helper text</FieldDescription>`
-      : figma.code``;
+const helpInst = instance.findInstance('Elements/Help-Text', {
+  traverseInstances: true,
+});
+const statusInst = instance.findInstance('Elements/Status-Messages', {
+  traverseInstances: true,
+});
 
-const hasFooter = (invalid && showFeedback) || (showHintText && !invalid);
+const helperText =
+  helpInst?.type === 'INSTANCE'
+    ? JSON.stringify(helpInst.getString('helperText') ?? 'Helper text')
+    : null;
+const statusMessage =
+  statusInst?.type === 'INSTANCE'
+    ? JSON.stringify(
+        statusInst.getString('statusMessage') ?? 'Feedback message',
+      )
+    : null;
 
-const body = figma.code`
+const showErrorFooter = Boolean(invalid && showFeedback && statusMessage);
+const showHintFooter = Boolean(
+  !invalid && showHintText && helperText && !showErrorFooter,
+);
+
+const footer = showErrorFooter
+  ? figma.code`<FieldError>{${statusMessage}}</FieldError>`
+  : showHintFooter
+    ? figma.code`<FieldDescription>{${helperText}}</FieldDescription>`
+    : figma.code``;
+
+const hasFooter = showErrorFooter || showHintFooter;
+
+const calendarInst = instance.findInstance(
+  '.base/datePicker/DaySelectionSingle',
+  { traverseInstances: true },
+);
+
+const connectedCalendar =
+  calendarInst?.type === 'INSTANCE' && calendarInst.hasCodeConnect()
+    ? calendarInst.executeTemplate().example
+    : null;
+
+const calendarSize = size === 'lg' ? 'lg' : 'default';
+const calendarFallback =
+  calendarInst?.type === 'INSTANCE' && !connectedCalendar
+    ? figma.code`<Calendar mode="single" size="${calendarSize}" />`
+    : figma.code``;
+
+const hasCalendar = calendarInst?.type === 'INSTANCE';
+
+const dateInput = figma.code`
   <DateInput
-    size="${size}"
+    ${sizeProp}
     ${disabled ? 'disabled' : ''}
     ${invalid ? 'aria-invalid' : ''}
-    ${open ? 'open' : ''}
-    day={${day === null ? 'null' : day}}
-    month={${month === null ? 'null' : month}}
-    year={${year === null ? 'null' : year}}
-    className="w-fit${statusClass}"
+    ${openProp}
+    ${valueProp}
+    ${classProp}
   />
 `;
+
+const body = hasCalendar
+  ? figma.code`
+      <Popover defaultOpen>
+        ${dateInput}
+        <PopoverContent
+          className="w-auto overflow-hidden border-none p-0"
+          align="start"
+          sideOffset={4}>
+          ${
+            connectedCalendar
+              ? figma.helpers.react.renderChildren(connectedCalendar)
+              : calendarFallback
+          }
+        </PopoverContent>
+      </Popover>
+    `
+  : dateInput;
 
 const example = hasFooter
   ? figma.code`<FieldSet className="gap-2">${body}${footer}</FieldSet>`
   : body;
 
+const baseImports = ['import { DateInput } from "@/components/ui/date-input"'];
+
+const pickerImports = hasCalendar
+  ? [
+      ...(connectedCalendar
+        ? []
+        : ['import { Calendar } from "@/components/ui/calendar"']),
+      ...baseImports,
+      'import { Popover, PopoverContent } from "@/components/ui/popover"',
+    ]
+  : baseImports;
+
 const imports = hasFooter
-  ? invalid && showFeedback
+  ? showErrorFooter
     ? [
-        'import { DateInput } from "@/components/ui/date-input"',
+        ...pickerImports,
         'import { FieldError, FieldSet } from "@/components/ui/field"',
       ]
     : [
-        'import { DateInput } from "@/components/ui/date-input"',
+        ...pickerImports,
         'import { FieldDescription, FieldSet } from "@/components/ui/field"',
       ]
-  : ['import { DateInput } from "@/components/ui/date-input"'];
+  : pickerImports;
 
 export default {
   example,

@@ -358,48 +358,8 @@ function DateFieldRow({
   const { open, setOpen, month, setMonth, selectedDate, syncMonthFromValue } =
     useDatePickerField(value);
 
-  const parts = React.useMemo(() => {
-    if (!value) return { day: null, month: null, year: null };
-
-    const parsed = parse(value, 'yyyy-MM-dd', new Date());
-
-    if (!isValid(parsed)) return { day: null, month: null, year: null };
-
-    return {
-      day: parsed.getDate(),
-      month: parsed.getMonth() + 1,
-      year: parsed.getFullYear(),
-    };
-  }, [value]);
-
-  const emitParts = (next: {
-    day: number | null;
-    month: number | null;
-    year: number | null;
-  }) => {
-    const { day, month: m, year } = next;
-
-    if (day === null || m === null || year === null) {
-      onChange('');
-      return;
-    }
-
-    const date = new Date(year, m - 1, day);
-
-    if (
-      !isValid(date) ||
-      date.getFullYear() !== year ||
-      date.getMonth() !== m - 1 ||
-      date.getDate() !== day
-    ) {
-      onChange('');
-      return;
-    }
-
-    const formatted = format(date, 'yyyy-MM-dd');
-    onChange(formatted);
-    syncMonthFromValue(formatted);
-  };
+  const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   const handleOpenChange = (next: boolean) => {
     setOpen(next);
@@ -418,7 +378,6 @@ function DateFieldRow({
 
     setOpen(false);
   };
-  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field data-invalid={invalid} className={cn('min-w-0 gap-2')}>
@@ -428,29 +387,31 @@ function DateFieldRow({
       <Popover open={open} onOpenChange={handleOpenChange}>
         <DateInput
           ref={anchorRef}
+          triggerRef={triggerRef}
           id={id}
           name={name}
           variant={variant === 'inline' ? 'inline' : 'default'}
           open={open}
-          day={parts.day}
-          month={parts.month}
-          year={parts.year}
-          onDayChange={day => emitParts({ ...parts, day })}
-          onMonthChange={m => emitParts({ ...parts, month: m })}
-          onYearChange={year => emitParts({ ...parts, year })}
+          value={value}
+          onChange={e => {
+            onChange(e.target.value);
+            syncMonthFromValue(e.target.value);
+          }}
           onTriggerClick={() => setOpen(v => !v)}
           onBlur={onBlur}
           aria-invalid={invalid || undefined}
           aria-label={label}
-          className="w-fit"
         />
         <PopoverContent
           anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          initialFocus={false}>
+          initialFocus={false}
+          finalFocus={triggerRef}>
           <Calendar
+            key={open ? 'open' : 'closed'}
+            autoFocus={open}
             mode="single"
             size="default"
             month={month}

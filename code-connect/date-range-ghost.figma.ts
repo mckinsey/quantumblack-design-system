@@ -41,53 +41,111 @@ const hasFilled =
 
 const statusClass =
   state === 'warning'
-    ? ' border-stroke-status-warning'
+    ? 'border-stroke-status-warning'
     : state === 'success'
-      ? ' border-stroke-status-success'
+      ? 'border-stroke-status-success'
       : '';
 
-const day = hasFilled ? 1 : null;
-const month = hasFilled ? 4 : null;
-const year = hasFilled ? 2025 : null;
-const endDay = hasFilled && state !== 'open-start' ? 16 : null;
-const endMonth = hasFilled && state !== 'open-start' ? 4 : null;
-const endYear = hasFilled && state !== 'open-start' ? 2025 : null;
+const sizeProp = size === 'default' ? '' : ` size="${size}"`;
+const valueProp = hasFilled ? ' value="2025-04-01"' : '';
+const endValueProp =
+  hasFilled && state !== 'open-start' ? ' endValue="2025-04-16"' : '';
+const classProp = statusClass ? ` className="${statusClass}"` : '';
+const openProp = open ? ' open' : '';
 
-const footer =
-  invalid && showFeedback
-    ? figma.code`<FieldError>Feedback message</FieldError>`
+const statusInst = instance.findInstance('Elements/Status-Messages', {
+  traverseInstances: true,
+});
+
+const statusMessage =
+  statusInst?.type === 'INSTANCE'
+    ? JSON.stringify(
+        statusInst.getString('statusMessage') ?? 'Feedback message',
+      )
+    : null;
+
+const showErrorFooter = Boolean(invalid && showFeedback && statusMessage);
+
+const footer = showErrorFooter
+  ? figma.code`<FieldError>{${statusMessage}}</FieldError>`
+  : figma.code``;
+
+const hasFooter = showErrorFooter;
+
+const calendarInst = instance.findInstance(
+  '.base/datePicker/DaySelectionRange',
+  { traverseInstances: true },
+);
+
+const connectedCalendar =
+  calendarInst?.type === 'INSTANCE' && calendarInst.hasCodeConnect()
+    ? calendarInst.executeTemplate().example
+    : null;
+
+const calendarSize = size === 'lg' ? 'lg' : 'default';
+const calendarFallback =
+  calendarInst?.type === 'INSTANCE' && !connectedCalendar
+    ? figma.code`
+        <Calendar mode="range" size="${calendarSize}" numberOfMonths={2} />
+      `
     : figma.code``;
 
-const hasFooter = Boolean(invalid && showFeedback);
+const hasCalendar = calendarInst?.type === 'INSTANCE';
 
-const body = figma.code`
+const dateInput = figma.code`
   <DateInput
     mode="range"
     variant="inline"
-    size="${size}"
+    ${sizeProp}
     ${disabled ? 'disabled' : ''}
     ${invalid ? 'aria-invalid' : ''}
-    ${open ? 'open' : ''}
-    day={${day === null ? 'null' : day}}
-    month={${month === null ? 'null' : month}}
-    year={${year === null ? 'null' : year}}
-    endDay={${endDay === null ? 'null' : endDay}}
-    endMonth={${endMonth === null ? 'null' : endMonth}}
-    endYear={${endYear === null ? 'null' : endYear}}
-    className="w-fit${statusClass}"
+    ${openProp}
+    ${valueProp}
+    ${endValueProp}
+    ${classProp}
   />
 `;
+
+const body = hasCalendar
+  ? figma.code`
+      <Popover defaultOpen>
+        ${dateInput}
+        <PopoverContent
+          className="w-auto overflow-hidden border-none p-0"
+          align="start"
+          sideOffset={4}>
+          ${
+            connectedCalendar
+              ? figma.helpers.react.renderChildren(connectedCalendar)
+              : calendarFallback
+          }
+        </PopoverContent>
+      </Popover>
+    `
+  : dateInput;
 
 const example = hasFooter
   ? figma.code`<FieldSet className="gap-2">${body}${footer}</FieldSet>`
   : body;
 
+const baseImports = ['import { DateInput } from "@/components/ui/date-input"'];
+
+const pickerImports = hasCalendar
+  ? [
+      ...(connectedCalendar
+        ? []
+        : ['import { Calendar } from "@/components/ui/calendar"']),
+      ...baseImports,
+      'import { Popover, PopoverContent } from "@/components/ui/popover"',
+    ]
+  : baseImports;
+
 const imports = hasFooter
   ? [
-      'import { DateInput } from "@/components/ui/date-input"',
+      ...pickerImports,
       'import { FieldError, FieldSet } from "@/components/ui/field"',
     ]
-  : ['import { DateInput } from "@/components/ui/date-input"'];
+  : pickerImports;
 
 export default {
   example,
