@@ -5,12 +5,50 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+type PopoverAnchorContextValue = {
+  anchorRef: React.RefObject<HTMLElement | null> | null;
+  setAnchorRef: (ref: React.RefObject<HTMLElement | null> | null) => void;
+};
+
+const PopoverAnchorContext = React.createContext<PopoverAnchorContextValue>({
+  anchorRef: null,
+  setAnchorRef: () => {},
+});
+
 function Popover({ ...props }: PopoverPrimitive.Root.Props) {
-  return <PopoverPrimitive.Root data-slot="popover" {...props} />;
+  const [anchorRef, setAnchorRef] =
+    React.useState<React.RefObject<HTMLElement | null> | null>(null);
+  const ctx = React.useMemo(() => ({ anchorRef, setAnchorRef }), [anchorRef]);
+
+  return (
+    <PopoverAnchorContext.Provider value={ctx}>
+      <PopoverPrimitive.Root data-slot="popover" {...props} />
+    </PopoverAnchorContext.Provider>
+  );
 }
 
 function PopoverTrigger({ ...props }: PopoverPrimitive.Trigger.Props) {
   return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />;
+}
+
+function PopoverAnchor({ className, ...props }: React.ComponentProps<'div'>) {
+  const { setAnchorRef } = React.useContext(PopoverAnchorContext);
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  React.useLayoutEffect(() => {
+    setAnchorRef(ref);
+
+    return () => setAnchorRef(null);
+  }, [setAnchorRef]);
+
+  return (
+    <div
+      ref={ref}
+      data-slot="popover-anchor"
+      className={cn(className)}
+      {...props}
+    />
+  );
 }
 
 function PopoverContent({
@@ -19,13 +57,17 @@ function PopoverContent({
   alignOffset = 0,
   side = 'bottom',
   sideOffset = 4,
-  anchor,
+  anchor: anchorProp,
   ...props
 }: PopoverPrimitive.Popup.Props &
   Pick<
     PopoverPrimitive.Positioner.Props,
     'align' | 'alignOffset' | 'anchor' | 'side' | 'sideOffset'
   >) {
+  const { anchorRef: contextAnchorRef } =
+    React.useContext(PopoverAnchorContext);
+  const anchor = anchorProp ?? contextAnchorRef ?? undefined;
+
   return (
     <PopoverPrimitive.Portal>
       <PopoverPrimitive.Positioner
@@ -88,6 +130,7 @@ function PopoverDescription({
 
 export {
   Popover,
+  PopoverAnchor,
   PopoverContent,
   PopoverDescription,
   PopoverHeader,
