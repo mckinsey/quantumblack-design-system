@@ -2,11 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';
+import { Popover } from '@/components/ui/popover';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { TimeInput } from '@/components/ui/time-input';
 import {
@@ -37,18 +34,8 @@ const fieldConfig = {
   },
 } as const;
 
-export const sampleHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+export const sampleHours = Array.from({ length: 24 }, (_, i) => i);
 export const sampleMinutes = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
-
-const createTimeValueHandler = (
-  setter: (value: number) => void,
-): ((value: string) => void) => {
-  return (value: string) => {
-    if (value) {
-      setter(Number.parseInt(value, 10));
-    }
-  };
-};
 
 export function TimePickerColumn({
   value,
@@ -65,7 +52,7 @@ export function TimePickerColumn({
 
   useEffect(() => {
     const checked = listRef.current?.querySelector<HTMLElement>(
-      '[data-state="checked"]',
+      '[data-checked]',
     );
 
     if (checked) {
@@ -79,8 +66,12 @@ export function TimePickerColumn({
         <TimePickerList
           ref={listRef}
           size={size}
-          value={value === null ? '' : String(value)}
-          onValueChange={createTimeValueHandler(onValueChange)}>
+          value={value === null ? null : String(value)}
+          onValueChange={next => {
+            if (next !== null && next !== undefined && next !== '') {
+              onValueChange(Number.parseInt(String(next), 10));
+            }
+          }}>
           {items.map(item => (
             <TimePickerItem key={item} value={String(item)} size={size}>
               {formatTwoDigits(item)}
@@ -92,10 +83,6 @@ export function TimePickerColumn({
     </div>
   );
 }
-
-// ============================================================================
-// Shared Time Picker Example
-// ============================================================================
 
 function TimePickerExample({
   id,
@@ -117,8 +104,9 @@ function TimePickerExample({
   const [selectedMinute, setSelectedMinute] = useState<number | null>(
     defaultMinute,
   );
+  const anchorRef = useRef<HTMLDivElement>(null);
 
-  const dropdownSize = size === 'lg' ? 'lg' : 'default';
+  const pickerSize = size === 'lg' ? 'lg' : 'default';
   const cfg = fieldConfig[size];
   const labelClassName = cn(
     cfg.label,
@@ -131,55 +119,40 @@ function TimePickerExample({
     <FieldSet className={cfg.gap}>
       <FieldTitle className={labelClassName}>{label}</FieldTitle>
 
-      <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
-        <DropdownMenuTrigger asChild>
-          <TimeInput
-            id={id}
-            size={size}
-            variant={variant}
-            hour={selectedHour}
-            minute={selectedMinute}
-            onHourChange={setSelectedHour}
-            onMinuteChange={setSelectedMinute}
-            data-open={open}
-            className={variant === 'inline' ? undefined : 'w-fit'}
-          />
-        </DropdownMenuTrigger>
+      <Popover open={open} onOpenChange={setOpen}>
+        <TimeInput
+          ref={anchorRef}
+          id={id}
+          size={size}
+          variant={variant}
+          hour={selectedHour}
+          minute={selectedMinute}
+          onHourChange={setSelectedHour}
+          onMinuteChange={setSelectedMinute}
+          onTriggerClick={() => setOpen(prev => !prev)}
+          data-open={open}
+          className={variant === 'inline' ? undefined : 'w-fit'}
+        />
 
         <TimePickerListContent
-          size={dropdownSize}
+          size={pickerSize}
           className="z-10"
-          sideOffset={4}
-          align="start"
-          onOpenAutoFocus={e => e.preventDefault()}
-          onInteractOutside={e => {
-            const custom = e as CustomEvent<{
-              originalEvent: PointerEvent;
-            }>;
-            const target = custom.detail?.originalEvent?.target;
-
-            if (
-              target instanceof HTMLElement &&
-              target.closest('[data-slot="time-input-root"]')
-            ) {
-              e.preventDefault();
-            }
-          }}>
+          anchor={anchorRef}>
           <TimePickerColumn
             value={selectedHour}
             onValueChange={setSelectedHour}
             items={sampleHours}
-            size={dropdownSize}
+            size={pickerSize}
           />
 
           <TimePickerColumn
             value={selectedMinute}
             onValueChange={setSelectedMinute}
             items={sampleMinutes}
-            size={dropdownSize}
+            size={pickerSize}
           />
         </TimePickerListContent>
-      </DropdownMenu>
+      </Popover>
 
       <FieldDescription className={cfg.description}>
         Helper text
@@ -187,10 +160,6 @@ function TimePickerExample({
     </FieldSet>
   );
 }
-
-// ============================================================================
-// Standalone Overlay (no input)
-// ============================================================================
 
 function TimePickerOverlay({
   size,
@@ -203,21 +172,21 @@ function TimePickerOverlay({
 }>) {
   const [selectedHour, setSelectedHour] = useState<number>(defaultHour);
   const [selectedMinute, setSelectedMinute] = useState<number>(defaultMinute);
+  const anchorRef = useRef<HTMLDivElement>(null);
 
   return (
-    <DropdownMenu open modal={false}>
-      <DropdownMenuTrigger asChild>
-        <div className="label-regular-primary text-fg-secondary capitalize">
-          {size}
-        </div>
-      </DropdownMenuTrigger>
+    <Popover open>
+      <div
+        ref={anchorRef}
+        className="label-regular-primary text-fg-secondary capitalize">
+        {size}
+      </div>
 
       <TimePickerListContent
         size={size}
         sideOffset={10}
-        align="start"
-        onOpenAutoFocus={e => e.preventDefault()}
-        onCloseAutoFocus={e => e.preventDefault()}>
+        anchor={anchorRef}
+        finalFocus={false}>
         <TimePickerColumn
           value={selectedHour}
           onValueChange={setSelectedHour}
@@ -231,17 +200,10 @@ function TimePickerOverlay({
           size={size}
         />
       </TimePickerListContent>
-    </DropdownMenu>
+    </Popover>
   );
 }
 
-// ============================================================================
-// Example Components (New Format)
-// ============================================================================
-
-/**
- * All sizes — default variant
- */
 export function TimePickerDemo() {
   return (
     <div className="flex flex-wrap items-end gap-8">
@@ -252,9 +214,6 @@ export function TimePickerDemo() {
   );
 }
 
-/**
- * All sizes — inline variant
- */
 export function TimePickerInline() {
   return (
     <div className="flex flex-wrap items-end gap-8">
@@ -282,9 +241,6 @@ export function TimePickerInline() {
   );
 }
 
-/**
- * Both overlay sizes side by side
- */
 export function TimePickerOverlaySizes() {
   return (
     <div className="flex min-h-[240px] gap-32">
@@ -299,20 +255,16 @@ export function TimePickerOverlaySizes() {
   );
 }
 
-// ============================================================================
-// Example Metadata
-// ============================================================================
-
 export const examples = [
   {
     name: 'TimePickerDemo',
     title: 'Default',
-    description: 'Time picker with input and dropdown — all sizes.',
+    description: 'Time picker with input and popover — all sizes.',
   },
   {
     name: 'TimePickerInline',
     title: 'Inline',
-    description: 'Inline variant with dropdown — all sizes.',
+    description: 'Inline variant with popover — all sizes.',
   },
   {
     name: 'TimePickerOverlaySizes',
@@ -321,10 +273,6 @@ export const examples = [
       'Scroll-wheel overlay without an input trigger — default and large sizes.',
   },
 ];
-
-// ============================================================================
-// Legacy Format (for backwards compatibility)
-// ============================================================================
 
 export const timePicker = {
   name: 'time-picker',

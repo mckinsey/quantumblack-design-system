@@ -12,10 +12,6 @@ import { ButtonGroup } from '@/components/ui/button-group';
 import { Calendar } from '@/components/ui/calendar';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import {
   Field,
   FieldDescription,
   FieldError,
@@ -488,49 +484,32 @@ function TimeFieldRow({
   const labelClass = variant === 'inline' ? formFieldInlineLabel : undefined;
   const { hour, minute } = parseTimeFieldString(value);
   const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field data-invalid={invalid} className="gap-2">
       <FieldLabel htmlFor={id} className={labelClass}>
         {label}
       </FieldLabel>
-      <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
-        <DropdownMenuTrigger asChild>
-          <TimeInput
-            id={id}
-            name={name}
-            hour={hour}
-            minute={minute}
-            onHourChange={h => onChange(formatTimeFieldValue(h, minute))}
-            onMinuteChange={m => onChange(formatTimeFieldValue(hour, m))}
-            onBlur={onBlur}
-            aria-invalid={invalid}
-            data-open={open}
-            variant={variant === 'inline' ? 'inline' : 'default'}
-            className={
-              variant === 'inline' ? undefined : 'w-fit justify-between'
-            }
-          />
-        </DropdownMenuTrigger>
-        <TimePickerListContent
-          size="default"
-          className="z-10"
-          sideOffset={4}
-          align="start"
-          onOpenAutoFocus={e => e.preventDefault()}
-          onInteractOutside={e => {
-            const custom = e as CustomEvent<{
-              originalEvent: PointerEvent;
-            }>;
-            const target = custom.detail?.originalEvent?.target;
-
-            if (
-              target instanceof HTMLElement &&
-              target.closest('[data-slot="time-input-root"]')
-            ) {
-              e.preventDefault();
-            }
-          }}>
+      <Popover open={open} onOpenChange={setOpen}>
+        <TimeInput
+          ref={anchorRef}
+          id={id}
+          name={name}
+          hour={hour}
+          minute={minute}
+          onHourChange={h => onChange(formatTimeFieldValue(h, minute))}
+          onMinuteChange={m => onChange(formatTimeFieldValue(hour, m))}
+          onBlur={onBlur}
+          onTriggerClick={() => setOpen(prev => !prev)}
+          aria-invalid={invalid}
+          data-open={open}
+          variant={variant === 'inline' ? 'inline' : 'default'}
+          className={
+            variant === 'inline' ? undefined : 'w-fit justify-between'
+          }
+        />
+        <TimePickerListContent size="default" className="z-10" anchor={anchorRef}>
           <TimePickerColumn
             value={hour}
             onValueChange={h => onChange(formatTimeFieldValue(h, minute))}
@@ -544,7 +523,7 @@ function TimeFieldRow({
             size="default"
           />
         </TimePickerListContent>
-      </DropdownMenu>
+      </Popover>
       {errorMessage ? (
         <FieldError>{errorMessage}</FieldError>
       ) : description ? (
