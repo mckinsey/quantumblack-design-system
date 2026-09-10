@@ -82,6 +82,7 @@ export const sectionItems = [
   { title: 'Components', path: '/components' },
   { title: 'Tokens', path: '/tokens' },
   { title: 'Installation', path: '/installation' },
+  { title: 'Playground', path: '/playground' },
 ];
 
 export function MobileSidebarTrigger() {

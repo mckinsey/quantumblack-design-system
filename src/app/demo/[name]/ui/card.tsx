@@ -243,6 +243,12 @@ export function CardDemo() {
   );
 }
 
+export function DefaultCard({ className }: { className?: string }) {
+  return (
+    <NoMediaCard className={className ?? 'aspect-[3/4] w-full max-w-[360px]'} />
+  );
+}
+
 export function CardWithImage() {
   return (
     <DemoRow>
