@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
 import { Calendar } from '@/components/ui/calendar';
 import { Checkbox } from '@/components/ui/checkbox';
+import { DateInput } from '@/components/ui/date-input';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -21,25 +22,13 @@ import {
   FieldError,
   FieldLabel,
 } from '@/components/ui/field';
-import { Icon } from '@/components/ui/icon';
-import { IconShell } from '@/components/ui/icon-shell';
 import { Input } from '@/components/ui/input';
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from '@/components/ui/input-group';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import { Popover, PopoverContent } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
 import { TimeInput } from '@/components/ui/time-input';
 import { TimePickerListContent } from '@/components/ui/time-picker';
 import { cn } from '@/lib/utils';
 
-import { dateInputClassName } from './date-picker';
 import { TimePickerColumn, sampleHours, sampleMinutes } from './time-picker';
 
 // ============================================================================
@@ -365,11 +354,12 @@ function DateFieldRow({
 }: Readonly<DateRowProps>) {
   const labelClass =
     variant === 'inline' ? datePickerInlineLabel : datePickerLabel;
-  const inputGroupVariant = variant === 'inline' ? 'inline' : undefined;
-  const inputVariant = variant === 'inline' ? 'inline' : undefined;
 
   const { open, setOpen, month, setMonth, selectedDate, syncMonthFromValue } =
     useDatePickerField(value);
+
+  const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   const handleOpenChange = (next: boolean) => {
     setOpen(next);
@@ -377,12 +367,6 @@ function DateFieldRow({
     if (next) {
       syncMonthFromValue(value);
     }
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const next = e.target.value;
-    onChange(next);
-    syncMonthFromValue(next);
   };
 
   const handleCalendarSelect = (d: Date | undefined) => {
@@ -394,7 +378,6 @@ function DateFieldRow({
 
     setOpen(false);
   };
-  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field data-invalid={invalid} className={cn('min-w-0 gap-2')}>
@@ -402,52 +385,33 @@ function DateFieldRow({
         {label}
       </FieldLabel>
       <Popover open={open} onOpenChange={handleOpenChange}>
-        <InputGroup
+        <DateInput
           ref={anchorRef}
-          variant={inputGroupVariant}
-          data-open={open}
-          className="cursor-pointer">
-          <InputGroupInput
-            id={id}
-            name={name}
-            type="date"
-            variant={inputVariant}
-            value={value}
-            onChange={handleInputChange}
-            onBlur={onBlur}
-            onClick={() => handleOpenChange(true)}
-            data-empty={value ? 'false' : 'true'}
-            className={dateInputClassName}
-            aria-invalid={invalid}
-            aria-label={label}
-          />
-          <InputGroupAddon align="inline-end">
-            <span className="flex size-5 cursor-pointer items-center justify-center">
-              <PopoverTrigger
-                render={
-                  <Button
-                    size="icon-xxs"
-                    variant="ghost"
-                    aria-label="Open calendar"
-                  />
-                }>
-                <IconShell size="sm" type="neutral" hoverable>
-                  <Icon
-                    icon="calendar_month"
-                    className="text-[length:inherit]"
-                  />
-                </IconShell>
-              </PopoverTrigger>
-            </span>
-          </InputGroupAddon>
-        </InputGroup>
+          triggerRef={triggerRef}
+          id={id}
+          name={name}
+          variant={variant === 'inline' ? 'inline' : 'default'}
+          open={open}
+          value={value}
+          onChange={e => {
+            onChange(e.target.value);
+            syncMonthFromValue(e.target.value);
+          }}
+          onTriggerClick={() => setOpen(v => !v)}
+          onBlur={onBlur}
+          aria-invalid={invalid || undefined}
+          aria-label={label}
+        />
         <PopoverContent
           anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          initialFocus={false}>
+          initialFocus={false}
+          finalFocus={triggerRef}>
           <Calendar
+            key={open ? 'open' : 'closed'}
+            autoFocus={open}
             mode="single"
             size="default"
             month={month}
