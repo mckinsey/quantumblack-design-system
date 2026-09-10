@@ -24,10 +24,10 @@ const disabledOverlayGradient =
 const commonDisabled = 'disabled:bg-fill-muted';
 
 const focusRing = {
-  w1: 'focus-visible:ring-1 data-[state=open]:ring-1',
-  w2: 'focus-visible:ring-2 data-[state=open]:ring-2',
+  w1: 'focus-visible:ring-1 data-[state=open]:ring-1 data-[popup-open]:ring-1',
+  w2: 'focus-visible:ring-2 data-[state=open]:ring-2 data-[popup-open]:ring-2',
   offset:
-    'focus-visible:ring-offset-1 focus-visible:ring-offset-stroke-active-inverse data-[state=open]:ring-offset-1 data-[state=open]:ring-offset-stroke-active-inverse',
+    'focus-visible:ring-offset-1 focus-visible:ring-offset-stroke-active-inverse data-[state=open]:ring-offset-1 data-[state=open]:ring-offset-stroke-active-inverse data-[popup-open]:ring-offset-1 data-[popup-open]:ring-offset-stroke-active-inverse',
 } as const;
 
 const buttonVariants = cva(
@@ -35,7 +35,7 @@ const buttonVariants = cva(
     'relative cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap outline-none',
     'transition-all',
     'group/button',
-    'focus-visible:ring-stroke-status-focus data-[state=open]:ring-stroke-status-focus',
+    'focus-visible:ring-stroke-status-focus data-[state=open]:ring-stroke-status-focus data-[popup-open]:ring-stroke-status-focus',
     'disabled:cursor-not-allowed disabled:text-fg-disabled',
   ],
   {
@@ -46,7 +46,7 @@ const buttonVariants = cva(
           hoverGradient.inverse,
           activeGradient.inverse,
           'focus-visible:bg-stateslayer-overlay-active',
-          'data-[state=open]:bg-stateslayer-overlay-active-inverse',
+          'data-[state=open]:bg-stateslayer-overlay-active-inverse data-[popup-open]:bg-stateslayer-overlay-active-inverse',
           commonDisabled,
           disabledOverlayGradient,
         ],
@@ -54,7 +54,7 @@ const buttonVariants = cva(
           'bg-brand-accents-qb-accent text-[var(--slate-900-opacity-88)]',
           hoverGradient.normal,
           activeGradient.normal,
-          'data-[state=open]:bg-stateslayer-overlay-active-inverse',
+          'data-[state=open]:bg-stateslayer-overlay-active-inverse data-[popup-open]:bg-stateslayer-overlay-active-inverse',
           commonDisabled,
           disabledOverlayGradient,
         ],
@@ -62,17 +62,17 @@ const buttonVariants = cva(
           'bg-fill-muted text-fg-primary',
           hoverGradient.normal,
           activeGradient.normal,
-          'data-[state=open]:bg-stateslayer-overlay-active-inverse',
+          'data-[state=open]:bg-stateslayer-overlay-active-inverse data-[popup-open]:bg-stateslayer-overlay-active-inverse',
           commonDisabled,
           disabledOverlayGradient,
         ],
         outline: [
           'inset-ring inset-ring-stroke-secondary bg-fill-muted-inverse text-fg-primary',
           'hover:inset-ring-stroke-primary disabled:hover:inset-ring-stroke-tertiary disabled:active:inset-ring-stroke-tertiary',
-          'focus-visible:inset-ring-0 data-[state=open]:inset-ring-0',
+          'focus-visible:inset-ring-0 data-[state=open]:inset-ring-0 data-[popup-open]:inset-ring-0',
           hoverGradient.normal,
           activeGradient.normal,
-          'focus-visible:bg-stateslayer-overlay-active-inverse data-[state=open]:bg-stateslayer-overlay-active-inverse',
+          'focus-visible:bg-stateslayer-overlay-active-inverse data-[state=open]:bg-stateslayer-overlay-active-inverse data-[popup-open]:bg-stateslayer-overlay-active-inverse',
           disabledOverlayGradient,
           'disabled:inset-ring-stroke-tertiary',
         ],
@@ -80,7 +80,7 @@ const buttonVariants = cva(
           'bg-transparent text-fg-primary',
           '[&>span:not([data-slot^=icon])]:underline disabled:[&>span:not([data-slot^=icon])]:no-underline aria-disabled:[&>span:not([data-slot^=icon])]:no-underline',
           'hover:bg-stateslayer-overlay-hover active:bg-stateslayer-overlay-pressed',
-          'focus-visible:bg-stateslayer-overlay-active-inverse data-[state=open]:bg-stateslayer-overlay-active-inverse',
+          'focus-visible:bg-stateslayer-overlay-active-inverse data-[state=open]:bg-stateslayer-overlay-active-inverse data-[popup-open]:bg-stateslayer-overlay-active-inverse',
           'disabled:bg-transparent disabled:hover:bg-transparent disabled:active:bg-transparent',
         ],
       },
@@ -193,7 +193,7 @@ function wrapTextNodes(children: React.ReactNode): React.ReactNode {
       return (
         <span
           data-slot="button-label"
-          className="[text-underline-position:from-font] group-hover/button:underline group-focus/button:underline group-active/button:underline group-disabled/button:no-underline! group-aria-disabled/button:no-underline! group-data-[state=open]/button:underline"
+          className="[text-underline-position:from-font] group-hover/button:underline group-focus/button:underline group-active/button:underline group-disabled/button:no-underline! group-aria-disabled/button:no-underline! group-data-[popup-open]/button:underline group-data-[state=open]/button:underline"
           key={String(child)}>
           {child}
         </span>

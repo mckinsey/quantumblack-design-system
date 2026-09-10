@@ -572,7 +572,7 @@
       "type": "registry:ui",
       "title": "Popover",
       "description": "Displays rich content in a portal, triggered by a button.",
-      "dependencies": ["@radix-ui/react-popover"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
@@ -677,11 +677,12 @@
       "type": "registry:ui",
       "title": "Sheet",
       "description": "Extends the Dialog component to display content that complements the main content of the screen.",
-      "dependencies": ["@radix-ui/react-dialog"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/icon.json"
+        "__REGISTRY_URL__/r/icon.json",
+        "__REGISTRY_URL__/r/button.json"
       ],
       "files": [
         {
@@ -711,11 +712,7 @@
       "type": "registry:ui",
       "title": "Sidebar",
       "description": "A composable, themeable and customizable sidebar component.",
-      "dependencies": [
-        "@radix-ui/react-dialog",
-        "@radix-ui/react-slot",
-        "class-variance-authority"
-      ],
+      "dependencies": ["@radix-ui/react-slot", "class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",

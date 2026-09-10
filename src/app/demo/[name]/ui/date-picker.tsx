@@ -11,11 +11,7 @@ import type {
 import { Calendar } from '@/components/ui/calendar';
 import { DateInput } from '@/components/ui/date-input';
 import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
-import {
-  Popover,
-  PopoverAnchor,
-  PopoverContent,
-} from '@/components/ui/popover';
+import { Popover, PopoverContent } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
 type Parts = {
@@ -168,30 +164,31 @@ export function DatePickerDemo() {
     setMonth,
     handleCalendarSelect,
   } = useDatePicker();
+  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field className="w-fit gap-2">
       <FieldLabel className="label-regular-primary">Select Date</FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverAnchor asChild>
-          <DateInput
-            open={open}
-            day={parts.day}
-            month={parts.month}
-            year={parts.year}
-            onDayChange={day => patch({ day })}
-            onMonthChange={m => patch({ month: m })}
-            onYearChange={year => patch({ year })}
-            onTriggerClick={() => setOpen(v => !v)}
-            className="w-fit"
-          />
-        </PopoverAnchor>
+        <DateInput
+          ref={anchorRef}
+          open={open}
+          day={parts.day}
+          month={parts.month}
+          year={parts.year}
+          onDayChange={day => patch({ day })}
+          onMonthChange={m => patch({ month: m })}
+          onYearChange={year => patch({ year })}
+          onTriggerClick={() => setOpen(v => !v)}
+          className="w-fit"
+        />
         <PopoverContent
+          anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          onOpenAutoFocus={e => e.preventDefault()}>
+          initialFocus={false}>
           <Calendar
             mode="single"
             selected={date}
@@ -221,37 +218,38 @@ export function DatePickerRange() {
     handleSelect,
     handleDayClick,
   } = useDateRangePicker();
+  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field className="w-fit gap-2">
       <FieldLabel className="label-regular-primary">Date Range</FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverAnchor asChild>
-          <DateInput
-            mode="range"
-            open={open}
-            day={start.day}
-            month={start.month}
-            year={start.year}
-            onDayChange={day => patchStart({ day })}
-            onMonthChange={m => patchStart({ month: m })}
-            onYearChange={year => patchStart({ year })}
-            endDay={end.day}
-            endMonth={end.month}
-            endYear={end.year}
-            onEndDayChange={day => patchEnd({ day })}
-            onEndMonthChange={m => patchEnd({ month: m })}
-            onEndYearChange={year => patchEnd({ year })}
-            onTriggerClick={() => setOpen(v => !v)}
-            className="w-fit"
-          />
-        </PopoverAnchor>
+        <DateInput
+          ref={anchorRef}
+          mode="range"
+          open={open}
+          day={start.day}
+          month={start.month}
+          year={start.year}
+          onDayChange={day => patchStart({ day })}
+          onMonthChange={m => patchStart({ month: m })}
+          onYearChange={year => patchStart({ year })}
+          endDay={end.day}
+          endMonth={end.month}
+          endYear={end.year}
+          onEndDayChange={day => patchEnd({ day })}
+          onEndMonthChange={m => patchEnd({ month: m })}
+          onEndYearChange={year => patchEnd({ year })}
+          onTriggerClick={() => setOpen(v => !v)}
+          className="w-fit"
+        />
         <PopoverContent
+          anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          onOpenAutoFocus={e => e.preventDefault()}>
+          initialFocus={false}>
           <Calendar
             mode="range"
             numberOfMonths={2}
@@ -310,32 +308,33 @@ function DatePickerSized({
     setMonth,
     handleCalendarSelect,
   } = useDatePicker();
+  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field className="w-fit gap-2">
       <FieldLabel className={labelClass}>{label}</FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverAnchor asChild>
-          <DateInput
-            size={size}
-            variant={variant}
-            open={open}
-            day={parts.day}
-            month={parts.month}
-            year={parts.year}
-            onDayChange={day => patch({ day })}
-            onMonthChange={m => patch({ month: m })}
-            onYearChange={year => patch({ year })}
-            onTriggerClick={() => setOpen(v => !v)}
-            className="w-fit"
-          />
-        </PopoverAnchor>
+        <DateInput
+          ref={anchorRef}
+          size={size}
+          variant={variant}
+          open={open}
+          day={parts.day}
+          month={parts.month}
+          year={parts.year}
+          onDayChange={day => patch({ day })}
+          onMonthChange={m => patch({ month: m })}
+          onYearChange={year => patch({ year })}
+          onTriggerClick={() => setOpen(v => !v)}
+          className="w-fit"
+        />
         <PopoverContent
+          anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          onOpenAutoFocus={e => e.preventDefault()}>
+          initialFocus={false}>
           <Calendar
             mode="single"
             size={size === 'lg' ? 'lg' : 'default'}
@@ -426,31 +425,32 @@ function DatePickerValidationItem({
     setMonth,
     handleCalendarSelect,
   } = useDatePicker();
+  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field className="w-fit gap-2">
       <FieldLabel className="label-regular-primary">{label}</FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverAnchor asChild>
-          <DateInput
-            open={open}
-            day={parts.day}
-            month={parts.month}
-            year={parts.year}
-            onDayChange={day => patch({ day })}
-            onMonthChange={m => patch({ month: m })}
-            onYearChange={year => patch({ year })}
-            onTriggerClick={() => setOpen(v => !v)}
-            aria-invalid={isError || undefined}
-            className={cn('w-fit', borderClass)}
-          />
-        </PopoverAnchor>
+        <DateInput
+          ref={anchorRef}
+          open={open}
+          day={parts.day}
+          month={parts.month}
+          year={parts.year}
+          onDayChange={day => patch({ day })}
+          onMonthChange={m => patch({ month: m })}
+          onYearChange={year => patch({ year })}
+          onTriggerClick={() => setOpen(v => !v)}
+          aria-invalid={isError || undefined}
+          className={cn('w-fit', borderClass)}
+        />
         <PopoverContent
+          anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          onOpenAutoFocus={e => e.preventDefault()}>
+          initialFocus={false}>
           <Calendar
             mode="single"
             selected={date}
@@ -508,6 +508,7 @@ export function DatePickerRangeInline() {
     handleSelect,
     handleDayClick,
   } = useDateRangePicker();
+  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field className="w-fit gap-2">
@@ -516,32 +517,32 @@ export function DatePickerRangeInline() {
       </FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverAnchor asChild>
-          <DateInput
-            mode="range"
-            variant="inline"
-            open={open}
-            day={start.day}
-            month={start.month}
-            year={start.year}
-            onDayChange={day => patchStart({ day })}
-            onMonthChange={m => patchStart({ month: m })}
-            onYearChange={year => patchStart({ year })}
-            endDay={end.day}
-            endMonth={end.month}
-            endYear={end.year}
-            onEndDayChange={day => patchEnd({ day })}
-            onEndMonthChange={m => patchEnd({ month: m })}
-            onEndYearChange={year => patchEnd({ year })}
-            onTriggerClick={() => setOpen(v => !v)}
-            className="w-fit"
-          />
-        </PopoverAnchor>
+        <DateInput
+          ref={anchorRef}
+          mode="range"
+          variant="inline"
+          open={open}
+          day={start.day}
+          month={start.month}
+          year={start.year}
+          onDayChange={day => patchStart({ day })}
+          onMonthChange={m => patchStart({ month: m })}
+          onYearChange={year => patchStart({ year })}
+          endDay={end.day}
+          endMonth={end.month}
+          endYear={end.year}
+          onEndDayChange={day => patchEnd({ day })}
+          onEndMonthChange={m => patchEnd({ month: m })}
+          onEndYearChange={year => patchEnd({ year })}
+          onTriggerClick={() => setOpen(v => !v)}
+          className="w-fit"
+        />
         <PopoverContent
+          anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          onOpenAutoFocus={e => e.preventDefault()}>
+          initialFocus={false}>
           <Calendar
             mode="range"
             numberOfMonths={2}

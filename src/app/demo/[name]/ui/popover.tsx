@@ -4,47 +4,33 @@ import { Label } from '@/components/ui/label';
 import {
   Popover,
   PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
   PopoverTrigger,
 } from '@/components/ui/popover';
 
-// ============================================================================
-// Example Components (New Format)
-// ============================================================================
-
-/**
- * Default popover with form
- */
 export function PopoverDemo() {
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="outline">Open popover</Button>
+      <PopoverTrigger render={<Button variant="outline" />}>
+        Open popover
       </PopoverTrigger>
       <PopoverContent className="w-80">
-        <div className="grid gap-4">
-          <div className="space-y-2">
-            <h4 className="leading-none font-medium">Dimensions</h4>
-            <p className="text-fg-secondary text-sm">
-              Set the dimensions for the layer.
-            </p>
+        <PopoverHeader>
+          <PopoverTitle>Dimensions</PopoverTitle>
+          <PopoverDescription>
+            Set the dimensions for the layer.
+          </PopoverDescription>
+        </PopoverHeader>
+        <div className="grid gap-2 pt-2">
+          <div className="grid grid-cols-3 items-center gap-4">
+            <Label htmlFor="width">Width</Label>
+            <Input id="width" defaultValue="100%" className="col-span-2 h-8" />
           </div>
-          <div className="grid gap-2">
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="width">Width</Label>
-              <Input
-                id="width"
-                defaultValue="100%"
-                className="col-span-2 h-8"
-              />
-            </div>
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="height">Height</Label>
-              <Input
-                id="height"
-                defaultValue="25px"
-                className="col-span-2 h-8"
-              />
-            </div>
+          <div className="grid grid-cols-3 items-center gap-4">
+            <Label htmlFor="height">Height</Label>
+            <Input id="height" defaultValue="25px" className="col-span-2 h-8" />
           </div>
         </div>
       </PopoverContent>
@@ -52,67 +38,51 @@ export function PopoverDemo() {
   );
 }
 
-/**
- * Simple popover with text content
- */
 export function PopoverSimple() {
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="outline">Info</Button>
+      <PopoverTrigger render={<Button variant="outline" />}>
+        Info
       </PopoverTrigger>
       <PopoverContent className="w-64">
-        <p className="text-fg-secondary text-sm">
+        <PopoverDescription>
           This is a simple popover with text content only.
-        </p>
+        </PopoverDescription>
       </PopoverContent>
     </Popover>
   );
 }
 
-/**
- * Popover with different alignments
- */
 export function PopoverAlignment() {
   return (
     <div className="flex gap-4">
       <Popover>
-        <PopoverTrigger asChild>
-          <Button variant="outline" size="sm">
-            Start
-          </Button>
+        <PopoverTrigger render={<Button variant="outline" size="sm" />}>
+          Start
         </PopoverTrigger>
         <PopoverContent align="start" className="w-48">
-          <p className="text-sm">Aligned to start</p>
+          <PopoverDescription>Aligned to start</PopoverDescription>
         </PopoverContent>
       </Popover>
       <Popover>
-        <PopoverTrigger asChild>
-          <Button variant="outline" size="sm">
-            Center
-          </Button>
+        <PopoverTrigger render={<Button variant="outline" size="sm" />}>
+          Center
         </PopoverTrigger>
         <PopoverContent align="center" className="w-48">
-          <p className="text-sm">Aligned to center</p>
+          <PopoverDescription>Aligned to center</PopoverDescription>
         </PopoverContent>
       </Popover>
       <Popover>
-        <PopoverTrigger asChild>
-          <Button variant="outline" size="sm">
-            End
-          </Button>
+        <PopoverTrigger render={<Button variant="outline" size="sm" />}>
+          End
         </PopoverTrigger>
         <PopoverContent align="end" className="w-48">
-          <p className="text-sm">Aligned to end</p>
+          <PopoverDescription>Aligned to end</PopoverDescription>
         </PopoverContent>
       </Popover>
     </div>
   );
 }
-
-// ============================================================================
-// Example Metadata
-// ============================================================================
 
 export const examples = [
   {
@@ -131,10 +101,6 @@ export const examples = [
     description: 'Popovers with different alignments.',
   },
 ];
-
-// ============================================================================
-// Legacy Format (for backwards compatibility)
-// ============================================================================
 
 export const popover = {
   name: 'popover',

@@ -23,11 +23,7 @@ import {
   FieldLabel,
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import {
-  Popover,
-  PopoverAnchor,
-  PopoverContent,
-} from '@/components/ui/popover';
+import { Popover, PopoverContent } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
 import { TimeInput } from '@/components/ui/time-input';
 import { TimePickerListContent } from '@/components/ui/time-picker';
@@ -422,6 +418,7 @@ function DateFieldRow({
 
     setOpen(false);
   };
+  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field data-invalid={invalid} className={cn('min-w-0 gap-2')}>
@@ -429,30 +426,30 @@ function DateFieldRow({
         {label}
       </FieldLabel>
       <Popover open={open} onOpenChange={handleOpenChange}>
-        <PopoverAnchor asChild>
-          <DateInput
-            id={id}
-            name={name}
-            variant={variant === 'inline' ? 'inline' : 'default'}
-            open={open}
-            day={parts.day}
-            month={parts.month}
-            year={parts.year}
-            onDayChange={day => emitParts({ ...parts, day })}
-            onMonthChange={m => emitParts({ ...parts, month: m })}
-            onYearChange={year => emitParts({ ...parts, year })}
-            onTriggerClick={() => setOpen(v => !v)}
-            onBlur={onBlur}
-            aria-invalid={invalid || undefined}
-            aria-label={label}
-            className="w-fit"
-          />
-        </PopoverAnchor>
+        <DateInput
+          ref={anchorRef}
+          id={id}
+          name={name}
+          variant={variant === 'inline' ? 'inline' : 'default'}
+          open={open}
+          day={parts.day}
+          month={parts.month}
+          year={parts.year}
+          onDayChange={day => emitParts({ ...parts, day })}
+          onMonthChange={m => emitParts({ ...parts, month: m })}
+          onYearChange={year => emitParts({ ...parts, year })}
+          onTriggerClick={() => setOpen(v => !v)}
+          onBlur={onBlur}
+          aria-invalid={invalid || undefined}
+          aria-label={label}
+          className="w-fit"
+        />
         <PopoverContent
+          anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          onOpenAutoFocus={e => e.preventDefault()}>
+          initialFocus={false}>
           <Calendar
             mode="single"
             size="default"
