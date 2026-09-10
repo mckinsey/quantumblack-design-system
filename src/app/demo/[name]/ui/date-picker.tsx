@@ -218,33 +218,33 @@ export function DatePickerDemo() {
       </FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <InputGroup data-open={open} className="cursor-pointer">
-            <InputGroupInput
-              id="date-input"
-              type="date"
-              value={dateValue}
-              onChange={handleInputChange}
-              data-empty={dateValue ? 'false' : 'true'}
-              className={dateInputClassName}
-              aria-label="Date"
-            />
-            <InputGroupAddon align="inline-end">
-              <span className="flex size-5 cursor-pointer items-center justify-center">
-                <Button size="icon-xxs" variant="ghost" aria-label="Expand">
-                  <IconShell size="sm" type="neutral" hoverable>
-                    <Icon icon="calendar_month" />
-                  </IconShell>
-                </Button>
-              </span>
-            </InputGroupAddon>
-          </InputGroup>
+        <PopoverTrigger
+          render={<InputGroup data-open={open} className="cursor-pointer" />}
+          nativeButton={false}>
+          <InputGroupInput
+            id="date-input"
+            type="date"
+            value={dateValue}
+            onChange={handleInputChange}
+            data-empty={dateValue ? 'false' : 'true'}
+            className={dateInputClassName}
+            aria-label="Date"
+          />
+          <InputGroupAddon align="inline-end">
+            <span className="flex size-5 cursor-pointer items-center justify-center">
+              <Button size="icon-xxs" variant="ghost" aria-label="Expand">
+                <IconShell size="sm" type="neutral" hoverable>
+                  <Icon icon="calendar_month" />
+                </IconShell>
+              </Button>
+            </span>
+          </InputGroupAddon>
         </PopoverTrigger>
         <PopoverContent
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          onOpenAutoFocus={e => e.preventDefault()}>
+          initialFocus={false}>
           <Calendar
             mode="single"
             selected={date}
@@ -285,47 +285,47 @@ export function DatePickerRange() {
       </FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <InputGroup data-open={open} className="cursor-pointer">
-            <InputGroupInput
-              id="date-range-start"
-              type="date"
-              value={startDateValue}
-              onChange={handleStartInputChange}
-              data-empty={startDateValue ? 'false' : 'true'}
-              className={dateInputClassName}
-              aria-label="Start date"
-            />
-            <InputGroupAddon className="order-none">
-              <InputGroupText>
-                <Icon icon="arrow_forward" className="text-[length:inherit]" />
-              </InputGroupText>
-            </InputGroupAddon>
-            <InputGroupInput
-              id="date-range-end"
-              type="date"
-              value={endDateValue}
-              onChange={handleEndInputChange}
-              data-empty={endDateValue ? 'false' : 'true'}
-              className={dateInputClassName}
-              aria-label="End date"
-            />
-            <InputGroupAddon align="inline-end">
-              <span className="flex size-5 cursor-pointer items-center justify-center">
-                <Button size="icon-xxs" variant="ghost" aria-label="Expand">
-                  <IconShell size="sm" type="neutral" hoverable>
-                    <Icon icon="calendar_month" />
-                  </IconShell>
-                </Button>
-              </span>
-            </InputGroupAddon>
-          </InputGroup>
+        <PopoverTrigger
+          render={<InputGroup data-open={open} className="cursor-pointer" />}
+          nativeButton={false}>
+          <InputGroupInput
+            id="date-range-start"
+            type="date"
+            value={startDateValue}
+            onChange={handleStartInputChange}
+            data-empty={startDateValue ? 'false' : 'true'}
+            className={dateInputClassName}
+            aria-label="Start date"
+          />
+          <InputGroupAddon className="order-none">
+            <InputGroupText>
+              <Icon icon="arrow_forward" className="text-[length:inherit]" />
+            </InputGroupText>
+          </InputGroupAddon>
+          <InputGroupInput
+            id="date-range-end"
+            type="date"
+            value={endDateValue}
+            onChange={handleEndInputChange}
+            data-empty={endDateValue ? 'false' : 'true'}
+            className={dateInputClassName}
+            aria-label="End date"
+          />
+          <InputGroupAddon align="inline-end">
+            <span className="flex size-5 cursor-pointer items-center justify-center">
+              <Button size="icon-xxs" variant="ghost" aria-label="Expand">
+                <IconShell size="sm" type="neutral" hoverable>
+                  <Icon icon="calendar_month" />
+                </IconShell>
+              </Button>
+            </span>
+          </InputGroupAddon>
         </PopoverTrigger>
         <PopoverContent
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          onOpenAutoFocus={e => e.preventDefault()}>
+          initialFocus={false}>
           <Calendar
             mode="range"
             numberOfMonths={2}
@@ -423,48 +423,49 @@ function DatePickerSized({
       </FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <InputGroup
-            variant={variant}
-            size={size}
-            data-open={open}
-            className="cursor-pointer">
-            <InputGroupInput
-              id={`date-size-${variant}-${size}`}
-              type="date"
+        <PopoverTrigger
+          render={
+            <InputGroup
               variant={variant}
               size={size}
-              value={dateValue}
-              onChange={handleInputChange}
-              data-empty={dateValue ? 'false' : 'true'}
-              className={dateInputClassName}
-              aria-label={`${label} date`}
+              data-open={open}
+              className="cursor-pointer"
             />
-            <InputGroupAddon align="inline-end">
-              <span
-                className={cn(
-                  'flex cursor-pointer items-center justify-center',
-                )}>
-                <Button
-                  size={size === 'lg' ? 'icon' : 'icon-xxs'}
-                  variant="ghost"
-                  aria-label="Expand">
-                  <IconShell
-                    size={size === 'lg' ? 'default' : 'sm'}
-                    type="neutral"
-                    hoverable>
-                    <Icon icon="calendar_month" />
-                  </IconShell>
-                </Button>
-              </span>
-            </InputGroupAddon>
-          </InputGroup>
+          }
+          nativeButton={false}>
+          <InputGroupInput
+            id={`date-size-${variant}-${size}`}
+            type="date"
+            variant={variant}
+            size={size}
+            value={dateValue}
+            onChange={handleInputChange}
+            data-empty={dateValue ? 'false' : 'true'}
+            className={dateInputClassName}
+            aria-label={`${label} date`}
+          />
+          <InputGroupAddon align="inline-end">
+            <span
+              className={cn('flex cursor-pointer items-center justify-center')}>
+              <Button
+                size={size === 'lg' ? 'icon' : 'icon-xxs'}
+                variant="ghost"
+                aria-label="Expand">
+                <IconShell
+                  size={size === 'lg' ? 'default' : 'sm'}
+                  type="neutral"
+                  hoverable>
+                  <Icon icon="calendar_month" />
+                </IconShell>
+              </Button>
+            </span>
+          </InputGroupAddon>
         </PopoverTrigger>
         <PopoverContent
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          onOpenAutoFocus={e => e.preventDefault()}>
+          initialFocus={false}>
           <Calendar
             mode="single"
             size={size === 'lg' ? 'lg' : 'default'}
@@ -580,36 +581,39 @@ function DatePickerValidationItem({
       </FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <InputGroup
-            data-open={open}
-            className={cn('cursor-pointer', borderClass)}>
-            <InputGroupInput
-              id={`date-${id}`}
-              type="date"
-              value={dateValue}
-              onChange={handleInputChange}
-              data-empty={dateValue ? 'false' : 'true'}
-              aria-invalid={isError}
-              className={dateInputClassName}
-              aria-label={`${label} date`}
+        <PopoverTrigger
+          render={
+            <InputGroup
+              data-open={open}
+              className={cn('cursor-pointer', borderClass)}
             />
-            <InputGroupAddon align="inline-end">
-              <span className="flex size-5 cursor-pointer items-center justify-center">
-                <Button size="icon-xxs" variant="ghost" aria-label="Expand">
-                  <IconShell size="sm" type="neutral" hoverable>
-                    <Icon icon="calendar_month" />
-                  </IconShell>
-                </Button>
-              </span>
-            </InputGroupAddon>
-          </InputGroup>
+          }
+          nativeButton={false}>
+          <InputGroupInput
+            id={`date-${id}`}
+            type="date"
+            value={dateValue}
+            onChange={handleInputChange}
+            data-empty={dateValue ? 'false' : 'true'}
+            aria-invalid={isError}
+            className={dateInputClassName}
+            aria-label={`${label} date`}
+          />
+          <InputGroupAddon align="inline-end">
+            <span className="flex size-5 cursor-pointer items-center justify-center">
+              <Button size="icon-xxs" variant="ghost" aria-label="Expand">
+                <IconShell size="sm" type="neutral" hoverable>
+                  <Icon icon="calendar_month" />
+                </IconShell>
+              </Button>
+            </span>
+          </InputGroupAddon>
         </PopoverTrigger>
         <PopoverContent
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          onOpenAutoFocus={e => e.preventDefault()}>
+          initialFocus={false}>
           <Calendar
             mode="single"
             selected={date}
@@ -686,53 +690,53 @@ export function DatePickerRangeInline() {
       </FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <InputGroup
+        <PopoverTrigger
+          render={
+            <InputGroup
+              variant="inline"
+              data-open={open}
+              className="cursor-pointer"
+            />
+          }
+          nativeButton={false}>
+          <InputGroupInput
+            id="date-range-inline-start"
+            type="date"
             variant="inline"
-            data-open={open}
-            className="cursor-pointer">
-            <InputGroupInput
-              id="date-range-inline-start"
-              type="date"
-              variant="inline"
-              value={startDateValue}
-              onChange={handleStartInputChange}
-              data-empty={startDateValue ? 'false' : 'true'}
-              className={dateInputClassName}
-              aria-label="Start date"
-            />
-            <InputGroupAddon className="order-none">
-              <InputGroupText>
-                <Icon icon="arrow_forward" className="text-[length:inherit]" />
-              </InputGroupText>
-            </InputGroupAddon>
-            <InputGroupInput
-              id="date-range-inline-end"
-              type="date"
-              variant="inline"
-              value={endDateValue}
-              onChange={handleEndInputChange}
-              data-empty={endDateValue ? 'false' : 'true'}
-              className={dateInputClassName}
-              aria-label="End date"
-            />
-            <InputGroupAddon align="inline-end">
-              <span className="flex size-5 cursor-pointer items-center justify-center">
-                <IconShell size="sm">
-                  <Icon
-                    icon="calendar_month"
-                    className="text-[length:inherit]"
-                  />
-                </IconShell>
-              </span>
-            </InputGroupAddon>
-          </InputGroup>
+            value={startDateValue}
+            onChange={handleStartInputChange}
+            data-empty={startDateValue ? 'false' : 'true'}
+            className={dateInputClassName}
+            aria-label="Start date"
+          />
+          <InputGroupAddon className="order-none">
+            <InputGroupText>
+              <Icon icon="arrow_forward" className="text-[length:inherit]" />
+            </InputGroupText>
+          </InputGroupAddon>
+          <InputGroupInput
+            id="date-range-inline-end"
+            type="date"
+            variant="inline"
+            value={endDateValue}
+            onChange={handleEndInputChange}
+            data-empty={endDateValue ? 'false' : 'true'}
+            className={dateInputClassName}
+            aria-label="End date"
+          />
+          <InputGroupAddon align="inline-end">
+            <span className="flex size-5 cursor-pointer items-center justify-center">
+              <IconShell size="sm">
+                <Icon icon="calendar_month" className="text-[length:inherit]" />
+              </IconShell>
+            </span>
+          </InputGroupAddon>
         </PopoverTrigger>
         <PopoverContent
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          onOpenAutoFocus={e => e.preventDefault()}>
+          initialFocus={false}>
           <Calendar
             mode="range"
             numberOfMonths={2}

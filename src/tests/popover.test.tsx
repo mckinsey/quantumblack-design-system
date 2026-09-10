@@ -7,7 +7,6 @@ import { Renderer } from '@/app/demo/[name]/renderer';
 import { Button } from '@/components/ui/button';
 import {
   Popover,
-  PopoverAnchor,
   PopoverContent,
   PopoverDescription,
   PopoverHeader,
@@ -58,13 +57,13 @@ describe(`${componentName} — structure & interaction`, () => {
     ).toBeInTheDocument();
   });
 
-  it('supports asChild on the trigger', async () => {
+  it('supports render on the trigger', async () => {
     const user = userEvent.setup();
 
     render(
       <Popover>
-        <PopoverTrigger asChild>
-          <Button variant="outline">Open popover</Button>
+        <PopoverTrigger render={<Button variant="outline" />}>
+          Open popover
         </PopoverTrigger>
         <PopoverContent>Popover body</PopoverContent>
       </Popover>,
@@ -99,22 +98,6 @@ describe(`${componentName} — structure & interaction`, () => {
     ).toBeInTheDocument();
     expect(
       document.querySelector('[data-slot="popover-description"]'),
-    ).toBeInTheDocument();
-  });
-
-  it('renders PopoverAnchor without crashing', () => {
-    expect(() =>
-      render(
-        <Popover>
-          <PopoverAnchor />
-          <PopoverTrigger>Open</PopoverTrigger>
-          <PopoverContent>Popover body</PopoverContent>
-        </Popover>,
-      ),
-    ).not.toThrow();
-
-    expect(
-      document.querySelector('[data-slot="popover-anchor"]'),
     ).toBeInTheDocument();
   });
 });

@@ -401,41 +401,41 @@ function DateFieldRow({
         {label}
       </FieldLabel>
       <Popover open={open} onOpenChange={handleOpenChange}>
-        <PopoverTrigger asChild>
-          <InputGroup
-            variant={inputGroupVariant}
-            data-open={open}
-            className="cursor-pointer">
-            <InputGroupInput
-              id={id}
-              name={name}
-              type="date"
-              variant={inputVariant}
-              value={value}
-              onChange={handleInputChange}
-              onBlur={onBlur}
-              data-empty={value ? 'false' : 'true'}
-              className={dateInputClassName}
-              aria-invalid={invalid}
-              aria-label={label}
+        <PopoverTrigger
+          render={
+            <InputGroup
+              variant={inputGroupVariant}
+              data-open={open}
+              className="cursor-pointer"
             />
-            <InputGroupAddon align="inline-end">
-              <span className="flex size-5 cursor-pointer items-center justify-center">
-                <IconShell size="sm">
-                  <Icon
-                    icon="calendar_month"
-                    className="text-[length:inherit]"
-                  />
-                </IconShell>
-              </span>
-            </InputGroupAddon>
-          </InputGroup>
+          }
+          nativeButton={false}>
+          <InputGroupInput
+            id={id}
+            name={name}
+            type="date"
+            variant={inputVariant}
+            value={value}
+            onChange={handleInputChange}
+            onBlur={onBlur}
+            data-empty={value ? 'false' : 'true'}
+            className={dateInputClassName}
+            aria-invalid={invalid}
+            aria-label={label}
+          />
+          <InputGroupAddon align="inline-end">
+            <span className="flex size-5 cursor-pointer items-center justify-center">
+              <IconShell size="sm">
+                <Icon icon="calendar_month" className="text-[length:inherit]" />
+              </IconShell>
+            </span>
+          </InputGroupAddon>
         </PopoverTrigger>
         <PopoverContent
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          onOpenAutoFocus={e => e.preventDefault()}>
+          initialFocus={false}>
           <Calendar
             mode="single"
             size="default"

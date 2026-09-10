@@ -13,8 +13,8 @@ import {
 export function PopoverDemo() {
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="outline">Open popover</Button>
+      <PopoverTrigger render={<Button variant="outline" />}>
+        Open popover
       </PopoverTrigger>
       <PopoverContent className="w-80">
         <PopoverHeader>
@@ -23,7 +23,7 @@ export function PopoverDemo() {
             Set the dimensions for the layer.
           </PopoverDescription>
         </PopoverHeader>
-        <div className="grid gap-2 pt-4">
+        <div className="grid gap-2 pt-2">
           <div className="grid grid-cols-3 items-center gap-4">
             <Label htmlFor="width">Width</Label>
             <Input id="width" defaultValue="100%" className="col-span-2 h-8" />
@@ -41,8 +41,8 @@ export function PopoverDemo() {
 export function PopoverSimple() {
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="outline">Info</Button>
+      <PopoverTrigger render={<Button variant="outline" />}>
+        Info
       </PopoverTrigger>
       <PopoverContent className="w-64">
         <PopoverDescription>
@@ -57,30 +57,24 @@ export function PopoverAlignment() {
   return (
     <div className="flex gap-4">
       <Popover>
-        <PopoverTrigger asChild>
-          <Button variant="outline" size="sm">
-            Start
-          </Button>
+        <PopoverTrigger render={<Button variant="outline" size="sm" />}>
+          Start
         </PopoverTrigger>
         <PopoverContent align="start" className="w-48">
           <PopoverDescription>Aligned to start</PopoverDescription>
         </PopoverContent>
       </Popover>
       <Popover>
-        <PopoverTrigger asChild>
-          <Button variant="outline" size="sm">
-            Center
-          </Button>
+        <PopoverTrigger render={<Button variant="outline" size="sm" />}>
+          Center
         </PopoverTrigger>
         <PopoverContent align="center" className="w-48">
           <PopoverDescription>Aligned to center</PopoverDescription>
         </PopoverContent>
       </Popover>
       <Popover>
-        <PopoverTrigger asChild>
-          <Button variant="outline" size="sm">
-            End
-          </Button>
+        <PopoverTrigger render={<Button variant="outline" size="sm" />}>
+          End
         </PopoverTrigger>
         <PopoverContent align="end" className="w-48">
           <PopoverDescription>Aligned to end</PopoverDescription>
