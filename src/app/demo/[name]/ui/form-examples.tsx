@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { ButtonGroup } from '@/components/ui/button-group';
 import { Calendar } from '@/components/ui/calendar';
 import { Checkbox } from '@/components/ui/checkbox';
+import { DateInput } from '@/components/ui/date-input';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -21,25 +22,17 @@ import {
   FieldError,
   FieldLabel,
 } from '@/components/ui/field';
-import { Icon } from '@/components/ui/icon';
-import { IconShell } from '@/components/ui/icon-shell';
 import { Input } from '@/components/ui/input';
 import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from '@/components/ui/input-group';
-import {
   Popover,
+  PopoverAnchor,
   PopoverContent,
-  PopoverTrigger,
 } from '@/components/ui/popover';
 import { Textarea } from '@/components/ui/textarea';
 import { TimeInput } from '@/components/ui/time-input';
 import { TimePickerListContent } from '@/components/ui/time-picker';
 import { cn } from '@/lib/utils';
 
-import { dateInputClassName } from './date-picker';
 import { TimePickerColumn, sampleHours, sampleMinutes } from './time-picker';
 
 // ============================================================================
@@ -365,11 +358,52 @@ function DateFieldRow({
 }: Readonly<DateRowProps>) {
   const labelClass =
     variant === 'inline' ? datePickerInlineLabel : datePickerLabel;
-  const inputGroupVariant = variant === 'inline' ? 'inline' : undefined;
-  const inputVariant = variant === 'inline' ? 'inline' : undefined;
 
   const { open, setOpen, month, setMonth, selectedDate, syncMonthFromValue } =
     useDatePickerField(value);
+
+  const parts = React.useMemo(() => {
+    if (!value) return { day: null, month: null, year: null };
+
+    const parsed = parse(value, 'yyyy-MM-dd', new Date());
+
+    if (!isValid(parsed)) return { day: null, month: null, year: null };
+
+    return {
+      day: parsed.getDate(),
+      month: parsed.getMonth() + 1,
+      year: parsed.getFullYear(),
+    };
+  }, [value]);
+
+  const emitParts = (next: {
+    day: number | null;
+    month: number | null;
+    year: number | null;
+  }) => {
+    const { day, month: m, year } = next;
+
+    if (day === null || m === null || year === null) {
+      onChange('');
+      return;
+    }
+
+    const date = new Date(year, m - 1, day);
+
+    if (
+      !isValid(date) ||
+      date.getFullYear() !== year ||
+      date.getMonth() !== m - 1 ||
+      date.getDate() !== day
+    ) {
+      onChange('');
+      return;
+    }
+
+    const formatted = format(date, 'yyyy-MM-dd');
+    onChange(formatted);
+    syncMonthFromValue(formatted);
+  };
 
   const handleOpenChange = (next: boolean) => {
     setOpen(next);
@@ -377,12 +411,6 @@ function DateFieldRow({
     if (next) {
       syncMonthFromValue(value);
     }
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const next = e.target.value;
-    onChange(next);
-    syncMonthFromValue(next);
   };
 
   const handleCalendarSelect = (d: Date | undefined) => {
@@ -401,36 +429,25 @@ function DateFieldRow({
         {label}
       </FieldLabel>
       <Popover open={open} onOpenChange={handleOpenChange}>
-        <PopoverTrigger asChild>
-          <InputGroup
-            variant={inputGroupVariant}
-            data-open={open}
-            className="cursor-pointer">
-            <InputGroupInput
-              id={id}
-              name={name}
-              type="date"
-              variant={inputVariant}
-              value={value}
-              onChange={handleInputChange}
-              onBlur={onBlur}
-              data-empty={value ? 'false' : 'true'}
-              className={dateInputClassName}
-              aria-invalid={invalid}
-              aria-label={label}
-            />
-            <InputGroupAddon align="inline-end">
-              <span className="flex size-5 cursor-pointer items-center justify-center">
-                <IconShell size="sm">
-                  <Icon
-                    icon="calendar_month"
-                    className="text-[length:inherit]"
-                  />
-                </IconShell>
-              </span>
-            </InputGroupAddon>
-          </InputGroup>
-        </PopoverTrigger>
+        <PopoverAnchor asChild>
+          <DateInput
+            id={id}
+            name={name}
+            variant={variant === 'inline' ? 'inline' : 'default'}
+            open={open}
+            day={parts.day}
+            month={parts.month}
+            year={parts.year}
+            onDayChange={day => emitParts({ ...parts, day })}
+            onMonthChange={m => emitParts({ ...parts, month: m })}
+            onYearChange={year => emitParts({ ...parts, year })}
+            onTriggerClick={() => setOpen(v => !v)}
+            onBlur={onBlur}
+            aria-invalid={invalid || undefined}
+            aria-label={label}
+            className="w-fit"
+          />
+        </PopoverAnchor>
         <PopoverContent
           className="w-auto overflow-hidden border-none p-0"
           align="start"

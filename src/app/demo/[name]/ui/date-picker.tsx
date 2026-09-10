@@ -1,6 +1,6 @@
 'use client';
 
-import { format, isValid, parse } from 'date-fns';
+import { isValid } from 'date-fns';
 import * as React from 'react';
 import type {
   DateRange,
@@ -8,88 +8,77 @@ import type {
   OnSelectHandler,
 } from 'react-day-picker';
 
-import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
+import { DateInput } from '@/components/ui/date-input';
 import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
-import { Icon } from '@/components/ui/icon';
-import { IconShell } from '@/components/ui/icon-shell';
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-  InputGroupText,
-} from '@/components/ui/input-group';
 import {
   Popover,
+  PopoverAnchor,
   PopoverContent,
-  PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
-const dateSegmentFocusClassName = cn(
-  '[&::-webkit-datetime-edit-day-field:focus]:bg-fill-active',
-  '[&::-webkit-datetime-edit-day-field:focus]:text-fg-primary-inverse',
-  '[&::-webkit-datetime-edit-day-field:focus]:rounded-none',
-  '[&::-webkit-datetime-edit-day-field:focus]:outline-none',
-  '[&::-webkit-datetime-edit-month-field:focus]:bg-fill-active',
-  '[&::-webkit-datetime-edit-month-field:focus]:text-fg-primary-inverse',
-  '[&::-webkit-datetime-edit-month-field:focus]:rounded-none',
-  '[&::-webkit-datetime-edit-month-field:focus]:outline-none',
-  '[&::-webkit-datetime-edit-year-field:focus]:bg-fill-active',
-  '[&::-webkit-datetime-edit-year-field:focus]:text-fg-primary-inverse',
-  '[&::-webkit-datetime-edit-year-field:focus]:rounded-none',
-  '[&::-webkit-datetime-edit-year-field:focus]:outline-none',
-);
+type Parts = {
+  day: number | null;
+  month: number | null;
+  year: number | null;
+};
 
-export const dateInputClassName = cn(
-  'w-auto min-w-0 cursor-pointer',
-  '[&::-webkit-calendar-picker-indicator]:hidden',
-  '[&::-webkit-calendar-picker-indicator]:appearance-none',
-  'data-[empty=true]:text-fg-tertiary',
-  'data-[empty=true]:focus:text-fg-primary',
-  'data-[empty=false]:text-fg-primary',
-  dateSegmentFocusClassName,
-);
+const emptyParts = (): Parts => ({ day: null, month: null, year: null });
 
-// ============================================================================
-// Shared Hooks
-// ============================================================================
+const toParts = (date?: Date): Parts => {
+  if (!date || !isValid(date)) return emptyParts();
+
+  return {
+    day: date.getDate(),
+    month: date.getMonth() + 1,
+    year: date.getFullYear(),
+  };
+};
+
+const fromParts = (parts: Parts): Date | undefined => {
+  const { day, month, year } = parts;
+
+  if (day === null || month === null || year === null) return undefined;
+
+  const date = new Date(year, month - 1, day);
+
+  if (
+    !isValid(date) ||
+    date.getFullYear() !== year ||
+    date.getMonth() !== month - 1 ||
+    date.getDate() !== day
+  ) {
+    return undefined;
+  }
+
+  return date;
+};
 
 function useDatePicker() {
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
-  const [dateValue, setDateValue] = React.useState('');
+  const [parts, setParts] = React.useState<Parts>(emptyParts);
   const [month, setMonth] = React.useState<Date | undefined>(undefined);
 
-  React.useEffect(() => {
-    setDateValue(date ? format(date, 'yyyy-MM-dd') : '');
+  const patch = (next: Partial<Parts>) => {
+    setParts(prev => {
+      const merged = { ...prev, ...next };
+      const parsed = fromParts(merged);
+      setDate(parsed);
 
-    if (date) {
-      setMonth(date);
-    }
-  }, [date]);
+      if (parsed) setMonth(parsed);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const text = e.target.value;
-    setDateValue(text);
-
-    if (!text) {
-      setDate(undefined);
-      return;
-    }
-
-    const parsedDate = parse(text, 'yyyy-MM-dd', new Date());
-
-    if (isValid(parsedDate)) {
-      setDate(parsedDate);
-      setMonth(parsedDate);
-    } else {
-      setDate(undefined);
-    }
+      return merged;
+    });
   };
 
-  const handleCalendarSelect = (selectedDate: Date | undefined) => {
-    setDate(selectedDate);
+  const handleCalendarSelect = (selected?: Date) => {
+    setDate(selected);
+    setParts(toParts(selected));
+
+    if (selected) setMonth(selected);
+
     setOpen(false);
   };
 
@@ -97,10 +86,10 @@ function useDatePicker() {
     open,
     setOpen,
     date,
-    dateValue,
+    parts,
+    patch,
     month,
     setMonth,
-    handleInputChange,
     handleCalendarSelect,
   };
 }
@@ -108,138 +97,96 @@ function useDatePicker() {
 function useDateRangePicker() {
   const [open, setOpen] = React.useState(false);
   const [range, setRange] = React.useState<DateRange | undefined>(undefined);
-  const [startDateValue, setStartDateValue] = React.useState('');
-  const [endDateValue, setEndDateValue] = React.useState('');
+  const [start, setStart] = React.useState<Parts>(emptyParts);
+  const [end, setEnd] = React.useState<Parts>(emptyParts);
   const [month, setMonth] = React.useState<Date | undefined>(undefined);
 
-  React.useEffect(() => {
-    setStartDateValue(range?.from ? format(range.from, 'yyyy-MM-dd') : '');
-    setEndDateValue(range?.to ? format(range.to, 'yyyy-MM-dd') : '');
+  const syncRange = (nextStart: Parts, nextEnd: Parts) => {
+    const from = fromParts(nextStart);
+    const to = fromParts(nextEnd);
+    setRange(from || to ? { from, to } : undefined);
 
-    if (range?.from) {
-      setMonth(range.from);
-    } else if (range?.to) {
-      setMonth(range.to);
-    }
-  }, [range]);
-
-  const updateField = (
-    prevRange: DateRange | undefined,
-    field: 'from' | 'to',
-    value: Date | undefined,
-  ): DateRange | undefined => ({
-    from: field === 'from' ? value : prevRange?.from,
-    to: field === 'to' ? value : prevRange?.to,
-  });
-
-  const createInputChangeHandler = (
-    field: 'from' | 'to',
-    setValue: (value: string) => void,
-  ) => {
-    return (e: React.ChangeEvent<HTMLInputElement>) => {
-      const text = e.target.value;
-      setValue(text);
-
-      if (!text) {
-        setRange(prev => updateField(prev, field, undefined));
-        return;
-      }
-
-      const parsedDate = parse(text, 'yyyy-MM-dd', new Date());
-
-      if (isValid(parsedDate)) {
-        setRange(prev => updateField(prev, field, parsedDate));
-        setMonth(parsedDate);
-      } else {
-        setRange(prev => updateField(prev, field, undefined));
-      }
-    };
+    if (from) setMonth(from);
+    else if (to) setMonth(to);
   };
 
-  const handleStartInputChange = createInputChangeHandler(
-    'from',
-    setStartDateValue,
-  );
-  const handleEndInputChange = createInputChangeHandler('to', setEndDateValue);
+  const patchStart = (next: Partial<Parts>) => {
+    setStart(prev => {
+      const merged = { ...prev, ...next };
+      syncRange(merged, end);
+      return merged;
+    });
+  };
 
-  const handleSelect: OnSelectHandler<
-    DateRange | undefined
-  > = selectedRange => {
+  const patchEnd = (next: Partial<Parts>) => {
+    setEnd(prev => {
+      const merged = { ...prev, ...next };
+      syncRange(start, merged);
+      return merged;
+    });
+  };
+
+  const handleSelect: OnSelectHandler<DateRange | undefined> = selected => {
     if (range?.from && !range.to) {
-      setRange(selectedRange);
+      setRange(selected);
+      setStart(toParts(selected?.from));
+      setEnd(toParts(selected?.to));
     }
   };
 
   const handleDayClick: DayEventHandler<React.MouseEvent> = day => {
-    if (range?.from && !range.to) {
-      return;
-    }
+    if (range?.from && !range.to) return;
+
     setRange({ from: day });
+    setStart(toParts(day));
+    setEnd(emptyParts());
   };
 
   return {
     open,
     setOpen,
-    startDateValue,
-    endDateValue,
+    start,
+    end,
+    patchStart,
+    patchEnd,
     month,
     setMonth,
     range,
-    handleStartInputChange,
-    handleEndInputChange,
     handleSelect,
     handleDayClick,
   };
 }
 
-// ============================================================================
-// Example Components (New Format)
-// ============================================================================
-
-/**
- * Single date picker with input
- */
 export function DatePickerDemo() {
   const {
     open,
     setOpen,
     date,
-    dateValue,
+    parts,
+    patch,
     month,
     setMonth,
-    handleInputChange,
     handleCalendarSelect,
   } = useDatePicker();
 
   return (
-    <Field className="w-[196px] gap-2">
-      <FieldLabel htmlFor="date-input" className="label-regular-primary">
-        Select Date
-      </FieldLabel>
+    <Field className="w-fit gap-2">
+      <FieldLabel className="label-regular-primary">Select Date</FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <InputGroup data-open={open} className="cursor-pointer">
-            <InputGroupInput
-              id="date-input"
-              type="date"
-              value={dateValue}
-              onChange={handleInputChange}
-              data-empty={dateValue ? 'false' : 'true'}
-              className={dateInputClassName}
-              aria-label="Date"
-            />
-            <InputGroupAddon align="inline-end">
-              <span className="flex size-5 cursor-pointer items-center justify-center">
-                <Button size="icon-xxs" variant="ghost" aria-label="Expand">
-                  <IconShell size="sm" type="neutral" hoverable>
-                    <Icon icon="calendar_month" />
-                  </IconShell>
-                </Button>
-              </span>
-            </InputGroupAddon>
-          </InputGroup>
-        </PopoverTrigger>
+        <PopoverAnchor asChild>
+          <DateInput
+            open={open}
+            day={parts.day}
+            month={parts.month}
+            year={parts.year}
+            onDayChange={day => patch({ day })}
+            onMonthChange={m => patch({ month: m })}
+            onYearChange={year => patch({ year })}
+            onTriggerClick={() => setOpen(v => !v)}
+            className="w-fit"
+          />
+        </PopoverAnchor>
         <PopoverContent
           className="w-auto overflow-hidden border-none p-0"
           align="start"
@@ -260,67 +207,46 @@ export function DatePickerDemo() {
   );
 }
 
-/**
- * Date range picker with inputs
- */
 export function DatePickerRange() {
   const {
     open,
     setOpen,
-    startDateValue,
-    endDateValue,
+    start,
+    end,
+    patchStart,
+    patchEnd,
     month,
     setMonth,
     range,
-    handleStartInputChange,
-    handleEndInputChange,
     handleSelect,
     handleDayClick,
   } = useDateRangePicker();
 
   return (
-    <Field className="w-[240px] gap-2">
-      <FieldLabel htmlFor="date-range-start" className="label-regular-primary">
-        Date Range
-      </FieldLabel>
+    <Field className="w-fit gap-2">
+      <FieldLabel className="label-regular-primary">Date Range</FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <InputGroup data-open={open} className="cursor-pointer">
-            <InputGroupInput
-              id="date-range-start"
-              type="date"
-              value={startDateValue}
-              onChange={handleStartInputChange}
-              data-empty={startDateValue ? 'false' : 'true'}
-              className={dateInputClassName}
-              aria-label="Start date"
-            />
-            <InputGroupAddon className="order-none">
-              <InputGroupText>
-                <Icon icon="arrow_forward" className="text-[length:inherit]" />
-              </InputGroupText>
-            </InputGroupAddon>
-            <InputGroupInput
-              id="date-range-end"
-              type="date"
-              value={endDateValue}
-              onChange={handleEndInputChange}
-              data-empty={endDateValue ? 'false' : 'true'}
-              className={dateInputClassName}
-              aria-label="End date"
-            />
-            <InputGroupAddon align="inline-end">
-              <span className="flex size-5 cursor-pointer items-center justify-center">
-                <Button size="icon-xxs" variant="ghost" aria-label="Expand">
-                  <IconShell size="sm" type="neutral" hoverable>
-                    <Icon icon="calendar_month" />
-                  </IconShell>
-                </Button>
-              </span>
-            </InputGroupAddon>
-          </InputGroup>
-        </PopoverTrigger>
+        <PopoverAnchor asChild>
+          <DateInput
+            mode="range"
+            open={open}
+            day={start.day}
+            month={start.month}
+            year={start.year}
+            onDayChange={day => patchStart({ day })}
+            onMonthChange={m => patchStart({ month: m })}
+            onYearChange={year => patchStart({ year })}
+            endDay={end.day}
+            endMonth={end.month}
+            endYear={end.year}
+            onEndDayChange={day => patchEnd({ day })}
+            onEndMonthChange={m => patchEnd({ month: m })}
+            onEndYearChange={year => patchEnd({ year })}
+            onTriggerClick={() => setOpen(v => !v)}
+            className="w-fit"
+          />
+        </PopoverAnchor>
         <PopoverContent
           className="w-auto overflow-hidden border-none p-0"
           align="start"
@@ -343,123 +269,68 @@ export function DatePickerRange() {
   );
 }
 
-/**
- * Disabled date picker
- */
 export function DatePickerDisabled() {
   return (
-    <Field className="w-[196px] gap-2">
-      <FieldLabel
-        htmlFor="date-input-disabled"
-        className="label-regular-primary">
-        Select Date
-      </FieldLabel>
+    <Field className="w-fit gap-2">
+      <FieldLabel className="label-regular-primary">Select Date</FieldLabel>
 
-      <InputGroup className="cursor-not-allowed">
-        <InputGroupInput
-          id="date-input-disabled"
-          type="date"
-          value=""
-          disabled
-          data-empty="true"
-          className={dateInputClassName}
-          aria-label="Date"
-        />
-        <InputGroupAddon align="inline-end">
-          <span className="flex size-5 cursor-not-allowed items-center justify-center">
-            <Button
-              size="icon-xxs"
-              variant="ghost"
-              aria-label="Expand"
-              disabled>
-              <IconShell size="sm" type="neutral" disabled>
-                <Icon icon="calendar_month" />
-              </IconShell>
-            </Button>
-          </span>
-        </InputGroupAddon>
-      </InputGroup>
+      <DateInput
+        disabled
+        day={null}
+        month={null}
+        year={null}
+        className="w-fit"
+      />
 
       <FieldDescription>Helper text</FieldDescription>
     </Field>
   );
 }
 
-/**
- * Single sized date picker — extracted to avoid hooks in callbacks
- */
 function DatePickerSized({
   size,
   variant = 'default',
   label,
   labelClass,
   descriptionClass,
-  containerClass,
 }: Readonly<{
   size: 'sm' | 'default' | 'lg';
   variant?: 'default' | 'inline';
   label: string;
   labelClass: string;
   descriptionClass?: string;
-  containerClass?: string;
 }>) {
   const {
     open,
     setOpen,
     date,
-    dateValue,
+    parts,
+    patch,
     month,
     setMonth,
-    handleInputChange,
     handleCalendarSelect,
   } = useDatePicker();
 
   return (
-    <Field className={cn('gap-2', containerClass)}>
-      <FieldLabel
-        htmlFor={`date-size-${variant}-${size}`}
-        className={labelClass}>
-        {label}
-      </FieldLabel>
+    <Field className="w-fit gap-2">
+      <FieldLabel className={labelClass}>{label}</FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <InputGroup
-            variant={variant}
+        <PopoverAnchor asChild>
+          <DateInput
             size={size}
-            data-open={open}
-            className="cursor-pointer">
-            <InputGroupInput
-              id={`date-size-${variant}-${size}`}
-              type="date"
-              variant={variant}
-              size={size}
-              value={dateValue}
-              onChange={handleInputChange}
-              data-empty={dateValue ? 'false' : 'true'}
-              className={dateInputClassName}
-              aria-label={`${label} date`}
-            />
-            <InputGroupAddon align="inline-end">
-              <span
-                className={cn(
-                  'flex cursor-pointer items-center justify-center',
-                )}>
-                <Button
-                  size={size === 'lg' ? 'icon' : 'icon-xxs'}
-                  variant="ghost"
-                  aria-label="Expand">
-                  <IconShell
-                    size={size === 'lg' ? 'default' : 'sm'}
-                    type="neutral"
-                    hoverable>
-                    <Icon icon="calendar_month" />
-                  </IconShell>
-                </Button>
-              </span>
-            </InputGroupAddon>
-          </InputGroup>
-        </PopoverTrigger>
+            variant={variant}
+            open={open}
+            day={parts.day}
+            month={parts.month}
+            year={parts.year}
+            onDayChange={day => patch({ day })}
+            onMonthChange={m => patch({ month: m })}
+            onYearChange={year => patch({ year })}
+            onTriggerClick={() => setOpen(v => !v)}
+            className="w-fit"
+          />
+        </PopoverAnchor>
         <PopoverContent
           className="w-auto overflow-hidden border-none p-0"
           align="start"
@@ -483,9 +354,6 @@ function DatePickerSized({
   );
 }
 
-/**
- * Date picker sizes — sm, default, lg
- */
 export function DatePickerSizes() {
   return (
     <div className="flex flex-col gap-6">
@@ -494,27 +362,21 @@ export function DatePickerSizes() {
         label="Small"
         labelClass="label-small-primary"
         descriptionClass="paragraph-small-primary"
-        containerClass="w-[196px]"
       />
       <DatePickerSized
         size="default"
         label="Default"
         labelClass="label-regular-primary"
-        containerClass="w-[196px]"
       />
       <DatePickerSized
         size="lg"
         label="Large"
         labelClass="label-large-primary"
-        containerClass="w-[196px]"
       />
     </div>
   );
 }
 
-/**
- * Inline variant date picker sizes — sm, default, lg
- */
 export function DatePickerInlineSizes() {
   return (
     <div className="flex flex-col gap-6">
@@ -524,38 +386,30 @@ export function DatePickerInlineSizes() {
         label="Small"
         labelClass="label-small-primary"
         descriptionClass="paragraph-small-primary"
-        containerClass="w-[196px]"
       />
       <DatePickerSized
         variant="inline"
         size="default"
         label="Default"
         labelClass="label-regular-primary mb-[-4px]"
-        containerClass="w-[196px]"
       />
       <DatePickerSized
         variant="inline"
         size="lg"
         label="Large"
         labelClass="label-large-primary mb-[-4px]"
-        containerClass="w-[196px]"
       />
     </div>
   );
 }
 
-/**
- * Single validation date picker with calendar
- */
 function DatePickerValidationItem({
-  id,
   label,
   message,
   messageClass,
   borderClass,
   isError,
 }: Readonly<{
-  id: string;
   label: string;
   message: string;
   messageClass: string;
@@ -566,45 +420,32 @@ function DatePickerValidationItem({
     open,
     setOpen,
     date,
-    dateValue,
+    parts,
+    patch,
     month,
     setMonth,
-    handleInputChange,
     handleCalendarSelect,
   } = useDatePicker();
 
   return (
-    <Field className="w-[196px] gap-2">
-      <FieldLabel htmlFor={`date-${id}`} className="label-regular-primary">
-        {label}
-      </FieldLabel>
+    <Field className="w-fit gap-2">
+      <FieldLabel className="label-regular-primary">{label}</FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <InputGroup
-            data-open={open}
-            className={cn('cursor-pointer', borderClass)}>
-            <InputGroupInput
-              id={`date-${id}`}
-              type="date"
-              value={dateValue}
-              onChange={handleInputChange}
-              data-empty={dateValue ? 'false' : 'true'}
-              aria-invalid={isError}
-              className={dateInputClassName}
-              aria-label={`${label} date`}
-            />
-            <InputGroupAddon align="inline-end">
-              <span className="flex size-5 cursor-pointer items-center justify-center">
-                <Button size="icon-xxs" variant="ghost" aria-label="Expand">
-                  <IconShell size="sm" type="neutral" hoverable>
-                    <Icon icon="calendar_month" />
-                  </IconShell>
-                </Button>
-              </span>
-            </InputGroupAddon>
-          </InputGroup>
-        </PopoverTrigger>
+        <PopoverAnchor asChild>
+          <DateInput
+            open={open}
+            day={parts.day}
+            month={parts.month}
+            year={parts.year}
+            onDayChange={day => patch({ day })}
+            onMonthChange={m => patch({ month: m })}
+            onYearChange={year => patch({ year })}
+            onTriggerClick={() => setOpen(v => !v)}
+            aria-invalid={isError || undefined}
+            className={cn('w-fit', borderClass)}
+          />
+        </PopoverAnchor>
         <PopoverContent
           className="w-auto overflow-hidden border-none p-0"
           align="start"
@@ -625,14 +466,10 @@ function DatePickerValidationItem({
   );
 }
 
-/**
- * Date picker with validation states — error, warning, success
- */
 export function DatePickerValidation() {
   return (
     <div className="flex flex-col gap-6">
       <DatePickerValidationItem
-        id="error"
         label="Error"
         message="Feedback message here"
         messageClass="text-status-error"
@@ -640,94 +477,66 @@ export function DatePickerValidation() {
         isError
       />
       <DatePickerValidationItem
-        id="warning"
         label="Warning"
         message="Feedback message here"
         messageClass="text-status-warning"
-        borderClass="border border-status-warning"
+        borderClass="border-stroke-status-warning"
         isError={false}
       />
       <DatePickerValidationItem
-        id="success"
         label="Success"
         message="Feedback message here"
         messageClass="text-status-success"
-        borderClass="border border-status-success"
+        borderClass="border-stroke-status-success"
         isError={false}
       />
     </div>
   );
 }
 
-/**
- * Inline variant date range picker
- */
 export function DatePickerRangeInline() {
   const {
     open,
     setOpen,
-    startDateValue,
-    endDateValue,
+    start,
+    end,
+    patchStart,
+    patchEnd,
     month,
     setMonth,
     range,
-    handleStartInputChange,
-    handleEndInputChange,
     handleSelect,
     handleDayClick,
   } = useDateRangePicker();
 
   return (
-    <Field className="w-[240px] gap-2">
-      <FieldLabel
-        htmlFor="date-range-inline-start"
-        className="label-regular-primary mb-[-4px]">
+    <Field className="w-fit gap-2">
+      <FieldLabel className="label-regular-primary mb-[-4px]">
         Date Range
       </FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <InputGroup
+        <PopoverAnchor asChild>
+          <DateInput
+            mode="range"
             variant="inline"
-            data-open={open}
-            className="cursor-pointer">
-            <InputGroupInput
-              id="date-range-inline-start"
-              type="date"
-              variant="inline"
-              value={startDateValue}
-              onChange={handleStartInputChange}
-              data-empty={startDateValue ? 'false' : 'true'}
-              className={dateInputClassName}
-              aria-label="Start date"
-            />
-            <InputGroupAddon className="order-none">
-              <InputGroupText>
-                <Icon icon="arrow_forward" className="text-[length:inherit]" />
-              </InputGroupText>
-            </InputGroupAddon>
-            <InputGroupInput
-              id="date-range-inline-end"
-              type="date"
-              variant="inline"
-              value={endDateValue}
-              onChange={handleEndInputChange}
-              data-empty={endDateValue ? 'false' : 'true'}
-              className={dateInputClassName}
-              aria-label="End date"
-            />
-            <InputGroupAddon align="inline-end">
-              <span className="flex size-5 cursor-pointer items-center justify-center">
-                <IconShell size="sm">
-                  <Icon
-                    icon="calendar_month"
-                    className="text-[length:inherit]"
-                  />
-                </IconShell>
-              </span>
-            </InputGroupAddon>
-          </InputGroup>
-        </PopoverTrigger>
+            open={open}
+            day={start.day}
+            month={start.month}
+            year={start.year}
+            onDayChange={day => patchStart({ day })}
+            onMonthChange={m => patchStart({ month: m })}
+            onYearChange={year => patchStart({ year })}
+            endDay={end.day}
+            endMonth={end.month}
+            endYear={end.year}
+            onEndDayChange={day => patchEnd({ day })}
+            onEndMonthChange={m => patchEnd({ month: m })}
+            onEndYearChange={year => patchEnd({ year })}
+            onTriggerClick={() => setOpen(v => !v)}
+            className="w-fit"
+          />
+        </PopoverAnchor>
         <PopoverContent
           className="w-auto overflow-hidden border-none p-0"
           align="start"
@@ -750,20 +559,16 @@ export function DatePickerRangeInline() {
   );
 }
 
-// ============================================================================
-// Example Metadata
-// ============================================================================
-
 export const examples = [
   {
     name: 'DatePickerDemo',
     title: 'Single Date',
-    description: 'Date picker with input field and calendar popup.',
+    description: 'DateInput with Popover and Calendar.',
   },
   {
     name: 'DatePickerRange',
     title: 'Date Range',
-    description: 'Date range picker with start and end date inputs.',
+    description: 'Range DateInput with Calendar popup.',
   },
   {
     name: 'DatePickerSizes',
@@ -791,10 +596,6 @@ export const examples = [
     description: 'Date picker in a disabled state.',
   },
 ];
-
-// ============================================================================
-// Legacy Format (for backwards compatibility)
-// ============================================================================
 
 export const datePicker = {
   name: 'date-picker',
