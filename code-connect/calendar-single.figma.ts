@@ -5,11 +5,10 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const size =
-  instance.getEnum('size', {
-    sm: 'default',
-    lg: 'lg',
-  }) ?? 'default';
+const size = (instance.getEnum('size', {
+  reg: 'default',
+  lg: 'lg',
+}) ?? 'default') as 'default' | 'lg';
 
 export default {
   example: figma.code`
