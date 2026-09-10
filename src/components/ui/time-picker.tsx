@@ -88,6 +88,7 @@ export function TimePickerListContent({
   side = 'bottom',
   align = 'start',
   sideOffset = 4,
+  initialFocus = false,
   ...props
 }: TimePickerListContentProps) {
   return (
@@ -97,10 +98,11 @@ export function TimePickerListContent({
       side={side}
       align={align}
       sideOffset={sideOffset}
+      initialFocus={initialFocus}
       className={cn(
         'bg-stateslayer-overlay-active-inverse text-fg-primary shadow-elevation-0 flex w-auto flex-row overflow-hidden rounded-none border-none p-0',
-        'min-w-[var(--radix-popover-trigger-width)]',
-        'data-[state=open]:animate-none data-[state=closed]:animate-none',
+        'min-w-(--anchor-width)',
+        'data-open:animate-none data-closed:animate-none',
         size === 'lg'
           ? 'h-40 min-h-40 w-[112px] gap-2 py-1 pr-3 pl-2'
           : 'h-32 min-h-[120px] w-[96px] gap-1 py-1 pr-3 pl-2',

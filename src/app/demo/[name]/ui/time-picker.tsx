@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';
-import { Popover, PopoverTrigger } from '@/components/ui/popover';
+import { Popover } from '@/components/ui/popover';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { TimeInput } from '@/components/ui/time-input';
 import {
@@ -104,6 +104,7 @@ function TimePickerExample({
   const [selectedMinute, setSelectedMinute] = useState<number | null>(
     defaultMinute,
   );
+  const anchorRef = useRef<HTMLDivElement>(null);
 
   const pickerSize = size === 'lg' ? 'lg' : 'default';
   const cfg = fieldConfig[size];
@@ -119,34 +120,24 @@ function TimePickerExample({
       <FieldTitle className={labelClassName}>{label}</FieldTitle>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <TimeInput
-            id={id}
-            size={size}
-            variant={variant}
-            hour={selectedHour}
-            minute={selectedMinute}
-            onHourChange={setSelectedHour}
-            onMinuteChange={setSelectedMinute}
-            data-open={open}
-            className={variant === 'inline' ? undefined : 'w-fit'}
-          />
-        </PopoverTrigger>
+        <TimeInput
+          ref={anchorRef}
+          id={id}
+          size={size}
+          variant={variant}
+          hour={selectedHour}
+          minute={selectedMinute}
+          onHourChange={setSelectedHour}
+          onMinuteChange={setSelectedMinute}
+          onTriggerClick={() => setOpen(prev => !prev)}
+          data-open={open}
+          className={variant === 'inline' ? undefined : 'w-fit'}
+        />
 
         <TimePickerListContent
           size={pickerSize}
           className="z-10"
-          onOpenAutoFocus={e => e.preventDefault()}
-          onInteractOutside={e => {
-            const target = e.target;
-
-            if (
-              target instanceof HTMLElement &&
-              target.closest('[data-slot="time-input-root"]')
-            ) {
-              e.preventDefault();
-            }
-          }}>
+          anchor={anchorRef}>
           <TimePickerColumn
             value={selectedHour}
             onValueChange={setSelectedHour}
@@ -181,20 +172,21 @@ function TimePickerOverlay({
 }>) {
   const [selectedHour, setSelectedHour] = useState<number>(defaultHour);
   const [selectedMinute, setSelectedMinute] = useState<number>(defaultMinute);
+  const anchorRef = useRef<HTMLDivElement>(null);
 
   return (
     <Popover open>
-      <PopoverTrigger asChild>
-        <div className="label-regular-primary text-fg-secondary capitalize">
-          {size}
-        </div>
-      </PopoverTrigger>
+      <div
+        ref={anchorRef}
+        className="label-regular-primary text-fg-secondary capitalize">
+        {size}
+      </div>
 
       <TimePickerListContent
         size={size}
         sideOffset={10}
-        onOpenAutoFocus={e => e.preventDefault()}
-        onCloseAutoFocus={e => e.preventDefault()}>
+        anchor={anchorRef}
+        finalFocus={false}>
         <TimePickerColumn
           value={selectedHour}
           onValueChange={setSelectedHour}

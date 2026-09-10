@@ -93,18 +93,14 @@ const fieldBody =
   isOpen && overflowCode.length > 0
     ? figma.code`
   <Popover open>
-    <PopoverTrigger asChild>
-      ${timeInput}
-    </PopoverTrigger>
+    ${timeInput}
     ${figma.helpers.react.renderChildren(overflowCode)}
   </Popover>
 `
     : isOpen
       ? figma.code`
   <Popover open>
-    <PopoverTrigger asChild>
-      ${timeInput}
-    </PopoverTrigger>
+    ${timeInput}
     <TimePickerListContent size="${pickerSize}">
       <TimePickerList size="${pickerSize}">
         <TimePickerItem value="0" size="${pickerSize}">00</TimePickerItem>
@@ -141,7 +137,7 @@ const fieldImports =
 
 const openImports = isOpen
   ? [
-      'import { Popover, PopoverTrigger } from "@/components/ui/popover"',
+      'import { Popover } from "@/components/ui/popover"',
       'import { TimePickerItem, TimePickerList, TimePickerListContent } from "@/components/ui/time-picker"',
     ]
   : [];

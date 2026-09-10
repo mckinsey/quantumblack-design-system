@@ -484,6 +484,7 @@ function TimeFieldRow({
   const labelClass = variant === 'inline' ? formFieldInlineLabel : undefined;
   const { hour, minute } = parseTimeFieldString(value);
   const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field data-invalid={invalid} className="gap-2">
@@ -491,37 +492,24 @@ function TimeFieldRow({
         {label}
       </FieldLabel>
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <TimeInput
-            id={id}
-            name={name}
-            hour={hour}
-            minute={minute}
-            onHourChange={h => onChange(formatTimeFieldValue(h, minute))}
-            onMinuteChange={m => onChange(formatTimeFieldValue(hour, m))}
-            onBlur={onBlur}
-            aria-invalid={invalid}
-            data-open={open}
-            variant={variant === 'inline' ? 'inline' : 'default'}
-            className={
-              variant === 'inline' ? undefined : 'w-fit justify-between'
-            }
-          />
-        </PopoverTrigger>
-        <TimePickerListContent
-          size="default"
-          className="z-10"
-          onOpenAutoFocus={e => e.preventDefault()}
-          onInteractOutside={e => {
-            const target = e.target;
-
-            if (
-              target instanceof HTMLElement &&
-              target.closest('[data-slot="time-input-root"]')
-            ) {
-              e.preventDefault();
-            }
-          }}>
+        <TimeInput
+          ref={anchorRef}
+          id={id}
+          name={name}
+          hour={hour}
+          minute={minute}
+          onHourChange={h => onChange(formatTimeFieldValue(h, minute))}
+          onMinuteChange={m => onChange(formatTimeFieldValue(hour, m))}
+          onBlur={onBlur}
+          onTriggerClick={() => setOpen(prev => !prev)}
+          aria-invalid={invalid}
+          data-open={open}
+          variant={variant === 'inline' ? 'inline' : 'default'}
+          className={
+            variant === 'inline' ? undefined : 'w-fit justify-between'
+          }
+        />
+        <TimePickerListContent size="default" className="z-10" anchor={anchorRef}>
           <TimePickerColumn
             value={hour}
             onValueChange={h => onChange(formatTimeFieldValue(h, minute))}
