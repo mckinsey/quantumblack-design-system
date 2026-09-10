@@ -193,6 +193,48 @@ function useDateRangePicker() {
 }
 
 // ============================================================================
+// Popover helpers
+// ============================================================================
+
+function DatePickerCalendarTrigger({
+  buttonSize = 'icon-xxs',
+  iconSize = 'sm',
+}: Readonly<{
+  buttonSize?: 'icon-xxs' | 'icon';
+  iconSize?: 'sm' | 'default';
+}>) {
+  return (
+    <PopoverTrigger
+      render={
+        <Button size={buttonSize} variant="ghost" aria-label="Open calendar" />
+      }>
+      <IconShell size={iconSize} type="neutral" hoverable>
+        <Icon icon="calendar_month" />
+      </IconShell>
+    </PopoverTrigger>
+  );
+}
+
+function DatePickerCalendarAddon({
+  buttonSize = 'icon-xxs',
+  iconSize = 'sm',
+}: Readonly<{
+  buttonSize?: 'icon-xxs' | 'icon';
+  iconSize?: 'sm' | 'default';
+}>) {
+  return (
+    <InputGroupAddon align="inline-end">
+      <span className="flex size-5 cursor-pointer items-center justify-center">
+        <DatePickerCalendarTrigger
+          buttonSize={buttonSize}
+          iconSize={iconSize}
+        />
+      </span>
+    </InputGroupAddon>
+  );
+}
+
+// ============================================================================
 // Example Components (New Format)
 // ============================================================================
 
@@ -210,6 +252,7 @@ export function DatePickerDemo() {
     handleInputChange,
     handleCalendarSelect,
   } = useDatePicker();
+  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field className="w-[196px] gap-2">
@@ -218,29 +261,21 @@ export function DatePickerDemo() {
       </FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger
-          render={<InputGroup data-open={open} className="cursor-pointer" />}
-          nativeButton={false}>
+        <InputGroup ref={anchorRef} data-open={open} className="cursor-pointer">
           <InputGroupInput
             id="date-input"
             type="date"
             value={dateValue}
             onChange={handleInputChange}
+            onClick={() => setOpen(true)}
             data-empty={dateValue ? 'false' : 'true'}
             className={dateInputClassName}
             aria-label="Date"
           />
-          <InputGroupAddon align="inline-end">
-            <span className="flex size-5 cursor-pointer items-center justify-center">
-              <Button size="icon-xxs" variant="ghost" aria-label="Expand">
-                <IconShell size="sm" type="neutral" hoverable>
-                  <Icon icon="calendar_month" />
-                </IconShell>
-              </Button>
-            </span>
-          </InputGroupAddon>
-        </PopoverTrigger>
+          <DatePickerCalendarAddon />
+        </InputGroup>
         <PopoverContent
+          anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
@@ -277,6 +312,7 @@ export function DatePickerRange() {
     handleSelect,
     handleDayClick,
   } = useDateRangePicker();
+  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field className="w-[240px] gap-2">
@@ -285,14 +321,13 @@ export function DatePickerRange() {
       </FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger
-          render={<InputGroup data-open={open} className="cursor-pointer" />}
-          nativeButton={false}>
+        <InputGroup ref={anchorRef} data-open={open} className="cursor-pointer">
           <InputGroupInput
             id="date-range-start"
             type="date"
             value={startDateValue}
             onChange={handleStartInputChange}
+            onClick={() => setOpen(true)}
             data-empty={startDateValue ? 'false' : 'true'}
             className={dateInputClassName}
             aria-label="Start date"
@@ -307,21 +342,15 @@ export function DatePickerRange() {
             type="date"
             value={endDateValue}
             onChange={handleEndInputChange}
+            onClick={() => setOpen(true)}
             data-empty={endDateValue ? 'false' : 'true'}
             className={dateInputClassName}
             aria-label="End date"
           />
-          <InputGroupAddon align="inline-end">
-            <span className="flex size-5 cursor-pointer items-center justify-center">
-              <Button size="icon-xxs" variant="ghost" aria-label="Expand">
-                <IconShell size="sm" type="neutral" hoverable>
-                  <Icon icon="calendar_month" />
-                </IconShell>
-              </Button>
-            </span>
-          </InputGroupAddon>
-        </PopoverTrigger>
+          <DatePickerCalendarAddon />
+        </InputGroup>
         <PopoverContent
+          anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
@@ -413,6 +442,7 @@ function DatePickerSized({
     handleInputChange,
     handleCalendarSelect,
   } = useDatePicker();
+  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field className={cn('gap-2', containerClass)}>
@@ -423,16 +453,12 @@ function DatePickerSized({
       </FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger
-          render={
-            <InputGroup
-              variant={variant}
-              size={size}
-              data-open={open}
-              className="cursor-pointer"
-            />
-          }
-          nativeButton={false}>
+        <InputGroup
+          ref={anchorRef}
+          variant={variant}
+          size={size}
+          data-open={open}
+          className="cursor-pointer">
           <InputGroupInput
             id={`date-size-${variant}-${size}`}
             type="date"
@@ -440,6 +466,7 @@ function DatePickerSized({
             size={size}
             value={dateValue}
             onChange={handleInputChange}
+            onClick={() => setOpen(true)}
             data-empty={dateValue ? 'false' : 'true'}
             className={dateInputClassName}
             aria-label={`${label} date`}
@@ -447,21 +474,15 @@ function DatePickerSized({
           <InputGroupAddon align="inline-end">
             <span
               className={cn('flex cursor-pointer items-center justify-center')}>
-              <Button
-                size={size === 'lg' ? 'icon' : 'icon-xxs'}
-                variant="ghost"
-                aria-label="Expand">
-                <IconShell
-                  size={size === 'lg' ? 'default' : 'sm'}
-                  type="neutral"
-                  hoverable>
-                  <Icon icon="calendar_month" />
-                </IconShell>
-              </Button>
+              <DatePickerCalendarTrigger
+                buttonSize={size === 'lg' ? 'icon' : 'icon-xxs'}
+                iconSize={size === 'lg' ? 'default' : 'sm'}
+              />
             </span>
           </InputGroupAddon>
-        </PopoverTrigger>
+        </InputGroup>
         <PopoverContent
+          anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
@@ -573,6 +594,7 @@ function DatePickerValidationItem({
     handleInputChange,
     handleCalendarSelect,
   } = useDatePicker();
+  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field className="w-[196px] gap-2">
@@ -581,35 +603,25 @@ function DatePickerValidationItem({
       </FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger
-          render={
-            <InputGroup
-              data-open={open}
-              className={cn('cursor-pointer', borderClass)}
-            />
-          }
-          nativeButton={false}>
+        <InputGroup
+          ref={anchorRef}
+          data-open={open}
+          className={cn('cursor-pointer', borderClass)}>
           <InputGroupInput
             id={`date-${id}`}
             type="date"
             value={dateValue}
             onChange={handleInputChange}
+            onClick={() => setOpen(true)}
             data-empty={dateValue ? 'false' : 'true'}
             aria-invalid={isError}
             className={dateInputClassName}
             aria-label={`${label} date`}
           />
-          <InputGroupAddon align="inline-end">
-            <span className="flex size-5 cursor-pointer items-center justify-center">
-              <Button size="icon-xxs" variant="ghost" aria-label="Expand">
-                <IconShell size="sm" type="neutral" hoverable>
-                  <Icon icon="calendar_month" />
-                </IconShell>
-              </Button>
-            </span>
-          </InputGroupAddon>
-        </PopoverTrigger>
+          <DatePickerCalendarAddon />
+        </InputGroup>
         <PopoverContent
+          anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
@@ -680,6 +692,7 @@ export function DatePickerRangeInline() {
     handleSelect,
     handleDayClick,
   } = useDateRangePicker();
+  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field className="w-[240px] gap-2">
@@ -690,21 +703,18 @@ export function DatePickerRangeInline() {
       </FieldLabel>
 
       <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger
-          render={
-            <InputGroup
-              variant="inline"
-              data-open={open}
-              className="cursor-pointer"
-            />
-          }
-          nativeButton={false}>
+        <InputGroup
+          ref={anchorRef}
+          variant="inline"
+          data-open={open}
+          className="cursor-pointer">
           <InputGroupInput
             id="date-range-inline-start"
             type="date"
             variant="inline"
             value={startDateValue}
             onChange={handleStartInputChange}
+            onClick={() => setOpen(true)}
             data-empty={startDateValue ? 'false' : 'true'}
             className={dateInputClassName}
             aria-label="Start date"
@@ -720,19 +730,15 @@ export function DatePickerRangeInline() {
             variant="inline"
             value={endDateValue}
             onChange={handleEndInputChange}
+            onClick={() => setOpen(true)}
             data-empty={endDateValue ? 'false' : 'true'}
             className={dateInputClassName}
             aria-label="End date"
           />
-          <InputGroupAddon align="inline-end">
-            <span className="flex size-5 cursor-pointer items-center justify-center">
-              <IconShell size="sm">
-                <Icon icon="calendar_month" className="text-[length:inherit]" />
-              </IconShell>
-            </span>
-          </InputGroupAddon>
-        </PopoverTrigger>
+          <DatePickerCalendarAddon />
+        </InputGroup>
         <PopoverContent
+          anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}

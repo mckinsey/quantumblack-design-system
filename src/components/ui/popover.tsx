@@ -19,17 +19,19 @@ function PopoverContent({
   alignOffset = 0,
   side = 'bottom',
   sideOffset = 4,
+  anchor,
   ...props
 }: PopoverPrimitive.Popup.Props &
   Pick<
     PopoverPrimitive.Positioner.Props,
-    'align' | 'alignOffset' | 'side' | 'sideOffset'
+    'align' | 'alignOffset' | 'anchor' | 'side' | 'sideOffset'
   >) {
   return (
     <PopoverPrimitive.Portal>
       <PopoverPrimitive.Positioner
         align={align}
         alignOffset={alignOffset}
+        anchor={anchor}
         side={side}
         sideOffset={sideOffset}
         className="isolate z-50">
@@ -62,7 +64,10 @@ function PopoverTitle({ className, ...props }: PopoverPrimitive.Title.Props) {
   return (
     <PopoverPrimitive.Title
       data-slot="popover-title"
-      className={cn('text-fg-primary font-medium', className)}
+      className={cn(
+        'text-fg-primary paragraph-regular-emphasised-600',
+        className,
+      )}
       {...props}
     />
   );
@@ -75,7 +80,7 @@ function PopoverDescription({
   return (
     <PopoverPrimitive.Description
       data-slot="popover-description"
-      className={cn('text-fg-secondary paragraph-small-primary', className)}
+      className={cn('text-fg-secondary paragraph-regular-primary', className)}
       {...props}
     />
   );

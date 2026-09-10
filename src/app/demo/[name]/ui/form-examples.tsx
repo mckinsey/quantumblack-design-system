@@ -394,6 +394,7 @@ function DateFieldRow({
 
     setOpen(false);
   };
+  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   return (
     <Field data-invalid={invalid} className={cn('min-w-0 gap-2')}>
@@ -401,15 +402,11 @@ function DateFieldRow({
         {label}
       </FieldLabel>
       <Popover open={open} onOpenChange={handleOpenChange}>
-        <PopoverTrigger
-          render={
-            <InputGroup
-              variant={inputGroupVariant}
-              data-open={open}
-              className="cursor-pointer"
-            />
-          }
-          nativeButton={false}>
+        <InputGroup
+          ref={anchorRef}
+          variant={inputGroupVariant}
+          data-open={open}
+          className="cursor-pointer">
           <InputGroupInput
             id={id}
             name={name}
@@ -418,6 +415,7 @@ function DateFieldRow({
             value={value}
             onChange={handleInputChange}
             onBlur={onBlur}
+            onClick={() => setOpen(true)}
             data-empty={value ? 'false' : 'true'}
             className={dateInputClassName}
             aria-invalid={invalid}
@@ -425,13 +423,26 @@ function DateFieldRow({
           />
           <InputGroupAddon align="inline-end">
             <span className="flex size-5 cursor-pointer items-center justify-center">
-              <IconShell size="sm">
-                <Icon icon="calendar_month" className="text-[length:inherit]" />
-              </IconShell>
+              <PopoverTrigger
+                render={
+                  <Button
+                    size="icon-xxs"
+                    variant="ghost"
+                    aria-label="Open calendar"
+                  />
+                }>
+                <IconShell size="sm">
+                  <Icon
+                    icon="calendar_month"
+                    className="text-[length:inherit]"
+                  />
+                </IconShell>
+              </PopoverTrigger>
             </span>
           </InputGroupAddon>
-        </PopoverTrigger>
+        </InputGroup>
         <PopoverContent
+          anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
