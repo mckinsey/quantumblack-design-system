@@ -1,5 +1,6 @@
 'use client';
 
+import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
 import { Icon } from '@/components/ui/icon';
@@ -13,9 +14,55 @@ import {
 } from '@/components/ui/input-group';
 import { cn } from '@/lib/utils';
 
-type DateInputSize = 'sm' | 'default' | 'lg';
-type DateInputVariant = 'default' | 'inline';
-type DateInputMode = 'single' | 'range';
+const dateInputVariants = cva('', {
+  variants: {
+    mode: {
+      single: '',
+      range: '',
+    },
+    variant: {
+      default: '',
+      inline: '',
+    },
+    size: {
+      sm: '',
+      default: '',
+      lg: '',
+    },
+  },
+  compoundVariants: [
+    { mode: 'single', variant: 'inline', class: 'min-w-[140px]' },
+    { mode: 'single', variant: 'default', class: 'min-w-[196px]' },
+    {
+      mode: 'range',
+      variant: 'inline',
+      size: ['sm', 'default'],
+      class: 'min-w-[220px]',
+    },
+    {
+      mode: 'range',
+      variant: 'default',
+      size: ['sm', 'default'],
+      class: 'min-w-[240px]',
+    },
+    { mode: 'range', size: 'lg', class: 'min-w-[280px]' },
+  ],
+  defaultVariants: {
+    mode: 'single',
+    variant: 'default',
+    size: 'default',
+  },
+});
+
+type DateInputSize = NonNullable<
+  VariantProps<typeof dateInputVariants>['size']
+>;
+type DateInputVariant = NonNullable<
+  VariantProps<typeof dateInputVariants>['variant']
+>;
+type DateInputMode = NonNullable<
+  VariantProps<typeof dateInputVariants>['mode']
+>;
 
 const dateSegmentFocusClassName = cn(
   '[&::-webkit-datetime-edit-day-field:focus]:bg-fill-active',
@@ -41,20 +88,6 @@ const dateNativeInputClassName = cn(
   'data-[empty=false]:text-fg-primary',
   dateSegmentFocusClassName,
 );
-
-function dateInputMinWidth(
-  mode: DateInputMode,
-  variant: DateInputVariant,
-  size: DateInputSize,
-) {
-  if (mode === 'range') {
-    if (size === 'lg') return 'min-w-[280px]';
-
-    return variant === 'inline' ? 'min-w-[220px]' : 'min-w-[240px]';
-  }
-
-  return variant === 'inline' ? 'min-w-[140px]' : 'min-w-[196px]';
-}
 
 function chooseDateLabel(mode: DateInputMode, value: string, endValue: string) {
   if (mode === 'range') {
@@ -119,7 +152,7 @@ const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
         data-disabled={disabled || undefined}
         className={cn(
           disabled ? 'cursor-not-allowed' : 'cursor-pointer',
-          dateInputMinWidth(mode, variant, size),
+          dateInputVariants({ mode, variant, size }),
           className,
         )}
         {...props}>
