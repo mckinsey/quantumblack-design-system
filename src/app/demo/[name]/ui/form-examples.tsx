@@ -415,7 +415,7 @@ function DateFieldRow({
             value={value}
             onChange={handleInputChange}
             onBlur={onBlur}
-            onClick={() => setOpen(true)}
+            onClick={() => handleOpenChange(true)}
             data-empty={value ? 'false' : 'true'}
             className={dateInputClassName}
             aria-invalid={invalid}
@@ -431,7 +431,7 @@ function DateFieldRow({
                     aria-label="Open calendar"
                   />
                 }>
-                <IconShell size="sm">
+                <IconShell size="sm" type="neutral" hoverable>
                   <Icon
                     icon="calendar_month"
                     className="text-[length:inherit]"
