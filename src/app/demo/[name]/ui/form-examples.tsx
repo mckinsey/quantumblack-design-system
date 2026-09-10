@@ -12,10 +12,6 @@ import { ButtonGroup } from '@/components/ui/button-group';
 import { Calendar } from '@/components/ui/calendar';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import {
   Field,
   FieldDescription,
   FieldError,
@@ -483,8 +479,8 @@ function TimeFieldRow({
       <FieldLabel htmlFor={id} className={labelClass}>
         {label}
       </FieldLabel>
-      <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
-        <DropdownMenuTrigger asChild>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
           <TimeInput
             id={id}
             name={name}
@@ -500,18 +496,13 @@ function TimeFieldRow({
               variant === 'inline' ? undefined : 'w-fit justify-between'
             }
           />
-        </DropdownMenuTrigger>
+        </PopoverTrigger>
         <TimePickerListContent
           size="default"
           className="z-10"
-          sideOffset={4}
-          align="start"
           onOpenAutoFocus={e => e.preventDefault()}
           onInteractOutside={e => {
-            const custom = e as CustomEvent<{
-              originalEvent: PointerEvent;
-            }>;
-            const target = custom.detail?.originalEvent?.target;
+            const target = e.target;
 
             if (
               target instanceof HTMLElement &&
@@ -533,7 +524,7 @@ function TimeFieldRow({
             size="default"
           />
         </TimePickerListContent>
-      </DropdownMenu>
+      </Popover>
       {errorMessage ? (
         <FieldError>{errorMessage}</FieldError>
       ) : description ? (
