@@ -19,6 +19,7 @@ const IntroductionPage = lazy(() => import('./app/(registry)/docs/page'));
 const RegistryItemPage = lazy(
   () => import('./app/(registry)/registry/[name]/page'),
 );
+const PlaygroundPage = lazy(() => import('./app/playground/page'));
 
 function RegistryLayout() {
   return (
@@ -39,6 +40,14 @@ function RegistryLayout() {
 
 export const router = createBrowserRouter(
   [
+    {
+      path: 'playground',
+      element: (
+        <Suspense>
+          <PlaygroundPage />
+        </Suspense>
+      ),
+    },
     {
       element: <RegistryLayout />,
       children: [
