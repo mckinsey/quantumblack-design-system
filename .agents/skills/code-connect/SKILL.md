@@ -86,21 +86,62 @@ If nothing represents it, omit it and tell the user. Keep `example` close to the
 
 ### 3b — Field footer: helper XOR feedback
 
-Figma inputs often expose `showHelpText` and `showFeedbackMessage` as separate booleans. React composes **one** footer message:
+Figma inputs often expose separate booleans for helper vs feedback (names vary: `hasHintText`, `hasHelpText`, `hasFeedbackMessage`, …). React composes **one** footer:
 
-| State           | Render                                                                                                 |
-| --------------- | ------------------------------------------------------------------------------------------------------ |
-| valid / neutral | `<FieldDescription>` when `showHelpText`                                                               |
-| error / invalid | `<FieldError>` when `showFeedbackMessage` — **replaces** helper, do not also render `FieldDescription` |
+| State           | Render                                                              |
+| --------------- | ------------------------------------------------------------------- |
+| valid / neutral | `<FieldDescription>` when the helper toggle is on                   |
+| error / invalid | `<FieldError>` when the feedback toggle is on — **replaces** helper |
 
-Demos follow this (see `TextareaStates` error example). Code Connect templates must match — not both in the same snippet.
+Not both in the same snippet. Match demos (e.g. textarea error states).
+
+**Do not invent footers.** Require **boolean + layer**:
+
+1. Helper: `getBoolean(...)` **and** `findInstance` of the help/hint layer with `type === 'INSTANCE'`
+2. Feedback: `getBoolean(...)` **and** `findInstance` of the status/feedback layer with `type === 'INSTANCE'`
+3. Copy from `getString` on that instance (`JSON.stringify` → `{${lit}}`). Demo fallback only when the instance exists but the string is empty
+4. Layer missing → omit footer. Do not emit placeholder helper/feedback from a boolean guess alone
+
+Inspect real variants before wiring. Some sets keep feedback layers on the instance but hidden until a prop flips; if you cannot confirm the layer should appear for that variant, omit it.
 
 ```ts
-${invalid && showFeedback
-  ? figma.code`<FieldError>${statusMessage}</FieldError>`
-  : showHelpText
-    ? figma.code`<FieldDescription className="${descClass}">${helperText}</FieldDescription>`
-    : figma.code``}
+const helpInst = instance.findInstance('/* help layer name from Figma */', {
+  traverseInstances: true,
+});
+const statusInst = instance.findInstance('/* status layer name from Figma */', {
+  traverseInstances: true,
+});
+
+const helperText =
+  helpInst?.type === 'INSTANCE'
+    ? JSON.stringify(helpInst.getString('helperText') ?? 'Helper text')
+    : null;
+const statusMessage =
+  statusInst?.type === 'INSTANCE'
+    ? JSON.stringify(
+        statusInst.getString('statusMessage') ?? 'Feedback message',
+      )
+    : null;
+
+const showErrorFooter = Boolean(invalid && showFeedback && statusMessage);
+const showHintFooter = Boolean(
+  !invalid && showHintText && helperText && !showErrorFooter,
+);
+```
+
+### 3c — Compose only what Figma shows
+
+- Emit optional regions (overlays, menus, popovers, footers, nested chrome) only when the corresponding **layer exists** on the selected instance (`findInstance` → `type === 'INSTANCE'`), not merely because a related `state` enum value exists.
+- Prefer `executeTemplate()` on nested instances that already have Code Connect. Hand-roll a minimal sibling snippet only when `hasCodeConnect()` is false / mapping is missing.
+- Do not hardcode demo values, selected state, or placeholder copy that is not on the Figma instance.
+- Match demos for **composition shape**; gate each piece on Figma layers/props.
+
+```ts
+const overlayInst = instance.findInstance('/* overlay layer from Figma */', {
+  traverseInstances: true,
+});
+const hasOverlay = overlayInst?.type === 'INSTANCE';
+// wrap / include overlay snippet only when hasOverlay
 ```
 
 ### 4 — Slot children (repeated same-type instances)
@@ -162,7 +203,7 @@ const label = JSON.stringify(instance.getString('label') ?? 'Default label');
 
 **Default props in snippets** — omit props that match the component default.
 
-**Fallback copy** — placeholder strings must match the demo exactly, including punctuation. Source: `src/app/demo/[name]/ui/<name>.tsx`.
+**Fallback copy** — placeholder strings must match the demo exactly, including punctuation. Source: `src/app/demo/[name]/ui/<name>.tsx`. Never use fallback copy to invent UI that Figma does not show (see **3b** / **3c**).
 
 ## Reference examples
 
@@ -174,6 +215,7 @@ Read existing templates in `code-connect/` before writing a new one:
 - `dialog.figma.ts` — optional region toggles, conditional wrapper parts, `renderChildren`
 - `card.figma.ts` — omit default prop values in generated snippet
 - `button-group.figma.ts`, `tag-group-dismissable.figma.ts` — older `properties.children` pattern
+- `textarea.figma.ts` — helper/feedback strings from `findInstance` + `getString` (boolean + layer)
 
 ## Validate & publish
 
