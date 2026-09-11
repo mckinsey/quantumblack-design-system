@@ -49,7 +49,7 @@ const statusInst = instance.findInstance('Elements/Status-Messages', {
 const statusMessage =
   statusInst?.type === 'INSTANCE'
     ? JSON.stringify(
-        statusInst.getString('statusMessage') ?? 'Feedback message',
+        statusInst.getString('statusMessage') || 'Feedback message',
       )
     : null;
 

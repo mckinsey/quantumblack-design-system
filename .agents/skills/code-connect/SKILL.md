@@ -188,7 +188,7 @@ const size = (instance.getEnum('size', {
 **Instance strings** — never interpolate raw `getString` values into JSX text. `JSON.stringify` the value and emit as a JSX expression `{${var}}`:
 
 ```ts
-const label = JSON.stringify(instance.getString('label') ?? 'Default label');
+const label = JSON.stringify(instance.getString('label') || 'Default label');
 // in figma.code:
 <PartTitle>{${label}}</PartTitle>
 ```
