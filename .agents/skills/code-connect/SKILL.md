@@ -114,12 +114,12 @@ const statusInst = instance.findInstance('/* status layer name from Figma */', {
 
 const helperText =
   helpInst?.type === 'INSTANCE'
-    ? JSON.stringify(helpInst.getString('helperText') ?? 'Helper text')
+    ? JSON.stringify(helpInst.getString('helperText') || 'Helper text')
     : null;
 const statusMessage =
   statusInst?.type === 'INSTANCE'
     ? JSON.stringify(
-        statusInst.getString('statusMessage') ?? 'Feedback message',
+        statusInst.getString('statusMessage') || 'Feedback message',
       )
     : null;
 
