@@ -128,20 +128,9 @@ import {
   examples as contextMenuExamples,
 } from '@/app/demo/[name]/ui/context-menu';
 import {
-  DateInputDemo,
-  DateInputDisabled,
-  DateInputInline,
-  DateInputRange,
-  DateInputValidation,
-  dateInput,
-  examples as dateInputExamples,
-} from '@/app/demo/[name]/ui/date-input';
-import {
   DatePickerDemo,
   DatePickerDisabled,
-  DatePickerInlineSizes,
   DatePickerRange,
-  DatePickerRangeInline,
   DatePickerSizes,
   DatePickerValidation,
   datePicker,
@@ -522,17 +511,8 @@ export const exampleComponentMaps: Record<
     DatePickerDemo,
     DatePickerRange,
     DatePickerSizes,
-    DatePickerInlineSizes,
-    DatePickerRangeInline,
     DatePickerValidation,
     DatePickerDisabled,
-  },
-  'date-input': {
-    DateInputDemo,
-    DateInputInline,
-    DateInputRange,
-    DateInputDisabled,
-    DateInputValidation,
   },
   dialog: {
     DialogDemo,
@@ -776,7 +756,6 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   card: cardExamples,
   checkbox: checkboxExamples,
   'date-picker': datePickerExamples,
-  'date-input': dateInputExamples,
   dialog: dialogExamples,
   'context-menu': contextMenuExamples,
   'dropdown-menu': dropdownMenuExamples,
@@ -867,11 +846,6 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...datePicker,
     examples: datePickerExamples,
     exampleComponents: exampleComponentMaps['date-picker'],
-  },
-  'date-input': {
-    ...dateInput,
-    examples: dateInputExamples,
-    exampleComponents: exampleComponentMaps['date-input'],
   },
   dialog: {
     ...dialog,

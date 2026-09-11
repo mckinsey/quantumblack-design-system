@@ -1,5 +1,6 @@
 'use client';
 
+import type { Popover as PopoverPrimitive } from '@base-ui/react/popover';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm as useTanStackForm } from '@tanstack/react-form';
 import { format, isValid, parse } from 'date-fns';
@@ -105,7 +106,7 @@ const formFieldInlineLabel = 'mb-[-4px]';
 /** Match {@link DatePickerDemo} label styling */
 const datePickerLabel = 'label-regular-primary';
 
-/** Match {@link DatePickerInlineSizes} default row */
+/** Match {@link DatePickerSizes} inline default row */
 const datePickerInlineLabel = cn(datePickerLabel, 'mb-[-4px]');
 
 const formDemoShell = {
@@ -361,7 +362,25 @@ function DateFieldRow({
   const triggerRef = React.useRef<HTMLButtonElement>(null);
   const anchorRef = React.useRef<HTMLDivElement>(null);
 
-  const handleOpenChange = (next: boolean) => {
+  const handleOpenChange = (
+    next: boolean,
+    details?: PopoverPrimitive.Root.ChangeEventDetails,
+  ) => {
+    if (details && !next && details.reason === 'outside-press') {
+      const path =
+        typeof details.event.composedPath === 'function'
+          ? details.event.composedPath()
+          : [];
+
+      if (
+        (anchorRef.current && path.includes(anchorRef.current)) ||
+        anchorRef.current?.contains(details.event.target as Node)
+      ) {
+        details.cancel();
+        return;
+      }
+    }
+
     setOpen(next);
 
     if (next) {
@@ -407,10 +426,10 @@ function DateFieldRow({
           align="start"
           sideOffset={4}
           initialFocus={false}
-          finalFocus={triggerRef}>
+          finalFocus={false}>
           <Calendar
             key={open ? 'open' : 'closed'}
-            autoFocus={open}
+            autoFocus={false}
             mode="single"
             size="default"
             month={month}

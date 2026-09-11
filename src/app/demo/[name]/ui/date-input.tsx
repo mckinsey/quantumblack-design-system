@@ -65,6 +65,7 @@ function SizeStack({
               size={size}
               value={value}
               onChange={e => set(e.target.value)}
+              className={variant === 'inline' ? 'w-[140px]' : 'w-[196px]'}
             />
 
             <FieldDescription className={cfg.description}>
@@ -101,6 +102,7 @@ export function DateInputRange() {
         onChange={e => setStart(e.target.value)}
         onEndChange={e => setEnd(e.target.value)}
         aria-label="Start date"
+        className="w-[240px]"
       />
 
       <FieldDescription className={description}>Helper text</FieldDescription>
@@ -115,7 +117,12 @@ export function DateInputDisabled() {
     <FieldSet className={gap}>
       <FieldTitle className={label}>Disabled</FieldTitle>
 
-      <DateInput disabled value="2025-04-16" />
+      <DateInput
+        variant="inline"
+        disabled
+        value="2025-04-16"
+        className="w-[140px]"
+      />
 
       <FieldDescription className={description}>Helper text</FieldDescription>
     </FieldSet>
@@ -130,7 +137,7 @@ export function DateInputValidation() {
       <FieldSet className={gap}>
         <FieldTitle className={label}>Error</FieldTitle>
 
-        <DateInput value="2025-04-16" aria-invalid />
+        <DateInput value="2025-04-16" aria-invalid className="w-[196px]" />
 
         <FieldDescription className={description}>
           This field is required
@@ -142,7 +149,7 @@ export function DateInputValidation() {
 
         <DateInput
           value="2025-04-16"
-          className="border-stroke-status-warning"
+          className="border-stroke-status-warning w-[196px]"
         />
 
         <FieldDescription className={description}>
@@ -155,7 +162,7 @@ export function DateInputValidation() {
 
         <DateInput
           value="2025-04-16"
-          className="border-stroke-status-success"
+          className="border-stroke-status-success w-[196px]"
         />
 
         <FieldDescription className={description}>

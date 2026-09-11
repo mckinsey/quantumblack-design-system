@@ -29,13 +29,7 @@ const uiItems = getUIPrimitives();
 const COMPONENT_GROUPS: { label: string; names: string[] }[] = [
   {
     label: 'Date & Time',
-    names: [
-      'calendar',
-      'date-input',
-      'date-picker',
-      'time-input',
-      'time-picker',
-    ],
+    names: ['calendar', 'date-picker', 'time-input', 'time-picker'],
   },
   {
     label: 'Form Controls',
@@ -57,7 +51,7 @@ const COMPONENT_GROUPS: { label: string; names: string[] }[] = [
 ];
 
 const groupedNames = new Set(COMPONENT_GROUPS.flatMap(g => g.names));
-const EXCLUDED_NAMES = new Set(['label', 'toggle-group']);
+const EXCLUDED_NAMES = new Set(['label', 'toggle-group', 'date-input']);
 
 type SidebarEntry =
   | {

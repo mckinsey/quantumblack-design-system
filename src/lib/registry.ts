@@ -160,7 +160,6 @@ export function getUIPrimitivesByCategory() {
       'calendar',
       'chart',
       'carousel',
-      'date-input',
       'date-picker',
       'time-input',
       'time-picker',
