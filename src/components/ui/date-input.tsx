@@ -153,6 +153,7 @@ const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
       name,
       min,
       max,
+      step,
       required,
       autoFocus,
       readOnly,
@@ -199,6 +200,7 @@ const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
           disabled={disabled}
           min={min}
           max={max}
+          step={step}
           required={required}
           autoFocus={autoFocus}
           readOnly={readOnly}
@@ -234,6 +236,7 @@ const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
               disabled={disabled}
               min={min}
               max={max}
+              step={step}
               required={required}
               readOnly={readOnly}
               onBlur={onBlur}
