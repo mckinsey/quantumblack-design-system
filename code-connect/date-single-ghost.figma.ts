@@ -24,20 +24,12 @@ const state = instance.getEnum('state', {
   disabled: 'disabled',
 });
 
-const showFeedback = instance.getBoolean('hasFeedbackMessages');
+const showFeedback = instance.getBoolean('hasFeedbackMessage');
 const showHintText = instance.getBoolean('hasHintText');
 
 const disabled = state === 'disabled';
 const invalid = state === 'error';
 const open = state === 'open';
-const hasFilled =
-  state === 'filled' ||
-  state === 'error' ||
-  state === 'warning' ||
-  state === 'success' ||
-  state === 'disabled' ||
-  state === 'active' ||
-  state === 'open';
 
 const statusClass =
   state === 'warning'
@@ -47,7 +39,6 @@ const statusClass =
       : '';
 
 const sizeProp = size === 'default' ? '' : ` size="${size}"`;
-const valueProp = hasFilled ? ' value="2025-04-16"' : '';
 const classProp = statusClass ? ` className="${statusClass}"` : '';
 const openProp = open ? ' open' : '';
 
@@ -107,7 +98,6 @@ const dateInput = figma.code`
     ${disabled ? 'disabled' : ''}
     ${invalid ? 'aria-invalid' : ''}
     ${openProp}
-    ${valueProp}
     ${classProp}
   />
 `;
@@ -138,9 +128,7 @@ const baseImports = ['import { DateInput } from "@/components/ui/date-input"'];
 
 const pickerImports = hasCalendar
   ? [
-      ...(connectedCalendar
-        ? []
-        : ['import { Calendar } from "@/components/ui/calendar"']),
+      'import { Calendar } from "@/components/ui/calendar"',
       ...baseImports,
       'import { Popover, PopoverContent } from "@/components/ui/popover"',
     ]
