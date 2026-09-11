@@ -89,7 +89,11 @@ const dateNativeInputClassName = cn(
   dateSegmentFocusClassName,
 );
 
-function chooseDateLabel(mode: DateInputMode, value: string, endValue: string) {
+function chooseDateLabel(
+  mode: DateInputMode,
+  value: string | undefined,
+  endValue: string | undefined,
+) {
   if (mode === 'range') {
     if (value && endValue) return `Change date, ${value} to ${endValue}`;
     if (value) return `Change date, ${value}`;
@@ -99,22 +103,37 @@ function chooseDateLabel(mode: DateInputMode, value: string, endValue: string) {
   return value ? `Change date, ${value}` : 'Choose date';
 }
 
-type DateInputProps = Omit<React.ComponentProps<'div'>, 'onChange'> & {
-  variant?: DateInputVariant;
-  size?: DateInputSize;
-  mode?: DateInputMode;
-  open?: boolean;
-  disabled?: boolean;
-  value?: string;
-  endValue?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onEndChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onTriggerClick?: () => void;
-  triggerRef?: React.Ref<HTMLButtonElement>;
-  id?: string;
-  name?: string;
-  'aria-label'?: string;
-};
+type NativeDateInputProps = Pick<
+  React.ComponentProps<'input'>,
+  | 'min'
+  | 'max'
+  | 'required'
+  | 'name'
+  | 'disabled'
+  | 'id'
+  | 'autoFocus'
+  | 'readOnly'
+  | 'onBlur'
+  | 'onFocus'
+>;
+
+type DateInputProps = Omit<
+  React.ComponentProps<'div'>,
+  'onChange' | keyof NativeDateInputProps
+> &
+  NativeDateInputProps & {
+    variant?: DateInputVariant;
+    size?: DateInputSize;
+    mode?: DateInputMode;
+    open?: boolean;
+    value?: string;
+    endValue?: string;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onEndChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onTriggerClick?: () => void;
+    triggerRef?: React.Ref<HTMLButtonElement>;
+    'aria-label'?: string;
+  };
 
 const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
   (
@@ -124,14 +143,21 @@ const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
       mode = 'single',
       open,
       disabled,
-      value = '',
-      endValue = '',
+      value,
+      endValue,
       onChange,
       onEndChange,
       onTriggerClick,
       triggerRef,
       id,
       name,
+      min,
+      max,
+      required,
+      autoFocus,
+      readOnly,
+      onBlur,
+      onFocus,
       className,
       'aria-invalid': ariaInvalid,
       'aria-label': ariaLabel,
@@ -165,9 +191,16 @@ const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
           value={value}
           onChange={onChange}
           disabled={disabled}
+          min={min}
+          max={max}
+          required={required}
+          autoFocus={autoFocus}
+          readOnly={readOnly}
+          onBlur={onBlur}
+          onFocus={onFocus}
           data-empty={value ? 'false' : 'true'}
           aria-invalid={ariaInvalid}
-          aria-label={ariaLabel ?? (mode === 'range' ? 'Start date' : 'Date')}
+          aria-label={ariaLabel}
           className={dateNativeInputClassName}
         />
 
@@ -188,6 +221,12 @@ const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
               value={endValue}
               onChange={onEndChange}
               disabled={disabled}
+              min={min}
+              max={max}
+              required={required}
+              readOnly={readOnly}
+              onBlur={onBlur}
+              onFocus={onFocus}
               data-empty={endValue ? 'false' : 'true'}
               aria-invalid={ariaInvalid}
               aria-label="End date"
