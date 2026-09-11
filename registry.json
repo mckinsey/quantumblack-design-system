@@ -164,21 +164,39 @@
       ]
     },
     {
+      "name": "date-input",
+      "type": "registry:ui",
+      "title": "Date Input",
+      "description": "Native type=date field with optional range mode and calendar trigger. Built on InputGroup.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": [
+        "__REGISTRY_URL__/r/theme.json",
+        "__REGISTRY_URL__/r/utils.json",
+        "__REGISTRY_URL__/r/field.json",
+        "__REGISTRY_URL__/r/input-group.json",
+        "__REGISTRY_URL__/r/icon-shell.json",
+        "__REGISTRY_URL__/r/icon.json"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/date-input.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "date-picker",
       "type": "registry:ui",
       "title": "Date Picker",
-      "description": "A date picker component with range and presets.",
+      "description": "Date picker examples composing DateInput, Popover, and Calendar for single and range selection.",
       "dependencies": ["react-day-picker", "date-fns"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/button.json",
         "__REGISTRY_URL__/r/calendar.json",
+        "__REGISTRY_URL__/r/date-input.json",
         "__REGISTRY_URL__/r/field.json",
-        "__REGISTRY_URL__/r/icon-shell.json",
-        "__REGISTRY_URL__/r/input-group.json",
-        "__REGISTRY_URL__/r/popover.json",
-        "__REGISTRY_URL__/r/icon.json"
+        "__REGISTRY_URL__/r/popover.json"
       ],
       "files": [
         {
@@ -377,8 +395,8 @@
         "__REGISTRY_URL__/r/button.json",
         "__REGISTRY_URL__/r/button-group.json",
         "__REGISTRY_URL__/r/input.json",
-        "__REGISTRY_URL__/r/input-group.json",
         "__REGISTRY_URL__/r/calendar.json",
+        "__REGISTRY_URL__/r/date-input.json",
         "__REGISTRY_URL__/r/popover.json",
         "__REGISTRY_URL__/r/textarea.json",
         "__REGISTRY_URL__/r/time-input.json",

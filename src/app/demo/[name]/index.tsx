@@ -130,9 +130,7 @@ import {
 import {
   DatePickerDemo,
   DatePickerDisabled,
-  DatePickerInlineSizes,
   DatePickerRange,
-  DatePickerRangeInline,
   DatePickerSizes,
   DatePickerValidation,
   datePicker,
@@ -513,8 +511,6 @@ export const exampleComponentMaps: Record<
     DatePickerDemo,
     DatePickerRange,
     DatePickerSizes,
-    DatePickerInlineSizes,
-    DatePickerRangeInline,
     DatePickerValidation,
     DatePickerDisabled,
   },

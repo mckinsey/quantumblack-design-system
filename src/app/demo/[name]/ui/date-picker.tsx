@@ -1,5 +1,6 @@
 'use client';
 
+import type { Popover as PopoverPrimitive } from '@base-ui/react/popover';
 import { format, isValid, parse } from 'date-fns';
 import * as React from 'react';
 import type {
@@ -8,61 +9,47 @@ import type {
   OnSelectHandler,
 } from 'react-day-picker';
 
-import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
+import { DateInput } from '@/components/ui/date-input';
 import { Field, FieldDescription, FieldLabel } from '@/components/ui/field';
-import { Icon } from '@/components/ui/icon';
-import { IconShell } from '@/components/ui/icon-shell';
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-  InputGroupText,
-} from '@/components/ui/input-group';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import { Popover, PopoverContent } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
-const dateSegmentFocusClassName = cn(
-  '[&::-webkit-datetime-edit-day-field:focus]:bg-fill-active',
-  '[&::-webkit-datetime-edit-day-field:focus]:text-fg-primary-inverse',
-  '[&::-webkit-datetime-edit-day-field:focus]:rounded-none',
-  '[&::-webkit-datetime-edit-day-field:focus]:outline-none',
-  '[&::-webkit-datetime-edit-month-field:focus]:bg-fill-active',
-  '[&::-webkit-datetime-edit-month-field:focus]:text-fg-primary-inverse',
-  '[&::-webkit-datetime-edit-month-field:focus]:rounded-none',
-  '[&::-webkit-datetime-edit-month-field:focus]:outline-none',
-  '[&::-webkit-datetime-edit-year-field:focus]:bg-fill-active',
-  '[&::-webkit-datetime-edit-year-field:focus]:text-fg-primary-inverse',
-  '[&::-webkit-datetime-edit-year-field:focus]:rounded-none',
-  '[&::-webkit-datetime-edit-year-field:focus]:outline-none',
-);
+function createDatePopoverOpenChange(
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>,
+  anchorRef: React.RefObject<HTMLDivElement | null>,
+) {
+  return (next: boolean, details: PopoverPrimitive.Root.ChangeEventDetails) => {
+    if (!next && details.reason === 'outside-press') {
+      const path =
+        typeof details.event.composedPath === 'function'
+          ? details.event.composedPath()
+          : [];
 
-export const dateInputClassName = cn(
-  'w-auto min-w-0 cursor-pointer',
-  '[&::-webkit-calendar-picker-indicator]:hidden',
-  '[&::-webkit-calendar-picker-indicator]:appearance-none',
-  'data-[empty=true]:text-fg-tertiary',
-  'data-[empty=true]:focus:text-fg-primary',
-  'data-[empty=false]:text-fg-primary',
-  dateSegmentFocusClassName,
-);
+      if (
+        (anchorRef.current && path.includes(anchorRef.current)) ||
+        anchorRef.current?.contains(details.event.target as Node)
+      ) {
+        details.cancel();
+        return;
+      }
+    }
 
-// ============================================================================
-// Shared Hooks
-// ============================================================================
+    setOpen(next);
+  };
+}
 
 function useDatePicker() {
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date | undefined>(undefined);
-  const [dateValue, setDateValue] = React.useState('');
+  const [value, setValue] = React.useState('');
   const [month, setMonth] = React.useState<Date | undefined>(undefined);
+  const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const anchorRef = React.useRef<HTMLDivElement>(null);
+  const handleOpenChange = createDatePopoverOpenChange(setOpen, anchorRef);
 
   React.useEffect(() => {
-    setDateValue(date ? format(date, 'yyyy-MM-dd') : '');
+    setValue(date ? format(date, 'yyyy-MM-dd') : '');
 
     if (date) {
       setMonth(date);
@@ -71,35 +58,38 @@ function useDatePicker() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value;
-    setDateValue(text);
+    setValue(text);
 
     if (!text) {
       setDate(undefined);
       return;
     }
 
-    const parsedDate = parse(text, 'yyyy-MM-dd', new Date());
+    const parsed = parse(text, 'yyyy-MM-dd', new Date());
 
-    if (isValid(parsedDate)) {
-      setDate(parsedDate);
-      setMonth(parsedDate);
+    if (isValid(parsed)) {
+      setDate(parsed);
+      setMonth(parsed);
     } else {
       setDate(undefined);
     }
   };
 
-  const handleCalendarSelect = (selectedDate: Date | undefined) => {
-    setDate(selectedDate);
+  const handleCalendarSelect = (selected?: Date) => {
+    setDate(selected);
     setOpen(false);
   };
 
   return {
     open,
     setOpen,
+    handleOpenChange,
     date,
-    dateValue,
+    value,
     month,
     setMonth,
+    triggerRef,
+    anchorRef,
     handleInputChange,
     handleCalendarSelect,
   };
@@ -108,13 +98,16 @@ function useDatePicker() {
 function useDateRangePicker() {
   const [open, setOpen] = React.useState(false);
   const [range, setRange] = React.useState<DateRange | undefined>(undefined);
-  const [startDateValue, setStartDateValue] = React.useState('');
-  const [endDateValue, setEndDateValue] = React.useState('');
+  const [startValue, setStartValue] = React.useState('');
+  const [endValue, setEndValue] = React.useState('');
   const [month, setMonth] = React.useState<Date | undefined>(undefined);
+  const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const anchorRef = React.useRef<HTMLDivElement>(null);
+  const handleOpenChange = createDatePopoverOpenChange(setOpen, anchorRef);
 
   React.useEffect(() => {
-    setStartDateValue(range?.from ? format(range.from, 'yyyy-MM-dd') : '');
-    setEndDateValue(range?.to ? format(range.to, 'yyyy-MM-dd') : '');
+    setStartValue(range?.from ? format(range.from, 'yyyy-MM-dd') : '');
+    setEndValue(range?.to ? format(range.to, 'yyyy-MM-dd') : '');
 
     if (range?.from) {
       setMonth(range.from);
@@ -124,163 +117,125 @@ function useDateRangePicker() {
   }, [range]);
 
   const updateField = (
-    prevRange: DateRange | undefined,
+    prev: DateRange | undefined,
     field: 'from' | 'to',
-    value: Date | undefined,
+    next: Date | undefined,
   ): DateRange | undefined => ({
-    from: field === 'from' ? value : prevRange?.from,
-    to: field === 'to' ? value : prevRange?.to,
+    from: field === 'from' ? next : prev?.from,
+    to: field === 'to' ? next : prev?.to,
   });
 
-  const createInputChangeHandler = (
+  const createHandler = (
     field: 'from' | 'to',
-    setValue: (value: string) => void,
+    setFieldValue: (value: string) => void,
   ) => {
     return (e: React.ChangeEvent<HTMLInputElement>) => {
       const text = e.target.value;
-      setValue(text);
+      setFieldValue(text);
 
       if (!text) {
         setRange(prev => updateField(prev, field, undefined));
         return;
       }
 
-      const parsedDate = parse(text, 'yyyy-MM-dd', new Date());
+      const parsed = parse(text, 'yyyy-MM-dd', new Date());
 
-      if (isValid(parsedDate)) {
-        setRange(prev => updateField(prev, field, parsedDate));
-        setMonth(parsedDate);
+      if (isValid(parsed)) {
+        setRange(prev => updateField(prev, field, parsed));
+        setMonth(parsed);
       } else {
         setRange(prev => updateField(prev, field, undefined));
       }
     };
   };
 
-  const handleStartInputChange = createInputChangeHandler(
-    'from',
-    setStartDateValue,
-  );
-  const handleEndInputChange = createInputChangeHandler('to', setEndDateValue);
+  const handleStartChange = createHandler('from', setStartValue);
+  const handleEndChange = createHandler('to', setEndValue);
 
-  const handleSelect: OnSelectHandler<
-    DateRange | undefined
-  > = selectedRange => {
+  const handleSelect: OnSelectHandler<DateRange | undefined> = selected => {
     if (range?.from && !range.to) {
-      setRange(selectedRange);
+      setRange(selected);
+      setOpen(false);
     }
   };
 
   const handleDayClick: DayEventHandler<React.MouseEvent> = day => {
-    if (range?.from && !range.to) {
-      return;
-    }
+    if (range?.from && !range.to) return;
+
     setRange({ from: day });
   };
 
   return {
     open,
     setOpen,
-    startDateValue,
-    endDateValue,
+    handleOpenChange,
+    startValue,
+    endValue,
     month,
     setMonth,
     range,
-    handleStartInputChange,
-    handleEndInputChange,
+    triggerRef,
+    anchorRef,
+    handleStartChange,
+    handleEndChange,
     handleSelect,
     handleDayClick,
   };
 }
 
-// ============================================================================
-// Popover helpers
-// ============================================================================
-
-function DatePickerCalendarTrigger({
-  buttonSize = 'icon-xxs',
-  iconSize = 'sm',
-}: Readonly<{
-  buttonSize?: 'icon-xxs' | 'icon';
-  iconSize?: 'sm' | 'default';
-}>) {
-  return (
-    <PopoverTrigger
-      render={
-        <Button size={buttonSize} variant="ghost" aria-label="Open calendar" />
-      }>
-      <IconShell size={iconSize} type="neutral" hoverable>
-        <Icon icon="calendar_month" />
-      </IconShell>
-    </PopoverTrigger>
-  );
-}
-
-function DatePickerCalendarAddon({
-  buttonSize = 'icon-xxs',
-  iconSize = 'sm',
-}: Readonly<{
-  buttonSize?: 'icon-xxs' | 'icon';
-  iconSize?: 'sm' | 'default';
-}>) {
-  return (
-    <InputGroupAddon align="inline-end">
-      <span className="flex size-5 cursor-pointer items-center justify-center">
-        <DatePickerCalendarTrigger
-          buttonSize={buttonSize}
-          iconSize={iconSize}
-        />
-      </span>
-    </InputGroupAddon>
-  );
-}
-
-// ============================================================================
-// Example Components (New Format)
-// ============================================================================
-
-/**
- * Single date picker with input
- */
 export function DatePickerDemo() {
+  return <DatePickerSingleField />;
+}
+
+function DatePickerSingleField({
+  variant = 'default',
+}: Readonly<{ variant?: 'default' | 'inline' }>) {
   const {
     open,
     setOpen,
+    handleOpenChange,
     date,
-    dateValue,
+    value,
     month,
     setMonth,
+    triggerRef,
+    anchorRef,
     handleInputChange,
     handleCalendarSelect,
   } = useDatePicker();
-  const anchorRef = React.useRef<HTMLDivElement>(null);
+
+  const isInline = variant === 'inline';
+  const id = isInline ? 'date-input-inline' : 'date-input';
 
   return (
-    <Field className="w-[196px] gap-2">
-      <FieldLabel htmlFor="date-input" className="label-regular-primary">
+    <Field className={cn(isInline ? 'w-[140px]' : 'w-[196px]', 'gap-2')}>
+      <FieldLabel
+        htmlFor={id}
+        className={cn('label-regular-primary', isInline && 'mb-[-4px]')}>
         Select Date
       </FieldLabel>
 
-      <Popover open={open} onOpenChange={setOpen}>
-        <InputGroup ref={anchorRef} data-open={open} className="cursor-pointer">
-          <InputGroupInput
-            id="date-input"
-            type="date"
-            value={dateValue}
-            onChange={handleInputChange}
-            onClick={() => setOpen(true)}
-            data-empty={dateValue ? 'false' : 'true'}
-            className={dateInputClassName}
-            aria-label="Date"
-          />
-          <DatePickerCalendarAddon />
-        </InputGroup>
+      <Popover open={open} onOpenChange={handleOpenChange}>
+        <DateInput
+          ref={anchorRef}
+          triggerRef={triggerRef}
+          id={id}
+          variant={variant}
+          open={open}
+          value={value}
+          onChange={handleInputChange}
+          onTriggerClick={() => setOpen(v => !v)}
+        />
         <PopoverContent
           anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          initialFocus={false}>
+          initialFocus={false}
+          finalFocus={false}>
           <Calendar
+            key={open ? 'open' : 'closed'}
+            autoFocus={false}
             mode="single"
             selected={date}
             month={month}
@@ -295,67 +250,70 @@ export function DatePickerDemo() {
   );
 }
 
-/**
- * Date range picker with inputs
- */
 export function DatePickerRange() {
+  return (
+    <div className="flex flex-col gap-6">
+      <DatePickerRangeField />
+      <DatePickerRangeField variant="inline" />
+    </div>
+  );
+}
+
+function DatePickerRangeField({
+  variant = 'default',
+}: Readonly<{ variant?: 'default' | 'inline' }>) {
   const {
     open,
     setOpen,
-    startDateValue,
-    endDateValue,
+    handleOpenChange,
+    startValue,
+    endValue,
     month,
     setMonth,
     range,
-    handleStartInputChange,
-    handleEndInputChange,
+    triggerRef,
+    anchorRef,
+    handleStartChange,
+    handleEndChange,
     handleSelect,
     handleDayClick,
   } = useDateRangePicker();
-  const anchorRef = React.useRef<HTMLDivElement>(null);
+
+  const isInline = variant === 'inline';
+  const id = isInline ? 'date-range-inline-start' : 'date-range-start';
 
   return (
-    <Field className="w-[240px] gap-2">
-      <FieldLabel htmlFor="date-range-start" className="label-regular-primary">
+    <Field className={cn(isInline ? 'w-[220px]' : 'w-[240px]', 'gap-2')}>
+      <FieldLabel
+        htmlFor={id}
+        className={cn('label-regular-primary', isInline && 'mb-[-4px]')}>
         Date Range
       </FieldLabel>
 
-      <Popover open={open} onOpenChange={setOpen}>
-        <InputGroup ref={anchorRef} data-open={open} className="cursor-pointer">
-          <InputGroupInput
-            id="date-range-start"
-            type="date"
-            value={startDateValue}
-            onChange={handleStartInputChange}
-            onClick={() => setOpen(true)}
-            data-empty={startDateValue ? 'false' : 'true'}
-            className={dateInputClassName}
-            aria-label="Start date"
-          />
-          <InputGroupAddon className="order-none">
-            <InputGroupText>
-              <Icon icon="arrow_forward" className="text-[length:inherit]" />
-            </InputGroupText>
-          </InputGroupAddon>
-          <InputGroupInput
-            id="date-range-end"
-            type="date"
-            value={endDateValue}
-            onChange={handleEndInputChange}
-            onClick={() => setOpen(true)}
-            data-empty={endDateValue ? 'false' : 'true'}
-            className={dateInputClassName}
-            aria-label="End date"
-          />
-          <DatePickerCalendarAddon />
-        </InputGroup>
+      <Popover open={open} onOpenChange={handleOpenChange}>
+        <DateInput
+          ref={anchorRef}
+          triggerRef={triggerRef}
+          id={id}
+          mode="range"
+          variant={variant}
+          open={open}
+          value={startValue}
+          endValue={endValue}
+          onChange={handleStartChange}
+          onEndChange={handleEndChange}
+          onTriggerClick={() => setOpen(v => !v)}
+        />
         <PopoverContent
           anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          initialFocus={false}>
+          initialFocus={false}
+          finalFocus={false}>
           <Calendar
+            key={open ? 'open' : 'closed'}
+            autoFocus={false}
             mode="range"
             numberOfMonths={2}
             selected={range}
@@ -372,122 +330,88 @@ export function DatePickerRange() {
   );
 }
 
-/**
- * Disabled date picker
- */
-export function DatePickerDisabled() {
+function DatePickerDisabledField({
+  variant = 'default',
+}: Readonly<{ variant?: 'default' | 'inline' }>) {
+  const isInline = variant === 'inline';
+  const id = isInline ? 'date-input-disabled-inline' : 'date-input-disabled';
+
   return (
-    <Field className="w-[196px] gap-2">
+    <Field className={cn(isInline ? 'w-[140px]' : 'w-[196px]', 'gap-2')}>
       <FieldLabel
-        htmlFor="date-input-disabled"
-        className="label-regular-primary">
+        htmlFor={id}
+        className={cn('label-regular-primary', isInline && 'mb-[-4px]')}>
         Select Date
       </FieldLabel>
 
-      <InputGroup className="cursor-not-allowed">
-        <InputGroupInput
-          id="date-input-disabled"
-          type="date"
-          value=""
-          disabled
-          data-empty="true"
-          className={dateInputClassName}
-          aria-label="Date"
-        />
-        <InputGroupAddon align="inline-end">
-          <span className="flex size-5 cursor-not-allowed items-center justify-center">
-            <Button
-              size="icon-xxs"
-              variant="ghost"
-              aria-label="Expand"
-              disabled>
-              <IconShell size="sm" type="neutral" disabled>
-                <Icon icon="calendar_month" />
-              </IconShell>
-            </Button>
-          </span>
-        </InputGroupAddon>
-      </InputGroup>
+      <DateInput id={id} variant={variant} disabled value="2025-04-16" />
 
       <FieldDescription>Helper text</FieldDescription>
     </Field>
   );
 }
 
-/**
- * Single sized date picker — extracted to avoid hooks in callbacks
- */
+export function DatePickerDisabled() {
+  return <DatePickerDisabledField />;
+}
+
 function DatePickerSized({
   size,
   variant = 'default',
   label,
   labelClass,
   descriptionClass,
-  containerClass,
 }: Readonly<{
   size: 'sm' | 'default' | 'lg';
   variant?: 'default' | 'inline';
   label: string;
   labelClass: string;
   descriptionClass?: string;
-  containerClass?: string;
 }>) {
   const {
     open,
     setOpen,
+    handleOpenChange,
     date,
-    dateValue,
+    value,
     month,
     setMonth,
+    triggerRef,
+    anchorRef,
     handleInputChange,
     handleCalendarSelect,
   } = useDatePicker();
-  const anchorRef = React.useRef<HTMLDivElement>(null);
+  const id = `date-size-${variant}-${size}`;
 
   return (
-    <Field className={cn('gap-2', containerClass)}>
-      <FieldLabel
-        htmlFor={`date-size-${variant}-${size}`}
-        className={labelClass}>
+    <Field
+      className={cn(variant === 'inline' ? 'w-[140px]' : 'w-[196px]', 'gap-2')}>
+      <FieldLabel htmlFor={id} className={labelClass}>
         {label}
       </FieldLabel>
 
-      <Popover open={open} onOpenChange={setOpen}>
-        <InputGroup
+      <Popover open={open} onOpenChange={handleOpenChange}>
+        <DateInput
           ref={anchorRef}
-          variant={variant}
+          triggerRef={triggerRef}
+          id={id}
           size={size}
-          data-open={open}
-          className="cursor-pointer">
-          <InputGroupInput
-            id={`date-size-${variant}-${size}`}
-            type="date"
-            variant={variant}
-            size={size}
-            value={dateValue}
-            onChange={handleInputChange}
-            onClick={() => setOpen(true)}
-            data-empty={dateValue ? 'false' : 'true'}
-            className={dateInputClassName}
-            aria-label={`${label} date`}
-          />
-          <InputGroupAddon align="inline-end">
-            <span
-              className={cn('flex cursor-pointer items-center justify-center')}>
-              <DatePickerCalendarTrigger
-                buttonSize={size === 'lg' ? 'icon' : 'icon-xxs'}
-                iconSize={size === 'lg' ? 'default' : 'sm'}
-              />
-            </span>
-          </InputGroupAddon>
-        </InputGroup>
+          variant={variant}
+          open={open}
+          value={value}
+          onChange={handleInputChange}
+          onTriggerClick={() => setOpen(v => !v)}
+        />
         <PopoverContent
           anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          initialFocus={false}>
+          initialFocus={false}
+          finalFocus={false}>
           <Calendar
+            key={open ? 'open' : 'closed'}
+            autoFocus={false}
             mode="single"
             size={size === 'lg' ? 'lg' : 'default'}
             selected={date}
@@ -505,70 +429,53 @@ function DatePickerSized({
   );
 }
 
-/**
- * Date picker sizes — sm, default, lg
- */
 export function DatePickerSizes() {
   return (
-    <div className="flex flex-col gap-6">
-      <DatePickerSized
-        size="sm"
-        label="Small"
-        labelClass="label-small-primary"
-        descriptionClass="paragraph-small-primary"
-        containerClass="w-[196px]"
-      />
-      <DatePickerSized
-        size="default"
-        label="Default"
-        labelClass="label-regular-primary"
-        containerClass="w-[196px]"
-      />
-      <DatePickerSized
-        size="lg"
-        label="Large"
-        labelClass="label-large-primary"
-        containerClass="w-[196px]"
-      />
+    <div className="flex flex-wrap items-start gap-10">
+      <div className="flex flex-col gap-6">
+        <DatePickerSized
+          size="sm"
+          label="Small"
+          labelClass="label-small-primary"
+          descriptionClass="paragraph-small-primary"
+        />
+        <DatePickerSized
+          size="default"
+          label="Default"
+          labelClass="label-regular-primary"
+        />
+        <DatePickerSized
+          size="lg"
+          label="Large"
+          labelClass="label-large-primary"
+        />
+      </div>
+
+      <div className="flex flex-col gap-6">
+        <DatePickerSized
+          variant="inline"
+          size="sm"
+          label="Small"
+          labelClass="label-small-primary"
+          descriptionClass="paragraph-small-primary"
+        />
+        <DatePickerSized
+          variant="inline"
+          size="default"
+          label="Default"
+          labelClass="label-regular-primary mb-[-4px]"
+        />
+        <DatePickerSized
+          variant="inline"
+          size="lg"
+          label="Large"
+          labelClass="label-large-primary mb-[-4px]"
+        />
+      </div>
     </div>
   );
 }
 
-/**
- * Inline variant date picker sizes — sm, default, lg
- */
-export function DatePickerInlineSizes() {
-  return (
-    <div className="flex flex-col gap-6">
-      <DatePickerSized
-        variant="inline"
-        size="sm"
-        label="Small"
-        labelClass="label-small-primary"
-        descriptionClass="paragraph-small-primary"
-        containerClass="w-[196px]"
-      />
-      <DatePickerSized
-        variant="inline"
-        size="default"
-        label="Default"
-        labelClass="label-regular-primary mb-[-4px]"
-        containerClass="w-[196px]"
-      />
-      <DatePickerSized
-        variant="inline"
-        size="lg"
-        label="Large"
-        labelClass="label-large-primary mb-[-4px]"
-        containerClass="w-[196px]"
-      />
-    </div>
-  );
-}
-
-/**
- * Single validation date picker with calendar
- */
 function DatePickerValidationItem({
   id,
   label,
@@ -576,6 +483,7 @@ function DatePickerValidationItem({
   messageClass,
   borderClass,
   isError,
+  variant = 'default',
 }: Readonly<{
   id: string;
   label: string;
@@ -583,50 +491,55 @@ function DatePickerValidationItem({
   messageClass: string;
   borderClass: string;
   isError: boolean;
+  variant?: 'default' | 'inline';
 }>) {
   const {
     open,
     setOpen,
+    handleOpenChange,
     date,
-    dateValue,
+    value,
     month,
     setMonth,
+    triggerRef,
+    anchorRef,
     handleInputChange,
     handleCalendarSelect,
   } = useDatePicker();
-  const anchorRef = React.useRef<HTMLDivElement>(null);
+
+  const isInline = variant === 'inline';
 
   return (
-    <Field className="w-[196px] gap-2">
-      <FieldLabel htmlFor={`date-${id}`} className="label-regular-primary">
+    <Field className={cn(isInline ? 'w-[140px]' : 'w-[196px]', 'gap-2')}>
+      <FieldLabel
+        htmlFor={`date-${id}`}
+        className={cn('label-regular-primary')}>
         {label}
       </FieldLabel>
 
-      <Popover open={open} onOpenChange={setOpen}>
-        <InputGroup
+      <Popover open={open} onOpenChange={handleOpenChange}>
+        <DateInput
           ref={anchorRef}
-          data-open={open}
-          className={cn('cursor-pointer', borderClass)}>
-          <InputGroupInput
-            id={`date-${id}`}
-            type="date"
-            value={dateValue}
-            onChange={handleInputChange}
-            onClick={() => setOpen(true)}
-            data-empty={dateValue ? 'false' : 'true'}
-            aria-invalid={isError}
-            className={dateInputClassName}
-            aria-label={`${label} date`}
-          />
-          <DatePickerCalendarAddon />
-        </InputGroup>
+          triggerRef={triggerRef}
+          id={`date-${id}`}
+          variant={variant}
+          open={open}
+          value={value}
+          onChange={handleInputChange}
+          onTriggerClick={() => setOpen(v => !v)}
+          aria-invalid={isError || undefined}
+          className={cn(borderClass || undefined)}
+        />
         <PopoverContent
           anchor={anchorRef}
           className="w-auto overflow-hidden border-none p-0"
           align="start"
           sideOffset={4}
-          initialFocus={false}>
+          initialFocus={false}
+          finalFocus={false}>
           <Calendar
+            key={open ? 'open' : 'closed'}
+            autoFocus={false}
             mode="single"
             selected={date}
             month={month}
@@ -641,170 +554,95 @@ function DatePickerValidationItem({
   );
 }
 
-/**
- * Date picker with validation states — error, warning, success
- */
+const validationStates = [
+  {
+    key: 'error',
+    label: 'Error',
+    message: 'Feedback',
+    messageClass: 'text-status-error',
+    borderClass: '',
+    isError: true,
+  },
+  {
+    key: 'warning',
+    label: 'Warning',
+    message: 'Feedback',
+    messageClass: 'text-status-warning',
+    borderClass: 'border-stroke-status-warning',
+    isError: false,
+  },
+  {
+    key: 'success',
+    label: 'Success',
+    message: 'Feedback',
+    messageClass: 'text-status-success',
+    borderClass: 'border-stroke-status-success',
+    isError: false,
+  },
+] as const;
+
 export function DatePickerValidation() {
   return (
-    <div className="flex flex-col gap-6">
-      <DatePickerValidationItem
-        id="error"
-        label="Error"
-        message="Feedback message here"
-        messageClass="text-status-error"
-        borderClass=""
-        isError
-      />
-      <DatePickerValidationItem
-        id="warning"
-        label="Warning"
-        message="Feedback message here"
-        messageClass="text-status-warning"
-        borderClass="border border-status-warning"
-        isError={false}
-      />
-      <DatePickerValidationItem
-        id="success"
-        label="Success"
-        message="Feedback message here"
-        messageClass="text-status-success"
-        borderClass="border border-status-success"
-        isError={false}
-      />
+    <div className="flex flex-wrap items-start gap-10">
+      <div className="flex flex-col gap-6">
+        {validationStates.map(state => (
+          <DatePickerValidationItem
+            key={state.key}
+            id={state.key}
+            label={state.label}
+            message={state.message}
+            messageClass={state.messageClass}
+            borderClass={state.borderClass}
+            isError={state.isError}
+          />
+        ))}
+      </div>
+
+      <div className="flex flex-col gap-6">
+        {validationStates.map(state => (
+          <DatePickerValidationItem
+            key={`inline-${state.key}`}
+            id={`inline-${state.key}`}
+            variant="inline"
+            label={state.label}
+            message={state.message}
+            messageClass={state.messageClass}
+            borderClass={state.borderClass}
+            isError={state.isError}
+          />
+        ))}
+      </div>
     </div>
   );
 }
-
-/**
- * Inline variant date range picker
- */
-export function DatePickerRangeInline() {
-  const {
-    open,
-    setOpen,
-    startDateValue,
-    endDateValue,
-    month,
-    setMonth,
-    range,
-    handleStartInputChange,
-    handleEndInputChange,
-    handleSelect,
-    handleDayClick,
-  } = useDateRangePicker();
-  const anchorRef = React.useRef<HTMLDivElement>(null);
-
-  return (
-    <Field className="w-[240px] gap-2">
-      <FieldLabel
-        htmlFor="date-range-inline-start"
-        className="label-regular-primary mb-[-4px]">
-        Date Range
-      </FieldLabel>
-
-      <Popover open={open} onOpenChange={setOpen}>
-        <InputGroup
-          ref={anchorRef}
-          variant="inline"
-          data-open={open}
-          className="cursor-pointer">
-          <InputGroupInput
-            id="date-range-inline-start"
-            type="date"
-            variant="inline"
-            value={startDateValue}
-            onChange={handleStartInputChange}
-            onClick={() => setOpen(true)}
-            data-empty={startDateValue ? 'false' : 'true'}
-            className={dateInputClassName}
-            aria-label="Start date"
-          />
-          <InputGroupAddon className="order-none">
-            <InputGroupText>
-              <Icon icon="arrow_forward" className="text-[length:inherit]" />
-            </InputGroupText>
-          </InputGroupAddon>
-          <InputGroupInput
-            id="date-range-inline-end"
-            type="date"
-            variant="inline"
-            value={endDateValue}
-            onChange={handleEndInputChange}
-            onClick={() => setOpen(true)}
-            data-empty={endDateValue ? 'false' : 'true'}
-            className={dateInputClassName}
-            aria-label="End date"
-          />
-          <DatePickerCalendarAddon />
-        </InputGroup>
-        <PopoverContent
-          anchor={anchorRef}
-          className="w-auto overflow-hidden border-none p-0"
-          align="start"
-          sideOffset={4}
-          initialFocus={false}>
-          <Calendar
-            mode="range"
-            numberOfMonths={2}
-            selected={range}
-            month={month}
-            onMonthChange={setMonth}
-            onSelect={handleSelect}
-            onDayClick={handleDayClick}
-          />
-        </PopoverContent>
-      </Popover>
-
-      <FieldDescription>Helper text</FieldDescription>
-    </Field>
-  );
-}
-
-// ============================================================================
-// Example Metadata
-// ============================================================================
 
 export const examples = [
   {
     name: 'DatePickerDemo',
     title: 'Single Date',
-    description: 'Date picker with input field and calendar popup.',
+    description: 'Default single date with Popover and Calendar.',
   },
   {
     name: 'DatePickerRange',
     title: 'Date Range',
-    description: 'Date range picker with start and end date inputs.',
+    description: 'Default and inline range pickers stacked.',
   },
   {
     name: 'DatePickerSizes',
     title: 'Sizes',
-    description: 'Date picker in small, default, and large sizes.',
-  },
-  {
-    name: 'DatePickerInlineSizes',
-    title: 'Inline Sizes',
-    description: 'Inline date picker in small, default, and large sizes.',
-  },
-  {
-    name: 'DatePickerRangeInline',
-    title: 'Range Inline',
-    description: 'Date range picker with inline variant.',
+    description: 'Default and inline sizes side by side.',
   },
   {
     name: 'DatePickerValidation',
     title: 'Validation',
-    description: 'Date picker with error, warning, and success states.',
+    description: 'Default and inline error, warning, and success states.',
   },
   {
     name: 'DatePickerDisabled',
     title: 'Disabled',
-    description: 'Date picker in a disabled state.',
+    description: 'Disabled date picker.',
   },
 ];
-
-// ============================================================================
-// Legacy Format (for backwards compatibility)
-// ============================================================================
 
 export const datePicker = {
   name: 'date-picker',
@@ -812,8 +650,6 @@ export const datePicker = {
     'Single Date': <DatePickerDemo />,
     'Date Range': <DatePickerRange />,
     Sizes: <DatePickerSizes />,
-    'Inline Sizes': <DatePickerInlineSizes />,
-    'Range Inline': <DatePickerRangeInline />,
     Validation: <DatePickerValidation />,
     Disabled: <DatePickerDisabled />,
   },
