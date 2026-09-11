@@ -181,11 +181,6 @@
         {
           "path": "src/components/ui/date-input.tsx",
           "type": "registry:ui"
-        },
-        {
-          "path": "src/app/demo/[name]/ui/date-input.tsx",
-          "type": "registry:example",
-          "target": ""
         }
       ]
     },
