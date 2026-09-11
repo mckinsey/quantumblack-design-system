@@ -1,5 +1,5 @@
-import { cleanup, render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { DateInput } from '@/components/ui/date-input';
 
@@ -44,5 +44,57 @@ describe(`${componentName} — structure`, () => {
     expect(
       screen.getByRole('button', { name: 'Change date, 2025-04-01' }),
     ).toBeDisabled();
+  });
+});
+
+describe(`${componentName} — interactions`, () => {
+  it('calls onTriggerClick from the choose-date trigger', () => {
+    const onTriggerClick = vi.fn();
+
+    render(<DateInput value="2025-04-01" onTriggerClick={onTriggerClick} />);
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Change date, 2025-04-01' }),
+    );
+
+    expect(onTriggerClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('calls onChange when the start date changes', () => {
+    const onChange = vi.fn();
+
+    render(
+      <DateInput
+        value="2025-04-01"
+        onChange={onChange}
+        aria-label="Start date"
+      />,
+    );
+
+    fireEvent.change(screen.getByLabelText('Start date'), {
+      target: { value: '2025-04-15' },
+    });
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+  });
+
+  it('calls onEndChange when the end date changes', () => {
+    const onEndChange = vi.fn();
+
+    render(
+      <DateInput
+        mode="range"
+        value="2025-04-01"
+        endValue="2025-04-16"
+        onEndChange={onEndChange}
+        aria-label="Start date"
+      />,
+    );
+
+    fireEvent.change(screen.getByLabelText('End date'), {
+      target: { value: '2025-04-20' },
+    });
+
+    expect(onEndChange).toHaveBeenCalledTimes(1);
   });
 });
