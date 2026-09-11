@@ -50,6 +50,8 @@ const inputGroupVariants = cva(
           inputVariantStyles.inline.base,
           inputVariantStyles.inline.border,
           inputVariantStyles.inline.hover,
+          'has-[[data-slot=input-group-control]:disabled]:cursor-not-allowed',
+          'has-[[data-slot=input-group-control]:disabled]:hover:border-b-stroke-tertiary',
           ...inputGroupInlineFocusStyles,
           ...inputGroupInlineErrorStyles,
         ],
@@ -104,28 +106,33 @@ export interface InputGroupProps
     React.ComponentProps<'div'>,
     VariantProps<typeof inputGroupVariants> {}
 
-function InputGroup({ className, variant, size, ...props }: InputGroupProps) {
-  const resolvedSize = size ?? 'default';
+const InputGroup = React.forwardRef<HTMLDivElement, InputGroupProps>(
+  ({ className, variant, size, ...props }, ref) => {
+    const resolvedSize = size ?? 'default';
 
-  return (
-    <InputGroupSizeContext.Provider value={resolvedSize}>
-      <div
-        data-slot="input-group"
-        data-variant={variant}
-        data-size={resolvedSize}
-        className={cn(
-          inputGroupVariants({ variant, size: resolvedSize }),
-          'has-[>[data-align=inline-start]]:[&>input]:pl-2',
-          'has-[>[data-align=inline-end]]:[&>input]:pr-2',
-          'has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-start]]:[&>input]:pb-3',
-          'has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-3',
-          className,
-        )}
-        {...props}
-      />
-    </InputGroupSizeContext.Provider>
-  );
-}
+    return (
+      <InputGroupSizeContext.Provider value={resolvedSize}>
+        <div
+          ref={ref}
+          data-slot="input-group"
+          data-variant={variant}
+          data-size={resolvedSize}
+          className={cn(
+            inputGroupVariants({ variant, size: resolvedSize }),
+            'has-[>[data-align=inline-start]]:[&>input]:pl-2',
+            'has-[>[data-align=inline-end]]:[&>input]:pr-2',
+            'has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-start]]:[&>input]:pb-3',
+            'has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-3',
+            className,
+          )}
+          {...props}
+        />
+      </InputGroupSizeContext.Provider>
+    );
+  },
+);
+
+InputGroup.displayName = 'InputGroup';
 
 const inputGroupAddonVariants = cva(
   "text-fg-secondary paragraph-regular-primary flex h-auto cursor-text items-center justify-center gap-2 py-1 select-none [&>svg:not([class*='size-'])]:size-4 [&>kbd]:rounded-[calc(var(--radius)-5px)] group-data-[disabled=true]/input-group:opacity-50",
