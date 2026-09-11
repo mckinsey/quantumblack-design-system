@@ -100,6 +100,7 @@ export function DateInputRange() {
         endValue={end}
         onChange={e => setStart(e.target.value)}
         onEndChange={e => setEnd(e.target.value)}
+        aria-label="Start date"
       />
 
       <FieldDescription className={description}>Helper text</FieldDescription>
