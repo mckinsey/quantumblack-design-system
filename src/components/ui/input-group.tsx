@@ -50,6 +50,8 @@ const inputGroupVariants = cva(
           inputVariantStyles.inline.base,
           inputVariantStyles.inline.border,
           inputVariantStyles.inline.hover,
+          'has-[[data-slot=input-group-control]:disabled]:cursor-not-allowed',
+          'has-[[data-slot=input-group-control]:disabled]:hover:border-b-stroke-tertiary',
           ...inputGroupInlineFocusStyles,
           ...inputGroupInlineErrorStyles,
         ],
