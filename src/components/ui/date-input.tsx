@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/input-group';
 import { cn } from '@/lib/utils';
 
-const dateInputVariants = cva('', {
+const dateInputVariants = cva('shrink-0 gap-1', {
   variants: {
     mode: {
       single: '',
@@ -31,21 +31,21 @@ const dateInputVariants = cva('', {
     },
   },
   compoundVariants: [
-    { mode: 'single', variant: 'inline', class: 'min-w-[140px]' },
-    { mode: 'single', variant: 'default', class: 'min-w-[196px]' },
+    { mode: 'single', variant: 'inline', class: 'w-[140px] min-w-[140px]' },
+    { mode: 'single', variant: 'default', class: 'w-[196px] min-w-[196px]' },
     {
       mode: 'range',
       variant: 'inline',
       size: ['sm', 'default'],
-      class: 'min-w-[220px]',
+      class: 'w-[220px] min-w-[220px]',
     },
     {
       mode: 'range',
       variant: 'default',
       size: ['sm', 'default'],
-      class: 'min-w-[240px]',
+      class: 'w-[240px] min-w-[240px]',
     },
-    { mode: 'range', size: 'lg', class: 'min-w-[280px]' },
+    { mode: 'range', size: 'lg', class: 'w-[280px] min-w-[280px]' },
   ],
   defaultVariants: {
     mode: 'single',
@@ -86,6 +86,9 @@ const dateNativeInputClassName = cn(
   'data-[empty=true]:text-fg-tertiary',
   'data-[empty=true]:focus:text-fg-primary',
   'data-[empty=false]:text-fg-primary',
+  'disabled:cursor-not-allowed disabled:text-fg-disabled',
+  'disabled:data-[empty=true]:text-fg-disabled',
+  'disabled:data-[empty=false]:text-fg-disabled',
   dateSegmentFocusClassName,
 );
 
@@ -103,18 +106,16 @@ function chooseDateLabel(
   return value ? `Change date, ${value}` : 'Choose date';
 }
 
-type NativeDateInputProps = Pick<
+type NativeDateInputProps = Omit<
   React.ComponentProps<'input'>,
-  | 'min'
-  | 'max'
-  | 'required'
-  | 'name'
-  | 'disabled'
-  | 'id'
-  | 'autoFocus'
-  | 'readOnly'
-  | 'onBlur'
-  | 'onFocus'
+  | keyof React.ComponentProps<'div'>
+  | 'type'
+  | 'value'
+  | 'defaultValue'
+  | 'onChange'
+  | 'size'
+  | 'checked'
+  | 'defaultChecked'
 >;
 
 type DateInputProps = Omit<
@@ -132,7 +133,6 @@ type DateInputProps = Omit<
     onEndChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onTriggerClick?: () => void;
     triggerRef?: React.Ref<HTMLButtonElement>;
-    'aria-label'?: string;
   };
 
 const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
@@ -168,6 +168,12 @@ const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
     const iconSize = size === 'lg' ? 'default' : 'sm';
     const btnSize = size === 'lg' ? 'icon-sm' : 'icon-xxs';
 
+    const handleFieldClick = () => {
+      if (disabled || readOnly || open) return;
+
+      onTriggerClick?.();
+    };
+
     return (
       <InputGroup
         ref={ref}
@@ -198,6 +204,7 @@ const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
           readOnly={readOnly}
           onBlur={onBlur}
           onFocus={onFocus}
+          onClick={handleFieldClick}
           data-empty={value ? 'false' : 'true'}
           aria-invalid={ariaInvalid}
           aria-label={ariaLabel}
@@ -208,7 +215,11 @@ const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
           <>
             <InputGroupAddon className="order-none">
               <InputGroupText>
-                <Icon icon="arrow_forward" className="text-[length:inherit]" />
+                <Icon
+                  icon="arrow_forward"
+                  size="sm"
+                  className="text-[length:inherit]"
+                />
               </InputGroupText>
             </InputGroupAddon>
 
@@ -227,6 +238,7 @@ const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
               readOnly={readOnly}
               onBlur={onBlur}
               onFocus={onFocus}
+              onClick={handleFieldClick}
               data-empty={endValue ? 'false' : 'true'}
               aria-invalid={ariaInvalid}
               aria-label="End date"
@@ -235,7 +247,9 @@ const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
           </>
         ) : null}
 
-        <InputGroupAddon align="inline-end">
+        <InputGroupAddon
+          align="inline-end"
+          className="group-data-[disabled=true]/input-group:opacity-100">
           <InputGroupButton
             ref={triggerRef}
             type="button"
