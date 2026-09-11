@@ -45,7 +45,9 @@ describe(`${componentName} — structure`, () => {
   it('renders range end input in range mode', () => {
     render(<DateInput mode="range" value="2025-04-01" endValue="2025-04-16" />);
 
-    expect(screen.getByLabelText('Start date')).toBeInTheDocument();
+    const inputs = document.querySelectorAll('input[type="date"]');
+
+    expect(inputs).toHaveLength(2);
     expect(screen.getByLabelText('End date')).toBeInTheDocument();
   });
 
