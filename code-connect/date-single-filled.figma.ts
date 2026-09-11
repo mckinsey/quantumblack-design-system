@@ -84,12 +84,7 @@ const connectedCalendar =
     : null;
 
 const calendarSize = size === 'lg' ? 'lg' : 'default';
-const calendarFallback =
-  calendarInst?.type === 'INSTANCE' && !connectedCalendar
-    ? figma.code`<Calendar mode="single" size="${calendarSize}" />`
-    : figma.code``;
-
-const hasCalendar = calendarInst?.type === 'INSTANCE';
+const calendarFallback = figma.code`<Calendar mode="single" size="${calendarSize}" />`;
 
 const dateInput = figma.code`
   <DateInput
@@ -101,37 +96,33 @@ const dateInput = figma.code`
   />
 `;
 
-const body = hasCalendar
-  ? figma.code`
-      <Popover defaultOpen>
-        ${dateInput}
-        <PopoverContent
-          className="w-auto overflow-hidden border-none p-0"
-          align="start"
-          sideOffset={4}>
-          ${
-            connectedCalendar
-              ? figma.helpers.react.renderChildren(connectedCalendar)
-              : calendarFallback
-          }
-        </PopoverContent>
-      </Popover>
-    `
-  : dateInput;
+const popoverOpenProp = open ? ' defaultOpen' : '';
+
+const body = figma.code`
+  <Popover${popoverOpenProp}>
+    ${dateInput}
+    <PopoverContent
+      className="w-auto overflow-hidden border-none p-0"
+      align="start"
+      sideOffset={4}>
+      ${
+        connectedCalendar
+          ? figma.helpers.react.renderChildren(connectedCalendar)
+          : calendarFallback
+      }
+    </PopoverContent>
+  </Popover>
+`;
 
 const example = hasFooter
   ? figma.code`<FieldSet className="gap-2">${body}${footer}</FieldSet>`
   : body;
 
-const baseImports = ['import { DateInput } from "@/components/ui/date-input"'];
-
-const pickerImports = hasCalendar
-  ? [
-      'import { Calendar } from "@/components/ui/calendar"',
-      ...baseImports,
-      'import { Popover, PopoverContent } from "@/components/ui/popover"',
-    ]
-  : baseImports;
+const pickerImports = [
+  'import { Calendar } from "@/components/ui/calendar"',
+  'import { DateInput } from "@/components/ui/date-input"',
+  'import { Popover, PopoverContent } from "@/components/ui/popover"',
+];
 
 const imports = hasFooter
   ? showErrorFooter
