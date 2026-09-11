@@ -48,15 +48,13 @@ const statusInst = instance.findInstance('Elements/Status-Messages', {
 
 const statusMessage =
   statusInst?.type === 'INSTANCE'
-    ? JSON.stringify(
-        statusInst.getString('statusMessage') || 'Feedback message',
-      )
+    ? JSON.stringify(statusInst.getString('statusMessage') || 'Feedback')
     : null;
 
 const showErrorFooter = Boolean(invalid && showFeedback && statusMessage);
 
 const footer = showErrorFooter
-  ? figma.code`<FieldError>{${statusMessage}}</FieldError>`
+  ? figma.code`<FieldError size="${size}">{${statusMessage}}</FieldError>`
   : figma.code``;
 
 const hasFooter = showErrorFooter;

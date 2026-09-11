@@ -55,9 +55,7 @@ const helperText =
     : null;
 const statusMessage =
   statusInst?.type === 'INSTANCE'
-    ? JSON.stringify(
-        statusInst.getString('statusMessage') || 'Feedback message',
-      )
+    ? JSON.stringify(statusInst.getString('statusMessage') || 'Feedback')
     : null;
 
 const showErrorFooter = Boolean(invalid && showFeedback && statusMessage);
@@ -66,9 +64,9 @@ const showHintFooter = Boolean(
 );
 
 const footer = showErrorFooter
-  ? figma.code`<FieldError>{${statusMessage}}</FieldError>`
+  ? figma.code`<FieldError size="${size}">{${statusMessage}}</FieldError>`
   : showHintFooter
-    ? figma.code`<FieldDescription>{${helperText}}</FieldDescription>`
+    ? figma.code`<FieldDescription size="${size}">{${helperText}}</FieldDescription>`
     : figma.code``;
 
 const hasFooter = showErrorFooter || showHintFooter;
