@@ -397,10 +397,9 @@ function DateFieldRow({
             onChange(e.target.value);
             syncMonthFromValue(e.target.value);
           }}
-          onTriggerClick={() => setOpen(v => !v)}
+          onTriggerClick={() => handleOpenChange(!open)}
           onBlur={onBlur}
           aria-invalid={invalid || undefined}
-          aria-label={label}
         />
         <PopoverContent
           anchor={anchorRef}

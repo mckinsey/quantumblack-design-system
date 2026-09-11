@@ -168,6 +168,7 @@
       "type": "registry:ui",
       "title": "Date Input",
       "description": "Native type=date field with optional range mode and calendar trigger. Built on InputGroup.",
+      "dependencies": ["class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
