@@ -241,11 +241,12 @@ TimeInputRoot.displayName = 'TimeInputRoot';
 
 export interface TimeSegmentInputProps extends Omit<
   React.ComponentProps<'input'>,
-  'value' | 'onChange' | 'min' | 'max' | 'step' | 'type' | 'size'
+  'value' | 'onChange' | 'min' | 'max' | 'step' | 'type' | 'size' | 'role'
 > {
   value?: number | null;
   onChange?: (value: number | null) => void;
   onComplete?: () => void;
+  onOpen?: () => void;
   onNavigateLeft?: () => void;
   onNavigateRight?: () => void;
   min?: number;
@@ -262,6 +263,7 @@ const TimeSegmentInput = React.forwardRef<
       value,
       onChange,
       onComplete,
+      onOpen,
       onNavigateLeft,
       onNavigateRight,
       min = 0,
@@ -273,6 +275,7 @@ const TimeSegmentInput = React.forwardRef<
       onFocus,
       onBlur,
       onKeyDown,
+      'aria-invalid': ariaInvalid,
       ...props
     },
     ref,
@@ -293,7 +296,6 @@ const TimeSegmentInput = React.forwardRef<
         const digit = Number.parseInt(bufferRef.current, 10);
         onChange?.(clamp(digit));
 
-        // Auto-complete if first digit makes a valid 2-digit value impossible
         if (digit * 10 > max) {
           bufferRef.current = '';
           onComplete?.();
@@ -361,6 +363,11 @@ const TimeSegmentInput = React.forwardRef<
           break;
         }
 
+        case 'Enter':
+          e.preventDefault();
+          onOpen?.();
+          break;
+
         case 'Backspace':
         case 'Delete':
           e.preventDefault();
@@ -381,14 +388,22 @@ const TimeSegmentInput = React.forwardRef<
       onBlur?.(e);
     };
 
+    const hasValue = value !== null && value !== undefined;
+
     return (
       <input
         ref={ref}
         type="text"
         inputMode="numeric"
         maxLength={2}
+        role="spinbutton"
+        aria-valuemin={min}
+        aria-valuemax={max}
+        aria-valuenow={hasValue ? value : undefined}
+        aria-valuetext={hasValue ? displayValue : undefined}
+        aria-invalid={ariaInvalid}
         data-slot="time-segment"
-        data-empty={value === null || value === undefined ? '' : undefined}
+        data-empty={hasValue ? undefined : ''}
         value={displayValue}
         placeholder={placeholder}
         disabled={disabled}
@@ -594,6 +609,7 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
     const minuteStep = Math.max(1, Math.floor(stepSeconds / 60));
 
     const separatorClass = size === 'lg' ? 'w-2' : 'w-1';
+    const invalid = validationState === 'error' || undefined;
 
     return (
       <TimeInputRoot
@@ -614,10 +630,12 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
             disabled={disabled}
             onComplete={() => minuteRef.current?.focus()}
             onNavigateRight={() => minuteRef.current?.focus()}
+            onOpen={onTriggerClick}
             id={id}
             name={name ? `${name}-hour` : undefined}
             required={required}
             autoFocus={autoFocus}
+            aria-invalid={invalid}
             className={segmentWidthMap[size]}
           />
 
@@ -633,8 +651,10 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
             placeholder={placeholderMinute}
             disabled={disabled}
             onNavigateLeft={() => hourRef.current?.focus()}
+            onOpen={onTriggerClick}
             name={name ? `${name}-minute` : undefined}
             required={required}
+            aria-invalid={invalid}
             className={segmentWidthMap[size]}
           />
         </div>
