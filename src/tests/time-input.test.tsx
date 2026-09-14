@@ -1,0 +1,98 @@
+import { cleanup, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+
+import { exampleComponentMaps } from '@/app/demo/[name]/index';
+import { Renderer } from '@/app/demo/[name]/renderer';
+import {
+  TimeInput,
+  TimeInputRoot,
+  TimeInputTrigger,
+  TimeSegmentInput,
+  TimeSeparator,
+} from '@/components/ui/time-input';
+
+const componentName = 'time-input';
+
+afterEach(() => {
+  cleanup();
+});
+
+describe(`${componentName} — all examples render`, () => {
+  it.each(Object.entries(exampleComponentMaps[componentName]))(
+    'renders "%s" without crashing',
+    (_, Example) => {
+      expect(() =>
+        render(
+          <Renderer>
+            <Example />
+          </Renderer>,
+        ),
+      ).not.toThrow();
+    },
+  );
+});
+
+describe(`${componentName} — structure & interaction`, () => {
+  it('exposes data-slot on root, segments, separator, and trigger', () => {
+    const { container } = render(
+      <TimeInputRoot>
+        <TimeSegmentInput aria-label="hour" value={1} onChange={() => {}} />
+        <TimeSeparator />
+        <TimeSegmentInput aria-label="minute" value={5} onChange={() => {}} />
+        <TimeInputTrigger />
+      </TimeInputRoot>,
+    );
+
+    for (const slot of [
+      'time-input-root',
+      'time-segment',
+      'time-separator',
+      'time-input-trigger',
+    ]) {
+      expect(
+        container.querySelector(`[data-slot="${slot}"]`),
+      ).toBeInTheDocument();
+    }
+  });
+
+  it('renders spinbuttons and clock trigger from TimeInput', () => {
+    render(<TimeInput hour={10} minute={30} />);
+
+    expect(screen.getAllByRole('spinbutton')).toHaveLength(2);
+    expect(
+      screen.getByRole('button', { name: 'Choose time' }),
+    ).toBeInTheDocument();
+  });
+
+  it('exposes dialog popup state on the clock trigger', () => {
+    const { rerender } = render(<TimeInput hour={10} minute={30} open={false} />);
+    const trigger = screen.getByRole('button', { name: 'Choose time' });
+
+    expect(trigger).toHaveAttribute('aria-haspopup', 'dialog');
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
+
+    rerender(<TimeInput hour={10} minute={30} open />);
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  it('disables segments and trigger when disabled', () => {
+    render(<TimeInput hour={10} minute={30} disabled />);
+
+    for (const spin of screen.getAllByRole('spinbutton')) {
+      expect(spin).toBeDisabled();
+    }
+
+    expect(screen.getByRole('button', { name: 'Choose time' })).toBeDisabled();
+  });
+
+  it('calls onTriggerClick from the clock button', async () => {
+    const user = userEvent.setup();
+    const onTriggerClick = vi.fn();
+
+    render(<TimeInput hour={10} minute={30} onTriggerClick={onTriggerClick} />);
+
+    await user.click(screen.getByRole('button', { name: 'Choose time' }));
+    expect(onTriggerClick).toHaveBeenCalledOnce();
+  });
+});
