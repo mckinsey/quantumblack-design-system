@@ -211,6 +211,7 @@
       "type": "registry:ui",
       "title": "Time Input",
       "description": "Time input with segment-based hours and minutes entry.",
+      "dependencies": ["class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -236,10 +237,11 @@
       "type": "registry:ui",
       "title": "Time Picker",
       "description": "Scrollable list of time options for building time pickers.",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/dropdown-menu.json",
+        "__REGISTRY_URL__/r/popover.json",
         "__REGISTRY_URL__/r/field.json",
         "__REGISTRY_URL__/r/scroll-area.json",
         "__REGISTRY_URL__/r/time-input.json"
