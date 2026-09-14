@@ -364,8 +364,10 @@ const TimeSegmentInput = React.forwardRef<
         }
 
         case 'Enter':
-          e.preventDefault();
-          onOpen?.();
+          if (onOpen) {
+            e.preventDefault();
+            onOpen();
+          }
           break;
 
         case 'Backspace':
@@ -584,6 +586,7 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
       disabled,
       id,
       autoFocus,
+      'aria-invalid': ariaInvalidProp,
       ...divProps
     },
     ref,
@@ -609,7 +612,11 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
     const minuteStep = Math.max(1, Math.floor(stepSeconds / 60));
 
     const separatorClass = size === 'lg' ? 'w-2' : 'w-1';
-    const invalid = validationState === 'error' || undefined;
+    const invalid =
+      validationState === 'error' ||
+      ariaInvalidProp === true ||
+      ariaInvalidProp === 'true' ||
+      undefined;
 
     return (
       <TimeInputRoot
@@ -618,6 +625,7 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
         size={size}
         disabled={disabled}
         validationState={validationState}
+        aria-invalid={ariaInvalidProp}
         {...divProps}>
         <div>
           <TimeSegmentInput
@@ -635,6 +643,7 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
             name={name ? `${name}-hour` : undefined}
             required={required}
             autoFocus={autoFocus}
+            aria-label="Hours"
             aria-invalid={invalid}
             className={segmentWidthMap[size]}
           />
@@ -654,6 +663,7 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
             onOpen={onTriggerClick}
             name={name ? `${name}-minute` : undefined}
             required={required}
+            aria-label="Minutes"
             aria-invalid={invalid}
             className={segmentWidthMap[size]}
           />
