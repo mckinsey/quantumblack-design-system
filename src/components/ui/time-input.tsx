@@ -203,6 +203,8 @@ const TimeInputRoot = React.forwardRef<HTMLDivElement, TimeInputRootProps>(
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.defaultPrevented) return;
+
       if (e.key === 'Enter' || e.key === ' ') {
         const root = e.currentTarget;
         const emptySegment = root.querySelector<HTMLInputElement>(
@@ -366,6 +368,7 @@ const TimeSegmentInput = React.forwardRef<
         case 'Enter':
           if (onOpen) {
             e.preventDefault();
+            e.stopPropagation();
             onOpen();
           }
           break;
