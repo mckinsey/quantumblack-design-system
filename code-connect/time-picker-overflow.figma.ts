@@ -21,12 +21,12 @@ const sizeProp = size === 'default' ? '' : ` size="${size}"`;
 export default {
   example: figma.code`
     <TimePickerListContent${sizeProp}>
-      <TimePickerList${sizeProp}>
+      <TimePickerList${sizeProp} aria-label="Hours">
         <TimePickerItem value="0"${sizeProp}>00</TimePickerItem>
         <TimePickerItem value="1"${sizeProp}>01</TimePickerItem>
         <TimePickerItem value="2"${sizeProp}>02</TimePickerItem>
       </TimePickerList>
-      <TimePickerList${sizeProp}>
+      <TimePickerList${sizeProp} aria-label="Minutes">
         <TimePickerItem value="0"${sizeProp}>00</TimePickerItem>
         <TimePickerItem value="5"${sizeProp}>05</TimePickerItem>
         <TimePickerItem value="10"${sizeProp}>10</TimePickerItem>
