@@ -545,6 +545,7 @@ export interface TimeInputProps
   onHourChange?: (hour: number | null) => void;
   onMinuteChange?: (minute: number | null) => void;
   onTriggerClick?: () => void;
+  open?: boolean;
   validationState?: ValidationState;
   placeholderHour?: string;
   placeholderMinute?: string;
@@ -578,6 +579,7 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
       onHourChange,
       onMinuteChange,
       onTriggerClick,
+      open,
       validationState,
       placeholderHour = 'hh',
       placeholderMinute = 'mm',
@@ -674,6 +676,8 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
         <TimeInputTrigger
           size={size}
           disabled={disabled}
+          aria-haspopup="dialog"
+          aria-expanded={open ?? false}
           onClick={onTriggerClick}
         />
       </TimeInputRoot>

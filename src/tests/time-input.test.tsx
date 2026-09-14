@@ -65,6 +65,17 @@ describe(`${componentName} — structure & interaction`, () => {
     ).toBeInTheDocument();
   });
 
+  it('exposes dialog popup state on the clock trigger', () => {
+    const { rerender } = render(<TimeInput hour={10} minute={30} open={false} />);
+    const trigger = screen.getByRole('button', { name: 'Choose time' });
+
+    expect(trigger).toHaveAttribute('aria-haspopup', 'dialog');
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
+
+    rerender(<TimeInput hour={10} minute={30} open />);
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
+  });
+
   it('disables segments and trigger when disabled', () => {
     render(<TimeInput hour={10} minute={30} disabled />);
 
