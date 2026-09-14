@@ -156,14 +156,15 @@ function TimePickerExample({
           onHourChange={setSelectedHour}
           onMinuteChange={setSelectedMinute}
           onTriggerClick={() => setOpen(prev => !prev)}
-          data-open={open}
+          open={open}
           className={variant === 'inline' ? undefined : 'w-fit'}
         />
 
         <TimePickerListContent
           size={pickerSize}
           className="z-10"
-          anchor={anchorRef}>
+          anchor={anchorRef}
+          finalFocus={false}>
           <TimePickerColumn
             label="Hours"
             value={selectedHour}

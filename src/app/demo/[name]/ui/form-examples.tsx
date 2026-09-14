@@ -507,14 +507,15 @@ function TimeFieldRow({
           onBlur={onBlur}
           onTriggerClick={() => setOpen(prev => !prev)}
           aria-invalid={invalid}
-          data-open={open}
+          open={open}
           variant={variant === 'inline' ? 'inline' : 'default'}
           className={variant === 'inline' ? undefined : 'w-fit justify-between'}
         />
         <TimePickerListContent
           size="default"
           className="z-10"
-          anchor={anchorRef}>
+          anchor={anchorRef}
+          finalFocus={false}>
           <TimePickerColumn
             label="Hours"
             value={hour}
