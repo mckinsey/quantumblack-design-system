@@ -18,22 +18,35 @@ const size = (instance.getEnum('size', {
 
 const sizeProp = size === 'default' ? '' : ` size="${size}"`;
 
+const pad2 = (n: number) => (n < 10 ? `0${n}` : String(n));
+
+const hourItems = Array.from({ length: 24 }, (_, i) =>
+  figma.code`<TimePickerItem value="${String(i)}"${sizeProp}>${pad2(i)}</TimePickerItem>`,
+);
+
+const minuteItems = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].map(i =>
+  figma.code`<TimePickerItem value="${String(i)}"${sizeProp}>${pad2(i)}</TimePickerItem>`,
+);
+
 export default {
   example: figma.code`
     <TimePickerListContent${sizeProp}>
-      <TimePickerList${sizeProp} aria-label="Hours">
-        <TimePickerItem value="0"${sizeProp}>00</TimePickerItem>
-        <TimePickerItem value="1"${sizeProp}>01</TimePickerItem>
-        <TimePickerItem value="2"${sizeProp}>02</TimePickerItem>
-      </TimePickerList>
-      <TimePickerList${sizeProp} aria-label="Minutes">
-        <TimePickerItem value="0"${sizeProp}>00</TimePickerItem>
-        <TimePickerItem value="5"${sizeProp}>05</TimePickerItem>
-        <TimePickerItem value="10"${sizeProp}>10</TimePickerItem>
-      </TimePickerList>
+      <ScrollArea className="h-full w-fit">
+        <TimePickerList${sizeProp} aria-label="Hours">
+          ${figma.helpers.react.renderChildren(hourItems)}
+        </TimePickerList>
+        <ScrollBar />
+      </ScrollArea>
+      <ScrollArea className="h-full w-fit">
+        <TimePickerList${sizeProp} aria-label="Minutes">
+          ${figma.helpers.react.renderChildren(minuteItems)}
+        </TimePickerList>
+        <ScrollBar />
+      </ScrollArea>
     </TimePickerListContent>
   `,
   imports: [
+    'import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"',
     'import { TimePickerItem, TimePickerList, TimePickerListContent } from "@/components/ui/time-picker"',
   ],
   id: 'time-picker-overflow',
