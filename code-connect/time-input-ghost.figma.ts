@@ -75,7 +75,7 @@ const validationProp =
 
 const sizeProp = size === 'default' ? '' : ` size="${size}"`;
 const disabledProp = disabled ? ' disabled' : '';
-const openProp = isOpen ? ' data-open={true}' : '';
+const openProp = isOpen ? ' open' : '';
 const hourProp = hour === null ? '' : ` hour={${hour}}`;
 const minuteProp = minute === null ? '' : ` minute={${minute}}`;
 const phHourProp =
