@@ -91,6 +91,7 @@ export function TimePickerListContent({
   align = 'start',
   sideOffset = 4,
   initialFocus = false,
+  finalFocus = false,
   ...props
 }: TimePickerListContentProps) {
   return (
@@ -101,6 +102,7 @@ export function TimePickerListContent({
       align={align}
       sideOffset={sideOffset}
       initialFocus={initialFocus}
+      finalFocus={finalFocus}
       className={cn(
         'bg-stateslayer-overlay-active-inverse text-fg-primary shadow-elevation-0 flex w-auto flex-row overflow-hidden rounded-none border-none p-0',
         'min-w-(--anchor-width)',
