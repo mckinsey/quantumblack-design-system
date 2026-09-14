@@ -83,8 +83,6 @@ const phHourProp =
 const phMinuteProp =
   showHintText || minute === null ? ` placeholderMinute={${mmPh}}` : '';
 
-const pickerSize = size === 'lg' ? 'lg' : 'default';
-
 const overflow = instance.findInstance('Overflow-TimePicker', {
   traverseInstances: true,
 });
@@ -105,23 +103,7 @@ const fieldBody =
     ${figma.helpers.react.renderChildren(overflowCode)}
   </Popover>
 `
-    : isOpen
-      ? figma.code`
-  <Popover open>
-    ${timeInput}
-    <TimePickerListContent size="${pickerSize}">
-      <TimePickerList size="${pickerSize}">
-        <TimePickerItem value="0" size="${pickerSize}">00</TimePickerItem>
-        <TimePickerItem value="1" size="${pickerSize}">01</TimePickerItem>
-      </TimePickerList>
-      <TimePickerList size="${pickerSize}">
-        <TimePickerItem value="0" size="${pickerSize}">00</TimePickerItem>
-        <TimePickerItem value="5" size="${pickerSize}">05</TimePickerItem>
-      </TimePickerList>
-    </TimePickerListContent>
-  </Popover>
-`
-      : timeInput;
+    : timeInput;
 
 const footer =
   invalid && showFeedback
@@ -143,12 +125,13 @@ const fieldImports =
       ? ['import { FieldDescription, FieldSet } from "@/components/ui/field"']
       : [];
 
-const openImports = isOpen
-  ? [
-      'import { Popover } from "@/components/ui/popover"',
-      'import { TimePickerItem, TimePickerList, TimePickerListContent } from "@/components/ui/time-picker"',
-    ]
-  : [];
+const openImports =
+  isOpen && overflowCode.length > 0
+    ? [
+        'import { Popover } from "@/components/ui/popover"',
+        'import { TimePickerItem, TimePickerList, TimePickerListContent } from "@/components/ui/time-picker"',
+      ]
+    : [];
 
 export default {
   example,
