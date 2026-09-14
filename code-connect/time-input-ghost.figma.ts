@@ -83,13 +83,40 @@ const phHourProp =
 const phMinuteProp =
   showHintText || minute === null ? ` placeholderMinute={${mmPh}}` : '';
 
+const helpInst = instance.findInstance('Elements/Help-Text', {
+  traverseInstances: true,
+});
+const statusInst = instance.findInstance('Elements/Status-Messages', {
+  traverseInstances: true,
+});
+
+const helperText =
+  helpInst?.type === 'INSTANCE'
+    ? JSON.stringify(helpInst.getString('helperText') || 'Helper text')
+    : null;
+const statusMessage =
+  statusInst?.type === 'INSTANCE'
+    ? JSON.stringify(
+        statusInst.getString('statusMessage') || 'This field is required',
+      )
+    : null;
+
+const showErrorFooter = Boolean(invalid && showFeedback && statusMessage);
+const showHintFooter = Boolean(
+  !invalid && showHintText && helperText && !showErrorFooter,
+);
+
 const overflow = instance.findInstance('Overflow-TimePicker', {
   traverseInstances: true,
 });
 
 let overflowCode: figma.ResultSection[] = [];
 
-if (isOpen && overflow && overflow.type === 'INSTANCE') {
+if (
+  isOpen &&
+  overflow?.type === 'INSTANCE' &&
+  overflow.hasCodeConnect()
+) {
   overflowCode = overflow.executeTemplate().example;
 }
 
@@ -99,36 +126,36 @@ const fieldBody =
   isOpen && overflowCode.length > 0
     ? figma.code`
   <Popover open>
-    ${timeInput}
+    <PopoverAnchor>
+      ${timeInput}
+    </PopoverAnchor>
     ${figma.helpers.react.renderChildren(overflowCode)}
   </Popover>
 `
     : timeInput;
 
-const footer =
-  invalid && showFeedback
-    ? figma.code`<FieldError>Feedback message</FieldError>`
-    : showHintText && !invalid
-      ? figma.code`<FieldDescription>Helper text</FieldDescription>`
-      : figma.code``;
+const footer = showErrorFooter
+  ? figma.code`<FieldError>${statusMessage}</FieldError>`
+  : showHintFooter
+    ? figma.code`<FieldDescription>${helperText}</FieldDescription>`
+    : figma.code``;
 
-const hasFooter = (invalid && showFeedback) || (showHintText && !invalid);
+const hasFooter = showErrorFooter || showHintFooter;
 
 const example = hasFooter
   ? figma.code`<FieldSet className="gap-2">${fieldBody}${footer}</FieldSet>`
   : fieldBody;
 
-const fieldImports =
-  invalid && showFeedback
-    ? ['import { FieldError, FieldSet } from "@/components/ui/field"']
-    : showHintText && !invalid
-      ? ['import { FieldDescription, FieldSet } from "@/components/ui/field"']
-      : [];
+const fieldImports = showErrorFooter
+  ? ['import { FieldError, FieldSet } from "@/components/ui/field"']
+  : showHintFooter
+    ? ['import { FieldDescription, FieldSet } from "@/components/ui/field"']
+    : [];
 
 const openImports =
   isOpen && overflowCode.length > 0
     ? [
-        'import { Popover } from "@/components/ui/popover"',
+        'import { Popover, PopoverAnchor } from "@/components/ui/popover"',
         'import { TimePickerItem, TimePickerList, TimePickerListContent } from "@/components/ui/time-picker"',
       ]
     : [];
