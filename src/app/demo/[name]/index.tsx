@@ -364,7 +364,6 @@ import {
 import {
   TimePickerDemo,
   TimePickerInline,
-  TimePickerOverlaySizes,
   timePicker,
   examples as timePickerExamples,
 } from '@/app/demo/[name]/ui/time-picker';
@@ -703,7 +702,6 @@ export const exampleComponentMaps: Record<
   'time-picker': {
     TimePickerDemo,
     TimePickerInline,
-    TimePickerOverlaySizes,
   },
   toggle: {
     ToggleDemo,
