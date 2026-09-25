@@ -112,11 +112,7 @@ const overflow = instance.findInstance('Overflow-TimePicker', {
 
 let overflowCode: figma.ResultSection[] = [];
 
-if (
-  isOpen &&
-  overflow?.type === 'INSTANCE' &&
-  overflow.hasCodeConnect()
-) {
+if (isOpen && overflow?.type === 'INSTANCE' && overflow.hasCodeConnect()) {
   overflowCode = overflow.executeTemplate().example;
 }
 

@@ -20,13 +20,16 @@ const sizeProp = size === 'default' ? '' : ` size="${size}"`;
 
 const pad2 = (n: number) => (n < 10 ? `0${n}` : String(n));
 
-const hourItems = Array.from({ length: 24 }, (_, i) =>
-  figma.code`<TimePickerItem value="${String(i)}"${sizeProp}>${pad2(i)}</TimePickerItem>`,
-);
+const hourItems = Array.from(
+  { length: 24 },
+  (_, i) =>
+    figma.code`<TimePickerItem value="${String(i)}"${sizeProp}>${pad2(i)}</TimePickerItem>`,
+) as unknown as figma.ResultSection[];
 
-const minuteItems = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].map(i =>
-  figma.code`<TimePickerItem value="${String(i)}"${sizeProp}>${pad2(i)}</TimePickerItem>`,
-);
+const minuteItems = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].map(
+  i =>
+    figma.code`<TimePickerItem value="${String(i)}"${sizeProp}>${pad2(i)}</TimePickerItem>`,
+) as unknown as figma.ResultSection[];
 
 export default {
   example: figma.code`
