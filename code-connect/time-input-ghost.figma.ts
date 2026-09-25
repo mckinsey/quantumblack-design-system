@@ -120,13 +120,13 @@ if (
   overflowCode = overflow.executeTemplate().example;
 }
 
-const timeInput = figma.code`<TimeInput variant="inline"${sizeProp}${disabledProp}${validationProp}${openProp}${hourProp}${minuteProp}${phHourProp}${phMinuteProp} />`;
+const timeInput = figma.code`<TimeInput variant="inline"${sizeProp}${disabledProp}${validationProp}${openProp}${hourProp}${minuteProp}${phHourProp}${phMinuteProp} className="w-fit" />`;
 
 const fieldBody =
   isOpen && overflowCode.length > 0
     ? figma.code`
   <Popover open>
-    <PopoverAnchor>
+    <PopoverAnchor className="w-fit">
       ${timeInput}
     </PopoverAnchor>
     ${figma.helpers.react.renderChildren(overflowCode)}
@@ -135,9 +135,9 @@ const fieldBody =
     : timeInput;
 
 const footer = showErrorFooter
-  ? figma.code`<FieldError>${statusMessage}</FieldError>`
+  ? figma.code`<FieldError size="${size}">{${statusMessage}}</FieldError>`
   : showHintFooter
-    ? figma.code`<FieldDescription>${helperText}</FieldDescription>`
+    ? figma.code`<FieldDescription size="${size}">{${helperText}}</FieldDescription>`
     : figma.code``;
 
 const hasFooter = showErrorFooter || showHintFooter;
@@ -156,6 +156,7 @@ const openImports =
   isOpen && overflowCode.length > 0
     ? [
         'import { Popover, PopoverAnchor } from "@/components/ui/popover"',
+        'import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"',
         'import { TimePickerItem, TimePickerList, TimePickerListContent } from "@/components/ui/time-picker"',
       ]
     : [];
