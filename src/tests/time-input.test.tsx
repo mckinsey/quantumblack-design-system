@@ -89,6 +89,19 @@ describe(`${componentName} — structure & interaction`, () => {
     expect(root).not.toHaveAttribute('data-open');
   });
 
+  it('sets aria-invalid on root and segments', () => {
+    const { container } = render(
+      <TimeInput hour={10} minute={30} aria-invalid />,
+    );
+    const root = container.querySelector('[data-slot="time-input-root"]');
+
+    expect(root).toHaveAttribute('aria-invalid', 'true');
+
+    for (const spin of screen.getAllByRole('spinbutton')) {
+      expect(spin).toHaveAttribute('aria-invalid', 'true');
+    }
+  });
+
   it('disables segments and trigger when disabled', () => {
     render(<TimeInput hour={10} minute={30} disabled />);
 
