@@ -64,17 +64,19 @@ const minute = isLive
     ? parseSeg(mmFilled)
     : null;
 
-const validationProp =
-  state === 'error'
-    ? ' validationState="error"'
-    : state === 'warning'
-      ? ' validationState="warning"'
-      : state === 'success'
-        ? ' validationState="success"'
-        : '';
+const statusClass =
+  state === 'warning'
+    ? 'border-stroke-status-warning'
+    : state === 'success'
+      ? 'border-stroke-status-success'
+      : '';
 
 const sizeProp = size === 'default' ? '' : ` size="${size}"`;
 const disabledProp = disabled ? ' disabled' : '';
+const invalidProp = invalid ? ' aria-invalid' : '';
+const classProp = statusClass
+  ? ` className="w-fit ${statusClass}"`
+  : ' className="w-fit"';
 const openProp = isOpen ? ' open' : '';
 const hourProp = hour === null ? '' : ` hour={${hour}}`;
 const minuteProp = minute === null ? '' : ` minute={${minute}}`;
@@ -116,7 +118,7 @@ if (isOpen && overflow?.type === 'INSTANCE' && overflow.hasCodeConnect()) {
   overflowCode = overflow.executeTemplate().example;
 }
 
-const timeInput = figma.code`<TimeInput variant="inline"${sizeProp}${disabledProp}${validationProp}${openProp}${hourProp}${minuteProp}${phHourProp}${phMinuteProp} className="w-fit" />`;
+const timeInput = figma.code`<TimeInput variant="inline"${sizeProp}${disabledProp}${invalidProp}${openProp}${hourProp}${minuteProp}${phHourProp}${phMinuteProp}${classProp} />`;
 
 const fieldBody =
   isOpen && overflowCode.length > 0
