@@ -156,6 +156,7 @@ const openImports =
   isOpen && overflowCode.length > 0
     ? [
         'import { Popover, PopoverAnchor } from "@/components/ui/popover"',
+        'import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"',
         'import { TimePickerItem, TimePickerList, TimePickerListContent } from "@/components/ui/time-picker"',
       ]
     : [];
