@@ -1,26 +1,29 @@
 'use client';
 
-import * as TooltipPrimitive from '@radix-ui/react-tooltip';
+import { Tooltip as TooltipPrimitive } from '@base-ui/react/tooltip';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
+type TooltipProviderProps = TooltipPrimitive.Provider.Props & {
+  delayDuration?: number;
+};
+
 function TooltipProvider({
-  delayDuration = 0,
+  delay,
+  delayDuration,
   ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Provider>) {
+}: TooltipProviderProps) {
   return (
     <TooltipPrimitive.Provider
       data-slot="tooltip-provider"
-      delayDuration={delayDuration}
+      delay={delay ?? delayDuration ?? 0}
       {...props}
     />
   );
 }
 
-function Tooltip({
-  ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Root>) {
+function Tooltip({ ...props }: TooltipPrimitive.Root.Props) {
   return (
     <TooltipProvider>
       <TooltipPrimitive.Root data-slot="tooltip" {...props} />
@@ -28,18 +31,50 @@ function Tooltip({
   );
 }
 
+type TooltipTriggerProps = TooltipPrimitive.Trigger.Props & {
+  asChild?: boolean;
+};
+
 function TooltipTrigger({
+  asChild = false,
+  children,
   ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
-  return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />;
+}: TooltipTriggerProps) {
+  if (asChild) {
+    const child = React.Children.only(children) as React.ReactElement;
+
+    return (
+      <TooltipPrimitive.Trigger
+        data-slot="tooltip-trigger"
+        {...props}
+        render={child}
+      />
+    );
+  }
+
+  return (
+    <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props}>
+      {children}
+    </TooltipPrimitive.Trigger>
+  );
 }
 
 function TooltipContent({
   className,
+  side = 'top',
   sideOffset = 0,
+  align = 'center',
+  alignOffset = 0,
   children,
+  hidden,
   ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Content>) {
+}: TooltipPrimitive.Popup.Props &
+  Pick<
+    TooltipPrimitive.Positioner.Props,
+    'align' | 'alignOffset' | 'side' | 'sideOffset'
+  > & {
+    hidden?: boolean;
+  }) {
   const getTextContent = (node: React.ReactNode): string => {
     if (typeof node === 'string') return node;
     if (typeof node === 'number') return String(node);
@@ -57,23 +92,36 @@ function TooltipContent({
   };
 
   const textContent = getTextContent(children);
-  const estimatedCharsPerLine = 35; // approximate for max-w-[220px] and paragraph-small-primary
+  const estimatedCharsPerLine = 35;
   const isMultiLine = textContent.length > estimatedCharsPerLine;
+
+  if (hidden) {
+    return null;
+  }
 
   return (
     <TooltipPrimitive.Portal>
-      <TooltipPrimitive.Content
-        data-slot="tooltip-content"
+      <TooltipPrimitive.Positioner
+        align={align}
+        alignOffset={alignOffset}
+        side={side}
         sideOffset={sideOffset}
-        className={cn(
-          'bg-fill-primary text-fg-primary-inverse paragraph-small-primary animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 shadow-elevation-1 z-50 w-fit min-w-[36px] origin-(--radix-tooltip-content-transform-origin) text-balance',
-          isMultiLine ? 'max-w-[220px] p-2' : 'max-w-[140px] p-1',
-          className,
-        )}
-        {...props}>
-        {children}
-        <TooltipPrimitive.Arrow className="fill-fill-primary" />
-      </TooltipPrimitive.Content>
+        className="isolate z-50">
+        <TooltipPrimitive.Popup
+          role="tooltip"
+          data-slot="tooltip-content"
+          className={cn(
+            'bg-fill-primary text-fg-primary-inverse paragraph-small-primary shadow-elevation-1 z-50 w-fit min-w-[36px] origin-(--transform-origin) text-balance',
+            'data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95',
+            'data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
+            isMultiLine ? 'max-w-[220px] p-2' : 'max-w-[140px] p-1',
+            className,
+          )}
+          {...props}>
+          {children}
+          <TooltipPrimitive.Arrow className="bg-fill-primary fill-fill-primary z-50 size-2.5 translate-y-[calc(-50%-2px)] rotate-45 rounded-[2px] data-[side=bottom]:top-1 data-[side=inline-end]:top-1/2! data-[side=inline-end]:-left-1 data-[side=inline-end]:-translate-y-1/2 data-[side=inline-start]:top-1/2! data-[side=inline-start]:-right-1 data-[side=inline-start]:-translate-y-1/2 data-[side=left]:top-1/2! data-[side=left]:-right-1 data-[side=left]:-translate-y-1/2 data-[side=right]:top-1/2! data-[side=right]:-left-1 data-[side=right]:-translate-y-1/2 data-[side=top]:-bottom-2.5" />
+        </TooltipPrimitive.Popup>
+      </TooltipPrimitive.Positioner>
     </TooltipPrimitive.Portal>
   );
 }

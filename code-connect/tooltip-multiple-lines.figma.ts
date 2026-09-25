@@ -43,14 +43,12 @@ export default {
   example: figma.code`
     /*
      * Figma shows only the tooltip bubble — in code you must pair it with a trigger element.
-     * Wrap any focusable control (button, icon button, link) in TooltipTrigger asChild;
-     * the label below maps to TooltipContent. Long copy auto-expands up to 220px wide.
+     * Pass the control via TooltipTrigger render; label maps to TooltipContent.
+     * Long copy auto-expands up to 220px wide.
      * arrow-position → side + align on TooltipContent (arrow is always shown in code).
      */
     <Tooltip>
-      <TooltipTrigger asChild>
-        <button type="button">Hover me</button>
-      </TooltipTrigger>
+      <TooltipTrigger render={<button type="button" />}>Hover me</TooltipTrigger>
       <TooltipContent side="${side}" align="${align}">
         ${label}
       </TooltipContent>
