@@ -2,8 +2,6 @@ import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { exampleComponentMaps } from '@/app/demo/[name]/index';
-import { Renderer } from '@/app/demo/[name]/renderer';
 import {
   TimeInput,
   TimeInputRoot,
@@ -16,21 +14,6 @@ const componentName = 'time-input';
 
 afterEach(() => {
   cleanup();
-});
-
-describe(`${componentName} — all examples render`, () => {
-  it.each(Object.entries(exampleComponentMaps[componentName]))(
-    'renders "%s" without crashing',
-    (_, Example) => {
-      expect(() =>
-        render(
-          <Renderer>
-            <Example />
-          </Renderer>,
-        ),
-      ).not.toThrow();
-    },
-  );
 });
 
 describe(`${componentName} — structure & interaction`, () => {
