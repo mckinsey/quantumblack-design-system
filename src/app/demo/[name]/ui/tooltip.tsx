@@ -5,59 +5,41 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-// ============================================================================
-// Example Components (New Format)
-// ============================================================================
-
-/**
- * Default tooltip
- */
 export function TooltipDemo() {
   return (
     <Tooltip>
-      <TooltipTrigger asChild>
-        <Button variant="outline">Hover me</Button>
+      <TooltipTrigger render={<Button variant="outline" className="w-fit" />}>
+        Hover me
       </TooltipTrigger>
       <TooltipContent>This is a tooltip</TooltipContent>
     </Tooltip>
   );
 }
 
-/**
- * Tooltip positions
- */
 export function TooltipPositions() {
   return (
     <div className="flex flex-wrap gap-4">
       <Tooltip>
-        <TooltipTrigger asChild>
-          <Button variant="outline" size="sm">
-            Top
-          </Button>
+        <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+          Top
         </TooltipTrigger>
         <TooltipContent side="top">Tooltip on top</TooltipContent>
       </Tooltip>
       <Tooltip>
-        <TooltipTrigger asChild>
-          <Button variant="outline" size="sm">
-            Right
-          </Button>
+        <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+          Right
         </TooltipTrigger>
         <TooltipContent side="right">Tooltip on right</TooltipContent>
       </Tooltip>
       <Tooltip>
-        <TooltipTrigger asChild>
-          <Button variant="outline" size="sm">
-            Bottom
-          </Button>
+        <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+          Bottom
         </TooltipTrigger>
         <TooltipContent side="bottom">Tooltip on bottom</TooltipContent>
       </Tooltip>
       <Tooltip>
-        <TooltipTrigger asChild>
-          <Button variant="outline" size="sm">
-            Left
-          </Button>
+        <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+          Left
         </TooltipTrigger>
         <TooltipContent side="left">Tooltip on left</TooltipContent>
       </Tooltip>
@@ -65,37 +47,28 @@ export function TooltipPositions() {
   );
 }
 
-/**
- * Tooltip alignment options
- */
 export function TooltipAlignment() {
   return (
     <div className="flex flex-wrap gap-4">
       <Tooltip>
-        <TooltipTrigger asChild>
-          <Button variant="outline" size="sm">
-            Start
-          </Button>
+        <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+          Start
         </TooltipTrigger>
         <TooltipContent side="top" align="start">
           Aligned to start
         </TooltipContent>
       </Tooltip>
       <Tooltip>
-        <TooltipTrigger asChild>
-          <Button variant="outline" size="sm">
-            Center
-          </Button>
+        <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+          Center
         </TooltipTrigger>
         <TooltipContent side="top" align="center">
           Aligned to center
         </TooltipContent>
       </Tooltip>
       <Tooltip>
-        <TooltipTrigger asChild>
-          <Button variant="outline" size="sm">
-            End
-          </Button>
+        <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+          End
         </TooltipTrigger>
         <TooltipContent side="top" align="end">
           Aligned to end
@@ -105,14 +78,11 @@ export function TooltipAlignment() {
   );
 }
 
-/**
- * Tooltip with longer content
- */
 export function TooltipLongContent() {
   return (
     <Tooltip>
-      <TooltipTrigger asChild>
-        <Button variant="outline">Info</Button>
+      <TooltipTrigger render={<Button variant="outline" className="w-fit" />}>
+        Info
       </TooltipTrigger>
       <TooltipContent className="max-w-xs">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque libero
@@ -121,10 +91,6 @@ export function TooltipLongContent() {
     </Tooltip>
   );
 }
-
-// ============================================================================
-// Example Metadata
-// ============================================================================
 
 export const examples = [
   {
@@ -148,10 +114,6 @@ export const examples = [
     description: 'Tooltip with longer text content.',
   },
 ];
-
-// ============================================================================
-// Legacy Format (for backwards compatibility)
-// ============================================================================
 
 export const tooltip = {
   name: 'tooltip',
