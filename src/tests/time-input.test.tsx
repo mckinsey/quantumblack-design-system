@@ -66,14 +66,44 @@ describe(`${componentName} — structure & interaction`, () => {
   });
 
   it('exposes dialog popup state on the clock trigger', () => {
-    const { rerender } = render(<TimeInput hour={10} minute={30} open={false} />);
+    const onTriggerClick = vi.fn();
+    const { rerender } = render(
+      <TimeInput
+        hour={10}
+        minute={30}
+        open={false}
+        onTriggerClick={onTriggerClick}
+      />,
+    );
     const trigger = screen.getByRole('button', { name: 'Choose time' });
 
     expect(trigger).toHaveAttribute('aria-haspopup', 'dialog');
     expect(trigger).toHaveAttribute('aria-expanded', 'false');
 
-    rerender(<TimeInput hour={10} minute={30} open />);
+    rerender(
+      <TimeInput hour={10} minute={30} open onTriggerClick={onTriggerClick} />,
+    );
     expect(trigger).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  it('omits dialog popup ARIA when onTriggerClick is absent', () => {
+    render(<TimeInput hour={10} minute={30} open />);
+    const trigger = screen.getByRole('button', { name: 'Choose time' });
+
+    expect(trigger).not.toHaveAttribute('aria-haspopup');
+    expect(trigger).not.toHaveAttribute('aria-expanded');
+  });
+
+  it('forwards data-open to the root', () => {
+    const { rerender, container } = render(
+      <TimeInput hour={10} minute={30} open />,
+    );
+    const root = container.querySelector('[data-slot="time-input-root"]');
+
+    expect(root).toHaveAttribute('data-open', 'true');
+
+    rerender(<TimeInput hour={10} minute={30} open={false} />);
+    expect(root).not.toHaveAttribute('data-open');
   });
 
   it('disables segments and trigger when disabled', () => {
