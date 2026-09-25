@@ -190,51 +190,6 @@ function TimePickerExample({
   );
 }
 
-function TimePickerOverlay({
-  size,
-  defaultHour,
-  defaultMinute,
-}: Readonly<{
-  size: 'default' | 'lg';
-  defaultHour: number;
-  defaultMinute: number;
-}>) {
-  const [selectedHour, setSelectedHour] = useState<number>(defaultHour);
-  const [selectedMinute, setSelectedMinute] = useState<number>(defaultMinute);
-  const anchorRef = useRef<HTMLDivElement>(null);
-
-  return (
-    <Popover open>
-      <div
-        ref={anchorRef}
-        className="label-regular-primary text-fg-secondary capitalize">
-        {size}
-      </div>
-
-      <TimePickerListContent
-        size={size}
-        sideOffset={10}
-        anchor={anchorRef}
-        finalFocus={false}>
-        <TimePickerColumn
-          label="Hours"
-          value={selectedHour}
-          onValueChange={setSelectedHour}
-          items={sampleHours}
-          size={size}
-        />
-        <TimePickerColumn
-          label="Minutes"
-          value={selectedMinute}
-          onValueChange={setSelectedMinute}
-          items={sampleMinutes}
-          size={size}
-        />
-      </TimePickerListContent>
-    </Popover>
-  );
-}
-
 export function TimePickerDemo() {
   return (
     <div className="flex flex-wrap items-end gap-8">
@@ -272,20 +227,6 @@ export function TimePickerInline() {
   );
 }
 
-export function TimePickerOverlaySizes() {
-  return (
-    <div className="flex min-h-[240px] gap-32">
-      <div className="flex flex-col items-center gap-3">
-        <TimePickerOverlay size="default" defaultHour={1} defaultMinute={5} />
-      </div>
-
-      <div className="flex flex-col items-center gap-3">
-        <TimePickerOverlay size="lg" defaultHour={1} defaultMinute={5} />
-      </div>
-    </div>
-  );
-}
-
 export const examples = [
   {
     name: 'TimePickerDemo',
@@ -297,12 +238,6 @@ export const examples = [
     title: 'Inline',
     description: 'Inline variant with popover — all sizes.',
   },
-  {
-    name: 'TimePickerOverlaySizes',
-    title: 'Overlay',
-    description:
-      'Scroll-wheel overlay without an input trigger — default and large sizes.',
-  },
 ];
 
 export const timePicker = {
@@ -310,6 +245,5 @@ export const timePicker = {
   components: {
     Default: <TimePickerDemo />,
     Inline: <TimePickerInline />,
-    Overlay: <TimePickerOverlaySizes />,
   },
 };
