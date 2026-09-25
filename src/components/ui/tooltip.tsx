@@ -1,6 +1,5 @@
 'use client';
 
-import { mergeProps } from '@base-ui/react/merge-props';
 import { Tooltip as TooltipPrimitive } from '@base-ui/react/tooltip';
 import { Slot } from '@radix-ui/react-slot';
 import * as React from 'react';
@@ -41,29 +40,18 @@ function TooltipTrigger({
   asChild = false,
   children,
   render,
-  nativeButton,
+  className,
   ...props
 }: TooltipTriggerProps) {
   if (asChild) {
     const child = React.Children.only(children) as React.ReactElement;
-    const usesNativeButton =
-      nativeButton ??
-      (typeof child.type === 'string' && child.type === 'button');
 
     return (
       <TooltipPrimitive.Trigger
         data-slot="tooltip-trigger"
-        nativeButton={usesNativeButton}
-        render={triggerProps => {
-          const { nativeButton: _nativeButton, ...triggerDomProps } =
-            triggerProps as typeof triggerProps & { nativeButton?: boolean };
-
-          return (
-            <Slot {...mergeProps<'button'>(triggerDomProps, props)}>
-              {child}
-            </Slot>
-          );
-        }}
+        className={className}
+        {...props}
+        render={triggerProps => <Slot {...triggerProps}>{child}</Slot>}
       />
     );
   }
@@ -71,7 +59,7 @@ function TooltipTrigger({
   return (
     <TooltipPrimitive.Trigger
       data-slot="tooltip-trigger"
-      nativeButton={nativeButton}
+      className={className}
       render={render}
       {...props}>
       {children}

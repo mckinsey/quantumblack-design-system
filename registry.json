@@ -880,7 +880,7 @@
       "type": "registry:ui",
       "title": "Tooltip",
       "description": "A popup that displays information when an element is hovered or focused.",
-      "dependencies": ["@base-ui/react"],
+      "dependencies": ["@base-ui/react", "@radix-ui/react-slot"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"
