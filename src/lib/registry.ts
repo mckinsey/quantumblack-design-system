@@ -161,7 +161,6 @@ export function getUIPrimitivesByCategory() {
       'chart',
       'carousel',
       'date-picker',
-      'time-input',
       'time-picker',
     ],
     Overlay: [
