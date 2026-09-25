@@ -142,6 +142,7 @@ export interface TimeInputRootProps
     React.ComponentProps<'div'>,
     VariantProps<typeof timeInputRootVariants> {
   disabled?: boolean;
+  open?: boolean;
   validationState?: ValidationState;
 }
 
@@ -152,6 +153,7 @@ const TimeInputRoot = React.forwardRef<HTMLDivElement, TimeInputRootProps>(
       variant,
       size,
       disabled,
+      open,
       validationState,
       onClick,
       onPointerDown,
@@ -224,6 +226,7 @@ const TimeInputRoot = React.forwardRef<HTMLDivElement, TimeInputRootProps>(
         role="group"
         data-slot="time-input-root"
         data-disabled={disabled || undefined}
+        data-open={open || undefined}
         data-validation={validationState || undefined}
         className={cn(timeInputRootVariants({ variant, size }), className)}
         onPointerDown={handlePointerDown}
@@ -629,6 +632,7 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
         variant={variant}
         size={size}
         disabled={disabled}
+        open={open}
         validationState={validationState}
         aria-invalid={ariaInvalidProp}
         {...divProps}>
@@ -676,8 +680,12 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
         <TimeInputTrigger
           size={size}
           disabled={disabled}
-          aria-haspopup="dialog"
-          aria-expanded={open ?? false}
+          {...(onTriggerClick
+            ? {
+                'aria-haspopup': 'dialog' as const,
+                'aria-expanded': open ?? false,
+              }
+            : {})}
           onClick={onTriggerClick}
         />
       </TimeInputRoot>
