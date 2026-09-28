@@ -121,4 +121,21 @@ describe(`${componentName} — structure & interaction`, () => {
     await user.click(screen.getByRole('button', { name: 'Choose time' }));
     expect(onTriggerClick).toHaveBeenCalledOnce();
   });
+
+  it('calls onTriggerClick when clicking a segment while closed', async () => {
+    const user = userEvent.setup();
+    const onTriggerClick = vi.fn();
+
+    render(
+      <TimeInput
+        hour={10}
+        minute={30}
+        open={false}
+        onTriggerClick={onTriggerClick}
+      />,
+    );
+
+    await user.click(screen.getByRole('spinbutton', { name: 'Hours' }));
+    expect(onTriggerClick).toHaveBeenCalledOnce();
+  });
 });
