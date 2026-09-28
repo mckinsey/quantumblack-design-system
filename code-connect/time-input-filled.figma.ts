@@ -66,12 +66,14 @@ const minute = isLive
 
 const statusClass =
   state === 'warning'
-    ? 'border-stroke-status-warning'
+    ? 'border border-stroke-status-warning'
     : state === 'success'
-      ? 'border-stroke-status-success'
+      ? 'border border-stroke-status-success'
       : '';
 
+const pickerSize = size === 'lg' ? 'lg' : 'default';
 const sizeProp = size === 'default' ? '' : ` size="${size}"`;
+const pickerSizeProp = pickerSize === 'default' ? '' : ` size="${pickerSize}"`;
 const disabledProp = disabled ? ' disabled' : '';
 const invalidProp = invalid ? ' aria-invalid' : '';
 const classProp = statusClass
@@ -114,23 +116,56 @@ const overflow = instance.findInstance('Overflow-TimePicker', {
 
 let overflowCode: figma.ResultSection[] = [];
 
-if (isOpen && overflow?.type === 'INSTANCE' && overflow.hasCodeConnect()) {
+if (overflow?.type === 'INSTANCE' && overflow.hasCodeConnect()) {
   overflowCode = overflow.executeTemplate().example;
 }
 
+const pad2 = (n: number) => (n < 10 ? `0${n}` : String(n));
+
+const hourItems = Array.from(
+  { length: 24 },
+  (_, i) =>
+    figma.code`<TimePickerItem value="${String(i)}"${pickerSizeProp}>${pad2(i)}</TimePickerItem>`,
+) as unknown as figma.ResultSection[];
+
+const minuteItems = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].map(
+  i =>
+    figma.code`<TimePickerItem value="${String(i)}"${pickerSizeProp}>${pad2(i)}</TimePickerItem>`,
+) as unknown as figma.ResultSection[];
+
+const overflowFallback = figma.code`
+  <TimePickerListContent${pickerSizeProp} finalFocus={false}>
+    <ScrollArea className="h-full w-fit">
+      <TimePickerList${pickerSizeProp} aria-label="Hours">
+        ${figma.helpers.react.renderChildren(hourItems)}
+      </TimePickerList>
+      <ScrollBar />
+    </ScrollArea>
+    <ScrollArea className="h-full w-fit">
+      <TimePickerList${pickerSizeProp} aria-label="Minutes">
+        ${figma.helpers.react.renderChildren(minuteItems)}
+      </TimePickerList>
+      <ScrollBar />
+    </ScrollArea>
+  </TimePickerListContent>
+`;
+
 const timeInput = figma.code`<TimeInput${sizeProp}${disabledProp}${invalidProp}${openProp}${hourProp}${minuteProp}${phHourProp}${phMinuteProp}${classProp} />`;
 
-const fieldBody =
-  isOpen && overflowCode.length > 0
-    ? figma.code`
+const fieldBody = isOpen
+  ? figma.code`
   <Popover open>
     <PopoverAnchor className="w-fit">
       ${timeInput}
     </PopoverAnchor>
-    ${figma.helpers.react.renderChildren(overflowCode)}
+    ${
+      overflowCode.length > 0
+        ? figma.helpers.react.renderChildren(overflowCode)
+        : overflowFallback
+    }
   </Popover>
 `
-    : timeInput;
+  : timeInput;
 
 const footer = showErrorFooter
   ? figma.code`<FieldError size="${size}">{${statusMessage}}</FieldError>`
@@ -144,19 +179,18 @@ const example = hasFooter
   ? figma.code`<FieldSet className="gap-2">${fieldBody}${footer}</FieldSet>`
   : fieldBody;
 
+const openImports = isOpen
+  ? [
+      'import { Popover, PopoverAnchor } from "@/components/ui/popover"',
+      'import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"',
+      'import { TimePickerItem, TimePickerList, TimePickerListContent } from "@/components/ui/time-picker"',
+    ]
+  : [];
+
 const fieldImports = showErrorFooter
   ? ['import { FieldError, FieldSet } from "@/components/ui/field"']
   : showHintFooter
     ? ['import { FieldDescription, FieldSet } from "@/components/ui/field"']
-    : [];
-
-const openImports =
-  isOpen && overflowCode.length > 0
-    ? [
-        'import { Popover, PopoverAnchor } from "@/components/ui/popover"',
-        'import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"',
-        'import { TimePickerItem, TimePickerList, TimePickerListContent } from "@/components/ui/time-picker"',
-      ]
     : [];
 
 export default {
