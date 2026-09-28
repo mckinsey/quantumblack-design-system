@@ -286,7 +286,7 @@ export function TimeInputValidation() {
       setM: setM2,
       desc: 'Outside business hours',
       isError: false,
-      borderClass: 'border-stroke-status-warning',
+      borderClass: 'border border-stroke-status-warning',
     },
     {
       label: 'Success',
@@ -297,7 +297,7 @@ export function TimeInputValidation() {
       setM: setM3,
       desc: 'Time confirmed',
       isError: false,
-      borderClass: 'border-stroke-status-success',
+      borderClass: 'border border-stroke-status-success',
     },
   ];
 
