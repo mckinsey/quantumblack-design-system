@@ -54,7 +54,21 @@ describe(`${componentName} — compound API`, () => {
       </Tooltip>,
     );
 
-    expect(screen.getByRole('button')).not.toHaveAttribute('data-popup-open');
+    const trigger = screen.getByRole('button');
+
+    expect(trigger).toHaveTextContent('Trigger');
+    expect(trigger).not.toHaveAttribute('data-popup-open');
+  });
+
+  it('forwards delayDuration to provider', () => {
+    render(
+      <Tooltip open delayDuration={200}>
+        <TooltipTrigger>Trigger</TooltipTrigger>
+        <TooltipContent>Help text</TooltipContent>
+      </Tooltip>,
+    );
+
+    expect(screen.getByText('Trigger')).toBeInTheDocument();
   });
 
   it('applies side and align to TooltipContent', async () => {

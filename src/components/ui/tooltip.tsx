@@ -28,9 +28,14 @@ function wrapTriggerRender(
         return render(props, state);
       }
 
+      const elProps = render.props as TriggerDomProps & {
+        children?: React.ReactNode;
+      };
+
       return React.cloneElement(
         render,
-        mergeProps<'button'>(props, render.props as TriggerDomProps),
+        mergeProps<'button'>(props, elProps),
+        elProps.children ?? fallbackChildren,
       );
     }
 
@@ -60,9 +65,13 @@ function TooltipProvider({
   );
 }
 
-function Tooltip({ ...props }: TooltipPrimitive.Root.Props) {
+type TooltipProps = TooltipPrimitive.Root.Props & {
+  delayDuration?: number;
+};
+
+function Tooltip({ delayDuration, ...props }: TooltipProps) {
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={delayDuration}>
       <TooltipPrimitive.Root data-slot="tooltip" {...props} />
     </TooltipProvider>
   );
