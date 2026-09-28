@@ -83,7 +83,13 @@ function TooltipTrigger({
       const child = React.Children.only(children) as React.ReactElement;
 
       return (triggerProps: TriggerDomProps) =>
-        React.cloneElement(child, withoutPopupOpen(triggerProps));
+        React.cloneElement(
+          child,
+          mergeProps<'button'>(
+            withoutPopupOpen(triggerProps),
+            child.props as TriggerDomProps,
+          ),
+        );
     }
 
     return wrapTriggerRender(render, children);
@@ -99,10 +105,84 @@ function TooltipTrigger({
   );
 }
 
+const ARROW_H = 5;
+
+type PhysicalSide = 'top' | 'right' | 'bottom' | 'left';
+
+function toPhysicalSide(
+  side: TooltipPrimitive.Arrow.State['side'],
+): PhysicalSide {
+  if (side === 'inline-start') return 'left';
+  if (side === 'inline-end') return 'right';
+
+  return side;
+}
+
+function arrowStyle(
+  side: PhysicalSide,
+  base: React.CSSProperties,
+): React.CSSProperties {
+  const style: React.CSSProperties = { ...base };
+
+  if (side === 'top') {
+    style.top = 'auto';
+    style.bottom = 0;
+    style.transform = 'translateY(100%)';
+  }
+
+  if (side === 'bottom') {
+    style.bottom = 'auto';
+    style.top = 0;
+    style.transformOrigin = 'center 0';
+    style.transform = 'rotate(180deg)';
+  }
+
+  if (side === 'left') {
+    style.left = 'auto';
+    style.right = 0;
+    style.transformOrigin = '100% 0';
+    style.transform = 'translateY(50%) rotate(-90deg) translateX(50%)';
+  }
+
+  if (side === 'right') {
+    style.right = 'auto';
+    style.left = 0;
+    style.transformOrigin = '0 0';
+    style.transform = 'translateY(50%) rotate(90deg) translateX(-50%)';
+  }
+
+  return style;
+}
+
+function TooltipArrow() {
+  return (
+    <TooltipPrimitive.Arrow
+      data-slot="tooltip-arrow"
+      className="z-50"
+      render={(props, state) => {
+        const side = toPhysicalSide(state.side);
+
+        return (
+          <span {...props} style={arrowStyle(side, props.style ?? {})}>
+            <svg
+              width={10}
+              height={ARROW_H}
+              viewBox="0 0 30 10"
+              preserveAspectRatio="none"
+              className="fill-fill-primary block">
+              <polygon points="0,0 30,0 15,10" />
+            </svg>
+          </span>
+        );
+      }}
+    />
+  );
+}
+
 function TooltipContent({
   className,
   side = 'top',
-  sideOffset = 0,
+  sideOffset = ARROW_H,
   align = 'center',
   alignOffset = 0,
   children,
@@ -159,7 +239,7 @@ function TooltipContent({
           )}
           {...props}>
           {children}
-          <TooltipPrimitive.Arrow className="bg-fill-primary z-50 size-2.5 rotate-45 rounded-[2px]" />
+          <TooltipArrow />
         </TooltipPrimitive.Popup>
       </TooltipPrimitive.Positioner>
     </TooltipPrimitive.Portal>
