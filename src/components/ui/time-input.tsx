@@ -143,7 +143,6 @@ export interface TimeInputRootProps
     VariantProps<typeof timeInputRootVariants> {
   disabled?: boolean;
   open?: boolean;
-  onOpenRequest?: () => void;
 }
 
 const TimeInputRoot = React.forwardRef<HTMLDivElement, TimeInputRootProps>(
@@ -154,7 +153,6 @@ const TimeInputRoot = React.forwardRef<HTMLDivElement, TimeInputRootProps>(
       size,
       disabled,
       open,
-      onOpenRequest,
       onClick,
       onPointerDown,
       children,
@@ -167,12 +165,9 @@ const TimeInputRoot = React.forwardRef<HTMLDivElement, TimeInputRootProps>(
       const clickedInput = target.closest<HTMLInputElement>('input');
 
       if (clickedInput) {
-        const isOpen = e.currentTarget.hasAttribute('data-open');
-
-        if (isOpen) {
+        if (e.currentTarget.hasAttribute('data-open')) {
           e.nativeEvent.stopImmediatePropagation();
         } else {
-          onOpenRequest?.();
           onPointerDown?.(e);
         }
 
@@ -190,17 +185,7 @@ const TimeInputRoot = React.forwardRef<HTMLDivElement, TimeInputRootProps>(
 
       const target = e.target as HTMLElement;
 
-      if (target.closest('button')) {
-        return;
-      }
-
-      const isOpen = e.currentTarget.hasAttribute('data-open');
-
-      if (!isOpen && !target.closest('input')) {
-        onOpenRequest?.();
-      }
-
-      if (target.closest('input')) {
+      if (target.closest('button') || target.closest('input')) {
         return;
       }
 
@@ -602,6 +587,8 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
       disabled,
       id,
       autoFocus,
+      onClick,
+      onPointerDown,
       'aria-invalid': ariaInvalidProp,
       ...divProps
     },
@@ -628,8 +615,33 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
     const minuteStep = Math.max(1, Math.floor(stepSeconds / 60));
 
     const separatorClass = size === 'lg' ? 'w-2' : 'w-1';
-    const requestOpen = () => {
+
+    const openIfClosed = () => {
       if (!open) onTriggerClick?.();
+    };
+
+    const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+      const target = e.target as HTMLElement;
+
+      if (target.closest('input')) {
+        openIfClosed();
+      }
+
+      onPointerDown?.(e);
+    };
+
+    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+      onClick?.(e);
+
+      if (e.defaultPrevented) return;
+
+      const target = e.target as HTMLElement;
+
+      if (target.closest('button') || target.closest('input')) {
+        return;
+      }
+
+      openIfClosed();
     };
 
     return (
@@ -639,7 +651,8 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
         size={size}
         disabled={disabled}
         open={open}
-        onOpenRequest={requestOpen}
+        onClick={handleClick}
+        onPointerDown={handlePointerDown}
         aria-invalid={ariaInvalidProp}
         {...divProps}>
         <div>
@@ -653,7 +666,7 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
             disabled={disabled}
             onComplete={() => minuteRef.current?.focus()}
             onNavigateRight={() => minuteRef.current?.focus()}
-            onOpen={requestOpen}
+            onOpen={openIfClosed}
             id={id}
             name={name ? `${name}-hour` : undefined}
             required={required}
@@ -675,7 +688,7 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
             placeholder={placeholderMinute}
             disabled={disabled}
             onNavigateLeft={() => hourRef.current?.focus()}
-            onOpen={requestOpen}
+            onOpen={openIfClosed}
             name={name ? `${name}-minute` : undefined}
             required={required}
             aria-label="Minutes"
