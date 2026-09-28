@@ -143,6 +143,7 @@ export interface TimeInputRootProps
     VariantProps<typeof timeInputRootVariants> {
   disabled?: boolean;
   open?: boolean;
+  onOpenRequest?: () => void;
 }
 
 const TimeInputRoot = React.forwardRef<HTMLDivElement, TimeInputRootProps>(
@@ -153,6 +154,7 @@ const TimeInputRoot = React.forwardRef<HTMLDivElement, TimeInputRootProps>(
       size,
       disabled,
       open,
+      onOpenRequest,
       onClick,
       onPointerDown,
       children,
@@ -170,6 +172,7 @@ const TimeInputRoot = React.forwardRef<HTMLDivElement, TimeInputRootProps>(
         if (isOpen) {
           e.nativeEvent.stopImmediatePropagation();
         } else {
+          onOpenRequest?.();
           onPointerDown?.(e);
         }
 
@@ -187,7 +190,17 @@ const TimeInputRoot = React.forwardRef<HTMLDivElement, TimeInputRootProps>(
 
       const target = e.target as HTMLElement;
 
-      if (target.closest('input') || target.closest('button')) {
+      if (target.closest('button')) {
+        return;
+      }
+
+      const isOpen = e.currentTarget.hasAttribute('data-open');
+
+      if (!isOpen && !target.closest('input')) {
+        onOpenRequest?.();
+      }
+
+      if (target.closest('input')) {
         return;
       }
 
@@ -615,6 +628,9 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
     const minuteStep = Math.max(1, Math.floor(stepSeconds / 60));
 
     const separatorClass = size === 'lg' ? 'w-2' : 'w-1';
+    const requestOpen = () => {
+      if (!open) onTriggerClick?.();
+    };
 
     return (
       <TimeInputRoot
@@ -623,6 +639,7 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
         size={size}
         disabled={disabled}
         open={open}
+        onOpenRequest={requestOpen}
         aria-invalid={ariaInvalidProp}
         {...divProps}>
         <div>
@@ -636,7 +653,7 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
             disabled={disabled}
             onComplete={() => minuteRef.current?.focus()}
             onNavigateRight={() => minuteRef.current?.focus()}
-            onOpen={onTriggerClick}
+            onOpen={requestOpen}
             id={id}
             name={name ? `${name}-hour` : undefined}
             required={required}
@@ -658,7 +675,7 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
             placeholder={placeholderMinute}
             disabled={disabled}
             onNavigateLeft={() => hourRef.current?.focus()}
-            onOpen={onTriggerClick}
+            onOpen={requestOpen}
             name={name ? `${name}-minute` : undefined}
             required={required}
             aria-label="Minutes"
