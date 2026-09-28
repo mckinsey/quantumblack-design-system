@@ -57,6 +57,7 @@ const HIDDEN_IN_UI = new Set([
   'separator',
   'sheet',
   'skeleton',
+  'time-input',
 ]);
 
 export function getRegistryItems(): Component[] {
@@ -161,7 +162,6 @@ export function getUIPrimitivesByCategory() {
       'chart',
       'carousel',
       'date-picker',
-      'time-input',
       'time-picker',
     ],
     Overlay: [

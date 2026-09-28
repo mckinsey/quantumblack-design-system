@@ -224,11 +224,6 @@
         {
           "path": "src/components/ui/time-input.tsx",
           "type": "registry:ui"
-        },
-        {
-          "path": "src/app/demo/[name]/ui/time-input.tsx",
-          "type": "registry:example",
-          "target": ""
         }
       ]
     },
