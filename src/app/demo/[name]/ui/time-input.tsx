@@ -2,7 +2,12 @@
 
 import { useState } from 'react';
 
-import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';
+import {
+  FieldDescription,
+  FieldError,
+  FieldSet,
+  FieldTitle,
+} from '@/components/ui/field';
 import { TimeInput } from '@/components/ui/time-input';
 import { cn } from '@/lib/utils';
 
@@ -327,7 +332,13 @@ export function TimeInputValidation() {
               className={cn('w-fit', borderClass || undefined)}
             />
 
-            <FieldDescription className={description}>{desc}</FieldDescription>
+            {isError ? (
+              <FieldError>{desc}</FieldError>
+            ) : (
+              <FieldDescription className={description}>
+                {desc}
+              </FieldDescription>
+            )}
           </FieldSet>
         ),
       )}
