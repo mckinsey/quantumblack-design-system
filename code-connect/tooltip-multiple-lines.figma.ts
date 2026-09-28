@@ -38,7 +38,7 @@ const placement = {
 
 const label = JSON.stringify(
   instance.getString('label') ||
-    'Lorem ipsum dolor sit amet, consec adipiscing elit. Quisque libero odio, accumsan et elementum nec, pulvinar nec velit. Nam tristi que pulvinar ante, ut mollis risus',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque libero odio, accumsan et elementum nec, pulvinar nec velit. Nam tristique pulvinar ante, ut mollis risus',
 );
 const { side, align } =
   placement[arrowPosition as keyof typeof placement] ?? placement['top-left'];

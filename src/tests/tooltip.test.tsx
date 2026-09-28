@@ -55,6 +55,21 @@ describe(`${componentName} — structure`, () => {
     ).toBeInTheDocument();
   });
 
+  it('does not set data-popup-open on the trigger when open', () => {
+    render(
+      <TooltipProvider>
+        <Tooltip open>
+          <TooltipTrigger render={<Button variant="outline" />}>
+            Trigger
+          </TooltipTrigger>
+          <TooltipContent>Help text</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>,
+    );
+
+    expect(screen.getByRole('button')).not.toHaveAttribute('data-popup-open');
+  });
+
   it('supports render on the trigger', () => {
     render(
       <TooltipProvider>

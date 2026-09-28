@@ -1,9 +1,20 @@
 'use client';
 
+import { mergeProps } from '@base-ui/react/merge-props';
 import { Tooltip as TooltipPrimitive } from '@base-ui/react/tooltip';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
+
+type TriggerDomProps = React.ComponentProps<'button'> & {
+  'data-popup-open'?: string;
+};
+
+function withoutPopupOpen(props: TriggerDomProps) {
+  const { 'data-popup-open': _open, ...rest } = props;
+
+  return rest;
+}
 
 const ARROW_H = 4;
 
@@ -79,14 +90,19 @@ function TooltipArrow() {
   );
 }
 
+type TooltipProviderProps = TooltipPrimitive.Provider.Props & {
+  delayDuration?: number;
+};
+
 function TooltipProvider({
-  delay = 0,
+  delay,
+  delayDuration,
   ...props
-}: TooltipPrimitive.Provider.Props) {
+}: TooltipProviderProps) {
   return (
     <TooltipPrimitive.Provider
       data-slot="tooltip-provider"
-      delay={delay}
+      delay={delay ?? delayDuration ?? 0}
       {...props}
     />
   );
@@ -96,8 +112,45 @@ function Tooltip({ ...props }: TooltipPrimitive.Root.Props) {
   return <TooltipPrimitive.Root data-slot="tooltip" {...props} />;
 }
 
-function TooltipTrigger({ ...props }: TooltipPrimitive.Trigger.Props) {
-  return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />;
+function TooltipTrigger({
+  render,
+  children,
+  ...props
+}: TooltipPrimitive.Trigger.Props) {
+  const resolvedRender = React.useMemo(() => {
+    return (
+      triggerProps: TriggerDomProps,
+      state: TooltipPrimitive.Trigger.State,
+    ) => {
+      const clean = withoutPopupOpen(triggerProps);
+
+      if (render) {
+        if (typeof render === 'function') {
+          return render(clean, state);
+        }
+
+        return React.cloneElement(
+          render,
+          mergeProps<'button'>(clean, render.props as TriggerDomProps),
+        );
+      }
+
+      return (
+        <button type="button" {...clean}>
+          {children}
+        </button>
+      );
+    };
+  }, [render, children]);
+
+  return (
+    <TooltipPrimitive.Trigger
+      data-slot="tooltip-trigger"
+      {...props}
+      render={resolvedRender}>
+      {render ? children : null}
+    </TooltipPrimitive.Trigger>
+  );
 }
 
 function TooltipContent({
@@ -113,6 +166,26 @@ function TooltipContent({
     TooltipPrimitive.Positioner.Props,
     'align' | 'alignOffset' | 'side' | 'sideOffset'
   >) {
+  const getTextContent = (node: React.ReactNode): string => {
+    if (typeof node === 'string') return node;
+    if (typeof node === 'number') return String(node);
+    if (Array.isArray(node)) return node.map(getTextContent).join('');
+
+    if (React.isValidElement(node)) {
+      const nodeProps = node.props as { children?: React.ReactNode };
+
+      if (nodeProps.children) {
+        return getTextContent(nodeProps.children);
+      }
+    }
+
+    return '';
+  };
+
+  const textContent = getTextContent(children);
+  const estimatedCharsPerLine = 35;
+  const isMultiLine = textContent.length > estimatedCharsPerLine;
+
   return (
     <TooltipPrimitive.Portal>
       <TooltipPrimitive.Positioner
@@ -125,7 +198,8 @@ function TooltipContent({
           role="tooltip"
           data-slot="tooltip-content"
           className={cn(
-            'bg-fill-primary text-fg-primary-inverse paragraph-small-primary shadow-elevation-1 z-50 w-fit max-w-[140px] min-w-9 origin-(--transform-origin) rounded-none p-1 text-balance',
+            'bg-fill-primary text-fg-primary-inverse paragraph-small-primary shadow-elevation-1 z-50 w-fit min-w-9 origin-(--transform-origin) rounded-none text-balance',
+            isMultiLine ? 'max-w-[220px] p-2' : 'max-w-[140px] p-1',
             'data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95',
             'data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
             className,

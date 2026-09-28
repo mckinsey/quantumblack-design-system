@@ -65,10 +65,10 @@ export function TooltipLongContent() {
         <TooltipTrigger render={<Button variant="outline" className="w-fit" />}>
           Info
         </TooltipTrigger>
-        <TooltipContent className="max-w-[220px] p-2">
-          Lorem ipsum dolor sit amet, consec adipiscing elit. Quisque libero
-          odio, accumsan et elementum nec, pulvinar nec velit. Nam tristi que
-          pulvinar ante, ut mollis risus
+        <TooltipContent>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+          libero odio, accumsan et elementum nec, pulvinar nec velit. Nam
+          tristique pulvinar ante, ut mollis risus
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
