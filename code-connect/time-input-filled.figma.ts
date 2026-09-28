@@ -152,20 +152,24 @@ const overflowFallback = figma.code`
 
 const timeInput = figma.code`<TimeInput${sizeProp}${disabledProp}${invalidProp}${openProp}${hourProp}${minuteProp}${phHourProp}${phMinuteProp}${classProp} />`;
 
-const fieldBody = isOpen
-  ? figma.code`
+const overflowContent =
+  overflowCode.length > 0
+    ? figma.helpers.react.renderChildren(overflowCode)
+    : overflow?.type === 'INSTANCE'
+      ? overflowFallback
+      : null;
+
+const fieldBody =
+  isOpen && overflowContent
+    ? figma.code`
   <Popover open>
     <PopoverAnchor className="w-fit">
       ${timeInput}
     </PopoverAnchor>
-    ${
-      overflowCode.length > 0
-        ? figma.helpers.react.renderChildren(overflowCode)
-        : overflowFallback
-    }
+    ${overflowContent}
   </Popover>
 `
-  : timeInput;
+    : timeInput;
 
 const footer = showErrorFooter
   ? figma.code`<FieldError size="${size}">{${statusMessage}}</FieldError>`
@@ -179,13 +183,14 @@ const example = hasFooter
   ? figma.code`<FieldSet className="gap-2">${fieldBody}${footer}</FieldSet>`
   : fieldBody;
 
-const openImports = isOpen
-  ? [
-      'import { Popover, PopoverAnchor } from "@/components/ui/popover"',
-      'import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"',
-      'import { TimePickerItem, TimePickerList, TimePickerListContent } from "@/components/ui/time-picker"',
-    ]
-  : [];
+const openImports =
+  isOpen && overflowContent
+    ? [
+        'import { Popover, PopoverAnchor } from "@/components/ui/popover"',
+        'import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"',
+        'import { TimePickerItem, TimePickerList, TimePickerListContent } from "@/components/ui/time-picker"',
+      ]
+    : [];
 
 const fieldImports = showErrorFooter
   ? ['import { FieldError, FieldSet } from "@/components/ui/field"']
