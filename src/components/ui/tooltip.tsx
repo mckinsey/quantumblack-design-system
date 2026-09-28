@@ -1,120 +1,11 @@
 'use client';
 
-import { mergeProps } from '@base-ui/react/merge-props';
 import { Tooltip as TooltipPrimitive } from '@base-ui/react/tooltip';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-type TriggerDomProps = React.ComponentProps<'button'> & {
-  'data-popup-open'?: string;
-};
-
-function withoutPopupOpen(props: TriggerDomProps) {
-  const { 'data-popup-open': _open, ...rest } = props;
-
-  return rest;
-}
-
-function wrapTriggerRender(
-  render: TooltipPrimitive.Trigger.Props['render'],
-  fallbackChildren: React.ReactNode,
-): NonNullable<TooltipPrimitive.Trigger.Props['render']> {
-  return (triggerProps, state) => {
-    const props = withoutPopupOpen(triggerProps as TriggerDomProps);
-
-    if (render) {
-      if (typeof render === 'function') {
-        return render(props, state);
-      }
-
-      const elProps = render.props as TriggerDomProps & {
-        children?: React.ReactNode;
-      };
-
-      return React.cloneElement(
-        render,
-        mergeProps<'button'>(props, elProps),
-        elProps.children ?? fallbackChildren,
-      );
-    }
-
-    return (
-      <button type="button" {...props}>
-        {fallbackChildren}
-      </button>
-    );
-  };
-}
-
-type TooltipProviderProps = TooltipPrimitive.Provider.Props & {
-  delayDuration?: number;
-};
-
-function TooltipProvider({
-  delay,
-  delayDuration,
-  ...props
-}: TooltipProviderProps) {
-  return (
-    <TooltipPrimitive.Provider
-      data-slot="tooltip-provider"
-      delay={delay ?? delayDuration ?? 0}
-      {...props}
-    />
-  );
-}
-
-type TooltipProps = TooltipPrimitive.Root.Props & {
-  delayDuration?: number;
-};
-
-function Tooltip({ delayDuration, ...props }: TooltipProps) {
-  return (
-    <TooltipProvider delayDuration={delayDuration}>
-      <TooltipPrimitive.Root data-slot="tooltip" {...props} />
-    </TooltipProvider>
-  );
-}
-
-type TooltipTriggerProps = TooltipPrimitive.Trigger.Props & {
-  asChild?: boolean;
-};
-
-function TooltipTrigger({
-  asChild = false,
-  children,
-  render,
-  ...props
-}: TooltipTriggerProps) {
-  const resolvedRender = React.useMemo(() => {
-    if (asChild) {
-      const child = React.Children.only(children) as React.ReactElement;
-
-      return (triggerProps: TriggerDomProps) =>
-        React.cloneElement(
-          child,
-          mergeProps<'button'>(
-            withoutPopupOpen(triggerProps),
-            child.props as TriggerDomProps,
-          ),
-        );
-    }
-
-    return wrapTriggerRender(render, children);
-  }, [asChild, children, render]);
-
-  return (
-    <TooltipPrimitive.Trigger
-      data-slot="tooltip-trigger"
-      {...props}
-      render={resolvedRender}>
-      {!asChild && render ? children : null}
-    </TooltipPrimitive.Trigger>
-  );
-}
-
-const ARROW_H = 5;
+const ARROW_H = 4;
 
 type PhysicalSide = 'top' | 'right' | 'bottom' | 'left';
 
@@ -174,18 +65,39 @@ function TooltipArrow() {
         return (
           <span {...props} style={arrowStyle(side, props.style ?? {})}>
             <svg
-              width={10}
+              width={8}
               height={ARROW_H}
-              viewBox="0 0 30 10"
-              preserveAspectRatio="none"
-              className="fill-fill-primary block">
-              <polygon points="0,0 30,0 15,10" />
+              viewBox="0 0 8 4"
+              className="fill-fill-primary block"
+              aria-hidden>
+              <polygon points="0,0 8,0 4,4" />
             </svg>
           </span>
         );
       }}
     />
   );
+}
+
+function TooltipProvider({
+  delay = 0,
+  ...props
+}: TooltipPrimitive.Provider.Props) {
+  return (
+    <TooltipPrimitive.Provider
+      data-slot="tooltip-provider"
+      delay={delay}
+      {...props}
+    />
+  );
+}
+
+function Tooltip({ ...props }: TooltipPrimitive.Root.Props) {
+  return <TooltipPrimitive.Root data-slot="tooltip" {...props} />;
+}
+
+function TooltipTrigger({ ...props }: TooltipPrimitive.Trigger.Props) {
+  return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />;
 }
 
 function TooltipContent({
@@ -195,39 +107,12 @@ function TooltipContent({
   align = 'center',
   alignOffset = 0,
   children,
-  hidden,
   ...props
 }: TooltipPrimitive.Popup.Props &
   Pick<
     TooltipPrimitive.Positioner.Props,
     'align' | 'alignOffset' | 'side' | 'sideOffset'
-  > & {
-    hidden?: boolean;
-  }) {
-  const getTextContent = (node: React.ReactNode): string => {
-    if (typeof node === 'string') return node;
-    if (typeof node === 'number') return String(node);
-    if (Array.isArray(node)) return node.map(getTextContent).join('');
-
-    if (React.isValidElement(node)) {
-      const nodeProps = node.props as { children?: React.ReactNode };
-
-      if (nodeProps.children) {
-        return getTextContent(nodeProps.children);
-      }
-    }
-
-    return '';
-  };
-
-  const textContent = getTextContent(children);
-  const estimatedCharsPerLine = 35;
-  const isMultiLine = textContent.length > estimatedCharsPerLine;
-
-  if (hidden) {
-    return null;
-  }
-
+  >) {
   return (
     <TooltipPrimitive.Portal>
       <TooltipPrimitive.Positioner
@@ -240,10 +125,9 @@ function TooltipContent({
           role="tooltip"
           data-slot="tooltip-content"
           className={cn(
-            'bg-fill-primary text-fg-primary-inverse paragraph-small-primary shadow-elevation-1 z-50 w-fit min-w-[36px] origin-(--transform-origin) text-balance',
+            'bg-fill-primary text-fg-primary-inverse paragraph-small-primary shadow-elevation-1 z-50 w-fit max-w-[140px] min-w-9 origin-(--transform-origin) rounded-none p-1 text-balance',
             'data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95',
             'data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
-            isMultiLine ? 'max-w-[220px] p-2' : 'max-w-[140px] p-1',
             className,
           )}
           {...props}>

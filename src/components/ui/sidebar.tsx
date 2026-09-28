@@ -165,7 +165,7 @@ function SidebarProvider({
 
   return (
     <SidebarContext.Provider value={contextValue}>
-      <TooltipProvider delayDuration={0}>
+      <TooltipProvider delay={0}>
         <div
           data-slot="sidebar-wrapper"
           style={
@@ -600,7 +600,9 @@ function SidebarMenuButton({
 }: React.ComponentProps<'button'> & {
   asChild?: boolean;
   isActive?: boolean;
-  tooltip?: string | React.ComponentProps<typeof TooltipContent>;
+  tooltip?:
+    | string
+    | (React.ComponentProps<typeof TooltipContent> & { hidden?: boolean });
 } & VariantProps<typeof sidebarMenuButtonVariants>) {
   const Comp = asChild ? Slot : 'button';
   const { isMobile, state, layout } = useSidebar();
@@ -625,23 +627,17 @@ function SidebarMenuButton({
     return button;
   }
 
-  if (typeof tooltip === 'string') {
-    tooltip = {
-      children: tooltip,
-    };
-  }
+  const tip = typeof tooltip === 'string' ? { children: tooltip } : tooltip;
+  const { hidden: tooltipHidden, ...tooltipProps } = tip;
 
-  const { hidden: tooltipHidden, ...tooltipProps } = tooltip;
+  if (tooltipHidden ?? (state !== 'collapsed' || isMobile)) {
+    return button;
+  }
 
   return (
     <Tooltip>
-      <TooltipTrigger asChild>{button}</TooltipTrigger>
-      <TooltipContent
-        side="right"
-        align="center"
-        hidden={tooltipHidden ?? (state !== 'collapsed' || isMobile)}
-        {...tooltipProps}
-      />
+      <TooltipTrigger render={button} />
+      <TooltipContent side="right" align="center" {...tooltipProps} />
     </Tooltip>
   );
 }

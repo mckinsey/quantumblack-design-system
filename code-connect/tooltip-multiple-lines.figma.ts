@@ -5,20 +5,21 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const arrowPosition = instance.getEnum('arrowPosition', {
-  'top-left': 'top-left',
-  'top-center': 'top-center',
-  'top-right': 'top-right',
-  'left-top': 'left-top',
-  'left-center': 'left-center',
-  'left-bottom': 'left-bottom',
-  'right-top': 'right-top',
-  'right-center': 'right-center',
-  'right-bottom': 'right-bottom',
-  'bottom-left': 'bottom-left',
-  'bottom-center': 'bottom-center',
-  'bottom-right': 'bottom-right',
-});
+const arrowPosition =
+  instance.getEnum('arrowPosition', {
+    'top-left': 'top-left',
+    'top-center': 'top-center',
+    'top-right': 'top-right',
+    'left-top': 'left-top',
+    'left-center': 'left-center',
+    'left-bottom': 'left-bottom',
+    'right-top': 'right-top',
+    'right-center': 'right-center',
+    'right-bottom': 'right-bottom',
+    'bottom-left': 'bottom-left',
+    'bottom-center': 'bottom-center',
+    'bottom-right': 'bottom-right',
+  }) ?? 'top-left';
 
 const placement = {
   'top-left': { side: 'bottom', align: 'start' },
@@ -35,27 +36,29 @@ const placement = {
   'bottom-right': { side: 'top', align: 'end' },
 } as const;
 
-const label = instance.getString('label');
+const label = JSON.stringify(
+  instance.getString('label') ||
+    'Lorem ipsum dolor sit amet, consec adipiscing elit. Quisque libero odio, accumsan et elementum nec, pulvinar nec velit. Nam tristi que pulvinar ante, ut mollis risus',
+);
 const { side, align } =
   placement[arrowPosition as keyof typeof placement] ?? placement['top-left'];
 
+const sideProp = side !== 'top' ? ` side="${side}"` : '';
+const alignProp = align !== 'center' ? ` align="${align}"` : '';
+
 export default {
   example: figma.code`
-    /*
-     * Figma shows only the tooltip bubble — in code you must pair it with a trigger element.
-     * Pass the control via TooltipTrigger render; label maps to TooltipContent.
-     * Long copy auto-expands up to 220px wide.
-     * arrow-position → side + align on TooltipContent (arrow is always shown in code).
-     */
-    <Tooltip>
-      <TooltipTrigger render={<button type="button" />}>Hover me</TooltipTrigger>
-      <TooltipContent side="${side}" align="${align}">
-        ${label}
-      </TooltipContent>
-    </Tooltip>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger render={<button type="button" />}>Hover me</TooltipTrigger>
+        <TooltipContent${sideProp}${alignProp}>
+          {${label}}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   `,
   imports: [
-    'import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"',
+    'import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"',
   ],
   id: 'tooltip-multiple-lines',
   metadata: { nestable: true },
