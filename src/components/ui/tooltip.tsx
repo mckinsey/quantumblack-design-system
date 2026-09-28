@@ -1,9 +1,46 @@
 'use client';
 
+import { mergeProps } from '@base-ui/react/merge-props';
 import { Tooltip as TooltipPrimitive } from '@base-ui/react/tooltip';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
+
+type TriggerDomProps = React.ComponentProps<'button'> & {
+  'data-popup-open'?: string;
+};
+
+function withoutPopupOpen(props: TriggerDomProps) {
+  const { 'data-popup-open': _open, ...rest } = props;
+
+  return rest;
+}
+
+function wrapTriggerRender(
+  render: TooltipPrimitive.Trigger.Props['render'],
+  fallbackChildren: React.ReactNode,
+): NonNullable<TooltipPrimitive.Trigger.Props['render']> {
+  return (triggerProps, state) => {
+    const props = withoutPopupOpen(triggerProps as TriggerDomProps);
+
+    if (render) {
+      if (typeof render === 'function') {
+        return render(props, state);
+      }
+
+      return React.cloneElement(
+        render,
+        mergeProps<'button'>(props, render.props as TriggerDomProps),
+      );
+    }
+
+    return (
+      <button type="button" {...props}>
+        {fallbackChildren}
+      </button>
+    );
+  };
+}
 
 type TooltipProviderProps = TooltipPrimitive.Provider.Props & {
   delayDuration?: number;
@@ -38,23 +75,26 @@ type TooltipTriggerProps = TooltipPrimitive.Trigger.Props & {
 function TooltipTrigger({
   asChild = false,
   children,
+  render,
   ...props
 }: TooltipTriggerProps) {
-  if (asChild) {
-    const child = React.Children.only(children) as React.ReactElement;
+  const resolvedRender = React.useMemo(() => {
+    if (asChild) {
+      const child = React.Children.only(children) as React.ReactElement;
 
-    return (
-      <TooltipPrimitive.Trigger
-        data-slot="tooltip-trigger"
-        {...props}
-        render={child}
-      />
-    );
-  }
+      return (triggerProps: TriggerDomProps) =>
+        React.cloneElement(child, withoutPopupOpen(triggerProps));
+    }
+
+    return wrapTriggerRender(render, children);
+  }, [asChild, children, render]);
 
   return (
-    <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props}>
-      {children}
+    <TooltipPrimitive.Trigger
+      data-slot="tooltip-trigger"
+      {...props}
+      render={resolvedRender}>
+      {!asChild && render ? children : null}
     </TooltipPrimitive.Trigger>
   );
 }

@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 
 import { exampleComponentMaps } from '@/app/demo/[name]/index';
 import { Renderer } from '@/app/demo/[name]/renderer';
+import { Button } from '@/components/ui/button';
 import {
   Tooltip,
   TooltipContent,
@@ -41,6 +42,19 @@ describe(`${componentName} — compound API`, () => {
 
     expect(screen.getByText('Trigger')).toBeInTheDocument();
     expect(screen.getByRole('tooltip')).toHaveTextContent('Help text');
+  });
+
+  it('does not set data-popup-open on trigger when open', () => {
+    render(
+      <Tooltip open>
+        <TooltipTrigger render={<Button variant="outline" />}>
+          Trigger
+        </TooltipTrigger>
+        <TooltipContent>Help text</TooltipContent>
+      </Tooltip>,
+    );
+
+    expect(screen.getByRole('button')).not.toHaveAttribute('data-popup-open');
   });
 
   it('applies side and align to TooltipContent', async () => {
