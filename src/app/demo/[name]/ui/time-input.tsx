@@ -2,7 +2,12 @@
 
 import { useState } from 'react';
 
-import { FieldDescription, FieldSet, FieldTitle } from '@/components/ui/field';
+import {
+  FieldDescription,
+  FieldError,
+  FieldSet,
+  FieldTitle,
+} from '@/components/ui/field';
 import { TimeInput } from '@/components/ui/time-input';
 import { cn } from '@/lib/utils';
 
@@ -274,6 +279,8 @@ export function TimeInputValidation() {
       setH: setH1,
       setM: setM1,
       desc: 'This field is required',
+      isError: true,
+      borderClass: '',
     },
     {
       label: 'Warning',
@@ -283,6 +290,8 @@ export function TimeInputValidation() {
       setH: setH2,
       setM: setM2,
       desc: 'Outside business hours',
+      isError: false,
+      borderClass: 'border border-stroke-status-warning',
     },
     {
       label: 'Success',
@@ -292,27 +301,47 @@ export function TimeInputValidation() {
       setH: setH3,
       setM: setM3,
       desc: 'Time confirmed',
+      isError: false,
+      borderClass: 'border border-stroke-status-success',
     },
   ];
 
   return (
     <div className="space-y-6">
-      {validations.map(({ label: valLabel, state, h, m, setH, setM, desc }) => (
-        <FieldSet key={state} className={gap}>
-          <FieldTitle className={label}>{valLabel}</FieldTitle>
+      {validations.map(
+        ({
+          label: valLabel,
+          state,
+          h,
+          m,
+          setH,
+          setM,
+          desc,
+          isError,
+          borderClass,
+        }) => (
+          <FieldSet key={state} className={gap}>
+            <FieldTitle className={label}>{valLabel}</FieldTitle>
 
-          <TimeInput
-            validationState={state}
-            hour={h}
-            minute={m}
-            onHourChange={setH}
-            onMinuteChange={setM}
-            className="w-fit"
-          />
+            <TimeInput
+              hour={h}
+              minute={m}
+              onHourChange={setH}
+              onMinuteChange={setM}
+              aria-invalid={isError || undefined}
+              className={cn('w-fit', borderClass || undefined)}
+            />
 
-          <FieldDescription className={description}>{desc}</FieldDescription>
-        </FieldSet>
-      ))}
+            {isError ? (
+              <FieldError>{desc}</FieldError>
+            ) : (
+              <FieldDescription className={description}>
+                {desc}
+              </FieldDescription>
+            )}
+          </FieldSet>
+        ),
+      )}
     </div>
   );
 }

@@ -14,7 +14,6 @@ import { cn } from '@/lib/utils';
 
 type TimeInputSize = 'sm' | 'default' | 'lg';
 type TimeInputVariant = 'default' | 'inline';
-type ValidationState = 'error' | 'warning' | 'success';
 
 // ============================================================================
 // CVA — TimeInputRoot
@@ -38,16 +37,16 @@ const inlineFocusStyles = [
   'data-[open=true]:shadow-elevation-0',
 ] as const;
 
-const defaultValidationStyles = [
-  'data-[validation=error]:border data-[validation=error]:border-stroke-status-error data-[validation=error]:ring-0',
-  'data-[validation=warning]:border data-[validation=warning]:border-stroke-status-warning data-[validation=warning]:ring-0',
-  'data-[validation=success]:border data-[validation=success]:border-stroke-status-success data-[validation=success]:ring-0',
+const defaultErrorStyles = [
+  'aria-invalid:border aria-invalid:border-stroke-status-error',
+  'aria-invalid:has-[:focus-visible]:ring-stroke-status-error',
+  'aria-invalid:data-[open=true]:ring-stroke-status-error',
 ] as const;
 
-const inlineValidationStyles = [
-  'data-[validation=error]:border-b-stroke-status-error data-[validation=error]:ring-0',
-  'data-[validation=warning]:border-b-stroke-status-warning data-[validation=warning]:ring-0',
-  'data-[validation=success]:border-b-stroke-status-success data-[validation=success]:ring-0',
+const inlineErrorStyles = [
+  'aria-invalid:border-b-stroke-status-error',
+  'aria-invalid:has-[:focus-visible]:border-b-stroke-status-error',
+  'aria-invalid:data-[open=true]:border-b-stroke-status-error',
 ] as const;
 
 const timeInputFocusRingWidth = {
@@ -72,7 +71,7 @@ const timeInputRootVariants = cva(
           inputVariantStyles.default.base,
           inputVariantStyles.default.hover,
           ...defaultFocusStyles,
-          ...defaultValidationStyles,
+          ...defaultErrorStyles,
           'data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-not-allowed',
           'data-[disabled=true]:bg-stateslayer-overlay-disabled data-[disabled=true]:text-fg-disabled',
           'border-0',
@@ -82,10 +81,11 @@ const timeInputRootVariants = cva(
           inputVariantStyles.inline.border,
           inputVariantStyles.inline.hover,
           ...inlineFocusStyles,
-          ...inlineValidationStyles,
+          ...inlineErrorStyles,
           'data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-not-allowed',
           'data-[disabled=true]:text-fg-disabled',
           'justify-between pl-0! pr-0!',
+          'w-[120px]',
         ],
       },
       size: {
@@ -113,17 +113,17 @@ const timeInputRootVariants = cva(
       {
         variant: 'inline',
         size: 'sm',
-        className: `${timeInputInlineFocusBorderWidth.sm} w-[120px]`,
+        className: `${timeInputInlineFocusBorderWidth.sm}`,
       },
       {
         variant: 'inline',
         size: 'default',
-        className: `${timeInputInlineFocusBorderWidth.default} w-[120px]`,
+        className: `${timeInputInlineFocusBorderWidth.default}`,
       },
       {
         variant: 'inline',
         size: 'lg',
-        className: `${timeInputInlineFocusBorderWidth.lg} w-[128px]`,
+        className: `${timeInputInlineFocusBorderWidth.lg}`,
       },
     ],
     defaultVariants: {
@@ -142,7 +142,7 @@ export interface TimeInputRootProps
     React.ComponentProps<'div'>,
     VariantProps<typeof timeInputRootVariants> {
   disabled?: boolean;
-  validationState?: ValidationState;
+  open?: boolean;
 }
 
 const TimeInputRoot = React.forwardRef<HTMLDivElement, TimeInputRootProps>(
@@ -152,7 +152,7 @@ const TimeInputRoot = React.forwardRef<HTMLDivElement, TimeInputRootProps>(
       variant,
       size,
       disabled,
-      validationState,
+      open,
       onClick,
       onPointerDown,
       children,
@@ -165,9 +165,7 @@ const TimeInputRoot = React.forwardRef<HTMLDivElement, TimeInputRootProps>(
       const clickedInput = target.closest<HTMLInputElement>('input');
 
       if (clickedInput) {
-        const isOpen = e.currentTarget.dataset.state === 'open';
-
-        if (isOpen) {
+        if (e.currentTarget.hasAttribute('data-open')) {
           e.nativeEvent.stopImmediatePropagation();
         } else {
           onPointerDown?.(e);
@@ -187,7 +185,7 @@ const TimeInputRoot = React.forwardRef<HTMLDivElement, TimeInputRootProps>(
 
       const target = e.target as HTMLElement;
 
-      if (target.closest('input') || target.closest('button')) {
+      if (target.closest('button') || target.closest('input')) {
         return;
       }
 
@@ -203,6 +201,8 @@ const TimeInputRoot = React.forwardRef<HTMLDivElement, TimeInputRootProps>(
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.defaultPrevented) return;
+
       if (e.key === 'Enter' || e.key === ' ') {
         const root = e.currentTarget;
         const emptySegment = root.querySelector<HTMLInputElement>(
@@ -222,7 +222,7 @@ const TimeInputRoot = React.forwardRef<HTMLDivElement, TimeInputRootProps>(
         role="group"
         data-slot="time-input-root"
         data-disabled={disabled || undefined}
-        data-validation={validationState || undefined}
+        data-open={open || undefined}
         className={cn(timeInputRootVariants({ variant, size }), className)}
         onPointerDown={handlePointerDown}
         onClick={handleClick}
@@ -241,11 +241,12 @@ TimeInputRoot.displayName = 'TimeInputRoot';
 
 export interface TimeSegmentInputProps extends Omit<
   React.ComponentProps<'input'>,
-  'value' | 'onChange' | 'min' | 'max' | 'step' | 'type' | 'size'
+  'value' | 'onChange' | 'min' | 'max' | 'step' | 'type' | 'size' | 'role'
 > {
   value?: number | null;
   onChange?: (value: number | null) => void;
   onComplete?: () => void;
+  onOpen?: () => void;
   onNavigateLeft?: () => void;
   onNavigateRight?: () => void;
   min?: number;
@@ -262,6 +263,7 @@ const TimeSegmentInput = React.forwardRef<
       value,
       onChange,
       onComplete,
+      onOpen,
       onNavigateLeft,
       onNavigateRight,
       min = 0,
@@ -273,6 +275,7 @@ const TimeSegmentInput = React.forwardRef<
       onFocus,
       onBlur,
       onKeyDown,
+      'aria-invalid': ariaInvalid,
       ...props
     },
     ref,
@@ -293,7 +296,6 @@ const TimeSegmentInput = React.forwardRef<
         const digit = Number.parseInt(bufferRef.current, 10);
         onChange?.(clamp(digit));
 
-        // Auto-complete if first digit makes a valid 2-digit value impossible
         if (digit * 10 > max) {
           bufferRef.current = '';
           onComplete?.();
@@ -361,6 +363,14 @@ const TimeSegmentInput = React.forwardRef<
           break;
         }
 
+        case 'Enter':
+          if (onOpen) {
+            e.preventDefault();
+            e.stopPropagation();
+            onOpen();
+          }
+          break;
+
         case 'Backspace':
         case 'Delete':
           e.preventDefault();
@@ -381,14 +391,22 @@ const TimeSegmentInput = React.forwardRef<
       onBlur?.(e);
     };
 
+    const hasValue = value !== null && value !== undefined;
+
     return (
       <input
         ref={ref}
         type="text"
         inputMode="numeric"
         maxLength={2}
+        role="spinbutton"
+        aria-valuemin={min}
+        aria-valuemax={max}
+        aria-valuenow={hasValue ? value : undefined}
+        aria-valuetext={hasValue ? displayValue : undefined}
+        aria-invalid={ariaInvalid}
         data-slot="time-segment"
-        data-empty={value === null || value === undefined ? '' : undefined}
+        data-empty={hasValue ? undefined : ''}
         value={displayValue}
         placeholder={placeholder}
         disabled={disabled}
@@ -525,7 +543,7 @@ export interface TimeInputProps
   onHourChange?: (hour: number | null) => void;
   onMinuteChange?: (minute: number | null) => void;
   onTriggerClick?: () => void;
-  validationState?: ValidationState;
+  open?: boolean;
   placeholderHour?: string;
   placeholderMinute?: string;
 }
@@ -558,7 +576,7 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
       onHourChange,
       onMinuteChange,
       onTriggerClick,
-      validationState,
+      open,
       placeholderHour = 'hh',
       placeholderMinute = 'mm',
       min,
@@ -569,6 +587,9 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
       disabled,
       id,
       autoFocus,
+      onClick,
+      onPointerDown,
+      'aria-invalid': ariaInvalidProp,
       ...divProps
     },
     ref,
@@ -595,13 +616,44 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
 
     const separatorClass = size === 'lg' ? 'w-2' : 'w-1';
 
+    const openIfClosed = () => {
+      if (!open) onTriggerClick?.();
+    };
+
+    const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+      const target = e.target as HTMLElement;
+
+      if (target.closest('input')) {
+        openIfClosed();
+      }
+
+      onPointerDown?.(e);
+    };
+
+    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+      onClick?.(e);
+
+      if (e.defaultPrevented) return;
+
+      const target = e.target as HTMLElement;
+
+      if (target.closest('button') || target.closest('input')) {
+        return;
+      }
+
+      openIfClosed();
+    };
+
     return (
       <TimeInputRoot
         ref={ref}
         variant={variant}
         size={size}
         disabled={disabled}
-        validationState={validationState}
+        open={open}
+        onClick={handleClick}
+        onPointerDown={handlePointerDown}
+        aria-invalid={ariaInvalidProp}
         {...divProps}>
         <div>
           <TimeSegmentInput
@@ -614,10 +666,13 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
             disabled={disabled}
             onComplete={() => minuteRef.current?.focus()}
             onNavigateRight={() => minuteRef.current?.focus()}
+            onOpen={openIfClosed}
             id={id}
             name={name ? `${name}-hour` : undefined}
             required={required}
             autoFocus={autoFocus}
+            aria-label="Hours"
+            aria-invalid={ariaInvalidProp}
             className={segmentWidthMap[size]}
           />
 
@@ -633,14 +688,23 @@ const TimeInput = React.forwardRef<HTMLDivElement, TimeInputProps>(
             placeholder={placeholderMinute}
             disabled={disabled}
             onNavigateLeft={() => hourRef.current?.focus()}
+            onOpen={openIfClosed}
             name={name ? `${name}-minute` : undefined}
             required={required}
+            aria-label="Minutes"
+            aria-invalid={ariaInvalidProp}
             className={segmentWidthMap[size]}
           />
         </div>
         <TimeInputTrigger
           size={size}
           disabled={disabled}
+          {...(onTriggerClick
+            ? {
+                'aria-haspopup': 'dialog' as const,
+                'aria-expanded': open ?? false,
+              }
+            : {})}
           onClick={onTriggerClick}
         />
       </TimeInputRoot>
