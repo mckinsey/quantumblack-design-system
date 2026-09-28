@@ -32,10 +32,10 @@ const showFeedback = instance.getBoolean('hasFeedbackMessage');
 
 const hhPh = JSON.stringify(String(instance.getString('hh') ?? 'hh'));
 const mmPh = JSON.stringify(String(instance.getString('mm') ?? 'mm'));
-const hhFilled = String(instance.getString('hhFilled') ?? '01');
-const mmFilled = String(instance.getString('mmFilled') ?? '10');
-const hhActive = String(instance.getString('hhActive') ?? 'hh');
-const mmActive = String(instance.getString('mmActive') ?? 'mm');
+const hhFilled = String(instance.getString('hhFilled') ?? '');
+const mmFilled = String(instance.getString('mmFilled') ?? '');
+const hhActive = String(instance.getString('hhActive') ?? '');
+const mmActive = String(instance.getString('mmActive') ?? '');
 
 const disabled = state === 'disabled';
 const invalid = state === 'error';
