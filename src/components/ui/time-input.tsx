@@ -165,7 +165,7 @@ const TimeInputRoot = React.forwardRef<HTMLDivElement, TimeInputRootProps>(
       const clickedInput = target.closest<HTMLInputElement>('input');
 
       if (clickedInput) {
-        const isOpen = e.currentTarget.dataset.state === 'open';
+        const isOpen = e.currentTarget.hasAttribute('data-open');
 
         if (isOpen) {
           e.nativeEvent.stopImmediatePropagation();
