@@ -1,30 +1,21 @@
 'use client';
 
-import { Menu as MenuPrimitive } from '@base-ui/react/menu';
+import { Radio as RadioPrimitive } from '@base-ui/react/radio';
+import { RadioGroup as RadioGroupPrimitive } from '@base-ui/react/radio-group';
 import { cva } from 'class-variance-authority';
 import type * as React from 'react';
 
-import { DropdownMenuRadioGroup } from '@/components/ui/dropdown-menu';
+import { PopoverContent } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
-// ============================================================================
-// TYPES & INTERFACES
-// ============================================================================
-
-export interface TimePickerItemProps extends MenuPrimitive.RadioItem.Props {
+export interface TimePickerItemProps extends RadioPrimitive.Root.Props {
   size?: 'default' | 'lg';
 }
 
-export interface TimePickerListProps extends React.ComponentProps<
-  typeof DropdownMenuRadioGroup
-> {
+export interface TimePickerListProps extends RadioGroupPrimitive.Props {
   readonly className?: string;
   readonly size?: 'default' | 'lg';
 }
-
-// ============================================================================
-// SIZE VARIANTS
-// ============================================================================
 
 const timePickerItemVariants = cva(
   [
@@ -32,6 +23,8 @@ const timePickerItemVariants = cva(
     'hover:bg-stateslayer-overlay-hover hover:text-fg-primary',
     'active:bg-stateslayer-overlay-pressed active:text-fg-primary',
     'data-checked:bg-stateslayer-overlay-active data-checked:text-fg-primary-inverse',
+    'focus-visible:bg-stateslayer-overlay-active focus-visible:text-fg-primary-inverse',
+    'focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-stroke-status-focus',
     'data-disabled:cursor-not-allowed data-disabled:bg-stateslayer-overlay-disabled data-disabled:text-fg-disabled',
     'aspect-square',
   ],
@@ -48,107 +41,79 @@ const timePickerItemVariants = cva(
   },
 );
 
-// ============================================================================
-// COMPONENTS - TimePickerItem
-// ============================================================================
-
-/**
- * Individual time picker list item (hour or minute)
- */
-export const TimePickerItem = ({
+export function TimePickerItem({
   size = 'default',
   className,
   ...props
-}: TimePickerItemProps) => {
+}: TimePickerItemProps) {
   return (
-    <MenuPrimitive.RadioItem
+    <RadioPrimitive.Root
       data-slot="time-picker-item"
       className={cn(timePickerItemVariants({ size }), className)}
       {...props}
-      closeOnClick={false}
     />
   );
-};
+}
 
 TimePickerItem.displayName = 'TimePickerItem';
 
-// ============================================================================
-// COMPONENTS - TimePickerList
-// ============================================================================
-
-/**
- * List container for time picker items
- */
 export function TimePickerList({
   size = 'default',
   className,
   ...props
 }: TimePickerListProps) {
   return (
-    <DropdownMenuRadioGroup
-      {...props}
+    <RadioGroupPrimitive
+      data-slot="time-picker-list"
+      data-size={size}
       className={cn(
         'flex size-fit flex-col',
         size === 'lg' ? 'gap-2' : 'gap-1',
         className,
       )}
+      {...props}
     />
   );
 }
 
 TimePickerList.displayName = 'TimePickerList';
 
-export interface TimePickerListContentProps
-  extends
-    MenuPrimitive.Popup.Props,
-    Pick<
-      MenuPrimitive.Positioner.Props,
-      'align' | 'alignOffset' | 'side' | 'sideOffset'
-    > {
+export interface TimePickerListContentProps extends React.ComponentProps<
+  typeof PopoverContent
+> {
   readonly size?: 'default' | 'lg';
-  readonly avoidCollisions?: boolean;
 }
 
-/**
- * DropdownMenuContent wrapper for time picker list content
- */
 export function TimePickerListContent({
   size = 'default',
   className,
   side = 'bottom',
-  align = 'center',
-  sideOffset = 0,
-  alignOffset = 0,
-  avoidCollisions = false,
+  align = 'start',
+  sideOffset = 4,
+  initialFocus = false,
+  finalFocus = false,
   ...props
 }: TimePickerListContentProps) {
   return (
-    <MenuPrimitive.Portal>
-      <MenuPrimitive.Positioner
-        className="isolate z-50 outline-none"
-        side={side}
-        align={align}
-        sideOffset={sideOffset}
-        alignOffset={alignOffset}
-        collisionAvoidance={
-          avoidCollisions
-            ? undefined
-            : { side: 'none', align: 'none', fallbackAxisSide: 'none' }
-        }>
-        <MenuPrimitive.Popup
-          data-slot="time-picker-list-content"
-          className={cn(
-            'bg-stateslayer-overlay-active-inverse shadow-elevation-0 z-50 flex origin-(--transform-origin) flex-row overflow-hidden rounded-none py-1 pr-3 pl-2 outline-none',
-            'min-w-(--anchor-width)',
-            size === 'lg'
-              ? 'h-40 min-h-40 w-[112px] gap-2'
-              : 'h-32 min-h-[120px] w-[96px] gap-1',
-            className,
-          )}
-          {...props}
-        />
-      </MenuPrimitive.Positioner>
-    </MenuPrimitive.Portal>
+    <PopoverContent
+      data-slot="time-picker-list-content"
+      data-size={size}
+      side={side}
+      align={align}
+      sideOffset={sideOffset}
+      initialFocus={initialFocus}
+      finalFocus={finalFocus}
+      className={cn(
+        'bg-stateslayer-overlay-active-inverse text-fg-primary shadow-elevation-0 flex w-auto flex-row overflow-hidden rounded-none border-none p-0',
+        'min-w-(--anchor-width)',
+        'data-closed:animate-none data-open:animate-none',
+        size === 'lg'
+          ? 'h-40 min-h-40 w-[112px] gap-2 py-1 pr-3 pl-2'
+          : 'h-32 min-h-[120px] w-[96px] gap-1 py-1 pr-3 pl-2',
+        className,
+      )}
+      {...props}
+    />
   );
 }
 

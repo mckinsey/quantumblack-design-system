@@ -211,6 +211,7 @@
       "type": "registry:ui",
       "title": "Time Input",
       "description": "Time input with segment-based hours and minutes entry.",
+      "dependencies": ["class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -223,11 +224,6 @@
         {
           "path": "src/components/ui/time-input.tsx",
           "type": "registry:ui"
-        },
-        {
-          "path": "src/app/demo/[name]/ui/time-input.tsx",
-          "type": "registry:example",
-          "target": ""
         }
       ]
     },
@@ -236,10 +232,11 @@
       "type": "registry:ui",
       "title": "Time Picker",
       "description": "Scrollable list of time options for building time pickers.",
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
-        "__REGISTRY_URL__/r/dropdown-menu.json",
+        "__REGISTRY_URL__/r/popover.json",
         "__REGISTRY_URL__/r/field.json",
         "__REGISTRY_URL__/r/scroll-area.json",
         "__REGISTRY_URL__/r/time-input.json"
@@ -880,7 +877,7 @@
       "type": "registry:ui",
       "title": "Tooltip",
       "description": "A popup that displays information when an element is hovered or focused.",
-      "dependencies": ["@radix-ui/react-tooltip"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"

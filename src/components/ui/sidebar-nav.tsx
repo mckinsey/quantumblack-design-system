@@ -17,7 +17,9 @@ import { SidebarMenuSub, useSidebar } from './sidebar';
 
 type SidebarNavSize = 'default' | 'lg';
 
-type NavTooltip = string | React.ComponentProps<typeof TooltipContent>;
+type NavTooltip =
+  | string
+  | (React.ComponentProps<typeof TooltipContent> & { hidden?: boolean });
 
 const sidebarNavIconButtonVariants = cva(
   [
@@ -59,14 +61,17 @@ function withNavTooltip(
   const tip = typeof tooltip === 'string' ? { children: tooltip } : tooltip;
   const { hidden: tooltipHidden, ...tooltipProps } = tip;
 
+  if (tooltipHidden ?? opts.isMobile) {
+    return button;
+  }
+
   return (
     <Tooltip>
-      <TooltipTrigger asChild>{button}</TooltipTrigger>
+      <TooltipTrigger render={button} />
       <TooltipContent
         side="right"
         align="center"
         sideOffset={opts.sideOffset}
-        hidden={tooltipHidden ?? opts.isMobile}
         {...tooltipProps}
       />
     </Tooltip>

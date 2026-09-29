@@ -6,6 +6,7 @@ import * as React from 'react';
 import {
   Tooltip,
   TooltipContent,
+  TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
@@ -215,86 +216,90 @@ function Slider({
   const thumbCount = currentValue.length;
 
   return (
-    <SliderPrimitive.Root
-      {...props}
-      data-slot="slider"
-      defaultValue={defaultValue}
-      value={value}
-      min={min}
-      max={max}
-      step={step}
-      disabled={disabled}
-      orientation={orientation}
-      minStepsBetweenValues={1}
-      thumbAlignment="edge"
-      onValueChange={handleValueChange}
-      onValueCommitted={handleValueCommitted}
-      className={cn(
-        'data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full',
-        className,
-      )}>
-      <SliderPrimitive.Control
-        onPointerDown={startInteraction}
+    <TooltipProvider delay={0}>
+      <SliderPrimitive.Root
+        {...props}
+        data-slot="slider"
+        defaultValue={defaultValue}
+        value={value}
+        min={min}
+        max={max}
+        step={step}
+        disabled={disabled}
+        orientation={orientation}
+        minStepsBetweenValues={1}
+        thumbAlignment="edge"
+        onValueChange={handleValueChange}
+        onValueCommitted={handleValueCommitted}
         className={cn(
-          'relative flex w-full touch-none items-center select-none',
-          'data-[orientation=horizontal]:px-2',
-          'data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-22 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col data-[orientation=vertical]:py-2',
+          'data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full',
+          className,
         )}>
-        <SliderPrimitive.Track
-          data-slot="slider-track"
+        <SliderPrimitive.Control
+          onPointerDown={startInteraction}
           className={cn(
-            'bg-fill-stepmarkers-track relative grow',
-            'data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full',
-            'data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px',
+            'relative flex w-full touch-none items-center select-none',
+            'data-[orientation=horizontal]:px-2',
+            'data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-22 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col data-[orientation=vertical]:py-2',
           )}>
-          <SliderPrimitive.Indicator
-            data-slot="slider-range"
-            className="bg-fill-active data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full"
-          />
-
-          {markers.map((marker, i) => (
-            <StepMarker
-              key={`${marker.value}-${i}`}
-              marker={marker}
-              isActive={isValueInRange(marker.value, currentValue)}
-              isVertical={isVertical}
-              showLabel={showStepLabels}
-              disabled={disabled}
+          <SliderPrimitive.Track
+            data-slot="slider-track"
+            className={cn(
+              'bg-fill-stepmarkers-track relative grow',
+              'data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full',
+              'data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px',
+            )}>
+            <SliderPrimitive.Indicator
+              data-slot="slider-range"
+              className="bg-fill-active data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full"
             />
+
+            {markers.map((marker, i) => (
+              <StepMarker
+                key={`${marker.value}-${i}`}
+                marker={marker}
+                isActive={isValueInRange(marker.value, currentValue)}
+                isVertical={isVertical}
+                showLabel={showStepLabels}
+                disabled={disabled}
+              />
+            ))}
+          </SliderPrimitive.Track>
+
+          {Array.from({ length: thumbCount }, (_, i) => (
+            <Tooltip
+              key={i}
+              open={showValueTooltip && (isInteracting || isHovering)}>
+              <TooltipTrigger
+                render={
+                  <SliderPrimitive.Thumb
+                    index={i}
+                    data-slot="slider-thumb"
+                    className={cn(
+                      thumbClasses,
+                      (isHovering || isInteracting) &&
+                        'outline-stroke-primary outline outline-2 outline-offset-0',
+                      isInteracting && 'shadow-elevation-1 transition-none',
+                    )}
+                    onPointerEnter={() => setIsHovering(true)}
+                    onPointerLeave={() => setIsHovering(false)}>
+                    <div className="bg-fill-active-inverse h-1 w-1 rounded-full" />
+                  </SliderPrimitive.Thumb>
+                }
+              />
+
+              <TooltipContent
+                side={isVertical ? 'left' : 'top'}
+                sideOffset={10}
+                align="center"
+                className="!animate-none text-center">
+                {formatValue(currentValue[i])}
+              </TooltipContent>
+            </Tooltip>
           ))}
-        </SliderPrimitive.Track>
-
-        {Array.from({ length: thumbCount }, (_, i) => (
-          <Tooltip
-            key={i}
-            open={showValueTooltip && (isInteracting || isHovering)}>
-            <TooltipTrigger asChild>
-              <SliderPrimitive.Thumb
-                index={i}
-                data-slot="slider-thumb"
-                className={cn(
-                  thumbClasses,
-                  (isHovering || isInteracting) &&
-                    'outline-stroke-primary outline outline-2 outline-offset-0',
-                  isInteracting && 'shadow-elevation-1 transition-none',
-                )}
-                onPointerEnter={() => setIsHovering(true)}
-                onPointerLeave={() => setIsHovering(false)}>
-                <div className="bg-fill-active-inverse h-1 w-1 rounded-full" />
-              </SliderPrimitive.Thumb>
-            </TooltipTrigger>
-
-            <TooltipContent
-              side={isVertical ? 'left' : 'top'}
-              sideOffset={10}
-              align="center"
-              className="!animate-none text-center">
-              {formatValue(currentValue[i])}
-            </TooltipContent>
-          </Tooltip>
-        ))}
-      </SliderPrimitive.Control>
-    </SliderPrimitive.Root>
+        </SliderPrimitive.Control>
+      </SliderPrimitive.Root>
+    </TooltipProvider>
   );
 }
 

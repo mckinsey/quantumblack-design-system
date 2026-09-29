@@ -23,6 +23,7 @@ import { Tag } from '@/components/ui/tag';
 import {
   Tooltip,
   TooltipContent,
+  TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { type DemoExample, createLegacyDemo } from '@/lib/demo-utils';
@@ -90,19 +91,23 @@ export function AvatarWithTooltip() {
     { size: 'lg' as const, showImage: true, tooltip: 'Cool person' },
   ];
   return (
-    <div className="flex items-center gap-4">
-      {items.map((item, i) => (
-        <Tooltip key={i}>
-          <TooltipTrigger asChild>
-            <Avatar size={item.size}>
-              {item.showImage && <AvatarImage src={AVATAR_IMG} />}
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-          </TooltipTrigger>
-          <TooltipContent>{item.tooltip}</TooltipContent>
-        </Tooltip>
-      ))}
-    </div>
+    <TooltipProvider>
+      <div className="flex items-center gap-4">
+        {items.map((item, i) => (
+          <Tooltip key={i}>
+            <TooltipTrigger
+              render={
+                <Avatar size={item.size}>
+                  {item.showImage && <AvatarImage src={AVATAR_IMG} />}
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+              }
+            />
+            <TooltipContent>{item.tooltip}</TooltipContent>
+          </Tooltip>
+        ))}
+      </div>
+    </TooltipProvider>
   );
 }
 

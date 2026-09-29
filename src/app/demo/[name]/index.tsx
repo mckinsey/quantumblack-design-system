@@ -360,18 +360,8 @@ import {
   examples as textareaExamples,
 } from '@/app/demo/[name]/ui/textarea';
 import {
-  TimeInputDemo,
-  TimeInputDisabled,
-  TimeInputInline,
-  TimeInputSteps,
-  TimeInputValidation,
-  timeInput,
-  examples as timeInputExamples,
-} from '@/app/demo/[name]/ui/time-input';
-import {
   TimePickerDemo,
   TimePickerInline,
-  TimePickerOverlaySizes,
   timePicker,
   examples as timePickerExamples,
 } from '@/app/demo/[name]/ui/time-picker';
@@ -705,17 +695,9 @@ export const exampleComponentMaps: Record<
     TextareaWithCounter,
     TextareaError,
   },
-  'time-input': {
-    TimeInputDemo,
-    TimeInputInline,
-    TimeInputSteps,
-    TimeInputDisabled,
-    TimeInputValidation,
-  },
   'time-picker': {
     TimePickerDemo,
     TimePickerInline,
-    TimePickerOverlaySizes,
   },
   toggle: {
     ToggleDemo,
@@ -779,7 +761,6 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   'tag-group': tagGroupExamples,
   'tag-toggle': tagToggleExamples,
   textarea: textareaExamples,
-  'time-input': timeInputExamples,
   'time-picker': timePickerExamples,
   toggle: toggleExamples,
   toolbar: toolbarExamples,
@@ -977,11 +958,6 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...textarea,
     examples: textareaExamples,
     exampleComponents: exampleComponentMaps.textarea,
-  },
-  'time-input': {
-    ...timeInput,
-    examples: timeInputExamples,
-    exampleComponents: exampleComponentMaps['time-input'],
   },
   'time-picker': {
     ...timePicker,
