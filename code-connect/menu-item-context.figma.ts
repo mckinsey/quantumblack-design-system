@@ -5,10 +5,11 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const inset = instance.getEnum('inset', {
-  true: true,
-  false: false,
-}) ?? false;
+const inset =
+  instance.getEnum('inset', {
+    true: true,
+    false: false,
+  }) ?? false;
 
 const disabled =
   instance.getEnum('state', {
@@ -36,8 +37,7 @@ const shortcutBlock = shortcutLit
 export default {
   example: figma.code`
     /*
-     * Figma MenuItem/Context — same row styles as ContextMenuItem.
-     * Use ContextMenuItem when the menu is opened via context-menu / right-click.
+     * Based on the use case, choose Select, Dropdown Menu, or Context Menu.
      */
     <DropdownMenuItem${insetProp}${disabledProp}>
       {${label}}

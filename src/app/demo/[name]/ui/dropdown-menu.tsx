@@ -3,21 +3,18 @@
 import * as React from 'react';
 
 import {
-  ActionMenuCheckboxesBody,
-  ActionMenuDefaultBody,
-  ActionMenuDestructiveBody,
-  ActionMenuFigmaContextBody,
-  ActionMenuIconsBody,
-  ActionMenuLargeBody,
-  ActionMenuRadioGroupBody,
-  ActionMenuSelectedRowBody,
-  ActionMenuShortcutsBody,
-  ActionMenuSubmenuBody,
   ACTION_MENU_PANEL_DEMO,
   ACTION_MENU_PANEL_FIGMA,
-  actionMenuExampleMeta,
+  ActionMenuCheckboxesBody,
+  ActionMenuCompositionBody,
+  ActionMenuDefaultBody,
+  ActionMenuRadioGroupBody,
+  ActionMenuShortcutsBody,
+  ActionMenuSizeBody,
   type ActionMenuUi,
+  actionMenuExampleMeta,
 } from '@/app/demo/[name]/ui/action-menu-examples.shared';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -35,10 +32,12 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Toggle } from '@/components/ui/toggle';
 
-const DROPDOWN_TOGGLE_TRIGGER_OPEN =
-  'data-[state=open]:bg-fill-active data-[state=open]:text-fg-primary-inverse data-[state=open]:border-stroke-active-inverse data-[state=open]:border-2';
+const radioLabel: Record<string, string> = {
+  top: 'Top',
+  bottom: 'Bottom',
+  right: 'Right',
+};
 
 const dropdownMenuUi: ActionMenuUi = {
   Content: DropdownMenuContent,
@@ -67,18 +66,10 @@ function DropdownMenuShell({
   contentClassName?: string;
   contentSize?: 'default' | 'lg';
 }>) {
-  const [open, setOpen] = React.useState(false);
-
   return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger asChild>
-        <Toggle
-          variant="outline"
-          pressed={open}
-          onPressedChange={setOpen}
-          className={DROPDOWN_TOGGLE_TRIGGER_OPEN}>
-          {triggerLabel}
-        </Toggle>
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<Button variant="outline" />}>
+        {triggerLabel}
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
@@ -93,7 +84,11 @@ function DropdownMenuShell({
 
 function makeDropdownExample(
   Body: React.ComponentType<{ ui: ActionMenuUi }>,
-  opts?: { panelClass?: string; size?: 'default' | 'lg'; triggerLabel?: string },
+  opts?: {
+    panelClass?: string;
+    size?: 'default' | 'lg';
+    triggerLabel?: string;
+  },
 ) {
   return function Example() {
     return (
@@ -107,62 +102,64 @@ function makeDropdownExample(
   };
 }
 
-export const DropdownMenuFigmaContext = makeDropdownExample(
-  ActionMenuFigmaContextBody,
-  { panelClass: ACTION_MENU_PANEL_FIGMA },
-);
-
 export const DropdownMenuDemo = makeDropdownExample(ActionMenuDefaultBody);
 export const DropdownMenuWithShortcuts = makeDropdownExample(
   ActionMenuShortcutsBody,
 );
-export const DropdownMenuWithIcons = makeDropdownExample(ActionMenuIconsBody);
-export const DropdownMenuWithSubmenu = makeDropdownExample(ActionMenuSubmenuBody);
-export const DropdownMenuSelectedRow = makeDropdownExample(
-  ActionMenuSelectedRowBody,
+export const DropdownMenuComposition = makeDropdownExample(
+  ActionMenuCompositionBody,
   { panelClass: ACTION_MENU_PANEL_FIGMA },
 );
 export const DropdownMenuWithCheckboxes = makeDropdownExample(
   ActionMenuCheckboxesBody,
 );
-export const DropdownMenuWithRadioGroup = makeDropdownExample(
-  ActionMenuRadioGroupBody,
-);
-export const DropdownMenuLarge = makeDropdownExample(ActionMenuLargeBody, {
-  size: 'lg',
-});
-export const DropdownMenuDestructive = makeDropdownExample(
-  ActionMenuDestructiveBody,
-  { triggerLabel: 'Actions' },
-);
+export function DropdownMenuWithRadioGroup() {
+  const [position, setPosition] = React.useState('bottom');
+
+  return (
+    <DropdownMenuShell triggerLabel={radioLabel[position]}>
+      <ActionMenuRadioGroupBody
+        ui={dropdownMenuUi}
+        value={position}
+        onValueChange={setPosition}
+      />
+    </DropdownMenuShell>
+  );
+}
+
+export function DropdownMenuSizes() {
+  return (
+    <div className="flex flex-wrap items-start gap-8">
+      <DropdownMenuShell triggerLabel="Default">
+        <ActionMenuSizeBody ui={dropdownMenuUi} size="default" />
+      </DropdownMenuShell>
+
+      <DropdownMenuShell triggerLabel="Large" contentSize="lg">
+        <ActionMenuSizeBody ui={dropdownMenuUi} size="lg" />
+      </DropdownMenuShell>
+    </div>
+  );
+}
 
 const exampleComponents: Record<
   (typeof actionMenuExampleMeta)[number]['key'],
   React.ComponentType
 > = {
-  FigmaContext: DropdownMenuFigmaContext,
   Default: DropdownMenuDemo,
   Shortcuts: DropdownMenuWithShortcuts,
-  WithIcons: DropdownMenuWithIcons,
-  Submenu: DropdownMenuWithSubmenu,
-  SelectedRow: DropdownMenuSelectedRow,
+  Composition: DropdownMenuComposition,
   Checkboxes: DropdownMenuWithCheckboxes,
   RadioGroup: DropdownMenuWithRadioGroup,
-  Large: DropdownMenuLarge,
-  Destructive: DropdownMenuDestructive,
+  Size: DropdownMenuSizes,
 };
 
 const dropdownExampleNames = {
-  FigmaContext: 'DropdownMenuFigmaContext',
   Default: 'DropdownMenuDemo',
   Shortcuts: 'DropdownMenuWithShortcuts',
-  WithIcons: 'DropdownMenuWithIcons',
-  Submenu: 'DropdownMenuWithSubmenu',
-  SelectedRow: 'DropdownMenuSelectedRow',
+  Composition: 'DropdownMenuComposition',
   Checkboxes: 'DropdownMenuWithCheckboxes',
   RadioGroup: 'DropdownMenuWithRadioGroup',
-  Large: 'DropdownMenuLarge',
-  Destructive: 'DropdownMenuDestructive',
+  Size: 'DropdownMenuSizes',
 } as const;
 
 export const examples = actionMenuExampleMeta.map(meta => ({

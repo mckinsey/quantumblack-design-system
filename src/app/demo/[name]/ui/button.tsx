@@ -245,7 +245,7 @@ export function ButtonDropdown() {
       {options.map(option => (
         <DropdownMenuItem
           key={option}
-          onSelect={() => setSelected(option)}
+          onClick={() => setSelected(option)}
           className="justify-between">
           {option}
           {selected === option ? (
@@ -261,35 +261,39 @@ export function ButtonDropdown() {
   return (
     <div className="flex flex-wrap items-center gap-4">
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline">Button</Button>
-        </DropdownMenuTrigger>
+        <DropdownMenuTrigger
+          render={<Button variant="outline">Button</Button>}
+        />
         {menu}
       </DropdownMenu>
 
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="icon" aria-label="Open menu">
-            <IconShell size="sm" hoverable>
-              <Icon icon="keyboard_arrow_down" />
-            </IconShell>
-          </Button>
-        </DropdownMenuTrigger>
+        <DropdownMenuTrigger
+          render={
+            <Button variant="outline" size="icon" aria-label="Open menu">
+              <IconShell size="sm" hoverable>
+                <Icon icon="keyboard_arrow_down" />
+              </IconShell>
+            </Button>
+          }
+        />
         {menu}
       </DropdownMenu>
 
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="outline"
-            size="icon"
-            className="rounded-full"
-            aria-label="Open menu">
-            <IconShell size="sm" hoverable>
-              <Icon icon="keyboard_arrow_down" />
-            </IconShell>
-          </Button>
-        </DropdownMenuTrigger>
+        <DropdownMenuTrigger
+          render={
+            <Button
+              variant="outline"
+              size="icon"
+              className="rounded-full"
+              aria-label="Open menu">
+              <IconShell size="sm" hoverable>
+                <Icon icon="keyboard_arrow_down" />
+              </IconShell>
+            </Button>
+          }
+        />
         {menu}
       </DropdownMenu>
     </div>

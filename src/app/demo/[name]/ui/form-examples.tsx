@@ -476,43 +476,50 @@ function TimeFieldRow({
       <FieldLabel htmlFor={id} className={labelClass}>
         {label}
       </FieldLabel>
-      <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
-        <DropdownMenuTrigger asChild>
-          <TimeInput
-            id={id}
-            name={name}
-            hour={hour}
-            minute={minute}
-            onHourChange={h => onChange(formatTimeFieldValue(h, minute))}
-            onMinuteChange={m => onChange(formatTimeFieldValue(hour, m))}
-            onBlur={onBlur}
-            aria-invalid={invalid}
-            data-open={open}
-            variant={variant === 'inline' ? 'inline' : 'default'}
-            className={
-              variant === 'inline' ? undefined : 'w-fit justify-between'
+      <DropdownMenu
+        open={open}
+        modal={false}
+        onOpenChange={(next, details) => {
+          if (!next && details.reason === 'outside-press') {
+            const target = details.event.target;
+
+            if (
+              target instanceof Element &&
+              target.closest('[data-slot="time-input-root"]')
+            ) {
+              details.cancel();
+
+              return;
             }
-          />
-        </DropdownMenuTrigger>
+          }
+
+          setOpen(next);
+        }}>
+        <DropdownMenuTrigger
+          nativeButton={false}
+          render={
+            <TimeInput
+              id={id}
+              name={name}
+              hour={hour}
+              minute={minute}
+              onHourChange={h => onChange(formatTimeFieldValue(h, minute))}
+              onMinuteChange={m => onChange(formatTimeFieldValue(hour, m))}
+              onBlur={onBlur}
+              aria-invalid={invalid}
+              data-open={open}
+              variant={variant === 'inline' ? 'inline' : 'default'}
+              className={
+                variant === 'inline' ? undefined : 'w-fit justify-between'
+              }
+            />
+          }
+        />
         <TimePickerListContent
           size="default"
           className="z-10"
           sideOffset={4}
-          align="start"
-          onOpenAutoFocus={e => e.preventDefault()}
-          onInteractOutside={e => {
-            const custom = e as CustomEvent<{
-              originalEvent: PointerEvent;
-            }>;
-            const target = custom.detail?.originalEvent?.target;
-
-            if (
-              target instanceof HTMLElement &&
-              target.closest('[data-slot="time-input-root"]')
-            ) {
-              e.preventDefault();
-            }
-          }}>
+          align="start">
           <TimePickerColumn
             value={hour}
             onValueChange={h => onChange(formatTimeFieldValue(h, minute))}

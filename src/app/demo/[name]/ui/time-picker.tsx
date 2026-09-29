@@ -131,40 +131,47 @@ function TimePickerExample({
     <FieldSet className={cfg.gap}>
       <FieldTitle className={labelClassName}>{label}</FieldTitle>
 
-      <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
-        <DropdownMenuTrigger asChild>
-          <TimeInput
-            id={id}
-            size={size}
-            variant={variant}
-            hour={selectedHour}
-            minute={selectedMinute}
-            onHourChange={setSelectedHour}
-            onMinuteChange={setSelectedMinute}
-            data-open={open}
-            className={variant === 'inline' ? undefined : 'w-fit'}
-          />
-        </DropdownMenuTrigger>
+      <DropdownMenu
+        open={open}
+        modal={false}
+        onOpenChange={(next, details) => {
+          if (!next && details.reason === 'outside-press') {
+            const target = details.event.target;
+
+            if (
+              target instanceof Element &&
+              target.closest('[data-slot="time-input-root"]')
+            ) {
+              details.cancel();
+
+              return;
+            }
+          }
+
+          setOpen(next);
+        }}>
+        <DropdownMenuTrigger
+          nativeButton={false}
+          render={
+            <TimeInput
+              id={id}
+              size={size}
+              variant={variant}
+              hour={selectedHour}
+              minute={selectedMinute}
+              onHourChange={setSelectedHour}
+              onMinuteChange={setSelectedMinute}
+              data-open={open}
+              className={variant === 'inline' ? undefined : 'w-fit'}
+            />
+          }
+        />
 
         <TimePickerListContent
           size={dropdownSize}
           className="z-10"
           sideOffset={4}
-          align="start"
-          onOpenAutoFocus={e => e.preventDefault()}
-          onInteractOutside={e => {
-            const custom = e as CustomEvent<{
-              originalEvent: PointerEvent;
-            }>;
-            const target = custom.detail?.originalEvent?.target;
-
-            if (
-              target instanceof HTMLElement &&
-              target.closest('[data-slot="time-input-root"]')
-            ) {
-              e.preventDefault();
-            }
-          }}>
+          align="start">
           <TimePickerColumn
             value={selectedHour}
             onValueChange={setSelectedHour}
@@ -206,18 +213,20 @@ function TimePickerOverlay({
 
   return (
     <DropdownMenu open modal={false}>
-      <DropdownMenuTrigger asChild>
-        <div className="label-regular-primary text-fg-secondary capitalize">
-          {size}
-        </div>
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger
+        nativeButton={false}
+        render={
+          <div className="label-regular-primary text-fg-secondary capitalize">
+            {size}
+          </div>
+        }
+      />
 
       <TimePickerListContent
         size={size}
         sideOffset={10}
         align="start"
-        onOpenAutoFocus={e => e.preventDefault()}
-        onCloseAutoFocus={e => e.preventDefault()}>
+        finalFocus={false}>
         <TimePickerColumn
           value={selectedHour}
           onValueChange={setSelectedHour}

@@ -1,6 +1,6 @@
 'use client';
 
-import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
+import { Menu as MenuPrimitive } from '@base-ui/react/menu';
 import { cva } from 'class-variance-authority';
 import type * as React from 'react';
 
@@ -11,9 +11,7 @@ import { cn } from '@/lib/utils';
 // TYPES & INTERFACES
 // ============================================================================
 
-export interface TimePickerItemProps extends React.ComponentProps<
-  typeof DropdownMenuPrimitive.RadioItem
-> {
+export interface TimePickerItemProps extends MenuPrimitive.RadioItem.Props {
   size?: 'default' | 'lg';
 }
 
@@ -33,8 +31,8 @@ const timePickerItemVariants = cva(
     'flex justify-center items-center bg-transparent text-fg-secondary cursor-pointer rounded-none outline-none',
     'hover:bg-stateslayer-overlay-hover hover:text-fg-primary',
     'active:bg-stateslayer-overlay-pressed active:text-fg-primary',
-    'data-[state=checked]:bg-stateslayer-overlay-active data-[state=checked]:text-fg-primary-inverse',
-    'disabled:cursor-not-allowed disabled:bg-stateslayer-overlay-disabled disabled:text-fg-disabled',
+    'data-checked:bg-stateslayer-overlay-active data-checked:text-fg-primary-inverse',
+    'data-disabled:cursor-not-allowed data-disabled:bg-stateslayer-overlay-disabled data-disabled:text-fg-disabled',
     'aspect-square',
   ],
   {
@@ -60,18 +58,14 @@ const timePickerItemVariants = cva(
 export const TimePickerItem = ({
   size = 'default',
   className,
-  onSelect,
   ...props
 }: TimePickerItemProps) => {
   return (
-    <DropdownMenuPrimitive.RadioItem
+    <MenuPrimitive.RadioItem
       data-slot="time-picker-item"
-      {...props}
-      onSelect={e => {
-        e.preventDefault();
-        onSelect?.(e);
-      }}
       className={cn(timePickerItemVariants({ size }), className)}
+      {...props}
+      closeOnClick={false}
     />
   );
 };
@@ -104,12 +98,15 @@ export function TimePickerList({
 
 TimePickerList.displayName = 'TimePickerList';
 
-export interface TimePickerListContentProps extends React.ComponentProps<
-  typeof DropdownMenuPrimitive.Content
-> {
+export interface TimePickerListContentProps
+  extends
+    MenuPrimitive.Popup.Props,
+    Pick<
+      MenuPrimitive.Positioner.Props,
+      'align' | 'alignOffset' | 'side' | 'sideOffset'
+    > {
   readonly size?: 'default' | 'lg';
-  readonly onOpenAutoFocus?: (event: Event) => void;
-  readonly onCloseAutoFocus?: (event: Event) => void;
+  readonly avoidCollisions?: boolean;
 }
 
 /**
@@ -119,24 +116,39 @@ export function TimePickerListContent({
   size = 'default',
   className,
   side = 'bottom',
+  align = 'center',
+  sideOffset = 0,
+  alignOffset = 0,
   avoidCollisions = false,
   ...props
 }: TimePickerListContentProps) {
   return (
-    <DropdownMenuPrimitive.Content
-      data-slot="time-picker-list-content"
-      side={side}
-      avoidCollisions={avoidCollisions}
-      className={cn(
-        'bg-stateslayer-overlay-active-inverse shadow-elevation-0 flex flex-row overflow-hidden rounded-none py-1 pr-3 pl-2',
-        'min-w-[var(--radix-dropdown-menu-trigger-width)]',
-        size === 'lg'
-          ? 'h-40 min-h-40 w-[112px] gap-2'
-          : 'h-32 min-h-[120px] w-[96px] gap-1',
-        className,
-      )}
-      {...props}
-    />
+    <MenuPrimitive.Portal>
+      <MenuPrimitive.Positioner
+        className="isolate z-50 outline-none"
+        side={side}
+        align={align}
+        sideOffset={sideOffset}
+        alignOffset={alignOffset}
+        collisionAvoidance={
+          avoidCollisions
+            ? undefined
+            : { side: 'none', align: 'none', fallbackAxisSide: 'none' }
+        }>
+        <MenuPrimitive.Popup
+          data-slot="time-picker-list-content"
+          className={cn(
+            'bg-stateslayer-overlay-active-inverse shadow-elevation-0 z-50 flex origin-(--transform-origin) flex-row overflow-hidden rounded-none py-1 pr-3 pl-2 outline-none',
+            'min-w-(--anchor-width)',
+            size === 'lg'
+              ? 'h-40 min-h-40 w-[112px] gap-2'
+              : 'h-32 min-h-[120px] w-[96px] gap-1',
+            className,
+          )}
+          {...props}
+        />
+      </MenuPrimitive.Positioner>
+    </MenuPrimitive.Portal>
   );
 }
 

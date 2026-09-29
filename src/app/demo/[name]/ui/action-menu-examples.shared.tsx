@@ -5,11 +5,9 @@ import * as React from 'react';
 import { Icon } from '@/components/ui/icon';
 import { IconShell } from '@/components/ui/icon-shell';
 
-export const ACTION_MENU_PANEL_FIGMA =
-  'w-[180px] min-w-[180px] max-w-[180px]';
+export const ACTION_MENU_PANEL_FIGMA = 'w-[240px] min-w-[240px] max-w-[240px]';
 
-export const ACTION_MENU_PANEL_DEMO =
-  'w-[256px] min-w-[256px] max-w-[256px]';
+export const ACTION_MENU_PANEL_DEMO = 'w-[256px] min-w-[256px] max-w-[256px]';
 
 export type ActionMenuUi = {
   Content: React.ElementType;
@@ -35,35 +33,64 @@ function FigmaLeadingIcon({ size = 'sm' }: { size?: 'sm' | 'default' }) {
   );
 }
 
-export function ActionMenuFigmaContextBody({ ui: U }: { ui: ActionMenuUi }) {
+function DoneSlot({ on }: { on?: boolean }) {
+  return (
+    <IconShell
+      size="sm"
+      variant="primary"
+      className={on ? undefined : 'invisible'}>
+      <Icon icon="done" size="sm" />
+    </IconShell>
+  );
+}
+
+function ContextRow({
+  ui: U,
+  selected,
+  disabled,
+  divider,
+}: {
+  ui: ActionMenuUi;
+  selected?: boolean;
+  disabled?: boolean;
+  divider?: boolean;
+}) {
+  return (
+    <>
+      <U.Item disabled={disabled}>
+        <DoneSlot on={selected} />
+        <FigmaLeadingIcon />
+        Item label
+        <U.Shortcut>⌥⌘S</U.Shortcut>
+      </U.Item>
+
+      {divider ? <U.Separator /> : null}
+    </>
+  );
+}
+
+function SubRow({ ui: U, disabled }: { ui: ActionMenuUi; disabled?: boolean }) {
+  return (
+    <U.Item disabled={disabled}>
+      <FigmaLeadingIcon />
+      Item label
+      <U.Shortcut>⌥⌘S</U.Shortcut>
+    </U.Item>
+  );
+}
+
+export function ActionMenuCompositionBody({ ui: U }: { ui: ActionMenuUi }) {
   return (
     <>
       <U.Group>
         <U.Label>GROUP HEADING</U.Label>
-
-        <U.Item>
-          <FigmaLeadingIcon />
-          Item label
-          <U.Shortcut>⌥⌘S</U.Shortcut>
-        </U.Item>
-
-        <U.Item>
-          <FigmaLeadingIcon />
-          Item label
-          <U.Shortcut>⌥⌘S</U.Shortcut>
-        </U.Item>
+        <ContextRow ui={U} divider />
+        <ContextRow ui={U} divider />
       </U.Group>
-
-      <U.Separator />
 
       <U.Group>
         <U.Label>GROUP HEADING</U.Label>
-
-        <U.Item>
-          <FigmaLeadingIcon />
-          Item label
-          <U.Shortcut>⌥⌘S</U.Shortcut>
-        </U.Item>
+        <ContextRow ui={U} divider />
 
         <U.Sub>
           <U.SubTrigger inset>
@@ -73,25 +100,35 @@ export function ActionMenuFigmaContextBody({ ui: U }: { ui: ActionMenuUi }) {
 
           <U.Portal>
             <U.SubContent className={ACTION_MENU_PANEL_FIGMA}>
-              <U.Item>Nested item</U.Item>
-              <U.Item>Nested item</U.Item>
+              <SubRow ui={U} />
+              <SubRow ui={U} disabled />
+              <SubRow ui={U} />
+
+              <U.Sub>
+                <U.SubTrigger>
+                  <FigmaLeadingIcon />
+                  Item label
+                </U.SubTrigger>
+
+                <U.Portal>
+                  <U.SubContent className={ACTION_MENU_PANEL_FIGMA}>
+                    <SubRow ui={U} />
+                    <SubRow ui={U} />
+                  </U.SubContent>
+                </U.Portal>
+              </U.Sub>
+
+              <SubRow ui={U} disabled />
             </U.SubContent>
           </U.Portal>
         </U.Sub>
 
-        <U.Item inset>
-          <IconShell size="sm" variant="primary">
-            <Icon icon="done" size="sm" />
-          </IconShell>
-          Item label
-          <U.Shortcut>⌥⌘S</U.Shortcut>
-        </U.Item>
-
-        <U.Item disabled>
-          <FigmaLeadingIcon />
-          Item label
-          <U.Shortcut>⌥⌘S</U.Shortcut>
-        </U.Item>
+        <ContextRow ui={U} selected divider />
+        <ContextRow ui={U} />
+        <ContextRow ui={U} divider />
+        <ContextRow ui={U} />
+        <ContextRow ui={U} disabled />
+        <ContextRow ui={U} selected />
       </U.Group>
     </>
   );
@@ -148,101 +185,6 @@ export function ActionMenuShortcutsBody({ ui: U }: { ui: ActionMenuUi }) {
   );
 }
 
-export function ActionMenuIconsBody({ ui: U }: { ui: ActionMenuUi }) {
-  return (
-    <>
-      <U.Item>
-        <IconShell size="sm" variant="secondary">
-          <Icon icon="person" size="sm" />
-        </IconShell>
-        Profile
-      </U.Item>
-
-      <U.Item>
-        <IconShell size="sm" variant="secondary">
-          <Icon icon="attach_money" size="sm" />
-        </IconShell>
-        Billing
-      </U.Item>
-
-      <U.Item>
-        <IconShell size="sm" variant="secondary">
-          <Icon icon="key" size="sm" />
-        </IconShell>
-        Settings
-      </U.Item>
-
-      <U.Separator />
-
-      <U.Item variant="destructive">
-        <IconShell size="sm" variant="secondary">
-          <Icon icon="close" size="sm" />
-        </IconShell>
-        Log out
-      </U.Item>
-    </>
-  );
-}
-
-export function ActionMenuSubmenuBody({ ui: U }: { ui: ActionMenuUi }) {
-  return (
-    <U.Group>
-      <U.Item>
-        <IconShell size="sm" variant="secondary">
-          <Icon icon="person" size="sm" />
-        </IconShell>
-        Team
-      </U.Item>
-
-      <U.Sub>
-        <U.SubTrigger>
-          <IconShell size="sm" variant="secondary">
-            <Icon icon="send" size="sm" />
-          </IconShell>
-          Invite users
-        </U.SubTrigger>
-
-        <U.Portal>
-          <U.SubContent className={ACTION_MENU_PANEL_DEMO}>
-            <U.Item>
-              <IconShell size="sm" variant="secondary">
-                <Icon icon="mail" size="sm" />
-              </IconShell>
-              Email
-            </U.Item>
-
-            <U.Item>Message</U.Item>
-
-            <U.Separator />
-
-            <U.Item>More&hellip;</U.Item>
-          </U.SubContent>
-        </U.Portal>
-      </U.Sub>
-
-      <U.Item>
-        New Team
-        <U.Shortcut>⌘+T</U.Shortcut>
-      </U.Item>
-    </U.Group>
-  );
-}
-
-export function ActionMenuSelectedRowBody({ ui: U }: { ui: ActionMenuUi }) {
-  return (
-    <>
-      <U.Item inset>
-        <IconShell size="sm" variant="primary">
-          <Icon icon="done" size="sm" />
-        </IconShell>
-        Current workspace
-      </U.Item>
-
-      <U.Item inset>Other workspace</U.Item>
-    </>
-  );
-}
-
 export function ActionMenuCheckboxesBody({ ui: U }: { ui: ActionMenuUi }) {
   const [showStatusBar, setShowStatusBar] = React.useState(true);
   const [showActivityBar, setShowActivityBar] = React.useState(false);
@@ -272,14 +214,20 @@ export function ActionMenuCheckboxesBody({ ui: U }: { ui: ActionMenuUi }) {
   );
 }
 
-export function ActionMenuRadioGroupBody({ ui: U }: { ui: ActionMenuUi }) {
-  const [position, setPosition] = React.useState('bottom');
-
+export function ActionMenuRadioGroupBody({
+  ui: U,
+  value,
+  onValueChange,
+}: {
+  ui: ActionMenuUi;
+  value: string;
+  onValueChange: (value: string) => void;
+}) {
   return (
     <U.Group>
       <U.Label>Panel Position</U.Label>
 
-      <U.RadioGroup value={position} onValueChange={setPosition}>
+      <U.RadioGroup value={value} onValueChange={onValueChange}>
         <U.RadioItem value="top">Top</U.RadioItem>
         <U.RadioItem value="bottom">Bottom</U.RadioItem>
         <U.RadioItem value="right">Right</U.RadioItem>
@@ -288,16 +236,24 @@ export function ActionMenuRadioGroupBody({ ui: U }: { ui: ActionMenuUi }) {
   );
 }
 
-export function ActionMenuLargeBody({ ui: U }: { ui: ActionMenuUi }) {
+export function ActionMenuSizeBody({
+  ui: U,
+  size,
+}: {
+  ui: ActionMenuUi;
+  size: 'default' | 'lg';
+}) {
+  const iconSize = size === 'lg' ? 'default' : 'sm';
+
   return (
     <U.Group>
       <U.Item>
-        <FigmaLeadingIcon size="default" />
+        <FigmaLeadingIcon size={iconSize} />
         Profile
       </U.Item>
 
       <U.Item>
-        <FigmaLeadingIcon size="default" />
+        <FigmaLeadingIcon size={iconSize} />
         Billing
         <U.Shortcut>⌘B</U.Shortcut>
       </U.Item>
@@ -306,7 +262,7 @@ export function ActionMenuLargeBody({ ui: U }: { ui: ActionMenuUi }) {
         <U.SubTrigger inset>Invite users</U.SubTrigger>
 
         <U.Portal>
-          <U.SubContent size="lg" className={ACTION_MENU_PANEL_DEMO}>
+          <U.SubContent size={size} className={ACTION_MENU_PANEL_DEMO}>
             <U.Item>Email</U.Item>
             <U.Item>Message</U.Item>
           </U.SubContent>
@@ -316,46 +272,7 @@ export function ActionMenuLargeBody({ ui: U }: { ui: ActionMenuUi }) {
   );
 }
 
-export function ActionMenuDestructiveBody({ ui: U }: { ui: ActionMenuUi }) {
-  return (
-    <>
-      <U.Group>
-        <U.Item>
-          <IconShell size="sm" variant="secondary">
-            <Icon icon="edit" size="sm" />
-          </IconShell>
-          Edit
-        </U.Item>
-
-        <U.Item>
-          <IconShell size="sm" variant="secondary">
-            <Icon icon="send" size="sm" />
-          </IconShell>
-          Share
-        </U.Item>
-      </U.Group>
-
-      <U.Separator />
-
-      <U.Group>
-        <U.Item variant="destructive">
-          <IconShell size="sm" variant="secondary">
-            <Icon icon="delete" size="sm" />
-          </IconShell>
-          Delete
-        </U.Item>
-      </U.Group>
-    </>
-  );
-}
-
 export const actionMenuExampleMeta = [
-  {
-    key: 'FigmaContext',
-    title: 'Figma Menu/Context',
-    description:
-      'Menu/Context layout: group headings, leading icons, shortcuts, submenu, selected row (done), disabled.',
-  },
   {
     key: 'Default',
     title: 'Default',
@@ -367,39 +284,24 @@ export const actionMenuExampleMeta = [
     description: 'Items with keyboard shortcut hints.',
   },
   {
-    key: 'WithIcons',
-    title: 'With Icons',
-    description: 'Leading IconShell + icon composition.',
-  },
-  {
-    key: 'Submenu',
-    title: 'Submenu',
-    description: 'Nested submenus for secondary actions.',
-  },
-  {
-    key: 'SelectedRow',
-    title: 'Selected row',
-    description:
-      'MenuItem/Context selected: inset row with leading done indicator.',
+    key: 'Composition',
+    title: 'Menu composition',
+    description: 'submenu, selected, icons',
   },
   {
     key: 'Checkboxes',
     title: 'Checkboxes',
-    description: 'Checkbox items (Radix; not on Menus Figma page).',
+    description: 'Checkbox items (not on Menus Figma page).',
   },
   {
     key: 'RadioGroup',
     title: 'Radio Group',
-    description: 'Radio group for exclusive choices.',
+    description:
+      'Exclusive choice. Selected row uses the same trailing done check as select.',
   },
   {
-    key: 'Large',
-    title: 'Large',
-    description: 'size=lg panel and items.',
-  },
-  {
-    key: 'Destructive',
-    title: 'Destructive',
-    description: 'Destructive item variant (code extension).',
+    key: 'Size',
+    title: 'Size',
+    description: 'default and lg',
   },
 ] as const;

@@ -5,10 +5,11 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const inset = instance.getEnum('inset', {
-  true: true,
-  false: false,
-}) ?? false;
+const inset =
+  instance.getEnum('inset', {
+    true: true,
+    false: false,
+  }) ?? false;
 
 const label = JSON.stringify(
   String(instance.getString('label') ?? 'Item label'),
@@ -19,7 +20,7 @@ const insetProp = inset ? ' inset' : '';
 export default {
   example: figma.code`
     /*
-     * Figma MenuItem/Subtrigger — same as ContextMenuSubTrigger for context-menu triggers.
+     * Based on the use case, choose Select, Dropdown Menu, or Context Menu.
      */
     <DropdownMenuSubTrigger${insetProp}>{${label}}</DropdownMenuSubTrigger>
   `,

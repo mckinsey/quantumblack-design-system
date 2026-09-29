@@ -1,6 +1,6 @@
 'use client';
 
-import * as ContextMenuPrimitive from '@radix-ui/react-context-menu';
+import { ContextMenu as ContextMenuPrimitive } from '@base-ui/react/context-menu';
 import * as React from 'react';
 
 import { Icon } from '@/components/ui/icon';
@@ -14,6 +14,9 @@ const ContextMenuSizeContext = React.createContext<ContextMenuSize>('default');
 function useContextMenuSize() {
   return React.useContext(ContextMenuSizeContext);
 }
+
+const popupMotion =
+  'z-50 max-h-(--available-height) origin-(--transform-origin) overflow-x-hidden overflow-y-auto bg-fill-active-inverse text-fg-primary shadow-elevation-2 outline-none duration-100 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2';
 
 function CheckboxItemMark() {
   return (
@@ -32,179 +35,72 @@ function CheckboxItemMark() {
   );
 }
 
-function ContextMenu({
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.Root>) {
+function ContextMenu({ ...props }: ContextMenuPrimitive.Root.Props) {
   return <ContextMenuPrimitive.Root data-slot="context-menu" {...props} />;
 }
 
-function ContextMenuPortal({
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.Portal>) {
+function ContextMenuPortal({ ...props }: ContextMenuPrimitive.Portal.Props) {
   return (
     <ContextMenuPrimitive.Portal data-slot="context-menu-portal" {...props} />
   );
 }
 
 function ContextMenuTrigger({
+  className,
   ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.Trigger>) {
+}: ContextMenuPrimitive.Trigger.Props) {
   return (
-    <ContextMenuPrimitive.Trigger data-slot="context-menu-trigger" {...props} />
+    <ContextMenuPrimitive.Trigger
+      data-slot="context-menu-trigger"
+      className={cn('select-none', className)}
+      {...props}
+    />
   );
-}
-
-interface ContextMenuContentProps extends React.ComponentProps<
-  typeof ContextMenuPrimitive.Content
-> {
-  children?: React.ReactNode;
-  onOpenAutoFocus?: (event: Event) => void;
-  size?: ContextMenuSize;
 }
 
 function ContextMenuContent({
+  align = 'start',
+  alignOffset = 4,
+  side = 'right',
+  sideOffset = 0,
   className,
   size = 'default',
   ...props
-}: ContextMenuContentProps) {
+}: ContextMenuPrimitive.Popup.Props &
+  Pick<
+    ContextMenuPrimitive.Positioner.Props,
+    'align' | 'alignOffset' | 'side' | 'sideOffset'
+  > & {
+    size?: ContextMenuSize;
+  }) {
   return (
-    <ContextMenuPrimitive.Portal>
-      <ContextMenuSizeContext.Provider value={size}>
-        <ContextMenuPrimitive.Content
-          data-slot="context-menu-content"
-          data-size={size}
-          className={cn(
-            'bg-fill-active-inverse text-fg-primary shadow-elevation-2 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 max-h-(--radix-context-menu-content-available-height) origin-(--radix-context-menu-content-transform-origin) overflow-x-hidden overflow-y-auto',
-            size === 'lg' ? 'px-1 py-2' : 'p-1',
-            className,
-          )}
-          {...props}
-        />
-      </ContextMenuSizeContext.Provider>
-    </ContextMenuPrimitive.Portal>
+    <ContextMenuSizeContext.Provider value={size}>
+      <ContextMenuPrimitive.Portal>
+        <ContextMenuPrimitive.Positioner
+          className="isolate z-50 outline-none"
+          align={align}
+          alignOffset={alignOffset}
+          side={side}
+          sideOffset={sideOffset}>
+          <ContextMenuPrimitive.Popup
+            data-slot="context-menu-content"
+            data-size={size}
+            className={cn(
+              popupMotion,
+              size === 'lg' ? 'px-1 py-2' : 'p-1',
+              className,
+            )}
+            {...props}
+          />
+        </ContextMenuPrimitive.Positioner>
+      </ContextMenuPrimitive.Portal>
+    </ContextMenuSizeContext.Provider>
   );
 }
 
-function ContextMenuGroup({
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.Group>) {
+function ContextMenuGroup({ ...props }: ContextMenuPrimitive.Group.Props) {
   return (
     <ContextMenuPrimitive.Group data-slot="context-menu-group" {...props} />
-  );
-}
-
-function ContextMenuItem({
-  className,
-  inset,
-  variant = 'default',
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.Item> & {
-  inset?: boolean;
-  variant?: 'default' | 'destructive';
-}) {
-  const size = useContextMenuSize();
-  const isLg = size === 'lg';
-  const padding = inset
-    ? isLg
-      ? 'pl-9 pr-3 py-2'
-      : 'pl-7 pr-2 py-2'
-    : isLg
-      ? 'px-3 py-2'
-      : 'p-2';
-
-  return (
-    <ContextMenuPrimitive.Item
-      data-slot="context-menu-item"
-      data-inset={inset}
-      data-variant={variant}
-      data-size={size}
-      className={cn(
-        isLg ? 'paragraph-large-primary' : 'paragraph-regular-primary',
-        'text-fg-secondary data-[highlighted]:bg-stateslayer-overlay-hover data-[highlighted]:text-fg-primary active:bg-stateslayer-overlay-pressed [&_svg:not([class*="text-"])]:text-fg-tertiary data-[disabled]:text-fg-disabled relative flex cursor-pointer items-center gap-2 outline-none select-none data-[disabled]:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0',
-        padding,
-        'data-[variant=destructive]:text-destructive data-[variant=destructive]:data-[highlighted]:text-destructive data-[variant=destructive]:[&_svg:not([class*="text-"])]:!text-destructive',
-        className,
-      )}
-      {...props}
-    />
-  );
-}
-
-function ContextMenuCheckboxItem({
-  className,
-  children,
-  checked,
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.CheckboxItem>) {
-  const size = useContextMenuSize();
-  const isLg = size === 'lg';
-
-  return (
-    <ContextMenuPrimitive.CheckboxItem
-      data-slot="context-menu-checkbox-item"
-      data-size={size}
-      className={cn(
-        isLg ? 'paragraph-large-primary' : 'paragraph-regular-primary',
-        'text-fg-secondary data-[highlighted]:bg-stateslayer-overlay-hover data-[highlighted]:text-fg-primary active:bg-stateslayer-overlay-pressed data-[disabled]:text-fg-disabled group relative flex cursor-pointer items-center gap-2 outline-none select-none data-[disabled]:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0',
-        isLg ? 'py-2 pr-3 pl-9' : 'py-2 pr-2 pl-7',
-        className,
-      )}
-      checked={checked}
-      {...props}>
-      <span className="pointer-events-none absolute left-1 flex size-4 items-center justify-center">
-        <span className="border-stroke-primary group-data-[disabled]:border-stroke-tertiary relative flex size-4 items-center justify-center border bg-transparent">
-          <ContextMenuPrimitive.ItemIndicator className="text-fill-active group-data-[disabled]:text-fill-disabled absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            <CheckboxItemMark />
-          </ContextMenuPrimitive.ItemIndicator>
-        </span>
-      </span>
-      {children}
-    </ContextMenuPrimitive.CheckboxItem>
-  );
-}
-
-function ContextMenuRadioGroup({
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.RadioGroup>) {
-  return (
-    <ContextMenuPrimitive.RadioGroup
-      data-slot="context-menu-radio-group"
-      {...props}
-    />
-  );
-}
-
-function ContextMenuRadioItem({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.RadioItem>) {
-  const size = useContextMenuSize();
-  const isLg = size === 'lg';
-
-  return (
-    <ContextMenuPrimitive.RadioItem
-      data-slot="context-menu-radio-item"
-      data-size={size}
-      className={cn(
-        isLg ? 'paragraph-large-primary' : 'paragraph-regular-primary',
-        'text-fg-secondary data-[highlighted]:bg-stateslayer-overlay-hover data-[highlighted]:text-fg-primary active:bg-stateslayer-overlay-pressed data-[disabled]:text-fg-disabled group relative flex cursor-pointer items-center gap-2 outline-none select-none data-[disabled]:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0',
-        isLg ? 'py-2 pr-3 pl-9' : 'py-2 pr-2 pl-7',
-        className,
-      )}
-      {...props}>
-      <span className="pointer-events-none absolute left-1 flex size-4 items-center justify-center">
-        <span className="border-stroke-primary group-data-[disabled]:border-stroke-tertiary relative flex size-4 items-center justify-center rounded-full border bg-transparent">
-          <ContextMenuPrimitive.ItemIndicator className="flex items-center justify-center">
-            <span
-              aria-hidden
-              className="bg-fill-active group-data-[disabled]:bg-fill-disabled size-2 rounded-full"
-            />
-          </ContextMenuPrimitive.ItemIndicator>
-        </span>
-      </span>
-      {children}
-    </ContextMenuPrimitive.RadioItem>
   );
 }
 
@@ -212,13 +108,13 @@ function ContextMenuLabel({
   className,
   inset,
   ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.Label> & {
+}: ContextMenuPrimitive.GroupLabel.Props & {
   inset?: boolean;
 }) {
   const size = useContextMenuSize();
 
   return (
-    <ContextMenuPrimitive.Label
+    <ContextMenuPrimitive.GroupLabel
       data-slot="context-menu-label"
       data-inset={inset}
       data-size={size}
@@ -231,10 +127,180 @@ function ContextMenuLabel({
   );
 }
 
+function ContextMenuItem({
+  className,
+  inset,
+  variant = 'default',
+  ...props
+}: ContextMenuPrimitive.Item.Props & {
+  inset?: boolean;
+  variant?: 'default' | 'destructive';
+}) {
+  const size = useContextMenuSize();
+  const isLg = size === 'lg';
+  const padding = inset
+    ? isLg
+      ? 'py-2 pr-3 pl-9'
+      : 'py-2 pr-2 pl-7'
+    : isLg
+      ? 'px-3 py-2'
+      : 'p-2';
+
+  return (
+    <ContextMenuPrimitive.Item
+      data-slot="context-menu-item"
+      data-inset={inset}
+      data-variant={variant}
+      data-size={size}
+      className={cn(
+        isLg ? 'paragraph-large-primary' : 'paragraph-regular-primary',
+        'text-fg-secondary data-highlighted:bg-stateslayer-overlay-hover data-highlighted:text-fg-primary active:bg-stateslayer-overlay-pressed [&_svg:not([class*="text-"])]:text-fg-tertiary data-disabled:text-fg-disabled relative flex cursor-pointer items-center gap-2 outline-none select-none data-disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0',
+        padding,
+        'data-[variant=destructive]:text-destructive data-[variant=destructive]:data-highlighted:text-destructive data-[variant=destructive]:[&_svg:not([class*="text-"])]:!text-destructive',
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
+function ContextMenuSub({ ...props }: ContextMenuPrimitive.SubmenuRoot.Props) {
+  return (
+    <ContextMenuPrimitive.SubmenuRoot data-slot="context-menu-sub" {...props} />
+  );
+}
+
+function ContextMenuSubTrigger({
+  className,
+  inset,
+  children,
+  ...props
+}: ContextMenuPrimitive.SubmenuTrigger.Props & {
+  inset?: boolean;
+}) {
+  const size = useContextMenuSize();
+  const isLg = size === 'lg';
+  const paddingBySize = {
+    default: { inset: 'py-2 pr-1 pl-7', default: 'py-2 pr-1 pl-2' },
+    lg: { inset: 'py-2 pr-2 pl-9', default: 'py-2 pr-2 pl-3' },
+  } as const;
+  const padding = paddingBySize[size][inset ? 'inset' : 'default'];
+
+  return (
+    <ContextMenuPrimitive.SubmenuTrigger
+      data-slot="context-menu-sub-trigger"
+      data-inset={inset}
+      data-size={size}
+      className={cn(
+        isLg ? 'paragraph-large-primary' : 'paragraph-regular-primary',
+        'text-fg-secondary data-highlighted:bg-stateslayer-overlay-hover data-highlighted:text-fg-primary data-popup-open:bg-stateslayer-overlay-hover data-popup-open:text-fg-primary data-open:bg-stateslayer-overlay-hover data-open:text-fg-primary [&_svg:not([class*="text-"])]:text-fg-tertiary flex cursor-pointer items-center gap-2 outline-none select-none [&_svg]:pointer-events-none [&_svg]:shrink-0',
+        padding,
+        className,
+      )}
+      {...props}>
+      {children}
+      <IconShell className="ml-auto" size={isLg ? 'default' : 'sm'}>
+        <Icon icon="chevron_right" />
+      </IconShell>
+    </ContextMenuPrimitive.SubmenuTrigger>
+  );
+}
+
+function ContextMenuSubContent({
+  className,
+  size,
+  ...props
+}: React.ComponentProps<typeof ContextMenuContent>) {
+  const parentSize = useContextMenuSize();
+
+  return (
+    <ContextMenuContent
+      data-slot="context-menu-sub-content"
+      className={cn('w-auto', className)}
+      side="right"
+      size={size ?? parentSize}
+      {...props}
+    />
+  );
+}
+
+function ContextMenuCheckboxItem({
+  className,
+  children,
+  checked,
+  ...props
+}: ContextMenuPrimitive.CheckboxItem.Props) {
+  const size = useContextMenuSize();
+  const isLg = size === 'lg';
+
+  return (
+    <ContextMenuPrimitive.CheckboxItem
+      data-slot="context-menu-checkbox-item"
+      data-size={size}
+      className={cn(
+        isLg ? 'paragraph-large-primary' : 'paragraph-regular-primary',
+        'text-fg-secondary data-highlighted:bg-stateslayer-overlay-hover data-highlighted:text-fg-primary active:bg-stateslayer-overlay-pressed data-disabled:text-fg-disabled group relative flex cursor-pointer items-center gap-2 outline-none select-none data-disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0',
+        isLg ? 'py-2 pr-3 pl-9' : 'py-2 pr-2 pl-7',
+        className,
+      )}
+      checked={checked}
+      {...props}>
+      <span className="pointer-events-none absolute left-1 flex size-4 items-center justify-center">
+        <span className="border-stroke-primary group-data-disabled:border-stroke-tertiary relative flex size-4 items-center justify-center border bg-transparent">
+          <ContextMenuPrimitive.CheckboxItemIndicator className="text-fill-active group-data-disabled:text-fill-disabled absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <CheckboxItemMark />
+          </ContextMenuPrimitive.CheckboxItemIndicator>
+        </span>
+      </span>
+      {children}
+    </ContextMenuPrimitive.CheckboxItem>
+  );
+}
+
+function ContextMenuRadioGroup({
+  ...props
+}: ContextMenuPrimitive.RadioGroup.Props) {
+  return (
+    <ContextMenuPrimitive.RadioGroup
+      data-slot="context-menu-radio-group"
+      {...props}
+    />
+  );
+}
+
+function ContextMenuRadioItem({
+  className,
+  children,
+  ...props
+}: ContextMenuPrimitive.RadioItem.Props) {
+  const size = useContextMenuSize();
+  const isLg = size === 'lg';
+
+  return (
+    <ContextMenuPrimitive.RadioItem
+      data-slot="context-menu-radio-item"
+      data-size={size}
+      className={cn(
+        isLg ? 'paragraph-large-primary' : 'paragraph-regular-primary',
+        'text-fg-secondary data-highlighted:bg-stateslayer-overlay-hover data-highlighted:text-fg-primary active:bg-stateslayer-overlay-pressed data-disabled:text-fg-disabled group relative flex cursor-pointer items-center gap-2 outline-none select-none data-disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0',
+        isLg ? 'px-3 py-2' : 'p-2',
+        className,
+      )}
+      {...props}>
+      {children}
+      <ContextMenuPrimitive.RadioItemIndicator className="ml-auto flex items-center justify-center">
+        <IconShell size={isLg ? 'default' : 'sm'} variant="primary">
+          <Icon icon="done" size={isLg ? 'default' : 'sm'} />
+        </IconShell>
+      </ContextMenuPrimitive.RadioItemIndicator>
+    </ContextMenuPrimitive.RadioItem>
+  );
+}
+
 function ContextMenuSeparator({
   className,
   ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.Separator>) {
+}: ContextMenuPrimitive.Separator.Props) {
   return (
     <div
       className={cn(
@@ -265,79 +331,6 @@ function ContextMenuShortcut({
       )}
       {...props}
     />
-  );
-}
-
-function ContextMenuSub({
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.Sub>) {
-  return <ContextMenuPrimitive.Sub data-slot="context-menu-sub" {...props} />;
-}
-
-function ContextMenuSubTrigger({
-  className,
-  inset,
-  children,
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.SubTrigger> & {
-  inset?: boolean;
-}) {
-  const size = useContextMenuSize();
-  const isLg = size === 'lg';
-  const paddingBySize = {
-    default: { inset: 'pl-7 pr-1 py-2', default: 'pl-2 pr-1 py-2' },
-    lg: { inset: 'pl-9 pr-2 py-2', default: 'pl-3 pr-2 py-2' },
-  } as const;
-  const padding = paddingBySize[size][inset ? 'inset' : 'default'];
-
-  return (
-    <ContextMenuPrimitive.SubTrigger
-      data-slot="context-menu-sub-trigger"
-      data-inset={inset}
-      data-size={size}
-      className={cn(
-        isLg ? 'paragraph-large-primary' : 'paragraph-regular-primary',
-        'text-fg-secondary data-[highlighted]:bg-stateslayer-overlay-hover data-[highlighted]:text-fg-primary data-[state=open]:bg-stateslayer-overlay-hover data-[state=open]:text-fg-primary [&_svg:not([class*="text-"])]:text-fg-tertiary flex cursor-pointer items-center gap-2 outline-none select-none [&_svg]:pointer-events-none [&_svg]:shrink-0',
-        padding,
-        className,
-      )}
-      {...props}>
-      {children}
-      <IconShell className="ml-auto" size={isLg ? 'default' : 'sm'}>
-        <Icon icon="chevron_right" />
-      </IconShell>
-    </ContextMenuPrimitive.SubTrigger>
-  );
-}
-
-type ContextMenuSubContentProps = React.ComponentProps<
-  typeof ContextMenuPrimitive.SubContent
-> & {
-  children?: React.ReactNode;
-  size?: ContextMenuSize;
-};
-
-function ContextMenuSubContent({
-  className,
-  size,
-  ...props
-}: ContextMenuSubContentProps) {
-  const parentSize = useContextMenuSize();
-  const effectiveSize = size ?? parentSize;
-
-  return (
-    <ContextMenuSizeContext.Provider value={effectiveSize}>
-      <ContextMenuPrimitive.SubContent
-        data-slot="context-menu-sub-content"
-        data-size={effectiveSize}
-        className={cn(
-          'bg-fill-active-inverse text-fg-primary shadow-elevation-2 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 origin-(--radix-context-menu-content-transform-origin) overflow-hidden',
-          effectiveSize === 'lg' ? 'px-1 py-2' : 'p-1',
-          className,
-        )}
-        {...props}
-      />
-    </ContextMenuSizeContext.Provider>
   );
 }
 

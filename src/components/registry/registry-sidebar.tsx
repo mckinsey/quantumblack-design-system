@@ -47,6 +47,10 @@ const COMPONENT_GROUPS: { label: string; names: string[] }[] = [
       'textarea',
     ],
   },
+  {
+    label: 'Menus',
+    names: ['context-menu', 'dropdown-menu'],
+  },
   { label: 'Overlay', names: ['dialog', 'popover', 'sonner', 'tooltip'] },
 ];
 

@@ -8,11 +8,7 @@ function docsKey(name: string): string {
   return `./${name}.md`;
 }
 
-const sharedMenusDocs = new Set([
-  'dropdown-menu',
-  'context-menu',
-  'select',
-]);
+const sharedMenusDocs = new Set(['dropdown-menu', 'context-menu']);
 
 /** Markdown body for a registry component, if `src/lib/docs/<name>.md` exists. */
 export function getComponentDocs(name: string): string | undefined {

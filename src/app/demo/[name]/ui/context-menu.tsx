@@ -3,20 +3,16 @@
 import * as React from 'react';
 
 import {
-  ActionMenuCheckboxesBody,
-  ActionMenuDefaultBody,
-  ActionMenuDestructiveBody,
-  ActionMenuFigmaContextBody,
-  ActionMenuIconsBody,
-  ActionMenuLargeBody,
-  ActionMenuRadioGroupBody,
-  ActionMenuSelectedRowBody,
-  ActionMenuShortcutsBody,
-  ActionMenuSubmenuBody,
   ACTION_MENU_PANEL_DEMO,
   ACTION_MENU_PANEL_FIGMA,
-  actionMenuExampleMeta,
+  ActionMenuCheckboxesBody,
+  ActionMenuCompositionBody,
+  ActionMenuDefaultBody,
+  ActionMenuRadioGroupBody,
+  ActionMenuShortcutsBody,
+  ActionMenuSizeBody,
   type ActionMenuUi,
+  actionMenuExampleMeta,
 } from '@/app/demo/[name]/ui/action-menu-examples.shared';
 import {
   ContextMenu,
@@ -35,6 +31,12 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from '@/components/ui/context-menu';
+
+const radioLabel: Record<string, string> = {
+  top: 'Top',
+  bottom: 'Bottom',
+  right: 'Right',
+};
 
 const TRIGGER_CLASS =
   'border-stroke-tertiary text-fg-secondary paragraph-regular-primary flex h-[150px] w-[300px] items-center justify-center border border-dashed select-none';
@@ -97,62 +99,64 @@ function makeContextExample(
   };
 }
 
-export const ContextMenuFigmaContext = makeContextExample(
-  ActionMenuFigmaContextBody,
-  { panelClass: ACTION_MENU_PANEL_FIGMA },
-);
-
 export const ContextMenuDemo = makeContextExample(ActionMenuDefaultBody);
 export const ContextMenuWithShortcuts = makeContextExample(
   ActionMenuShortcutsBody,
 );
-export const ContextMenuWithIcons = makeContextExample(ActionMenuIconsBody);
-export const ContextMenuWithSubmenu = makeContextExample(ActionMenuSubmenuBody);
-export const ContextMenuSelectedRow = makeContextExample(
-  ActionMenuSelectedRowBody,
+export const ContextMenuComposition = makeContextExample(
+  ActionMenuCompositionBody,
   { panelClass: ACTION_MENU_PANEL_FIGMA },
 );
 export const ContextMenuWithCheckboxes = makeContextExample(
   ActionMenuCheckboxesBody,
 );
-export const ContextMenuWithRadioGroup = makeContextExample(
-  ActionMenuRadioGroupBody,
-);
-export const ContextMenuLarge = makeContextExample(ActionMenuLargeBody, {
-  size: 'lg',
-});
-export const ContextMenuDestructive = makeContextExample(
-  ActionMenuDestructiveBody,
-  { triggerLabel: 'Right-click for actions' },
-);
+export function ContextMenuWithRadioGroup() {
+  const [position, setPosition] = React.useState('bottom');
+
+  return (
+    <ContextMenuShell label={radioLabel[position]}>
+      <ActionMenuRadioGroupBody
+        ui={contextMenuUi}
+        value={position}
+        onValueChange={setPosition}
+      />
+    </ContextMenuShell>
+  );
+}
+
+export function ContextMenuSizes() {
+  return (
+    <div className="flex flex-wrap items-start gap-8">
+      <ContextMenuShell label="Default">
+        <ActionMenuSizeBody ui={contextMenuUi} size="default" />
+      </ContextMenuShell>
+
+      <ContextMenuShell label="Large" contentSize="lg">
+        <ActionMenuSizeBody ui={contextMenuUi} size="lg" />
+      </ContextMenuShell>
+    </div>
+  );
+}
 
 const exampleComponents: Record<
   (typeof actionMenuExampleMeta)[number]['key'],
   React.ComponentType
 > = {
-  FigmaContext: ContextMenuFigmaContext,
   Default: ContextMenuDemo,
   Shortcuts: ContextMenuWithShortcuts,
-  WithIcons: ContextMenuWithIcons,
-  Submenu: ContextMenuWithSubmenu,
-  SelectedRow: ContextMenuSelectedRow,
+  Composition: ContextMenuComposition,
   Checkboxes: ContextMenuWithCheckboxes,
   RadioGroup: ContextMenuWithRadioGroup,
-  Large: ContextMenuLarge,
-  Destructive: ContextMenuDestructive,
+  Size: ContextMenuSizes,
 };
 
 const contextExampleNames = {
-  FigmaContext: 'ContextMenuFigmaContext',
   Default: 'ContextMenuDemo',
   Shortcuts: 'ContextMenuWithShortcuts',
-  WithIcons: 'ContextMenuWithIcons',
-  Submenu: 'ContextMenuWithSubmenu',
-  SelectedRow: 'ContextMenuSelectedRow',
+  Composition: 'ContextMenuComposition',
   Checkboxes: 'ContextMenuWithCheckboxes',
   RadioGroup: 'ContextMenuWithRadioGroup',
-  Large: 'ContextMenuLarge',
-  Destructive: 'ContextMenuDestructive',
+  Size: 'ContextMenuSizes',
 } as const;
 
 export const examples = actionMenuExampleMeta.map(meta => ({
