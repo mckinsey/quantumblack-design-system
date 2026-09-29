@@ -143,6 +143,7 @@ function SelectCheckboxItem({
       disabled={disabled}
       className={cn(size === 'lg' && 'gap-2 py-2 pr-3 pl-2')}>
       <Checkbox
+        aria-hidden
         size={checkboxSize}
         checked={checked}
         onCheckedChange={() => {}}
@@ -731,6 +732,7 @@ function SelectSwitchItem({
     <SelectItem value={value}>
       <SelectItemText>{children}</SelectItemText>
       <Switch
+        aria-hidden
         size={size === 'lg' ? 'default' : 'sm'}
         checked={checked}
         tabIndex={-1}
@@ -755,7 +757,7 @@ function PersonAvatar({
   size: SelectSize;
 }) {
   return (
-    <Avatar size={avatarBySelectSize[size]}>
+    <Avatar aria-hidden size={avatarBySelectSize[size]}>
       <AvatarImage src={`${basePath}/users/${person.src}`} alt="" />
       <AvatarFallback>{personInitials(person.name)}</AvatarFallback>
     </Avatar>
