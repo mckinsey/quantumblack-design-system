@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -18,12 +19,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Icon } from '@/components/ui/icon';
-import { Toggle } from '@/components/ui/toggle';
-
-// When the menu trigger merges props, Radix may set `data-state="open"` instead of
-// the toggle’s `on` — mirror the pressed styles for both.
-const DROPDOWN_TOGGLE_TRIGGER_OPEN =
-  'data-[state=open]:bg-fill-active data-[state=open]:text-fg-primary-inverse data-[state=open]:border-stroke-active-inverse data-[state=open]:border-2';
 
 /** Pass on `DropdownMenuContent` / `DropdownMenuSubContent` via `className`. */
 const DROPDOWN_MENU_PANEL_CLASS = 'w-[256px] max-w-[256px] min-w-[256px]';
@@ -35,18 +30,10 @@ function DropdownMenuWithToggleTrigger({
   triggerLabel: React.ReactNode;
   children: React.ReactNode;
 }>) {
-  const [open, setOpen] = React.useState(false);
-
   return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger asChild>
-        <Toggle
-          variant="outline"
-          pressed={open}
-          onPressedChange={setOpen}
-          className={DROPDOWN_TOGGLE_TRIGGER_OPEN}>
-          {triggerLabel}
-        </Toggle>
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<Button variant="outline" />}>
+        {triggerLabel}
       </DropdownMenuTrigger>
 
       {children}

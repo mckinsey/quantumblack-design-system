@@ -98,7 +98,7 @@ export function ButtonGroupSplit() {
       {options.map(option => (
         <DropdownMenuItem
           key={option}
-          onSelect={() => setSelected(option)}
+          onClick={() => setSelected(option)}
           className="justify-between">
           {option}
           {selected === option ? (
@@ -130,21 +130,23 @@ export function ButtonGroupSplit() {
     const { chevronClassName } = splitIconChevronSizing('icon', { ghost });
 
     return (
-      <DropdownMenuTrigger asChild>
-        <Button
-          aria-label="More actions"
-          size={ghost ? undefined : 'icon'}
-          variant={variant}
-          className={useNarrow ? chevronClassName : undefined}>
-          <IconShell
-            size="sm"
-            type={type}
-            hoverable
-            className="transition-transform duration-200 group-data-[state=open]/button:rotate-180">
-            <Icon icon="keyboard_arrow_down" />
-          </IconShell>
-        </Button>
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger
+        render={
+          <Button
+            aria-label="More actions"
+            size={ghost ? undefined : 'icon'}
+            variant={variant}
+            className={useNarrow ? chevronClassName : undefined}>
+            <IconShell
+              size="sm"
+              type={type}
+              hoverable
+              className="transition-transform duration-200 group-data-popup-open/button:rotate-180">
+              <Icon icon="keyboard_arrow_down" />
+            </IconShell>
+          </Button>
+        }
+      />
     );
   }
 
