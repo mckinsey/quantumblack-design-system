@@ -301,6 +301,15 @@ import {
   examples as statisticExamples,
 } from '@/app/demo/[name]/ui/statistic';
 import {
+  StepperDemo,
+  StepperIndicators,
+  StepperLayouts,
+  StepperSizes,
+  StepperStates,
+  stepper,
+  examples as stepperExamples,
+} from '@/app/demo/[name]/ui/stepper';
+import {
   SwitchChecked,
   SwitchDemo,
   SwitchDisabled,
@@ -644,6 +653,13 @@ export const exampleComponentMaps: Record<
     StatisticUnitPosition,
     StatisticTrendSentiments,
   },
+  stepper: {
+    StepperDemo,
+    StepperSizes,
+    StepperLayouts,
+    StepperIndicators,
+    StepperStates,
+  },
   sonner: {
     SonnerDemo,
     SonnerVariants,
@@ -757,6 +773,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   sidebar: sidebarExamples,
   slider: sliderExamples,
   statistic: statisticExamples,
+  stepper: stepperExamples,
   sonner: sonnerExamples,
   switch: switchExamples,
   table: tableExamples,
@@ -922,6 +939,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     name: 'statistic',
     examples: statisticExamples,
     exampleComponents: exampleComponentMaps.statistic,
+  },
+  stepper: {
+    ...stepper,
+    examples: stepperExamples,
+    exampleComponents: exampleComponentMaps.stepper,
   },
   sonner: {
     ...sonner,
