@@ -116,14 +116,12 @@ import {
   examples as comboboxExamples,
 } from '@/app/demo/[name]/ui/combobox';
 import {
+  ContextMenuComposition,
   ContextMenuDemo,
-  ContextMenuDestructive,
-  ContextMenuLarge,
+  ContextMenuSizes,
   ContextMenuWithCheckboxes,
-  ContextMenuWithIcons,
   ContextMenuWithRadioGroup,
   ContextMenuWithShortcuts,
-  ContextMenuWithSubmenu,
   contextMenu,
   examples as contextMenuExamples,
 } from '@/app/demo/[name]/ui/context-menu';
@@ -144,14 +142,12 @@ import {
   examples as dialogExamples,
 } from '@/app/demo/[name]/ui/dialog';
 import {
+  DropdownMenuComposition,
   DropdownMenuDemo,
-  DropdownMenuDestructive,
-  DropdownMenuLarge,
+  DropdownMenuSizes,
   DropdownMenuWithCheckboxes,
-  DropdownMenuWithIcons,
   DropdownMenuWithRadioGroup,
   DropdownMenuWithShortcuts,
-  DropdownMenuWithSubmenu,
   dropdownMenu,
   examples as dropdownMenuExamples,
 } from '@/app/demo/[name]/ui/dropdown-menu';
@@ -514,22 +510,18 @@ export const exampleComponentMaps: Record<
   'context-menu': {
     ContextMenuDemo,
     ContextMenuWithShortcuts,
-    ContextMenuWithIcons,
-    ContextMenuWithSubmenu,
+    ContextMenuComposition,
     ContextMenuWithCheckboxes,
     ContextMenuWithRadioGroup,
-    ContextMenuLarge,
-    ContextMenuDestructive,
+    ContextMenuSizes,
   },
   'dropdown-menu': {
     DropdownMenuDemo,
     DropdownMenuWithShortcuts,
-    DropdownMenuWithIcons,
-    DropdownMenuWithSubmenu,
+    DropdownMenuComposition,
     DropdownMenuWithCheckboxes,
     DropdownMenuWithRadioGroup,
-    DropdownMenuLarge,
-    DropdownMenuDestructive,
+    DropdownMenuSizes,
   },
   field: {
     FieldDemo,
