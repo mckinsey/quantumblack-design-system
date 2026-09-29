@@ -1,5 +1,23 @@
+'use client';
+
 import * as React from 'react';
 
+import {
+  ActionMenuCheckboxesBody,
+  ActionMenuDefaultBody,
+  ActionMenuDestructiveBody,
+  ActionMenuFigmaContextBody,
+  ActionMenuIconsBody,
+  ActionMenuLargeBody,
+  ActionMenuRadioGroupBody,
+  ActionMenuSelectedRowBody,
+  ActionMenuShortcutsBody,
+  ActionMenuSubmenuBody,
+  ACTION_MENU_PANEL_DEMO,
+  ACTION_MENU_PANEL_FIGMA,
+  actionMenuExampleMeta,
+  type ActionMenuUi,
+} from '@/app/demo/[name]/ui/action-menu-examples.shared';
 import {
   ContextMenu,
   ContextMenuCheckboxItem,
@@ -17,364 +35,138 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from '@/components/ui/context-menu';
-import { Icon } from '@/components/ui/icon';
-
-/** Pass on `ContextMenuContent` / `ContextMenuSubContent` via `className`. */
-const CONTEXT_MENU_PANEL_CLASS = 'w-[256px] max-w-[256px] min-w-[256px]';
 
 const TRIGGER_CLASS =
   'border-stroke-tertiary text-fg-secondary paragraph-regular-primary flex h-[150px] w-[300px] items-center justify-center border border-dashed select-none';
 
-function ContextMenuTriggerArea({
+const contextMenuUi: ActionMenuUi = {
+  Content: ContextMenuContent,
+  Item: ContextMenuItem,
+  Label: ContextMenuLabel,
+  Separator: ContextMenuSeparator,
+  Shortcut: ContextMenuShortcut,
+  Sub: ContextMenuSub,
+  SubTrigger: ContextMenuSubTrigger,
+  SubContent: ContextMenuSubContent,
+  Portal: ContextMenuPortal,
+  Group: ContextMenuGroup,
+  CheckboxItem: ContextMenuCheckboxItem,
+  RadioGroup: ContextMenuRadioGroup,
+  RadioItem: ContextMenuRadioItem,
+};
+
+function ContextMenuShell({
   children,
   label = 'Right-click here',
-}: {
+  contentClassName = ACTION_MENU_PANEL_DEMO,
+  contentSize,
+}: Readonly<{
   children: React.ReactNode;
   label?: string;
-}) {
+  contentClassName?: string;
+  contentSize?: 'default' | 'lg';
+}>) {
   return (
     <ContextMenu>
       <ContextMenuTrigger className={TRIGGER_CLASS}>{label}</ContextMenuTrigger>
 
-      {children}
+      <ContextMenuContent size={contentSize} className={contentClassName}>
+        {children}
+      </ContextMenuContent>
     </ContextMenu>
   );
 }
 
-// ============================================================================
-// Example Components
-// ============================================================================
-
-/**
- * Basic context menu with labels and separators
- */
-export function ContextMenuDemo() {
-  return (
-    <ContextMenuTriggerArea>
-      <ContextMenuContent className={CONTEXT_MENU_PANEL_CLASS}>
-        <ContextMenuGroup>
-          <ContextMenuLabel>My Account</ContextMenuLabel>
-          <ContextMenuItem>Profile</ContextMenuItem>
-          <ContextMenuItem>Billing</ContextMenuItem>
-          <ContextMenuItem>Settings</ContextMenuItem>
-        </ContextMenuGroup>
-
-        <ContextMenuSeparator />
-
-        <ContextMenuItem>GitHub</ContextMenuItem>
-        <ContextMenuItem>Support</ContextMenuItem>
-        <ContextMenuItem disabled>API</ContextMenuItem>
-      </ContextMenuContent>
-    </ContextMenuTriggerArea>
-  );
+function makeContextExample(
+  Body: React.ComponentType<{ ui: ActionMenuUi }>,
+  opts?: {
+    panelClass?: string;
+    size?: 'default' | 'lg';
+    triggerLabel?: string;
+  },
+) {
+  return function Example() {
+    return (
+      <ContextMenuShell
+        label={opts?.triggerLabel ?? 'Right-click here'}
+        contentClassName={opts?.panelClass ?? ACTION_MENU_PANEL_DEMO}
+        contentSize={opts?.size}>
+        <Body ui={contextMenuUi} />
+      </ContextMenuShell>
+    );
+  };
 }
 
-/**
- * Context menu with keyboard shortcut hints
- */
-export function ContextMenuWithShortcuts() {
-  return (
-    <ContextMenuTriggerArea>
-      <ContextMenuContent className={CONTEXT_MENU_PANEL_CLASS}>
-        <ContextMenuGroup>
-          <ContextMenuLabel>My Account</ContextMenuLabel>
+export const ContextMenuFigmaContext = makeContextExample(
+  ActionMenuFigmaContextBody,
+  { panelClass: ACTION_MENU_PANEL_FIGMA },
+);
 
-          <ContextMenuItem>
-            Profile
-            <ContextMenuShortcut>⇧⌘P</ContextMenuShortcut>
-          </ContextMenuItem>
+export const ContextMenuDemo = makeContextExample(ActionMenuDefaultBody);
+export const ContextMenuWithShortcuts = makeContextExample(
+  ActionMenuShortcutsBody,
+);
+export const ContextMenuWithIcons = makeContextExample(ActionMenuIconsBody);
+export const ContextMenuWithSubmenu = makeContextExample(ActionMenuSubmenuBody);
+export const ContextMenuSelectedRow = makeContextExample(
+  ActionMenuSelectedRowBody,
+  { panelClass: ACTION_MENU_PANEL_FIGMA },
+);
+export const ContextMenuWithCheckboxes = makeContextExample(
+  ActionMenuCheckboxesBody,
+);
+export const ContextMenuWithRadioGroup = makeContextExample(
+  ActionMenuRadioGroupBody,
+);
+export const ContextMenuLarge = makeContextExample(ActionMenuLargeBody, {
+  size: 'lg',
+});
+export const ContextMenuDestructive = makeContextExample(
+  ActionMenuDestructiveBody,
+  { triggerLabel: 'Right-click for actions' },
+);
 
-          <ContextMenuItem>
-            Billing
-            <ContextMenuShortcut>⌘B</ContextMenuShortcut>
-          </ContextMenuItem>
+const exampleComponents: Record<
+  (typeof actionMenuExampleMeta)[number]['key'],
+  React.ComponentType
+> = {
+  FigmaContext: ContextMenuFigmaContext,
+  Default: ContextMenuDemo,
+  Shortcuts: ContextMenuWithShortcuts,
+  WithIcons: ContextMenuWithIcons,
+  Submenu: ContextMenuWithSubmenu,
+  SelectedRow: ContextMenuSelectedRow,
+  Checkboxes: ContextMenuWithCheckboxes,
+  RadioGroup: ContextMenuWithRadioGroup,
+  Large: ContextMenuLarge,
+  Destructive: ContextMenuDestructive,
+};
 
-          <ContextMenuItem>
-            Settings
-            <ContextMenuShortcut>⌘S</ContextMenuShortcut>
-          </ContextMenuItem>
-        </ContextMenuGroup>
+const contextExampleNames = {
+  FigmaContext: 'ContextMenuFigmaContext',
+  Default: 'ContextMenuDemo',
+  Shortcuts: 'ContextMenuWithShortcuts',
+  WithIcons: 'ContextMenuWithIcons',
+  Submenu: 'ContextMenuWithSubmenu',
+  SelectedRow: 'ContextMenuSelectedRow',
+  Checkboxes: 'ContextMenuWithCheckboxes',
+  RadioGroup: 'ContextMenuWithRadioGroup',
+  Large: 'ContextMenuLarge',
+  Destructive: 'ContextMenuDestructive',
+} as const;
 
-        <ContextMenuSeparator />
-
-        <ContextMenuItem>
-          Log out
-          <ContextMenuShortcut>⇧⌘Q</ContextMenuShortcut>
-        </ContextMenuItem>
-      </ContextMenuContent>
-    </ContextMenuTriggerArea>
-  );
-}
-
-/**
- * Context menu with icons alongside labels
- */
-export function ContextMenuWithIcons() {
-  return (
-    <ContextMenuTriggerArea>
-      <ContextMenuContent className={CONTEXT_MENU_PANEL_CLASS}>
-        <ContextMenuItem>
-          <Icon icon="person" className="size-4" />
-          Profile
-        </ContextMenuItem>
-
-        <ContextMenuItem>
-          <Icon icon="attach_money" className="size-4" />
-          Billing
-        </ContextMenuItem>
-
-        <ContextMenuItem>
-          <Icon icon="key" className="size-4" />
-          Settings
-        </ContextMenuItem>
-
-        <ContextMenuSeparator />
-
-        <ContextMenuItem variant="destructive">
-          <Icon icon="close" className="size-4" />
-          Log out
-        </ContextMenuItem>
-      </ContextMenuContent>
-    </ContextMenuTriggerArea>
-  );
-}
-
-/**
- * Nested submenus for secondary actions
- */
-export function ContextMenuWithSubmenu() {
-  return (
-    <ContextMenuTriggerArea>
-      <ContextMenuContent className={CONTEXT_MENU_PANEL_CLASS}>
-        <ContextMenuGroup>
-          <ContextMenuItem>
-            <Icon icon="person" className="size-4" />
-            Team
-          </ContextMenuItem>
-
-          <ContextMenuSub>
-            <ContextMenuSubTrigger>
-              <Icon icon="send" className="size-4" />
-              Invite users
-            </ContextMenuSubTrigger>
-
-            <ContextMenuPortal>
-              <ContextMenuSubContent className={CONTEXT_MENU_PANEL_CLASS}>
-                <ContextMenuItem>
-                  <Icon icon="mail" className="size-4" />
-                  Email
-                </ContextMenuItem>
-
-                <ContextMenuItem>Message</ContextMenuItem>
-
-                <ContextMenuSeparator />
-
-                <ContextMenuItem>More&hellip;</ContextMenuItem>
-              </ContextMenuSubContent>
-            </ContextMenuPortal>
-          </ContextMenuSub>
-
-          <ContextMenuItem>
-            New Team
-            <ContextMenuShortcut>⌘+T</ContextMenuShortcut>
-          </ContextMenuItem>
-        </ContextMenuGroup>
-      </ContextMenuContent>
-    </ContextMenuTriggerArea>
-  );
-}
-
-/**
- * Checkbox items for toggling options
- */
-export function ContextMenuWithCheckboxes() {
-  const [showStatusBar, setShowStatusBar] = React.useState(true);
-  const [showActivityBar, setShowActivityBar] = React.useState(false);
-  const [showPanel, setShowPanel] = React.useState(false);
-
-  return (
-    <ContextMenuTriggerArea>
-      <ContextMenuContent className={CONTEXT_MENU_PANEL_CLASS}>
-        <ContextMenuGroup>
-          <ContextMenuLabel>Appearance</ContextMenuLabel>
-
-          <ContextMenuCheckboxItem
-            checked={showStatusBar}
-            onCheckedChange={setShowStatusBar}>
-            Status Bar
-          </ContextMenuCheckboxItem>
-
-          <ContextMenuCheckboxItem
-            checked={showActivityBar}
-            onCheckedChange={setShowActivityBar}
-            disabled>
-            Activity Bar
-          </ContextMenuCheckboxItem>
-
-          <ContextMenuCheckboxItem
-            checked={showPanel}
-            onCheckedChange={setShowPanel}>
-            Panel
-          </ContextMenuCheckboxItem>
-        </ContextMenuGroup>
-      </ContextMenuContent>
-    </ContextMenuTriggerArea>
-  );
-}
-
-/**
- * Radio group for exclusive choices
- */
-export function ContextMenuWithRadioGroup() {
-  const [position, setPosition] = React.useState('bottom');
-
-  return (
-    <ContextMenuTriggerArea>
-      <ContextMenuContent className={CONTEXT_MENU_PANEL_CLASS}>
-        <ContextMenuGroup>
-          <ContextMenuLabel>Panel Position</ContextMenuLabel>
-
-          <ContextMenuRadioGroup value={position} onValueChange={setPosition}>
-            <ContextMenuRadioItem value="top">Top</ContextMenuRadioItem>
-            <ContextMenuRadioItem value="bottom">Bottom</ContextMenuRadioItem>
-            <ContextMenuRadioItem value="right">Right</ContextMenuRadioItem>
-          </ContextMenuRadioGroup>
-        </ContextMenuGroup>
-      </ContextMenuContent>
-    </ContextMenuTriggerArea>
-  );
-}
-
-/**
- * Larger touch targets and typography
- */
-export function ContextMenuLarge() {
-  return (
-    <ContextMenuTriggerArea>
-      <ContextMenuContent size="lg" className={CONTEXT_MENU_PANEL_CLASS}>
-        <ContextMenuGroup>
-          <ContextMenuItem>
-            <Icon icon="person" className="size-6" />
-            Profile
-          </ContextMenuItem>
-
-          <ContextMenuItem>
-            <Icon icon="attach_money" className="size-6" />
-            Billing
-            <ContextMenuShortcut>⌘B</ContextMenuShortcut>
-          </ContextMenuItem>
-
-          <ContextMenuSub>
-            <ContextMenuSubTrigger inset>Invite users</ContextMenuSubTrigger>
-
-            <ContextMenuPortal>
-              <ContextMenuSubContent
-                size="lg"
-                className={CONTEXT_MENU_PANEL_CLASS}>
-                <ContextMenuItem>Email</ContextMenuItem>
-                <ContextMenuItem>Message</ContextMenuItem>
-              </ContextMenuSubContent>
-            </ContextMenuPortal>
-          </ContextMenuSub>
-        </ContextMenuGroup>
-      </ContextMenuContent>
-    </ContextMenuTriggerArea>
-  );
-}
-
-/**
- * Destructive variant for irreversible actions
- */
-export function ContextMenuDestructive() {
-  return (
-    <ContextMenuTriggerArea label="Right-click for actions">
-      <ContextMenuContent className={CONTEXT_MENU_PANEL_CLASS}>
-        <ContextMenuGroup>
-          <ContextMenuItem>
-            <Icon icon="edit" className="size-4" />
-            Edit
-          </ContextMenuItem>
-
-          <ContextMenuItem>
-            <Icon icon="send" className="size-4" />
-            Share
-          </ContextMenuItem>
-        </ContextMenuGroup>
-
-        <ContextMenuSeparator />
-
-        <ContextMenuGroup>
-          <ContextMenuItem variant="destructive">
-            <Icon icon="delete" className="size-4" />
-            Delete
-          </ContextMenuItem>
-        </ContextMenuGroup>
-      </ContextMenuContent>
-    </ContextMenuTriggerArea>
-  );
-}
-
-// ============================================================================
-// Example Metadata
-// ============================================================================
-
-export const examples = [
-  {
-    name: 'ContextMenuDemo',
-    title: 'Default',
-    description: 'Basic context menu with labels and separators.',
-  },
-  {
-    name: 'ContextMenuWithShortcuts',
-    title: 'Shortcuts',
-    description: 'Context menu items with keyboard shortcut hints.',
-  },
-  {
-    name: 'ContextMenuWithIcons',
-    title: 'With Icons',
-    description: 'Context items combined with icons for quick scanning.',
-  },
-  {
-    name: 'ContextMenuWithSubmenu',
-    title: 'Submenu',
-    description: 'Nested submenus for secondary actions.',
-  },
-  {
-    name: 'ContextMenuWithCheckboxes',
-    title: 'Checkboxes',
-    description: 'Checkbox items for toggling multiple options.',
-  },
-  {
-    name: 'ContextMenuWithRadioGroup',
-    title: 'Radio Group',
-    description: 'Radio group for exclusive choices.',
-  },
-  {
-    name: 'ContextMenuLarge',
-    title: 'Large',
-    description: 'Larger touch targets and typography.',
-  },
-  {
-    name: 'ContextMenuDestructive',
-    title: 'Destructive',
-    description: 'Destructive variant for irreversible actions.',
-  },
-];
-
-// ============================================================================
-// Legacy Format (for backwards compatibility)
-// ============================================================================
+export const examples = actionMenuExampleMeta.map(meta => ({
+  name: contextExampleNames[meta.key],
+  title: meta.title,
+  description: meta.description,
+}));
 
 export const contextMenu = {
   name: 'context-menu',
-  components: {
-    Default: <ContextMenuDemo />,
-    Shortcuts: <ContextMenuWithShortcuts />,
-    'With Icons': <ContextMenuWithIcons />,
-    Submenu: <ContextMenuWithSubmenu />,
-    Checkboxes: <ContextMenuWithCheckboxes />,
-    'Radio Group': <ContextMenuWithRadioGroup />,
-    Large: <ContextMenuLarge />,
-    Destructive: <ContextMenuDestructive />,
-  },
+  components: Object.fromEntries(
+    actionMenuExampleMeta.map(meta => [
+      meta.title,
+      React.createElement(exampleComponents[meta.key]),
+    ]),
+  ),
 };

@@ -1,5 +1,23 @@
+'use client';
+
 import * as React from 'react';
 
+import {
+  ActionMenuCheckboxesBody,
+  ActionMenuDefaultBody,
+  ActionMenuDestructiveBody,
+  ActionMenuFigmaContextBody,
+  ActionMenuIconsBody,
+  ActionMenuLargeBody,
+  ActionMenuRadioGroupBody,
+  ActionMenuSelectedRowBody,
+  ActionMenuShortcutsBody,
+  ActionMenuSubmenuBody,
+  ACTION_MENU_PANEL_DEMO,
+  ACTION_MENU_PANEL_FIGMA,
+  actionMenuExampleMeta,
+  type ActionMenuUi,
+} from '@/app/demo/[name]/ui/action-menu-examples.shared';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -17,23 +35,37 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Icon } from '@/components/ui/icon';
 import { Toggle } from '@/components/ui/toggle';
 
-// When the menu trigger merges props, Radix may set `data-state="open"` instead of
-// the toggle’s `on` — mirror the pressed styles for both.
 const DROPDOWN_TOGGLE_TRIGGER_OPEN =
   'data-[state=open]:bg-fill-active data-[state=open]:text-fg-primary-inverse data-[state=open]:border-stroke-active-inverse data-[state=open]:border-2';
 
-/** Pass on `DropdownMenuContent` / `DropdownMenuSubContent` via `className`. */
-const DROPDOWN_MENU_PANEL_CLASS = 'w-[256px] max-w-[256px] min-w-[256px]';
+const dropdownMenuUi: ActionMenuUi = {
+  Content: DropdownMenuContent,
+  Item: DropdownMenuItem,
+  Label: DropdownMenuLabel,
+  Separator: DropdownMenuSeparator,
+  Shortcut: DropdownMenuShortcut,
+  Sub: DropdownMenuSub,
+  SubTrigger: DropdownMenuSubTrigger,
+  SubContent: DropdownMenuSubContent,
+  Portal: DropdownMenuPortal,
+  Group: DropdownMenuGroup,
+  CheckboxItem: DropdownMenuCheckboxItem,
+  RadioGroup: DropdownMenuRadioGroup,
+  RadioItem: DropdownMenuRadioItem,
+};
 
-function DropdownMenuWithToggleTrigger({
+function DropdownMenuShell({
   triggerLabel,
   children,
+  contentClassName = ACTION_MENU_PANEL_DEMO,
+  contentSize,
 }: Readonly<{
   triggerLabel: React.ReactNode;
   children: React.ReactNode;
+  contentClassName?: string;
+  contentSize?: 'default' | 'lg';
 }>) {
   const [open, setOpen] = React.useState(false);
 
@@ -49,348 +81,102 @@ function DropdownMenuWithToggleTrigger({
         </Toggle>
       </DropdownMenuTrigger>
 
-      {children}
+      <DropdownMenuContent
+        align="start"
+        size={contentSize}
+        className={contentClassName}>
+        {children}
+      </DropdownMenuContent>
     </DropdownMenu>
   );
 }
 
-// ============================================================================
-// Example Components
-// ============================================================================
-
-/**
- * Basic dropdown menu with labels and separators
- */
-export function DropdownMenuDemo() {
-  return (
-    <DropdownMenuWithToggleTrigger triggerLabel="Open">
-      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
-        <DropdownMenuGroup>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>Billing</DropdownMenuItem>
-          <DropdownMenuItem>Settings</DropdownMenuItem>
-        </DropdownMenuGroup>
-
-        <DropdownMenuSeparator />
-
-        <DropdownMenuItem>GitHub</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
-        <DropdownMenuItem disabled>API</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenuWithToggleTrigger>
-  );
+function makeDropdownExample(
+  Body: React.ComponentType<{ ui: ActionMenuUi }>,
+  opts?: { panelClass?: string; size?: 'default' | 'lg'; triggerLabel?: string },
+) {
+  return function Example() {
+    return (
+      <DropdownMenuShell
+        triggerLabel={opts?.triggerLabel ?? 'Open'}
+        contentClassName={opts?.panelClass ?? ACTION_MENU_PANEL_DEMO}
+        contentSize={opts?.size}>
+        <Body ui={dropdownMenuUi} />
+      </DropdownMenuShell>
+    );
+  };
 }
 
-/**
- * Dropdown with keyboard shortcut hints
- */
-export function DropdownMenuWithShortcuts() {
-  return (
-    <DropdownMenuWithToggleTrigger triggerLabel="Open">
-      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
-        <DropdownMenuGroup>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+export const DropdownMenuFigmaContext = makeDropdownExample(
+  ActionMenuFigmaContextBody,
+  { panelClass: ACTION_MENU_PANEL_FIGMA },
+);
 
-          <DropdownMenuItem>
-            Profile
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
+export const DropdownMenuDemo = makeDropdownExample(ActionMenuDefaultBody);
+export const DropdownMenuWithShortcuts = makeDropdownExample(
+  ActionMenuShortcutsBody,
+);
+export const DropdownMenuWithIcons = makeDropdownExample(ActionMenuIconsBody);
+export const DropdownMenuWithSubmenu = makeDropdownExample(ActionMenuSubmenuBody);
+export const DropdownMenuSelectedRow = makeDropdownExample(
+  ActionMenuSelectedRowBody,
+  { panelClass: ACTION_MENU_PANEL_FIGMA },
+);
+export const DropdownMenuWithCheckboxes = makeDropdownExample(
+  ActionMenuCheckboxesBody,
+);
+export const DropdownMenuWithRadioGroup = makeDropdownExample(
+  ActionMenuRadioGroupBody,
+);
+export const DropdownMenuLarge = makeDropdownExample(ActionMenuLargeBody, {
+  size: 'lg',
+});
+export const DropdownMenuDestructive = makeDropdownExample(
+  ActionMenuDestructiveBody,
+  { triggerLabel: 'Actions' },
+);
 
-          <DropdownMenuItem>
-            Billing
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-          </DropdownMenuItem>
+const exampleComponents: Record<
+  (typeof actionMenuExampleMeta)[number]['key'],
+  React.ComponentType
+> = {
+  FigmaContext: DropdownMenuFigmaContext,
+  Default: DropdownMenuDemo,
+  Shortcuts: DropdownMenuWithShortcuts,
+  WithIcons: DropdownMenuWithIcons,
+  Submenu: DropdownMenuWithSubmenu,
+  SelectedRow: DropdownMenuSelectedRow,
+  Checkboxes: DropdownMenuWithCheckboxes,
+  RadioGroup: DropdownMenuWithRadioGroup,
+  Large: DropdownMenuLarge,
+  Destructive: DropdownMenuDestructive,
+};
 
-          <DropdownMenuItem>
-            Settings
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
+const dropdownExampleNames = {
+  FigmaContext: 'DropdownMenuFigmaContext',
+  Default: 'DropdownMenuDemo',
+  Shortcuts: 'DropdownMenuWithShortcuts',
+  WithIcons: 'DropdownMenuWithIcons',
+  Submenu: 'DropdownMenuWithSubmenu',
+  SelectedRow: 'DropdownMenuSelectedRow',
+  Checkboxes: 'DropdownMenuWithCheckboxes',
+  RadioGroup: 'DropdownMenuWithRadioGroup',
+  Large: 'DropdownMenuLarge',
+  Destructive: 'DropdownMenuDestructive',
+} as const;
 
-        <DropdownMenuSeparator />
-
-        <DropdownMenuItem>
-          Log out
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenuWithToggleTrigger>
-  );
-}
-
-/**
- * Dropdown with icons alongside labels
- */
-export function DropdownMenuWithIcons() {
-  return (
-    <DropdownMenuWithToggleTrigger triggerLabel="Open">
-      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
-        <DropdownMenuItem>
-          <Icon icon="person" className="size-4" />
-          Profile
-        </DropdownMenuItem>
-
-        <DropdownMenuItem>
-          <Icon icon="attach_money" className="size-4" />
-          Billing
-        </DropdownMenuItem>
-
-        <DropdownMenuItem>
-          <Icon icon="key" className="size-4" />
-          Settings
-        </DropdownMenuItem>
-
-        <DropdownMenuSeparator />
-
-        <DropdownMenuItem variant="destructive">
-          <Icon icon="close" className="size-4" />
-          Log out
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenuWithToggleTrigger>
-  );
-}
-
-/**
- * Nested submenus for secondary actions
- */
-export function DropdownMenuWithSubmenu() {
-  return (
-    <DropdownMenuWithToggleTrigger triggerLabel="Open">
-      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Icon icon="person" className="size-4" />
-            Team
-          </DropdownMenuItem>
-
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
-              <Icon icon="send" className="size-4" />
-              Invite users
-            </DropdownMenuSubTrigger>
-
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent className={DROPDOWN_MENU_PANEL_CLASS}>
-                <DropdownMenuItem>
-                  <Icon icon="mail" className="size-4" />
-                  Email
-                </DropdownMenuItem>
-
-                <DropdownMenuItem>Message</DropdownMenuItem>
-
-                <DropdownMenuSeparator />
-
-                <DropdownMenuItem>More&hellip;</DropdownMenuItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub>
-
-          <DropdownMenuItem>
-            New Team
-            <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenuWithToggleTrigger>
-  );
-}
-
-/**
- * Checkbox items for toggling options
- */
-export function DropdownMenuWithCheckboxes() {
-  const [showStatusBar, setShowStatusBar] = React.useState(true);
-  const [showActivityBar, setShowActivityBar] = React.useState(false);
-  const [showPanel, setShowPanel] = React.useState(false);
-
-  return (
-    <DropdownMenuWithToggleTrigger triggerLabel="Open">
-      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
-        <DropdownMenuGroup>
-          <DropdownMenuLabel>Appearance</DropdownMenuLabel>
-
-          <DropdownMenuCheckboxItem
-            checked={showStatusBar}
-            onCheckedChange={setShowStatusBar}>
-            Status Bar
-          </DropdownMenuCheckboxItem>
-
-          <DropdownMenuCheckboxItem
-            checked={showActivityBar}
-            onCheckedChange={setShowActivityBar}
-            disabled>
-            Activity Bar
-          </DropdownMenuCheckboxItem>
-
-          <DropdownMenuCheckboxItem
-            checked={showPanel}
-            onCheckedChange={setShowPanel}>
-            Panel
-          </DropdownMenuCheckboxItem>
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenuWithToggleTrigger>
-  );
-}
-
-/**
- * Radio group for exclusive choices
- */
-export function DropdownMenuWithRadioGroup() {
-  const [position, setPosition] = React.useState('bottom');
-
-  return (
-    <DropdownMenuWithToggleTrigger triggerLabel="Open">
-      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
-        <DropdownMenuGroup>
-          <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
-
-          <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-            <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
-          </DropdownMenuRadioGroup>
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenuWithToggleTrigger>
-  );
-}
-
-/**
- * Larger touch targets and typography
- */
-export function DropdownMenuLarge() {
-  return (
-    <DropdownMenuWithToggleTrigger triggerLabel="Open">
-      <DropdownMenuContent
-        align="start"
-        size="lg"
-        className={DROPDOWN_MENU_PANEL_CLASS}>
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Icon icon="person" className="size-6" />
-            Profile
-          </DropdownMenuItem>
-
-          <DropdownMenuItem>
-            <Icon icon="attach_money" className="size-6" />
-            Billing
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-          </DropdownMenuItem>
-
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger inset>Invite users</DropdownMenuSubTrigger>
-
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent
-                size="lg"
-                className={DROPDOWN_MENU_PANEL_CLASS}>
-                <DropdownMenuItem>Email</DropdownMenuItem>
-                <DropdownMenuItem>Message</DropdownMenuItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub>
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenuWithToggleTrigger>
-  );
-}
-
-/**
- * Destructive variant for irreversible actions
- */
-export function DropdownMenuDestructive() {
-  return (
-    <DropdownMenuWithToggleTrigger triggerLabel="Actions">
-      <DropdownMenuContent align="start" className={DROPDOWN_MENU_PANEL_CLASS}>
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Icon icon="edit" className="size-4" />
-            Edit
-          </DropdownMenuItem>
-
-          <DropdownMenuItem>
-            <Icon icon="send" className="size-4" />
-            Share
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-
-        <DropdownMenuSeparator />
-
-        <DropdownMenuGroup>
-          <DropdownMenuItem variant="destructive">
-            <Icon icon="delete" className="size-4" />
-            Delete
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenuWithToggleTrigger>
-  );
-}
-
-// ============================================================================
-// Example Metadata
-// ============================================================================
-
-export const examples = [
-  {
-    name: 'DropdownMenuDemo',
-    title: 'Default',
-    description: 'Basic dropdown menu with labels and separators.',
-  },
-  {
-    name: 'DropdownMenuWithShortcuts',
-    title: 'Shortcuts',
-    description: 'Dropdown menu items with keyboard shortcut hints.',
-  },
-  {
-    name: 'DropdownMenuWithIcons',
-    title: 'With Icons',
-    description: 'Dropdown items combined with icons for quick scanning.',
-  },
-  {
-    name: 'DropdownMenuWithSubmenu',
-    title: 'Submenu',
-    description: 'Nested submenus for secondary actions.',
-  },
-  {
-    name: 'DropdownMenuWithCheckboxes',
-    title: 'Checkboxes',
-    description: 'Checkbox items for toggling multiple options.',
-  },
-  {
-    name: 'DropdownMenuWithRadioGroup',
-    title: 'Radio Group',
-    description: 'Radio group for exclusive choices.',
-  },
-  {
-    name: 'DropdownMenuLarge',
-    title: 'Large',
-    description: 'Larger touch targets and typography.',
-  },
-  {
-    name: 'DropdownMenuDestructive',
-    title: 'Destructive',
-    description: 'Destructive variant for irreversible actions.',
-  },
-];
-
-// ============================================================================
-// Legacy Format (for backwards compatibility)
-// ============================================================================
+export const examples = actionMenuExampleMeta.map(meta => ({
+  name: dropdownExampleNames[meta.key],
+  title: meta.title,
+  description: meta.description,
+}));
 
 export const dropdownMenu = {
   name: 'dropdown-menu',
-  components: {
-    Default: <DropdownMenuDemo />,
-    Shortcuts: <DropdownMenuWithShortcuts />,
-    'With Icons': <DropdownMenuWithIcons />,
-    Submenu: <DropdownMenuWithSubmenu />,
-    Checkboxes: <DropdownMenuWithCheckboxes />,
-    'Radio Group': <DropdownMenuWithRadioGroup />,
-    Large: <DropdownMenuLarge />,
-    Destructive: <DropdownMenuDestructive />,
-  },
+  components: Object.fromEntries(
+    actionMenuExampleMeta.map(meta => [
+      meta.title,
+      React.createElement(exampleComponents[meta.key]),
+    ]),
+  ),
 };
