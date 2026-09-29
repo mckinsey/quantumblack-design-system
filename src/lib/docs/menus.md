@@ -114,6 +114,14 @@ Size (`sm` / `default` / `lg`) comes from `Select` `size` on the field and conte
 
 Demos often fix width (e.g. `256px`) for screenshots. Production menus can set `className` on `*Content` / `SelectContent`. Min width follows content and design constraints, not a single global prop.
 
+## Code Connect
+
+Figma **`Menu/Context`**, **`MenuItem/Context`**, and **`MenuItem/Subtrigger`** map to **`DropdownMenu*`** in Code Connect only (one snippet per Figma set).
+
+Generated snippets include a comment: use **`ContextMenu*`** when the menu opens on right-click or a context surface; use **`DropdownMenu*`** for click-open. Row and panel styles are the same — swap the primitive prefix, not the composition inside items.
+
+Templates: `code-connect/menu-context.figma.ts`, `menu-item-context.figma.ts`, `menu-item-subtrigger.figma.ts`. Env: `FIGMA_URL_QBDS_MENU_CONTEXT`, `FIGMA_URL_QBDS_MENU_ITEM_CONTEXT`, `FIGMA_URL_QBDS_MENU_ITEM_SUBTRIGGER`.
+
 ## Examples
 
 Registry **Examples** for `dropdown-menu`, `context-menu`, and `select` show parity-style compositions (icons, shortcuts, subs, checkbox/radio, select multi with counter). Copy and adapt; omit pieces you do not need.
