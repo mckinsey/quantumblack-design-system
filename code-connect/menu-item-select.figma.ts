@@ -82,7 +82,7 @@ export default {
      * Based on the use case, choose Select, Dropdown Menu, or Context Menu.
      */
     <>
-      <SelectItem value="item"${disabledProp}>
+      <SelectItem value={${label}}${disabledProp}>
         ${leading}
         ${checkboxControl}
         <SelectItemText>{${label}}</SelectItemText>

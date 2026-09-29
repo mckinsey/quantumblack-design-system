@@ -22,10 +22,12 @@ export default {
     /*
      * Based on the use case, choose Select, Dropdown Menu, or Context Menu.
      */
-    <DropdownMenuSubTrigger${insetProp}>{${label}}</DropdownMenuSubTrigger>
+    <DropdownMenuSub>
+      <DropdownMenuSubTrigger${insetProp}>{${label}}</DropdownMenuSubTrigger>
+    </DropdownMenuSub>
   `,
   imports: [
-    'import { DropdownMenuSubTrigger } from "@/components/ui/dropdown-menu"',
+    'import { DropdownMenuSub, DropdownMenuSubTrigger } from "@/components/ui/dropdown-menu"',
   ],
   id: 'menu-item-subtrigger',
   metadata: { nestable: true },

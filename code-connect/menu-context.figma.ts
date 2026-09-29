@@ -20,6 +20,7 @@ const items =
         'MenuItem/Context',
         'MenuItem/Subtrigger',
         'MenuItem/Header',
+        'MenuItem/Divider',
       ]);
 
 const sizeProp = size === 'default' ? '' : ` size="${size}"`;

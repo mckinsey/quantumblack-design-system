@@ -51,7 +51,7 @@ export default {
      * Based on the use case, choose Select, Dropdown Menu, or Context Menu.
      */
     <>
-      <SelectItem value="item"${disabledProp}>
+      <SelectItem value={${name}}${disabledProp}>
         ${avatarBlock}
         ${checkboxControl}
         <SelectItemText>{${name}}</SelectItemText>
