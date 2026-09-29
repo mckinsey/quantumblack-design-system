@@ -310,7 +310,7 @@
       "type": "registry:ui",
       "title": "Context Menu",
       "description": "Displays a menu of actions triggered by a right-click.",
-      "dependencies": ["@radix-ui/react-context-menu"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -334,12 +334,11 @@
       "type": "registry:ui",
       "title": "Dropdown Menu",
       "description": "Displays a menu to the user, such as a set of actions or functions, triggered by a button.",
-      "dependencies": ["@radix-ui/react-dropdown-menu"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
         "__REGISTRY_URL__/r/button.json",
-        "__REGISTRY_URL__/r/toggle.json",
         "__REGISTRY_URL__/r/icon.json",
         "__REGISTRY_URL__/r/icon-shell.json"
       ],
