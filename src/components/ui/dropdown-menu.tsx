@@ -179,7 +179,7 @@ function DropdownMenuSubTrigger({
       data-size={size}
       className={cn(
         isLg ? 'paragraph-large-primary' : 'paragraph-regular-primary',
-        'text-fg-secondary data-highlighted:bg-stateslayer-overlay-hover data-highlighted:text-fg-primary data-popup-open:bg-stateslayer-overlay-hover data-popup-open:text-fg-primary data-open:bg-stateslayer-overlay-hover data-open:text-fg-primary [&_svg:not([class*="text-"])]:text-fg-tertiary flex cursor-pointer items-center gap-2 outline-none select-none [&_svg]:pointer-events-none [&_svg]:shrink-0',
+        'text-fg-secondary data-highlighted:bg-stateslayer-overlay-hover data-highlighted:text-fg-primary data-popup-open:bg-stateslayer-overlay-hover data-popup-open:text-fg-primary data-open:bg-stateslayer-overlay-hover data-open:text-fg-primary data-disabled:text-fg-disabled [&_svg:not([class*="text-"])]:text-fg-tertiary flex cursor-pointer items-center gap-2 outline-none select-none data-disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0',
         padding,
         className,
       )}
@@ -280,7 +280,10 @@ function DropdownMenuRadioItem({
       {...props}>
       {children}
       <MenuPrimitive.RadioItemIndicator className="ml-auto flex items-center justify-center">
-        <IconShell size={isLg ? 'default' : 'sm'} variant="primary">
+        <IconShell
+          className="group-data-disabled:text-fill-disabled"
+          size={isLg ? 'default' : 'sm'}
+          variant="primary">
           <Icon icon="done" size={isLg ? 'default' : 'sm'} />
         </IconShell>
       </MenuPrimitive.RadioItemIndicator>
