@@ -79,37 +79,37 @@ function ContextMenuShell({
   );
 }
 
-function makeContextExample(
-  Body: React.ComponentType<{ ui: ActionMenuUi }>,
-  opts?: {
-    panelClass?: string;
-    size?: 'default' | 'lg';
-    triggerLabel?: string;
-  },
-) {
-  return function Example() {
-    return (
-      <ContextMenuShell
-        label={opts?.triggerLabel ?? 'Right-click here'}
-        contentClassName={opts?.panelClass ?? ACTION_MENU_PANEL_DEMO}
-        contentSize={opts?.size}>
-        <Body ui={contextMenuUi} />
-      </ContextMenuShell>
-    );
-  };
+export function ContextMenuDemo() {
+  return (
+    <ContextMenuShell>
+      <ActionMenuDefaultBody ui={contextMenuUi} />
+    </ContextMenuShell>
+  );
 }
 
-export const ContextMenuDemo = makeContextExample(ActionMenuDefaultBody);
-export const ContextMenuWithShortcuts = makeContextExample(
-  ActionMenuShortcutsBody,
-);
-export const ContextMenuComposition = makeContextExample(
-  ActionMenuCompositionBody,
-  { panelClass: ACTION_MENU_PANEL_FIGMA },
-);
-export const ContextMenuWithCheckboxes = makeContextExample(
-  ActionMenuCheckboxesBody,
-);
+export function ContextMenuWithShortcuts() {
+  return (
+    <ContextMenuShell>
+      <ActionMenuShortcutsBody ui={contextMenuUi} />
+    </ContextMenuShell>
+  );
+}
+
+export function ContextMenuComposition() {
+  return (
+    <ContextMenuShell contentClassName={ACTION_MENU_PANEL_FIGMA}>
+      <ActionMenuCompositionBody ui={contextMenuUi} />
+    </ContextMenuShell>
+  );
+}
+
+export function ContextMenuWithCheckboxes() {
+  return (
+    <ContextMenuShell>
+      <ActionMenuCheckboxesBody ui={contextMenuUi} />
+    </ContextMenuShell>
+  );
+}
 export function ContextMenuWithRadioGroup() {
   const [position, setPosition] = React.useState('bottom');
 

@@ -82,37 +82,39 @@ function DropdownMenuShell({
   );
 }
 
-function makeDropdownExample(
-  Body: React.ComponentType<{ ui: ActionMenuUi }>,
-  opts?: {
-    panelClass?: string;
-    size?: 'default' | 'lg';
-    triggerLabel?: string;
-  },
-) {
-  return function Example() {
-    return (
-      <DropdownMenuShell
-        triggerLabel={opts?.triggerLabel ?? 'Open'}
-        contentClassName={opts?.panelClass ?? ACTION_MENU_PANEL_DEMO}
-        contentSize={opts?.size}>
-        <Body ui={dropdownMenuUi} />
-      </DropdownMenuShell>
-    );
-  };
+export function DropdownMenuDemo() {
+  return (
+    <DropdownMenuShell triggerLabel="Open">
+      <ActionMenuDefaultBody ui={dropdownMenuUi} />
+    </DropdownMenuShell>
+  );
 }
 
-export const DropdownMenuDemo = makeDropdownExample(ActionMenuDefaultBody);
-export const DropdownMenuWithShortcuts = makeDropdownExample(
-  ActionMenuShortcutsBody,
-);
-export const DropdownMenuComposition = makeDropdownExample(
-  ActionMenuCompositionBody,
-  { panelClass: ACTION_MENU_PANEL_FIGMA },
-);
-export const DropdownMenuWithCheckboxes = makeDropdownExample(
-  ActionMenuCheckboxesBody,
-);
+export function DropdownMenuWithShortcuts() {
+  return (
+    <DropdownMenuShell triggerLabel="Open">
+      <ActionMenuShortcutsBody ui={dropdownMenuUi} />
+    </DropdownMenuShell>
+  );
+}
+
+export function DropdownMenuComposition() {
+  return (
+    <DropdownMenuShell
+      triggerLabel="Open"
+      contentClassName={ACTION_MENU_PANEL_FIGMA}>
+      <ActionMenuCompositionBody ui={dropdownMenuUi} />
+    </DropdownMenuShell>
+  );
+}
+
+export function DropdownMenuWithCheckboxes() {
+  return (
+    <DropdownMenuShell triggerLabel="Open">
+      <ActionMenuCheckboxesBody ui={dropdownMenuUi} />
+    </DropdownMenuShell>
+  );
+}
 export function DropdownMenuWithRadioGroup() {
   const [position, setPosition] = React.useState('bottom');
 

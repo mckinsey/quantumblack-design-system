@@ -35,12 +35,15 @@ function FigmaLeadingIcon({ size = 'sm' }: { size?: 'sm' | 'default' }) {
 
 function DoneSlot({ on }: { on?: boolean }) {
   return (
-    <IconShell
-      size="sm"
-      variant="primary"
-      className={on ? undefined : 'invisible'}>
-      <Icon icon="done" size="sm" />
-    </IconShell>
+    <>
+      <IconShell
+        size="sm"
+        variant="primary"
+        className={on ? undefined : 'invisible'}>
+        <Icon icon="done" size="sm" />
+      </IconShell>
+      {on ? <span className="sr-only">Selected</span> : null}
+    </>
   );
 }
 
