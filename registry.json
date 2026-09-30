@@ -594,23 +594,6 @@
       ]
     },
     {
-      "name": "segmented-controls",
-      "type": "registry:ui",
-      "title": "Segmented Controls",
-      "description": "Single-select control with segmented button options.",
-      "dependencies": ["@radix-ui/react-toggle-group"],
-      "registryDependencies": [
-        "__REGISTRY_URL__/r/theme.json",
-        "__REGISTRY_URL__/r/utils.json"
-      ],
-      "files": [
-        {
-          "path": "src/components/ui/segmented-controls.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "select",
       "type": "registry:ui",
       "title": "Select",
@@ -966,7 +949,7 @@
       "name": "toggle-group",
       "type": "registry:ui",
       "title": "Toggle Group",
-      "description": "A set of two-state buttons that can be toggled on or off.",
+      "description": "Mutually exclusive toggle buttons in a contained track, or a loose group for toolbars.",
       "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",

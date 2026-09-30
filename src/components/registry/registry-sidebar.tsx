@@ -45,6 +45,7 @@ const COMPONENT_GROUPS: { label: string; names: string[] }[] = [
       'slider',
       'switch',
       'textarea',
+      'toggle-group',
     ],
   },
   {
@@ -55,12 +56,7 @@ const COMPONENT_GROUPS: { label: string; names: string[] }[] = [
 ];
 
 const groupedNames = new Set(COMPONENT_GROUPS.flatMap(g => g.names));
-const EXCLUDED_NAMES = new Set([
-  'label',
-  'toggle-group',
-  'date-input',
-  'time-input',
-]);
+const EXCLUDED_NAMES = new Set(['label', 'date-input', 'time-input']);
 
 type SidebarEntry =
   | {
