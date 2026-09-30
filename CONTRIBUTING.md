@@ -1,83 +1,156 @@
 # Contributing
 
-Contributions welcome. Read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) and [README.md](README.md) before opening an issue or PR on [GitHub](https://github.com/mckinsey/quantumblack-design-system).
+Contributions of all experience levels are welcome! Please read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) and [README.md](README.md) (for prerequisites and running locally) before opening an issue or pull request on [GitHub](https://github.com/mckinsey/quantumblack-design-system).
 
-- **README.md** — clone and run locally
-- **[AGENTS.md](AGENTS.md)** — stack, commands, icons, PR checklist (also used by Cursor / Claude Code)
-- **Documentation site** ([designsystem.quantumblack.com](https://designsystem.quantumblack.com)) — install components, API, tokens
+- **README.md** — clone and run this repository locally
+- **Documentation site** ([designsystem.quantumblack.com](https://designsystem.quantumblack.com)) — install components in your app, browse the API, read tokens
+- **This file** — development setup, project structure, and contributing components back to the registry
+- **[AGENTS.md](AGENTS.md)** — same conventions for Cursor / Claude Code agents (optional if you are not using those tools)
 
-## Extra commands
+## Stack
 
-Beyond [AGENTS.md](AGENTS.md#key-commands):
+- **Vite**, **React 19**, **React Router 7**, **TypeScript 5**
+- **Tailwind CSS v4** + PostCSS
+- **shadcn/ui** (new-york style) for registry tooling
+- **Base UI** (`@base-ui/react`) and **Radix UI** (`@radix-ui/*`) for headless component primitives
+- **TanStack Query** for component detail pages
+- **TanStack Table**, **react-hook-form**, **zod** for complex component demos
+- Icons via Material Symbols Sharp variable font (`<Icon />` + `<IconShell />`)
 
-| Command                | Description                    |
-| ---------------------- | ------------------------------ |
-| `npm run lint:eslint`  | ESLint only                    |
-| `npm run prettier`     | Prettier check                 |
-| `npm run test:unit`    | Vitest unit tests              |
-| `npm run test:watch`   | Vitest watch                   |
-| `npm run test`         | Unit tests + build + lint (CI) |
-| `npm run tokens:check` | Token docs vs `globals.css`    |
+Base UI is the target for new components and in-flight migrations; Radix remains in the components not yet migrated. Check the imports in the file you're editing and in the closest sibling in `src/components/ui/` before reaching for a primitive.
+
+## Key commands
+
+| Command                  | Description                                        |
+| ------------------------ | -------------------------------------------------- |
+| `npm run dev`            | Rebuild registry + start dev server (port 4123)    |
+| `npm run build`          | Rebuild registry + Vite production build → `dist/` |
+| `npm run preview`        | Preview production build (port 4123)               |
+| `npm run registry:build` | Rebuild registry files only (`public/r/`)          |
+| `npm run lint`           | Run ESLint and Prettier (check)                    |
+| `npm run lint:eslint`    | Run ESLint only                                    |
+| `npm run prettier`       | Check formatting with Prettier                     |
+| `npm run prettier:fix`   | Apply Prettier formatting                          |
+| `npm run test:unit`      | Run Vitest unit tests                              |
+| `npm run test:watch`     | Run Vitest in watch mode                           |
+| `npm run test`           | Run unit tests + build + lint (used in CI)         |
+| `npm run tokens:check`   | Check token docs against `globals.css` (Vitest)    |
 
 ## Environment variables
 
-| Variable            | Description                                                                                                                                      |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `QBDS_REGISTRY_URL` | Public site URL — **no trailing slash**. Registry builds and install commands in docs. Unset locally → install commands use current browser URL. |
+| Variable            | Description                                                                                                                                                                                                                                            |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `QBDS_REGISTRY_URL` | Public URL of this site — **no trailing slash** (e.g. `https://designsystem.quantumblack.com` or `http://localhost:4123`). Used for registry builds and install commands in the docs. If unset locally, install commands use your current browser URL. |
 
 `.env` is gitignored — never commit it.
 
 ### Figma Code Connect
 
-Mappings in [`code-connect/`](code-connect/) (`*.figma.ts`). [`figma.config.template.json`](figma.config.template.json) is committed; `figma.config.json` is generated + gitignored. New mappings: [code-connect](.agents/skills/code-connect/SKILL.md) skill (not legacy `*.figma.tsx`).
+Mappings live in [`code-connect/`](code-connect/) as flat `*.figma.ts` template files. [`figma.config.template.json`](figma.config.template.json) is committed; `figma.config.json` is generated from the template + `.env` and gitignored.
 
-| Variable                  | Description                                                               |
-| ------------------------- | ------------------------------------------------------------------------- |
-| `FIGMA_ACCESS_TOKEN`      | Figma token — Code Connect publish and variable reads ([Tokens](#tokens)) |
-| `FIGMA_URL_<PLACEHOLDER>` | Figma URL per placeholder in mappings                                     |
+A few older mappings still use the deprecated parser style (`figma.connect(...)` in `*.figma.tsx`). Do not author new ones — follow [code-connect](.agents/skills/code-connect/SKILL.md) for the template conventions.
+
+| Variable                  | Description                                                                                                    |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `FIGMA_ACCESS_TOKEN`      | Figma personal access token — Code Connect publish and reading design system variables (see [Tokens](#tokens)) |
+| `FIGMA_URL_<PLACEHOLDER>` | Full Figma URL for each placeholder used in mappings                                                           |
+
+Local publish (from repo root):
 
 ```bash
 cp .env.example .env
-# FIGMA_ACCESS_TOKEN + FIGMA_URL_* for code-connect/
+# Set FIGMA_ACCESS_TOKEN and FIGMA_URL_* for placeholders in code-connect/
 npm run figma:publish
 ```
 
-**GitHub Actions:** set `QBDS_REGISTRY_URL` under **Settings → Secrets and variables → Actions → Variables**.
+### CI / GitHub Actions
+
+Set `QBDS_REGISTRY_URL` as a **repository variable** under **Settings → Secrets and variables → Actions → Variables**. All workflows read it via `${{ vars.QBDS_REGISTRY_URL }}`.
 
 ## Project structure
 
 ```
-docs/TOKENS.md
-code-connect/
+docs/
+└── TOKENS.md                   # Token catalogue (feeds the /tokens page)
+code-connect/                   # Figma Code Connect mappings (*.figma.ts)
 src/
-├── app/(registry)/          # Site: docs, registry/[name], /tokens
-├── app/demo/[name]/ui/      # Per-component demos (iframes)
-├── components/ui/           # Primitives
-├── components/registry/     # Site chrome
-├── lib/                     # tokens.ts, registry helpers
-└── styles/globals.css
-scripts/                     # API docs + example extraction
-public/r/                    # Built registry (registry:build)
-registry.json
+├── app/
+│   ├── (registry)/             # Registry site routes
+│   │   ├── docs/               # Intro, components list, installation guide, /tokens
+│   │   └── registry/[name]/    # Component detail page (API docs, source, demos)
+│   └── demo/[name]/            # Isolated demo pages rendered in iframes
+│       └── ui/                 # Per-component demo files
+├── components/
+│   ├── ui/                     # Design system component primitives
+│   ├── ui/icon.tsx             # Material Symbols Sharp (variable font)
+│   └── registry/               # Registry site UI (navbar, sidebar, API reference, etc.)
+├── hooks/                      # Shared React hooks
+├── lib/                        # Utils, registry helpers, tokens.ts, source extraction
+└── styles/
+    └── globals.css             # Tailwind + design system theme tokens
+scripts/
+├── generate-api-docs.ts        # Extracts prop types from components via react-docgen-typescript
+└── extract-examples.ts         # Extracts demo source code for display in the registry
+public/
+└── r/                          # Built registry files (output of `registry:build`)
+registry.json                   # Source of truth for all registered components
 ```
 
 ## Adding a component
 
-1. `src/components/ui/` (or `src/components/` for larger blocks).
-2. Demo: `src/app/demo/[name]/index.tsx` and `ui/`.
-3. Register in `registry.json` (see `alert` / `alert-demo` — `files`, `registryDependencies`, `dependencies`).
-4. `npm run registry:build`.
-5. [AGENTS.md — Before raising a PR](AGENTS.md#before-raising-a-pr).
+1. Build the component in `src/components/ui/` (primitives) or `src/components/` (larger blocks).
+2. Create a demo in `src/app/demo/[name]/index.tsx` and `src/app/demo/[name]/ui/`.
+3. Register it in `registry.json` following the existing `alert` / `alert-demo` pattern — include `files`, `registryDependencies`, and any `dependencies`.
+4. Run `npm run registry:build` to regenerate `public/r/` files.
+5. Before raising a PR, run `npm run build` and `npm run lint` to confirm everything passes.
 
-Figma-driven work: [figma-parity](.agents/skills/figma-parity/SKILL.md). New component from scratch: [create-qbds-component](.agents/skills/create-qbds-component/SKILL.md).
+From a Figma spec: **new** component → [create-qbds-component](.agents/skills/create-qbds-component/SKILL.md); **update** an existing one → [figma-parity](.agents/skills/figma-parity/SKILL.md). Cursor and Claude Code discover these skills automatically when you describe the task or share the Figma URL.
 
 ## Tokens
 
-[docs/TOKENS.md](docs/TOKENS.md) + [token page](https://designsystem.quantumblack.com/tokens) (from `globals.css` via `src/lib/tokens.ts`).
+[docs/TOKENS.md](docs/TOKENS.md) lists every token: CSS variable, Tailwind class, when to use it, and the matching Figma name.
 
-Designer variable updates: [figma-token-sync](.agents/skills/figma-token-sync/SKILL.md), then `npm run tokens:check` and verify `/tokens` in dev.
+The **[tokens page](https://designsystem.quantumblack.com/tokens)** on the registry site is built from that file plus [`src/styles/globals.css`](src/styles/globals.css) ([`src/lib/tokens.ts`](src/lib/tokens.ts) ties them together at build time).
+
+### Syncing from Figma
+
+When designers update variables in the design system Figma file, follow [figma-token-sync](.agents/skills/figma-token-sync/SKILL.md). That workflow covers updating [`src/styles/globals.css`](src/styles/globals.css) and [`docs/TOKENS.md`](docs/TOKENS.md).
+
+After editing:
+
+```bash
+npm run tokens:check
+npm run dev    # open /tokens and check the swatches
+```
+
+For component work from a Figma spec, use [figma-parity](.agents/skills/figma-parity/SKILL.md) or [create-qbds-component](.agents/skills/create-qbds-component/SKILL.md) for new components.
+
+## Icons
+
+Icons use the **Material Symbols Sharp** variable font via `<Icon icon="search" />`. Use Google's snake_case ligature names (e.g. `keyboard_arrow_down`). Wrap in `<IconShell>` for design system size, colour, and opacity tokens.
+
+```tsx
+<IconShell size="sm" variant="secondary">
+  <Icon icon="search" />
+</IconShell>
+```
+
+Install via registry: `npx shadcn add icon` (ships `icon.tsx` and the Google Fonts `@import`).
+
+## Registry
+
+`registry.json` is the source of truth for all components. Running `npm run registry:build` compiles it into individual JSON files under `public/r/` via `npx shadcn build`. These files are what other shadcn-based projects consume when installing components from this registry.
 
 ## CI/CD
 
-- **`pr.yml`** — tests, build, lint on `main` and PRs.
-- **`deploy-pages.yml`** — GitHub Pages on `main` (or manual).
+- **`pr.yml`** — unit tests, build, and lint on push to `main` and pull requests.
+- **`deploy-pages.yml`** — builds and deploys to GitHub Pages on push to `main` (or manual trigger).
+
+## Before raising a PR
+
+See [docs/PULL_REQUESTS.md](docs/PULL_REQUESTS.md) for title format. Then:
+
+- [ ] `npm run build` passes
+- [ ] `npm run lint` passes
+- [ ] `registry.json` updated and `npm run registry:build` run (if component added/changed)
+- [ ] Figma spec matched: new component → [create-qbds-component](.agents/skills/create-qbds-component/SKILL.md); update existing → [figma-parity](.agents/skills/figma-parity/SKILL.md)
