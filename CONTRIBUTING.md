@@ -10,19 +10,19 @@ Contributions welcome. Read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) and [README
 
 Beyond [AGENTS.md](AGENTS.md#key-commands):
 
-| Command               | Description                             |
-| --------------------- | --------------------------------------- |
-| `npm run lint:eslint` | ESLint only                             |
-| `npm run prettier`    | Prettier check                          |
-| `npm run test:unit`   | Vitest unit tests                       |
-| `npm run test:watch`  | Vitest watch                            |
-| `npm run test`        | Unit tests + build + lint (CI)          |
-| `npm run tokens:check`| Token docs vs `globals.css`             |
+| Command                | Description                    |
+| ---------------------- | ------------------------------ |
+| `npm run lint:eslint`  | ESLint only                    |
+| `npm run prettier`     | Prettier check                 |
+| `npm run test:unit`    | Vitest unit tests              |
+| `npm run test:watch`   | Vitest watch                   |
+| `npm run test`         | Unit tests + build + lint (CI) |
+| `npm run tokens:check` | Token docs vs `globals.css`    |
 
 ## Environment variables
 
-| Variable            | Description                                                                                                                                                                                                                                            |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Variable            | Description                                                                                                                                      |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `QBDS_REGISTRY_URL` | Public site URL — **no trailing slash**. Registry builds and install commands in docs. Unset locally → install commands use current browser URL. |
 
 `.env` is gitignored — never commit it.
@@ -31,10 +31,10 @@ Beyond [AGENTS.md](AGENTS.md#key-commands):
 
 Mappings in [`code-connect/`](code-connect/) (`*.figma.ts`). [`figma.config.template.json`](figma.config.template.json) is committed; `figma.config.json` is generated + gitignored. New mappings: [code-connect](.agents/skills/code-connect/SKILL.md) skill (not legacy `*.figma.tsx`).
 
-| Variable                  | Description                                                                                                    |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `FIGMA_ACCESS_TOKEN`      | Figma token — Code Connect publish and variable reads ([Tokens](#tokens))                                      |
-| `FIGMA_URL_<PLACEHOLDER>` | Figma URL per placeholder in mappings                                                                          |
+| Variable                  | Description                                                               |
+| ------------------------- | ------------------------------------------------------------------------- |
+| `FIGMA_ACCESS_TOKEN`      | Figma token — Code Connect publish and variable reads ([Tokens](#tokens)) |
+| `FIGMA_URL_<PLACEHOLDER>` | Figma URL per placeholder in mappings                                     |
 
 ```bash
 cp .env.example .env
@@ -73,7 +73,7 @@ Figma-driven work: [figma-parity](.agents/skills/figma-parity/SKILL.md). New com
 
 ## Tokens
 
-[docs/TOKENS.md](docs/TOKENS.md) + [`/tokens`](https://designsystem.quantumblack.com) (from `globals.css` via `src/lib/tokens.ts`).
+[docs/TOKENS.md](docs/TOKENS.md) + [token page](https://designsystem.quantumblack.com/tokens) (from `globals.css` via `src/lib/tokens.ts`).
 
 Designer variable updates: [figma-token-sync](.agents/skills/figma-token-sync/SKILL.md), then `npm run tokens:check` and verify `/tokens` in dev.
 
