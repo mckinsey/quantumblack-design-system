@@ -29,11 +29,11 @@ function toggleVariants({
 } = {}) {
   return cn(
     buttonVariants({ variant, size }),
-    'data-pressed:bg-fill-active data-pressed:text-fg-primary-inverse data-pressed:[&>span:not([data-slot^=icon])]:no-underline',
-    'data-pressed:**:data-[slot=icon]:text-fill-active-inverse',
-
-    variant === 'outline' && 'data-pressed:inset-ring-0',
-
+    'data-[pressed]:bg-fill-active data-[pressed]:text-fg-primary-inverse',
+    'data-[pressed]:[&>span:not([data-slot^=icon])]:no-underline',
+    'data-[pressed]:**:data-[slot=icon]:text-fill-active-inverse',
+    'data-[pressed]:focus-visible:bg-fill-active data-[pressed]:focus-visible:text-fg-primary-inverse',
+    variant === 'outline' && 'data-[pressed]:inset-ring-0',
     className,
   );
 }

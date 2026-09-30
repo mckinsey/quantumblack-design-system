@@ -20,11 +20,7 @@ const ToggleGroupContext = React.createContext<ToggleGroupContextValue>({
   size: 'default',
 });
 
-function containedGap(variant: ToggleVariant, size: ToggleSize) {
-  if (size === 'default' && variant === 'secondary') {
-    return 'gap-0';
-  }
-
+function containedGap(size: ToggleSize) {
   if (size === 'sm' || size === 'xs' || size === 'xxs') {
     return 'gap-0.5';
   }
@@ -58,7 +54,7 @@ function ToggleGroup({
           contained
             ? cn(
                 'bg-fill-secondary-inverse border-stroke-divider shadow-elevation-0 border p-1',
-                containedGap(variant, size),
+                containedGap(size),
               )
             : 'gap-1',
           className,

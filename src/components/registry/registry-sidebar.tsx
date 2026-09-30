@@ -45,7 +45,6 @@ const COMPONENT_GROUPS: { label: string; names: string[] }[] = [
       'slider',
       'switch',
       'textarea',
-      'toggle-group',
     ],
   },
   {
