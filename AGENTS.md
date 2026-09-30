@@ -50,7 +50,7 @@ Registry: `npx shadcn add icon` ships `icon.tsx` and appends the Google Fonts `@
 
 ## Figma
 
-Whenever reading a Figma link, use the [figma-extract](.claude/skills/figma-extract/SKILL.md) skill to extract component info (link inventory, properties, structure). Do not skip it and improvise from screenshots or raw MCP dumps alone.
+Whenever reading a Figma link, use the [figma-extract](.claude/skills/figma-extract/SKILL.md) skill to extract component info (link inventory, properties, structure).
 
 ## Before raising a PR
 
