@@ -103,6 +103,37 @@ describe(`${componentName} — structure`, () => {
     expect(screen.getByRole('listitem')).toBeInTheDocument();
   });
 
+  it('sets aria-current=step on active items only', () => {
+    const { rerender } = render(
+      <Stepper>
+        <StepperItem status="active" />
+      </Stepper>,
+    );
+
+    expect(screen.getByRole('listitem')).toHaveAttribute(
+      'aria-current',
+      'step',
+    );
+
+    rerender(
+      <Stepper>
+        <StepperItem status="incomplete" />
+      </Stepper>,
+    );
+
+    expect(screen.getByRole('listitem')).not.toHaveAttribute('aria-current');
+  });
+
+  it('lets consumers override aria-current on StepperItem', () => {
+    render(
+      <Stepper>
+        <StepperItem status="active" aria-current={undefined} />
+      </Stepper>,
+    );
+
+    expect(screen.getByRole('listitem')).not.toHaveAttribute('aria-current');
+  });
+
   it('keeps indicator content consumer-owned for incomplete number and custom', () => {
     render(
       <Stepper>

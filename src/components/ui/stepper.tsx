@@ -385,6 +385,7 @@ function StepperItem({
         props: mergeProps<'div'>(
           {
             role: 'listitem',
+            'aria-current': status === 'active' ? 'step' : undefined,
             className: cn(stepperItemVariants(), className),
           },
           props,
