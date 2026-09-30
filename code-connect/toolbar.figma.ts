@@ -133,7 +133,7 @@ export default {
       - visible .baseTab_spacer on that wrapper → ToolbarSeparator after that button
       Figma has no exclusive/multi-select axis. For clustered toggles in code, wrap with
       ToolbarGroup + ToggleGroup / ToggleGroupItem (see toolbar demos):
-        <ToolbarGroup aria-label="…" render={<ToggleGroup defaultValue={[…]} orientation={…} />}>
+        <ToolbarGroup aria-label="…" render={<ToggleGroup contained={false} defaultValue={[…]} orientation={…} />}>
           <ToolbarButton aria-label="…" render={<ToggleGroupItem value="…" />} value="…">…</ToolbarButton>
         </ToolbarGroup>
       Import ToggleGroup / ToggleGroupItem from "@/components/ui/toggle-group".

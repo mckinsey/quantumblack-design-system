@@ -53,6 +53,7 @@ function DefaultToolbarItems() {
         aria-label="Text alignment"
         render={
           <ToggleGroup
+            contained={false}
             defaultValue={['align-left']}
             orientation={orientation}
           />
@@ -166,7 +167,10 @@ export function ToolbarVertical() {
 export function ToolbarComposition() {
   return (
     <Toolbar aria-label="Document tools" boxed shape="square">
-      <ToggleGroup aria-label="Alignment" defaultValue={['align-left']}>
+      <ToggleGroup
+        contained={false}
+        aria-label="Alignment"
+        defaultValue={['align-left']}>
         <ToolbarButton
           aria-label="Align left"
           className={toolbarTextButtonClass}
