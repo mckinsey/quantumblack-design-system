@@ -25,9 +25,15 @@ export type ActionMenuUi = {
   RadioItem: React.ElementType;
 };
 
-function FigmaLeadingIcon({ size = 'sm' }: { size?: 'sm' | 'default' }) {
+function FigmaLeadingIcon({
+  size = 'sm',
+  disabled,
+}: {
+  size?: 'sm' | 'default';
+  disabled?: boolean;
+}) {
   return (
-    <IconShell size={size} variant="secondary">
+    <IconShell disabled={disabled} size={size} variant="secondary">
       <Icon icon="crop_free" size={size === 'default' ? 'default' : 'sm'} />
     </IconShell>
   );
@@ -62,7 +68,7 @@ function ContextRow({
     <>
       <U.Item disabled={disabled}>
         <DoneSlot on={selected} />
-        <FigmaLeadingIcon />
+        <FigmaLeadingIcon disabled={disabled} />
         Item label
         <U.Shortcut>⌥⌘S</U.Shortcut>
       </U.Item>
@@ -75,7 +81,7 @@ function ContextRow({
 function SubRow({ ui: U, disabled }: { ui: ActionMenuUi; disabled?: boolean }) {
   return (
     <U.Item disabled={disabled}>
-      <FigmaLeadingIcon />
+      <FigmaLeadingIcon disabled={disabled} />
       Item label
       <U.Shortcut>⌥⌘S</U.Shortcut>
     </U.Item>
