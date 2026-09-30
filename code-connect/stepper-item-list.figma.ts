@@ -15,11 +15,12 @@ const orientation = instance.getEnum('orientation', {
   vertical: 'vertical',
 });
 
-const indicator = instance.getEnum('indicator', {
+const figmaIndicator = instance.getEnum('indicator', {
   number: 'number',
   icon: 'icon',
   shape: 'shape',
 });
+const indicator = figmaIndicator === 'number' ? 'number' : 'custom';
 
 const items = figma.properties.children(['Stepper/Item']);
 

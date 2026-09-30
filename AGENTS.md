@@ -48,6 +48,10 @@ Registry: `npx shadcn add icon` ships `icon.tsx` and appends the Google Fonts `@
 
 **Tests (`src/tests/icon-shell.test.tsx`):** functional only — demos render, `data-slot`, children, prop combos don't crash. Do not assert Tailwind classes, opacity tokens, or `cva` output.
 
+## Figma
+
+Whenever reading a Figma link, use the [figma-extract](.claude/skills/figma-extract/SKILL.md) skill to extract component info (link inventory, properties, structure). Do not skip it and improvise from screenshots or raw MCP dumps alone.
+
 ## Before raising a PR
 
 PR title and description: [docs/PULL_REQUESTS.md](docs/PULL_REQUESTS.md) (`<type>(<scope>):` format, types, scopes, summary rules).

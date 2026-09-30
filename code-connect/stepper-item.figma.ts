@@ -12,7 +12,7 @@ const status = instance.getEnum('status', {
   error: 'error',
 });
 
-const indicator = instance.getEnum('indicator', {
+const figmaIndicator = instance.getEnum('indicator', {
   number: 'number',
   icon: 'icon',
   shape: 'shape',
@@ -40,28 +40,12 @@ const iconSlot = instance.findInstance('IconShell');
 const iconChildren =
   iconSlot?.type === 'INSTANCE' ? iconSlot.executeTemplate().example : [];
 
-const completedIcon = figma.code`
-  <IconShell size="default" type="custom" className="text-status-success">
-    <Icon icon="check_circle" />
-  </IconShell>
-`;
-
-const errorIcon = figma.code`
-  <IconShell size="default" type="custom" className="text-status-error">
-    <Icon icon="cancel" />
-  </IconShell>
-`;
-
 const indicatorBody =
-  indicator === 'icon'
+  figmaIndicator === 'icon'
     ? figma.code`${figma.helpers.react.renderChildren(iconChildren)}`
-    : indicator === 'number' && status === 'completed'
-      ? completedIcon
-      : indicator === 'number' && status === 'error'
-        ? errorIcon
-        : indicator === 'number'
-          ? figma.code`${stepNumber}`
-          : figma.code``;
+    : figmaIndicator === 'number'
+      ? figma.code`${stepNumber}`
+      : figma.code``;
 
 const separator = hasTail
   ? figma.code`
@@ -97,8 +81,12 @@ export default {
   `,
   imports: [
     'import { StepperContent, StepperDescription, StepperIndicator, StepperItem, StepperLabel, StepperRail, StepperSeparator, StepperTitle } from "@/components/ui/stepper"',
-    'import { IconShell } from "@/components/ui/icon-shell"',
-    'import { Icon } from "@/components/ui/icon"',
+    ...(figmaIndicator === 'icon'
+      ? [
+          'import { IconShell } from "@/components/ui/icon-shell"',
+          'import { Icon } from "@/components/ui/icon"',
+        ]
+      : []),
   ],
   id: 'stepper-item',
   metadata: { nestable: true },
