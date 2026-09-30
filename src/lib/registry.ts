@@ -151,6 +151,7 @@ export function getUIPrimitivesByCategory() {
       'tabs',
       'breadcrumb',
       'pagination',
+      'stepper',
       'toolbar',
     ],
     Feedback: ['alert', 'progress', 'badge', 'tag'],
