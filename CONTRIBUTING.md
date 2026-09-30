@@ -12,7 +12,7 @@ This guide covers repo layout, registry workflow, environment setup, and Figma-r
 | `npm run prettier`     | Prettier check                              |
 | `npm run test:unit`    | Vitest unit tests                           |
 | `npm run test:watch`   | Vitest watch                                |
-| `npm run test`         | Unit tests + build + lint (same as CI test) |
+| `npm run test`         | Unit tests + typecheck + build + lint             |
 | `npm run tokens:check` | Token docs vs `globals.css`                 |
 
 ## Environment variables
