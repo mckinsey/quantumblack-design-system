@@ -5,11 +5,13 @@ import { afterEach, describe, expect, it } from 'vitest';
 
 import { Renderer } from '@/app/demo/[name]/renderer';
 import {
+  SelectAvatars,
   SelectDemo,
   SelectHorizontal,
   SelectInline,
   SelectMultiple,
   SelectSizes,
+  SelectSwitch,
   SelectTagsWrap,
   SelectValidation,
   SelectWithGroups,
@@ -44,6 +46,8 @@ describe('Select', () => {
       <SelectMultiple key="multiple" />,
       <SelectTagsWrap key="tags-wrap" />,
       <SelectWithGroups key="groups" />,
+      <SelectSwitch key="switch" />,
+      <SelectAvatars key="avatars" />,
     ];
 
     for (const demo of demos) {
