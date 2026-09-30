@@ -3,26 +3,21 @@
 import { cva } from 'class-variance-authority';
 import * as React from 'react';
 
-import { Icon } from '@/components/ui/icon';
-import { IconShell } from '@/components/ui/icon-shell';
 import { cn } from '@/lib/utils';
 
 type StepperSize = 'sm' | 'default';
 type StepperOrientation = 'horizontal' | 'vertical';
 type StepperIndicatorType = 'number' | 'icon' | 'shape';
 type StepperStatus = 'incomplete' | 'active' | 'completed' | 'error';
-type StepperTailStatus = 'incomplete' | 'completed';
 
 type StepperContextValue = {
   size: StepperSize;
   orientation: StepperOrientation;
-  indicator: StepperIndicatorType;
 };
 
 const StepperContext = React.createContext<StepperContextValue>({
   size: 'default',
   orientation: 'vertical',
-  indicator: 'number',
 });
 
 const StepperItemContext = React.createContext<{ status: StepperStatus }>({
@@ -30,49 +25,49 @@ const StepperItemContext = React.createContext<{ status: StepperStatus }>({
 });
 
 const stepperIndicatorVariants = cva(
-  [
-    'inline-flex shrink-0 items-center justify-center rounded-full',
-    'group-data-[indicator=shape]/stepper:rounded-sm',
-  ],
+  'inline-flex shrink-0 items-center justify-center',
   {
-    variants: {
-      size: {
-        sm: 'size-6 group-data-[indicator=shape]/stepper:size-4',
-        default: 'size-8 group-data-[indicator=shape]/stepper:size-4',
+    variants: {},
+    compoundVariants: [
+      {
+        className: [
+          'rounded-full border label-regular-primary',
+          'group-data-[indicator=number]/stepper:size-8 group-data-[indicator=number]/stepper:group-data-[size=sm]/stepper:size-6',
+          'group-data-[indicator=number]/stepper:group-data-[size=sm]/stepper:label-small-primary',
+          'group-data-[indicator=shape]/stepper:size-4 group-data-[indicator=shape]/stepper:rounded-sm',
+          'group-data-[indicator=icon]/stepper:border-0 group-data-[indicator=icon]/stepper:bg-transparent group-data-[indicator=icon]/stepper:p-0',
+          'group-data-[indicator=number]/stepper:group-data-[status=incomplete]/stepper-item:border-stroke-secondary group-data-[indicator=number]/stepper:group-data-[status=incomplete]/stepper-item:bg-fill-muted group-data-[indicator=number]/stepper:group-data-[status=incomplete]/stepper-item:text-fg-primary',
+          'group-data-[indicator=number]/stepper:group-data-[status=active]/stepper-item:border-stroke-active group-data-[indicator=number]/stepper:group-data-[status=active]/stepper-item:bg-fill-active group-data-[indicator=number]/stepper:group-data-[status=active]/stepper-item:text-fg-primary-inverse',
+          'group-data-[indicator=number]/stepper:group-data-[status=completed]/stepper-item:border-0 group-data-[indicator=number]/stepper:group-data-[status=completed]/stepper-item:bg-transparent group-data-[indicator=number]/stepper:group-data-[status=completed]/stepper-item:p-0',
+          'group-data-[indicator=number]/stepper:group-data-[status=error]/stepper-item:border-0 group-data-[indicator=number]/stepper:group-data-[status=error]/stepper-item:bg-transparent group-data-[indicator=number]/stepper:group-data-[status=error]/stepper-item:p-0',
+          'group-data-[indicator=shape]/stepper:group-data-[status=incomplete]/stepper-item:border-stroke-secondary group-data-[indicator=shape]/stepper:group-data-[status=incomplete]/stepper-item:bg-fill-muted',
+          'group-data-[indicator=shape]/stepper:group-data-[status=active]/stepper-item:border-stroke-active group-data-[indicator=shape]/stepper:group-data-[status=active]/stepper-item:bg-fill-active-inverse',
+          'group-data-[indicator=shape]/stepper:group-data-[status=completed]/stepper-item:border-stroke-active group-data-[indicator=shape]/stepper:group-data-[status=completed]/stepper-item:bg-fill-active',
+          'group-data-[indicator=shape]/stepper:group-data-[status=error]/stepper-item:border-stroke-status-error group-data-[indicator=shape]/stepper:group-data-[status=error]/stepper-item:bg-status-error',
+        ],
       },
-      status: {
-        incomplete:
-          'border border-stroke-secondary bg-fill-muted text-fg-primary group-data-[indicator=shape]/stepper:border-stroke-secondary group-data-[indicator=shape]/stepper:bg-fill-muted',
-        active:
-          'border border-stroke-active bg-fill-active text-fg-primary-inverse group-data-[indicator=shape]/stepper:border-stroke-active group-data-[indicator=shape]/stepper:bg-fill-active-inverse',
-        completed: 'border-0 bg-transparent p-0',
-        error: 'border-0 bg-transparent p-0',
-      },
-    },
-    defaultVariants: {
-      size: 'default',
-      status: 'incomplete',
-    },
+    ],
   },
 );
 
-const stepperSeparatorVariants = cva('shrink-0', {
-  variants: {
-    status: {
-      incomplete: 'bg-stroke-tertiary',
-      completed: 'bg-stroke-active',
+const stepperSeparatorVariants = cva(
+  [
+    'shrink-0 bg-stroke-tertiary',
+    'group-data-[status=completed]/stepper-item:bg-stroke-active',
+  ],
+  {
+    variants: {
+      orientation: {
+        horizontal:
+          'h-px min-h-px w-6 min-w-6 group-data-[orientation=horizontal]/stepper:flex-1',
+        vertical: 'w-px min-w-px h-6 min-h-6',
+      },
     },
-    orientation: {
-      horizontal:
-        'h-px min-h-px w-6 min-w-6 group-data-[orientation=horizontal]/stepper:flex-1',
-      vertical: 'w-px min-w-px h-6 min-h-6',
+    defaultVariants: {
+      orientation: 'vertical',
     },
   },
-  defaultVariants: {
-    status: 'incomplete',
-    orientation: 'vertical',
-  },
-});
+);
 
 function useStepper() {
   return React.useContext(StepperContext);
@@ -94,8 +89,9 @@ function Stepper({
   indicator?: StepperIndicatorType;
 }) {
   return (
-    <StepperContext.Provider value={{ size, orientation, indicator }}>
+    <StepperContext.Provider value={{ size, orientation }}>
       <div
+        role="list"
         data-slot="stepper"
         data-size={size}
         data-orientation={orientation}
@@ -123,6 +119,7 @@ function StepperItem({
   return (
     <StepperItemContext.Provider value={{ status }}>
       <div
+        role="listitem"
         data-slot="stepper-item"
         data-status={status}
         className={cn(
@@ -157,88 +154,30 @@ function StepperIndicator({
   children,
   ...props
 }: React.ComponentProps<'div'>) {
-  const { size, indicator } = useStepper();
   const { status } = useStepperItem();
-  const iconShellSize = size === 'sm' ? 'sm' : 'default';
-
-  if (
-    indicator === 'number' &&
-    (status === 'completed' || status === 'error')
-  ) {
-    const icon = status === 'completed' ? 'check_circle' : 'cancel';
-    const tone =
-      status === 'completed' ? 'text-status-success' : 'text-status-error';
-
-    return (
-      <div
-        data-slot="stepper-indicator"
-        data-status={status}
-        className={cn(
-          'inline-flex shrink-0 items-center justify-center',
-          className,
-        )}
-        {...props}>
-        <IconShell size={iconShellSize} type="custom" className={tone}>
-          <Icon icon={icon} />
-        </IconShell>
-      </div>
-    );
-  }
-
-  if (indicator === 'icon') {
-    return (
-      <div
-        data-slot="stepper-indicator"
-        data-status={status}
-        className={cn(
-          'inline-flex shrink-0 items-center justify-center',
-          className,
-        )}
-        {...props}>
-        <IconShell
-          size={iconShellSize}
-          type="neutral"
-          variant={status === 'active' ? 'primary' : 'secondary'}>
-          {children}
-        </IconShell>
-      </div>
-    );
-  }
 
   return (
     <div
       data-slot="stepper-indicator"
       data-status={status}
-      className={cn(
-        stepperIndicatorVariants({ size, status }),
-        'label-regular-primary group-data-[size=sm]/stepper:label-small-primary',
-        className,
-      )}
+      className={cn(stepperIndicatorVariants(), className)}
       {...props}>
-      {indicator === 'number' ? children : null}
+      {children}
     </div>
   );
 }
 
 function StepperSeparator({
-  status,
   className,
   ...props
-}: React.ComponentProps<'div'> & { status?: StepperTailStatus }) {
+}: React.ComponentProps<'div'>) {
   const { orientation } = useStepper();
-  const { status: itemStatus } = useStepperItem();
-  const resolved =
-    status ?? (itemStatus === 'completed' ? 'completed' : 'incomplete');
 
   return (
     <div
       data-slot="stepper-separator"
-      data-status={resolved}
       aria-hidden
-      className={cn(
-        stepperSeparatorVariants({ status: resolved, orientation }),
-        className,
-      )}
+      className={cn(stepperSeparatorVariants({ orientation }), className)}
       {...props}
     />
   );
@@ -306,11 +245,14 @@ export {
   StepperRail,
   StepperSeparator,
   StepperTitle,
+  stepperIndicatorVariants,
+  stepperSeparatorVariants,
+  useStepper,
+  useStepperItem,
 };
 export type {
   StepperIndicatorType,
   StepperOrientation,
   StepperSize,
   StepperStatus,
-  StepperTailStatus,
 };

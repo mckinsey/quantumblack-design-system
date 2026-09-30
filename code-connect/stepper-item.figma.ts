@@ -40,12 +40,28 @@ const iconSlot = instance.findInstance('IconShell');
 const iconChildren =
   iconSlot?.type === 'INSTANCE' ? iconSlot.executeTemplate().example : [];
 
+const completedIcon = figma.code`
+  <IconShell size="default" type="custom" className="text-status-success">
+    <Icon icon="check_circle" />
+  </IconShell>
+`;
+
+const errorIcon = figma.code`
+  <IconShell size="default" type="custom" className="text-status-error">
+    <Icon icon="cancel" />
+  </IconShell>
+`;
+
 const indicatorBody =
   indicator === 'icon'
     ? figma.code`${figma.helpers.react.renderChildren(iconChildren)}`
-    : indicator === 'number'
-      ? figma.code`${stepNumber}`
-      : figma.code``;
+    : indicator === 'number' && status === 'completed'
+      ? completedIcon
+      : indicator === 'number' && status === 'error'
+        ? errorIcon
+        : indicator === 'number'
+          ? figma.code`${stepNumber}`
+          : figma.code``;
 
 const separator = hasTail
   ? figma.code`
@@ -81,6 +97,8 @@ export default {
   `,
   imports: [
     'import { StepperContent, StepperDescription, StepperIndicator, StepperItem, StepperLabel, StepperRail, StepperSeparator, StepperTitle } from "@/components/ui/stepper"',
+    'import { IconShell } from "@/components/ui/icon-shell"',
+    'import { Icon } from "@/components/ui/icon"',
   ],
   id: 'stepper-item',
   metadata: { nestable: true },

@@ -301,6 +301,7 @@ import {
   examples as statisticExamples,
 } from '@/app/demo/[name]/ui/statistic';
 import {
+  StepperComposition,
   StepperDemo,
   StepperIndicators,
   StepperLayouts,
@@ -658,6 +659,7 @@ export const exampleComponentMaps: Record<
     StepperSizes,
     StepperLayouts,
     StepperIndicators,
+    StepperComposition,
     StepperStates,
   },
   sonner: {
