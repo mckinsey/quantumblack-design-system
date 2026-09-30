@@ -6,14 +6,14 @@ This guide covers repo layout, registry workflow, environment setup, and Figma-r
 
 ## Commands beyond AGENTS.md
 
-| Command                | Description                                 |
-| ---------------------- | ------------------------------------------- |
-| `npm run lint:eslint`  | ESLint only                                 |
-| `npm run prettier`     | Prettier check                              |
-| `npm run test:unit`    | Vitest unit tests                           |
-| `npm run test:watch`   | Vitest watch                                |
-| `npm run test`         | Unit tests + typecheck + build + lint             |
-| `npm run tokens:check` | Token docs vs `globals.css`                 |
+| Command                | Description                           |
+| ---------------------- | ------------------------------------- |
+| `npm run lint:eslint`  | ESLint only                           |
+| `npm run prettier`     | Prettier check                        |
+| `npm run test:unit`    | Vitest unit tests                     |
+| `npm run test:watch`   | Vitest watch                          |
+| `npm run test`         | Unit tests + typecheck + build + lint |
+| `npm run tokens:check` | Token docs vs `globals.css`           |
 
 ## Environment variables
 
