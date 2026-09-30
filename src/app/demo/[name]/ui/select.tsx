@@ -3,6 +3,7 @@
 import * as React from 'react';
 import type { ReactNode } from 'react';
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   Field,
@@ -26,6 +27,7 @@ import {
   SelectValue,
   useSelectContext,
 } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { Tag } from '@/components/ui/tag';
 import { cn } from '@/lib/utils';
 
@@ -141,6 +143,7 @@ function SelectCheckboxItem({
       disabled={disabled}
       className={cn(size === 'lg' && 'gap-2 py-2 pr-3 pl-2')}>
       <Checkbox
+        aria-hidden
         size={checkboxSize}
         checked={checked}
         onCheckedChange={() => {}}
@@ -694,6 +697,210 @@ export function SelectWithGroups() {
   );
 }
 
+const people = [
+  { value: 'alex', name: 'Alex Kim', src: 'avatar-1.jpg' },
+  { value: 'jordan', name: 'Jordan Lee', src: 'avatar-2.jpg' },
+  { value: 'sam', name: 'Sam Patel', src: 'avatar-3.jpg' },
+  { value: 'riley', name: 'Riley Chen', src: 'avatar-4.jpg' },
+];
+
+const peopleItems = people.map(person => ({
+  value: person.value,
+  label: person.name,
+}));
+
+const avatarBySelectSize = {
+  sm: 'xs',
+  default: 'sm',
+  lg: 'default',
+} as const;
+
+const basePath = import.meta.env.VITE_BASE_PATH ?? '';
+
+function SelectSwitchItem({
+  value,
+  children,
+  checked,
+}: {
+  value: string;
+  children: ReactNode;
+  checked: boolean;
+}) {
+  const size = useSelectContext()?.size ?? 'default';
+
+  return (
+    <SelectItem value={value}>
+      <SelectItemText>{children}</SelectItemText>
+      <Switch
+        aria-hidden
+        size={size === 'lg' ? 'default' : 'sm'}
+        checked={checked}
+        tabIndex={-1}
+        className="pointer-events-none"
+      />
+    </SelectItem>
+  );
+}
+
+function personInitials(name: string) {
+  return name
+    .split(' ')
+    .map(part => part[0])
+    .join('');
+}
+
+function PersonAvatar({
+  person,
+  size,
+}: {
+  person: (typeof people)[number];
+  size: SelectSize;
+}) {
+  return (
+    <Avatar aria-hidden size={avatarBySelectSize[size]}>
+      <AvatarImage src={`${basePath}/users/${person.src}`} alt="" />
+      <AvatarFallback>{personInitials(person.name)}</AvatarFallback>
+    </Avatar>
+  );
+}
+
+function SelectAvatarRadio({ size }: { size: SelectSize }) {
+  const [value, setValue] = React.useState('');
+  const selected = people.find(person => person.value === value);
+  const iconSize = size === 'lg' ? 'default' : 'sm';
+
+  return (
+    <Select
+      size={size}
+      items={peopleItems}
+      value={value}
+      onValueChange={next => setValue(next as string)}>
+      <SelectTrigger id={`select-avatar-radio-${size}`} className="w-[220px]">
+        <SelectValue placeholder="Select users">
+          {selected ? (
+            <span className="flex items-center gap-2">
+              <PersonAvatar person={selected} size={size} />
+              <span className="truncate">{selected.name}</span>
+            </span>
+          ) : null}
+        </SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        {people.map(person => (
+          <SelectItem key={person.value} value={person.value}>
+            <PersonAvatar person={person} size={size} />
+            <SelectItemText>{person.name}</SelectItemText>
+            <SelectItemIndicator>
+              <IconShell size={iconSize} variant="primary">
+                <Icon icon="done" size={iconSize} />
+              </IconShell>
+            </SelectItemIndicator>
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
+
+function SelectAvatarCheckbox({ size }: { size: SelectSize }) {
+  const [value, setValue] = React.useState<string[]>([]);
+  const id = `select-avatar-check-${size}`;
+
+  return (
+    <Select
+      multiple
+      size={size}
+      items={peopleItems}
+      value={value}
+      onValueChange={next => setValue(next as string[])}>
+      <SelectTrigger id={id} className="w-[240px]">
+        <SelectValue placeholder="Select users">
+          {value.length > 0 ? (
+            <span className="flex items-center gap-2">
+              <Tag
+                variant="secondary"
+                size="xs"
+                pill
+                onRemove={e => {
+                  e.stopPropagation();
+                  setValue([]);
+                }}>
+                <span className="pl-1">{value.length}</span>
+              </Tag>
+              <span className="truncate">users selected</span>
+            </span>
+          ) : null}
+        </SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        {people.map(person => (
+          <SelectCheckboxItem
+            key={person.value}
+            value={person.value}
+            checked={value.includes(person.value)}>
+            <span className="flex items-center gap-2">
+              <PersonAvatar person={person} size={size} />
+              {person.name}
+            </span>
+          </SelectCheckboxItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
+
+export function SelectSwitch() {
+  return <SwitchMenu size="default" />;
+}
+
+function SwitchMenu({ size }: { size: SelectSize }) {
+  const [value, setValue] = React.useState<string[]>([]);
+  const items = [
+    { value: 'notifications', label: 'Notifications' },
+    { value: 'email', label: 'Email' },
+    { value: 'sound', label: 'Sound' },
+    { value: 'badges', label: 'Badges' },
+  ];
+  const label = items
+    .filter(item => value.includes(item.value))
+    .map(item => item.label)
+    .join(', ');
+
+  return (
+    <Select
+      multiple
+      size={size}
+      items={items}
+      value={value}
+      onValueChange={next => setValue(next as string[])}>
+      <SelectTrigger className="w-[180px]">
+        <SelectValue placeholder="Switch option">
+          {label ? <span className="min-w-0 truncate">{label}</span> : null}
+        </SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        {items.map(item => (
+          <SelectSwitchItem
+            key={item.value}
+            value={item.value}
+            checked={value.includes(item.value)}>
+            {item.label}
+          </SelectSwitchItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
+
+export function SelectAvatars() {
+  return (
+    <div className="flex flex-wrap items-start gap-8">
+      <SelectAvatarRadio size="default" />
+      <SelectAvatarCheckbox size="default" />
+    </div>
+  );
+}
+
 export const examples = [
   {
     name: 'SelectDemo',
@@ -736,6 +943,17 @@ export const examples = [
     title: 'Grouped',
     description: 'Grouped options with one disabled item.',
   },
+  {
+    name: 'SelectSwitch',
+    title: 'Switch',
+    description: 'Menu/Select switch rows.',
+  },
+  {
+    name: 'SelectAvatars',
+    title: 'Avatars',
+    description:
+      'Menu/Avatar. Radio uses the trailing done check. Checkbox rows keep the avatar.',
+  },
 ];
 
 export const select = {
@@ -749,5 +967,7 @@ export const select = {
     Multiple: <SelectMultiple />,
     'Tags wrap': <SelectTagsWrap />,
     Grouped: <SelectWithGroups />,
+    Switch: <SelectSwitch />,
+    Avatars: <SelectAvatars />,
   },
 };
