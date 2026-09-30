@@ -368,6 +368,7 @@ import {
   ToggleGroupDisabled,
   ToggleGroupIconOnly,
   ToggleGroupLoose,
+  ToggleGroupMultiple,
   ToggleGroupSizes,
   ToggleGroupVariants,
   toggleGroup,
@@ -606,6 +607,7 @@ export const exampleComponentMaps: Record<
     ToggleGroupSizes,
     ToggleGroupIconOnly,
     ToggleGroupDisabled,
+    ToggleGroupMultiple,
     ToggleGroupLoose,
   },
   select: {

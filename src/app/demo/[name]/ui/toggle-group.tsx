@@ -92,6 +92,19 @@ export function ToggleGroupDisabled() {
   );
 }
 
+export function ToggleGroupMultiple() {
+  return (
+    <ToggleGroup
+      multiple
+      defaultValue={['bold', 'italic']}
+      aria-label="Text style">
+      <ToggleGroupItem value="bold">Bold</ToggleGroupItem>
+      <ToggleGroupItem value="italic">Italic</ToggleGroupItem>
+      <ToggleGroupItem value="underline">Underline</ToggleGroupItem>
+    </ToggleGroup>
+  );
+}
+
 export function ToggleGroupLoose() {
   return (
     <ToggleGroup
@@ -132,6 +145,11 @@ export const examples: DemoExample[] = [
     description: 'Group with one disabled item.',
   },
   {
+    name: 'ToggleGroupMultiple',
+    title: 'Multiple',
+    description: 'Multi-select — more than one item pressed.',
+  },
+  {
     name: 'ToggleGroupLoose',
     title: 'Loose',
     description: 'No track — for toolbar-style grouping.',
@@ -144,5 +162,6 @@ export const toggleGroup = createLegacyDemo('toggle-group', examples, {
   ToggleGroupSizes: <ToggleGroupSizes />,
   ToggleGroupIconOnly: <ToggleGroupIconOnly />,
   ToggleGroupDisabled: <ToggleGroupDisabled />,
+  ToggleGroupMultiple: <ToggleGroupMultiple />,
   ToggleGroupLoose: <ToggleGroupLoose />,
 });

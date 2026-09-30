@@ -68,22 +68,25 @@ const segmentItems =
   segmentNodes.length > 0
     ? segmentNodes
         .map((node, index) => {
-        const valueKey = segmentValue(String(node.getString('label') ?? ''), index);
-        const state =
-          node.getEnum('state', {
-            enabled: 'enabled',
-            hover: 'enabled',
-            focused: 'enabled',
-            pressed: 'enabled',
-            disabled: 'disabled',
-            loading: 'enabled',
-            'dropdown-open': 'enabled',
-            'toggle-on': 'toggle-on',
-          }) ?? 'enabled';
-        const disabled = state === 'disabled';
-        const { lit, leadingCode, trailingCode } = segmentBody(node);
+          const valueKey = segmentValue(
+            String(node.getString('label') ?? ''),
+            index,
+          );
+          const state =
+            node.getEnum('state', {
+              enabled: 'enabled',
+              hover: 'enabled',
+              focused: 'enabled',
+              pressed: 'enabled',
+              disabled: 'disabled',
+              loading: 'enabled',
+              'dropdown-open': 'enabled',
+              'toggle-on': 'toggle-on',
+            }) ?? 'enabled';
+          const disabled = state === 'disabled';
+          const { lit, leadingCode, trailingCode } = segmentBody(node);
 
-        return figma.code`
+          return figma.code`
       <ToggleGroupItem value="${valueKey}"${disabled ? ' disabled' : ''}>
         ${leadingCode}
         {${lit}}
@@ -129,7 +132,9 @@ const defaultValueLit = selectedValue
     : `['week']`;
 
 const hasIcons = segmentNodes.some(node => {
-  return node.getBoolean('hasLeadingIcon') || node.getBoolean('hasTrailingIcon');
+  return (
+    node.getBoolean('hasLeadingIcon') || node.getBoolean('hasTrailingIcon')
+  );
 });
 
 export default {
@@ -148,7 +153,9 @@ export default {
         'import { Icon } from "@/components/ui/icon"',
         'import { IconShell } from "@/components/ui/icon-shell"',
       ]
-    : ['import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"'],
+    : [
+        'import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"',
+      ],
   id: 'toggle-group',
   metadata: { nestable: false },
 };
