@@ -5,28 +5,39 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const size = instance.getEnum('size', {
+const size = (instance.getEnum('size', {
   reg: 'default',
   sm: 'sm',
-});
+}) ?? 'default') as 'sm' | 'default';
 
-const orientation = instance.getEnum('orientation', {
+const orientation = (instance.getEnum('orientation', {
   horizontal: 'horizontal',
   vertical: 'vertical',
-});
+}) ?? 'vertical') as 'horizontal' | 'vertical';
 
-const figmaIndicator = instance.getEnum('indicator', {
+const figmaIndicator = (instance.getEnum('indicator', {
   number: 'number',
   icon: 'icon',
   shape: 'shape',
-});
+}) ?? 'number') as 'number' | 'icon' | 'shape';
+
 const indicator = figmaIndicator === 'number' ? 'number' : 'custom';
 
-const items = figma.properties.children(['Stepper/Item']);
+const slot = instance.getSlot('itemsSlot');
+const connected = slot?.connectedInstances ?? [];
+const items =
+  connected.length > 0
+    ? connected.flatMap(n => n.executeTemplate().example)
+    : figma.properties.children(['Stepper/Item']);
+
+const sizeProp = size === 'default' ? '' : ` size="${size}"`;
+const orientationProp =
+  orientation === 'vertical' ? '' : ` orientation="${orientation}"`;
+const indicatorProp = indicator === 'number' ? '' : ` indicator="${indicator}"`;
 
 export default {
   example: figma.code`
-    <Stepper size="${size}" orientation="${orientation}" indicator="${indicator}">
+    <Stepper${sizeProp}${orientationProp}${indicatorProp}>
       ${figma.helpers.react.renderChildren(items)}
     </Stepper>
   `,

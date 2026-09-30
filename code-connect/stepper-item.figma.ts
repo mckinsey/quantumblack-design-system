@@ -5,47 +5,116 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const status = instance.getEnum('status', {
+const status = (instance.getEnum('status', {
   incomplete: 'incomplete',
   active: 'active',
   completed: 'completed',
   error: 'error',
-});
+}) ?? 'incomplete') as string;
 
-const figmaIndicator = instance.getEnum('indicator', {
+const figmaIndicator = (instance.getEnum('indicator', {
   number: 'number',
   icon: 'icon',
   shape: 'shape',
+}) ?? 'number') as 'number' | 'icon' | 'shape';
+
+const railInst = instance.findInstance('.base/stepper/Rail', {
+  traverseInstances: true,
+});
+const titleInst = instance.findInstance('.base/stepper/Title', {
+  traverseInstances: true,
+});
+const indicatorInst = instance.findInstance('.base/stepper/Indicator', {
+  traverseInstances: true,
 });
 
-const hasTail = instance.getBoolean('hasTail');
-const hasStepCount = instance.getBoolean('hasStepCount');
-const hasDescription = instance.getBoolean('hasDescription');
+const hasTail =
+  railInst?.type === 'INSTANCE'
+    ? (railInst.getBoolean('hasTail') ?? true)
+    : true;
+
+const hasStepCount =
+  titleInst?.type === 'INSTANCE'
+    ? (titleInst.getBoolean('hasStepCount') ?? true)
+    : true;
+const hasDescription =
+  titleInst?.type === 'INSTANCE'
+    ? (titleInst.getBoolean('hasDescription') ?? true)
+    : true;
 
 const stepCount = JSON.stringify(
-  instance.getString('stepCount#47758:12') || 'STEP #',
+  (titleInst?.type === 'INSTANCE' ? titleInst.getString('stepCount') : null) ||
+    'STEP #',
 );
 const title = JSON.stringify(
-  instance.getString('title#47758:9') || 'Item Title',
+  (titleInst?.type === 'INSTANCE' ? titleInst.getString('title') : null) ||
+    'Item Title',
 );
 const description = JSON.stringify(
-  instance.getString('description#47758:15') || 'Short description',
+  (titleInst?.type === 'INSTANCE'
+    ? titleInst.getString('description')
+    : null) || 'Short description',
 );
 
 const stepNumber = JSON.stringify(
-  instance.getString('stepNumber#47430:0') || '1',
+  (indicatorInst?.type === 'INSTANCE'
+    ? indicatorInst.getString('stepNumber')
+    : null) || '1',
 );
 
-const iconSlot = instance.findInstance('IconShell');
-const iconChildren =
-  iconSlot?.type === 'INSTANCE' ? iconSlot.executeTemplate().example : [];
+const markerType =
+  indicatorInst?.type === 'INSTANCE'
+    ? ((indicatorInst.getEnum('type', {
+        number: 'number',
+        icon: 'icon',
+        circle: 'circle',
+        square: 'square',
+      }) ?? 'number') as 'number' | 'icon' | 'circle' | 'square')
+    : 'number';
+
+let iconName = 'person_outline';
+const iconShell =
+  figmaIndicator === 'icon'
+    ? instance.findInstance('IconShell', { traverseInstances: true })
+    : null;
+
+if (iconShell?.type === 'INSTANCE') {
+  const swaps = ['IconSwap-24', 'IconSwap-32', 'IconSwap-16'];
+  for (const name of swaps) {
+    const glyph = iconShell.getInstanceSwap(name);
+    if (glyph && glyph.type === 'INSTANCE' && glyph.name) {
+      iconName = glyph.name.replace(/\s+/g, '_').toLowerCase();
+      break;
+    }
+  }
+
+  if (iconName === 'person_outline') {
+    const nested = iconShell.findLayers(
+      node =>
+        node.type === 'INSTANCE' &&
+        !!node.name &&
+        node.name !== iconShell.name &&
+        !String(node.name).startsWith('Tooltip'),
+    );
+    const glyph = nested[0];
+    if (glyph && glyph.type === 'INSTANCE' && glyph.name) {
+      iconName = glyph.name.replace(/\s+/g, '_').toLowerCase();
+    }
+  }
+}
 
 const indicatorBody =
   figmaIndicator === 'icon'
-    ? figma.code`${figma.helpers.react.renderChildren(iconChildren)}`
-    : figmaIndicator === 'number'
-      ? figma.code`${stepNumber}`
-      : figma.code``;
+    ? figma.code`
+        <StepperMarkerIcon>
+          <Icon icon="${iconName}" />
+        </StepperMarkerIcon>
+      `
+    : figmaIndicator === 'shape'
+      ? markerType === 'square'
+        ? figma.code`<StepperMarkerSquare />`
+        : figma.code`<StepperMarkerCircle />`
+      : figma.code`${stepNumber}`;
 
 const separator = hasTail
   ? figma.code`
@@ -65,9 +134,29 @@ const desc = hasDescription
     `
   : figma.code``;
 
+const statusProp = status === 'incomplete' ? '' : ` status="${status}"`;
+
+const markerImports =
+  figmaIndicator === 'icon'
+    ? [
+        'import { Icon } from "@/components/ui/icon"',
+        'import { StepperContent, StepperDescription, StepperIndicator, StepperItem, StepperLabel, StepperMarkerIcon, StepperRail, StepperSeparator, StepperTitle } from "@/components/ui/stepper"',
+      ]
+    : figmaIndicator === 'shape'
+      ? markerType === 'square'
+        ? [
+            'import { StepperContent, StepperDescription, StepperIndicator, StepperItem, StepperLabel, StepperMarkerSquare, StepperRail, StepperSeparator, StepperTitle } from "@/components/ui/stepper"',
+          ]
+        : [
+            'import { StepperContent, StepperDescription, StepperIndicator, StepperItem, StepperLabel, StepperMarkerCircle, StepperRail, StepperSeparator, StepperTitle } from "@/components/ui/stepper"',
+          ]
+      : [
+          'import { StepperContent, StepperDescription, StepperIndicator, StepperItem, StepperLabel, StepperRail, StepperSeparator, StepperTitle } from "@/components/ui/stepper"',
+        ];
+
 export default {
   example: figma.code`
-    <StepperItem status="${status}">
+    <StepperItem${statusProp}>
       <StepperRail>
         <StepperIndicator>${indicatorBody}</StepperIndicator>
         ${separator}
@@ -79,15 +168,7 @@ export default {
       </StepperContent>
     </StepperItem>
   `,
-  imports: [
-    'import { StepperContent, StepperDescription, StepperIndicator, StepperItem, StepperLabel, StepperRail, StepperSeparator, StepperTitle } from "@/components/ui/stepper"',
-    ...(figmaIndicator === 'icon'
-      ? [
-          'import { IconShell } from "@/components/ui/icon-shell"',
-          'import { Icon } from "@/components/ui/icon"',
-        ]
-      : []),
-  ],
+  imports: markerImports,
   id: 'stepper-item',
   metadata: { nestable: true },
 };
