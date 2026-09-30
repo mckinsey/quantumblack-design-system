@@ -54,13 +54,13 @@ function TableRow({ className, selected = false, ...props }: TableRowProps) {
 }
 
 interface TableHeadProps extends React.ComponentProps<'th'> {
-  size?: 'sm' | 'default';
+  padding?: 'none' | 'reg';
   selected?: boolean;
 }
 
 function TableHead({
   className,
-  size = 'default',
+  padding = 'reg',
   selected = false,
   ...props
 }: TableHeadProps) {
@@ -69,15 +69,14 @@ function TableHead({
       data-slot="table-head"
       data-state={selected ? 'selected' : undefined}
       className={cn(
-        'border-stroke-tertiary border-b bg-transparent text-left align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[1px]',
+        'border-stroke-tertiary h-[60px] border-b bg-transparent text-left align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[1px]',
         'text-fg-secondary hover:border-stroke-tertiary-hover',
         'transition-colors duration-200',
-        'data-[state=selected]:text-fg-primary data-[state=selected]:border-stroke-active',
+        'data-[state=selected]:text-fg-primary',
         'label-regular-primary',
-        'pt-3 pb-4',
         {
-          'px-3': size === 'sm',
-          'px-4': size === 'default',
+          'px-3': padding === 'reg',
+          'px-0': padding === 'none',
         },
         className,
       )}
@@ -87,24 +86,30 @@ function TableHead({
 }
 
 interface TableCellProps extends React.ComponentProps<'td'> {
-  size?: 'sm' | 'default';
+  padding?: 'none' | 'reg';
+  lines?: 'single' | 'multi';
 }
 
-function TableCell({ className, size = 'default', ...props }: TableCellProps) {
+function TableCell({
+  className,
+  padding = 'reg',
+  lines = 'single',
+  ...props
+}: TableCellProps) {
   return (
     <td
       data-slot="table-cell"
       className={cn(
-        'border-stroke-tertiary text-fg-primary border-b align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[1px]',
+        'border-stroke-tertiary text-fg-primary h-[60px] border-b align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[1px]',
         "[tr[data-state='selected']>td]:border-stroke-active [tr[data-state='selected']>td]:text-fg-primary",
         'hover:border-stroke-tertiary-hover group-hover:border-stroke-tertiary-hover',
         'transition-colors delay-75 duration-200',
-        'label-regular-primary',
-        'pt-2 pb-2',
-        'h-[60px]',
+        'label-regular-primary py-1',
         {
-          'px-3': size === 'sm',
-          'px-4': size === 'default',
+          'px-3': padding === 'reg',
+          'px-0': padding === 'none',
+          'whitespace-nowrap': lines === 'single',
+          'whitespace-normal': lines === 'multi',
         },
         className,
       )}

@@ -140,7 +140,7 @@ export function TableSizes() {
     <div className="space-y-8">
       <div className="space-y-2">
         <label className="text-fg-primary text-sm font-medium">
-          Default Size
+          Reg padding
         </label>
         <Table>
           <TableHeader>
@@ -180,16 +180,16 @@ export function TableSizes() {
       </div>
       <div className="space-y-2">
         <label className="text-fg-primary text-sm font-medium">
-          Small Size
+          No horizontal padding
         </label>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead size="sm">Invoice</TableHead>
-              <TableHead size="sm">Users</TableHead>
-              <TableHead size="sm">Status</TableHead>
-              <TableHead size="sm">Amount</TableHead>
-              <TableHead size="sm" className="text-right">
+              <TableHead padding="none">Invoice</TableHead>
+              <TableHead padding="none">Users</TableHead>
+              <TableHead padding="none">Status</TableHead>
+              <TableHead padding="none">Amount</TableHead>
+              <TableHead padding="none" className="text-right">
                 Actions
               </TableHead>
             </TableRow>
@@ -197,10 +197,10 @@ export function TableSizes() {
           <TableBody>
             {invoices.slice(0, 3).map(invoice => (
               <TableRow key={invoice.invoice}>
-                <TableCell size="sm" className="font-medium">
+                <TableCell padding="none" className="font-medium">
                   {invoice.invoice}
                 </TableCell>
-                <TableCell size="sm">
+                <TableCell padding="none">
                   <AvatarGroup>
                     {invoice.avatars.map(src => (
                       <Avatar key={src} size="xs">
@@ -210,9 +210,9 @@ export function TableSizes() {
                     ))}
                   </AvatarGroup>
                 </TableCell>
-                <TableCell size="sm">{invoice.paymentStatus}</TableCell>
-                <TableCell size="sm">{invoice.totalAmount}</TableCell>
-                <TableCell size="sm" className="text-right">
+                <TableCell padding="none">{invoice.paymentStatus}</TableCell>
+                <TableCell padding="none">{invoice.totalAmount}</TableCell>
+                <TableCell padding="none" className="text-right">
                   <Button variant="outline" size="sm">
                     Label
                   </Button>
@@ -578,8 +578,8 @@ export const examples = [
   },
   {
     name: 'TableSizes',
-    title: 'Size Comparison',
-    description: 'Default and sm table sizes side by side.',
+    title: 'Padding Comparison',
+    description: 'Reg and none horizontal padding on head and cells.',
   },
   {
     name: 'DataTableDemo',
@@ -606,7 +606,7 @@ export const table = {
   name: 'table',
   components: {
     Default: <TableRich />,
-    'Size Comparison': <TableSizes />,
+    'Padding Comparison': <TableSizes />,
     'Data Table': <DataTableDemo />,
   },
 };
