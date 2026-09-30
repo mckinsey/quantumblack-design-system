@@ -21,7 +21,7 @@ const iconVariants = cva(
       type: {
         neutral: 'text-fill-active',
         'neutral-inverse':
-          'text-fill-active-inverse group-data-[state=open]/button:text-fill-active group-data-[popup-open]/button:text-fill-active group-data-[pressed]/button:text-fill-active',
+          'text-fill-active-inverse group-data-[state=open]/button:text-fill-active group-data-[popup-open]/button:text-fill-active',
         custom: '',
       },
       variant: {

@@ -240,16 +240,6 @@ import {
   examples as radioGroupExamples,
 } from '@/app/demo/[name]/ui/radio-group';
 import {
-  SegmentedControlsDemo,
-  SegmentedControlsDisabled,
-  SegmentedControlsGhost,
-  SegmentedControlsIconOnly,
-  SegmentedControlsSizes,
-  SegmentedControlsTypes,
-  segmentedControls,
-  examples as segmentedControlsExamples,
-} from '@/app/demo/[name]/ui/segmented-controls';
-import {
   SelectAvatars,
   SelectDemo,
   SelectHorizontal,
@@ -373,6 +363,17 @@ import {
   toggle,
   examples as toggleExamples,
 } from '@/app/demo/[name]/ui/toggle';
+import {
+  ToggleGroupDemo,
+  ToggleGroupDisabled,
+  ToggleGroupIconOnly,
+  ToggleGroupLoose,
+  ToggleGroupMultiple,
+  ToggleGroupSizes,
+  ToggleGroupVariants,
+  toggleGroup,
+  examples as toggleGroupExamples,
+} from '@/app/demo/[name]/ui/toggle-group';
 import {
   ToolbarBoxed,
   ToolbarComposition,
@@ -600,13 +601,14 @@ export const exampleComponentMaps: Record<
     RadioGroupDisabled,
     RadioGroupPartialDisabled,
   },
-  'segmented-controls': {
-    SegmentedControlsDemo,
-    SegmentedControlsTypes,
-    SegmentedControlsGhost,
-    SegmentedControlsSizes,
-    SegmentedControlsIconOnly,
-    SegmentedControlsDisabled,
+  'toggle-group': {
+    ToggleGroupDemo,
+    ToggleGroupVariants,
+    ToggleGroupSizes,
+    ToggleGroupIconOnly,
+    ToggleGroupDisabled,
+    ToggleGroupMultiple,
+    ToggleGroupLoose,
   },
   select: {
     SelectDemo,
@@ -748,7 +750,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   label: labelExamples,
   popover: popoverExamples,
   'radio-group': radioGroupExamples,
-  'segmented-controls': segmentedControlsExamples,
+  'toggle-group': toggleGroupExamples,
   select: selectExamples,
   sidebar: sidebarExamples,
   slider: sliderExamples,
@@ -894,10 +896,10 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     examples: radioGroupExamples,
     exampleComponents: exampleComponentMaps['radio-group'],
   },
-  'segmented-controls': {
-    ...segmentedControls,
-    examples: segmentedControlsExamples,
-    exampleComponents: exampleComponentMaps['segmented-controls'],
+  'toggle-group': {
+    ...toggleGroup,
+    examples: toggleGroupExamples,
+    exampleComponents: exampleComponentMaps['toggle-group'],
   },
   select: {
     ...select,

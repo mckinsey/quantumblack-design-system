@@ -59,10 +59,11 @@ describe('toggle-group — structure & interaction', () => {
     );
   });
 
-  it('applies variant and size data attributes', () => {
+  it('applies variant, size, and contained data attributes', () => {
     render(
       <ToggleGroup
         aria-label="Options"
+        contained={false}
         defaultValue={['a']}
         size="sm"
         variant="ghost">
@@ -73,5 +74,17 @@ describe('toggle-group — structure & interaction', () => {
     const group = document.querySelector('[data-slot="toggle-group"]');
     expect(group).toHaveAttribute('data-variant', 'ghost');
     expect(group).toHaveAttribute('data-size', 'sm');
+    expect(group).toHaveAttribute('data-contained', 'false');
+  });
+
+  it('renders contained track by default', () => {
+    render(
+      <ToggleGroup aria-label="Options" defaultValue={['a']}>
+        <ToggleGroupItem value="a">A</ToggleGroupItem>
+      </ToggleGroup>,
+    );
+
+    const group = document.querySelector('[data-slot="toggle-group"]');
+    expect(group).toHaveAttribute('data-contained', 'true');
   });
 });

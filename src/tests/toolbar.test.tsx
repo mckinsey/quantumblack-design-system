@@ -122,7 +122,7 @@ describe(`${componentName} — structure & interaction`, () => {
     render(
       <Toolbar aria-label="Tools">
         <ToolbarGroup
-          render={<ToggleGroup defaultValue={['a']} />}
+          render={<ToggleGroup contained={false} defaultValue={['a']} />}
           aria-label="Tools group">
           <ToolbarButton
             aria-label="Tool A"
