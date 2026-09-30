@@ -796,7 +796,7 @@
       "type": "registry:ui",
       "title": "Stepper",
       "description": "Displays progress through a sequence of logical steps.",
-      "dependencies": ["class-variance-authority"],
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json"

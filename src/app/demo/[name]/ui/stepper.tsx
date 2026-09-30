@@ -3,13 +3,17 @@ import { IconShell } from '@/components/ui/icon-shell';
 import {
   Stepper,
   StepperContent,
+  StepperDescription,
   StepperIndicator,
+  type StepperIndicatorType,
   StepperItem,
+  StepperLabel,
+  type StepperOrientation,
   StepperRail,
   StepperSeparator,
   type StepperSize,
   type StepperStatus,
-  StepperText,
+  StepperTitle,
 } from '@/components/ui/stepper';
 import { type DemoExample } from '@/lib/demo-utils';
 
@@ -19,8 +23,6 @@ type DemoStep = {
   description: string;
   status: StepperStatus;
 };
-
-type IndicatorKind = 'number' | 'icon' | 'shape';
 
 const defaultSteps: DemoStep[] = [
   {
@@ -43,20 +45,24 @@ const defaultSteps: DemoStep[] = [
   },
 ];
 
-function StepIndicatorContent({
-  kind,
+/**
+ * Marker content is consumer-owned. The stepper styles the marker shell from
+ * `indicator` + `status`; what goes inside is an app decision.
+ */
+function StepMarker({
+  indicator,
   status,
   step,
   size,
 }: {
-  kind: IndicatorKind;
+  indicator: StepperIndicatorType;
   status: StepperStatus;
   step: number;
   size?: StepperSize;
 }) {
   const iconSize = size === 'sm' ? 'sm' : 'default';
 
-  if (kind === 'number' && status === 'completed') {
+  if (indicator === 'number' && status === 'completed') {
     return (
       <IconShell size={iconSize} type="custom" className="text-status-success">
         <Icon icon="check_circle" />
@@ -64,7 +70,7 @@ function StepIndicatorContent({
     );
   }
 
-  if (kind === 'number' && status === 'error') {
+  if (indicator === 'number' && status === 'error') {
     return (
       <IconShell size={iconSize} type="custom" className="text-status-error">
         <Icon icon="cancel" />
@@ -72,7 +78,7 @@ function StepIndicatorContent({
     );
   }
 
-  if (kind === 'icon') {
+  if (indicator === 'icon') {
     return (
       <IconShell
         size={iconSize}
@@ -83,7 +89,7 @@ function StepIndicatorContent({
     );
   }
 
-  if (kind === 'number') {
+  if (indicator === 'number') {
     return step;
   }
 
@@ -99,22 +105,22 @@ function StepperFlow({
 }: {
   steps?: DemoStep[];
   size?: StepperSize;
-  orientation?: 'horizontal' | 'vertical';
-  indicator?: IndicatorKind;
+  orientation?: StepperOrientation;
+  indicator?: StepperIndicatorType;
   className?: string;
 }) {
   return (
     <Stepper
       size={size}
       orientation={orientation}
-      data-indicator={indicator}
+      indicator={indicator}
       className={className}>
       {steps.map((step, index) => (
         <StepperItem key={step.title} status={step.status}>
           <StepperRail>
             <StepperIndicator>
-              <StepIndicatorContent
-                kind={indicator}
+              <StepMarker
+                indicator={indicator}
                 status={step.status}
                 step={index + 1}
                 size={size}
@@ -123,9 +129,9 @@ function StepperFlow({
             {index < steps.length - 1 ? <StepperSeparator /> : null}
           </StepperRail>
           <StepperContent>
-            <StepperText variant="label">{step.label}</StepperText>
-            <StepperText variant="title">{step.title}</StepperText>
-            <StepperText variant="description">{step.description}</StepperText>
+            <StepperLabel>{step.label}</StepperLabel>
+            <StepperTitle>{step.title}</StepperTitle>
+            <StepperDescription>{step.description}</StepperDescription>
           </StepperContent>
         </StepperItem>
       ))}
@@ -202,14 +208,15 @@ export function StepperStates() {
   );
 }
 
+/**
+ * Composition: optional copy slots, custom marker content, extra body UI, and a
+ * connector stretched to the item height with `self-stretch` + `flex-1`.
+ */
 export function StepperComposition() {
   return (
-    <Stepper
-      orientation="vertical"
-      data-indicator="number"
-      className="max-w-md">
+    <Stepper className="max-w-md">
       <StepperItem status="completed">
-        <StepperRail>
+        <StepperRail className="self-stretch">
           <StepperIndicator>
             <IconShell
               size="default"
@@ -218,36 +225,75 @@ export function StepperComposition() {
               <Icon icon="check_circle" />
             </IconShell>
           </StepperIndicator>
-          <StepperSeparator />
+          <StepperSeparator className="flex-1" />
         </StepperRail>
-        <StepperContent>
-          <StepperText variant="title">Uploaded</StepperText>
-          <StepperText variant="description">3 files attached.</StepperText>
-        </StepperContent>
-      </StepperItem>
-      <StepperItem status="active">
-        <StepperRail>
-          <StepperIndicator>2</StepperIndicator>
-          <StepperSeparator className="min-h-10" />
-        </StepperRail>
-        <StepperContent className="gap-3">
-          <StepperText variant="title">Assign owner</StepperText>
-          <StepperText variant="description">
-            Pick who receives the handoff.
-          </StepperText>
+        <StepperContent className="gap-3 pb-6">
+          <StepperTitle render={<h3 />}>Uploaded</StepperTitle>
+          <StepperDescription>3 files attached.</StepperDescription>
           <p className="paragraph-small-primary text-fg-secondary">
-            Extra UI lives in StepperContent — not in the stepper API.
+            Extra UI lives in StepperContent — the stepper adds no props for it.
           </p>
         </StepperContent>
       </StepperItem>
       <StepperItem status="incomplete">
         <StepperRail>
-          <StepperIndicator>3</StepperIndicator>
+          <StepperIndicator>2</StepperIndicator>
         </StepperRail>
         <StepperContent>
-          <StepperText variant="title">Publish</StepperText>
+          <StepperTitle render={<h3 />}>Publish</StepperTitle>
         </StepperContent>
       </StepperItem>
+    </Stepper>
+  );
+}
+
+/**
+ * Element swapping via `render`: semantic `ol`/`li` markup and step markers that
+ * are real buttons, without the stepper owning navigation state.
+ */
+export function StepperInteractive() {
+  const steps = ['Account', 'Business', 'Review'];
+  const current = 1;
+
+  return (
+    <Stepper
+      orientation="horizontal"
+      render={<ol />}
+      className="max-w-3xl list-none">
+      {steps.map((title, index) => (
+        <StepperItem
+          key={title}
+          render={<li />}
+          status={
+            index < current
+              ? 'completed'
+              : index === current
+                ? 'active'
+                : 'incomplete'
+          }>
+          <StepperRail>
+            <StepperIndicator
+              render={<button type="button" />}
+              aria-current={index === current ? 'step' : undefined}
+              className="focus-visible:ring-stroke-status-focus cursor-pointer focus-visible:ring-2 focus-visible:outline-hidden">
+              {index < current ? (
+                <IconShell
+                  size="default"
+                  type="custom"
+                  className="text-status-success">
+                  <Icon icon="check_circle" />
+                </IconShell>
+              ) : (
+                index + 1
+              )}
+            </StepperIndicator>
+            {index < steps.length - 1 ? <StepperSeparator /> : null}
+          </StepperRail>
+          <StepperContent>
+            <StepperTitle>{title}</StepperTitle>
+          </StepperContent>
+        </StepperItem>
+      ))}
     </Stepper>
   );
 }
@@ -272,19 +318,25 @@ export const examples: DemoExample[] = [
     name: 'StepperIndicators',
     title: 'Indicators',
     description:
-      'Set data-indicator on Stepper; compose marker content yourself.',
+      'number, icon, and shape marker treatments. Marker content stays consumer-owned.',
   },
   {
     name: 'StepperStates',
     title: 'States',
     description:
-      'Step status on StepperItem drives rail tokens via data-status.',
+      'Status on StepperItem drives marker and connector tokens via data-status.',
   },
   {
     name: 'StepperComposition',
     title: 'Composition',
     description:
-      'Optional StepperText slots, custom markers, arbitrary body content.',
+      'Optional copy slots, custom markers, extra body content, stretched connector.',
+  },
+  {
+    name: 'StepperInteractive',
+    title: 'Interactive & semantic',
+    description:
+      'render swaps the host element: ol/li markup with button markers and aria-current.',
   },
 ];
 
@@ -297,6 +349,7 @@ export const stepper = {
     Indicators: <StepperIndicators />,
     States: <StepperStates />,
     Composition: <StepperComposition />,
+    'Interactive & semantic': <StepperInteractive />,
   },
 };
 
@@ -307,4 +360,5 @@ export const stepperExamples = {
   StepperIndicators: <StepperIndicators />,
   StepperStates: <StepperStates />,
   StepperComposition: <StepperComposition />,
+  StepperInteractive: <StepperInteractive />,
 };

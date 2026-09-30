@@ -71,13 +71,13 @@ const separator = hasTail
 
 const label = hasStepCount
   ? figma.code`
-      <StepperText variant="label">{${stepCount}}</StepperText>
+      <StepperLabel>{${stepCount}}</StepperLabel>
     `
   : figma.code``;
 
 const desc = hasDescription
   ? figma.code`
-      <StepperText variant="description">{${description}}</StepperText>
+      <StepperDescription>{${description}}</StepperDescription>
     `
   : figma.code``;
 
@@ -90,13 +90,13 @@ export default {
       </StepperRail>
       <StepperContent>
         ${label}
-        <StepperText variant="title">{${title}}</StepperText>
+        <StepperTitle>{${title}}</StepperTitle>
         ${desc}
       </StepperContent>
     </StepperItem>
   `,
   imports: [
-    'import { StepperContent, StepperIndicator, StepperItem, StepperRail, StepperSeparator, StepperText } from "@/components/ui/stepper"',
+    'import { StepperContent, StepperDescription, StepperIndicator, StepperItem, StepperLabel, StepperRail, StepperSeparator, StepperTitle } from "@/components/ui/stepper"',
     'import { IconShell } from "@/components/ui/icon-shell"',
     'import { Icon } from "@/components/ui/icon"',
   ],

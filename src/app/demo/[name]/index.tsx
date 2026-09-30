@@ -304,6 +304,7 @@ import {
   StepperComposition,
   StepperDemo,
   StepperIndicators,
+  StepperInteractive,
   StepperLayouts,
   StepperSizes,
   StepperStates,
@@ -659,8 +660,9 @@ export const exampleComponentMaps: Record<
     StepperSizes,
     StepperLayouts,
     StepperIndicators,
-    StepperComposition,
     StepperStates,
+    StepperComposition,
+    StepperInteractive,
   },
   sonner: {
     SonnerDemo,
