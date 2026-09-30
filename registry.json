@@ -949,7 +949,7 @@
       "name": "toggle-group",
       "type": "registry:ui",
       "title": "Toggle Group",
-      "description": "Toggle buttons with single or multiple selection — contained track or loose for toolbars.",
+      "description": "A set of two-state buttons that can be toggled on or off.",
       "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
