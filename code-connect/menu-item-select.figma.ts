@@ -62,9 +62,22 @@ const checkboxControl =
     ? mark.executeTemplate().example
     : [];
 
+const switchOn =
+  sw?.type === 'INSTANCE'
+    ? (sw.getEnum('on', { true: true, false: false }) ?? false)
+    : false;
+
+const switchSize =
+  sw?.type === 'INSTANCE'
+    ? sw.getEnum('size', { sm: 'sm', reg: 'default', lg: 'lg' })
+    : undefined;
+
+const switchSizeProp = switchSize ? ` size="${switchSize}"` : '';
+const switchChecked = switchOn ? ' checked={true}' : ' checked={false}';
+
 const switchControl =
   type === 'switch' && sw?.type === 'INSTANCE'
-    ? sw.executeTemplate().example
+    ? figma.code`<Switch aria-hidden${switchSizeProp}${switchChecked} tabIndex={-1} className="pointer-events-none" />`
     : [];
 
 const counterBlock =
@@ -100,6 +113,9 @@ export default {
   `,
   imports: [
     'import { SelectItem, SelectItemIndicator, SelectItemText, SelectSeparator } from "@/components/ui/select"',
+    ...(type === 'switch'
+      ? ['import { Switch } from "@/components/ui/switch"']
+      : []),
   ],
   id: 'menu-item-select',
   metadata: { nestable: true },
