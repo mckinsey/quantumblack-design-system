@@ -3,18 +3,13 @@ import { IconShell } from '@/components/ui/icon-shell';
 import {
   Stepper,
   StepperContent,
-  StepperDescription,
   StepperIndicator,
-  type StepperIndicatorType,
   StepperItem,
-  StepperLabel,
-  type StepperOrientation,
   StepperRail,
   StepperSeparator,
   type StepperSize,
   type StepperStatus,
-  StepperTitle,
-  useStepper,
+  StepperText,
 } from '@/components/ui/stepper';
 import { type DemoExample } from '@/lib/demo-utils';
 
@@ -24,6 +19,8 @@ type DemoStep = {
   description: string;
   status: StepperStatus;
 };
+
+type IndicatorKind = 'number' | 'icon' | 'shape';
 
 const defaultSteps: DemoStep[] = [
   {
@@ -47,18 +44,19 @@ const defaultSteps: DemoStep[] = [
 ];
 
 function StepIndicatorContent({
-  indicator,
+  kind,
   status,
   step,
+  size,
 }: {
-  indicator: StepperIndicatorType;
+  kind: IndicatorKind;
   status: StepperStatus;
   step: number;
+  size?: StepperSize;
 }) {
-  const { size } = useStepper();
   const iconSize = size === 'sm' ? 'sm' : 'default';
 
-  if (indicator === 'number' && status === 'completed') {
+  if (kind === 'number' && status === 'completed') {
     return (
       <IconShell size={iconSize} type="custom" className="text-status-success">
         <Icon icon="check_circle" />
@@ -66,7 +64,7 @@ function StepIndicatorContent({
     );
   }
 
-  if (indicator === 'number' && status === 'error') {
+  if (kind === 'number' && status === 'error') {
     return (
       <IconShell size={iconSize} type="custom" className="text-status-error">
         <Icon icon="cancel" />
@@ -74,7 +72,7 @@ function StepIndicatorContent({
     );
   }
 
-  if (indicator === 'icon') {
+  if (kind === 'icon') {
     return (
       <IconShell
         size={iconSize}
@@ -85,7 +83,7 @@ function StepIndicatorContent({
     );
   }
 
-  if (indicator === 'number') {
+  if (kind === 'number') {
     return step;
   }
 
@@ -101,32 +99,33 @@ function StepperFlow({
 }: {
   steps?: DemoStep[];
   size?: StepperSize;
-  orientation?: StepperOrientation;
-  indicator?: StepperIndicatorType;
+  orientation?: 'horizontal' | 'vertical';
+  indicator?: IndicatorKind;
   className?: string;
 }) {
   return (
     <Stepper
       size={size}
       orientation={orientation}
-      indicator={indicator}
+      data-indicator={indicator}
       className={className}>
       {steps.map((step, index) => (
         <StepperItem key={step.title} status={step.status}>
           <StepperRail>
             <StepperIndicator>
               <StepIndicatorContent
-                indicator={indicator}
+                kind={indicator}
                 status={step.status}
                 step={index + 1}
+                size={size}
               />
             </StepperIndicator>
             {index < steps.length - 1 ? <StepperSeparator /> : null}
           </StepperRail>
           <StepperContent>
-            <StepperLabel>{step.label}</StepperLabel>
-            <StepperTitle>{step.title}</StepperTitle>
-            <StepperDescription>{step.description}</StepperDescription>
+            <StepperText variant="label">{step.label}</StepperText>
+            <StepperText variant="title">{step.title}</StepperText>
+            <StepperText variant="description">{step.description}</StepperText>
           </StepperContent>
         </StepperItem>
       ))}
@@ -205,7 +204,10 @@ export function StepperStates() {
 
 export function StepperComposition() {
   return (
-    <Stepper orientation="vertical" indicator="number" className="max-w-md">
+    <Stepper
+      orientation="vertical"
+      data-indicator="number"
+      className="max-w-md">
       <StepperItem status="completed">
         <StepperRail>
           <StepperIndicator>
@@ -219,8 +221,8 @@ export function StepperComposition() {
           <StepperSeparator />
         </StepperRail>
         <StepperContent>
-          <StepperTitle>Uploaded</StepperTitle>
-          <StepperDescription>3 files attached.</StepperDescription>
+          <StepperText variant="title">Uploaded</StepperText>
+          <StepperText variant="description">3 files attached.</StepperText>
         </StepperContent>
       </StepperItem>
       <StepperItem status="active">
@@ -229,12 +231,12 @@ export function StepperComposition() {
           <StepperSeparator className="min-h-10" />
         </StepperRail>
         <StepperContent className="gap-3">
-          <StepperTitle>Assign owner</StepperTitle>
-          <StepperDescription>
+          <StepperText variant="title">Assign owner</StepperText>
+          <StepperText variant="description">
             Pick who receives the handoff.
-          </StepperDescription>
+          </StepperText>
           <p className="paragraph-small-primary text-fg-secondary">
-            Any extra UI belongs here — the stepper only styles the rail slots.
+            Extra UI lives in StepperContent — not in the stepper API.
           </p>
         </StepperContent>
       </StepperItem>
@@ -243,7 +245,7 @@ export function StepperComposition() {
           <StepperIndicator>3</StepperIndicator>
         </StepperRail>
         <StepperContent>
-          <StepperTitle>Publish</StepperTitle>
+          <StepperText variant="title">Publish</StepperText>
         </StepperContent>
       </StepperItem>
     </Stepper>
@@ -269,18 +271,20 @@ export const examples: DemoExample[] = [
   {
     name: 'StepperIndicators',
     title: 'Indicators',
-    description: 'Number, icon, and shape indicator styles.',
+    description:
+      'Set data-indicator on Stepper; compose marker content yourself.',
   },
   {
     name: 'StepperStates',
     title: 'States',
-    description: 'Incomplete, active, completed, and error item states.',
+    description:
+      'Step status on StepperItem drives rail tokens via data-status.',
   },
   {
     name: 'StepperComposition',
     title: 'Composition',
     description:
-      'Custom indicator content, optional copy slots, and arbitrary children in the body.',
+      'Optional StepperText slots, custom markers, arbitrary body content.',
   },
 ];
 

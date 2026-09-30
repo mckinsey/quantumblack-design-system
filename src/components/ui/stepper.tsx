@@ -1,28 +1,32 @@
 'use client';
 
-import { cva } from 'class-variance-authority';
+import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
 type StepperSize = 'sm' | 'default';
 type StepperOrientation = 'horizontal' | 'vertical';
-type StepperIndicatorType = 'number' | 'icon' | 'shape';
 type StepperStatus = 'incomplete' | 'active' | 'completed' | 'error';
 
-type StepperContextValue = {
-  size: StepperSize;
-  orientation: StepperOrientation;
-};
+const stepperRootClass = cn(
+  'group/stepper flex w-full',
+  'group-data-[orientation=horizontal]/stepper:flex-row group-data-[orientation=horizontal]/stepper:gap-2',
+  'group-data-[orientation=vertical]/stepper:flex-col group-data-[orientation=vertical]/stepper:gap-2',
+  'group-data-[indicator=shape]/stepper:group-data-[orientation=vertical]/stepper:gap-1',
+);
 
-const StepperContext = React.createContext<StepperContextValue>({
-  size: 'default',
-  orientation: 'vertical',
-});
+const stepperItemClass = cn(
+  'group/stepper-item flex min-w-0 flex-1',
+  'group-data-[orientation=horizontal]/stepper:flex-col group-data-[orientation=horizontal]/stepper:gap-3',
+  'group-data-[orientation=vertical]/stepper:flex-row group-data-[orientation=vertical]/stepper:gap-4',
+);
 
-const StepperItemContext = React.createContext<{ status: StepperStatus }>({
-  status: 'incomplete',
-});
+const stepperRailClass = cn(
+  'flex shrink-0 items-center',
+  'group-data-[orientation=horizontal]/stepper:flex-row group-data-[orientation=horizontal]/stepper:gap-2',
+  'group-data-[orientation=vertical]/stepper:flex-col group-data-[orientation=vertical]/stepper:gap-2',
+);
 
 const stepperIndicatorVariants = cva(
   'inline-flex shrink-0 items-center justify-center',
@@ -50,62 +54,47 @@ const stepperIndicatorVariants = cva(
   },
 );
 
-const stepperSeparatorVariants = cva(
-  [
-    'shrink-0 bg-stroke-tertiary',
-    'group-data-[status=completed]/stepper-item:bg-stroke-active',
-  ],
-  {
-    variants: {
-      orientation: {
-        horizontal:
-          'h-px min-h-px w-6 min-w-6 group-data-[orientation=horizontal]/stepper:flex-1',
-        vertical: 'w-px min-w-px h-6 min-h-6',
-      },
-    },
-    defaultVariants: {
-      orientation: 'vertical',
+const stepperSeparatorVariants = cva([
+  'shrink-0 bg-stroke-tertiary',
+  'group-data-[status=completed]/stepper-item:bg-stroke-active',
+  'group-data-[orientation=horizontal]/stepper:h-px group-data-[orientation=horizontal]/stepper:min-h-px group-data-[orientation=horizontal]/stepper:w-6 group-data-[orientation=horizontal]/stepper:min-w-6 group-data-[orientation=horizontal]/stepper:flex-1',
+  'group-data-[orientation=vertical]/stepper:w-px group-data-[orientation=vertical]/stepper:min-w-px group-data-[orientation=vertical]/stepper:h-6 group-data-[orientation=vertical]/stepper:min-h-6',
+]);
+
+const stepperTextVariants = cva('', {
+  variants: {
+    variant: {
+      label:
+        'text-fg-secondary uppercase group-data-[size=sm]/stepper:label-small-primary group-data-[size=default]/stepper:headings-h4-semibold',
+      title:
+        'text-fg-primary group-data-[size=sm]/stepper:headings-h4-regular group-data-[size=default]/stepper:headings-h3-regular',
+      description:
+        'text-fg-secondary group-data-[size=sm]/stepper:paragraph-small-primary group-data-[size=default]/stepper:paragraph-regular-primary',
     },
   },
-);
-
-function useStepper() {
-  return React.useContext(StepperContext);
-}
-
-function useStepperItem() {
-  return React.useContext(StepperItemContext);
-}
+  defaultVariants: {
+    variant: 'title',
+  },
+});
 
 function Stepper({
   size = 'default',
   orientation = 'vertical',
-  indicator = 'number',
   className,
   ...props
 }: React.ComponentProps<'div'> & {
   size?: StepperSize;
   orientation?: StepperOrientation;
-  indicator?: StepperIndicatorType;
 }) {
   return (
-    <StepperContext.Provider value={{ size, orientation }}>
-      <div
-        role="list"
-        data-slot="stepper"
-        data-size={size}
-        data-orientation={orientation}
-        data-indicator={indicator}
-        className={cn(
-          'group/stepper flex w-full',
-          orientation === 'horizontal'
-            ? 'flex-row gap-2'
-            : 'flex-col gap-2 group-data-[indicator=shape]/stepper:gap-1',
-          className,
-        )}
-        {...props}
-      />
-    </StepperContext.Provider>
+    <div
+      role="list"
+      data-slot="stepper"
+      data-size={size}
+      data-orientation={orientation}
+      className={cn(stepperRootClass, className)}
+      {...props}
+    />
   );
 }
 
@@ -114,36 +103,22 @@ function StepperItem({
   className,
   ...props
 }: React.ComponentProps<'div'> & { status?: StepperStatus }) {
-  const { orientation } = useStepper();
-
   return (
-    <StepperItemContext.Provider value={{ status }}>
-      <div
-        role="listitem"
-        data-slot="stepper-item"
-        data-status={status}
-        className={cn(
-          'group/stepper-item flex min-w-0 flex-1',
-          orientation === 'horizontal' ? 'flex-col gap-3' : 'flex-row gap-4',
-          className,
-        )}
-        {...props}
-      />
-    </StepperItemContext.Provider>
+    <div
+      role="listitem"
+      data-slot="stepper-item"
+      data-status={status}
+      className={cn(stepperItemClass, className)}
+      {...props}
+    />
   );
 }
 
 function StepperRail({ className, ...props }: React.ComponentProps<'div'>) {
-  const { orientation } = useStepper();
-
   return (
     <div
       data-slot="stepper-rail"
-      className={cn(
-        'flex shrink-0 items-center',
-        orientation === 'horizontal' ? 'flex-row gap-2' : 'flex-col gap-2',
-        className,
-      )}
+      className={cn(stepperRailClass, className)}
       {...props}
     />
   );
@@ -154,12 +129,9 @@ function StepperIndicator({
   children,
   ...props
 }: React.ComponentProps<'div'>) {
-  const { status } = useStepperItem();
-
   return (
     <div
       data-slot="stepper-indicator"
-      data-status={status}
       className={cn(stepperIndicatorVariants(), className)}
       {...props}>
       {children}
@@ -171,13 +143,11 @@ function StepperSeparator({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
-  const { orientation } = useStepper();
-
   return (
     <div
       data-slot="stepper-separator"
       aria-hidden
-      className={cn(stepperSeparatorVariants({ orientation }), className)}
+      className={cn(stepperSeparatorVariants(), className)}
       {...props}
     />
   );
@@ -193,43 +163,15 @@ function StepperContent({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
-function StepperLabel({ className, ...props }: React.ComponentProps<'p'>) {
-  return (
-    <p
-      data-slot="stepper-label"
-      className={cn(
-        'text-fg-secondary group-data-[size=sm]/stepper:label-small-primary group-data-[size=default]/stepper:headings-h4-semibold uppercase',
-        className,
-      )}
-      {...props}
-    />
-  );
-}
-
-function StepperTitle({ className, ...props }: React.ComponentProps<'p'>) {
-  return (
-    <p
-      data-slot="stepper-title"
-      className={cn(
-        'text-fg-primary group-data-[size=sm]/stepper:headings-h4-regular group-data-[size=default]/stepper:headings-h3-regular',
-        className,
-      )}
-      {...props}
-    />
-  );
-}
-
-function StepperDescription({
+function StepperText({
+  variant = 'title',
   className,
   ...props
-}: React.ComponentProps<'p'>) {
+}: React.ComponentProps<'p'> & VariantProps<typeof stepperTextVariants>) {
   return (
     <p
-      data-slot="stepper-description"
-      className={cn(
-        'text-fg-secondary group-data-[size=sm]/stepper:paragraph-small-primary group-data-[size=default]/stepper:paragraph-regular-primary',
-        className,
-      )}
+      data-slot={`stepper-${variant ?? 'title'}`}
+      className={cn(stepperTextVariants({ variant }), className)}
       {...props}
     />
   );
@@ -238,21 +180,13 @@ function StepperDescription({
 export {
   Stepper,
   StepperContent,
-  StepperDescription,
   StepperIndicator,
   StepperItem,
-  StepperLabel,
   StepperRail,
   StepperSeparator,
-  StepperTitle,
+  StepperText,
   stepperIndicatorVariants,
   stepperSeparatorVariants,
-  useStepper,
-  useStepperItem,
+  stepperTextVariants,
 };
-export type {
-  StepperIndicatorType,
-  StepperOrientation,
-  StepperSize,
-  StepperStatus,
-};
+export type { StepperOrientation, StepperSize, StepperStatus };

@@ -10,7 +10,7 @@ import {
   StepperItem,
   StepperRail,
   StepperSeparator,
-  StepperTitle,
+  StepperText,
 } from '@/components/ui/stepper';
 
 const componentName = 'stepper';
@@ -44,7 +44,7 @@ describe(`${componentName} — structure`, () => {
             <StepperSeparator />
           </StepperRail>
           <StepperContent>
-            <StepperTitle>Title</StepperTitle>
+            <StepperText variant="title">Title</StepperText>
           </StepperContent>
         </StepperItem>
       </Stepper>,
@@ -62,9 +62,9 @@ describe(`${componentName} — structure`, () => {
     ).toBeInTheDocument();
   });
 
-  it('marks completed number indicators with status icons', () => {
+  it('reflects step status on the item for styling hooks', () => {
     render(
-      <Stepper>
+      <Stepper data-indicator="number">
         <StepperItem status="completed">
           <StepperRail>
             <StepperIndicator>1</StepperIndicator>
@@ -74,7 +74,7 @@ describe(`${componentName} — structure`, () => {
     );
 
     expect(
-      document.querySelector('[data-slot="stepper-indicator"]'),
+      document.querySelector('[data-slot="stepper-item"]'),
     ).toHaveAttribute('data-status', 'completed');
   });
 });

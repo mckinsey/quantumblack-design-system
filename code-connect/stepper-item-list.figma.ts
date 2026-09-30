@@ -25,7 +25,7 @@ const items = figma.properties.children(['Stepper/Item']);
 
 export default {
   example: figma.code`
-    <Stepper size="${size}" orientation="${orientation}" indicator="${indicator}">
+    <Stepper size="${size}" orientation="${orientation}" data-indicator="${indicator}">
       ${figma.helpers.react.renderChildren(items)}
     </Stepper>
   `,
