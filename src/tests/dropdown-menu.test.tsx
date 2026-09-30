@@ -37,9 +37,7 @@ describe(`${componentName} — behaviour`, () => {
   function BasicMenu({ size }: { size?: 'default' | 'lg' }) {
     return (
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button>Open</Button>
-        </DropdownMenuTrigger>
+        <DropdownMenuTrigger render={<Button>Open</Button>} />
         <DropdownMenuContent size={size}>
           <DropdownMenuItem>Profile</DropdownMenuItem>
           <DropdownMenuItem disabled>Billing</DropdownMenuItem>
@@ -66,7 +64,7 @@ describe(`${componentName} — behaviour`, () => {
     render(<BasicMenu />);
     await user.click(screen.getByRole('button', { name: 'Open' }));
 
-    expect(screen.getByRole('menu')).toBeInTheDocument();
+    expect(await screen.findByRole('menu')).toBeInTheDocument();
   });
 
   it('items have role="menuitem"', async () => {
@@ -76,7 +74,7 @@ describe(`${componentName} — behaviour`, () => {
     await user.click(screen.getByRole('button', { name: 'Open' }));
 
     expect(
-      screen.getByRole('menuitem', { name: 'Profile' }),
+      await screen.findByRole('menuitem', { name: 'Profile' }),
     ).toBeInTheDocument();
   });
 
@@ -86,7 +84,10 @@ describe(`${componentName} — behaviour`, () => {
     render(<BasicMenu />);
     await user.click(screen.getByRole('button', { name: 'Open' }));
 
-    expect(screen.getByRole('menu')).toHaveAttribute('data-size', 'default');
+    expect(await screen.findByRole('menu')).toHaveAttribute(
+      'data-size',
+      'default',
+    );
   });
 
   it('size="lg" propagates to content and items', async () => {
@@ -95,11 +96,10 @@ describe(`${componentName} — behaviour`, () => {
     render(<BasicMenu size="lg" />);
     await user.click(screen.getByRole('button', { name: 'Open' }));
 
-    expect(screen.getByRole('menu')).toHaveAttribute('data-size', 'lg');
-    expect(screen.getByRole('menuitem', { name: 'Profile' })).toHaveAttribute(
-      'data-size',
-      'lg',
-    );
+    expect(await screen.findByRole('menu')).toHaveAttribute('data-size', 'lg');
+    expect(
+      await screen.findByRole('menuitem', { name: 'Profile' }),
+    ).toHaveAttribute('data-size', 'lg');
   });
 
   it('inset items carry data-inset="true"', async () => {
@@ -108,10 +108,9 @@ describe(`${componentName} — behaviour`, () => {
     render(<BasicMenu />);
     await user.click(screen.getByRole('button', { name: 'Open' }));
 
-    expect(screen.getByRole('menuitem', { name: 'Settings' })).toHaveAttribute(
-      'data-inset',
-      'true',
-    );
+    expect(
+      await screen.findByRole('menuitem', { name: 'Settings' }),
+    ).toHaveAttribute('data-inset', 'true');
   });
 
   it('destructive items carry data-variant="destructive"', async () => {
@@ -120,10 +119,9 @@ describe(`${componentName} — behaviour`, () => {
     render(<BasicMenu />);
     await user.click(screen.getByRole('button', { name: 'Open' }));
 
-    expect(screen.getByRole('menuitem', { name: 'Delete' })).toHaveAttribute(
-      'data-variant',
-      'destructive',
-    );
+    expect(
+      await screen.findByRole('menuitem', { name: 'Delete' }),
+    ).toHaveAttribute('data-variant', 'destructive');
   });
 
   it('disabled items expose aria-disabled', async () => {
@@ -132,9 +130,8 @@ describe(`${componentName} — behaviour`, () => {
     render(<BasicMenu />);
     await user.click(screen.getByRole('button', { name: 'Open' }));
 
-    expect(screen.getByRole('menuitem', { name: 'Billing' })).toHaveAttribute(
-      'aria-disabled',
-      'true',
-    );
+    expect(
+      await screen.findByRole('menuitem', { name: 'Billing' }),
+    ).toHaveAttribute('aria-disabled', 'true');
   });
 });
