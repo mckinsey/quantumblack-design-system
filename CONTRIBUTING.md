@@ -150,4 +150,4 @@ Install via registry: `npx shadcn add icon` (ships `icon.tsx` and the Google Fon
 - [ ] `npm run build` passes
 - [ ] `npm run lint` passes
 - [ ] `registry.json` updated and `npm run registry:build` run (if component added/changed)
-- [ ] Component matched to Figma (new or updated from spec): completed [figma-parity](.agents/skills/figma-parity/SKILL.md) checklist
+- [ ] Component matched to Figma (new or updated from spec): [figma-parity](.agents/skills/figma-parity/SKILL.md)
