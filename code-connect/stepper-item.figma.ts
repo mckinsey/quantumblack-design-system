@@ -114,7 +114,7 @@ const indicatorBody =
       ? markerType === 'square'
         ? figma.code`<StepperMarkerSquare />`
         : figma.code`<StepperMarkerCircle />`
-      : figma.code`${stepNumber}`;
+      : figma.code`{${stepNumber}}`;
 
 const separator = hasTail
   ? figma.code`

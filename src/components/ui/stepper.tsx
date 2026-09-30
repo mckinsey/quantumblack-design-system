@@ -2,7 +2,7 @@
 
 import { mergeProps } from '@base-ui/react/merge-props';
 import { useRender } from '@base-ui/react/use-render';
-import { type VariantProps, cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority';
 import * as React from 'react';
 
 import { Icon } from '@/components/ui/icon';
@@ -301,7 +301,7 @@ function StepperMarkerShape({
   status: statusProp,
   size: sizeProp,
   className,
-}: MarkerProps & { shape: 'circle' | 'square' }) {
+}: Omit<MarkerProps, 'children'> & { shape: 'circle' | 'square' }) {
   const { status, size } = useMarkerState(statusProp, sizeProp);
 
   return (
@@ -323,20 +323,21 @@ function StepperMarkerShape({
 }
 
 /** Figma type=circle. */
-function StepperMarkerCircle(props: MarkerProps) {
+function StepperMarkerCircle(props: Omit<MarkerProps, 'children'>) {
   return <StepperMarkerShape shape="circle" {...props} />;
 }
 
 /** Figma type=square. */
-function StepperMarkerSquare(props: MarkerProps) {
+function StepperMarkerSquare(props: Omit<MarkerProps, 'children'>) {
   return <StepperMarkerShape shape="square" {...props} />;
 }
 
 type StepperProps = useRender.ComponentProps<'div'> & {
   size?: StepperSize;
+  orientation?: StepperOrientation;
   /** `number` auto-wraps children in StepperMarkerNumber. `custom` is a passthrough slot. */
   indicator?: StepperIndicator;
-} & VariantProps<typeof stepperVariants>;
+};
 
 function Stepper({
   size = 'default',
