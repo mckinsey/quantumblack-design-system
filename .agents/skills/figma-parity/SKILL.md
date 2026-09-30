@@ -6,7 +6,7 @@ description: Ensure implemented QBDS code matches Figma. Use when reviewing or u
 # Workflow
 
 1. Run [figma-extract](../figma-extract/SKILL.md) on the Figma link.
-2. Match that output to the code — `src/components/ui/<name>.tsx`, its demo, tokens per [docs/TOKENS.md](../../../docs/TOKENS.md). Fix gaps (properties, structure, styles, states).
+2. Match that output to the code — `src/components/ui/<name>.tsx`, its demo, tokens per [docs/TOKENS.md](../../../docs/TOKENS.md).
 3. Spot-check the demo (`npm run dev`) against Figma when visuals are unclear.
 
 Summarize match vs fixes.
