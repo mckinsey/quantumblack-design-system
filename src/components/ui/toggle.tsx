@@ -33,7 +33,12 @@ function toggleVariants({
     'data-[pressed]:[&>span:not([data-slot^=icon])]:no-underline',
     'data-[pressed]:**:data-[slot=icon]:text-fill-active-inverse',
     'data-[pressed]:focus-visible:bg-fill-active data-[pressed]:focus-visible:text-fg-primary-inverse',
+    'disabled:data-[pressed]:bg-fill-muted disabled:data-[pressed]:text-fg-disabled',
+    'disabled:data-[pressed]:**:data-[slot=icon]:text-fg-disabled',
+    'disabled:data-[pressed]:focus-visible:bg-fill-muted',
     variant === 'outline' && 'data-[pressed]:inset-ring-0',
+    variant === 'ghost' &&
+      'disabled:data-[pressed]:bg-transparent disabled:data-[pressed]:focus-visible:bg-transparent',
     className,
   );
 }

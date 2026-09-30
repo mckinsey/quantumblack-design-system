@@ -9,17 +9,19 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const type = instance.getEnum('type', {
-  'secondary-filled': 'secondary',
-  ghost: 'ghost',
-});
+const type =
+  instance.getEnum('type', {
+    'secondary-filled': 'secondary',
+    ghost: 'ghost',
+  }) ?? 'secondary';
 
-const size = instance.getEnum('size', {
-  reg: 'default',
-  sm: 'sm',
-  xsm: 'xs',
-  xxs: 'xxs',
-});
+const size =
+  instance.getEnum('size', {
+    reg: 'default',
+    sm: 'sm',
+    xsm: 'xs',
+    xxs: 'xxs',
+  }) ?? 'default';
 
 function segmentValue(label: string, index: number) {
   const trimmed = label.trim();
@@ -125,11 +127,11 @@ const selectedValue = segmentNodes
   })
   .find((value): value is string => Boolean(value));
 
-const defaultValueLit = selectedValue
-  ? `[${JSON.stringify(selectedValue)}]`
-  : segmentNodes.length > 0
-    ? `[${JSON.stringify(segmentValue(String(segmentNodes[0].getString('label') ?? ''), 0))}]`
-    : `['week']`;
+const defaultValueAttr = selectedValue
+  ? `defaultValue={[${JSON.stringify(selectedValue)}]}`
+  : segmentNodes.length === 0
+    ? `defaultValue={['week']}`
+    : '';
 
 const hasIcons = segmentNodes.some(node => {
   return (
@@ -142,7 +144,7 @@ export default {
     <ToggleGroup
       variant="${type}"
       size="${size}"
-      defaultValue={${defaultValueLit}}
+      ${defaultValueAttr}
       aria-label="Options">
       ${segmentItems}
     </ToggleGroup>
