@@ -38,7 +38,7 @@ const iconVariants = cva(
           'group-active/button:opacity-88',
           'group-disabled/button:opacity-30',
           'group-aria-disabled/button:opacity-30',
-          'group-data-[state=open]/button:opacity-88 group-data-[popup-open]/button:opacity-88',
+          'group-data-[state=open]/button:opacity-88 group-data-[popup-open]/button:opacity-88 group-data-[pressed]/button:opacity-88',
         ],
         false: '',
       },
