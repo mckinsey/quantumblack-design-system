@@ -10,11 +10,21 @@ import { IconShell } from '@/components/ui/icon-shell';
 import { SidebarInset } from '@/components/ui/sidebar';
 import { toast } from '@/components/ui/sonner';
 
+import { type PlaygroundSpec } from './ai/playground-ai-types';
+import { PlaygroundAiChat } from './playground-ai-chat';
 import { PlaygroundCards } from './playground-cards';
 import { PlaygroundSettingsForm } from './playground-settings-form';
 import { PlaygroundSidebar, primaryNav } from './playground-sidebar';
 
-function PlaygroundHeader({ onOpenSettings }: { onOpenSettings: () => void }) {
+function PlaygroundHeader({
+  onOpenSettings,
+  onOpenAi,
+  aiOpen,
+}: {
+  onOpenSettings: () => void;
+  onOpenAi: () => void;
+  aiOpen: boolean;
+}) {
   return (
     <header className="border-stroke-divider bg-surface-primary flex h-[72px] shrink-0 items-center gap-3 border-b px-6">
       <RegistryLogo className="h-6 w-6" />
@@ -26,6 +36,16 @@ function PlaygroundHeader({ onOpenSettings }: { onOpenSettings: () => void }) {
       </span>
 
       <div className="ml-auto flex items-center gap-2">
+        <Button
+          variant={aiOpen ? 'secondary' : 'outline'}
+          size="sm"
+          onClick={onOpenAi}
+          aria-expanded={aiOpen}>
+          <IconShell size="sm">
+            <Icon icon="auto_awesome" />
+          </IconShell>
+          AI builder
+        </Button>
         <Button
           variant="ghost"
           size="sm"
@@ -51,6 +71,8 @@ function PlaygroundHeader({ onOpenSettings }: { onOpenSettings: () => void }) {
 export function PlaygroundPage() {
   const [activeNav, setActiveNav] = useState<NavId>('dashboard');
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [aiOpen, setAiOpen] = useState(false);
+  const [aiSpec, setAiSpec] = useState<PlaygroundSpec | null>(null);
   const dashboardToastShown = useRef(false);
 
   const page = primaryNav.find(item => item.id === activeNav) ?? primaryNav[0];
@@ -66,7 +88,11 @@ export function PlaygroundPage() {
 
   return (
     <div className="bg-surface-secondary flex h-svh min-h-svh w-full flex-col overflow-hidden">
-      <PlaygroundHeader onOpenSettings={() => setSettingsOpen(true)} />
+      <PlaygroundHeader
+        aiOpen={aiOpen}
+        onOpenAi={() => setAiOpen(open => !open)}
+        onOpenSettings={() => setSettingsOpen(true)}
+      />
 
       <div className="flex min-h-0 flex-1">
         <PlaygroundSidebar
@@ -80,6 +106,8 @@ export function PlaygroundPage() {
             title={page.title}
             subtitle={page.subtitle}
             body={page.body}
+            aiSpec={aiSpec}
+            onClearAiSpec={() => setAiSpec(null)}
           />
         </SidebarInset>
       </div>
@@ -87,6 +115,12 @@ export function PlaygroundPage() {
       <PlaygroundSettingsForm
         open={settingsOpen}
         onOpenChange={setSettingsOpen}
+      />
+
+      <PlaygroundAiChat
+        open={aiOpen}
+        onOpenChange={setAiOpen}
+        onSpec={setAiSpec}
       />
     </div>
   );
