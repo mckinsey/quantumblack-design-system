@@ -12,7 +12,10 @@ const size = instance.getEnum('size', {
 
 const gap = size === 'sm' ? 'gap-4' : 'gap-5';
 
-const items = figma.properties.children(['baseCard/StatCount']);
+const items = figma.properties.children([
+  'base/card/StatCount',
+  '.base/card/StatCount',
+]);
 
 export default {
   example: figma.code`
