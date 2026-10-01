@@ -5,7 +5,7 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const padding =
+const figmaPad =
   instance.getEnum('padding', {
     none: 'none',
     reg: 'reg',
@@ -16,6 +16,9 @@ const lines =
     single: 'single',
     multi: 'multi',
   }) ?? 'single';
+
+const sizeProp = figmaPad === 'reg' ? ' size="sm"' : '';
+const padClassProp = figmaPad === 'none' ? ' className="px-0"' : '';
 
 const contentInst = instance.findInstance('CellContent-Text', {
   traverseInstances: true,
@@ -28,7 +31,7 @@ const cellText =
 
 export default {
   example: figma.code`
-    <TableCell padding="${padding}" lines="${lines}">
+    <TableCell${sizeProp} lines="${lines}"${padClassProp}>
       ${cellText}
     </TableCell>
   `,

@@ -5,7 +5,7 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const padding =
+const figmaPad =
   instance.getEnum('padding', {
     none: 'none',
     reg: 'reg',
@@ -28,7 +28,15 @@ const sort =
 const title = instance.getString('columnTitle') || 'HEADER';
 const selected = sort === 'asc' || sort === 'desc';
 
-const alignClassProp = type === 'numeric' ? ' className="text-right"' : '';
+const classNames = [
+  type === 'numeric' ? 'text-right' : '',
+  figmaPad === 'none' ? 'px-0' : '',
+]
+  .filter(Boolean)
+  .join(' ');
+
+const classProp = classNames ? ` className="${classNames}"` : '';
+const sizeProp = figmaPad === 'reg' ? ' size="sm"' : '';
 const selectedProp = selected ? ' selected' : '';
 
 const sortIcons: Record<
@@ -65,7 +73,7 @@ const headerContent =
 
 export default {
   example: figma.code`
-    <TableHead padding="${padding}"${selectedProp}${alignClassProp}>
+    <TableHead${sizeProp}${selectedProp}${classProp}>
       ${headerContent}
       ${moreInfoCode}
     </TableHead>

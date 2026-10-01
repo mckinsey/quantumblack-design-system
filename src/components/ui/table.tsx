@@ -54,13 +54,13 @@ function TableRow({ className, selected = false, ...props }: TableRowProps) {
 }
 
 interface TableHeadProps extends React.ComponentProps<'th'> {
-  padding?: 'none' | 'reg';
+  size?: 'sm' | 'default';
   selected?: boolean;
 }
 
 function TableHead({
   className,
-  padding = 'reg',
+  size = 'default',
   selected = false,
   ...props
 }: TableHeadProps) {
@@ -75,8 +75,8 @@ function TableHead({
         'data-[state=selected]:text-fg-primary',
         'label-regular-primary',
         {
-          'px-3': padding === 'reg',
-          'px-0': padding === 'none',
+          'px-3': size === 'sm',
+          'px-4': size === 'default',
         },
         className,
       )}
@@ -86,13 +86,13 @@ function TableHead({
 }
 
 interface TableCellProps extends React.ComponentProps<'td'> {
-  padding?: 'none' | 'reg';
+  size?: 'sm' | 'default';
   lines?: 'single' | 'multi';
 }
 
 function TableCell({
   className,
-  padding = 'reg',
+  size = 'default',
   lines = 'single',
   ...props
 }: TableCellProps) {
@@ -106,8 +106,8 @@ function TableCell({
         'transition-colors delay-75 duration-200',
         'label-regular-primary py-1',
         {
-          'px-3': padding === 'reg',
-          'px-0': padding === 'none',
+          'px-3': size === 'sm',
+          'px-4': size === 'default',
           'whitespace-nowrap': lines === 'single',
           'whitespace-normal': lines === 'multi',
         },
