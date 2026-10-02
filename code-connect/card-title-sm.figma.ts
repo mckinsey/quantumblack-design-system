@@ -8,7 +8,7 @@ const instance = figma.selectedInstance;
 const text = JSON.stringify(
   String(
     instance.getString('text') ??
-      'Descriptive card title that summarises the content in a clear, scannable',
+      'Descriptive card title that summarises the content in a clear, scannable way.',
   ),
 );
 

@@ -18,20 +18,30 @@ const hasHeader = instance.getBoolean('hasHeader');
 const headerSlot = instance.getSlot('headerSlot');
 const headerConnected = headerSlot?.connectedInstances ?? [];
 
+const fallbackBadge = figma.code`
+  <Badge outline variant="high-emphasis" withIcon>
+    <IconShell size="sm" type="neutral" variant="secondary">
+      <Icon icon="new_releases" />
+    </IconShell>
+    Label
+  </Badge>
+`;
+
+const fallbackMore = figma.code`
+  <Button variant="ghost" size="icon-sm" aria-label="More options">
+    <IconShell hoverable>
+      <Icon icon="more_vert" />
+    </IconShell>
+  </Button>
+`;
+
 const headerStart =
   headerConnected.length > 0
     ? headerConnected
         .slice(0, 1)
         .map(n => n.executeTemplate().example)
         .flat()
-    : figma.code`
-        <Badge outline variant="high-emphasis" withIcon>
-          <IconShell size="sm" type="neutral" variant="secondary">
-            <Icon icon="new_releases" />
-          </IconShell>
-          Label
-        </Badge>
-      `;
+    : fallbackBadge;
 
 const headerEnd =
   headerConnected.length > 1
@@ -39,21 +49,24 @@ const headerEnd =
         .slice(1)
         .map(n => n.executeTemplate().example)
         .flat()
+    : headerConnected.length === 0
+      ? fallbackMore
+      : figma.code``;
+
+const headerAction =
+  headerConnected.length === 1
+    ? figma.code``
     : figma.code`
-        <Button variant="ghost" size="icon-sm" aria-label="More options">
-          <IconShell hoverable>
-            <Icon icon="more_vert" />
-          </IconShell>
-        </Button>
+        <CardAction>
+          ${headerEnd}
+        </CardAction>
       `;
 
 const headerBlock = hasHeader
   ? figma.code`
       <CardHeader>
         ${headerStart}
-        <CardAction>
-          ${headerEnd}
-        </CardAction>
+        ${headerAction}
       </CardHeader>
     `
   : figma.code``;
