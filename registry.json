@@ -813,7 +813,7 @@
       "name": "table",
       "type": "registry:ui",
       "title": "Table",
-      "description": "Data table primitives: TableHead and TableCell with size (sm|default), cell lines (single|multi), and row/header selected states.",
+      "description": "A responsive table component.",
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
