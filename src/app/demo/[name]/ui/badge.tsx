@@ -255,13 +255,13 @@ export const examples: DemoExample[] = [
     name: 'BadgeNumericSection',
     title: 'Numeric badge',
     description:
-      'Primary, secondary, and accent numeric badges: all sizes, filled and outline, with spacing between each variant group.',
+      'Primary, secondary, and accent numeric badges: sm, reg, and lg (Figma still has three numeric sizes). Filled and outline per row.',
   },
   {
     name: 'BadgeStatusSection',
     title: 'Status badge',
     description:
-      'Hint-dot matrix: five statuses × eight columns (sm→xl filled, then sm→xl outline).',
+      'Hint-dot matrix (Badge/HintDot): five statuses × eight columns — sm, reg, lg, xlg filled, then outline.',
   },
   {
     name: 'BadgeIconLabel',

@@ -6,13 +6,13 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 const badgePadding = {
-  icon: { sm: 'pl-1 pr-2', default: 'pl-1 pr-2', lg: 'pl-1 pr-2' },
-  dot: { sm: 'pl-1 pr-2', default: 'px-2', lg: 'pl-2 pr-3' },
-  label: { sm: 'px-2', default: 'px-2', lg: 'px-2' },
+  icon: { sm: 'pl-1 pr-2', default: 'pl-1 pr-2' },
+  dot: { sm: 'pl-1 pr-2', default: 'px-2' },
+  label: { sm: 'px-2', default: 'px-2' },
 } as const;
 
 function getBadgePadding(
-  size: 'sm' | 'default' | 'lg',
+  size: 'sm' | 'default',
   withIcon: boolean,
   withDot: boolean,
 ) {
@@ -36,7 +36,6 @@ const badgeVariants = cva(
       size: {
         sm: 'h-5 label-small-primary min-w-5',
         default: 'h-6 label-small-primary min-w-6',
-        lg: 'h-7 label-regular-primary min-w-7',
       },
       outline: {
         true: 'bg-fill-active-inverse text-fg-primary outline outline-solid outline-1',
