@@ -228,7 +228,7 @@ export function BadgeDotLabel() {
       {dotLabelVariants.map(v => (
         <div key={v} className="flex flex-wrap items-center gap-3">
           {dotLabelBadgeSizes.map(badgeSize => (
-            <Badge key={badgeSize} size={badgeSize} variant={v} withDot>
+            <Badge key={badgeSize} outline size={badgeSize} variant={v} withDot>
               <StatusBadge
                 variant={dotLabelToStatusVariant[v]}
                 size={badgeSize}
@@ -248,8 +248,7 @@ export const examples: DemoExample[] = [
   {
     name: 'BadgeLabelOnly',
     title: 'Label only',
-    description:
-      'Text-only pill badges: small and default sizes (no large). Filled then outline in each row.',
+    description: 'Badge/Label: sm and reg only. Filled then outline per row.',
   },
   {
     name: 'BadgeNumericSection',
@@ -259,9 +258,9 @@ export const examples: DemoExample[] = [
   },
   {
     name: 'BadgeStatusSection',
-    title: 'Status badge',
+    title: 'Hint dot',
     description:
-      'Hint-dot matrix (Badge/HintDot): five statuses × eight columns — sm, reg, lg, xlg filled, then outline.',
+      'Standalone hint dot (Badge/HintDot), not dot+label. Four sizes (sm–xlg). Dot+label status chip is Badge/Status — two sizes only.',
   },
   {
     name: 'BadgeIconLabel',
@@ -271,9 +270,9 @@ export const examples: DemoExample[] = [
   },
   {
     name: 'BadgeDotLabel',
-    title: 'Status (dot + label)',
+    title: 'Dot + label',
     description:
-      'Filled badge with status dot and label (`Badge/Status` in Figma). Small and default sizes only.',
+      'Outline pill with StatusBadge leading dot (same as main). sm and reg only.',
   },
 ];
 

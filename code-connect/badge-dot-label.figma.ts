@@ -26,23 +26,18 @@ const size = figma.selectedInstance.getEnum('size', {
   reg: 'default',
 });
 
-const dotSize = figma.selectedInstance.getEnum('size', {
-  sm: 'sm',
-  reg: 'default',
-});
-
 const label = figma.selectedInstance.getString('label');
 
 export default {
   id: 'BadgeDotLabel',
   imports: ["import { Badge, StatusBadge } from '@/components/ui/badge';"],
-  example: figma.code`<Badge${figma.helpers.react.renderProp(
+  example: figma.code`<Badge outline${figma.helpers.react.renderProp(
     'size',
     size,
   )}${figma.helpers.react.renderProp('variant', variant)} withDot>
       <StatusBadge ${figma.helpers.react.renderProp(
         'size',
-        dotSize,
+        size,
       )}${figma.helpers.react.renderProp('variant', dotVariant)}/>
       ${figma.helpers.react.renderChildren(label)}
     </Badge>`,
