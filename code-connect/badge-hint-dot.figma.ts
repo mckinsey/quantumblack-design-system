@@ -18,7 +18,7 @@ const size = figma.selectedInstance.getEnum('size', {
   xlg: 'xl',
 });
 
-const outline = figma.selectedInstance.getEnum('outlined', {
+const outline = figma.selectedInstance.getEnum('outline', {
   true: true,
   false: false,
 });

@@ -50,8 +50,6 @@ export function BadgeLabelOnly() {
   );
 }
 
-const labelBadgeSizes = ['sm', 'default', 'lg'] as const;
-
 const numericBadgeSizes = ['sm', 'default', 'lg'] as const;
 
 function NumericBadgeSizeGrid({
@@ -201,7 +199,7 @@ export function BadgeIconLabel() {
   );
 }
 
-const dotLabelOutlineVariants = [
+const dotLabelVariants = [
   'high-emphasis',
   'alternative',
   'success',
@@ -218,20 +216,22 @@ const dotLabelToStatusVariant = {
   error: 'error',
   'brand-accent': 'neutral-brand',
 } as const satisfies Record<
-  (typeof dotLabelOutlineVariants)[number],
+  (typeof dotLabelVariants)[number],
   'neutral' | 'neutral-brand' | 'error' | 'warning' | 'success'
 >;
+
+const dotLabelBadgeSizes = ['sm', 'default'] as const;
 
 export function BadgeDotLabel() {
   return (
     <div className="flex flex-col gap-3">
-      {dotLabelOutlineVariants.map(v => (
+      {dotLabelVariants.map(v => (
         <div key={v} className="flex flex-wrap items-center gap-3">
-          {labelBadgeSizes.map(badgeSize => (
+          {dotLabelBadgeSizes.map(badgeSize => (
             <Badge key={badgeSize} outline size={badgeSize} variant={v} withDot>
               <StatusBadge
                 variant={dotLabelToStatusVariant[v]}
-                size={badgeSize === 'lg' ? 'default' : 'sm'}
+                size={badgeSize}
                 className="shrink-0"
               />
               Label
@@ -248,32 +248,31 @@ export const examples: DemoExample[] = [
   {
     name: 'BadgeLabelOnly',
     title: 'Label only',
-    description:
-      'Text-only pill badges: small and default sizes (no large). Filled then outline in each row.',
+    description: 'Badge/Label: sm and reg only. Filled then outline per row.',
   },
   {
     name: 'BadgeNumericSection',
     title: 'Numeric badge',
     description:
-      'Primary, secondary, and accent numeric badges: all sizes, filled and outline, with spacing between each variant group.',
+      'Primary, secondary, and accent numeric badges: sm, reg, and lg (Figma still has three numeric sizes). Filled and outline per row.',
   },
   {
     name: 'BadgeStatusSection',
-    title: 'Status badge',
+    title: 'Hint dot',
     description:
-      'Hint-dot matrix: five statuses × eight columns (sm→xl filled, then sm→xl outline).',
+      'Standalone hint dot (Badge/HintDot), not dot+label. Four sizes (sm–xlg). Dot+label status chip is Badge/Status — two sizes only.',
   },
   {
     name: 'BadgeIconLabel',
     title: 'Icon + Label',
     description:
-      'Leading 16px icon and label. Small filled badges use 2px icon–label gap (`gap-0.5`); outline sm uses the default 4px gap.',
+      'Leading 16px icon and label. Figma: 4px root padding left, 8px right; 4px icon–label gap (`gap-1`), 2px on small outline (`gap-0.5`).',
   },
   {
     name: 'BadgeDotLabel',
-    title: 'Dot + Label',
+    title: 'Dot + label',
     description:
-      'Outline badge with status dot and label; use `withDot` for horizontal padding (8px default, 8+12px lg). Three sizes per row.',
+      'Outline pill with StatusBadge leading dot (same as main). sm and reg only.',
   },
 ];
 

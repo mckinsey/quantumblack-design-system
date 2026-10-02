@@ -6,13 +6,13 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 const badgePadding = {
-  icon: { sm: 'pl-1 pr-2', default: 'pl-1 pr-2', lg: 'pl-1 pr-2' },
-  dot: { sm: 'pl-1 pr-2', default: 'px-2', lg: 'pl-2 pr-3' },
-  label: { sm: 'px-2', default: 'px-2', lg: 'px-2' },
+  icon: { sm: 'pl-1 pr-2', default: 'pl-1 pr-2' },
+  dot: { sm: 'pl-1 pr-2', default: 'px-2' },
+  label: { sm: 'px-2', default: 'px-2' },
 } as const;
 
 function getBadgePadding(
-  size: 'sm' | 'default' | 'lg',
+  size: 'sm' | 'default',
   withIcon: boolean,
   withDot: boolean,
 ) {
@@ -36,7 +36,6 @@ const badgeVariants = cva(
       size: {
         sm: 'h-5 label-small-primary min-w-5',
         default: 'h-6 label-small-primary min-w-6',
-        lg: 'h-7 label-regular-primary min-w-7',
       },
       outline: {
         true: 'bg-fill-active-inverse text-fg-primary outline outline-solid outline-1',
@@ -136,7 +135,7 @@ function Badge({
             withDot,
           }),
           getBadgePadding(resolvedSize, withIcon, withDot),
-          withIcon && resolvedSize === 'sm' && !outline && 'gap-0.5',
+          withIcon && (resolvedSize === 'sm' && outline ? 'gap-0.5' : 'gap-1'),
           className,
         ),
       } as React.ComponentProps<'span'>,
@@ -151,6 +150,9 @@ function Badge({
     },
   });
 }
+
+const numericBadgeShell =
+  'inline-flex items-center justify-center w-fit whitespace-nowrap shrink-0 overflow-hidden focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] transition-[color,box-shadow]';
 
 const numericBadgeVariants = cva(
   'shadow-elevation-0 rounded-full outline outline-solid',
@@ -201,10 +203,7 @@ const numericBadgeVariants = cva(
   },
 );
 
-type NumericBadgeProps = Omit<
-  React.ComponentProps<typeof Badge>,
-  'variant' | 'size' | 'outline'
-> & {
+type NumericBadgeProps = useRender.ComponentProps<'span'> & {
   variant?: 'primary' | 'secondary' | 'accent';
   size?: 'sm' | 'default' | 'lg';
   outline?: boolean;
@@ -215,18 +214,29 @@ function NumericBadge({
   variant = 'primary',
   size = 'default',
   outline = false,
+  render,
   ...props
 }: NumericBadgeProps) {
-  return (
-    <Badge
-      outline={outline}
-      className={cn(
-        numericBadgeVariants({ variant, size, outline }),
-        className,
-      )}
-      {...props}
-    />
-  );
+  return useRender({
+    defaultTagName: 'span',
+    props: mergeProps<'span'>(
+      {
+        className: cn(
+          numericBadgeShell,
+          numericBadgeVariants({ variant, size, outline }),
+          className,
+        ),
+      } as React.ComponentProps<'span'>,
+      props,
+    ),
+    render,
+    state: {
+      slot: 'badge',
+      variant,
+      size,
+      outline: outline ? true : undefined,
+    },
+  });
 }
 
 const statusBadgeRootVariants = cva(

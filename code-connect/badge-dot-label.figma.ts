@@ -6,7 +6,7 @@ import figma from 'figma';
 const variant = figma.selectedInstance.getEnum('type', {
   'high-emphasis': 'high-emphasis',
   'brand-accent': 'brand-accent',
-  alternative: 'alternative',
+  muted: 'alternative',
   error: 'error',
   warning: 'warning',
   success: 'success',
@@ -15,7 +15,7 @@ const variant = figma.selectedInstance.getEnum('type', {
 const dotVariant = figma.selectedInstance.getEnum('type', {
   'high-emphasis': 'neutral',
   'brand-accent': 'neutral-brand',
-  alternative: 'neutral',
+  muted: 'neutral',
   error: 'error',
   warning: 'warning',
   success: 'success',
@@ -24,28 +24,20 @@ const dotVariant = figma.selectedInstance.getEnum('type', {
 const size = figma.selectedInstance.getEnum('size', {
   sm: 'sm',
   reg: 'default',
-  lg: 'lg',
 });
 
-const dotSize = figma.selectedInstance.getEnum('size', {
-  sm: 'sm',
-  reg: 'sm',
-  lg: 'default',
-});
-
-const valueText = figma.selectedInstance.findText('value');
-const label = valueText.type === 'TEXT' ? valueText.textContent : undefined;
+const label = figma.selectedInstance.getString('label');
 
 export default {
   id: 'BadgeDotLabel',
   imports: ["import { Badge, StatusBadge } from '@/components/ui/badge';"],
-  example: figma.code`<Badge outline={true}${figma.helpers.react.renderProp(
+  example: figma.code`<Badge outline${figma.helpers.react.renderProp(
     'size',
     size,
   )}${figma.helpers.react.renderProp('variant', variant)} withDot>
       <StatusBadge ${figma.helpers.react.renderProp(
         'size',
-        dotSize,
+        size,
       )}${figma.helpers.react.renderProp('variant', dotVariant)}/>
       ${figma.helpers.react.renderChildren(label)}
     </Badge>`,
