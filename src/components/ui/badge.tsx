@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 const badgePadding = {
   icon: { sm: 'pl-1 pr-2', default: 'pl-1 pr-2' },
   dot: { sm: 'pl-1 pr-2', default: 'px-2' },
-  label: { sm: 'px-2', default: 'px-2' },
+  label: { sm: 'pl-1 pr-2', default: 'pl-1 pr-2' },
 } as const;
 
 function getBadgePadding(
@@ -108,6 +108,7 @@ export type BadgeProps = useRender.ComponentProps<'span'> &
   Omit<VariantProps<typeof badgeVariants>, 'withIcon' | 'withDot'> & {
     withIcon?: boolean;
     withDot?: boolean;
+    noPadding?: boolean;
   };
 
 function Badge({
@@ -117,6 +118,7 @@ function Badge({
   outline,
   withIcon = false,
   withDot = false,
+  noPadding = false,
   render,
   ...props
 }: BadgeProps) {
@@ -134,8 +136,8 @@ function Badge({
             withIcon,
             withDot,
           }),
-          getBadgePadding(resolvedSize, withIcon, withDot),
-          withIcon && resolvedSize === 'sm' && !outline && 'gap-0.5',
+          !noPadding && getBadgePadding(resolvedSize, withIcon, withDot),
+          withIcon && (resolvedSize === 'sm' && outline ? 'gap-0.5' : 'gap-1'),
           className,
         ),
       } as React.ComponentProps<'span'>,
@@ -218,6 +220,7 @@ function NumericBadge({
 }: NumericBadgeProps) {
   return (
     <Badge
+      noPadding
       outline={outline}
       className={cn(
         numericBadgeVariants({ variant, size, outline }),

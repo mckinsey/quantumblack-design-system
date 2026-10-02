@@ -267,7 +267,7 @@ export const examples: DemoExample[] = [
     name: 'BadgeIconLabel',
     title: 'Icon + Label',
     description:
-      'Leading 16px icon and label. Small filled badges use 2px icon–label gap (`gap-0.5`); outline sm uses the default 4px gap.',
+      'Leading 16px icon and label. Figma: 4px root padding left, 8px right; 4px icon–label gap (`gap-1`), 2px on small outline (`gap-0.5`).',
   },
   {
     name: 'BadgeDotLabel',
