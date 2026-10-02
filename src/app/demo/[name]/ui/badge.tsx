@@ -50,8 +50,6 @@ export function BadgeLabelOnly() {
   );
 }
 
-const labelBadgeSizes = ['sm', 'default', 'lg'] as const;
-
 const numericBadgeSizes = ['sm', 'default', 'lg'] as const;
 
 function NumericBadgeSizeGrid({
@@ -201,7 +199,7 @@ export function BadgeIconLabel() {
   );
 }
 
-const dotLabelOutlineVariants = [
+const dotLabelVariants = [
   'high-emphasis',
   'alternative',
   'success',
@@ -218,20 +216,22 @@ const dotLabelToStatusVariant = {
   error: 'error',
   'brand-accent': 'neutral-brand',
 } as const satisfies Record<
-  (typeof dotLabelOutlineVariants)[number],
+  (typeof dotLabelVariants)[number],
   'neutral' | 'neutral-brand' | 'error' | 'warning' | 'success'
 >;
+
+const dotLabelBadgeSizes = ['sm', 'default'] as const;
 
 export function BadgeDotLabel() {
   return (
     <div className="flex flex-col gap-3">
-      {dotLabelOutlineVariants.map(v => (
+      {dotLabelVariants.map(v => (
         <div key={v} className="flex flex-wrap items-center gap-3">
-          {labelBadgeSizes.map(badgeSize => (
-            <Badge key={badgeSize} outline size={badgeSize} variant={v} withDot>
+          {dotLabelBadgeSizes.map(badgeSize => (
+            <Badge key={badgeSize} size={badgeSize} variant={v} withDot>
               <StatusBadge
                 variant={dotLabelToStatusVariant[v]}
-                size={badgeSize === 'lg' ? 'default' : 'sm'}
+                size={badgeSize}
                 className="shrink-0"
               />
               Label
@@ -271,9 +271,9 @@ export const examples: DemoExample[] = [
   },
   {
     name: 'BadgeDotLabel',
-    title: 'Dot + Label',
+    title: 'Status (dot + label)',
     description:
-      'Outline badge with status dot and label; use `withDot` for horizontal padding (8px default, 8+12px lg). Three sizes per row.',
+      'Filled badge with status dot and label (`Badge/Status` in Figma). Small and default sizes only.',
   },
 ];
 

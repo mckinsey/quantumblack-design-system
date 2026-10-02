@@ -6,7 +6,7 @@ import figma from 'figma';
 const variant = figma.selectedInstance.getEnum('type', {
   'high-emphasis': 'high-emphasis',
   'brand-accent': 'brand-accent',
-  alternative: 'alternative',
+  muted: 'alternative',
   error: 'error',
   warning: 'warning',
   success: 'success',
@@ -22,10 +22,10 @@ const outline = figma.selectedInstance.getEnum('outline', {
   false: false,
 });
 
-const withIcon = figma.selectedInstance.getBoolean('hasLeadingIcon');
+const withIcon = figma.selectedInstance.getBoolean('hasIcon');
 
-const icon = figma.selectedInstance.getBoolean('hasLeadingIcon', {
-  true: figma.properties.children(['Leading-Icon*']),
+const icon = figma.selectedInstance.getBoolean('hasIcon', {
+  true: figma.properties.children(['icon*']),
   false: undefined,
 });
 

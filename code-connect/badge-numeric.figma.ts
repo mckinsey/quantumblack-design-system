@@ -20,7 +20,7 @@ const outline = figma.selectedInstance.getEnum('outline', {
   false: false,
 });
 
-const counterLabel = figma.selectedInstance.getString('counterLabel');
+const value = figma.selectedInstance.getString('value');
 
 export default {
   id: 'NumericBadge',
@@ -32,7 +32,7 @@ export default {
     'size',
     size,
   )}${figma.helpers.react.renderProp('variant', variant)}>
-      ${figma.helpers.react.renderChildren(counterLabel)}
+      ${figma.helpers.react.renderChildren(value)}
     </NumericBadge>`,
   metadata: { nestable: true },
 };

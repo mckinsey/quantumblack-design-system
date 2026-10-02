@@ -6,7 +6,7 @@ import figma from 'figma';
 const variant = figma.selectedInstance.getEnum('type', {
   'high-emphasis': 'high-emphasis',
   'brand-accent': 'brand-accent',
-  alternative: 'alternative',
+  muted: 'alternative',
   error: 'error',
   warning: 'warning',
   success: 'success',
