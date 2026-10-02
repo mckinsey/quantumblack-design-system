@@ -254,7 +254,7 @@ components:
 
 # Visual design rules — QuantumBlack Design System
 
-> Source: [mckinsey/quantumblack-design-system](https://github.com/mckinsey/quantumblack-design-system) (Tailwind CSS v4 + shadcn/ui, Radix UI primitives, Material Symbols Sharp icons).
+> Source: [mckinsey/quantumblack-design-system](https://github.com/mckinsey/quantumblack-design-system) (Tailwind CSS v4 + shadcn/ui, Base UI primitives, Material Symbols Sharp icons).
 > **Exact hex, opacity ramps, typography measurements, shadow stacks:** [`src/styles/globals.css`](https://github.com/mckinsey/quantumblack-design-system/blob/main/src/styles/globals.css).
 
 **This file:** design rules, accessibility, layout philosophy, do/don't. Does **not** replace `globals.css`, per-component APIs, or the live docs.
@@ -517,7 +517,7 @@ Common icon names: Close, Check, ChevronDown, ChevronLeft, ChevronRight, Calenda
 
 ## 7. Components from the registry
 
-Components are Radix-based primitives styled with `cva`. Prefer **composing** them over copying bespoke class stacks from memory. Extend via wrappers; avoid forking registry markup so upstream DS fixes propagate.
+Components are Base UI primitives styled with `cva`. Prefer **composing** them over copying bespoke class stacks from memory. Extend via wrappers; avoid forking registry markup so upstream DS fixes propagate.
 
 Charts are **not** QBDS primitives — use Apache ECharts. Chart colour palettes and plot tokens are defined in [§2 — Chart colours](#chart-colours) above.
 
@@ -543,7 +543,7 @@ Charts are **not** QBDS primitives — use Apache ECharts. Chart colour palettes
 
 ### Keyboard
 
-- All menus, dropdowns, dialogs, and comboboxes ship with Radix/`cmdk` keyboard handling: arrow nav, Enter to select, Escape to close, Tab to leave.
+- All menus, dropdowns, dialogs, and comboboxes ship with Base UI keyboard handling: arrow nav, Enter to select, Escape to close, Tab to leave.
 - Focus returns to trigger when a floating surface closes.
 
 ### Semantic structure
@@ -565,7 +565,7 @@ Charts are **not** QBDS primitives — use Apache ECharts. Chart colour palettes
 
 - **Spacing:** Tailwind 4px scale (`p-*`, `gap-*`). Match shipped patterns: `Card` padding `p-6`, `Button` padding `p-2`, default `Input` height `h-9` (36px). Between major dashboard sections (header, KPI row, charts, table): `gap-8` on a `flex flex-col` wrapper — not isolated `mb-6` on each child.
 - **KPI / metric cards:** minimum width `min-w-[240px]` so label, value, and delta stay on one visual unit; use `overflow-x-auto` + `flex-nowrap` when the row cannot fit.
-- **Z-index:** floating surfaces (Popover, Dropdown, Dialog, Tooltip) are managed by Radix portals — never set z-index manually.
+- **Z-index:** floating surfaces (Popover, Dropdown, Dialog, Tooltip) are portalled by Base UI — never set z-index manually.
 
 ---
 
@@ -635,7 +635,7 @@ QBDS reads **analytical and restrained** — not marketing or chatty.
 - **Don't use drop-shadows on cards by default** — light-mode cards separate via border and surface.
 - **Don't import non-Sharp icons** (lucide, heroicons, rounded/outlined Material Symbols).
 - **Don't exceed 88% opacity for foreground text** — `fg-primary` is intentionally ~88%.
-- **Don't set z-index manually** on Radix-portalled surfaces.
+- **Don't set z-index manually** on portalled floating surfaces.
 - **Don't use gradients, patterns, or textures** as backgrounds.
 - **Don't use PNG icons or ad-hoc Unicode symbols** for product chrome.
 - **Don't fill the shell with illustration or full-bleed imagery** — QBDS stays typographic.
