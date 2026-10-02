@@ -56,7 +56,7 @@ Component name for component work. Demo name for demo-only fixes.
 ```markdown
 ## Summary
 
-- Migrate `Input` from Radix to Base UI
+- Migrate `Input` to Base UI
 - Align disabled/hover states with Figma via `--surface-*` tokens
 - Add Code Connect mapping for the variant matrix
 ```
