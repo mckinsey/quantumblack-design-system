@@ -28,7 +28,20 @@ const fallbackBadge = figma.code`
 `;
 
 const fallbackMore = figma.code`
-  <Button variant="ghost" size="icon-sm" aria-label="More options">
+  <Button
+    variant="ghost"
+    size="icon-sm"
+    aria-label="More options"
+    className="group-data-[size=sm]/card:hidden">
+    <IconShell hoverable>
+      <Icon icon="more_vert" />
+    </IconShell>
+  </Button>
+  <Button
+    variant="ghost"
+    size="icon-xs"
+    aria-label="More options"
+    className="hidden group-data-[size=sm]/card:inline-flex">
     <IconShell hoverable>
       <Icon icon="more_vert" />
     </IconShell>
@@ -37,18 +50,22 @@ const fallbackMore = figma.code`
 
 const headerStart =
   headerConnected.length > 0
-    ? headerConnected
-        .slice(0, 1)
-        .map(n => n.executeTemplate().example)
-        .flat()
+    ? figma.helpers.react.renderChildren(
+        headerConnected
+          .slice(0, 1)
+          .map(n => n.executeTemplate().example)
+          .flat(),
+      )
     : fallbackBadge;
 
 const headerEnd =
   headerConnected.length > 1
-    ? headerConnected
-        .slice(1)
-        .map(n => n.executeTemplate().example)
-        .flat()
+    ? figma.helpers.react.renderChildren(
+        headerConnected
+          .slice(1)
+          .map(n => n.executeTemplate().example)
+          .flat(),
+      )
     : headerConnected.length === 0
       ? fallbackMore
       : figma.code``;
