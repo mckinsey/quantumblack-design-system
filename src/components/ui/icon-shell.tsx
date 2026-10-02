@@ -1,4 +1,5 @@
-import { Slot } from '@radix-ui/react-slot';
+import { mergeProps } from '@base-ui/react/merge-props';
+import { useRender } from '@base-ui/react/use-render';
 import { type VariantProps, cva } from 'class-variance-authority';
 import type * as React from 'react';
 
@@ -57,8 +58,11 @@ type IconShellType = NonNullable<VariantProps<typeof iconVariants>['type']>;
 type IconShellOpacity = 'primary' | 'secondary';
 type ResolvedVariant = IconShellOpacity | 'disabled';
 
-type IconShellBaseProps = Omit<React.ComponentProps<'span'>, 'disabled'> & {
-  asChild?: boolean;
+type IconShellBaseProps = Omit<
+  useRender.ComponentProps<'span'>,
+  'disabled' | 'render'
+> & {
+  render?: useRender.ComponentProps<'span'>['render'];
   /** sm (16px), default (24px), lg (32px). Provides size context to Icon. */
   size?: IconShellSize;
   /** Colour tone. Use type="custom" + className for brand/status colours. */
@@ -117,31 +121,36 @@ function IconShell({
   type,
   variant,
   hoverable = false,
-  asChild = false,
   disabled = false,
   children,
+  render,
   ...props
 }: IconShellProps) {
   const isHoverable = hoverable && !disabled;
   const resolvedVariant = resolveVariant(variant, isHoverable, disabled);
-  const Comp = asChild ? Slot : 'span';
 
   return (
     <IconSizeContext.Provider value={size ?? 'default'}>
-      <Comp
-        data-slot="icon"
-        className={cn(
-          iconVariants({
-            size,
-            type,
-            variant: resolvedVariant,
-            hoverable: isHoverable,
-          }),
-          className,
-        )}
-        {...props}>
-        {children}
-      </Comp>
+      {useRender({
+        defaultTagName: 'span',
+        props: mergeProps<'span'>(
+          {
+            'data-slot': 'icon',
+            className: cn(
+              iconVariants({
+                size,
+                type,
+                variant: resolvedVariant,
+                hoverable: isHoverable,
+              }),
+              className,
+            ),
+            children,
+          } as React.ComponentProps<'span'>,
+          props,
+        ),
+        render,
+      })}
     </IconSizeContext.Provider>
   );
 }

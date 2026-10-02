@@ -104,4 +104,21 @@ describe(`${componentName} — structure`, () => {
     );
     expect(screen.getByTestId('icon-child')).toBeInTheDocument();
   });
+
+  it('merges props onto render element', () => {
+    render(
+      <IconShell
+        render={
+          <button type="button" data-testid="icon-render-host">
+            <span data-testid="icon-child">icon</span>
+          </button>
+        }
+      />,
+    );
+    expect(screen.getByTestId('icon-render-host')).toHaveAttribute(
+      'data-slot',
+      'icon',
+    );
+    expect(screen.getByTestId('icon-child')).toBeInTheDocument();
+  });
 });

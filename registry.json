@@ -452,7 +452,7 @@
       "type": "registry:ui",
       "title": "Icon Shell",
       "description": "Wraps Icon with QBDS size, tone, and opacity.",
-      "dependencies": ["@radix-ui/react-slot"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",
@@ -687,7 +687,7 @@
       "type": "registry:ui",
       "title": "Sidebar",
       "description": "A composable, themeable and customizable sidebar component.",
-      "dependencies": ["@radix-ui/react-slot", "class-variance-authority"],
+      "dependencies": ["@base-ui/react", "class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
         "__REGISTRY_URL__/r/utils.json",

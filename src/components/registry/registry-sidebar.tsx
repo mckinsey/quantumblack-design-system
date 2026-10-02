@@ -123,12 +123,15 @@ export function RegistrySidebar() {
                 {sectionItems.map(item => (
                   <SidebarMenuItem key={item.path}>
                     <SidebarMenuButton
-                      asChild
-                      isActive={pathname === item.path}>
-                      <Link onClick={() => setOpenMobile(false)} to={item.path}>
-                        {item.title}
-                      </Link>
-                    </SidebarMenuButton>
+                      isActive={pathname === item.path}
+                      render={
+                        <Link
+                          onClick={() => setOpenMobile(false)}
+                          to={item.path}>
+                          {item.title}
+                        </Link>
+                      }
+                    />
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>
@@ -166,16 +169,17 @@ export function RegistrySidebar() {
                             {entry.groupItems.map(item => (
                               <SidebarMenuSubItem key={item.name}>
                                 <SidebarMenuSubButton
-                                  asChild
                                   isActive={
                                     pathname === `/registry/${item.name}`
-                                  }>
-                                  <Link
-                                    onClick={() => setOpenMobile(false)}
-                                    to={`/registry/${item.name}`}>
-                                    {item.title}
-                                  </Link>
-                                </SidebarMenuSubButton>
+                                  }
+                                  render={
+                                    <Link
+                                      onClick={() => setOpenMobile(false)}
+                                      to={`/registry/${item.name}`}>
+                                      {item.title}
+                                    </Link>
+                                  }
+                                />
                               </SidebarMenuSubItem>
                             ))}
                           </SidebarMenuSub>
@@ -185,14 +189,15 @@ export function RegistrySidebar() {
                   ) : (
                     <SidebarMenuItem key={entry.item.name}>
                       <SidebarMenuButton
-                        asChild
-                        isActive={pathname === `/registry/${entry.item.name}`}>
-                        <Link
-                          onClick={() => setOpenMobile(false)}
-                          to={`/registry/${entry.item.name}`}>
-                          {entry.item.title}
-                        </Link>
-                      </SidebarMenuButton>
+                        isActive={pathname === `/registry/${entry.item.name}`}
+                        render={
+                          <Link
+                            onClick={() => setOpenMobile(false)}
+                            to={`/registry/${entry.item.name}`}>
+                            {entry.item.title}
+                          </Link>
+                        }
+                      />
                     </SidebarMenuItem>
                   ),
                 )}
