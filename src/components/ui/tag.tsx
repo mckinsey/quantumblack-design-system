@@ -230,7 +230,18 @@ function Tag({
 
       {onRemove && (
         <IconShell
-          asChild
+          render={
+            <button
+              type="button"
+              disabled={disabled}
+              onClick={e => {
+                e.stopPropagation();
+                onRemove(e);
+              }}
+              aria-label="Remove tag">
+              <Icon icon="close" />
+            </button>
+          }
           size="sm"
           type={tagIconTone[variant ?? 'primary']}
           hoverable
@@ -239,18 +250,8 @@ function Tag({
             'shrink-0 outline-none',
             disabled && 'pointer-events-none',
             size !== 'xs' && 'ml-1',
-          )}>
-          <button
-            type="button"
-            disabled={disabled}
-            onClick={e => {
-              e.stopPropagation();
-              onRemove(e);
-            }}
-            aria-label="Remove tag">
-            <Icon icon="close" />
-          </button>
-        </IconShell>
+          )}
+        />
       )}
     </div>
   );

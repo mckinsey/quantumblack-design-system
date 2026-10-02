@@ -1,6 +1,7 @@
 'use client';
 
-import { Slot } from '@radix-ui/react-slot';
+import { mergeProps } from '@base-ui/react/merge-props';
+import { useRender } from '@base-ui/react/use-render';
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
@@ -103,34 +104,36 @@ function SidebarNav({
 }
 
 function SidebarNavIconButton({
-  asChild = false,
   isActive = false,
   size: sizeProp,
   tooltip,
   className,
+  render,
   ...props
-}: React.ComponentProps<'button'> & {
-  asChild?: boolean;
+}: useRender.ComponentProps<'button'> & {
   isActive?: boolean;
   tooltip?: NavTooltip;
 } & VariantProps<typeof sidebarNavIconButtonVariants>) {
-  const Comp = asChild ? Slot : 'button';
   const { isMobile, size: ctxSize } = useSidebar();
   const size = sizeProp ?? ctxSize;
 
-  const button = (
-    <Comp
-      data-slot="sidebar-nav-icon-button"
-      data-sidebar="menu-button"
-      data-size={size}
-      data-active={isActive}
-      aria-current={isActive ? 'page' : undefined}
-      className={cn(sidebarNavIconButtonVariants({ size }), className)}
-      {...props}
-    />
-  );
+  const element = useRender({
+    defaultTagName: 'button',
+    props: mergeProps<'button'>(
+      {
+        'data-slot': 'sidebar-nav-icon-button',
+        'data-sidebar': 'menu-button',
+        'data-size': size,
+        'data-active': isActive,
+        'aria-current': isActive ? 'page' : undefined,
+        className: cn(sidebarNavIconButtonVariants({ size }), className),
+      } as React.ComponentProps<'button'>,
+      props,
+    ),
+    render,
+  });
 
-  return withNavTooltip(button, tooltip, {
+  return withNavTooltip(element, tooltip, {
     isMobile,
     sideOffset: tooltipOffsetForIconButton[size],
   });
@@ -147,27 +150,29 @@ const sidebarNavUtilityButtonVariants = cva([
 ]);
 
 function SidebarNavUtilityButton({
-  asChild = false,
   tooltip,
   className,
+  render,
   ...props
-}: React.ComponentProps<'button'> & {
-  asChild?: boolean;
+}: useRender.ComponentProps<'button'> & {
   tooltip?: NavTooltip;
 }) {
-  const Comp = asChild ? Slot : 'button';
   const { isMobile } = useSidebar();
 
-  const button = (
-    <Comp
-      data-slot="sidebar-nav-utility-button"
-      data-sidebar="footer-button"
-      className={cn(sidebarNavUtilityButtonVariants(), className)}
-      {...props}
-    />
-  );
+  const element = useRender({
+    defaultTagName: 'button',
+    props: mergeProps<'button'>(
+      {
+        'data-slot': 'sidebar-nav-utility-button',
+        'data-sidebar': 'footer-button',
+        className: cn(sidebarNavUtilityButtonVariants(), className),
+      } as React.ComponentProps<'button'>,
+      props,
+    ),
+    render,
+  });
 
-  return withNavTooltip(button, tooltip, { isMobile });
+  return withNavTooltip(element, tooltip, { isMobile });
 }
 
 function SidebarNavRail({ className, ...props }: React.ComponentProps<'div'>) {
@@ -209,61 +214,69 @@ const sidebarNavMenuButtonVariants = cva(
 );
 
 function SidebarNavMenuButton({
-  asChild = false,
   isActive = false,
   showChevron = false,
   className,
   children,
+  render,
   ...props
-}: React.ComponentProps<'button'> & {
-  asChild?: boolean;
+}: useRender.ComponentProps<'button'> & {
   isActive?: boolean;
   showChevron?: boolean;
 }) {
   const { size } = useSidebar();
-  const Comp = asChild ? Slot : 'button';
   const shellVariant = isActive ? 'primary' : 'secondary';
   const chevronShellSize = size === 'lg' ? 'default' : 'sm';
   const chevronSlotClass = chevronShellSize === 'default' ? 'size-6' : 'size-4';
 
-  return (
-    <Comp
-      data-slot="sidebar-nav-menu-button"
-      data-active={isActive}
-      aria-current={isActive ? 'page' : undefined}
-      className={cn(sidebarNavMenuButtonVariants({ size }), className)}
-      {...props}>
-      <span
-        data-slot="nav-menu-chevron-slot"
-        className={cn(
-          'inline-flex shrink-0 items-center justify-center',
-          chevronSlotClass,
-        )}
-        aria-hidden={!showChevron}>
-        {showChevron ? (
+  return useRender({
+    defaultTagName: 'button',
+    props: mergeProps<'button'>(
+      {
+        'data-slot': 'sidebar-nav-menu-button',
+        'data-active': isActive,
+        'aria-current': isActive ? 'page' : undefined,
+        className: cn(sidebarNavMenuButtonVariants({ size }), className),
+        children: (
           <>
-            <IconShell
-              data-slot="nav-menu-chevron"
-              size={chevronShellSize}
-              type="neutral"
-              variant={shellVariant}
-              className="group-data-open/collapsible:hidden">
-              <Icon icon="chevron_right" />
-            </IconShell>
-            <IconShell
-              data-slot="nav-menu-chevron"
-              size={chevronShellSize}
-              type="neutral"
-              variant={shellVariant}
-              className="hidden group-data-open/collapsible:inline-flex">
-              <Icon icon="expand_more" />
-            </IconShell>
+            <span
+              data-slot="nav-menu-chevron-slot"
+              className={cn(
+                'inline-flex shrink-0 items-center justify-center',
+                chevronSlotClass,
+              )}
+              aria-hidden={!showChevron}>
+              {showChevron ? (
+                <>
+                  <IconShell
+                    data-slot="nav-menu-chevron"
+                    size={chevronShellSize}
+                    type="neutral"
+                    variant={shellVariant}
+                    className="group-data-open/collapsible:hidden">
+                    <Icon icon="chevron_right" />
+                  </IconShell>
+                  <IconShell
+                    data-slot="nav-menu-chevron"
+                    size={chevronShellSize}
+                    type="neutral"
+                    variant={shellVariant}
+                    className="hidden group-data-open/collapsible:inline-flex">
+                    <Icon icon="expand_more" />
+                  </IconShell>
+                </>
+              ) : null}
+            </span>
+            <span className="flex min-w-0 flex-1 items-center gap-2">
+              {children}
+            </span>
           </>
-        ) : null}
-      </span>
-      <span className="flex min-w-0 flex-1 items-center gap-2">{children}</span>
-    </Comp>
-  );
+        ),
+      } as React.ComponentProps<'button'>,
+      props,
+    ),
+    render,
+  });
 }
 
 const sidebarNavMenuPanelWidth: Record<SidebarNavSize, string> = {
