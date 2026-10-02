@@ -87,20 +87,14 @@ function TableHead({
 
 interface TableCellProps extends React.ComponentProps<'td'> {
   size?: 'sm' | 'default';
-  lines?: 'single' | 'multi';
 }
 
-function TableCell({
-  className,
-  size = 'default',
-  lines = 'single',
-  ...props
-}: TableCellProps) {
+function TableCell({ className, size = 'default', ...props }: TableCellProps) {
   return (
     <td
       data-slot="table-cell"
       className={cn(
-        'border-stroke-tertiary text-fg-primary h-[60px] border-b align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[1px]',
+        'border-stroke-tertiary text-fg-primary h-[60px] border-b align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[1px]',
         "[tr[data-state='selected']>td]:border-stroke-active [tr[data-state='selected']>td]:text-fg-primary",
         'hover:border-stroke-tertiary-hover group-hover:border-stroke-tertiary-hover',
         'transition-colors delay-75 duration-200',
@@ -108,8 +102,6 @@ function TableCell({
         {
           'px-3': size === 'sm',
           'px-4': size === 'default',
-          'whitespace-nowrap': lines === 'single',
-          'whitespace-normal': lines === 'multi',
         },
         className,
       )}

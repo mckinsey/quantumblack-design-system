@@ -18,7 +18,15 @@ const lines =
   }) ?? 'single';
 
 const sizeProp = figmaPad === 'reg' ? ' size="sm"' : '';
-const padClassProp = figmaPad === 'none' ? ' className="px-0"' : '';
+
+const classNames = [
+  figmaPad === 'none' ? 'px-0' : '',
+  lines === 'multi' ? 'whitespace-normal' : '',
+]
+  .filter(Boolean)
+  .join(' ');
+
+const classProp = classNames ? ` className="${classNames}"` : '';
 
 const contentInst = instance.findInstance('CellContent-Text', {
   traverseInstances: true,
@@ -31,7 +39,7 @@ const cellText =
 
 export default {
   example: figma.code`
-    <TableCell${sizeProp} lines="${lines}"${padClassProp}>
+    <TableCell${sizeProp}${classProp}>
       ${cellText}
     </TableCell>
   `,
