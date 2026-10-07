@@ -22,12 +22,12 @@ Cache: `evals/.cache/` (gitignored). Re-run with `--no-cache` after editing `reg
 
 ## Files
 
-| Path | Purpose |
-|------|---------|
-| `evals/component-selection.cases.json` | Task prompts + expected `install` names |
-| `src/lib/registry-selection-eval.ts` | Catalog, prompts, deterministic scoring |
-| `scripts/eval-registry-selection-llm.ts` | OpenAI caller + CLI |
-| `src/tests/registry-selection-eval.test.ts` | Smoke tests (no API key) |
+| Path                                        | Purpose                                 |
+| ------------------------------------------- | --------------------------------------- |
+| `evals/component-selection.cases.json`      | Task prompts + expected `install` names |
+| `src/lib/registry-selection-eval.ts`        | Catalog, prompts, deterministic scoring |
+| `scripts/eval-registry-selection-llm.ts`    | OpenAI caller + CLI                     |
+| `src/tests/registry-selection-eval.test.ts` | Smoke tests (no API key)                |
 
 ## What shadcn does (reference)
 

@@ -41,15 +41,16 @@ const SELECTION_TYPES = new Set(['registry:ui', 'registry:example']);
 
 export function loadSelectionCases(casesPath?: string): SelectionCase[] {
   const file =
-    casesPath ??
-    path.join(REPO_ROOT, 'evals/component-selection.cases.json');
+    casesPath ?? path.join(REPO_ROOT, 'evals/component-selection.cases.json');
   const raw = readFileSync(file, 'utf8');
   const parsed = JSON.parse(raw) as { cases: SelectionCase[] };
 
   return parsed.cases;
 }
 
-export function loadRegistryCatalog(registryPath?: string): RegistryCatalogItem[] {
+export function loadRegistryCatalog(
+  registryPath?: string,
+): RegistryCatalogItem[] {
   const file = registryPath ?? path.join(REPO_ROOT, 'registry.json');
   const raw = readFileSync(file, 'utf8');
   const registry = JSON.parse(raw) as RegistryJson;
@@ -96,7 +97,7 @@ export function buildUserPrompt(
 }
 
 export function scoreCase(
-  case_: SelectionCase,
+  selectionCase: SelectionCase,
   response: LlmSelectionResponse,
 ): { ok: boolean; errors: string[] } {
   const errors: string[] = [];
@@ -107,18 +108,23 @@ export function scoreCase(
     return { ok: false, errors };
   }
 
-  const missing = case_.expect.filter(name => !install.includes(name));
+  const missing = selectionCase.expect.filter(name => !install.includes(name));
   if (missing.length > 0) {
     errors.push(`missing expected: ${missing.join(', ')}`);
   }
 
-  if (case_.expectPrimary && install[0] !== case_.expectPrimary) {
+  if (
+    selectionCase.expectPrimary &&
+    install[0] !== selectionCase.expectPrimary
+  ) {
     errors.push(
-      `primary mismatch: got "${install[0] ?? ''}", want "${case_.expectPrimary}"`,
+      `primary mismatch: got "${install[0] ?? ''}", want "${selectionCase.expectPrimary}"`,
     );
   }
 
-  const forbidden = (case_.forbid ?? []).filter(name => install.includes(name));
+  const forbidden = (selectionCase.forbid ?? []).filter(name =>
+    install.includes(name),
+  );
   if (forbidden.length > 0) {
     errors.push(`forbidden picked: ${forbidden.join(', ')}`);
   }

@@ -1,22 +1,17 @@
 import { createHash } from 'node:crypto';
-import {
-  existsSync,
-  mkdirSync,
-  readFileSync,
-  writeFileSync,
-} from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import {
+  type LlmSelectionResponse,
   REGISTRY_SELECTION_SYSTEM_PROMPT,
+  type SelectionCase,
   buildUserPrompt,
   loadRegistryCatalog,
   loadSelectionCases,
   parseLlmJson,
   scoreCase,
-  type LlmSelectionResponse,
-  type SelectionCase,
 } from '../src/lib/registry-selection-eval';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -53,7 +48,10 @@ function parseArgs(argv: string[]) {
       continue;
     }
     if (arg === '--' && argv[i + 1]) {
-      filter = argv[++i].split(',').map(s => s.trim()).filter(Boolean);
+      filter = argv[++i]
+        .split(',')
+        .map(s => s.trim())
+        .filter(Boolean);
       continue;
     }
   }
@@ -61,14 +59,20 @@ function parseArgs(argv: string[]) {
   return { filter, useCache, model };
 }
 
-function cacheKey(case_: SelectionCase, model: string, catalogHash: string) {
+function cacheKey(
+  selectionCase: SelectionCase,
+  model: string,
+  catalogDigest: string,
+) {
   return createHash('sha256')
-    .update(`${case_.id}\n${model}\n${catalogHash}\n${case_.prompt}`)
+    .update(
+      `${selectionCase.id}\n${model}\n${catalogDigest}\n${selectionCase.prompt}`,
+    )
     .digest('hex')
     .slice(0, 16);
 }
 
-function catalogHash(catalog: ReturnType<typeof loadRegistryCatalog>) {
+function hashRegistryCatalog(catalog: ReturnType<typeof loadRegistryCatalog>) {
   return createHash('sha256')
     .update(JSON.stringify(catalog))
     .digest('hex')
@@ -114,15 +118,15 @@ async function callOpenAi(
 }
 
 async function runCase(
-  case_: SelectionCase,
+  selectionCase: SelectionCase,
   model: string,
   apiKey: string,
   catalog: ReturnType<typeof loadRegistryCatalog>,
   catHash: string,
   useCache: boolean,
 ) {
-  const key = cacheKey(case_, model, catHash);
-  const cacheFile = path.join(CACHE_DIR, `${case_.id}-${key}.json`);
+  const key = cacheKey(selectionCase, model, catHash);
+  const cacheFile = path.join(CACHE_DIR, `${selectionCase.id}-${key}.json`);
 
   if (useCache && existsSync(cacheFile)) {
     const cached = JSON.parse(readFileSync(cacheFile, 'utf8')) as {
@@ -131,7 +135,7 @@ async function runCase(
     return { response: cached.response, fromCache: true };
   }
 
-  const userContent = buildUserPrompt(case_.prompt, catalog);
+  const userContent = buildUserPrompt(selectionCase.prompt, catalog);
   const response = await callOpenAi(model, apiKey, userContent);
 
   mkdirSync(CACHE_DIR, { recursive: true });
@@ -153,7 +157,7 @@ async function main() {
 
   const { filter, useCache, model } = parseArgs(process.argv.slice(2));
   const catalog = loadRegistryCatalog();
-  const catHash = catalogHash(catalog);
+  const catHash = hashRegistryCatalog(catalog);
   let cases = loadSelectionCases();
 
   if (filter?.length) {
@@ -172,28 +176,28 @@ async function main() {
   const failures: Array<{ id: string; errors: string[]; install: string[] }> =
     [];
 
-  for (const case_ of cases) {
+  for (const selectionCase of cases) {
     try {
       const { response, fromCache } = await runCase(
-        case_,
+        selectionCase,
         model,
         apiKey,
         catalog,
         catHash,
         useCache,
       );
-      const { ok, errors } = scoreCase(case_, response);
+      const { ok, errors } = scoreCase(selectionCase, response);
       const tag = ok ? 'PASS' : 'FAIL';
       const cacheTag = fromCache ? 'cached' : 'live';
       console.log(
-        `[${tag}] ${case_.id} (${cacheTag}) install=${JSON.stringify(response.install)}`,
+        `[${tag}] ${selectionCase.id} (${cacheTag}) install=${JSON.stringify(response.install)}`,
       );
       if (response.reason) {
         console.log(`       ${response.reason}`);
       }
       if (!ok) {
         failures.push({
-          id: case_.id,
+          id: selectionCase.id,
           errors,
           install: response.install,
         });
@@ -205,8 +209,12 @@ async function main() {
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
-      console.log(`[ERROR] ${case_.id}: ${message}`);
-      failures.push({ id: case_.id, errors: [message], install: [] });
+      console.log(`[ERROR] ${selectionCase.id}: ${message}`);
+      failures.push({
+        id: selectionCase.id,
+        errors: [message],
+        install: [],
+      });
     }
   }
 
