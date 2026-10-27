@@ -6,7 +6,7 @@ Open this **only after** `ui_structure.status` is `confirmed` (or the user said 
 
 If requirements or design change mid-build → pause and follow [re-run.md](re-run.md).
 
-Hard traps (registry names, no CDN, theme toggle, no inventing components): see [SKILL.md](../SKILL.md#hard-traps).
+Registry names, CDN CSS, theme toggle, missing `@qbds` packages: [react-qbds-registry.md](shared/react-qbds-registry.md).
 
 ---
 

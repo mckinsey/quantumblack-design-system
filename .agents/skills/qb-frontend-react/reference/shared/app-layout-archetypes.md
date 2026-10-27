@@ -28,7 +28,7 @@ outer div
     SidebarInset  ← scrollable main
 ```
 
-Never hand-roll `<aside>`/`<nav>` when `@qbds/sidebar` exists. Full-nav Navbar height **`h-14`** (sidebar `top-14` depends on it). Theme toggle and other missing `@qbds` names: [SKILL.md hard traps](../../SKILL.md#hard-traps) · [react-qbds-registry.md](react-qbds-registry.md).
+Never hand-roll `<aside>`/`<nav>` when `@qbds/sidebar` exists. Full-nav Navbar height **`h-14`** (sidebar `top-14` depends on it). Theme toggle and other missing `@qbds` names: [react-qbds-registry.md](react-qbds-registry.md).
 
 **Main:** `flex-1 min-h-0 w-full overflow-auto bg-surface-base p-6`.
 

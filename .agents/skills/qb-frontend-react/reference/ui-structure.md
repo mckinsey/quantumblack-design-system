@@ -197,5 +197,5 @@ Present per [SKILL.md § Show to the user](../SKILL.md#show-to-the-user-every-st
 | App shell / KPI / filters / dashboard chrome | [app-layout-archetypes.md](shared/app-layout-archetypes.md) |
 | Charts (type, titles, height, colours) | [chart-best-practices.md](shared/chart-best-practices.md) · [DESIGN.md § Chart colours](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/DESIGN.md#chart-colours) |
 | Table / form / card primitives | `@qbds/table`, `@qbds/field` + `@qbds/input`, `@qbds/card` — verify in `registry.json` |
-| Missing names (theme-toggle, menubar, data-grid, …) | [SKILL.md hard traps](../SKILL.md#hard-traps) · [react-qbds-registry.md](shared/react-qbds-registry.md) |
+| Missing names (theme-toggle, menubar, data-grid, …) | [react-qbds-registry.md](shared/react-qbds-registry.md) |
 | Focus | `focus-visible:ring-stroke-status-focus` (DESIGN.md) |
