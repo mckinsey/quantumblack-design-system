@@ -35,7 +35,16 @@ Ask for confirmation on the Markdown summary.
 
 ## Just build
 
-When the user says “just build” (or equivalent) with a clear brief: **skip confirmation gates only**. Run all the steps. Choose the best options and complete the taslk.
+When the user says “just build” (or equivalent) with a clear brief: **skip confirmation gates only**. Run all the steps. Choose the best options and complete the task.
+
+## Hard traps
+
+- **Registry only** — Install names that exist in [`registry.json`](https://github.com/mckinsey/quantumblack-design-system/blob/main/registry.json). Never emit `npx shadcn add @qbds/<invented>`. Missing name → say so and use [react-qbds-registry.md](reference/shared/react-qbds-registry.md) fallbacks.
+- **No CDN QBDS CSS** — Do not link `qbds.css`, jsdelivr, or copy CDN styles into the React app. Theme comes from `@qbds/*` installs → `globals.css` **after** Tailwind.
+- **App shell** — `@qbds/sidebar` is installable; use it for collapsible nav chrome. Do not hand-roll `<aside>` / full app `<nav>` when sidebar fits the brief.
+- **Not in registry** — No `@qbds/theme-toggle`, `@qbds/menubar`, or `@qbds/data-grid`. Hand-build the theme toggle (`Button` + Material Symbols); data grids → `@qbds/table` or token-styled `<table>`.
+- **Examples win** — Fetch `https://designsystem.quantumblack.com/examples/<name>.json` before composing; match example nesting/chrome (record UX deltas in `uxAdjustments`).
+- **Charts** — ECharts with QBDS hex inline per DESIGN.md; no `echarts.registerTheme()` or external theme JSON.
 
 ## Open when you need
 

@@ -92,4 +92,4 @@ In the UX confirm Markdown: a **stories table**. Show ASCII sketchs derived from
 
 ## Confirm
 
-Present per [SKILL.md § Show to the user](../SKILL.md#show-to-the-user-every-stage) (stories table; ASCII sketchs from `visual`). Confirm → `uxdesign.status = "confirmed"`. Then open [ui-structure.md](ui-structure.md).
+Present per [SKILL.md § Show to the user](../SKILL.md#show-to-the-user-every-stage) (stories table; ASCII sketches from `visual`). Confirm → `uxdesign.status = "confirmed"`. Then open [ui-structure.md](ui-structure.md).
