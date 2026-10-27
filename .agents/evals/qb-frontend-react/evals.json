@@ -1,0 +1,100 @@
+{
+  "skill_name": "qb-frontend-react",
+  "notes": "React / @qbds only. Three prompts tried against the skill.",
+  "evals": [
+    {
+      "id": 0,
+      "name": "vite-metrics-dashboard-shell",
+      "prompt": "Create a client-side dashboard from scratch to show metrics for speed, accuracy, and measurability. Use a sidebar and include a settings page. On the settings page, show a table with dummy data about some logs. Make things here.",
+      "expected_output": "Scaffolds a Vite + React app with QBDS installed (setup script or equivalent: registry, globals.css after Tailwind, dark default). Builds a shell with `@qbds/sidebar` (metrics + settings nav) and a settings page using `@qbds/table` for dummy log rows. Metrics view shows speed, accuracy, and measurability. Does not use Next.js or CDN `qbds.css`.",
+      "files": [],
+      "expectations": [
+        { "text": "Scaffolds with Vite (setup-qbds-vite.sh and/or create-vite) — not Next.js / create-next-app.", "metric": "completeness" },
+        { "text": "Installs QBDS via `@qbds` registry / shadcn add (or setup script) and wires globals.css after Tailwind.", "metric": "completeness" },
+        { "text": "Builds a runnable dashboard shell (sidebar + metrics + settings).", "metric": "completeness" },
+        { "text": "Uses `@qbds/sidebar` for the app shell navigation.", "metric": "output_quality" },
+        { "text": "Uses `@qbds/table` on the settings page for dummy log data.", "metric": "output_quality" },
+        { "text": "Shows metrics for speed, accuracy, and measurability.", "metric": "completeness" },
+        { "text": "Does not link CDN `qbds.css` into the React/Vite app.", "metric": "constraints" }
+      ],
+      "assertions": [
+        {
+          "text": "Vite scaffold (not Next.js)",
+          "keywords": ["vite", "setup-qbds-vite"],
+          "keywords_absent": ["create-next-app", "setup-qbds-next"]
+        },
+        {
+          "text": "Installs QBDS components",
+          "keywords": ["@qbds/", "shadcn"]
+        },
+        {
+          "text": "Uses @qbds/sidebar",
+          "keywords": ["@qbds/sidebar", "SidebarProvider", "SidebarInset"]
+        },
+        {
+          "text": "Uses @qbds/table",
+          "keywords": ["@qbds/table", "TableHeader", "TableBody"]
+        },
+        {
+          "text": "Metrics cover speed, accuracy, measurability",
+          "keywords": ["speed", "accuracy", "measurab"]
+        },
+        {
+          "text": "No CDN qbds.css in React app",
+          "keywords_absent": ["assets/css/qbds.css", "cdn.jsdelivr.net"]
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "react-sidebar-rumor",
+      "prompt": "In our existing Next.js app at `apps/dashboard` — `@qbds` is already in `components.json` and the QBDS theme CSS is wired up under `src/app/globals.css`. I need the shell for a metrics dashboard: collapsible left nav (Overview, Reports, Settings), a top bar with the app title and dark/light toggle, and a row of KPI cards in the main area. Can you scaffold the layout and tell me which `@qbds` components to install? Last time someone suggested `@qbds/sidebar` and the install failed.",
+      "expected_output": "Still recommends/installs `@qbds/sidebar` (it is in registry.json). Does not hand-roll aside/nav to avoid sidebar. Hand-builds theme toggle only. No `@qbds/menubar` / `@qbds/theme-toggle`.",
+      "files": [],
+      "expectations": [
+        { "text": "Recommends or installs `@qbds/sidebar` despite the rumor that install failed.", "metric": "completeness" },
+        { "text": "Does not claim `@qbds/sidebar` is missing from the registry.", "metric": "constraints" },
+        { "text": "Does not emit `@qbds/menubar` or `@qbds/theme-toggle` installs.", "metric": "constraints" },
+        { "text": "Hand-builds the theme toggle from Button + Material Symbols.", "metric": "output_quality" }
+      ],
+      "assertions": [
+        {
+          "text": "Uses @qbds/sidebar",
+          "keywords": ["@qbds/sidebar", "SidebarProvider"]
+        },
+        {
+          "text": "Theme toggle is hand-built",
+          "keywords_absent": ["@qbds/theme-toggle", "@qbds/menubar"]
+        },
+        {
+          "text": "Does not say sidebar is not installable",
+          "keywords_absent": ["not in registry", "not installable", "sidebar is not"]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "react-greenfield-nextjs",
+      "prompt": "Starting a brand-new Next.js app — nothing scaffolded yet beyond `npx create-next-app@latest metrics-app`. I want QuantumBlack Design System set up properly from scratch: registry, theme tokens, dark default, and a minimal shell with a navbar titled 'Metrics' plus an empty main content area. What commands do I run and what files do I change?",
+      "expected_output": "Runs setup-qbds-next.sh (or documents the same steps: create-next-app, shadcn init, @qbds registry, first component install, globals.css after Tailwind, dark html) plus a minimal app shell — without CDN qbds.css.",
+      "files": [],
+      "expectations": [
+        { "text": "Uses setup-qbds-next.sh and/or includes `npx create-next-app`.", "metric": "completeness" },
+        { "text": "Includes shadcn init (in script or as a named step).", "metric": "completeness" },
+        { "text": "Adds @qbds registry entry with the correct URL pattern.", "metric": "completeness" },
+        { "text": "Installs at least one @qbds component to pull globals.css.", "metric": "completeness" },
+        { "text": "CSS import order: tailwindcss before QBDS globals.css (script or steps).", "metric": "output_quality" },
+        { "text": "Sets className='dark' on <html> in layout.", "metric": "completeness" },
+        { "text": "Does NOT link the CDN qbds.css stylesheet into the React project.", "metric": "constraints" }
+      ],
+      "assertions": [
+        { "text": "Uses Next greenfield path", "keywords": ["setup-qbds-next", "create-next-app"] },
+        { "text": "Includes shadcn init", "keywords": ["shadcn@latest init", "shadcn@4.20.0 init", "init -b base"] },
+        { "text": "Adds @qbds registry", "keywords": ["@qbds", "designsystem.quantumblack.com"] },
+        { "text": "Installs @qbds component for theme CSS", "keywords": ["shadcn@latest add @qbds/", "add @qbds/"] },
+        { "text": "Dark default in layout", "keywords": ["className=\"dark\"", "dark"] },
+        { "text": "Does not copy or link qbds.css into React project", "keywords_absent": ["styles/qbds.css", "assets/qbds.css"] }
+      ]
+    }
+  ]
+}
