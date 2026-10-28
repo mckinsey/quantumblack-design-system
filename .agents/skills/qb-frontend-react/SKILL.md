@@ -1,6 +1,6 @@
 ---
 name: qb-frontend-react
-description: "Plan and build React UIs with QuantumBlack Design System (@qbds / shadcn registry). Use when the user asks for a QBDS dashboard, app shell, new pages, in-app feature, greenfield Vite/Next scaffold, chart wiring, or mentions @qbds / QBDS or wants to convert an existing app with QBDS"
+description: 'Plan and build React UIs with QuantumBlack Design System (@qbds / shadcn registry). Use when the user asks for a QBDS dashboard, app shell, new pages, in-app feature, greenfield Vite/Next scaffold, chart wiring, or mentions @qbds / QBDS or wants to convert an existing app with QBDS'
 ---
 
 # qb-frontend-react

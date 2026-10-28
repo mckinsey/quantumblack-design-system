@@ -110,15 +110,15 @@ Never invent hex. Prefer values from DESIGN.md / the constants below.
 
 ```js
 const QBDS_QUALITATIVE = [
-  "#097DFE",
-  "#6F39E3",
-  "#05D0F0",
-  "#0F766E",
-  "#8C8DE9",
-  "#11B883",
-  "#E77EC2",
-  "#C84189",
-  "#C0CA33",
-  "#3E495B",
+  '#097DFE',
+  '#6F39E3',
+  '#05D0F0',
+  '#0F766E',
+  '#8C8DE9',
+  '#11B883',
+  '#E77EC2',
+  '#C84189',
+  '#C0CA33',
+  '#3E495B',
 ];
 ```

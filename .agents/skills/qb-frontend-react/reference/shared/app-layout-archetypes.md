@@ -10,11 +10,11 @@ Use these as **recipes** that match confirmed UX story `visual` / `interaction`.
 
 Persistent chrome + scrollable main. Pick a chrome shape, then **read the source** — don’t guess dimensions.
 
-| Shape | When | React source |
-| --- | --- | --- |
+| Shape                | When                                            | React source                                                                                                                                                                                                                                                  |
+| -------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Full nav sidebar** | Multiple nav sections; optional sidebar filters | [`registry-sidebar.tsx`](https://github.com/mckinsey/quantumblack-design-system/blob/main/src/components/registry/registry-sidebar.tsx) + [`navbar.tsx`](https://github.com/mckinsey/quantumblack-design-system/blob/main/src/components/registry/navbar.tsx) |
-| **Icon nav rail** | Few top-level sections | [`sidebar.tsx` demo](https://github.com/mckinsey/quantumblack-design-system/blob/main/src/app/demo/%5Bname%5D/ui/sidebar.tsx) (site → Sidebar → **App shell**) |
-| **LeftNav** | Rail icons + always-visible text panel | Compose rail + NavMenu from rows above |
+| **Icon nav rail**    | Few top-level sections                          | [`sidebar.tsx` demo](https://github.com/mckinsey/quantumblack-design-system/blob/main/src/app/demo/%5Bname%5D/ui/sidebar.tsx) (site → Sidebar → **App shell**)                                                                                                |
+| **LeftNav**          | Rail icons + always-visible text panel          | Compose rail + NavMenu from rows above                                                                                                                                                                                                                        |
 
 Install `@qbds/sidebar` (in `registry.json`).
 
@@ -32,10 +32,10 @@ Never hand-roll `<aside>`/`<nav>` when `@qbds/sidebar` exists. Full-nav Navbar h
 
 **Main:** `flex-1 min-h-0 w-full overflow-auto bg-surface-base p-6`.
 
-| When | Width |
-| --- | --- |
-| Dense dashboards / data tables | Full viewport — no `max-w-screen-xl` on the shell |
-| Long-form docs / forms | Full shell; optional `max-w-screen-xl mx-auto` on an **inner** wrapper |
+| When                           | Width                                                                  |
+| ------------------------------ | ---------------------------------------------------------------------- |
+| Dense dashboards / data tables | Full viewport — no `max-w-screen-xl` on the shell                      |
+| Long-form docs / forms         | Full shell; optional `max-w-screen-xl mx-auto` on an **inner** wrapper |
 
 ---
 
@@ -51,9 +51,9 @@ Full-width dense main. Scrollable stack: `flex flex-col gap-8` (header → KPI �
 
 **Filters — one place only** (sidebar **or** main toolbar, not both):
 
-| Placement | When |
-| --- | --- |
-| Main toolbar | Few filters; wide main |
+| Placement                       | When                         |
+| ------------------------------- | ---------------------------- |
+| Main toolbar                    | Few filters; wide main       |
 | Sidebar (last group in `<nav>`) | Persistent scope next to nav |
 
 Controls: `@qbds/tag-toggle` (toggle chip, no X, `aria-pressed`), `Select`, or `Combobox` — check registry + demos.

@@ -32,10 +32,10 @@ Delivery answers:
 
 **Meaning:** Path to the existing app this work belongs to (folder root of that frontend).
 
-| Allowed      |                                              |
-| ------------ | -------------------------------------------- |
-| string path  | e.g. `apps/dashboard`                        |
-| omit / empty | for `greenfield` with no host                |
+| Allowed      |                               |
+| ------------ | ----------------------------- |
+| string path  | e.g. `apps/dashboard`         |
+| omit / empty | for `greenfield` with no host |
 
 **Required** for `pages` and `feature`. For greenfield, set only if the user points at a product to **reference** for design — still put visual findings in `context`, not here alone. Scan the path before confirming requirements (shell, nav, theme, `@qbds`).
 
@@ -59,8 +59,8 @@ Delivery answers:
 
 **Meaning:** Where this work sits in the host UI — shell slot or file region, in plain words or a path hint.
 
-| Allowed          |                                                                             |
-| ---------------- | --------------------------------------------------------------------------- |
+| Allowed          |                                                                            |
+| ---------------- | -------------------------------------------------------------------------- |
 | free-text string | e.g. `"inside existing Sidebar shell"`, `"src/app/settings/page.tsx#logs"` |
 
 **Required** for `pages` and `feature` before confirm. Omit for greenfield when there is no host mount yet.
@@ -71,8 +71,8 @@ Delivery answers:
 
 **Meaning:** Paths the agent will write or change this run. This is the write location — a folder under the host, a new app root, or a side folder like `prototypes/…`.
 
-| Allowed  |                                                                                     |
-| -------- | ----------------------------------------------------------------------------------- |
+| Allowed  |                                                                                        |
+| -------- | -------------------------------------------------------------------------------------- |
 | string[] | e.g. `["src/app"]`, `["src/app/settings/page.tsx"]`, `["prototypes/metrics-overview"]` |
 
 **Required.** If the user says “don’t touch the live app” / “prototype beside it”, put that path in `targets` and say so in `notes`. No separate workspace flag.
@@ -171,11 +171,11 @@ If the user wants design borrowed from a product, document it in `context` befor
 
 ### UX design
 
-| Mode         | Bias                                                                                                                 |
-| ------------ | -------------------------------------------------------------------------------------------------------------------- |
+| Mode         | Bias                                                                                                                   |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------- |
 | `greenfield` | Shell is in scope; shape UX from the brief. If `context` names a reference product, align density/chrome to that scan. |
-| `pages`      | Match existing shell density; pages inherit chrome                                                                   |
-| `feature`    | Match host page; no new chrome unless `scope` says so                                                                |
+| `pages`      | Match existing shell density; pages inherit chrome                                                                     |
+| `feature`    | Match host page; no new chrome unless `scope` says so                                                                  |
 
 ### UI structure
 

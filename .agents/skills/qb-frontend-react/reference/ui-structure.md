@@ -8,18 +8,18 @@ Map confirmed UX `context` and each entry in `stories[]` (`story` / `visual` / `
 
 ## Open when you need
 
-| Need | Source |
-| --- | --- |
-| Registry names / installable components | [`registry.json`](https://github.com/mckinsey/quantumblack-design-system/blob/main/registry.json) |
-| **Usage examples (required)** | [Examples index](https://designsystem.quantumblack.com/examples/index.json) · `https://designsystem.quantumblack.com/examples/<name>.json` |
-| Component APIs | `src/components/ui/<name>.tsx` on GitHub · `/r/<name>.json` |
-| Demo source (fallback if examples JSON missing) | `src/app/demo/[name]/ui/<name>.tsx` on GitHub |
-| Missing names / fallbacks | [shared/react-qbds-registry.md](shared/react-qbds-registry.md) |
-| **Tokens** (bg, fg, stroke, status, type, space) | [TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md) · installed `globals.css` |
-| Visual / a11y rules | [DESIGN.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/DESIGN.md) |
-| App shell / layout recipes | [shared/app-layout-archetypes.md](shared/app-layout-archetypes.md) — after examples, not instead of them |
-| Chart type / colours | [shared/chart-best-practices.md](shared/chart-best-practices.md) · [DESIGN.md § Chart colours](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/DESIGN.md#chart-colours) |
-| How delivery shapes structure | [delivery-modes.md](delivery-modes.md#how-this-affects-later-stages) |
+| Need                                             | Source                                                                                                                                                                                        |
+| ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Registry names / installable components          | [`registry.json`](https://github.com/mckinsey/quantumblack-design-system/blob/main/registry.json)                                                                                             |
+| **Usage examples (required)**                    | [Examples index](https://designsystem.quantumblack.com/examples/index.json) · `https://designsystem.quantumblack.com/examples/<name>.json`                                                    |
+| Component APIs                                   | `src/components/ui/<name>.tsx` on GitHub · `/r/<name>.json`                                                                                                                                   |
+| Demo source (fallback if examples JSON missing)  | `src/app/demo/[name]/ui/<name>.tsx` on GitHub                                                                                                                                                 |
+| Missing names / fallbacks                        | [shared/react-qbds-registry.md](shared/react-qbds-registry.md)                                                                                                                                |
+| **Tokens** (bg, fg, stroke, status, type, space) | [TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md) · installed `globals.css`                                                                        |
+| Visual / a11y rules                              | [DESIGN.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/DESIGN.md)                                                                                                  |
+| App shell / layout recipes                       | [shared/app-layout-archetypes.md](shared/app-layout-archetypes.md) — after examples, not instead of them                                                                                      |
+| Chart type / colours                             | [shared/chart-best-practices.md](shared/chart-best-practices.md) · [DESIGN.md § Chart colours](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/DESIGN.md#chart-colours) |
+| How delivery shapes structure                    | [delivery-modes.md](delivery-modes.md#how-this-affects-later-stages)                                                                                                                          |
 
 ---
 
@@ -100,7 +100,16 @@ For each control / block implied by any story’s `visual` / `interaction`:
       "notes": "ActivityTable is new — see newComponents"
     }
   ],
-  "installs": ["@qbds/sidebar", "@qbds/tag-toggle", "@qbds/select", "@qbds/card", "@qbds/table", "@qbds/empty", "@qbds/badge", "@qbds/sheet"],
+  "installs": [
+    "@qbds/sidebar",
+    "@qbds/tag-toggle",
+    "@qbds/select",
+    "@qbds/card",
+    "@qbds/table",
+    "@qbds/empty",
+    "@qbds/badge",
+    "@qbds/sheet"
+  ],
   "newComponents": [
     {
       "name": "ActivityTable",
@@ -123,52 +132,62 @@ For each control / block implied by any story’s `visual` / `interaction`:
       },
       "layout": "sticky Table header; full-width; title block above table",
       "behavior": "Row click / Enter opens Sheet detail. Empty → @qbds/empty in table region. Status uses badge + text, never colour alone.",
-      "states": ["default", "loading (Skeleton rows)", "empty", "error message in region"],
+      "states": [
+        "default",
+        "loading (Skeleton rows)",
+        "empty",
+        "error message in region"
+      ],
       "a11y": "Native table semantics; keyboard-activatable rows; status not colour-alone; Sheet labelled",
-      "props": ["rows: { id, name, status, owner, lastRun }[]", "onRowOpen(id: string)", "isLoading?: boolean", "error?: string"],
+      "props": [
+        "rows: { id, name, status, owner, lastRun }[]",
+        "onRowOpen(id: string)",
+        "isLoading?: boolean",
+        "error?: string"
+      ],
       "how": "Wrap @qbds/table. Map status → Badge + status token classes. Sheet for detail. Wire empty/loading from props. QBDS utilities only — no new CSS variables."
     }
   ]
 }
 ```
 
-| Field | Meaning | Values |
-| --- | --- | --- |
-| `status` | Confirm state | `draft` \| `confirmed` |
+| Field           | Meaning                                                                  | Values                                                 |
+| --------------- | ------------------------------------------------------------------------ | ------------------------------------------------------ |
+| `status`        | Confirm state                                                            | `draft` \| `confirmed`                                 |
 | `uxAdjustments` | UX chrome/layout shifts taken to match example composition; `[]` if none | string[] — also say these aloud when showing the draft |
-| `jsx` | Rough JSX tree; every component named | string (multi-line OK) |
-| `regions` | Ordered build map with layout + tokens | see below |
-| `installs` | `@qbds/…` to install (**only** in `registry.json`) | string[] |
-| `newComponents` | Local components — full build spec after registry check | see below — `[]` if none |
+| `jsx`           | Rough JSX tree; every component named                                    | string (multi-line OK)                                 |
+| `regions`       | Ordered build map with layout + tokens                                   | see below                                              |
+| `installs`      | `@qbds/…` to install (**only** in `registry.json`)                       | string[]                                               |
+| `newComponents` | Local components — full build spec after registry check                  | see below — `[]` if none                               |
 
 ### `regions[]` fields
 
-| Field | Meaning |
-| --- | --- |
-| `region` | Region id (shell, filters, kpi, …) |
-| `components` | `@qbds/…` and/or local `newComponents` names |
-| `example` | **Required** for regions with `@qbds/…` — `https://designsystem.quantumblack.com/examples/<name>.json` plus `#ExampleName` when several exist. Fallback: GitHub demo path, or `notes` if none |
-| `layout` | Spacing, grid, width, sticky, placement — must reflect the chosen example, not a guessed pattern |
-| `tokens` | QBDS utilities / token roles for this region (bg, border, text, status, …) |
-| `notes` | Optional wiring / host match / site-import stripping |
+| Field        | Meaning                                                                                                                                                                                       |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `region`     | Region id (shell, filters, kpi, …)                                                                                                                                                            |
+| `components` | `@qbds/…` and/or local `newComponents` names                                                                                                                                                  |
+| `example`    | **Required** for regions with `@qbds/…` — `https://designsystem.quantumblack.com/examples/<name>.json` plus `#ExampleName` when several exist. Fallback: GitHub demo path, or `notes` if none |
+| `layout`     | Spacing, grid, width, sticky, placement — must reflect the chosen example, not a guessed pattern                                                                                              |
+| `tokens`     | QBDS utilities / token roles for this region (bg, border, text, status, …)                                                                                                                    |
+| `notes`      | Optional wiring / host match / site-import stripping                                                                                                                                          |
 
 ### `newComponents[]` fields
 
-| Field | Meaning |
-| --- | --- |
-| `name` | PascalCase; matches `jsx` / `regions` |
-| `path` | Intended file path under `delivery.targets` |
-| `description` | What it does for the user / screen |
-| `checkedRegistry` | Must be `true` |
-| `whyNotQbds` | What you searched; why registry/composition wasn’t enough |
-| `compose` | `@qbds/…` (and host) primitives it wraps |
-| `tokens` | Object of token/utility classes — root, surfaces, text, borders, status, focus, … from TOKENS.md |
-| `layout` | Structure / sizing rules |
-| `behavior` | Interactions and outcomes (from the matching story’s `interaction`) |
-| `states` | default / loading / empty / error / … |
-| `a11y` | Keyboard, semantics, non-colour status, labels |
-| `props` | Public props the build should implement |
-| `how` | Build recipe in plain language — cite which example(s) the composition follows |
+| Field             | Meaning                                                                                          |
+| ----------------- | ------------------------------------------------------------------------------------------------ |
+| `name`            | PascalCase; matches `jsx` / `regions`                                                            |
+| `path`            | Intended file path under `delivery.targets`                                                      |
+| `description`     | What it does for the user / screen                                                               |
+| `checkedRegistry` | Must be `true`                                                                                   |
+| `whyNotQbds`      | What you searched; why registry/composition wasn’t enough                                        |
+| `compose`         | `@qbds/…` (and host) primitives it wraps                                                         |
+| `tokens`          | Object of token/utility classes — root, surfaces, text, borders, status, focus, … from TOKENS.md |
+| `layout`          | Structure / sizing rules                                                                         |
+| `behavior`        | Interactions and outcomes (from the matching story’s `interaction`)                              |
+| `states`          | default / loading / empty / error / …                                                            |
+| `a11y`            | Keyboard, semantics, non-colour status, labels                                                   |
+| `props`           | Public props the build should implement                                                          |
+| `how`             | Build recipe in plain language — cite which example(s) the composition follows                   |
 
 ---
 
@@ -192,10 +211,10 @@ Present per [SKILL.md § Show to the user](../SKILL.md#show-to-the-user-every-st
 
 ## Region → `@qbds` pointers
 
-| Region | Where to look |
-| --- | --- |
-| App shell / KPI / filters / dashboard chrome | [app-layout-archetypes.md](shared/app-layout-archetypes.md) |
-| Charts (type, titles, height, colours) | [chart-best-practices.md](shared/chart-best-practices.md) · [DESIGN.md § Chart colours](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/DESIGN.md#chart-colours) |
-| Table / form / card primitives | `@qbds/table`, `@qbds/field` + `@qbds/input`, `@qbds/card` — verify in `registry.json` |
-| Missing names (theme-toggle, menubar, data-grid, …) | [react-qbds-registry.md](shared/react-qbds-registry.md) |
-| Focus | `focus-visible:ring-stroke-status-focus` (DESIGN.md) |
+| Region                                              | Where to look                                                                                                                                                                          |
+| --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| App shell / KPI / filters / dashboard chrome        | [app-layout-archetypes.md](shared/app-layout-archetypes.md)                                                                                                                            |
+| Charts (type, titles, height, colours)              | [chart-best-practices.md](shared/chart-best-practices.md) · [DESIGN.md § Chart colours](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/DESIGN.md#chart-colours) |
+| Table / form / card primitives                      | `@qbds/table`, `@qbds/field` + `@qbds/input`, `@qbds/card` — verify in `registry.json`                                                                                                 |
+| Missing names (theme-toggle, menubar, data-grid, …) | [react-qbds-registry.md](shared/react-qbds-registry.md)                                                                                                                                |
+| Focus                                               | `focus-visible:ring-stroke-status-focus` (DESIGN.md)                                                                                                                                   |
