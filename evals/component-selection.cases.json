@@ -1,0 +1,131 @@
+{
+  "cases": [
+    {
+      "id": "clickable-cta",
+      "prompt": "Add a primary clickable control to submit the form.",
+      "expect": ["button"],
+      "expectPrimary": "button"
+    },
+    {
+      "id": "full-form-validation",
+      "prompt": "Build a signup form with validation and submit handling.",
+      "expect": ["form"],
+      "expectPrimary": "form"
+    },
+    {
+      "id": "date-picker-field",
+      "prompt": "Add a date field that opens a calendar in a popover when the user interacts with it.",
+      "expect": ["date-picker"],
+      "expectPrimary": "date-picker",
+      "forbid": ["calendar"]
+    },
+    {
+      "id": "date-input-only",
+      "prompt": "Add a native date text field for typing yyyy-mm-dd in a form, no custom calendar popup recipe.",
+      "expect": ["date-input"],
+      "expectPrimary": "date-input"
+    },
+    {
+      "id": "calendar-grid-only",
+      "prompt": "Show a month grid for picking dates inline on the page, not a popover field.",
+      "expect": ["calendar"],
+      "expectPrimary": "calendar",
+      "forbid": ["date-picker"]
+    },
+    {
+      "id": "time-segments",
+      "prompt": "Collect hours and minutes with segment inputs in a form.",
+      "expect": ["time-input"],
+      "expectPrimary": "time-input"
+    },
+    {
+      "id": "time-scroll-list",
+      "prompt": "Need the scrollable list of hour/minute options used inside a time picker popover.",
+      "expect": ["time-picker"],
+      "expectPrimary": "time-picker"
+    },
+    {
+      "id": "range-slider",
+      "prompt": "Let the user pick a value between 0 and 100 on a track.",
+      "expect": ["slider"],
+      "expectPrimary": "slider"
+    },
+    {
+      "id": "short-select",
+      "prompt": "Dropdown to choose one option from a small fixed list.",
+      "expect": ["select"],
+      "expectPrimary": "select"
+    },
+    {
+      "id": "searchable-list",
+      "prompt": "Autocomplete field to search and pick from a long list of options.",
+      "expect": ["combobox"],
+      "expectPrimary": "combobox"
+    },
+    {
+      "id": "toast-success",
+      "prompt": "Show a temporary success notification after save.",
+      "expect": ["sonner"],
+      "expectPrimary": "sonner",
+      "forbid": ["alert"]
+    },
+    {
+      "id": "inline-alert",
+      "prompt": "Persistent warning callout on the page, not a toast.",
+      "expect": ["alert"],
+      "expectPrimary": "alert",
+      "forbid": ["sonner"]
+    },
+    {
+      "id": "tag-filters",
+      "prompt": "Row of dismissible filter chips with avatars and toggles.",
+      "expect": ["tag-group"],
+      "expectPrimary": "tag-group"
+    },
+    {
+      "id": "labeled-field",
+      "prompt": "Wrap a single input with label, description, and error text.",
+      "expect": ["field"],
+      "expectPrimary": "field",
+      "forbid": ["form"]
+    },
+    {
+      "id": "modal-dialog",
+      "prompt": "Centered modal overlay to confirm an action.",
+      "expect": ["dialog"],
+      "expectPrimary": "dialog",
+      "forbid": ["sheet"]
+    },
+    {
+      "id": "side-panel",
+      "prompt": "Slide-in panel from the edge of the screen for secondary content.",
+      "expect": ["sheet"],
+      "expectPrimary": "sheet",
+      "forbid": ["dialog"]
+    },
+    {
+      "id": "toggle-on-off",
+      "prompt": "iOS-style on/off switch for a setting.",
+      "expect": ["switch"],
+      "expectPrimary": "switch"
+    },
+    {
+      "id": "checkbox-multi",
+      "prompt": "Checkbox to agree to terms in a form.",
+      "expect": ["checkbox"],
+      "expectPrimary": "checkbox"
+    },
+    {
+      "id": "actions-menu",
+      "prompt": "Menu of actions opened from a button click.",
+      "expect": ["dropdown-menu"],
+      "expectPrimary": "dropdown-menu"
+    },
+    {
+      "id": "text-input",
+      "prompt": "Single-line text field for email address.",
+      "expect": ["input"],
+      "expectPrimary": "input"
+    }
+  ]
+}
