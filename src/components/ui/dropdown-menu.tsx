@@ -75,11 +75,7 @@ function DropdownMenuContent({
           <MenuPrimitive.Popup
             data-slot="dropdown-menu-content"
             data-size={size}
-            className={cn(
-              popupMotion,
-              size === 'lg' ? 'px-1 py-2' : 'p-1',
-              className,
-            )}
+            className={cn(popupMotion, 'p-2', className)}
             {...props}
           />
         </MenuPrimitive.Positioner>
@@ -100,6 +96,7 @@ function DropdownMenuLabel({
   inset?: boolean;
 }) {
   const size = useDropdownMenuSize();
+  const isLg = size === 'lg';
 
   return (
     <MenuPrimitive.GroupLabel
@@ -107,7 +104,8 @@ function DropdownMenuLabel({
       data-inset={inset}
       data-size={size}
       className={cn(
-        'text-fg-secondary label-regular-primary flex h-9 items-center p-2 data-[inset]:pl-8',
+        'text-fg-secondary flex items-center data-[inset]:pl-8',
+        isLg ? 'label-large-primary p-2' : 'label-regular-primary px-1 py-2',
         className,
       )}
       {...props}
@@ -293,18 +291,27 @@ function DropdownMenuRadioItem({
 
 function DropdownMenuSeparator({
   className,
+  type = 'default',
   ...props
-}: MenuPrimitive.Separator.Props) {
+}: MenuPrimitive.Separator.Props & {
+  type?: 'default' | 'inverse';
+}) {
   return (
     <div
       className={cn(
-        'pointer-events-none -mx-1 flex h-2 shrink-0 flex-col',
+        'pointer-events-none -mx-2 flex h-2 shrink-0 flex-col',
         className,
       )}
-      style={{ width: 'calc(100% + 8px)' }}>
+      style={{ width: 'calc(100% + 16px)' }}>
       <MenuPrimitive.Separator
-        className="border-stroke-divider h-1 w-full shrink-0 border-0 border-b border-solid bg-transparent"
+        className={cn(
+          'h-1 w-full shrink-0 border-0 border-b border-solid bg-transparent',
+          type === 'inverse'
+            ? 'border-stroke-divider-inverse'
+            : 'border-stroke-divider',
+        )}
         data-slot="dropdown-menu-separator"
+        data-type={type}
         {...props}
       />
       <div aria-hidden className="h-1 w-full shrink-0" />
