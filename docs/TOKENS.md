@@ -152,13 +152,13 @@ Brand accent primitives for decorative highlights (active states, accent badges/
 
 Shadow colour pairs. **Do not use directly** — use the composed `shadow-elevation-*` utilities below.
 
-| Utility              | Composition                   | Design name                                     |
-| -------------------- | ----------------------------- | ----------------------------------------------- |
-| `shadow-elevation-0` | Hairline                      | `Elevations/Shade_T` + `Elevations/Shade`       |
-| `shadow-elevation-1` | Subtle lift                   | `Elevations/Shade_T–01` + `Elevations/Shade–01` |
-| `shadow-elevation-2` | Card / dropdown               | `Elevations/Shade_T–02` + `Elevations/Shade–02` |
-| `shadow-elevation-3` | Modal / popover               | `Elevations/Shade_T–03` + `Elevations/Shade–03` |
-| `shadow-elevation-4` | Highest — full-screen overlay | `Elevations/Shade_T–04` + `Elevations/Shade–04` |
+| Utility              | Composition               | Design name                                     |
+| -------------------- | ------------------------- | ----------------------------------------------- |
+| `shadow-elevation-0` | Hairline / resting        | `Elevations/Shade_T` + `Elevations/Shade`       |
+| `shadow-elevation-1` | Floating panels / menus   | `Elevations/Shade_T–01` + `Elevations/Shade–01` |
+| `shadow-elevation-2` | Dialog / sheet / toast    | `Elevations/Shade_T–02` + `Elevations/Shade–02` |
+| `shadow-elevation-3` | Reserved (unused in code) | `Elevations/Shade_T–03` + `Elevations/Shade–03` |
+| `shadow-elevation-4` | Reserved (unused in code) | `Elevations/Shade_T–04` + `Elevations/Shade–04` |
 
 Shadow colour tokens are also exposed as `--color-elevations-shade*` if you ever need to compose a custom shadow, but prefer the utilities.
 
