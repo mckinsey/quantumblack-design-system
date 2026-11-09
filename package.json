@@ -59,7 +59,7 @@
     "shiki": "^1.29.2",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.1",
-    "zod": "^3.25.76"
+    "zod": "^4.6.6"
   },
   "devDependencies": {
     "@babel/generator": "^7.29.7",
@@ -81,7 +81,7 @@
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react-swc": "^4.3.1",
-    "concurrently": "^9.2.4",
+    "concurrently": "^9.2.5",
     "eslint": "^9.37.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-unused-imports": "^4.4.1",
@@ -99,7 +99,7 @@
     "typescript": "5.4.5",
     "typescript-eslint": "^8.46.1",
     "vite": "^8.0.16",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.12"
   },
   "files": [
     "public/r/*.json"
