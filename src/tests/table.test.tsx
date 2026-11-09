@@ -100,4 +100,26 @@ describe(`${componentName} — structure`, () => {
       document.querySelector('[data-slot="table-body"]'),
     ).toBeInTheDocument();
   });
+
+  it('sets density and row state attributes', () => {
+    render(
+      <Table density="comfortable">
+        <TableBody>
+          <TableRow selected disabled>
+            <TableCell>Row</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>,
+    );
+
+    expect(
+      document.querySelector('[data-density="comfortable"]'),
+    ).toBeInTheDocument();
+    expect(
+      document.querySelector('[data-slot="table-row"][data-state="selected"]'),
+    ).toBeInTheDocument();
+    expect(
+      document.querySelector('[data-slot="table-row"][data-disabled]'),
+    ).toBeInTheDocument();
+  });
 });

@@ -306,8 +306,11 @@ import {
   examples as switchExamples,
 } from '@/app/demo/[name]/ui/switch';
 import {
+  DataTableDemo,
+  TableDefault,
+  TableDensity,
   TableRich,
-  TableSizes,
+  TableRowStates,
   table,
   examples as tableExamples,
 } from '@/app/demo/[name]/ui/table';
@@ -672,8 +675,11 @@ export const exampleComponentMaps: Record<
     SwitchStates,
   },
   table: {
-    TableSizes,
+    TableDefault,
+    TableDensity,
+    TableRowStates,
     TableRich,
+    DataTableDemo,
   },
   tabs: {
     TabsDemo,

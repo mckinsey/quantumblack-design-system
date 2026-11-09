@@ -15,12 +15,7 @@ import {
 import * as React from 'react';
 import { useState } from 'react';
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarGroup,
-  AvatarImage,
-} from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge, StatusBadge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -65,20 +60,6 @@ const invoices = [
     totalAmount: '$350.00',
     paymentMethod: 'Bank Transfer',
     avatars: ['avatar-6.jpg', 'avatar-7.jpg', 'avatar-1.jpg', 'avatar-2.jpg'],
-  },
-  {
-    invoice: 'INV004',
-    paymentStatus: 'Paid',
-    totalAmount: '$450.00',
-    paymentMethod: 'Credit Card',
-    avatars: ['avatar-3.jpg'],
-  },
-  {
-    invoice: 'INV005',
-    paymentStatus: 'Paid',
-    totalAmount: '$550.00',
-    paymentMethod: 'PayPal',
-    avatars: ['avatar-5.jpg', 'avatar-6.jpg'],
   },
 ];
 
@@ -128,107 +109,127 @@ const getUserStatusLabel = (status: string) => {
   }
 };
 
-// ============================================================================
-// Example Components (New Format)
-// ============================================================================
+const rows = [
+  {
+    primary:
+      'Primary text that wraps onto a second or third line when the variant allows it',
+    value: '999.99',
+  },
+  {
+    primary: 'Primary text that wraps onto a second line',
+    value: '42.00',
+  },
+  {
+    primary: 'Short label',
+    value: '1.25',
+  },
+];
 
-/**
- * Table sizes comparison
- */
-export function TableSizes() {
+export function TableDefault() {
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>
+            <Checkbox aria-label="Select all" />
+          </TableHead>
+          <TableHead>Header</TableHead>
+          <TableHead align="end">Header</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {rows.map(row => (
+          <TableRow key={row.value}>
+            <TableCell>
+              <Checkbox aria-label="Select row" />
+            </TableCell>
+            <TableCell>{row.primary}</TableCell>
+            <TableCell align="end">{row.value}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
+}
+
+export function TableDensity() {
+  const densities = ['default', 'comfortable'] as const;
+
   return (
     <div className="space-y-8">
-      <div className="space-y-2">
-        <label className="text-fg-primary text-sm font-medium">
-          Default Size
-        </label>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Invoice</TableHead>
-              <TableHead>Users</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Amount</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {invoices.slice(0, 3).map(invoice => (
-              <TableRow key={invoice.invoice}>
-                <TableCell className="font-medium">{invoice.invoice}</TableCell>
-                <TableCell>
-                  <AvatarGroup>
-                    {invoice.avatars.map(src => (
-                      <Avatar key={src} size="sm">
-                        <AvatarImage src={`${basePath}/users/${src}`} />
-                        <AvatarFallback>U</AvatarFallback>
-                      </Avatar>
-                    ))}
-                  </AvatarGroup>
-                </TableCell>
-                <TableCell>{invoice.paymentStatus}</TableCell>
-                <TableCell>{invoice.totalAmount}</TableCell>
-                <TableCell className="text-right">
-                  <Button variant="outline" size="sm">
-                    Label
-                  </Button>
-                </TableCell>
+      {densities.map(density => (
+        <div key={density} className="space-y-2">
+          <p className="text-fg-secondary label-small-primary">{density}</p>
+          <Table density={density}>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Invoice</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead align="end">Amount</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="space-y-2">
-        <label className="text-fg-primary text-sm font-medium">
-          Small Size
-        </label>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead size="sm">Invoice</TableHead>
-              <TableHead size="sm">Users</TableHead>
-              <TableHead size="sm">Status</TableHead>
-              <TableHead size="sm">Amount</TableHead>
-              <TableHead size="sm" className="text-right">
-                Actions
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {invoices.slice(0, 3).map(invoice => (
-              <TableRow key={invoice.invoice}>
-                <TableCell size="sm" className="font-medium">
-                  {invoice.invoice}
-                </TableCell>
-                <TableCell size="sm">
-                  <AvatarGroup>
-                    {invoice.avatars.map(src => (
-                      <Avatar key={src} size="xs">
-                        <AvatarImage src={`${basePath}/users/${src}`} />
-                        <AvatarFallback>U</AvatarFallback>
-                      </Avatar>
-                    ))}
-                  </AvatarGroup>
-                </TableCell>
-                <TableCell size="sm">{invoice.paymentStatus}</TableCell>
-                <TableCell size="sm">{invoice.totalAmount}</TableCell>
-                <TableCell size="sm" className="text-right">
-                  <Button variant="outline" size="sm">
-                    Label
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+            </TableHeader>
+            <TableBody>
+              {invoices.map(invoice => (
+                <TableRow key={invoice.invoice}>
+                  <TableCell>{invoice.invoice}</TableCell>
+                  <TableCell>{invoice.paymentStatus}</TableCell>
+                  <TableCell align="end">{invoice.totalAmount}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      ))}
     </div>
   );
 }
 
-/**
- * Rich table combining multiple components
- */
+export function TableRowStates() {
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>
+            <Checkbox aria-label="Select all" />
+          </TableHead>
+          <TableHead>Header</TableHead>
+          <TableHead align="end">Header</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableCell>
+            <Checkbox aria-label="Default row" />
+          </TableCell>
+          <TableCell>{rows[0].primary}</TableCell>
+          <TableCell align="end">{rows[0].value}</TableCell>
+        </TableRow>
+        <TableRow selected>
+          <TableCell>
+            <Checkbox aria-label="Selected row" checked />
+          </TableCell>
+          <TableCell>{rows[1].primary}</TableCell>
+          <TableCell align="end">{rows[1].value}</TableCell>
+        </TableRow>
+        <TableRow disabled>
+          <TableCell>
+            <Checkbox aria-label="Disabled row" disabled />
+          </TableCell>
+          <TableCell>{rows[2].primary}</TableCell>
+          <TableCell align="end">{rows[2].value}</TableCell>
+        </TableRow>
+        <TableRow data-state="dragging">
+          <TableCell>
+            <Checkbox aria-label="Dragging row" />
+          </TableCell>
+          <TableCell>{rows[0].primary}</TableCell>
+          <TableCell align="end">{rows[0].value}</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+  );
+}
+
 export function TableRich() {
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
 
@@ -242,20 +243,16 @@ export function TableRich() {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[50px]" />
+          <TableHead />
           <TableHead>User</TableHead>
           <TableHead>Role</TableHead>
           <TableHead>Status</TableHead>
-          <TableHead className="text-right">Actions</TableHead>
+          <TableHead align="end">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {users.map(user => (
-          <TableRow
-            key={user.id}
-            data-state={
-              selectedRows.includes(user.id) ? 'selected' : undefined
-            }>
+          <TableRow key={user.id} selected={selectedRows.includes(user.id)}>
             <TableCell>
               <Checkbox
                 checked={selectedRows.includes(user.id)}
@@ -281,8 +278,8 @@ export function TableRich() {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-medium">{user.name}</span>
-                  <span className="text-fg-secondary text-sm">
+                  <span className="paragraph-regular-primary">{user.name}</span>
+                  <span className="text-fg-secondary label-small-primary">
                     {user.email}
                   </span>
                 </div>
@@ -296,7 +293,7 @@ export function TableRich() {
                 {getUserStatusLabel(user.status)}
               </Badge>
             </TableCell>
-            <TableCell className="text-right">
+            <TableCell align="end">
               <div className="flex items-center justify-end gap-1">
                 <Button variant="ghost" size="icon-xxs" aria-label="Edit row">
                   <IconShell size="sm">
@@ -316,10 +313,6 @@ export function TableRich() {
     </Table>
   );
 }
-
-// ============================================================================
-// Data Table — Types, Data & Columns
-// ============================================================================
 
 type Payment = {
   id: string;
@@ -484,9 +477,6 @@ const getPaymentColumns = (
   },
 ];
 
-/**
- * Full-featured data table with sorting, filtering, and selection
- */
 export function DataTableDemo() {
   const [data, setData] = React.useState<Payment[]>(payments);
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -564,28 +554,33 @@ export function DataTableDemo() {
   );
 }
 
-// ============================================================================
-// Example Metadata
-// ============================================================================
-
-// NOSONAR - Intentional duplication of example metadata pattern across demo files
 export const examples = [
   {
-    name: 'TableRich',
+    name: 'TableDefault',
     title: 'Default',
-    description:
-      'Combines Avatar, Badge, Checkbox, and Button components in a user management table.',
+    description: 'Select, text, and numeric columns matching the Figma table.',
   },
   {
-    name: 'TableSizes',
-    title: 'Size Comparison',
-    description: 'Default and sm table sizes side by side.',
+    name: 'TableDensity',
+    title: 'Density',
+    description: 'Default (compact) and comfortable cell padding.',
+  },
+  {
+    name: 'TableRowStates',
+    title: 'Row states',
+    description: 'Default, selected, disabled, and dragging rows.',
+  },
+  {
+    name: 'TableRich',
+    title: 'Rich content',
+    description:
+      'Avatar, Badge, Checkbox, and Button composed in a user table.',
   },
   {
     name: 'DataTableDemo',
-    title: 'Data Table',
+    title: 'Data table',
     description:
-      'Data table with sorting, filtering, pagination, and row selection.',
+      'Sorting, filtering, pagination, and row selection with TanStack Table.',
   },
 ];
 
@@ -598,15 +593,13 @@ export const dataTableExamples = [
   },
 ];
 
-// ============================================================================
-// Legacy Format (for backwards compatibility)
-// ============================================================================
-
 export const table = {
   name: 'table',
   components: {
-    Default: <TableRich />,
-    'Size Comparison': <TableSizes />,
+    Default: <TableDefault />,
+    Density: <TableDensity />,
+    'Row states': <TableRowStates />,
+    'Rich content': <TableRich />,
     'Data Table': <DataTableDemo />,
   },
 };
