@@ -372,11 +372,14 @@ function SelectSeparator({
 }) {
   return (
     <div
-      className={cn('pointer-events-none flex h-2 w-full flex-col', className)}>
-      <div className="h-1 w-full" />
+      className={cn(
+        'pointer-events-none -mx-2 flex h-2 shrink-0 flex-col',
+        className,
+      )}
+      style={{ width: 'calc(100% + 16px)' }}>
       <SelectPrimitive.Separator
         className={cn(
-          'h-1 w-full border-b',
+          'h-1 w-full shrink-0 border-0 border-b border-solid bg-transparent',
           type === 'inverse'
             ? 'border-stroke-divider-inverse'
             : 'border-stroke-divider',
@@ -385,6 +388,7 @@ function SelectSeparator({
         data-type={type}
         {...props}
       />
+      <div aria-hidden className="h-1 w-full shrink-0" />
     </div>
   );
 }
