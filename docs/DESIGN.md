@@ -576,8 +576,8 @@ Five elevation utilities: `shadow-elevation-0` … `shadow-elevation-4`. Exact s
 | Utility              | Typical use                                  |
 | -------------------- | -------------------------------------------- |
 | `shadow-elevation-0` | Flush input focus, subtle resting lift       |
-| `shadow-elevation-1` | Slightly raised cards or panels              |
-| `shadow-elevation-2` | Popovers, dropdowns, tooltips, menus, toasts |
+| `shadow-elevation-1` | Slightly raised cards, panels, menus         |
+| `shadow-elevation-2` | Popovers, dropdowns, tooltips, toasts        |
 | `shadow-elevation-3` | Dialogs, modals                              |
 | `shadow-elevation-4` | Heavy overlays, drawers                      |
 
