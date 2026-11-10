@@ -5,12 +5,12 @@ import figma from 'figma';
 
 const instance = figma.selectedInstance;
 
-const size = instance.getEnum('size', {
-  sm: 'sm',
-  reg: 'default',
-  md: 'md',
-  lg: 'lg',
-  xlg: 'xl',
+const widthClass = instance.getEnum('size', {
+  sm: 'w-[256px]',
+  reg: 'w-[280px]',
+  md: 'w-[320px]',
+  lg: 'w-[360px]',
+  xlg: 'w-[592px]',
 });
 
 const title = instance.getString('title');
@@ -100,13 +100,16 @@ const footerBlock =
         `
       : figma.code``;
 
+const widthProp =
+  widthClass === 'w-[280px]' ? '' : ` className="${widthClass}"`;
+
 export default {
   example: figma.code`
     <Popover>
       <PopoverTrigger render={<Button variant="outline" size="sm" />}>
         Open
       </PopoverTrigger>
-      <PopoverContent size="${size}">
+      <PopoverContent${widthProp}>
         ${mediaBlock}
         ${headerBlock}
         ${bodyBlock}

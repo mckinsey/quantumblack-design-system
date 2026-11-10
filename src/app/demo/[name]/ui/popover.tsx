@@ -9,17 +9,16 @@ import {
   PopoverFooter,
   PopoverHeader,
   PopoverMedia,
-  type PopoverSize,
   PopoverTitle,
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
 
 function PopoverPanel({
-  size = 'default',
+  className,
   triggerLabel,
 }: {
-  size?: PopoverSize;
+  className?: string;
   triggerLabel: string;
 }) {
   return (
@@ -27,7 +26,7 @@ function PopoverPanel({
       <PopoverTrigger render={<Button variant="outline" size="sm" />}>
         {triggerLabel}
       </PopoverTrigger>
-      <PopoverContent size={size}>
+      <PopoverContent className={className}>
         <PopoverHeader>
           <PopoverTitle>Popover title</PopoverTitle>
           <PopoverDescription>
@@ -87,19 +86,19 @@ export function PopoverDefault() {
   );
 }
 
-export function PopoverSizes() {
-  const sizes: { size: PopoverSize; label: string }[] = [
-    { size: 'sm', label: 'sm' },
-    { size: 'default', label: 'reg' },
-    { size: 'md', label: 'md' },
-    { size: 'lg', label: 'lg' },
-    { size: 'xl', label: 'xlg' },
+export function PopoverWidths() {
+  const widths: { className?: string; label: string }[] = [
+    { className: 'w-[256px]', label: 'sm' },
+    { label: 'reg' },
+    { className: 'w-[320px]', label: 'md' },
+    { className: 'w-[360px]', label: 'lg' },
+    { className: 'w-[592px]', label: 'xlg' },
   ];
 
   return (
     <div className="flex flex-wrap gap-3">
-      {sizes.map(({ size, label }) => (
-        <PopoverPanel key={size} size={size} triggerLabel={label} />
+      {widths.map(({ className, label }) => (
+        <PopoverPanel key={label} className={className} triggerLabel={label} />
       ))}
     </div>
   );
@@ -111,7 +110,7 @@ export function PopoverComposition() {
       <PopoverTrigger render={<Button variant="outline" />}>
         With media
       </PopoverTrigger>
-      <PopoverContent size="md">
+      <PopoverContent className="w-[320px]">
         <PopoverMedia className="aspect-video">
           <img
             src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=640&q=80"
@@ -148,7 +147,7 @@ export function PopoverAlignment() {
         <PopoverTrigger render={<Button variant="outline" size="sm" />}>
           Start
         </PopoverTrigger>
-        <PopoverContent align="start" size="sm">
+        <PopoverContent align="start" className="w-[256px]">
           <PopoverBody className="pt-4">
             <PopoverDescription>Aligned to start</PopoverDescription>
           </PopoverBody>
@@ -158,7 +157,7 @@ export function PopoverAlignment() {
         <PopoverTrigger render={<Button variant="outline" size="sm" />}>
           Center
         </PopoverTrigger>
-        <PopoverContent align="center" size="sm">
+        <PopoverContent align="center" className="w-[256px]">
           <PopoverBody className="pt-4">
             <PopoverDescription>Aligned to center</PopoverDescription>
           </PopoverBody>
@@ -168,7 +167,7 @@ export function PopoverAlignment() {
         <PopoverTrigger render={<Button variant="outline" size="sm" />}>
           End
         </PopoverTrigger>
-        <PopoverContent align="end" size="sm">
+        <PopoverContent align="end" className="w-[256px]">
           <PopoverBody className="pt-4">
             <PopoverDescription>Aligned to end</PopoverDescription>
           </PopoverBody>
@@ -185,9 +184,9 @@ export const examples = [
     description: 'Header and body with form fields.',
   },
   {
-    name: 'PopoverSizes',
-    title: 'Sizes',
-    description: 'sm, reg, md, lg, and xlg widths with shared composition.',
+    name: 'PopoverWidths',
+    title: 'Widths',
+    description: 'Figma presets via className (sm → xlg).',
   },
   {
     name: 'PopoverComposition',
@@ -205,7 +204,7 @@ export const popover = {
   name: 'popover',
   components: {
     Default: <PopoverDefault />,
-    Sizes: <PopoverSizes />,
+    Widths: <PopoverWidths />,
     Composition: <PopoverComposition />,
     Alignment: <PopoverAlignment />,
   },

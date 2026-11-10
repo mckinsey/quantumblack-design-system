@@ -226,7 +226,7 @@ import {
   PopoverAlignment,
   PopoverComposition,
   PopoverDefault,
-  PopoverSizes,
+  PopoverWidths,
   popover,
   examples as popoverExamples,
 } from '@/app/demo/[name]/ui/popover';
@@ -599,7 +599,7 @@ export const exampleComponentMaps: Record<
   },
   popover: {
     PopoverDefault,
-    PopoverSizes,
+    PopoverWidths,
     PopoverComposition,
     PopoverAlignment,
   },
