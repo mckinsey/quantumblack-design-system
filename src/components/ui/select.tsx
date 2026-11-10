@@ -259,10 +259,6 @@ function SelectContent({
   className?: string;
   children?: React.ReactNode;
 }) {
-  const sizeContext = useSelectContext();
-  const size = sizeContext?.size ?? 'default';
-  const listPad = size === 'lg' ? 'px-1 py-2' : 'p-1';
-
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Positioner
@@ -283,11 +279,7 @@ function SelectContent({
             className,
           )}>
           <SelectScrollUpArrow />
-          <SelectPrimitive.List
-            className={cn(
-              'max-h-[var(--available-height)] min-w-[var(--anchor-width)]',
-              listPad,
-            )}>
+          <SelectPrimitive.List className="max-h-[var(--available-height)] min-w-[var(--anchor-width)] p-2">
             {children}
           </SelectPrimitive.List>
           <SelectScrollDownArrow />
@@ -373,17 +365,30 @@ function SelectItemIndicator({
 
 function SelectSeparator({
   className,
+  type = 'default',
   ...props
-}: SelectPrimitive.Separator.Props) {
+}: SelectPrimitive.Separator.Props & {
+  type?: 'default' | 'inverse';
+}) {
   return (
     <div
-      className={cn('pointer-events-none flex h-2 w-full flex-col', className)}>
-      <div className="h-1 w-full" />
+      className={cn(
+        'pointer-events-none -mx-2 flex h-2 shrink-0 flex-col',
+        className,
+      )}
+      style={{ width: 'calc(100% + 16px)' }}>
       <SelectPrimitive.Separator
-        className="border-stroke-divider h-1 w-full border-b"
+        className={cn(
+          'h-1 w-full shrink-0 border-0 border-b border-solid bg-transparent',
+          type === 'inverse'
+            ? 'border-stroke-divider-inverse'
+            : 'border-stroke-divider',
+        )}
         data-slot="select-separator"
+        data-type={type}
         {...props}
       />
+      <div aria-hidden className="h-1 w-full shrink-0" />
     </div>
   );
 }

@@ -573,13 +573,13 @@ Charts are **not** QBDS primitives — use Apache ECharts. Chart colour palettes
 
 Five elevation utilities: `shadow-elevation-0` … `shadow-elevation-4`. Exact shadow stacks in `globals.css`.
 
-| Utility              | Typical use                                  |
-| -------------------- | -------------------------------------------- |
-| `shadow-elevation-0` | Flush input focus, subtle resting lift       |
-| `shadow-elevation-1` | Slightly raised cards or panels              |
-| `shadow-elevation-2` | Popovers, dropdowns, tooltips, menus, toasts |
-| `shadow-elevation-3` | Dialogs, modals                              |
-| `shadow-elevation-4` | Heavy overlays, drawers                      |
+| Utility              | Typical use                                                              |
+| -------------------- | ------------------------------------------------------------------------ |
+| `shadow-elevation-0` | Resting surfaces and focus rings (`Card`, `Input`, open field triggers)  |
+| `shadow-elevation-1` | Floating panels (`Popover`, `Tooltip`, menus, `Select`/`Combobox` popup) |
+| `shadow-elevation-2` | Blocking / loud surfaces (`Dialog`, `Sheet`, toasts, `Alert`)            |
+| `shadow-elevation-3` | Reserved — unused in components today                                    |
+| `shadow-elevation-4` | Reserved — unused in components today                                    |
 
 In light mode, many surfaces use **borders and surface contrast** instead of shadow — reserve elevation utilities for surfaces that truly float above their parent.
 

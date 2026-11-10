@@ -134,9 +134,9 @@ describe('tokens from TOKENS.md + globals.css', () => {
     expect(elevation?.cssVar).toBeNull();
     expect(elevation?.patternOnly).toBe(true);
     expect(elevation?.light).toBeNull();
-    expect(elevation?.description).toBe('Subtle lift');
+    expect(elevation?.description).toBe('Floating panels / menus');
     const modal = parsed.find(t => t.tailwind === 'shadow-elevation-3');
-    expect(modal?.description).toBe('Modal / popover');
+    expect(modal?.description).toBe('Reserved (unused in code)');
     expect(modal?.description).not.toContain('--elevations');
   });
 
