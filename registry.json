@@ -290,7 +290,7 @@
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",
-      "description": "Modal overlay with xs–lg sizes. Corner close icon is hidden by default; prefer DialogClose in DialogFooter as in the examples.",
+      "description": "Modal overlay with xs–lg sizes. Use DialogDescription for intro copy and DialogBody for main content; prefer DialogClose in DialogFooter (corner close hidden by default). See the component reference and examples for structure.",
       "dependencies": ["@base-ui/react", "class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
