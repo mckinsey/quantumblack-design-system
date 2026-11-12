@@ -290,7 +290,7 @@
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",
-      "description": "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.",
+      "description": "Modal overlay with xs–lg sizes. Corner close icon is hidden by default; prefer DialogClose in DialogFooter as in the examples.",
       "dependencies": ["@base-ui/react", "class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
