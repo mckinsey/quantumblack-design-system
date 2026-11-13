@@ -8,8 +8,10 @@ import { Button } from '@/components/ui/button';
 import {
   Popover,
   PopoverAnchor,
+  PopoverBody,
   PopoverContent,
   PopoverDescription,
+  PopoverFooter,
   PopoverHeader,
   PopoverTitle,
   PopoverTrigger,
@@ -113,6 +115,29 @@ describe(`${componentName} — structure & interaction`, () => {
     ).toBeInTheDocument();
     expect(
       document.querySelector('[data-slot="popover-description"]'),
+    ).toBeInTheDocument();
+  });
+
+  it('renders body and footer slots', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <Popover>
+        <PopoverTrigger>Open</PopoverTrigger>
+        <PopoverContent>
+          <PopoverBody>Body</PopoverBody>
+          <PopoverFooter>Footer</PopoverFooter>
+        </PopoverContent>
+      </Popover>,
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Open' }));
+
+    expect(
+      document.querySelector('[data-slot="popover-body"]'),
+    ).toBeInTheDocument();
+    expect(
+      document.querySelector('[data-slot="popover-footer"]'),
     ).toBeInTheDocument();
   });
 });
