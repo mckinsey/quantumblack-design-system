@@ -72,7 +72,7 @@ function TableRow({
         'group/row transition-colors duration-200',
         'hover:bg-stateslayer-overlay-hover',
         'data-[state=selected]:bg-stateslayer-overlay-active-inverse',
-        'data-[state=dragging]:bg-surface-secondary data-[state=dragging]:shadow-elevation-2',
+        'data-[state=dragging]:bg-surface-secondary data-[state=dragging]:shadow-elevation-3',
         'data-disabled:pointer-events-none data-disabled:hover:bg-transparent',
         className,
       )}
@@ -97,10 +97,9 @@ function TableHead({
       data-align={align}
       data-state={selected ? 'selected' : undefined}
       className={cn(
-        'border-stroke-tertiary label-small-primary text-fg-secondary border-b bg-transparent align-bottom whitespace-nowrap',
-        'px-3 pt-3 pb-3',
-        'hover:border-stroke-tertiary-hover transition-colors duration-200',
-        'data-[state=selected]:border-stroke-active data-[state=selected]:text-fg-primary',
+        'border-stroke-tertiary paragraph-small-primary text-fg-secondary border-b bg-transparent align-bottom whitespace-nowrap uppercase',
+        'px-3 py-3',
+        'data-[state=selected]:text-fg-primary',
         '[&:has([role=checkbox])]:w-11 [&:has([role=checkbox])]:px-3 [&:has([role=checkbox])]:pr-3',
         {
           'text-left': align === 'start',
@@ -123,7 +122,7 @@ function TableCell({ className, align = 'start', ...props }: TableCellProps) {
       data-slot="table-cell"
       data-align={align}
       className={cn(
-        'border-stroke-divider paragraph-regular-primary text-fg-primary border-b align-middle',
+        'border-stroke-divider label-regular-primary text-fg-primary border-b align-middle',
         'px-3 py-4 group-data-[density=comfortable]/table:py-5',
         'group-data-disabled/row:opacity-[0.38]',
         '[&:has([role=checkbox])]:w-11 [&:has([role=checkbox])]:px-3',

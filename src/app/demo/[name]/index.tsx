@@ -307,10 +307,18 @@ import {
 } from '@/app/demo/[name]/ui/switch';
 import {
   DataTableDemo,
+  TableCredentials,
+  TableDataReadiness,
+  TableDatasetSchema,
   TableDefault,
   TableDensity,
+  TableOrderedList,
   TableRich,
+  TableRoadmap,
   TableRowStates,
+  TableSimpleList,
+  TableUsageMetrics,
+  TableUsageSummary,
   table,
   examples as tableExamples,
 } from '@/app/demo/[name]/ui/table';
@@ -680,6 +688,14 @@ export const exampleComponentMaps: Record<
     TableRowStates,
     TableRich,
     DataTableDemo,
+    TableSimpleList,
+    TableOrderedList,
+    TableCredentials,
+    TableUsageMetrics,
+    TableDatasetSchema,
+    TableUsageSummary,
+    TableRoadmap,
+    TableDataReadiness,
   },
   tabs: {
     TabsDemo,

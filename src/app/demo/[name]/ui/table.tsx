@@ -15,6 +15,16 @@ import {
 import * as React from 'react';
 import { useState } from 'react';
 
+import {
+  TableCredentials,
+  TableDataReadiness,
+  TableDatasetSchema,
+  TableOrderedList,
+  TableRoadmap,
+  TableSimpleList,
+  TableUsageMetrics,
+  TableUsageSummary,
+} from '@/app/demo/[name]/ui/table-examples';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge, StatusBadge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -36,6 +46,17 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+
+export {
+  TableCredentials,
+  TableDataReadiness,
+  TableDatasetSchema,
+  TableOrderedList,
+  TableRoadmap,
+  TableSimpleList,
+  TableUsageMetrics,
+  TableUsageSummary,
+};
 
 const basePath = import.meta.env.VITE_BASE_PATH ?? '';
 
@@ -582,6 +603,46 @@ export const examples = [
     description:
       'Sorting, filtering, pagination, and row selection with TanStack Table.',
   },
+  {
+    name: 'TableSimpleList',
+    title: 'Simple list',
+    description: 'Selection pack: name, status, owner, and updated.',
+  },
+  {
+    name: 'TableOrderedList',
+    title: 'Ordered list',
+    description: 'Drag handle, task type, status, and priority.',
+  },
+  {
+    name: 'TableCredentials',
+    title: 'Credentials',
+    description: 'API keys with copy, last used, and expiry.',
+  },
+  {
+    name: 'TableUsageMetrics',
+    title: 'Usage and metrics',
+    description: 'Numeric columns for runs, tokens, sessions, and cost.',
+  },
+  {
+    name: 'TableDatasetSchema',
+    title: 'Dataset schema',
+    description: 'Read-only column schema.',
+  },
+  {
+    name: 'TableUsageSummary',
+    title: 'Usage summary',
+    description: 'Read-only metrics with period-over-period change.',
+  },
+  {
+    name: 'TableRoadmap',
+    title: 'Roadmap',
+    description: 'Read-only features with owner and release.',
+  },
+  {
+    name: 'TableDataReadiness',
+    title: 'Data readiness',
+    description: 'Indented source, dataset, and attribute rows.',
+  },
 ];
 
 export const dataTableExamples = [
@@ -601,6 +662,14 @@ export const table = {
     'Row states': <TableRowStates />,
     'Rich content': <TableRich />,
     'Data Table': <DataTableDemo />,
+    'Simple list': <TableSimpleList />,
+    'Ordered list': <TableOrderedList />,
+    Credentials: <TableCredentials />,
+    'Usage and metrics': <TableUsageMetrics />,
+    'Dataset schema': <TableDatasetSchema />,
+    'Usage summary': <TableUsageSummary />,
+    Roadmap: <TableRoadmap />,
+    'Data readiness': <TableDataReadiness />,
   },
 };
 
