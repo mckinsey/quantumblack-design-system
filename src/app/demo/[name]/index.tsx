@@ -306,10 +306,16 @@ import {
   examples as switchExamples,
 } from '@/app/demo/[name]/ui/switch';
 import {
+  TableCredentials,
   TableDatasetSchema,
   TableDefault,
   TableDensity,
+  TableOrderedList,
+  TableRoadmap,
   TableRowStates,
+  TableSimpleList,
+  TableUsageMetrics,
+  TableUsageSummary,
   table,
   examples as tableExamples,
 } from '@/app/demo/[name]/ui/table';
@@ -678,6 +684,12 @@ export const exampleComponentMaps: Record<
     TableRowStates,
     TableDensity,
     TableDatasetSchema,
+    TableSimpleList,
+    TableOrderedList,
+    TableCredentials,
+    TableUsageMetrics,
+    TableUsageSummary,
+    TableRoadmap,
   },
   tabs: {
     TabsDemo,
