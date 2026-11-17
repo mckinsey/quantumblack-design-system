@@ -2,129 +2,22 @@
 
 import {
   Lines,
-  RowMenu,
   SelectCell,
   SelectHead,
-  StatusLabel,
+  ShowCell,
+  SortHead,
   Toolbar,
+  useColumnView,
+  useDataTable,
   useSelection,
 } from '@/app/demo/[name]/ui/table-starter-parts';
-import { Button } from '@/components/ui/button';
-import { Icon } from '@/components/ui/icon';
-import { IconShell } from '@/components/ui/icon-shell';
 import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-
-const credentialRows = [
-  [
-    'Lorem ipsum',
-    'lorem-••••••••dolor',
-    '02 May 2026',
-    '2 hours ago',
-    '12 Dec 2027',
-    '',
-  ],
-  [
-    'Sit amet',
-    'lorem-••••••••sit',
-    '15 Aug 2026',
-    'Yesterday',
-    '15 Aug 2027',
-    '',
-  ],
-  [
-    'Consectetur elit',
-    'lorem-••••••••amet',
-    '11 Apr 2026',
-    '30 days ago',
-    '30 Dec 2026',
-    '',
-  ],
-  [
-    'Adipiscing sed',
-    'lorem-••••••••elit',
-    '28 Dec 2025',
-    '18 Dec 2026',
-    'In 14 days',
-    'warning',
-  ],
-  [
-    'Eiusmod tempor',
-    'lorem-••••••••sed',
-    '03 Jan 2026',
-    'Never',
-    'Expired',
-    'error',
-  ],
-];
-
-export function TableCredentials() {
-  const ids = credentialRows.map(row => row[0]);
-  const pick = useSelection(ids);
-
-  return (
-    <div className="flex w-full flex-col gap-4">
-      <Toolbar filter="Status" value="Active" />
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <SelectHead
-              checked={pick.all ? true : pick.some ? 'indeterminate' : false}
-              label="Select all credentials"
-              onCheckedChange={pick.toggleAll}
-            />
-            <TableHead>Name</TableHead>
-            <TableHead>Key</TableHead>
-            <TableHead>Created</TableHead>
-            <TableHead>Last used</TableHead>
-            <TableHead>Expires</TableHead>
-            <TableHead />
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {credentialRows.map(row => (
-            <TableRow key={row[0]} selected={pick.has(row[0])}>
-              <SelectCell
-                checked={pick.has(row[0])}
-                label={`Select ${row[0]}`}
-                onCheckedChange={on => pick.toggle(row[0], on)}
-              />
-              <TableCell>
-                <Lines primary={row[0]} secondary="Lorem ipsum dolor" />
-              </TableCell>
-              <TableCell>
-                <span className="inline-flex items-center gap-2">
-                  <span className="truncate">{row[1]}</span>
-                  <Button
-                    aria-label={`Copy ${row[0]}`}
-                    size="icon-xs"
-                    type="button"
-                    variant="ghost">
-                    <IconShell size="sm" variant="secondary">
-                      <Icon icon="content_copy" />
-                    </IconShell>
-                  </Button>
-                </span>
-              </TableCell>
-              <TableCell>{row[2]}</TableCell>
-              <TableCell>{row[3]}</TableCell>
-              <TableCell>
-                {row[5] ? <StatusLabel label={row[4]} /> : row[4]}
-              </TableCell>
-              <RowMenu label={`Actions for ${row[0]}`} />
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
-  );
-}
 
 const metricRows = [
   [
@@ -166,32 +59,87 @@ const metricRows = [
   ['Incididunt ut labore', '385', '0.8M', '8', '8%', '$15.40', '07 Oct 2026'],
 ];
 
+const metricColumns = [
+  { id: 'name', label: 'Name', index: 0 },
+  {
+    id: 'runs',
+    label: 'Runs',
+    index: 1,
+    align: 'end' as const,
+    sort: 'number' as const,
+  },
+  {
+    id: 'tokens',
+    label: 'Tokens',
+    index: 2,
+    align: 'end' as const,
+    sort: 'number' as const,
+  },
+  {
+    id: 'sessions',
+    label: 'Sessions',
+    index: 3,
+    align: 'end' as const,
+    sort: 'number' as const,
+  },
+  {
+    id: 'errors',
+    label: 'Errors',
+    index: 4,
+    align: 'end' as const,
+    sort: 'number' as const,
+  },
+  {
+    id: 'cost',
+    label: 'Cost',
+    index: 5,
+    align: 'end' as const,
+    sort: 'number' as const,
+  },
+  { id: 'last', label: 'Last run', index: 6 },
+];
+
 export function TableUsageMetrics() {
-  const ids = metricRows.map(row => row[0]);
+  const list = useDataTable(metricRows, metricColumns, 'name');
+  const view = useColumnView(metricColumns);
+  const ids = list.rows.map(item => item.row[0]);
   const pick = useSelection(ids);
+  const all = ids.length > 0 && ids.every(id => pick.has(id));
+  const some = ids.some(id => pick.has(id)) && !all;
 
   return (
     <div className="flex w-full flex-col gap-4">
-      <Toolbar filter="Owner" value="Mine" />
+      <Toolbar
+        columns={metricColumns}
+        query={list.query}
+        onColumn={view.on}
+        onQueryChange={list.setQuery}
+        onSort={list.sortCurrent}
+        setColumn={view.set}
+      />
       <Table>
         <TableHeader>
           <TableRow>
             <SelectHead
-              checked={pick.all ? true : pick.some ? 'indeterminate' : false}
+              checked={all ? true : some ? 'indeterminate' : false}
               label="Select all metrics"
               onCheckedChange={pick.toggleAll}
             />
-            <TableHead>Name</TableHead>
-            <TableHead align="end">Runs</TableHead>
-            <TableHead align="end">Tokens</TableHead>
-            <TableHead align="end">Sessions</TableHead>
-            <TableHead align="end">Errors</TableHead>
-            <TableHead align="end">Cost</TableHead>
-            <TableHead>Last run</TableHead>
+            {metricColumns
+              .filter(column => view.on(column.id))
+              .map(column => (
+                <SortHead
+                  key={column.id}
+                  align={column.align}
+                  dir={list.dir(column.id)}
+                  label={column.label}
+                  onSort={() => list.toggle(column.id)}
+                />
+              ))}
           </TableRow>
         </TableHeader>
         <TableBody>
-          {metricRows.map(row => (
+          {list.rows.map(({ row }) => (
             <TableRow key={row[0]} selected={pick.has(row[0])}>
               <SelectCell
                 checked={pick.has(row[0])}
@@ -201,12 +149,22 @@ export function TableUsageMetrics() {
               <TableCell>
                 <Lines primary={row[0]} secondary="Lorem ipsum dolor" />
               </TableCell>
-              <TableCell align="end">{row[1]}</TableCell>
-              <TableCell align="end">{row[2]}</TableCell>
-              <TableCell align="end">{row[3]}</TableCell>
-              <TableCell align="end">{row[4]}</TableCell>
-              <TableCell align="end">{row[5]}</TableCell>
-              <TableCell>{row[6]}</TableCell>
+              <ShowCell align="end" on={view.on('runs')}>
+                {row[1]}
+              </ShowCell>
+              <ShowCell align="end" on={view.on('tokens')}>
+                {row[2]}
+              </ShowCell>
+              <ShowCell align="end" on={view.on('sessions')}>
+                {row[3]}
+              </ShowCell>
+              <ShowCell align="end" on={view.on('errors')}>
+                {row[4]}
+              </ShowCell>
+              <ShowCell align="end" on={view.on('cost')}>
+                {row[5]}
+              </ShowCell>
+              <ShowCell on={view.on('last')}>{row[6]}</ShowCell>
             </TableRow>
           ))}
         </TableBody>

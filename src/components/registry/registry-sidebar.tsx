@@ -52,6 +52,7 @@ const COMPONENT_GROUPS: { label: string; names: string[] }[] = [
     names: ['context-menu', 'dropdown-menu'],
   },
   { label: 'Overlay', names: ['dialog', 'popover', 'sonner', 'tooltip'] },
+  { label: 'Tables', names: ['table', 'data-table'] },
 ];
 
 const groupedNames = new Set(COMPONENT_GROUPS.flatMap(g => g.names));
@@ -71,7 +72,11 @@ const sortedComponentEntries: SidebarEntry[] = [
     type: 'group' as const,
     sortKey: group.label,
     group,
-    groupItems: uiItems.filter(item => group.names.includes(item.name)),
+    groupItems: group.names.flatMap(name => {
+      const item = uiItems.find(entry => entry.name === name);
+
+      return item ? [item] : [];
+    }),
   })).filter(e => e.groupItems.length > 0),
   ...uiItems
     .filter(

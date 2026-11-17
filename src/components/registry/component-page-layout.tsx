@@ -38,6 +38,10 @@ interface ComponentPageLayoutProps {
   legacyDemoCode?: string;
   /** Padding around each live preview */
   previewClassName?: string;
+  /** Hide the install commands. Example pages have nothing to add. */
+  showInstallation?: boolean;
+  /** Hide the API section. Example pages have no component props. */
+  showApi?: boolean;
 }
 
 /**
@@ -63,6 +67,8 @@ export function ComponentPageLayout({
   legacyPreviewContent,
   legacyDemoCode,
   previewClassName,
+  showInstallation = true,
+  showApi = true,
 }: ComponentPageLayoutProps) {
   const hasNewExamples = examples && examples.length > 0 && exampleComponents;
 
@@ -88,9 +94,11 @@ export function ComponentPageLayout({
         ) : null}
       </div>
 
-      <Section title="Installation">
-        <InstallationGuide component={component} />
-      </Section>
+      {showInstallation ? (
+        <Section title="Installation">
+          <InstallationGuide component={component} />
+        </Section>
+      ) : null}
 
       {docs ? (
         <MarkdownDocs content={docs} />
@@ -131,34 +139,36 @@ export function ComponentPageLayout({
         </Section>
       ) : null}
 
-      <Section
-        title="API Reference"
-        description="Component props and their types.">
-        <Suspense
-          fallback={
-            <div className="space-y-4">
-              <Skeleton className="bg-fill-onsurface-ui-3 h-8 w-48" />
-              <Skeleton className="bg-fill-onsurface-ui-3 h-[200px] w-full" />
-            </div>
-          }>
-          {apiData && apiData.length > 0 ? (
-            <APIReference apis={apiData} />
-          ) : (
-            <div className="text-fg-secondary p-6 text-center">
-              <p className="paragraph-regular-primary">
-                API documentation is being generated.
-              </p>
-              <p className="paragraph-small-primary mt-1">
-                Run{' '}
-                <code className="paragraph-code-text bg-fill-subtle px-1.5 py-0.5">
-                  npm run generate:api-docs
-                </code>{' '}
-                to generate API documentation.
-              </p>
-            </div>
-          )}
-        </Suspense>
-      </Section>
+      {showApi ? (
+        <Section
+          title="API Reference"
+          description="Component props and their types.">
+          <Suspense
+            fallback={
+              <div className="space-y-4">
+                <Skeleton className="bg-fill-onsurface-ui-3 h-8 w-48" />
+                <Skeleton className="bg-fill-onsurface-ui-3 h-[200px] w-full" />
+              </div>
+            }>
+            {apiData && apiData.length > 0 ? (
+              <APIReference apis={apiData} />
+            ) : (
+              <div className="text-fg-secondary p-6 text-center">
+                <p className="paragraph-regular-primary">
+                  API documentation is being generated.
+                </p>
+                <p className="paragraph-small-primary mt-1">
+                  Run{' '}
+                  <code className="paragraph-code-text bg-fill-subtle px-1.5 py-0.5">
+                    npm run generate:api-docs
+                  </code>{' '}
+                  to generate API documentation.
+                </p>
+              </div>
+            )}
+          </Suspense>
+        </Section>
+      ) : null}
     </div>
   );
 }

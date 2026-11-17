@@ -4,8 +4,9 @@ import {
   BoardTitle,
   Lines,
   Metric,
+  avatarSrc,
 } from '@/app/demo/[name]/ui/table-starter-parts';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Table,
   TableBody,
@@ -187,11 +188,12 @@ export function TableRoadmap() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {roadmapRows.map(row => (
+          {roadmapRows.map((row, index) => (
             <TableRow key={row[1]}>
               <TableCell>
                 <span className="flex items-center gap-3">
                   <Avatar size="default">
+                    <AvatarImage alt={row[1]} src={avatarSrc(index)} />
                     <AvatarFallback>{row[0]}</AvatarFallback>
                   </Avatar>
                   <Lines primary={row[1]} secondary={row[2]} />

@@ -2,19 +2,7 @@
 
 import { useState } from 'react';
 
-import {
-  TableCredentials,
-  TableUsageMetrics,
-} from '@/app/demo/[name]/ui/table-credentials';
 import { TableDatasetSchema } from '@/app/demo/[name]/ui/table-examples';
-import {
-  TableRoadmap,
-  TableUsageSummary,
-} from '@/app/demo/[name]/ui/table-readonly';
-import {
-  TableOrderedList,
-  TableSimpleList,
-} from '@/app/demo/[name]/ui/table-selection';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   Table,
@@ -25,15 +13,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-export {
-  TableCredentials,
-  TableDatasetSchema,
-  TableOrderedList,
-  TableRoadmap,
-  TableSimpleList,
-  TableUsageMetrics,
-  TableUsageSummary,
-};
+export { TableDatasetSchema };
 
 const rows = [
   {
@@ -199,39 +179,6 @@ export const examples = [
     description:
       'Read-only columns. Column and Type sort the rows. No select cell and no hover.',
   },
-  {
-    name: 'TableSimpleList',
-    title: 'Simple list',
-    description:
-      'Selectable rows with a filter bar, status, owner, and a row action.',
-  },
-  {
-    name: 'TableOrderedList',
-    title: 'Ordered list',
-    description: 'A drag handle beside the select cell. Drag stays visual.',
-  },
-  {
-    name: 'TableCredentials',
-    title: 'Credentials',
-    description: 'Masked keys, copy, and an expiry status.',
-  },
-  {
-    name: 'TableUsageMetrics',
-    title: 'Usage and metrics',
-    description:
-      'Numeric columns for runs, tokens, sessions, errors, and cost.',
-  },
-  {
-    name: 'TableUsageSummary',
-    title: 'Usage summary',
-    description: 'Read-only totals with a delta under each number.',
-  },
-  {
-    name: 'TableRoadmap',
-    title: 'Roadmap',
-    description:
-      'Read-only rows with an avatar, a second line, and release text.',
-  },
 ];
 
 export const table = {
@@ -241,11 +188,5 @@ export const table = {
     'Row states': <TableRowStates />,
     Density: <TableDensity />,
     'Readonly tables': <TableDatasetSchema />,
-    'Simple list': <TableSimpleList />,
-    'Ordered list': <TableOrderedList />,
-    Credentials: <TableCredentials />,
-    'Usage and metrics': <TableUsageMetrics />,
-    'Usage summary': <TableUsageSummary />,
-    Roadmap: <TableRoadmap />,
   },
 };
