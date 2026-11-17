@@ -19,6 +19,8 @@ interface ExamplePreviewProps {
   className?: string;
   /** Whether this is a featured/hero example (affects styling) */
   featured?: boolean;
+  /** Padding around the live preview */
+  previewClassName?: string;
 }
 
 export function ExamplePreview({
@@ -28,6 +30,7 @@ export function ExamplePreview({
   code,
   className,
   featured = false,
+  previewClassName,
 }: ExamplePreviewProps) {
   const [copied, setCopied] = useState(false);
   const [highlightedCode, setHighlightedCode] = useState<string>('');
@@ -91,7 +94,8 @@ export function ExamplePreview({
       {/* Preview */}
       <div
         className={cn(
-          'bg-surface-primary flex w-full items-center justify-center p-6',
+          'bg-surface-primary flex w-full items-center justify-center',
+          previewClassName ?? 'p-6',
           featured ? 'min-h-[200px]' : 'min-h-[120px]',
         )}>
         {children}

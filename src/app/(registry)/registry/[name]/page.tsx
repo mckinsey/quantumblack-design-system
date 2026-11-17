@@ -162,6 +162,9 @@ export default function RegistryItemPage() {
           exampleCodeMap={exampleCodeMap || undefined}
           primaryExample={primaryExample}
           primaryExampleCode={primaryExampleCode}
+          previewClassName={
+            name === 'table' ? 'px-[54px] py-[64px]' : undefined
+          }
           docs={docs}
         />
       </div>
