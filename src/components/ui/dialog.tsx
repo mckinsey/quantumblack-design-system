@@ -77,16 +77,22 @@ function DialogOverlay({
   );
 }
 
+type DialogContentProps = DialogPrimitive.Popup.Props & {
+  size?: DialogSize;
+  /**
+   * Top-right ghost close control. Off by default; use DialogClose in DialogFooter (see examples).
+   * @default false
+   */
+  showCloseButton?: boolean;
+};
+
 function DialogContent({
   className,
   children,
   size = 'default',
   showCloseButton = false,
   ...props
-}: DialogPrimitive.Popup.Props & {
-  size?: DialogSize;
-  showCloseButton?: boolean;
-}) {
+}: DialogContentProps) {
   return (
     <DialogPortal>
       <DialogOverlay />

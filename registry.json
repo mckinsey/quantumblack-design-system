@@ -290,7 +290,7 @@
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",
-      "description": "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.",
+      "description": "Unlike shadcn, QBDS Dialog hides the top-right close icon by default (showCloseButton is false). Dismiss from the footer: secondary or link actions on the left, close or primary actions on the right, with the primary group wrapped in ml-auto when there is no left action. Use DialogClose for unconditional dismiss only; for submit or save that needs validation or an async result, close a controlled dialog after success. Compose DialogHeader, then scrollable DialogBody, then DialogFooter; optional DialogContextLabel sits above the title, and short intro copy goes in DialogDescription inside the body. DialogContent size is xs, sm, default, or lg.",
       "dependencies": ["@base-ui/react", "class-variance-authority"],
       "registryDependencies": [
         "__REGISTRY_URL__/r/theme.json",
