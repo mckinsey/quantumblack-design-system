@@ -50,6 +50,9 @@ export const examples = [
 
 export const dataTable = {
   name: 'data-table',
+  previewClassName: 'px-[54px] py-[64px]',
+  showInstallation: false,
+  showApi: false,
   components: {
     'Simple list': <TableSimpleList />,
     'Draggable rows': <TableOrderedList />,

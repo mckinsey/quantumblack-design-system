@@ -1146,6 +1146,40 @@ async function formatCode(code: string, exampleName: string): Promise<string> {
   }
 }
 
+function listedExampleNames(source: string): string[] {
+  const ast = babelParse(source, {
+    sourceType: 'module',
+    plugins: [
+      'jsx',
+      'typescript',
+      ['decorators', { decoratorsBeforeExport: false }],
+    ],
+  });
+  const names: string[] = [];
+
+  for (const stmt of ast.program.body) {
+    if (!t.isExportNamedDeclaration(stmt) || !stmt.declaration) continue;
+    if (!t.isVariableDeclaration(stmt.declaration)) continue;
+
+    for (const decl of stmt.declaration.declarations) {
+      if (!t.isIdentifier(decl.id) || decl.id.name !== 'examples') continue;
+      if (!decl.init || !t.isArrayExpression(decl.init)) continue;
+
+      for (const item of decl.init.elements) {
+        if (!item || !t.isObjectExpression(item)) continue;
+
+        for (const prop of item.properties) {
+          if (!t.isObjectProperty(prop) || prop.computed) continue;
+          if (!t.isIdentifier(prop.key) || prop.key.name !== 'name') continue;
+          if (t.isStringLiteral(prop.value)) names.push(prop.value.value);
+        }
+      }
+    }
+  }
+
+  return names;
+}
+
 function validateExample(example: ExampleCode): boolean {
   const trimmed = example.code.trim();
 
@@ -1240,6 +1274,44 @@ async function main(): Promise<void> {
   const allExamples = Object.fromEntries(
     results.filter((r): r is readonly [string, ExampleCode[]] => r !== null),
   );
+  const byName = new Map<string, ExampleCode>();
+
+  for (const examples of Object.values(allExamples)) {
+    for (const example of examples) byName.set(example.name, example);
+  }
+
+  for (const file of files) {
+    const componentName = path.basename(file, '.tsx');
+
+    if (allExamples[componentName]) continue;
+
+    const source = fs.readFileSync(path.join(DEMO_DIR, file), 'utf-8');
+    const names = listedExampleNames(source);
+    const examples = names.flatMap(name => {
+      const example = byName.get(name);
+
+      return example ? [example] : [];
+    });
+
+    if (examples.length === 0) continue;
+
+    if (examples.length < names.length) {
+      const missing = names.filter(name => !byName.has(name));
+
+      console.warn(
+        `  ⚠️  ${componentName} missing snippets: ${missing.join(', ')}`,
+      );
+    }
+
+    await fs.promises.writeFile(
+      path.join(OUTPUT_DIR, `${componentName}.json`),
+      `${JSON.stringify(examples, null, 2)}\n`,
+    );
+    console.log(
+      `  ✅ Collected: ${componentName}.json (${examples.length} example(s))`,
+    );
+    allExamples[componentName] = examples;
+  }
 
   const indexPath = path.join(OUTPUT_DIR, 'index.json');
 

@@ -38,14 +38,7 @@ async function fetchExampleCodeMap(
   componentName: string,
 ): Promise<Record<string, string> | null> {
   const codeMap: Record<string, string> = {};
-  const extraExampleJson: Record<string, string[]> = {
-    'data-table': ['table-selection', 'table-credentials', 'table-readonly'],
-  };
-  const jsonNames = [
-    componentName,
-    `${componentName}-examples`,
-    ...(extraExampleJson[componentName] ?? []),
-  ];
+  const jsonNames = [componentName, `${componentName}-examples`];
 
   for (const jsonName of jsonNames) {
     try {
@@ -169,14 +162,10 @@ export default function RegistryItemPage() {
           exampleCodeMap={exampleCodeMap || undefined}
           primaryExample={primaryExample}
           primaryExampleCode={primaryExampleCode}
-          previewClassName={
-            name === 'table' || name === 'data-table'
-              ? 'px-[54px] py-[64px]'
-              : undefined
-          }
+          previewClassName={demo?.previewClassName}
           docs={docs}
-          showInstallation={name !== 'data-table'}
-          showApi={name !== 'data-table'}
+          showInstallation={demo?.showInstallation}
+          showApi={demo?.showApi}
         />
       </div>
     </div>

@@ -416,6 +416,9 @@ import type { ExampleMeta } from '@/lib/registry';
 // Legacy Demo interface (old format)
 interface Demo {
   name: string;
+  previewClassName?: string;
+  showInstallation?: boolean;
+  showApi?: boolean;
   components?: {
     [name: string]: ReactNode | ReactElement;
   };
