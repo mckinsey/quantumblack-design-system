@@ -64,14 +64,10 @@ interface TableRowProps extends React.ComponentProps<'tr'> {
   disabled?: boolean;
 }
 
-const interactive =
-  'a, button, input, select, textarea, summary, [role="button"], [role="checkbox"], [role="switch"], [role="link"], [tabindex]:not([tabindex="-1"])';
-
 function TableRow({
   className,
   selected = false,
   disabled = false,
-  onClick,
   ...props
 }: TableRowProps) {
   const dataState = selected
@@ -81,22 +77,10 @@ function TableRow({
   return (
     <tr
       {...props}
-      ref={node => {
-        if (!node || !disabled) {
-          return;
-        }
-
-        const nodes = [...node.querySelectorAll<HTMLElement>(interactive)];
-
-        nodes.forEach(el => el.setAttribute('inert', ''));
-
-        return () => nodes.forEach(el => el.removeAttribute('inert'));
-      }}
       data-slot="table-row"
       data-state={dataState}
       data-disabled={disabled || undefined}
       aria-disabled={disabled || undefined}
-      onClick={disabled ? undefined : onClick}
       className={cn(
         'group/row transition-colors duration-200',
         'hover:bg-stateslayer-overlay-hover',
