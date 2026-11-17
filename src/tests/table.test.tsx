@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { exampleComponentMaps } from '@/app/demo/[name]/index';
@@ -139,5 +139,33 @@ describe(`${componentName} — structure`, () => {
     );
 
     expect(document.querySelector('[data-readonly]')).toBeInTheDocument();
+  });
+
+  it('keeps a disabled row out of interaction', () => {
+    let clicks = 0;
+
+    render(
+      <Table>
+        <TableBody>
+          <TableRow
+            disabled
+            onClick={() => {
+              clicks += 1;
+            }}>
+            <TableCell>
+              <button type="button">Edit</button>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>,
+    );
+
+    const row = document.querySelector('[data-slot="table-row"]');
+    const button = row?.querySelector('button');
+
+    expect(row).not.toHaveAttribute('inert');
+    expect(button).toHaveAttribute('inert');
+    fireEvent.click(row!);
+    expect(clicks).toBe(0);
   });
 });

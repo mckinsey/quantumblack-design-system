@@ -15,10 +15,12 @@ const rows =
 export default {
   example: figma.code`
     <Table>
-      ${figma.helpers.react.renderChildren(rows)}
+      <TableBody>
+        ${figma.helpers.react.renderChildren(rows)}
+      </TableBody>
     </Table>
   `,
-  imports: ['import { Table } from "@/components/ui/table"'],
+  imports: ['import { Table, TableBody } from "@/components/ui/table"'],
   id: 'table',
   metadata: { nestable: true },
 };
