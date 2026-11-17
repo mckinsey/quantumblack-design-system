@@ -17,8 +17,7 @@ export { TableDatasetSchema };
 
 const rows = [
   {
-    primary:
-      'Primary text that wraps onto a second or third line when the variant allows it',
+    primary: 'Primary text that wraps onto a second or third line',
     value: '999.99',
   },
   {
