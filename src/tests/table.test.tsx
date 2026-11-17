@@ -116,10 +116,28 @@ describe(`${componentName} — structure`, () => {
       document.querySelector('[data-density="comfortable"]'),
     ).toBeInTheDocument();
     expect(
+      document.querySelector('[data-readonly="true"]'),
+    ).not.toBeInTheDocument();
+    expect(
       document.querySelector('[data-slot="table-row"][data-state="selected"]'),
     ).toBeInTheDocument();
     expect(
       document.querySelector('[data-slot="table-row"][data-disabled]'),
     ).toBeInTheDocument();
+  });
+
+  it('marks a read-only table', () => {
+    render(
+      <Table readOnly>
+        <TableBody>
+          <TableRow>
+            <TableCell>A</TableCell>
+            <TableCell>B</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>,
+    );
+
+    expect(document.querySelector('[data-readonly]')).toBeInTheDocument();
   });
 });

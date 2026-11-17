@@ -36,6 +36,8 @@ interface ComponentPageLayoutProps {
   legacyPreviewContent?: React.ReactNode;
   /** Legacy demo code */
   legacyDemoCode?: string;
+  /** Padding around each live preview */
+  previewClassName?: string;
 }
 
 /**
@@ -60,6 +62,7 @@ export function ComponentPageLayout({
   useLegacyPreview = false,
   legacyPreviewContent,
   legacyDemoCode,
+  previewClassName,
 }: ComponentPageLayoutProps) {
   const hasNewExamples = examples && examples.length > 0 && exampleComponents;
 
@@ -76,7 +79,10 @@ export function ComponentPageLayout({
             {legacyPreviewContent}
           </div>
         ) : primaryExample && primaryExampleCode ? (
-          <ExamplePreview code={primaryExampleCode} featured>
+          <ExamplePreview
+            code={primaryExampleCode}
+            featured
+            previewClassName={previewClassName}>
             {primaryExample}
           </ExamplePreview>
         ) : null}
@@ -105,6 +111,7 @@ export function ComponentPageLayout({
             examples={examples}
             components={exampleComponents}
             codeMap={exampleCodeMap}
+            previewClassName={previewClassName}
           />
         </Section>
       ) : useLegacyPreview && legacyPreviewContent ? (

@@ -11,6 +11,8 @@ interface ComponentExamplesProps {
   components: Record<string, React.ReactNode>;
   /** Map of example source code by name */
   codeMap: Record<string, string>;
+  /** Padding around each live preview */
+  previewClassName?: string;
 }
 
 /**
@@ -20,6 +22,7 @@ export function ComponentExamples({
   examples,
   components,
   codeMap,
+  previewClassName,
 }: ComponentExamplesProps) {
   if (!examples || examples.length === 0) {
     return (
@@ -45,7 +48,8 @@ export function ComponentExamples({
             key={example.name}
             title={example.title}
             description={example.description}
-            code={code}>
+            code={code}
+            previewClassName={previewClassName}>
             {component}
           </ExamplePreview>
         );
