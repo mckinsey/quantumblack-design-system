@@ -156,29 +156,6 @@ export function TableRowStates() {
   );
 }
 
-export function TableDragging() {
-  return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Header</TableHead>
-          <TableHead align="end">Header</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {rows.map((row, index) => (
-          <TableRow
-            key={row.value}
-            data-state={index === 1 ? 'dragging' : undefined}>
-            <TableCell>{row.primary}</TableCell>
-            <TableCell align="end">{row.value}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  );
-}
-
 export const examples = [
   {
     name: 'TableDefault',
@@ -191,12 +168,6 @@ export const examples = [
     title: 'Row states',
     description:
       'Default, selected, and disabled, with space between each. Hover the default row for the hover fill.',
-  },
-  {
-    name: 'TableDragging',
-    title: 'Dragging',
-    description:
-      'The middle row uses the dragging state: surface fill and elevation.',
   },
   {
     name: 'TableDensity',
@@ -216,7 +187,6 @@ export const table = {
   components: {
     Table: <TableDefault />,
     'Row states': <TableRowStates />,
-    Dragging: <TableDragging />,
     Density: <TableDensity />,
     'Dataset schema': <TableDatasetSchema />,
   },

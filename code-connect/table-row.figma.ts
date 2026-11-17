@@ -53,5 +53,5 @@ export default {
     'import { TableRow, TableHead, TableCell } from "@/components/ui/table"',
   ],
   id: 'table-row',
-  metadata: { nestable: true },
+  metadata: { nestable: true, props: { section: type } },
 };

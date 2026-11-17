@@ -309,7 +309,6 @@ import {
   TableDatasetSchema,
   TableDefault,
   TableDensity,
-  TableDragging,
   TableRowStates,
   table,
   examples as tableExamples,
@@ -677,7 +676,6 @@ export const exampleComponentMaps: Record<
   table: {
     TableDefault,
     TableRowStates,
-    TableDragging,
     TableDensity,
     TableDatasetSchema,
   },
