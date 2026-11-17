@@ -88,7 +88,7 @@ export function TableDefault() {
 
 export function TableDensity() {
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex w-full flex-col gap-8">
       {(['default', 'comfortable'] as const).map(density => (
         <div key={density} className="flex flex-col gap-2">
           <p className="text-fg-secondary label-small-primary">{density}</p>
@@ -111,7 +111,7 @@ function RowSample({
   const row = rows[0];
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex w-full flex-col gap-2">
       <p className="text-fg-secondary label-small-primary">{label}</p>
       <Table>
         <TableHeader>
@@ -147,7 +147,7 @@ function RowSample({
 
 export function TableRowStates() {
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex w-full flex-col gap-8">
       <RowSample label="Default" />
       <RowSample label="Selected" selected />
       <RowSample label="Disabled" disabled />
