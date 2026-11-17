@@ -175,7 +175,7 @@ export const examples = [
   },
   {
     name: 'TableDatasetSchema',
-    title: 'Dataset schema',
+    title: 'Readonly tables',
     description:
       'Read-only columns. Column and Type sort the rows. No select cell and no hover.',
   },
@@ -187,6 +187,6 @@ export const table = {
     Table: <TableDefault />,
     'Row states': <TableRowStates />,
     Density: <TableDensity />,
-    'Dataset schema': <TableDatasetSchema />,
+    'Readonly tables': <TableDatasetSchema />,
   },
 };
