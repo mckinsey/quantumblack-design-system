@@ -233,8 +233,9 @@ import {
 } from '@/app/demo/[name]/ui/number-field';
 import {
   PopoverAlignment,
-  PopoverDemo,
-  PopoverSimple,
+  PopoverComposition,
+  PopoverDefault,
+  PopoverWidths,
   popover,
   examples as popoverExamples,
 } from '@/app/demo/[name]/ui/popover';
@@ -611,8 +612,9 @@ export const exampleComponentMaps: Record<
     LabelDisabled,
   },
   popover: {
-    PopoverDemo,
-    PopoverSimple,
+    PopoverDefault,
+    PopoverWidths,
+    PopoverComposition,
     PopoverAlignment,
   },
   'radio-group': {

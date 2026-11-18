@@ -84,6 +84,8 @@ function run(
 function writeConsumer(dir: string): void {
   mkdirSync(path.join(dir, 'src'), { recursive: true });
   writeFileSync(path.join(dir, 'src/index.css'), "@import 'tailwindcss';\n");
+  // shadcn add installs @hookform/resolvers@*; v6 optional peers conflict with effect@3.
+  writeFileSync(path.join(dir, '.npmrc'), 'legacy-peer-deps=true\n');
 
   for (const [file, content] of Object.entries(CONSUMER)) {
     writeFileSync(
