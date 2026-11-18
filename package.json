@@ -42,6 +42,8 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
     "@hookform/resolvers": "^5.1.1",
     "@tanstack/react-form": "^1.29.3",
     "@tanstack/react-query": "^5.62.0",

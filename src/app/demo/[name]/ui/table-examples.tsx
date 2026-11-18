@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import { BoardTitle } from '@/app/demo/[name]/ui/table-starter-parts';
 import { Icon } from '@/components/ui/icon';
 import {
   Table,
@@ -40,17 +41,17 @@ function SortLabel({
 }
 
 const schemaRows = [
-  ['churn_risk', 'float', 'Yes', 'Model score between 0 and 1', '0.37'],
-  ['customer_id', 'string', 'No', 'Unique customer identifier', 'CUS-004512'],
+  ['lorem_ipsum', 'float', 'Yes', 'Lorem ipsum dolor sit amet', '0.37'],
+  ['dolor_sit', 'string', 'No', 'Consectetur adipiscing elit', 'CUS-004512'],
   [
-    'lifetime_value',
+    'amet_elit',
     'decimal',
     'Yes',
-    'Total revenue to date, in USD',
+    'Sed do eiusmod tempor incididunt',
     '12,480.00',
   ],
-  ['region', 'string', 'Yes', 'Sales region code', 'EMEA'],
-  ['signup_date', 'date', 'No', 'Date the account was created', '2024-03-18'],
+  ['sed_tempor', 'string', 'Yes', 'Ut labore et dolore magna', 'EMEA'],
+  ['magna_aliqua', 'date', 'No', 'Enim ad minim veniam quis', '2024-03-18'],
 ];
 
 export function TableDatasetSchema() {
@@ -78,47 +79,50 @@ export function TableDatasetSchema() {
   const dir = (index: 0 | 1) => (sort.index === index ? sort.dir : 'none');
 
   return (
-    <Table readOnly>
-      <TableHeader>
-        <TableRow>
-          <TableHead
-            selected={sort.index === 0}
-            aria-sort={
-              sort.index === 0
-                ? sort.dir === 'asc'
-                  ? 'ascending'
-                  : 'descending'
-                : 'none'
-            }>
-            <SortLabel label="Column" dir={dir(0)} onSort={() => onSort(0)} />
-          </TableHead>
-          <TableHead
-            selected={sort.index === 1}
-            aria-sort={
-              sort.index === 1
-                ? sort.dir === 'asc'
-                  ? 'ascending'
-                  : 'descending'
-                : 'none'
-            }>
-            <SortLabel label="Type" dir={dir(1)} onSort={() => onSort(1)} />
-          </TableHead>
-          <TableHead>Nullable</TableHead>
-          <TableHead>Description</TableHead>
-          <TableHead>Example</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {rows.map(row => (
-          <TableRow key={row[0]}>
-            <TableCell>{row[0]}</TableCell>
-            <TableCell>{row[1]}</TableCell>
-            <TableCell>{row[2]}</TableCell>
-            <TableCell>{row[3]}</TableCell>
-            <TableCell>{row[4]}</TableCell>
+    <div className="flex w-full flex-col gap-4">
+      <BoardTitle detail="Lorem ipsum dolor sit amet" title="Lorem ipsum" />
+      <Table readOnly>
+        <TableHeader>
+          <TableRow>
+            <TableHead
+              selected={sort.index === 0}
+              aria-sort={
+                sort.index === 0
+                  ? sort.dir === 'asc'
+                    ? 'ascending'
+                    : 'descending'
+                  : 'none'
+              }>
+              <SortLabel label="Column" dir={dir(0)} onSort={() => onSort(0)} />
+            </TableHead>
+            <TableHead
+              selected={sort.index === 1}
+              aria-sort={
+                sort.index === 1
+                  ? sort.dir === 'asc'
+                    ? 'ascending'
+                    : 'descending'
+                  : 'none'
+              }>
+              <SortLabel label="Type" dir={dir(1)} onSort={() => onSort(1)} />
+            </TableHead>
+            <TableHead>Nullable</TableHead>
+            <TableHead>Description</TableHead>
+            <TableHead>Example</TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {rows.map(row => (
+            <TableRow key={row[0]}>
+              <TableCell>{row[0]}</TableCell>
+              <TableCell>{row[1]}</TableCell>
+              <TableCell>{row[2]}</TableCell>
+              <TableCell>{row[3]}</TableCell>
+              <TableCell>{row[4]}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 }

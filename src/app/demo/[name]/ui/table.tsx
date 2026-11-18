@@ -183,6 +183,7 @@ export const examples = [
 
 export const table = {
   name: 'table',
+  previewClassName: 'px-[54px] py-[64px]',
   components: {
     Table: <TableDefault />,
     'Row states': <TableRowStates />,

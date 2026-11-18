@@ -126,6 +126,15 @@ import {
   examples as contextMenuExamples,
 } from '@/app/demo/[name]/ui/context-menu';
 import {
+  TableOrderedList,
+  TableRoadmap,
+  TableSimpleList,
+  TableUsageMetrics,
+  TableUsageSummary,
+  dataTable,
+  examples as dataTableExamples,
+} from '@/app/demo/[name]/ui/data-table';
+import {
   DatePickerDemo,
   DatePickerDisabled,
   DatePickerRange,
@@ -407,6 +416,9 @@ import type { ExampleMeta } from '@/lib/registry';
 // Legacy Demo interface (old format)
 interface Demo {
   name: string;
+  previewClassName?: string;
+  showInstallation?: boolean;
+  showApi?: boolean;
   components?: {
     [name: string]: ReactNode | ReactElement;
   };
@@ -673,6 +685,13 @@ export const exampleComponentMaps: Record<
     SwitchDisabled,
     SwitchStates,
   },
+  'data-table': {
+    TableSimpleList,
+    TableOrderedList,
+    TableUsageMetrics,
+    TableUsageSummary,
+    TableRoadmap,
+  },
   table: {
     TableDefault,
     TableRowStates,
@@ -776,6 +795,7 @@ export const examplesMeta: Record<string, ExampleMeta[]> = {
   stepper: stepperExamples,
   sonner: sonnerExamples,
   switch: switchExamples,
+  'data-table': dataTableExamples,
   table: tableExamples,
   tabs: tabsExamples,
   tag: tagExamples,
@@ -954,6 +974,11 @@ export const demos: { [name: string]: Demo | NewDemo } = {
     ...switchComponent,
     examples: switchExamples,
     exampleComponents: exampleComponentMaps.switch,
+  },
+  'data-table': {
+    ...dataTable,
+    examples: dataTableExamples,
+    exampleComponents: exampleComponentMaps['data-table'],
   },
   table: {
     ...table,

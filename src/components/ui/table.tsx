@@ -24,7 +24,7 @@ function Table({
   return (
     <div
       data-slot="table-container"
-      className="relative w-full overflow-x-auto has-[[data-state=dragging]]:py-6">
+      className="relative w-full overflow-x-auto">
       <table
         data-slot="table"
         data-density={density}
@@ -70,9 +70,9 @@ function TableRow({
   disabled = false,
   ...props
 }: TableRowProps) {
-  const dataState = selected
-    ? 'selected'
-    : (props as { 'data-state'?: string })['data-state'];
+  const passed = (props as { 'data-state'?: string })['data-state'];
+  const dataState =
+    passed === 'dragging' ? 'dragging' : selected ? 'selected' : passed;
 
   return (
     <tr
