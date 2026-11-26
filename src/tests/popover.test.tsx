@@ -7,7 +7,6 @@ import { Renderer } from '@/app/demo/[name]/renderer';
 import { Button } from '@/components/ui/button';
 import {
   Popover,
-  PopoverAnchor,
   PopoverContent,
   PopoverDescription,
   PopoverHeader,
@@ -74,18 +73,21 @@ describe(`${componentName} — structure & interaction`, () => {
     expect(await screen.findByText('Popover body')).toBeInTheDocument();
   });
 
-  it('supports PopoverAnchor for custom positioning', () => {
+  it('passes the anchor prop through to the positioner', async () => {
+    const user = userEvent.setup();
+    const anchor = document.createElement('div');
+    document.body.appendChild(anchor);
+
     render(
       <Popover>
-        <PopoverAnchor data-testid="anchor" />
         <PopoverTrigger>Open</PopoverTrigger>
-        <PopoverContent>Popover body</PopoverContent>
+        <PopoverContent anchor={anchor}>Popover body</PopoverContent>
       </Popover>,
     );
 
-    expect(
-      document.querySelector('[data-slot="popover-anchor"]'),
-    ).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Open' }));
+    expect(await screen.findByText('Popover body')).toBeInTheDocument();
+    anchor.remove();
   });
 
   it('renders header, title, and description slots', async () => {

@@ -134,7 +134,7 @@ const minuteItems = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].map(
 ) as unknown as figma.ResultSection[];
 
 const overflowFallback = figma.code`
-  <TimePickerListContent${pickerSizeProp} finalFocus={false}>
+  <TimePickerListContent${pickerSizeProp} anchor={anchorRef} finalFocus={false}>
     <ScrollArea className="h-full w-fit">
       <TimePickerList${pickerSizeProp} aria-label="Hours">
         ${figma.helpers.react.renderChildren(hourItems)}
@@ -163,9 +163,9 @@ const fieldBody =
   isOpen && overflowContent
     ? figma.code`
   <Popover open>
-    <PopoverAnchor className="w-fit">
+    <div ref={anchorRef} className="w-fit">
       ${timeInput}
-    </PopoverAnchor>
+    </div>
     ${overflowContent}
   </Popover>
 `
@@ -186,7 +186,7 @@ const example = hasFooter
 const openImports =
   isOpen && overflowContent
     ? [
-        'import { Popover, PopoverAnchor } from "@/components/ui/popover"',
+        'import { Popover } from "@/components/ui/popover"',
         'import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"',
         'import { TimePickerItem, TimePickerList, TimePickerListContent } from "@/components/ui/time-picker"',
       ]
