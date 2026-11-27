@@ -1,94 +1,66 @@
-# Stage 2 — UX design
+# Step 2 — UX design
 
-Open this **only after** `requirements.status` is `confirmed`. Do not open UI structure or build docs yet. No UI code yet.
-
-Subagent OK: pass confirmed requirements JSON + brief + host paths; still confirm with the user.
-
-## Open when you need
-
-| Need                                  | Source                                                                                              |
-| ------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| Visual rules, tokens, a11y, chart hex | The active design-system skill (QBDS: [`qbds-library`](../../qbds-library/SKILL.md) § Foundations) |
-| App shell / layout recipes            | Design-system skill (QBDS: `qbds-library/reference/app-layout-archetypes.md`)                       |
-| Chart type and titles                 | [charts.md](charts.md)                                                                              |
-| How delivery shapes UX                | [delivery-modes.md](delivery-modes.md#how-the-mode-shapes-later-stages)                                                                                                                                                  |
-
-If requirements `context` names a product, use that scan — don’t invent chrome.
-
----
+Open only after `requirements.status` is `confirmed`. Turn the one goal into the **screens** that complete it. Say what each screen shows and does, in words the user can judge. No component names, token classes or code — that is step 3.
 
 ## Research first
 
-Do **extensive research** before drafting JSON. Do not invent UX from the brief alone.
+Don't invent UX from the brief. Re-read the confirmed requirements, then look at what already exists:
 
-- Re-read confirmed `requirements` (`goal`, `designSystem`, `scope`, `context`, `delivery`, `constraints`, `success`).
-- Open and study the host / reference product paths (`hostApp`, named products in requirements `context`). Note shell, nav, density, theme, existing patterns, design-system usage.
-- Read the design system’s foundations (tokens, a11y, layout recipes, component guidelines) via the active design-system skill, as pattern recipes that match what you will write in each story’s `visual`.
-- Put **everything you learn into the JSON** — especially top-level `context`. Vague or missing adherence notes are not acceptable. If research surfaces open questions → ask the user; don’t guess.
+- The host or reference product (`hostApp`, anything named in `context`): shell, navigation, density, theme, existing patterns.
+- The design system's layout recipes, via its skill (QBDS: [`qbds-library`](../../qbds-library/SKILL.md)).
+- Chart choice and titles: [charts.md](charts.md). How the delivery mode shapes UX: [delivery-modes.md](delivery-modes.md#how-the-mode-shapes-later-stages).
 
-## Think thoroughly
+Write what you find into `context`. If research raises a question the user must answer, ask; don't guess. Greenfield with no host: say so in `context`.
 
-**Goal → stories.** UX completes the confirmed requirements `goal`: top-level `context`, then multiple **stories**. Together the stories cover the goal; each story is one job or screen.
+## Stories
 
-Break the goal (+ `scope`) into stories (usually one per page or distinct job). For each story, walk who arrives, what they need, what the screen looks like, what they can do, and what happens next. Don’t invent chrome that fights existing UX. Don’t jump to component names — that’s [ui-structure.md](ui-structure.md). Vague UX is not confirmable.
+Break the `goal` into a few sharp **stories**, usually one per page or distinct job. Prefer fewer over one mega-story. For each, think through who arrives, what they need, what they see, what they can do, and what happens next. Don't invent chrome that fights the existing UX.
 
-## Schema
+Before confirming, check coverage: **every `scope` item appears in a story, and the stories can meet every `success` check.**
+
+## Fields
 
 ```json
 {
   "status": "draft",
-  "context": "Host dashboard: top Navbar h-14, left icon rail Sidebar, dark default, surface-base main with p-6. Existing list pages use toolbar filters above table, not sidebar filters. Theme toggle in header.",
+  "context": "Host dashboard: header across the top, icon menu on the left, dark theme. Existing list pages put filters above the table, not in a side panel.",
   "stories": [
     {
       "id": "overview",
       "title": "Overview",
-      "story": "An analyst opens Overview to see key metrics and recent activity. They scan KPIs, filter by status, then open a row to inspect detail.",
-      "visual": "Dense analytics page matching host shell: page title, toolbar filters above content, KPI row (3 summary cards), 2-up charts (activity over time line; status breakdown bar), full-width activity table with status badges. Shell from context.",
-      "interaction": "Filters narrow table and charts. Row click opens a right detail panel. Export downloads CSV. No rows → Empty state in the table region."
-    },
-    {
-      "id": "detail",
-      "title": "Activity detail",
-      "story": "From a row, they open detail to confirm owners and related events.",
-      "visual": "Right panel or dedicated page: title, metadata block, related events list.",
-      "interaction": "Close returns to Overview with filters preserved."
+      "story": "An analyst opens Overview to see key metrics and recent activity, filters by status, then opens a row to inspect it.",
+      "visual": [
+        "Page title",
+        "Filter bar above the content",
+        "Row of 3 summary figures",
+        "Two charts side by side: activity over time, status breakdown",
+        "Full-width activity table with status labels"
+      ],
+      "interaction": "Filters narrow the table and charts. Clicking a row opens its detail. Export downloads a CSV. No rows: show an empty message in the table area. While loading: placeholders.",
+      "leadsTo": "detail",
+      "sketch": "+------------------------------+\n| Overview        [Status v]   |\n| [KPI] [KPI] [KPI]            |\n| [ chart ]  [ chart ]         |\n| [ activity table ........ ]  |\n+------------------------------+"
     }
   ]
 }
 ```
 
-| Field     | Meaning                                                                                                | Values                              |
-| --------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------- |
-| `status`  | Confirm state                                                                                          | `draft` \| `confirmed`              |
-| `context` | Existing UX we must adhere to (host/reference shell, patterns, theme, density) — shared across stories | string — from research; be specific |
-| `stories` | Goal broken into discrete jobs / pages / flows                                                         | object[] — at least one             |
+| Field         | What to write                                                                                             |
+| ------------- | --------------------------------------------------------------------------------------------------------- |
+| `context`     | The existing look and feel to follow, shared by all stories. Specific, in plain words.                    |
+| `id`, `title` | Stable key and short label.                                                                               |
+| `story`       | Who comes here, what they find, what they can do.                                                         |
+| `visual`      | Blocks on the screen from top to bottom. Must not contradict `context`. Composition only; spacing and grids come in step 3. |
+| `interaction` | What the user can do and what happens next. Include empty and error; add loading, narrow screens and keyboard use when the screen needs them. |
+| `leadsTo`     | Which story the user goes to next, if any.                                                                |
+| `sketch`      | Optional text sketch of the screen, drawn from `visual`. Stored so step 3 and any re-run use what the user approved. |
 
-### Each `stories[]` entry
-
-| Field         | Meaning                                                                                     | Values                                                        |
-| ------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| `id`          | Stable key for later stages                                                                 | string — e.g. `overview`, `tokens`                            |
-| `title`       | Short label for the Pages table / nav                                                       | string                                                        |
-| `story`       | Who comes here, what they find, what they can do                                            | string — be specific                                          |
-| `visual`      | Look, density, and what’s on the screen (composition / reading order) relative to `context` | string — be specific; must not contradict top-level `context` |
-| `interaction` | What the user can do, how, and what happens next (include empty/error when it matters)      | string — be specific                                          |
-
-No separate `layout` on stories — put composition in `visual`. Region spacing / grids belong in [ui-structure.md](ui-structure.md) `regions`.
-
-Do **not** keep a single top-level `story` / `visual` / `interaction`. Those live on each story. Shared chrome and adherence stay in `context` only.
-
-## How to fill
-
-1. Fill top-level `context` from research.
-2. Split `requirements.goal` (+ `scope`) into `stories[]` — each story helps complete the goal; one entry per distinct job or screen. Prefer fewer sharp stories over one mega-story.
-3. For each story, fill in order: `id` → `title` → `story` → `visual` → `interaction`.
-
-Be specific enough that a designer could picture each story and a builder could map regions without guessing. Put research findings in the JSON, not only in chat. Greenfield with no host → say so in `context` (design-system defaults only).
-
-### Show to the user (before confirm)
-
-In the UX confirm Markdown: a **stories table**. Show ASCII sketchs derived from each story’s `visual` so the user can see spatial structure — sketch is confirm chrome only, not a stored field.
+Be specific enough that a designer could picture each screen and a builder could map regions without guessing. Put what you learned in the JSON, not only in chat.
 
 ## Confirm
 
-Present per [SKILL.md § Showing a step to the user](../SKILL.md#showing-a-step-to-the-user) (stories table; ASCII sketches from `visual`). Confirm → `uxdesign.status = "confirmed"`. Then open [ui-structure.md](ui-structure.md).
+Show the user per [SKILL.md § Showing a step to the user](../SKILL.md#showing-a-step-to-the-user), with:
+
+1. One table row per screen: **screen · who and why · what's on it · what they can do · where it leads**.
+2. The text `sketch` for each screen.
+
+When they agree, set `uxdesign.status = "confirmed"` and open [ui-structure.md](ui-structure.md).

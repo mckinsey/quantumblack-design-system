@@ -4,7 +4,7 @@ Open this **only after** `uxdesign.status` is `confirmed`. Do not open build doc
 
 Subagent OK: pass confirmed plan JSON + brief + host paths; still confirm with the user.
 
-Map confirmed UX `context` and each `stories[]` entry (`story` / `visual` / `interaction`) to a **buildable structure** — enough that build can implement without inventing tokens, region layout, or behaviour.
+Map confirmed UX `context` and each `stories[]` entry (`story` / `visual` / `interaction` / `sketch` / `leadsTo`) to a **buildable structure** — enough that build can implement without inventing tokens, region layout, or behaviour.
 
 ## Design-system skill decides how components are resolved
 
