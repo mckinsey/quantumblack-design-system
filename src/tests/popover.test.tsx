@@ -1,6 +1,8 @@
+import type * as BaseUiPopover from '@base-ui/react/popover';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { afterEach, describe, expect, it } from 'vitest';
+import * as React from 'react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { exampleComponentMaps } from '@/app/demo/[name]/index';
 import { Renderer } from '@/app/demo/[name]/renderer';
@@ -13,6 +15,26 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from '@/components/ui/popover';
+
+const positionerProps = vi.hoisted(() => ({
+  current: undefined as { anchor?: unknown } | undefined,
+}));
+
+vi.mock('@base-ui/react/popover', async importOriginal => {
+  const actual = await importOriginal<typeof BaseUiPopover>();
+  const Positioner = React.forwardRef<
+    HTMLDivElement,
+    React.ComponentProps<typeof actual.Popover.Positioner>
+  >((props, ref) => {
+    positionerProps.current = props;
+
+    return <actual.Popover.Positioner ref={ref} {...props} />;
+  });
+
+  Positioner.displayName = 'PositionerSpy';
+
+  return { ...actual, Popover: { ...actual.Popover, Positioner } };
+});
 
 const componentName = 'popover';
 
@@ -87,6 +109,7 @@ describe(`${componentName} — structure & interaction`, () => {
 
     await user.click(screen.getByRole('button', { name: 'Open' }));
     expect(await screen.findByText('Popover body')).toBeInTheDocument();
+    expect(positionerProps.current?.anchor).toBe(anchor);
     anchor.remove();
   });
 
