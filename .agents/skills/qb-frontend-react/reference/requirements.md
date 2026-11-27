@@ -20,7 +20,7 @@ One living plan as **JSON** (file e.g. `plans/<id>.ui-plan.json`, or in memory).
 }
 ```
 
-Fill `requirements` below. Leave later keys `pending` until those stages.
+Fill `requirements` below. Design system defaults to QBDS — record it in `context` (or the one the user named) so it can be corrected here. Leave later keys `pending` until those stages.
 
 ## Before you fill
 
