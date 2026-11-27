@@ -31,12 +31,12 @@ New app folder — never hand-roll:
 
 ## Open when you need
 
-| Need                                                                  | Open                                                                   |
-| --------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| Add `@qbds` components, partial install, `globals.css`, missing names | [registry.md](reference/registry.md)                                   |
-| Plan stage 3 for a QBDS app (jsx, regions, installs, newComponents)   | [ui-structure.md](reference/ui-structure.md)                           |
-| App shell, sidebar nesting, page recipes (dashboard, form, table)     | [app-layout-archetypes.md](reference/app-layout-archetypes.md)         |
-| Chart styling: card chrome, colours, qualitative palette, theme       | [charts.md](reference/charts.md)                                       |
+| Need                                                                  | Open                                                                    |
+| --------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Add `@qbds` components, partial install, `globals.css`, missing names | [registry.md](reference/registry.md)                                    |
+| Plan stage 3 for a QBDS app (jsx, regions, installs, newComponents)   | [ui-structure.md](reference/ui-structure.md)                            |
+| App shell, sidebar nesting, page recipes (dashboard, form, table)     | [app-layout-archetypes.md](reference/app-layout-archetypes.md)          |
+| Chart styling: card chrome, colours, qualitative palette, theme       | [charts.md](reference/charts.md)                                        |
 | Which chart type and how to title it (generic)                        | [qb-frontend-react charts.md](../qb-frontend-react/reference/charts.md) |
 
 ## Hard rules

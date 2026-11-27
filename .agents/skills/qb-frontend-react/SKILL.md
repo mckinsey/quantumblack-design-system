@@ -7,12 +7,12 @@ description: 'Build any React UI feature in four confirmed steps: requirements, 
 
 Whenever the user wants to build any UI, they go through **four steps**. Each step ends with the user confirming before the next begins. No UI code is written until step 3 is confirmed.
 
-| # | Step             | What happens                                             | The user confirms                              | Open                                             |
-| - | ---------------- | -------------------------------------------------------- | ---------------------------------------------- | ------------------------------------------------ |
-| 1 | **Requirements** | Agree the goal, where it lands, and what is in scope     | What we are building and where                 | [requirements.md](reference/requirements.md)     |
-| 2 | **UX design**    | Turn the goal into screens (stories) that complete it    | What each screen shows and does                | [ux-design.md](reference/ux-design.md)           |
-| 3 | **UI structure** | Choose components, layout and tokens for each screen     | The page structure and any change from step 2  | [ui-structure.md](reference/ui-structure.md)     |
-| 4 | **Build**        | Implement the confirmed plan, no redesign                | Review the finished result                     | [build-react-ui.md](reference/build-react-ui.md) |
+| #   | Step             | What happens                                          | The user confirms                             | Open                                             |
+| --- | ---------------- | ----------------------------------------------------- | --------------------------------------------- | ------------------------------------------------ |
+| 1   | **Requirements** | Agree the goal, where it lands, and what is in scope  | What we are building and where                | [requirements.md](reference/requirements.md)     |
+| 2   | **UX design**    | Turn the goal into screens (stories) that complete it | What each screen shows and does               | [ux-design.md](reference/ux-design.md)           |
+| 3   | **UI structure** | Choose components, layout and tokens for each screen  | The page structure and any change from step 2 | [ui-structure.md](reference/ui-structure.md)     |
+| 4   | **Build**        | Implement the confirmed plan, no redesign             | Review the finished result                    | [build-react-ui.md](reference/build-react-ui.md) |
 
 Open only the doc for the current step; do not read later ones early. If requirements or design change mid-way, follow [re-run.md](reference/re-run.md).
 

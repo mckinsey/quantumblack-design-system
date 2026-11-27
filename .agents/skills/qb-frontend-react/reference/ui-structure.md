@@ -10,10 +10,10 @@ Map confirmed UX `context` and each `stories[]` entry (`story` / `visual` / `int
 
 This stage is design-system-agnostic. **Default is QBDS** unless the user named another design system (see [SKILL.md § Design system](../SKILL.md#design-system)). **How** you find components, usage examples, tokens and install names is owned by the active design-system skill.
 
-| Design system | Open instead of (or alongside) this file                                                              |
-| ------------- | ----------------------------------------------------------------------------------------------------- |
+| Design system                | Open instead of (or alongside) this file                                                                                                                             |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | QBDS (`@qbds`) — **default** | [`qbds-library/reference/ui-structure.md`](../../qbds-library/reference/ui-structure.md) — it extends this schema with registry + examples gates and `uxAdjustments` |
-| Other / none  | Use the schema below; resolve components from the host app’s own `components/ui` and its docs        |
+| Other / none                 | Use the schema below; resolve components from the host app’s own `components/ui` and its docs                                                                        |
 
 ## Rules (any design system)
 
@@ -45,14 +45,14 @@ This stage is design-system-agnostic. **Default is QBDS** unless the user named 
 }
 ```
 
-| Field           | Meaning                                                          |
-| --------------- | ---------------------------------------------------------------- |
-| `status`        | `draft` \| `confirmed`                                           |
-| `uxAdjustments` | UX shifts taken to match documented compositions; `[]` if none   |
-| `jsx`           | Rough JSX tree; every component named                            |
-| `regions`       | Ordered build map: components, example, layout, tokens, notes    |
-| `installs`      | Design-system components to add; only names that actually exist  |
-| `newComponents` | Local components — full spec, last resort (fields below)         |
+| Field           | Meaning                                                         |
+| --------------- | --------------------------------------------------------------- |
+| `status`        | `draft` \| `confirmed`                                          |
+| `uxAdjustments` | UX shifts taken to match documented compositions; `[]` if none  |
+| `jsx`           | Rough JSX tree; every component named                           |
+| `regions`       | Ordered build map: components, example, layout, tokens, notes   |
+| `installs`      | Design-system components to add; only names that actually exist |
+| `newComponents` | Local components — full spec, last resort (fields below)        |
 
 ### `newComponents[]` fields
 

@@ -44,15 +44,15 @@ Before confirming, check coverage: **every `scope` item appears in a story, and 
 }
 ```
 
-| Field         | What to write                                                                                             |
-| ------------- | --------------------------------------------------------------------------------------------------------- |
-| `context`     | The existing look and feel to follow, shared by all stories. Specific, in plain words.                    |
-| `id`, `title` | Stable key and short label.                                                                               |
-| `story`       | Who comes here, what they find, what they can do.                                                         |
-| `visual`      | Blocks on the screen from top to bottom. Must not contradict `context`. Composition only; spacing and grids come in step 3. |
+| Field         | What to write                                                                                                                                 |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `context`     | The existing look and feel to follow, shared by all stories. Specific, in plain words.                                                        |
+| `id`, `title` | Stable key and short label.                                                                                                                   |
+| `story`       | Who comes here, what they find, what they can do.                                                                                             |
+| `visual`      | Blocks on the screen from top to bottom. Must not contradict `context`. Composition only; spacing and grids come in step 3.                   |
 | `interaction` | What the user can do and what happens next. Include empty and error; add loading, narrow screens and keyboard use when the screen needs them. |
-| `leadsTo`     | Which story the user goes to next, if any.                                                                |
-| `sketch`      | Optional text sketch of the screen, drawn from `visual`. Stored so step 3 and any re-run use what the user approved. |
+| `leadsTo`     | Which story the user goes to next, if any.                                                                                                    |
+| `sketch`      | Optional text sketch of the screen, drawn from `visual`. Stored so step 3 and any re-run use what the user approved.                          |
 
 Be specific enough that a designer could picture each screen and a builder could map regions without guessing. Put what you learned in the JSON, not only in chat.
 

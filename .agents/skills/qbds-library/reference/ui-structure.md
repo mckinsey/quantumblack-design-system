@@ -26,23 +26,23 @@ Full filled-in sample: [example-ui-structure.json](example-ui-structure.json).
 
 ## Where to look
 
-| Need                                   | Open                                                                                           |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| App shell, KPI, filters, page recipes  | [app-layout-archetypes.md](app-layout-archetypes.md) — after examples, not instead of them     |
-| Charts: styling and colours            | [charts.md](charts.md)                                                                         |
-| Missing names / fallbacks              | [registry.md](registry.md)                                                                     |
-| How delivery mode shapes structure     | [delivery-modes.md](../../qb-frontend-react/reference/delivery-modes.md)                       |
-| Focus ring                             | `focus-visible:ring-stroke-status-focus`                                                       |
+| Need                                  | Open                                                                                       |
+| ------------------------------------- | ------------------------------------------------------------------------------------------ |
+| App shell, KPI, filters, page recipes | [app-layout-archetypes.md](app-layout-archetypes.md) — after examples, not instead of them |
+| Charts: styling and colours           | [charts.md](charts.md)                                                                     |
+| Missing names / fallbacks             | [registry.md](registry.md)                                                                 |
+| How delivery mode shapes structure    | [delivery-modes.md](../../qb-frontend-react/reference/delivery-modes.md)                   |
+| Focus ring                            | `focus-visible:ring-stroke-status-focus`                                                   |
 
 ## What to fill
 
-| Field           | Rule                                                                                                                          |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `uxAdjustments` | Every UX shift caused by an example; `[]` if none.                                                                            |
-| `jsx`           | Full-page tree; nesting follows the chosen examples. Domain content comes from the stories.                                   |
+| Field           | Rule                                                                                                                                                                     |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `uxAdjustments` | Every UX shift caused by an example; `[]` if none.                                                                                                                       |
+| `jsx`           | Full-page tree; nesting follows the chosen examples. Domain content comes from the stories.                                                                              |
 | `regions[]`     | Every visible region: `region`, `components`, `example` (required when it uses `@qbds/…`), `layout`, `tokens`, optional `notes`. `layout` describes the example pattern. |
-| `installs`      | Only names verified in `registry.json`; the union of all `@qbds/…` in regions and `newComponents.compose`.                    |
-| `newComponents` | `[]` when registry plus composition covers everything. Otherwise every field below; a `how`-only stub is not confirmable.     |
+| `installs`      | Only names verified in `registry.json`; the union of all `@qbds/…` in regions and `newComponents.compose`.                                                               |
+| `newComponents` | `[]` when registry plus composition covers everything. Otherwise every field below; a `how`-only stub is not confirmable.                                                |
 
 `newComponents[]` fields: `name`, `path` (under `delivery.targets`), `description`, `checkedRegistry` (`true`), `whyNotQbds`, `compose`, `tokens`, `layout`, `behavior`, `states`, `a11y`, `props`, `how` (cite the examples it follows).
 
