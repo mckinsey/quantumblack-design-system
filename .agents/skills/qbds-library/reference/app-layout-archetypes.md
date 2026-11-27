@@ -2,7 +2,7 @@
 
 React / `@qbds`. Tokens: [TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md) · layout/a11y: [DESIGN.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/DESIGN.md). Component APIs: [registry.json](https://github.com/mckinsey/quantumblack-design-system/blob/main/registry.json) + demos on GitHub / [designsystem.quantumblack.com](https://designsystem.quantumblack.com/).
 
-Use these as **recipes** that match confirmed UX story `visual` / `interaction`. Hybrids compose via [ui-structure.md](../ui-structure.md) regions.
+Use these as **recipes** that match confirmed UX story `visual` / `interaction`. Hybrids compose via [ui-structure.md](ui-structure.md) regions.
 
 ---
 
@@ -28,7 +28,7 @@ outer div
     SidebarInset  ← scrollable main
 ```
 
-Never hand-roll `<aside>`/`<nav>` when `@qbds/sidebar` exists. Full-nav Navbar height **`h-14`** (sidebar `top-14` depends on it). Theme toggle and other missing `@qbds` names: [react-qbds-registry.md](react-qbds-registry.md).
+Never hand-roll `<aside>`/`<nav>` when `@qbds/sidebar` exists. Full-nav Navbar height **`h-14`** (sidebar `top-14` depends on it). Theme toggle and other missing `@qbds` names: [registry.md](registry.md).
 
 **Main:** `flex-1 min-h-0 w-full overflow-auto bg-surface-base p-6`.
 

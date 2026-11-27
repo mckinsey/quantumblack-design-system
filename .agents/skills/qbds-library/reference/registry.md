@@ -2,7 +2,7 @@
 
 Use after Vite/Next already has `@qbds` (setup script, host app, or partial install below).
 
-**New folder:** [delivery-modes.md](../delivery-modes.md) — [setup-qbds-vite.sh](../scripts/setup-qbds-vite.sh) (default) or [setup-qbds-next.sh](../scripts/setup-qbds-next.sh). Do not hand-roll.
+**New folder:** [delivery-modes.md](../../qb-frontend-react/reference/delivery-modes.md) — [setup-qbds-vite.sh](scripts/setup-qbds-vite.sh) (default) or [setup-qbds-next.sh](scripts/setup-qbds-next.sh). Do not hand-roll.
 
 **Tokens / visual:** [TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md) · [DESIGN.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/DESIGN.md) · layouts: [app-layout-archetypes.md](app-layout-archetypes.md)
 
@@ -31,7 +31,7 @@ Batch names in **one** call. Only names in [`registry.json`](https://github.com/
 | Demo source (fallback)   | `…/blob/main/src/app/demo/%5Bname%5D/ui/<component>.tsx`                         |
 | Site                     | [designsystem.quantumblack.com](https://designsystem.quantumblack.com/)          |
 
-`/r/<name>.json` = installable files (often UI only). `/examples/<name>.json` = usage snippets agents must follow. Do not invent composition from the API alone when an example exists. Prefer the example’s nesting/chrome even if that shifts the confirmed UX — tell the user ([ui-structure.md](../ui-structure.md) `uxAdjustments`). Strip site-only imports (`@/components/registry/*`, `@/lib/demo-utils`) when adapting into a product app.
+`/r/<name>.json` = installable files (often UI only). `/examples/<name>.json` = usage snippets agents must follow. Do not invent composition from the API alone when an example exists. Prefer the example’s nesting/chrome even if that shifts the confirmed UX — tell the user ([ui-structure.md](ui-structure.md) `uxAdjustments`). Strip site-only imports (`@/components/registry/*`, `@/lib/demo-utils`) when adapting into a product app.
 
 ---
 

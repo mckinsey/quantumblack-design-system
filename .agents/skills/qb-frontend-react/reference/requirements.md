@@ -61,7 +61,7 @@ Requirements answer **what** and **where** — not how each screen fulfills the 
   },
   "context": {
     "product": "Metrics dashboard",
-    "notes": "Host uses @qbds, Sidebar rail, dark theme — match this chrome"
+    "notes": "Host uses its design system, Sidebar rail, dark theme — match this chrome"
   },
   "scope": ["KPI cards", "activity table", "drill-down"],
   "constraints": ["fit existing app shell", "dark-first"],

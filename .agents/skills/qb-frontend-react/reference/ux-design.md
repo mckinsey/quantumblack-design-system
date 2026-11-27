@@ -6,11 +6,11 @@ Subagent OK: pass confirmed requirements JSON + brief + host paths; still confir
 
 ## Open when you need
 
-| Need                                  | Source                                                                                                                                                                                                                |
-| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Visual rules, tokens, a11y, chart hex | [DESIGN.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/DESIGN.md) · [TOKENS.md](https://github.com/mckinsey/quantumblack-design-system/blob/main/docs/TOKENS.md) · installed `globals.css` |
-| App shell / layout recipes            | [shared/app-layout-archetypes.md](shared/app-layout-archetypes.md)                                                                                                                                                    |
-| Chart type and titles                 | [shared/chart-best-practices.md](shared/chart-best-practices.md)                                                                                                                                                      |
+| Need                                  | Source                                                                                              |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Visual rules, tokens, a11y, chart hex | The active design-system skill (QBDS: [`qbds-library`](../../qbds-library/SKILL.md) § Foundations) |
+| App shell / layout recipes            | Design-system skill (QBDS: `qbds-library/reference/app-layout-archetypes.md`)                       |
+| Chart type and titles                 | [charts.md](charts.md)                                                                              |
 | How delivery shapes UX                | [delivery-modes.md](delivery-modes.md#how-this-affects-later-stages)                                                                                                                                                  |
 
 If requirements `context` names a product, use that scan — don’t invent chrome.
@@ -22,9 +22,8 @@ If requirements `context` names a product, use that scan — don’t invent chro
 Do **extensive research** before drafting JSON. Do not invent UX from the brief alone.
 
 - Re-read confirmed `requirements` (`goal`, `scope`, `context`, `delivery`, `constraints`).
-- Open and study the host / reference product paths (`hostApp`, named products in requirements `context`). Note shell, nav, density, theme, existing patterns, `@qbds` usage.
-- Read DESIGN/TOKENS and [app-layout-archetypes.md](shared/app-layout-archetypes.md) as pattern recipes that match what you will write in each story’s `visual`.
-- Read component guidelines [component-guidelines.md](shared/component-guidelines.md)
+- Open and study the host / reference product paths (`hostApp`, named products in requirements `context`). Note shell, nav, density, theme, existing patterns, design-system usage.
+- Read the design system’s foundations (tokens, a11y, layout recipes, component guidelines) via the active design-system skill, as pattern recipes that match what you will write in each story’s `visual`.
 - Put **everything you learn into the JSON** — especially top-level `context`. Vague or missing adherence notes are not acceptable. If research surfaces open questions → ask the user; don’t guess.
 
 ## Think thoroughly
@@ -84,7 +83,7 @@ Do **not** keep a single top-level `story` / `visual` / `interaction`. Those liv
 2. Split `requirements.goal` (+ `scope`) into `stories[]` — each story helps complete the goal; one entry per distinct job or screen. Prefer fewer sharp stories over one mega-story.
 3. For each story, fill in order: `id` → `title` → `story` → `visual` → `interaction`.
 
-Be specific enough that a designer could picture each story and a builder could map regions without guessing. Put research findings in the JSON, not only in chat. Greenfield with no host → say so in `context` (QBDS defaults only).
+Be specific enough that a designer could picture each story and a builder could map regions without guessing. Put research findings in the JSON, not only in chat. Greenfield with no host → say so in `context` (design-system defaults only).
 
 ### Show to the user (before confirm)
 

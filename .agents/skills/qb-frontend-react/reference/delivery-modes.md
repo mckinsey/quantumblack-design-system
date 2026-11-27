@@ -20,7 +20,7 @@ Delivery answers:
 
 | Value        | Meaning                                                                                               |
 | ------------ | ----------------------------------------------------------------------------------------------------- |
-| `greenfield` | New app from scratch (or empty project). Shell + `@qbds` setup are in scope.                          |
+| `greenfield` | New app from scratch (or empty project). Shell + design-system setup are in scope.                          |
 | `pages`      | One or more new routes in an existing host app. Reuse that app’s shell; don’t invent parallel chrome. |
 | `feature`    | A slice inside an existing page/flow. Touch only the mount region unless `scope` says otherwise.      |
 
@@ -117,14 +117,7 @@ If they want it to **feel like** an existing product:
 
 …and put the actual UI findings in `context` (then reflect them in UX `context` and each story’s `visual`).
 
-Scaffold with a script — do not hand-roll:
-
-| Ask                     | Script                                                         |
-| ----------------------- | -------------------------------------------------------------- |
-| Vite / SPA / unnamed    | [setup-qbds-vite.sh](scripts/setup-qbds-vite.sh) **(default)** |
-| Next / SSR / App Router | [setup-qbds-next.sh](scripts/setup-qbds-next.sh)               |
-
-`bash …/setup-qbds-vite.sh <folder>` (or next). Folder name only; optional extra `@qbds/…` args.
+Scaffold with the design system’s setup script — do not hand-roll. Which script (Vite vs Next, etc.) and how to run it come from the active design-system skill (QBDS: [`qbds-library` § Scaffold](../../qbds-library/SKILL.md#scaffold)). Default to a client-side Vite SPA unless the brief says Next / SSR.
 
 ### New page(s) (`pages`)
 
@@ -181,7 +174,7 @@ If the user wants design borrowed from a product, document it in `context` befor
 
 | Mode         | Must                                                                                                            |
 | ------------ | --------------------------------------------------------------------------------------------------------------- |
-| `greenfield` | App shell + routing in `regions` / `jsx`; theme + registry setup in `installs`                                  |
+| `greenfield` | App shell + routing in `regions` / `jsx`; theme + component setup in `installs`                                  |
 | `pages`      | One region set per intended `route`; **include host shell** when matching a host; no rewrite of unrelated pages |
 | `feature`    | Only regions inside the host mount; no new app chrome                                                           |
 
@@ -189,6 +182,6 @@ If the user wants design borrowed from a product, document it in `context` befor
 
 | Mode         | What to do                                                                                                                                                |
 | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `greenfield` | Vite or Next script into `targets` → then shell + pages                                                                                                   |
+| `greenfield` | Design-system scaffold script into `targets` → then shell + pages                                                                                                   |
 | `pages`      | Write under `targets`; if under host, reuse shell; if a side folder, setup script if missing and **mirror** `route` / `mount` / host shell from `context` |
 | `feature`    | Touch only the host region(s) in `targets`; leave surrounding chrome alone                                                                                |
