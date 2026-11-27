@@ -132,7 +132,7 @@ const minuteItems = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].map(
 ) as unknown as figma.ResultSection[];
 
 const overflowFallback = figma.code`
-  <TimePickerListContent${pickerSizeProp} finalFocus={false}>
+  <TimePickerListContent${pickerSizeProp} anchor={anchorRef} finalFocus={false}>
     <ScrollArea className="h-full w-fit">
       <TimePickerList${pickerSizeProp} aria-label="Hours">
         ${figma.helpers.react.renderChildren(hourItems)}
@@ -150,24 +150,37 @@ const overflowFallback = figma.code`
 
 const timeInput = figma.code`<TimeInput variant="inline"${sizeProp}${disabledProp}${invalidProp}${openProp}${hourProp}${minuteProp}${phHourProp}${phMinuteProp}${classProp} />`;
 
+const connectedOverflow = overflowCode.map(section =>
+  section.type === 'CODE'
+    ? {
+        ...section,
+        code: section.code.replace(
+          '<TimePickerListContent',
+          '<TimePickerListContent anchor={anchorRef}',
+        ),
+      }
+    : section,
+);
+
 const overflowContent =
   overflowCode.length > 0
-    ? figma.helpers.react.renderChildren(overflowCode)
+    ? figma.helpers.react.renderChildren(connectedOverflow)
     : overflow?.type === 'INSTANCE'
       ? overflowFallback
       : null;
 
-const fieldBody =
-  isOpen && overflowContent
-    ? figma.code`
+const isOpenExample = Boolean(isOpen && overflowContent);
+
+const fieldBody = isOpenExample
+  ? figma.code`
   <Popover open>
-    <PopoverAnchor className="w-fit">
+    <div ref={anchorRef} className="w-fit">
       ${timeInput}
-    </PopoverAnchor>
+    </div>
     ${overflowContent}
   </Popover>
 `
-    : timeInput;
+  : timeInput;
 
 const footer = showErrorFooter
   ? figma.code`<FieldError size="${size}">{${statusMessage}}</FieldError>`
@@ -177,18 +190,30 @@ const footer = showErrorFooter
 
 const hasFooter = showErrorFooter || showHintFooter;
 
-const example = hasFooter
+const content = hasFooter
   ? figma.code`<FieldSet className="gap-2">${fieldBody}${footer}</FieldSet>`
   : fieldBody;
 
-const openImports =
-  isOpen && overflowContent
-    ? [
-        'import { Popover, PopoverAnchor } from "@/components/ui/popover"',
-        'import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"',
-        'import { TimePickerItem, TimePickerList, TimePickerListContent } from "@/components/ui/time-picker"',
-      ]
-    : [];
+const example = isOpenExample
+  ? figma.code`
+function TimeInputExample() {
+  const anchorRef = useRef<HTMLDivElement>(null);
+
+  return (
+    ${content}
+  );
+}
+`
+  : content;
+
+const openImports = isOpenExample
+  ? [
+      'import { useRef } from "react"',
+      'import { Popover } from "@/components/ui/popover"',
+      'import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"',
+      'import { TimePickerItem, TimePickerList, TimePickerListContent } from "@/components/ui/time-picker"',
+    ]
+  : [];
 
 const fieldImports = showErrorFooter
   ? ['import { FieldError, FieldSet } from "@/components/ui/field"']

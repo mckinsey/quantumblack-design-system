@@ -1,19 +1,40 @@
+import type * as BaseUiPopover from '@base-ui/react/popover';
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { afterEach, describe, expect, it } from 'vitest';
+import * as React from 'react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { exampleComponentMaps } from '@/app/demo/[name]/index';
 import { Renderer } from '@/app/demo/[name]/renderer';
 import { Button } from '@/components/ui/button';
 import {
   Popover,
-  PopoverAnchor,
   PopoverContent,
   PopoverDescription,
   PopoverHeader,
   PopoverTitle,
   PopoverTrigger,
 } from '@/components/ui/popover';
+
+const positionerProps = vi.hoisted(() => ({
+  current: undefined as { anchor?: unknown } | undefined,
+}));
+
+vi.mock('@base-ui/react/popover', async importOriginal => {
+  const actual = await importOriginal<typeof BaseUiPopover>();
+  const Positioner = React.forwardRef<
+    HTMLDivElement,
+    React.ComponentProps<typeof actual.Popover.Positioner>
+  >((props, ref) => {
+    positionerProps.current = props;
+
+    return <actual.Popover.Positioner ref={ref} {...props} />;
+  });
+
+  Positioner.displayName = 'PositionerSpy';
+
+  return { ...actual, Popover: { ...actual.Popover, Positioner } };
+});
 
 const componentName = 'popover';
 
@@ -74,18 +95,22 @@ describe(`${componentName} — structure & interaction`, () => {
     expect(await screen.findByText('Popover body')).toBeInTheDocument();
   });
 
-  it('supports PopoverAnchor for custom positioning', () => {
+  it('passes the anchor prop through to the positioner', async () => {
+    const user = userEvent.setup();
+    const anchor = document.createElement('div');
+    document.body.appendChild(anchor);
+
     render(
       <Popover>
-        <PopoverAnchor data-testid="anchor" />
         <PopoverTrigger>Open</PopoverTrigger>
-        <PopoverContent>Popover body</PopoverContent>
+        <PopoverContent anchor={anchor}>Popover body</PopoverContent>
       </Popover>,
     );
 
-    expect(
-      document.querySelector('[data-slot="popover-anchor"]'),
-    ).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Open' }));
+    expect(await screen.findByText('Popover body')).toBeInTheDocument();
+    expect(positionerProps.current?.anchor).toBe(anchor);
+    anchor.remove();
   });
 
   it('renders header, title, and description slots', async () => {
