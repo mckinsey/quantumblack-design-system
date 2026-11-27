@@ -21,7 +21,7 @@ If requirements `context` names a product, use that scan — don’t invent chro
 
 Do **extensive research** before drafting JSON. Do not invent UX from the brief alone.
 
-- Re-read confirmed `requirements` (`goal`, `scope`, `context`, `delivery`, `constraints`).
+- Re-read confirmed `requirements` (`goal`, `designSystem`, `scope`, `context`, `delivery`, `constraints`, `success`).
 - Open and study the host / reference product paths (`hostApp`, named products in requirements `context`). Note shell, nav, density, theme, existing patterns, design-system usage.
 - Read the design system’s foundations (tokens, a11y, layout recipes, component guidelines) via the active design-system skill, as pattern recipes that match what you will write in each story’s `visual`.
 - Put **everything you learn into the JSON** — especially top-level `context`. Vague or missing adherence notes are not acceptable. If research surfaces open questions → ask the user; don’t guess.

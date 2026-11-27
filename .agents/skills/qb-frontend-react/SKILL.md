@@ -22,7 +22,7 @@ If the user says “just build” (or equivalent) with a clear brief, skip the c
 
 ## Design system
 
-Default is QBDS: load [qbds-library](../qbds-library/SKILL.md), even if the brief doesn't say “QBDS”. If the user names another design system, use its skill or docs and the host app's own components, use the generic [ui-structure.md](reference/ui-structure.md), and don't load `qbds-library`. Never mix two design systems in one plan. Record the choice in step 1 so the user can correct it.
+Default is QBDS: load [qbds-library](../qbds-library/SKILL.md), even if the brief doesn't say “QBDS”. If the user names another design system, use its skill or docs and the host app's own components, use the generic [ui-structure.md](reference/ui-structure.md), and don't load `qbds-library`. Never mix two design systems in one plan. Step 1 records it as `designSystem` so the user can correct it.
 
 ## Showing a step to the user
 

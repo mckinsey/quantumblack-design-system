@@ -1,112 +1,70 @@
-# Stage 1 — Requirements
+# Step 1 — Requirements
 
-Start here. Do not open UX, UI structure, or build docs yet.
+Agree **what** we are building and **where** it lands. Not how each screen works — that is step 2.
 
-One living plan as **JSON** (file e.g. `plans/<id>.ui-plan.json`, or in memory). Fill and confirm **this section only**. When showing the user, follow [SKILL.md § Showing a step to the user](../SKILL.md#showing-a-step-to-the-user): Markdown first, JSON at the bottom.
+Start the plan from [plan.json](plan.json) (save as `plans/<id>.ui-plan.json`, or keep in memory) and fill only `requirements`. Leave the later stages `pending`.
 
-**No UI code** until `ui_structure` is confirmed later (unless the user says “just build” with a clear brief — see [SKILL.md § Just build](../SKILL.md#just-build)).
+## Find out first
 
-## Start the plan
+Read the host app or product if one is named; don't guess. Then settle these, asking only what you can't see for yourself:
 
-```json
-{
-  "version": 1,
-  "id": "metrics-overview",
-  "title": "Metrics overview",
-  "requirements": { "status": "draft" },
-  "uxdesign": { "status": "pending" },
-  "ui_structure": { "status": "pending" },
-  "build": { "status": "pending", "deviations": [] }
-}
-```
+| Question                      | Goes in                                                          |
+| ----------------------------- | ---------------------------------------------------------------- |
+| What is the one outcome, for whom? | `goal`, `actors`                                            |
+| Where does it live? New app, new pages in an existing app, or a slice of a page? | `delivery` ([delivery-modes.md](delivery-modes.md)) |
+| Which design system? Default QBDS | `designSystem`                                               |
+| Must it match an existing look? | `context`                                                      |
+| What is in, and what is out?  | `scope`, `constraints`                                           |
+| Real data or dummy data?      | `scope` / `assumptions`                                          |
+| How will we know it's done?   | `success`                                                        |
 
-Fill `requirements` below. Design system defaults to QBDS — record it in `context` (or the one the user named) so it can be corrected here. Leave later keys `pending` until those stages.
+## Ask or assume
 
-## Before you fill
+- **Ask** only what would change the build. Batch the questions into one message.
+- **Assume** everything else, and list it under `assumptions` so the user can correct it.
+- Every question is a full sentence a non-technical reader can answer, with what changes if they pick A or B. No tags like `"stack"` or `"q1"`.
+- Loop until every answer is moved into the fields and `openQuestions` is `[]`.
 
-- Understand the brief thoroughly. Read the host/product if named — don’t guess.
-- Document findings in `goal`, `context`, `delivery`, `scope`, `constraints`, `assumptions`.
-- Unclear → put full human-readable questions in `openQuestions` (JSON) and ask the user the same text. No slug keys (`"stack"`, `"actors"`).
-- Subagent OK: pass brief + any paths found; return a draft `requirements` object; you still confirm with the user.
-
-## What belongs here vs later
-
-**Model:** one `goal` in requirements → multiple **stories** in UX that complete that goal.
-
-Requirements answer **what** and **where** — not how each screen fulfills the goal.
-
-| Put in `requirements`                          | Defer to UX (`uxdesign`)                      |
-| ---------------------------------------------- | --------------------------------------------- |
-| One `goal`                                     | `context` (shell / density adherence)         |
-| `actors`, `delivery`, capability-level `scope` | `stories[]` — together they complete the goal |
-| Hard `constraints` / `assumptions`             | Per story: `story`, `visual`, `interaction`   |
-| Product name in `context`                      | How each story’s screen looks and behaves     |
-
-**Do not** draft stories or extra schema keys here. If the brief names screens (“tokens / models / users”), put those as short `scope` items only — how each screen completes the goal is UX.
-
-## Schema
+## Fields
 
 ```json
 {
   "status": "draft",
-  "goal": "Show key metrics and let users drill into recent activity.",
+  "goal": "Analysts can see key metrics at a glance and drill into recent activity.",
   "actors": ["analyst", "ops lead"],
+  "designSystem": "QBDS",
   "delivery": {
     "mode": "pages",
     "hostApp": "apps/dashboard",
     "route": "/overview",
     "mount": "inside existing Sidebar shell",
     "targets": ["prototypes/metrics-overview"],
-    "notes": "Prototype folder; do not edit the live Next app yet"
+    "notes": "Prototype folder; do not edit the live app yet"
   },
-  "context": {
-    "product": "Metrics dashboard",
-    "notes": "Host uses its design system, Sidebar rail, dark theme — match this chrome"
-  },
+  "context": "Host uses a left Sidebar rail and dark theme — match this chrome.",
   "scope": ["KPI cards", "activity table", "drill-down"],
   "constraints": ["fit existing app shell", "dark-first"],
-  "openQuestions": [
-    "Should this live inside the existing app (reuses current navigation and look), or as a separate prototype folder for review first? A separate folder means we do not touch the live app until you say so.",
-    "Who is the main audience — analysts watching live metrics, or leads reviewing weekly summaries? That chooses which details we surface first."
-  ],
-  "assumptions": ["Dummy data for the first pass"]
+  "success": ["Overview shows 3 KPIs and a filterable activity table", "Works in dark and light"],
+  "assumptions": ["Dummy data for the first pass"],
+  "openQuestions": []
 }
 ```
 
-When everything is answered, set `"openQuestions": []` before confirm.
+| Field           | Rule                                                                                       |
+| --------------- | ------------------------------------------------------------------------------------------ |
+| `goal`          | One sentence: who gets what outcome. One goal only — no stories or screen detail.          |
+| `actors`        | Who it is for (optional).                                                                  |
+| `designSystem`  | `"QBDS"` by default, or the one the user named. Shown to the user so they can change it.   |
+| `delivery`      | `mode` + `hostApp` / `route` / `mount` / `targets`. See [delivery-modes.md](delivery-modes.md). |
+| `context`       | What the host or reference product looks like, and “match this” notes. No component lists. |
+| `scope`         | Short capability or screen names the user picked, e.g. `"Tokens screen"`. Out of scope is what they didn't pick; note big exclusions in `constraints`. |
+| `constraints`   | Hard limits.                                                                               |
+| `success`       | 1–3 checks the user can use at the final review.                                           |
+| `assumptions`   | Stated bets, including dummy data.                                                         |
+| `openQuestions` | Unanswered questions. Must be `[]` to confirm.                                             |
 
-| Field           | Meaning                                                                                                                                                                                                                                                      | Values                                     |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------ |
-| `status`        | Confirm state                                                                                                                                                                                                                                                | `draft` \| `confirmed`                     |
-| `goal`          | One job — enough that the user is happy                                                                                                                                                                                                                      | string                                     |
-| `actors`        | Who it’s for (optional)                                                                                                                                                                                                                                      | string[]                                   |
-| `delivery`      | Placement contract                                                                                                                                                                                                                                           | see [delivery-modes.md](delivery-modes.md) |
-| `context`       | Product / host UI findings — not component lists. Put “match this design” here.                                                                                                                                                                              | object (`product`, `notes`, …)             |
-| `scope`         | Agreed items for this run                                                                                                                                                                                                                                    | string[]                                   |
-| `constraints`   | Hard limits                                                                                                                                                                                                                                                  | string[]                                   |
-| `openQuestions` | Must be `[]` before confirm. Each item is a full sentence (or short paragraph) a non-technical reader can answer — include impact/tradeoff, not a tag. Store that same text in the plan JSON; Markdown summary mirrors it. Ban: slug/id keys like `"stack"`. | string[]                                   |
-| `assumptions`   | Stated bets                                                                                                                                                                                                                                                  | string[]                                   |
-
-### `openQuestions` shape
-
-- **Do:** one readable question per string; explain what changes if they pick A vs B.
-- **Don’t:** `"stack"`, `"home-overview"`, `"q1"`, or other machine keys.
-- Present the list to the user; loop until every item is answered (move answers into `scope` / `constraints` / `assumptions` / other fields) and the array is `[]`.
-
-Set `delivery` per [delivery-modes.md](delivery-modes.md).
-
-## Scope
-
-1. Propose a clear list of **options** (what could be in this work) — capability / screen / feature names, not story drafts.
-2. User chooses what goes in.
-3. Write only the chosen items into `scope`.
-
-Keep each scope item short (e.g. `"Tokens screen"`, `"dummy data"`). Out-of-scope is whatever the user did not pick (note big exclusions in `constraints` or `assumptions` if needed).
+**Scope:** propose a list of options, let the user choose, write only the chosen items. If the brief names screens (“tokens / models / users”), they are `scope` items; how each one completes the goal is step 2.
 
 ## Confirm
 
-Present per [SKILL.md § Showing a step to the user](../SKILL.md#showing-a-step-to-the-user). User agrees (`goal`, `delivery`, `context`, `scope`, `constraints`) **and** `openQuestions` is `[]` (answered or moved into `assumptions` / `scope` / `constraints`).
-
-Delivery field gates (`hostApp` / `route` / `mount` / `targets`): see [delivery-modes.md](delivery-modes.md#pick-one-mode).
-
-When confirmed → open [ux-design.md](ux-design.md). Do not open UX docs while questions are open.
+Show the user per [SKILL.md § Showing a step to the user](../SKILL.md#showing-a-step-to-the-user). They agree to `goal`, `designSystem`, `delivery`, `context`, `scope`, `constraints` and `success`, and `openQuestions` is `[]`. Delivery needs its required values ([delivery-modes.md](delivery-modes.md#pick-one-mode)). Then set `status` to `confirmed` and open [ux-design.md](ux-design.md).
