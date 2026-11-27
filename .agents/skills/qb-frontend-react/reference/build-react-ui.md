@@ -34,4 +34,4 @@ Design-system specifics (component registry, theming, missing components, instal
 
 7. **Finish**  
    Set `build.status`. Record anything that diverged under `build.deviations`.  
-   Present per [SKILL.md § Show to the user](../SKILL.md#show-to-the-user-every-stage).
+   Present per [SKILL.md § Showing a step to the user](../SKILL.md#showing-a-step-to-the-user), then ask the user to **review the finished result**.

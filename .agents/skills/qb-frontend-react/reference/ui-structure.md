@@ -60,4 +60,4 @@ This stage is design-system-agnostic. **Default is QBDS** unless the user named 
 
 ## Confirm
 
-Present per [SKILL.md § Show to the user](../SKILL.md#show-to-the-user-every-stage). Call out `uxAdjustments` in the Markdown, not only in JSON. Confirm → `ui_structure.status = "confirmed"`. Then open [build-react-ui.md](build-react-ui.md).
+Present per [SKILL.md § Showing a step to the user](../SKILL.md#showing-a-step-to-the-user). Call out `uxAdjustments` in the Markdown, not only in JSON. Confirm → `ui_structure.status = "confirmed"`. Then open [build-react-ui.md](build-react-ui.md).

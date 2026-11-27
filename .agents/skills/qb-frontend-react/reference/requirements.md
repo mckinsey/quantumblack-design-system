@@ -2,7 +2,7 @@
 
 Start here. Do not open UX, UI structure, or build docs yet.
 
-One living plan as **JSON** (file e.g. `plans/<id>.ui-plan.json`, or in memory). Fill and confirm **this section only**. When showing the user, follow [SKILL.md § Show to the user](../SKILL.md#show-to-the-user-every-stage): Markdown first, JSON at the bottom.
+One living plan as **JSON** (file e.g. `plans/<id>.ui-plan.json`, or in memory). Fill and confirm **this section only**. When showing the user, follow [SKILL.md § Showing a step to the user](../SKILL.md#showing-a-step-to-the-user): Markdown first, JSON at the bottom.
 
 **No UI code** until `ui_structure` is confirmed later (unless the user says “just build” with a clear brief — see [SKILL.md § Just build](../SKILL.md#just-build)).
 
@@ -105,7 +105,7 @@ Keep each scope item short (e.g. `"Tokens screen"`, `"dummy data"`). Out-of-scop
 
 ## Confirm
 
-Present per [SKILL.md § Show to the user](../SKILL.md#show-to-the-user-every-stage). User agrees (`goal`, `delivery`, `context`, `scope`, `constraints`) **and** `openQuestions` is `[]` (answered or moved into `assumptions` / `scope` / `constraints`).
+Present per [SKILL.md § Showing a step to the user](../SKILL.md#showing-a-step-to-the-user). User agrees (`goal`, `delivery`, `context`, `scope`, `constraints`) **and** `openQuestions` is `[]` (answered or moved into `assumptions` / `scope` / `constraints`).
 
 Delivery field gates (`hostApp` / `route` / `mount` / `targets`): see [delivery-modes.md](delivery-modes.md#pick-one-mode).
 
