@@ -264,6 +264,7 @@ function SelectContent({
       <SelectPrimitive.Positioner
         sideOffset={sideOffset}
         alignItemWithTrigger={alignItemWithTrigger}
+        className="isolate z-50"
         {...positionerProps}>
         <SelectPrimitive.Popup
           data-slot="select-content"

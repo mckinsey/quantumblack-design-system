@@ -17,6 +17,7 @@ import {
   SelectWithGroups,
 } from '@/app/demo/[name]/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import {
   Select,
   SelectContent,
@@ -25,6 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 
 const items = [
   { label: 'One', value: 'one' },
@@ -259,5 +261,61 @@ describe('Select', () => {
     const checkbox = document.querySelector('[role="checkbox"]');
     expect(checkbox).toHaveAttribute('aria-checked', 'true');
     expect(screen.getByRole('combobox')).toBeInTheDocument();
+  });
+});
+
+describe('Select inside overlays', () => {
+  const selectUi = (
+    <Select items={items}>
+      <SelectTrigger>
+        <SelectValue placeholder="Pick" />
+      </SelectTrigger>
+      <SelectContent>
+        {items.map(i => (
+          <SelectItem key={i.value} value={i.value}>
+            <SelectItemText>{i.label}</SelectItemText>
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+
+  // jsdom has no layout, so assert the stacking classes that keep the popup
+  // above a `fixed z-50` dialog/sheet.
+  const expectIsolatedPositioner = async (
+    user: ReturnType<typeof userEvent.setup>,
+  ) => {
+    await user.click(screen.getByRole('combobox'));
+    const option = await screen.findByRole('option', { name: 'One' });
+    const positioner = option.closest(
+      '[data-slot="select-content"]',
+    )?.parentElement;
+    expect(positioner).toHaveClass('isolate', 'z-50');
+  };
+
+  it('stacks above a Dialog', async () => {
+    const user = userEvent.setup();
+    render(
+      <Dialog open>
+        <DialogContent>
+          <DialogTitle>T</DialogTitle>
+          {selectUi}
+        </DialogContent>
+      </Dialog>,
+    );
+    await expectIsolatedPositioner(user);
+  });
+
+  it('stacks above a Sheet', async () => {
+    const user = userEvent.setup();
+    render(
+      <Sheet open>
+        <SheetContent>
+          <SheetTitle>T</SheetTitle>
+          {selectUi}
+        </SheetContent>
+      </Sheet>,
+    );
+    await expectIsolatedPositioner(user);
   });
 });
