@@ -46,16 +46,3 @@ Ask for confirmation on the Markdown summary.
 ## Just build
 
 When the user says “just build” (or equivalent) with a clear brief: **skip confirmation gates only**. Run all the steps. Choose the best options and complete the task.
-
-## Open when you need
-
-| Need                                                     | Open                                                                      |
-| -------------------------------------------------------- | ------------------------------------------------------------------------- |
-| Stage 1 — start plan + requirements                      | [requirements.md](reference/requirements.md)                              |
-| New app vs page vs feature; where files land             | [delivery-modes.md](reference/delivery-modes.md)                          |
-| Stage 2 — UX (`stories[]`: story / visual / interaction) | [ux-design.md](reference/ux-design.md)                                    |
-| Stage 3 — UI structure                                   | [ui-structure.md](reference/ui-structure.md)                              |
-| Stage 4 — Build                                          | [build-react-ui.md](reference/build-react-ui.md)                          |
-| Which chart type and how to title it                     | [charts.md](reference/charts.md)                                          |
-| Plan invalidated mid-flight                              | [re-run.md](reference/re-run.md)                                          |
-| Anything QBDS (default): tokens, install, scaffold, shell, chart colours, logos | [qbds-library](../qbds-library/SKILL.md) |

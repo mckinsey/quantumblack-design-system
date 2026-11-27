@@ -1,125 +1,33 @@
 # Delivery — where the work lands
 
-Set in **requirements** as `delivery`. Later stages stay inside this contract.
+Set in **requirements** as `delivery`. Later stages stay inside it. It answers three things: what kind of work (`mode`), where files are written (`targets`), and where it sits in the product (`hostApp` / `route` / `mount`).
 
-Delivery answers:
+Matching an existing product's look is **not** delivery. Put that in requirements `context`, then carry it into UX `context` and each story's `visual`.
 
-1. **What kind of work?** → `mode`
-2. **Where do files get written?** → `targets` (+ `notes` if needed)
-3. **Where does it live in the product?** → `hostApp` / `route` / `mount` when there is a host
+## Pick one mode
 
-**Matching an existing product’s look or shell is not delivery.** Put that in `context` (and into UX `context` / story `visual` when you get there). Example: greenfield app that should follow an existing host shell → `mode: "greenfield"`, design notes in `context`.
+| `mode`       | Meaning                                                                                       | Must know before confirm                     |
+| ------------ | --------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| `greenfield` | New app from scratch. Shell and design-system setup are in scope.                             | `targets` (and Vite vs Next for a new folder) |
+| `pages`      | New routes in an existing host app. Reuse its shell; don't invent parallel chrome.            | `hostApp`, `route`, `mount`, `targets`       |
+| `feature`    | A slice inside an existing page. Touch only the mount region unless `scope` says otherwise.   | `hostApp`, `route`, `mount`, `targets`       |
 
----
+Ask if any required value is unknown — never invent it. Scan `hostApp` (shell, nav, theme, design system) before confirming requirements.
 
-## Fields (meaning + allowed values)
+## Fields
 
-### `mode`
+| Field     | Meaning                                                                 | Example                                              |
+| --------- | ----------------------------------------------------------------------- | ---------------------------------------------------- |
+| `mode`    | Required. One of the three above.                                       | `"pages"`                                            |
+| `hostApp` | Folder root of the existing app. For greenfield, only if it is a design reference. | `"apps/dashboard"`                        |
+| `route`   | URL path(s) in the host.                                                | `"/overview"` or `["/overview", "/detail"]`          |
+| `mount`   | Where it sits in the host UI, in plain words or a path hint.            | `"inside existing Sidebar shell"`, `"src/app/settings/page.tsx#logs"` |
+| `targets` | Required. Paths the agent will write this run.                          | `["src/app/settings/page.tsx"]`, `["prototypes/metrics-overview"]` |
+| `notes`   | Optional. Anything else, e.g. Vite vs Next, "prototype folder for review". |                                                   |
 
-**Meaning:** Blast radius — how much of an app this work is allowed to create or change.
+"Don't touch the live app" or "prototype beside it" → put that folder in `targets` and say so in `notes`.
 
-| Value        | Meaning                                                                                               |
-| ------------ | ----------------------------------------------------------------------------------------------------- |
-| `greenfield` | New app from scratch (or empty project). Shell + design-system setup are in scope.                          |
-| `pages`      | One or more new routes in an existing host app. Reuse that app’s shell; don’t invent parallel chrome. |
-| `feature`    | A slice inside an existing page/flow. Touch only the mount region unless `scope` says otherwise.      |
-
-**Required.** Pick exactly one.
-
----
-
-### `hostApp`
-
-**Meaning:** Path to the existing app this work belongs to (folder root of that frontend).
-
-| Allowed      |                               |
-| ------------ | ----------------------------- |
-| string path  | e.g. `apps/dashboard`         |
-| omit / empty | for `greenfield` with no host |
-
-**Required** for `pages` and `feature`. For greenfield, set only if the user points at a product to **reference** for design — still put visual findings in `context`, not here alone. Scan the path before confirming requirements (shell, nav, theme, `@qbds`).
-
----
-
-### `route`
-
-**Meaning:** Intended URL path(s) in the host product.
-
-| Allowed  |                                                    |
-| -------- | -------------------------------------------------- |
-| string   | e.g. `"/overview"`, `"/settings"`                  |
-| string[] | e.g. `["/overview", "/detail"]` when several pages |
-| omit     | for `greenfield` when no host routes yet           |
-
-**Required** for `pages` and `feature` before confirm.
-
----
-
-### `mount`
-
-**Meaning:** Where this work sits in the host UI — shell slot or file region, in plain words or a path hint.
-
-| Allowed          |                                                                            |
-| ---------------- | -------------------------------------------------------------------------- |
-| free-text string | e.g. `"inside existing Sidebar shell"`, `"src/app/settings/page.tsx#logs"` |
-
-**Required** for `pages` and `feature` before confirm. Omit for greenfield when there is no host mount yet.
-
----
-
-### `targets`
-
-**Meaning:** Paths the agent will write or change this run. This is the write location — a folder under the host, a new app root, or a side folder like `prototypes/…`.
-
-| Allowed  |                                                                                        |
-| -------- | -------------------------------------------------------------------------------------- |
-| string[] | e.g. `["src/app"]`, `["src/app/settings/page.tsx"]`, `["prototypes/metrics-overview"]` |
-
-**Required.** If the user says “don’t touch the live app” / “prototype beside it”, put that path in `targets` and say so in `notes`. No separate workspace flag.
-
----
-
-### `notes`
-
-**Meaning:** Extra placement context that doesn’t fit other fields.
-
-| Allowed |                                                                          |
-| ------- | ------------------------------------------------------------------------ |
-| string  | e.g. Vite vs Next, “prototype folder for review”, “wire into host later” |
-| omit    | if nothing extra                                                         |
-
-Optional.
-
----
-
-## Examples by mode
-
-### New app (`greenfield`)
-
-```json
-"delivery": {
-  "mode": "greenfield",
-  "targets": ["metrics-app"],
-  "notes": "Vite app from scratch"
-}
-```
-
-If they want it to **feel like** an existing product:
-
-```json
-"delivery": {
-  "mode": "greenfield",
-  "hostApp": "apps/dashboard",
-  "targets": ["metrics-app"],
-  "notes": "New app; match host shell density for reference only"
-}
-```
-
-…and put the actual UI findings in `context` (then reflect them in UX `context` and each story’s `visual`).
-
-Scaffold with the design system’s setup script — do not hand-roll. Which script (Vite vs Next, etc.) and how to run it come from the active design-system skill (QBDS: [`qbds-library` § Scaffold](../../qbds-library/SKILL.md#scaffold)). Default to a client-side Vite SPA unless the brief says Next / SSR.
-
-### New page(s) (`pages`)
+## Example
 
 ```json
 "delivery": {
@@ -132,56 +40,16 @@ Scaffold with the design system’s setup script — do not hand-roll. Which scr
 }
 ```
 
-### Feature slice (`feature`)
+Greenfield that should feel like an existing product: `mode: "greenfield"`, add `hostApp` for reference, and put the findings in `context`.
 
-```json
-"delivery": {
-  "mode": "feature",
-  "hostApp": "apps/dashboard",
-  "route": "/settings",
-  "mount": "src/app/settings/page.tsx#logs",
-  "targets": ["src/app/settings/page.tsx"],
-  "notes": "Replace logs stub; keep page chrome"
-}
-```
+## New app folder
 
----
+Scaffold with the design system's setup script — do not hand-roll. The script and how to run it come from the active design-system skill (QBDS: [`qbds-library` § Scaffold](../../qbds-library/SKILL.md#scaffold)). Default to a client-side Vite SPA unless the brief says Next / SSR.
 
-## Confirm gates (requirements)
+## How the mode shapes later stages
 
-| Mode                | Must know before confirm                     |
-| ------------------- | -------------------------------------------- |
-| `greenfield`        | `targets` (and Vite vs Next if a new folder) |
-| `pages` / `feature` | `hostApp`, `route`, `mount`, `targets`       |
-
-Ask if any of those are unknown. Do not invent them.
-
-If the user wants design borrowed from a product, document it in `context` before confirm — don’t leave it as a vague “match current design”.
-
----
-
-## How this affects later stages
-
-### UX design
-
-| Mode         | Bias                                                                                                                   |
-| ------------ | ---------------------------------------------------------------------------------------------------------------------- |
-| `greenfield` | Shell is in scope; shape UX from the brief. If `context` names a reference product, align density/chrome to that scan. |
-| `pages`      | Match existing shell density; pages inherit chrome                                                                     |
-| `feature`    | Match host page; no new chrome unless `scope` says so                                                                  |
-
-### UI structure
-
-| Mode         | Must                                                                                                            |
-| ------------ | --------------------------------------------------------------------------------------------------------------- |
-| `greenfield` | App shell + routing in `regions` / `jsx`; theme + component setup in `installs`                                  |
-| `pages`      | One region set per intended `route`; **include host shell** when matching a host; no rewrite of unrelated pages |
-| `feature`    | Only regions inside the host mount; no new app chrome                                                           |
-
-### Build
-
-| Mode         | What to do                                                                                                                                                |
-| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `greenfield` | Design-system scaffold script into `targets` → then shell + pages                                                                                                   |
-| `pages`      | Write under `targets`; if under host, reuse shell; if a side folder, setup script if missing and **mirror** `route` / `mount` / host shell from `context` |
-| `feature`    | Touch only the host region(s) in `targets`; leave surrounding chrome alone                                                                                |
+| Stage        | `greenfield`                                          | `pages`                                                                 | `feature`                                       |
+| ------------ | ----------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------- |
+| UX           | Shell is in scope; follow any reference product in `context` | Match the existing shell density; pages inherit chrome          | Match the host page; no new chrome              |
+| UI structure | App shell + routing in `regions` / `jsx`; theme and component setup in `installs` | One region set per `route`; include the host shell; don't rewrite other pages | Only regions inside the host mount; no new chrome |
+| Build        | Scaffold into `targets`, then shell + pages           | Write under `targets`; reuse host shell, or for a side folder run setup if missing and mirror `route` / `mount` / shell from `context` | Touch only the host region(s) in `targets`; leave surrounding chrome |

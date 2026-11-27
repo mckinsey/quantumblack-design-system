@@ -11,7 +11,7 @@ Subagent OK: pass confirmed requirements JSON + brief + host paths; still confir
 | Visual rules, tokens, a11y, chart hex | The active design-system skill (QBDS: [`qbds-library`](../../qbds-library/SKILL.md) § Foundations) |
 | App shell / layout recipes            | Design-system skill (QBDS: `qbds-library/reference/app-layout-archetypes.md`)                       |
 | Chart type and titles                 | [charts.md](charts.md)                                                                              |
-| How delivery shapes UX                | [delivery-modes.md](delivery-modes.md#how-this-affects-later-stages)                                                                                                                                                  |
+| How delivery shapes UX                | [delivery-modes.md](delivery-modes.md#how-the-mode-shapes-later-stages)                                                                                                                                                  |
 
 If requirements `context` names a product, use that scan — don’t invent chrome.
 

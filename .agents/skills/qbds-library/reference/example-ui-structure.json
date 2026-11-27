@@ -1,0 +1,113 @@
+{
+  "status": "draft",
+  "uxAdjustments": [
+    "Shell: UX put page header inside the rail; SidebarApp keeps header outside SidebarProvider — followed example"
+  ],
+  "jsx": "<AppShell>\n  <Navbar />\n  <Sidebar />\n  <Main>\n    <PageHeader />\n    <FilterBar />\n    <KpiRow />\n    <ChartGrid />\n    <ActivityTable />\n  </Main>\n</AppShell>",
+  "regions": [
+    {
+      "region": "shell",
+      "components": [
+        "@qbds/sidebar"
+      ],
+      "example": "https://designsystem.quantumblack.com/examples/sidebar.json#SidebarApp",
+      "layout": "Match SidebarApp: header outside provider; SidebarNav rail + NavMenu + SidebarInset",
+      "tokens": "main: flex-1 min-h-0 w-full overflow-auto bg-surface-base p-6",
+      "notes": "Strip RegistryLogo / demo-utils; keep QBDS nesting from example"
+    },
+    {
+      "region": "filters",
+      "components": [
+        "@qbds/tag-toggle",
+        "@qbds/select"
+      ],
+      "example": "https://designsystem.quantumblack.com/examples/tag-toggle.json + https://designsystem.quantumblack.com/examples/select.json",
+      "layout": "horizontal toolbar above content; gap-3; not in sidebar",
+      "tokens": "text-fg-primary; controls use component defaults",
+      "notes": "Main toolbar only"
+    },
+    {
+      "region": "kpi",
+      "components": [
+        "@qbds/card"
+      ],
+      "example": "https://designsystem.quantumblack.com/examples/card.json",
+      "layout": "horizontal row; min-w-[240px] cards; gap-6",
+      "tokens": "Card: bg-surface-primary border border-stroke-tertiary p-6 shadow-elevation-1; trends text-status-success / text-status-error + icon"
+    },
+    {
+      "region": "charts",
+      "components": [
+        "ECharts in @qbds/card"
+      ],
+      "example": "https://designsystem.quantumblack.com/examples/card.json",
+      "layout": "grid grid-cols-1 xl:grid-cols-2 gap-6; card min-h-[320px]",
+      "tokens": "plot colours from DESIGN.md chart hex; card chrome as KPI"
+    },
+    {
+      "region": "table",
+      "components": [
+        "@qbds/table",
+        "@qbds/empty",
+        "ActivityTable"
+      ],
+      "example": "https://designsystem.quantumblack.com/examples/table.json + https://designsystem.quantumblack.com/examples/empty.json",
+      "layout": "full width; sticky header",
+      "tokens": "see ActivityTable.newComponents.tokens",
+      "notes": "ActivityTable is new — see newComponents"
+    }
+  ],
+  "installs": [
+    "@qbds/sidebar",
+    "@qbds/tag-toggle",
+    "@qbds/select",
+    "@qbds/card",
+    "@qbds/table",
+    "@qbds/empty",
+    "@qbds/badge",
+    "@qbds/sheet"
+  ],
+  "newComponents": [
+    {
+      "name": "ActivityTable",
+      "path": "src/components/activity-table.tsx",
+      "description": "Domain table: activity name, status badge, owner, last run; row opens detail.",
+      "checkedRegistry": true,
+      "whyNotQbds": "No domain activity table in registry; closest is @qbds/table which we compose.",
+      "compose": [
+        "@qbds/table",
+        "@qbds/badge",
+        "@qbds/sheet",
+        "@qbds/empty"
+      ],
+      "tokens": {
+        "root": "w-full bg-surface-base",
+        "titleBlock": "p-6 border-b border-stroke-divider",
+        "title": "text-fg-primary",
+        "subtitle": "text-fg-secondary paragraph-small-primary",
+        "headerCell": "text-fg-secondary border-stroke-divider",
+        "cell": "text-fg-primary border-stroke-divider",
+        "rowHover": "hover:bg-surface-primary",
+        "statusSuccess": "text-status-success",
+        "statusError": "text-status-error",
+        "focus": "focus-visible:ring-stroke-status-focus"
+      },
+      "layout": "sticky Table header; full-width; title block above table",
+      "behavior": "Row click / Enter opens Sheet detail. Empty → @qbds/empty in table region. Status uses badge + text, never colour alone.",
+      "states": [
+        "default",
+        "loading (Skeleton rows)",
+        "empty",
+        "error message in region"
+      ],
+      "a11y": "Native table semantics; keyboard-activatable rows; status not colour-alone; Sheet labelled",
+      "props": [
+        "rows: { id, name, status, owner, lastRun }[]",
+        "onRowOpen(id: string)",
+        "isLoading?: boolean",
+        "error?: string"
+      ],
+      "how": "Wrap @qbds/table. Map status → Badge + status token classes. Sheet for detail. Wire empty/loading from props. QBDS utilities only — no new CSS variables."
+    }
+  ]
+}

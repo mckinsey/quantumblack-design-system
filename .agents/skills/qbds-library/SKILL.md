@@ -37,7 +37,6 @@ New app folder — never hand-roll:
 | Plan stage 3 for a QBDS app (jsx, regions, installs, newComponents)   | [ui-structure.md](reference/ui-structure.md)                           |
 | App shell, sidebar nesting, page recipes (dashboard, form, table)     | [app-layout-archetypes.md](reference/app-layout-archetypes.md)         |
 | Chart styling: card chrome, colours, qualitative palette, theme       | [charts.md](reference/charts.md)                                       |
-| Header / product logo rules                                           | [component-guidelines.md](reference/component-guidelines.md)           |
 | Which chart type and how to title it (generic)                        | [qb-frontend-react charts.md](../qb-frontend-react/reference/charts.md) |
 
 ## Hard rules
@@ -46,3 +45,10 @@ New app folder — never hand-roll:
 - Fetch the component's usage example before composing UI; example composition beats guessed chrome.
 - Tokens only — no raw hex or `slate-*` (chart hex from DESIGN.md is the exception). No CDN `qbds.css` in React apps.
 - Install alone is not done: import `globals.css` after Tailwind and set `class="dark"` on `<html>`.
+
+## Header logo
+
+Every product header needs a logo; if none is given, ask for it. For a QBDS application use:
+
+- Light mode: https://designsystem.quantumblack.com/assets/logos/qb-logo-white.svg
+- Dark mode: https://designsystem.quantumblack.com/assets/logos/qb-logo-black.svg

@@ -24,7 +24,7 @@ Design-system specifics (component registry, theming, missing components, instal
    Follow `ui_structure.jsx` and each region’s `components` / `example` / `layout` / `tokens` (already example-prioritized in stage 3, including any `uxAdjustments`). Use UX for domain content / interaction still in scope.  
    Re-fetch the region’s `example` URL if needed and match that composition — do not substitute a different shell/pattern from memory or re-impose pre-adjustment UX chrome. Strip site-only demo imports.  
    Shell recipes: the design system’s layout recipes (QBDS: [app-layout-archetypes.md](../../qbds-library/reference/app-layout-archetypes.md)) only when they agree with the chosen example.  
-   Stay inside `delivery` + `scope` ([delivery-modes.md § Build](delivery-modes.md#build)).
+   Stay inside `delivery` + `scope` ([delivery-modes.md](delivery-modes.md#how-the-mode-shapes-later-stages)).
 
 5. **Build `newComponents`**  
    Each entry from its full spec (`path`, `compose`, `tokens`, `layout`, `behavior`, `states`, `a11y`, `props`, `how`). Honour example citations in `how`. No new local components at build time — that was stage 3.

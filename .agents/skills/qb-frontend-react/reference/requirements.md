@@ -107,6 +107,6 @@ Keep each scope item short (e.g. `"Tokens screen"`, `"dummy data"`). Out-of-scop
 
 Present per [SKILL.md § Show to the user](../SKILL.md#show-to-the-user-every-stage). User agrees (`goal`, `delivery`, `context`, `scope`, `constraints`) **and** `openQuestions` is `[]` (answered or moved into `assumptions` / `scope` / `constraints`).
 
-Delivery field gates (`hostApp` / `route` / `mount` / `targets`): see [delivery-modes.md](delivery-modes.md#confirm-gates-requirements).
+Delivery field gates (`hostApp` / `route` / `mount` / `targets`): see [delivery-modes.md](delivery-modes.md#pick-one-mode).
 
 When confirmed → open [ux-design.md](ux-design.md). Do not open UX docs while questions are open.
