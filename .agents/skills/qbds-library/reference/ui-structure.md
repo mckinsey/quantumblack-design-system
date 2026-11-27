@@ -50,4 +50,4 @@ Full filled-in sample: [example-ui-structure.json](example-ui-structure.json).
 
 ## Confirm
 
-Present per [Show to the user](../../qb-frontend-react/SKILL.md#showing-a-step-to-the-user) and say the `uxAdjustments` in the Markdown, not only the JSON. On confirm set `ui_structure.status = "confirmed"`, then open [build-react-ui.md](../../qb-frontend-react/reference/build-react-ui.md).
+Present per [Showing a step to the user](../../qb-frontend-react/SKILL.md#showing-a-step-to-the-user) and say the `uxAdjustments` in the Markdown, not only the JSON. On confirm set `ui_structure.status = "confirmed"`, then open [build-react-ui.md](../../qb-frontend-react/reference/build-react-ui.md).

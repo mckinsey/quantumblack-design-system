@@ -8,7 +8,7 @@ Map confirmed UX `context` and each `stories[]` entry (`story` / `visual` / `int
 
 ## Design-system skill decides how components are resolved
 
-This stage is design-system-agnostic. **Default is QBDS** unless the user named another design system (see [SKILL.md § Design-system skill](../SKILL.md#design-system-skill)). **How** you find components, usage examples, tokens and install names is owned by the active design-system skill.
+This stage is design-system-agnostic. **Default is QBDS** unless the user named another design system (see [SKILL.md § Design system](../SKILL.md#design-system)). **How** you find components, usage examples, tokens and install names is owned by the active design-system skill.
 
 | Design system | Open instead of (or alongside) this file                                                              |
 | ------------- | ----------------------------------------------------------------------------------------------------- |
